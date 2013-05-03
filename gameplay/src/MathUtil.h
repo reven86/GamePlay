@@ -9,6 +9,7 @@ namespace gameplay
 class MathUtil
 {
     friend class Matrix;
+    friend class Matrix3;
     friend class Vector3;
 
 public:
@@ -64,12 +65,32 @@ private:
 
     inline static void crossVector3(const float* v1, const float* v2, float* dst);
 
+
+    inline static void addMatrix3(const float* m, float scalar, float* dst);
+
+    inline static void addMatrix3(const float* m1, const float* m2, float* dst);
+
+    inline static void subtractMatrix3(const float* m1, const float* m2, float* dst);
+
+    inline static void multiplyMatrix3(const float* m, float scalar, float* dst);
+
+    inline static void multiplyMatrix3(const float* m1, const float* m2, float* dst);
+
+    inline static void negateMatrix3(const float* m, float* dst);
+
+    inline static void transposeMatrix3(const float* m, float* dst);
+
+    inline static void transformVector3(const float* m, float x, float y, float z, float* dst);
+
+    inline static void transformVector3(const float* m, const float* v, float* dst);
+
     MathUtil();
 };
 
 }
 
-#define MATRIX_SIZE ( sizeof(float) * 16)
+#define MATRIX_SIZE ( sizeof(float) * 16 )
+#define MATRIX3_SIZE ( sizeof(float) * 9 )
 
 #ifdef USE_NEON
 #include "MathUtilNeon.inl"

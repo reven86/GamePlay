@@ -2,6 +2,7 @@
 #include "TTFFontEncoder.h"
 #include "GPBFile.h"
 #include "StringUtil.h"
+#include "Image.h"
 
 namespace gameplay
 {
@@ -316,6 +317,139 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
     
     FT_Done_Face(face);
     FT_Done_FreeType(library);
+    return 0;
+}
+
+int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const char * characterSet)
+{
+    Image * image = Image::create( inFilePath );
+    if( image == NULL )
+    {
+        LOG( 1, "Can't load image file: %s", inFilePath );
+        return -1;
+    }
+
+    Glyph * glyphArray = reinterpret_cast< Glyph * >( calloc( strlen( characterSet ), sizeof( Glyph ) ) );
+    if( !glyphArray )
+    {
+        LOG( 1, "Not enough stack memory to allocate glyphs." );
+        return -1;
+    }
+
+    if( image->getFormat( ) != Image::RGBA || image->getBpp( ) != 4 )
+    {
+        delete image;
+        LOG( 1, "Only RGBA images are supported." );
+        return -1;
+    }
+
+    unsigned width = image->getWidth( );
+    unsigned height = image->getHeight( );
+
+    unsigned charHeight = fontSize;
+
+    unsigned long * data = reinterpret_cast< unsigned long * >( image->getData( ) );
+    unsigned long * scanline = data;
+    unsigned long * oldscanline = scanline;
+    unsigned long breakcolor = *scanline & 0x00ffffff;
+    unsigned x = 0;
+    unsigned y = 0;
+    int glyphsCount = 0;
+
+    while( *characterSet )
+    {
+        unsigned char ch = *characterSet++;
+
+        if( ch == '\n' )
+        {
+            scanline += width * charHeight;
+            x = 0;
+            y += charHeight;
+
+            if( y >= height )
+            {
+                delete image;
+                LOG( 1, "Invalid image pixels data or character set." );
+                return -1;
+            }
+
+            oldscanline = scanline;
+        }
+        else if( ch != '\r' )
+        {
+            unsigned long * newscanline = oldscanline + 1;
+            unsigned charWidth = 1;
+
+            while( ( *newscanline & 0x00ffffff ) != breakcolor && x + charWidth < width )
+            {
+                newscanline++;
+                charWidth++;
+            }
+            oldscanline = newscanline;
+
+            glyphArray[glyphsCount].index = ch;
+            glyphArray[glyphsCount].width = charWidth;
+        
+            // Generate UV coords.
+            glyphArray[glyphsCount].uvCoords[0] = (float)x / (float)width;
+            glyphArray[glyphsCount].uvCoords[1] = (float)( y + 1 ) / (float)height;
+            glyphArray[glyphsCount].uvCoords[2] = (float)( x + charWidth ) / (float)width;
+            glyphArray[glyphsCount].uvCoords[3] = (float)( y + charHeight + 1 ) / (float)height;
+
+            x += charWidth;
+            glyphsCount++;
+        }
+    }
+
+
+    FILE *gpbFp = fopen(outFilePath, "wb");
+    
+    // File header and version.
+    char fileHeader[9]     = {'«', 'G', 'P', 'B', '»', '\r', '\n', '\x1A', '\n'};
+    fwrite(fileHeader, sizeof(char), 9, gpbFp);
+    fwrite(gameplay::GPB_VERSION, sizeof(char), 2, gpbFp);
+
+    // Write Ref table (for a single font)
+    writeUint(gpbFp, 1);                // Ref[] count
+    writeString(gpbFp, id);             // Ref id
+    writeUint(gpbFp, 128);              // Ref type
+    writeUint(gpbFp, ftell(gpbFp) + 4); // Ref offset (current pos + 4 bytes)
+    
+    // Write Font object.
+    
+    // Family name.
+    writeString(gpbFp, id);
+
+    // Style.
+    // TODO: Switch based on TTF style name and write appropriate font style unsigned int
+    // For now just hardcoding to 0.
+    //char* style = face->style_name;
+    writeUint(gpbFp, 5); // 5 == TEXTURED
+
+    // Font size.
+    writeUint(gpbFp, charHeight);
+
+    // Character set.
+    // TODO: Empty for now
+    writeString(gpbFp, characterSet);
+    
+    // Glyphs.
+    writeUint(gpbFp, glyphsCount);
+    fwrite(glyphArray, sizeof(Glyph), glyphsCount, gpbFp);
+    
+    // Texture.
+    unsigned int textureSize = width * height * 4;
+    writeUint(gpbFp, width);
+    writeUint(gpbFp, height);
+    writeUint(gpbFp, textureSize);
+    fwrite(image->getData( ), sizeof(unsigned char), textureSize, gpbFp);
+    
+    // Close file.
+    fclose(gpbFp);
+    delete image;
+
+    LOG(1, "%s.gpb created successfully. \n", getBaseName(outFilePath).c_str());
+
     return 0;
 }
 

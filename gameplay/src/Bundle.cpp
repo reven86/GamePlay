@@ -1687,7 +1687,8 @@ Font* Bundle::loadFont(const char* id)
         SAFE_DELETE_ARRAY(glyphs);
         return NULL;
     }
-    if (textureByteCount != (width * height))
+    unsigned bpp = style == Font::TEXTURED ? 4 : 1;
+    if (textureByteCount != (width * height * bpp))
     {
         GP_ERROR("Invalid texture byte count for font '%s'.", id);
         SAFE_DELETE_ARRAY(glyphs);
@@ -1705,7 +1706,7 @@ Font* Bundle::loadFont(const char* id)
     }
 
     // Create the texture for the font.
-    Texture* texture = Texture::create(Texture::ALPHA, width, height, textureData, true);
+    Texture* texture = Texture::create(style == Font::TEXTURED ? Texture::RGBA : Texture::ALPHA, width, height, textureData, true);
 
     // Free the texture data (no longer needed).
     SAFE_DELETE_ARRAY(textureData);
@@ -1718,7 +1719,7 @@ Font* Bundle::loadFont(const char* id)
     }
 
     // Create the font.
-    Font* font = Font::create(family.c_str(), Font::PLAIN, size, glyphs, glyphCount, texture);
+    Font* font = Font::create(family.c_str(), static_cast< Font::Style >( style ), size, glyphs, glyphCount, texture);
 
     // Free the glyph array.
     SAFE_DELETE_ARRAY(glyphs);

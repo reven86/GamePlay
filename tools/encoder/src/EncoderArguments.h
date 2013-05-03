@@ -133,6 +133,12 @@ public:
      * This option is only applicable for normal map generation.
      */
     const Vector3& getHeightmapWorldSize() const;
+
+    /**
+     * Returns font character set used by texture fonts.
+     *
+     */
+    const std::string& getCharacterSet( ) const;
     
     /**
      * Returns true if an error occurred while parsing the command line arguments.
@@ -193,6 +199,7 @@ private:
     std::string _nodeId;
 
     unsigned int _fontSize;
+    std::string _characterSet;
 
     bool _normalMap;
     Vector3 _heightmapWorldSize;

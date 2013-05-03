@@ -79,6 +79,11 @@ const Vector3& Vector3::unitZ()
     return value;
 }
 
+Vector3 Vector3::random( )
+{
+    return Vector3( MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ) );
+}
+
 bool Vector3::isZero() const
 {
     return x == 0.0f && y == 0.0f && z == 0.0f;

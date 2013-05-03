@@ -198,6 +198,11 @@ const Vector3& EncoderArguments::getHeightmapWorldSize() const
     return _heightmapWorldSize;
 }
 
+const std::string& EncoderArguments::getCharacterSet( ) const
+{
+    return _characterSet;
+}
+
 bool EncoderArguments::parseErrorOccured() const
 {
     return _parseError;
@@ -284,9 +289,10 @@ void EncoderArguments::printUsage() const
         "  terrain generation tools.\n" \
     "\n" \
     "TTF file options:\n" \
-    "  -s <size>\tSize of the font.\n" \
-    "  -p\t\tOutput font preview.\n" \
-    "\n");
+    LOG(1, "  -s <size>\tSize of the font.\n");
+    LOG(1, "  -c <character set>\tCharacter set (only for textured PNG fonts).\n");
+    LOG(1, "  -p\t\tOutput font preview (only for TTF fonts).\n");
+    LOG(1, "\n");
     exit(8);
 }
 
@@ -613,6 +619,40 @@ void EncoderArguments::readOption(const std::vector<std::string>& options, size_
                 __logVerbosity = 0;
             else if (__logVerbosity > 4)
                 __logVerbosity = 4;
+        }
+        break;
+    case 'c':
+        (*index)++;
+        if (*index >= options.size())
+        {
+            LOG(1, "Error: missing character set argument for -c.\n");
+            _parseError = true;
+            return;
+        }
+        {
+            FILE * characterSetFile = fopen( options[*index].c_str(), "rt" );
+            if( !characterSetFile )
+            {
+                LOG(1, "Error: opening character set file.\n");
+                _parseError = true;
+                return;
+            }
+
+            fseek( characterSetFile, 0, SEEK_END );
+            long fileLength = ftell( characterSetFile );
+            char * buf = reinterpret_cast< char * >( calloc( 1, fileLength ) );
+            if( !buf )
+            {
+                LOG(1, "Error: not enough memory stack to load character set file.\n");
+                _parseError = true;
+                return;
+            }
+
+            fseek( characterSetFile, 0, SEEK_SET );
+            fread( buf, fileLength, 1, characterSetFile );
+            _characterSet = buf;
+
+            fclose(characterSetFile);
         }
         break;
     default:

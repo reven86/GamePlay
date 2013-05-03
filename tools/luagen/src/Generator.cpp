@@ -1389,6 +1389,7 @@ void Generator::generateBindings(string* bindingNS)
     
     string luaAllCppStr = _outDir + string(LUA_ALL_BINDINGS_FILENAME) + string(".cpp");
     ostringstream luaAllCpp;
+    luaAllCpp << "#include \"pch.h\"\n";
     luaAllCpp << "#include \"Base.h\"\n";
     luaAllCpp << "#include \"" << string(LUA_ALL_BINDINGS_FILENAME) << ".h\"\n\n";
     if (bindingNS)

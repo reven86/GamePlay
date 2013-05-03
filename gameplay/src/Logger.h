@@ -85,6 +85,11 @@ public:
      */
     static void set(Level level, const char* logFunction);
 
+    /**
+     * Report error.
+     */
+    static void reportError( bool isFatal, const char * func, int line, const char * errorMessage, ... );
+
 private:
 
     struct State

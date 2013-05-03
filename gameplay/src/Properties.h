@@ -412,6 +412,7 @@ private:
      */
     Properties(Stream* stream, const char* name, const char* id, const char* parentID, Properties* parent);
 
+   bool readPropertiesYAML(Stream * stream);
     void readProperties(Stream* stream);
 
     void skipWhiteSpace(Stream* stream);

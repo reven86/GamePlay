@@ -10,6 +10,7 @@
 #include <GL/wglew.h>
 #include <windowsx.h>
 #include <shellapi.h>
+#include <Shlobj.h>
 #ifdef USE_XINPUT
 #include <XInput.h>
 #endif
@@ -558,8 +559,11 @@ bool createWindow(WindowCreationParams* params, HWND* hwnd, HDC* hdc)
     }
     style |= WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
-    // Adjust the window rectangle so the client size is the requested size.
-    AdjustWindowRectEx(&rect, style, FALSE, styleEx);
+   if( params )
+   {
+       // Adjust the window rectangle so the client size is the requested size.
+       AdjustWindowRectEx(&rect, style, FALSE, styleEx);
+   }
 
     // Create the native Windows window.
     *hwnd = CreateWindowEx(styleEx, L"gameplay", windowName.c_str(), style, 0, 0, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, __hinstance, NULL);
@@ -649,6 +653,8 @@ bool initializeGL(WindowCreationParams* params)
         return false;
     }
 
+    if( wglChoosePixelFormatARB && wglCreateContextAttribsARB )
+    {
     // Choose pixel format using wglChoosePixelFormatARB, which allows us to specify
     // additional attributes such as multisampling.
     //
@@ -745,9 +751,39 @@ bool initializeGL(WindowCreationParams* params)
         GP_ERROR("Failed to make the window current.");
         return false;
     }
+    } else    // wglChoosePixelFormatARB && wglCreateContextAttribsARB 
+   {
+        __hrc = tempContext;
+       __hwnd = hwnd;
+       __hdc = hdc;
+   }
 
     // Vertical sync.
     wglSwapIntervalEXT(__vsync ? 1 : 0);
+
+   if( !GLEW_ARB_framebuffer_object && GLEW_EXT_framebuffer_object )
+   {
+       glBindFramebuffer = glBindFramebufferEXT;
+       glBindRenderbuffer = glBindRenderbufferEXT;
+       glBlitFramebuffer = glBlitFramebufferEXT;
+       glCheckFramebufferStatus = glCheckFramebufferStatusEXT;
+       glDeleteFramebuffers = glDeleteFramebuffersEXT;
+       glDeleteRenderbuffers = glDeleteRenderbuffersEXT;
+       glFramebufferRenderbuffer = glFramebufferRenderbufferEXT;
+       glFramebufferTexture1D = glFramebufferTexture1DEXT;
+       glFramebufferTexture2D = glFramebufferTexture2DEXT;
+       glFramebufferTexture3D = glFramebufferTexture3DEXT;
+       glFramebufferTextureLayer = glFramebufferTextureLayerEXT;
+       glGenFramebuffers = glGenFramebuffersEXT;
+       glGenRenderbuffers = glGenRenderbuffersEXT;
+       glGenerateMipmap = glGenerateMipmapEXT;
+       glGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameterivEXT;
+       glGetRenderbufferParameteriv = glGetRenderbufferParameterivEXT;
+       glIsFramebuffer = glIsFramebufferEXT;
+       glIsRenderbuffer = glIsRenderbufferEXT;
+       glRenderbufferStorage = glRenderbufferStorageEXT;
+       glRenderbufferStorageMultisample = glRenderbufferStorageMultisampleEXT;
+   }
 
     return true;
 }
@@ -1336,6 +1372,55 @@ bool Platform::launchURL(const char* url)
     int r = (int)ShellExecute(NULL, NULL, wurl, NULL, NULL, SW_SHOWNORMAL);
     SAFE_DELETE_ARRAY(wurl);
     return (r > 32);
+}
+
+const char * Platform::getTemporaryFolderPath( )
+{
+    static char tmpPath[ MAX_PATH ];
+    if( GetTempPathA( MAX_PATH, tmpPath ) == 0 )
+        tmpPath[ 0 ] = '\0';
+    return tmpPath;
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    static char path[ MAX_PATH ];
+    if( SHGetFolderPathA( NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path ) != S_OK )
+        path[ 0 ] = '\0';
+    return path;
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    static char path[ MAX_PATH ];
+    if( SHGetFolderPathA( NULL, CSIDL_LOCAL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path ) != S_OK )
+        path[ 0 ] = '\0';
+    return path;
+}
+
+std::string Platform::newUUID( )
+{
+    UUID uuid;
+    UuidCreate ( &uuid );
+
+    unsigned char * str;
+    UuidToStringA ( &uuid, &str );
+
+    std::string s( ( char* ) str );
+
+    RpcStringFreeA ( &str );
+
+    return s;
+}
+
+const char * Platform::getUserAgentString( )
+{
+    static char lpszData[ 1024 ];
+    DWORD size = 1024;
+    if( SUCCEEDED( ObtainUserAgentString( 0, lpszData, &size ) ) )
+        return lpszData;
+
+    return NULL;
 }
 
 }

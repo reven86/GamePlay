@@ -57,6 +57,11 @@ const Vector2& Vector2::unitY()
     return value;
 }
 
+Vector2 Vector2::random( )
+{
+    return Vector2( MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ) );
+}
+
 bool Vector2::isZero() const
 {
     return x == 0.0f && y == 0.0f;

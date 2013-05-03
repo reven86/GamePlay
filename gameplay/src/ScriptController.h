@@ -739,6 +739,13 @@ public:
     template<typename T>void setObjectPointer(const char* type, const char* name, T* v);
 
     /**
+     * Returns true if global function with specified name exists.
+     *
+     * @script{ignore}
+     */
+    bool isFunction( const char * name ) const;
+
+    /**
      * Prints the string to the platform's output stream or log file.
      * Used for overriding Lua's print function.
      * 

@@ -96,4 +96,16 @@ void Logger::set(Level level, const char* logFunction)
     state.logFunctionC = NULL;
 }
 
+void Logger::reportError( bool isFatal, const char * func, int line, const char * errorMessage, ... )
+{
+    va_list args;
+    va_start(args, errorMessage);
+
+    char buf[ 2048 ];
+    vsnprintf( buf, 2047, errorMessage, args );
+    buf[ 2047 ] = '\0';
+
+    gameplay::Game::getInstance( )->reportError( isFatal, "%s, %d: %s", func, line, buf );
+}
+
 }

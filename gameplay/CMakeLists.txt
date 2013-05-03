@@ -109,6 +109,9 @@ set(GAMEPLAY_SRC
     src/Matrix.cpp
     src/Matrix.h
     src/Matrix.inl
+    src/Matrix3.cpp
+    src/Matrix3.h
+    src/Matrix3.inl
     src/Mesh.cpp
     src/Mesh.h
     src/MeshBatch.cpp

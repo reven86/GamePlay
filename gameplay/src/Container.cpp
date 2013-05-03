@@ -12,6 +12,7 @@
 #include "TextBox.h"
 #include "Joystick.h"
 #include "ImageControl.h"
+#include "ProgressBar.h"
 #include "Game.h"
 
 namespace gameplay
@@ -182,6 +183,10 @@ void Container::addControls(Theme* theme, Properties* properties)
         else if (controlName == "JOYSTICK")
         {
             control = Joystick::create(controlStyle, controlSpace);
+        }
+        else if (controlName == "PROGRESSBAR")
+        {
+            control = ProgressBar::create(controlStyle, controlSpace);
         }
         else if (controlName == "IMAGE")
         {

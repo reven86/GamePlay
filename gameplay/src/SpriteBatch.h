@@ -84,6 +84,20 @@ public:
     static SpriteBatch* create(Texture* texture, Effect* effect = NULL, unsigned int initialCapacity = 0);
 
     /**
+     * Creates a new SpriteBatch for drawing sprites with the given material.
+     *
+     * Material's effect should be compatible with default SpriteBatch effect, 
+     * e.g. using same uniforms and attributes as default SpriteBatch effect.
+     *
+     * @param material The material for this sprite batch.
+     * @param initialCapacity An optional initial capacity of the batch (number of sprites).
+     * 
+     * @return A new SpriteBatch for drawing sprites using the given material.
+     * @script{create}
+     */
+    static SpriteBatch* create(Material* material, unsigned int initialCapacity = 0);
+
+    /**
      * Destructor.
      */
     virtual ~SpriteBatch();

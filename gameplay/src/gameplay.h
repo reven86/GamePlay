@@ -19,6 +19,7 @@
 #include "Vector4.h"
 #include "Quaternion.h"
 #include "Matrix.h"
+#include "Matrix3.h"
 #include "Transform.h"
 #include "Ray.h"
 #include "Plane.h"
@@ -105,3 +106,4 @@
 #include "AbsoluteLayout.h"
 #include "VerticalLayout.h"
 #include "FlowLayout.h"
+#include "ProgressBar.h"

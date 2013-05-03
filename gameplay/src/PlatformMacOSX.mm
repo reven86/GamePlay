@@ -840,8 +840,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
     NSOpenGLPixelFormatAttribute windowedAttrs[] = 
     {
         NSOpenGLPFAMultisample,
-        NSOpenGLPFASampleBuffers, samples ? 1 : 0,
-        NSOpenGLPFASamples, samples,
+        NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>(samples ? 1 : 0),
+        NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
         NSOpenGLPFAAccelerated,
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAColorSize, 32,
@@ -853,8 +853,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
     NSOpenGLPixelFormatAttribute fullscreenAttrs[] = 
     {
         NSOpenGLPFAMultisample,
-        NSOpenGLPFASampleBuffers, samples ? 1 : 0,
-        NSOpenGLPFASamples, samples,
+        NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>(samples ? 1 : 0),
+        NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(CGMainDisplayID()),
         NSOpenGLPFAFullScreen,

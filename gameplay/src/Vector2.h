@@ -92,6 +92,13 @@ public:
     static const Vector2& unitY();
 
     /**
+     * Returns the random vector.
+     *
+     * @return The 2-element vector, which coordinates lies in (-1,1).
+     */
+    static Vector2 random();
+
+    /**
      * Indicates whether this vector contains all zeros.
      *
      * @return true if this vector contains all zeros, false otherwise.

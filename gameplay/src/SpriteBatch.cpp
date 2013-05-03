@@ -139,6 +139,42 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     return batch;
 }
 
+SpriteBatch* SpriteBatch::create(Material* material, unsigned int initialCapacity)
+{
+    GP_ASSERT(material != NULL);
+
+    bool customEffect = true;
+
+    // Define the vertex format for the batch
+    VertexFormat::Element vertexElements[] =
+    {
+        VertexFormat::Element(VertexFormat::POSITION, 3),
+        VertexFormat::Element(VertexFormat::TEXCOORD0, 2),
+        VertexFormat::Element(VertexFormat::COLOR, 4)
+    };
+    VertexFormat vertexFormat(vertexElements, 3);
+
+    // Create the mesh batch
+    MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLE_STRIP, material, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+
+    Texture::Sampler * sampler = material->getParameter( "u_texture" )->getSampler( );
+    sampler->addRef( );
+
+    // Create the batch
+    SpriteBatch* batch = new SpriteBatch();
+    batch->_sampler = sampler;
+    batch->_customEffect = customEffect;
+    batch->_batch = meshBatch;
+    batch->_textureWidthRatio = 1.0f / (float)sampler->getTexture( )->getWidth();
+    batch->_textureHeightRatio = 1.0f / (float)sampler->getTexture( )->getHeight();
+
+    // Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
+    Game* game = Game::getInstance();
+    Matrix::createOrthographicOffCenter(0, game->getWidth(), game->getHeight(), 0, 0, 1, &batch->_projectionMatrix);
+    material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
+    return batch;
+}
+
 void SpriteBatch::start()
 {
     _batch->start();

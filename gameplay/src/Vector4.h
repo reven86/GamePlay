@@ -130,6 +130,13 @@ public:
     static const Vector4& unitW();
 
     /**
+     * Returns the random vector.
+     *
+     * @return The 4-element vector, which coordinates lies in (-1,1).
+     */
+    static Vector4 random();
+
+    /**
      * Indicates whether this vector contains all zeros.
      *
      * @return true if this vector contains all zeros, false otherwise.

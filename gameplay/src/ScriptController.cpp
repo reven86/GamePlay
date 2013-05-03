@@ -790,7 +790,7 @@ void ScriptController::finalizeGame()
 	// Note that this does NOT free any global variables declared in scripts, since 
 	// they are stored in the global state and are still referenced. Only after 
 	// closing the state (lua_close) will those variables be released.
-    lua_gc(_lua, LUA_GCCOLLECT, 0);
+    //lua_gc(_lua, LUA_GCCOLLECT, 0);       // this takes to long and unnecessary
 }
 
 void ScriptController::update(float elapsedTime)
@@ -1088,6 +1088,18 @@ int ScriptController::convert(lua_State* state)
     }
     return 0;
 }
+
+bool ScriptController::isFunction( const char * name ) const
+{
+    if( !_lua )
+        return false;
+
+    lua_getglobal( _lua, name );
+    bool res = lua_isfunction( _lua, -1 );
+    lua_pop( _lua, 1 );
+
+    return res;
+}        
 
 // Helper macros.
 #define SCRIPT_EXECUTE_FUNCTION_NO_PARAM(type, checkfunc) \

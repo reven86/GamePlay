@@ -151,6 +151,20 @@ public:
     void setVelocity(float x, float y, float z);
 
     /**
+     * Gets the playback offset of the audio source.
+     *
+     * @return The source current playing time in seconds.
+     */
+    float getOffsetInSeconds() const;
+
+    /**
+     * Sets the playback offset of the audio source.
+     *
+     * @param offset The source playing time in seconds.
+     */
+    void setOffsetInSeconds( float offset );
+
+    /**
      * Gets the node that this source is attached to.
      * 
      * @return The node that this audio source is attached to.

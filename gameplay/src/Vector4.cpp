@@ -84,6 +84,11 @@ const Vector4& Vector4::unitW()
     return value;
 }
 
+inline Vector4 Vector4::random( )
+{
+    return Vector4( MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ), MATH_RANDOM_MINUS1_1( ) );
+}
+
 bool Vector4::isZero() const
 {
     return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;

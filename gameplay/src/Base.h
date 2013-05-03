@@ -83,6 +83,7 @@ extern void print(const char* format, ...);
         gameplay::Logger::log(gameplay::Logger::LEVEL_ERROR, "%s -- ", __current__func__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_ERROR, __VA_ARGS__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_ERROR, "\n"); \
+        gameplay::Logger::reportError( true, __current__func__, __LINE__, __VA_ARGS__ ); \
         assert(0); \
         std::exit(-1); \
     } while (0)
@@ -94,6 +95,7 @@ extern void print(const char* format, ...);
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, "%s -- ", __current__func__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, __VA_ARGS__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, "\n"); \
+        gameplay::Logger::reportError( true, __current__func__, __LINE__, __VA_ARGS__ ); \
     } while (0)
 
 // Bullet Physics

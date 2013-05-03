@@ -582,6 +582,47 @@ public:
      */
     bool launchURL(const char *url) const;
 
+    /**
+     * Get temporary folder path. Use this directory to write temporary files that 
+     * do not need to persist between launches of your app. Your app should remove 
+     * files from this directory when it determines they are no longer needed.
+     *
+     * @return Temporary folder path.
+     */
+    const char * getTemporaryFolderPath( ) const;
+
+    /**
+     * Get documents folder path. Use this directory to store critical user 
+     * documents and app data files or user-generated content.
+     *
+     * @return Documents folder path.
+     */
+    const char * getDocumentsFolderPath( ) const;
+
+    /**
+     * Get application private folder path. This directory is the top-level directory 
+     * for files that are not user data files. You should not use this directory 
+     * for user data files.
+     *
+     * @return Application private folder path.
+     */
+    const char * getAppPrivateFolderPath( ) const;
+
+    /**
+     * Report error.
+     */
+    virtual void reportError( bool isFatal, const char * errorMessage, ... );
+
+    /**
+     * Generate an UUID.
+     */
+    std::string newUUID( ) const;
+
+    /**
+     * Gets default user-agent string.
+     */
+    const char * getUserAgentString( ) const;
+
 protected:
 
     /**

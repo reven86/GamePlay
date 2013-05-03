@@ -136,6 +136,7 @@ void ClassBinding::write(string dir, const set<string>& includes, string* bindin
             return;
         }
         
+        o << "#include \"pch.h\"\n";
         o << "#include \"Base.h\"\n";
         o << "#include \"ScriptController.h\"\n";
         o << "#include \"lua_" << uniquename << ".h\"\n";

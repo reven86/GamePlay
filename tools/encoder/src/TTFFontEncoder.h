@@ -30,4 +30,18 @@ public:
  */
 int writeFont(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, bool fontpreview);
 
+
+/**
+ * Writes the font gpb file from PNG image.
+ * 
+ * @param inFilePath Input file path to the tiff file.
+ * @param outFilePath Output file path to write the gpb to.
+ * @param fontSize Size of the font.
+ * @param id ID string of the font in the ref table.
+ * @param characterSet Character set used in image.
+ * 
+ * @return 0 if successful, -1 if error.
+ */
+int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const char * characterSet);
+
 }

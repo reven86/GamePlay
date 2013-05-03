@@ -122,6 +122,13 @@ public:
     static const Vector3& unitZ();
 
     /**
+     * Returns the random vector.
+     *
+     * @return The 3-element vector, which coordinates lies in (-1,1).
+     */
+    static Vector3 random();
+
+    /**
      * Indicates whether this vector contains all zeros.
      *
      * @return true if this vector contains all zeros, false otherwise.

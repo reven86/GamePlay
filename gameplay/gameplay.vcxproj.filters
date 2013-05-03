@@ -804,6 +804,9 @@
     <ClCompile Include="src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Matrix3.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\Logger.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -836,6 +839,9 @@
     </ClCompile>
     <ClCompile Include="src\lua\lua_HeightField.cpp">
       <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProgressBar.cpp">
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform.cpp">
       <Filter>src</Filter>
@@ -1643,6 +1649,9 @@
     <ClInclude Include="src\lua\lua_PhysicsVehicleWheel.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\Matrix3.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\Logger.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1678,6 +1687,9 @@
     </ClInclude>
     <ClInclude Include="src\lua\lua_HeightField.h">
       <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProgressBar.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ImageControl.h">
       <Filter>src</Filter>
@@ -1782,6 +1794,9 @@
     </None>
     <None Include="res\shaders\sprite.vert">
       <Filter>res\shaders</Filter>
+    </None>
+    <None Include="src\Matrix3.inl">
+      <Filter>src</Filter>
     </None>
     <None Include="res\shaders\terrain.frag">
       <Filter>res\shaders</Filter>

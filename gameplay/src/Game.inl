@@ -156,4 +156,33 @@ inline bool Game::launchURL(const char* url) const
     return Platform::launchURL(url);
 }
 
+inline const char * Game::getTemporaryFolderPath( ) const
+{
+    return Platform::getTemporaryFolderPath( );
+}
+
+inline const char * Game::getDocumentsFolderPath( ) const
+{
+    return Platform::getDocumentsFolderPath( );
+}
+
+inline const char * Game::getAppPrivateFolderPath( ) const
+{
+    return Platform::getAppPrivateFolderPath( );
+}
+
+inline std::string Game::newUUID( ) const
+{
+    return Platform::newUUID( );
+}
+
+inline const char * Game::getUserAgentString( ) const
+{
+    return Platform::getUserAgentString( );
+}
+
+inline void Game::reportError( bool isFatal, const char * errorMessage, ... )
+{
+}
+
 }
