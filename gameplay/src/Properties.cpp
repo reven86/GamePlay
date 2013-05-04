@@ -128,162 +128,162 @@ int yaml_read_handler( void * data, unsigned char * buffer, size_t size, size_t*
 
 bool Properties::readPropertiesYAML( Stream * stream )
 {
-   yaml_parser_t parser;
-   yaml_event_t event;
+    yaml_parser_t parser;
+    yaml_event_t event;
 
     if (!stream->canSeek( ) || !yaml_parser_initialize(&parser))
-       return false;
+        return false;
 
-   long curPos = stream->position( );
+    long curPos = stream->position( );
 
-   yaml_parser_set_input(&parser, &yaml_read_handler, stream);
+    yaml_parser_set_input(&parser, &yaml_read_handler, stream);
 
-   enum EParsingState
-   {
-       EPSM_READY,
-       EPSM_VALUE,
-       EPSM_SCALAR_SEQUENCE,
-   };
+    enum EParsingState
+    {
+        EPSM_READY,
+        EPSM_VALUE,
+        EPSM_SCALAR_SEQUENCE,
+    };
 
-   EParsingState state = EPSM_READY;
+    EParsingState state = EPSM_READY;
 
-   Properties * processingProperties = this;
-   std::vector< Properties * > propertiesStack;
-   std::string name;
-   std::string value;
-   std::string sequence;
+    Properties * processingProperties = this;
+    std::vector< Properties * > propertiesStack;
+    std::string name;
+    std::string value;
+    std::string sequence;
 
-   bool result = true;
-   bool parsedAnything = false;
-   while (result)
-   {
-       if (!yaml_parser_parse(&parser, &event))
-       {
-           result = false;
-           break;
-       }
+    bool result = true;
+    bool parsedAnything = false;
+    while (result)
+    {
+        if (!yaml_parser_parse(&parser, &event))
+        {
+            result = false;
+            break;
+        }
 
-       if( event.type == YAML_STREAM_END_EVENT )
-           break;
+        if( event.type == YAML_STREAM_END_EVENT )
+            break;
 
-       switch( event.type )
-       {
-       case YAML_STREAM_START_EVENT:
-           break;
+        switch( event.type )
+        {
+        case YAML_STREAM_START_EVENT:
+            break;
 
-       case YAML_DOCUMENT_START_EVENT:
-           break;
+        case YAML_DOCUMENT_START_EVENT:
+            break;
 
-       case YAML_DOCUMENT_END_EVENT:
-           result = parsedAnything;
-           break;
+        case YAML_DOCUMENT_END_EVENT:
+            result = parsedAnything;
+            break;
 
-       case YAML_ALIAS_EVENT:
-           break;
+        case YAML_ALIAS_EVENT:
+            break;
 
-       case YAML_SCALAR_EVENT:
-           switch( state )
-           {
-           case EPSM_READY:
-               name = ( char * ) event.data.scalar.value;
-               state = EPSM_VALUE;
-               break;
-           case EPSM_VALUE:
-               value = ( char * ) event.data.scalar.value;
-               if( name == "id" )
-                   processingProperties->_id = value;
-               else if( name == "parentID" )
-                   processingProperties->_parentID = value;
-               else
-                   processingProperties->_properties[ name ] = value;
-               name.clear( );
-               state = EPSM_READY;
-               parsedAnything = true;
-               break;
-           case EPSM_SCALAR_SEQUENCE:
-               sequence += ( char * ) event.data.scalar.value;
-               sequence += ',';
-               break;
-           default:
-               result = false;
-           }
-           break;
+        case YAML_SCALAR_EVENT:
+            switch( state )
+            {
+            case EPSM_READY:
+                name = ( char * ) event.data.scalar.value;
+                state = EPSM_VALUE;
+                break;
+            case EPSM_VALUE:
+                value = ( char * ) event.data.scalar.value;
+                if( name == "id" )
+                    processingProperties->_id = value;
+                else if( name == "parentID" )
+                    processingProperties->_parentID = value;
+                else
+                    processingProperties->_properties[ name ] = value;
+                name.clear( );
+                state = EPSM_READY;
+                parsedAnything = true;
+                break;
+            case EPSM_SCALAR_SEQUENCE:
+                sequence += ( char * ) event.data.scalar.value;
+                sequence += ',';
+                break;
+            default:
+                result = false;
+            }
+            break;
 
-       case YAML_SEQUENCE_START_EVENT:
-           if( state == EPSM_VALUE )
-           {
-               state = EPSM_SCALAR_SEQUENCE;
-               sequence.clear( );
-               break;
-           }
-           break;
+        case YAML_SEQUENCE_START_EVENT:
+            if( state == EPSM_VALUE )
+            {
+                state = EPSM_SCALAR_SEQUENCE;
+                sequence.clear( );
+                break;
+            }
+            break;
 
-       case YAML_SEQUENCE_END_EVENT:
-           if( state == EPSM_SCALAR_SEQUENCE )
-           {
-               if( !sequence.empty( ) )
-               {
-                   sequence.pop_back( );
-                   processingProperties->_properties[ name ] = sequence;
-                   parsedAnything = true;
-               }
-               state = EPSM_READY;
-           }
-           break;
+        case YAML_SEQUENCE_END_EVENT:
+            if( state == EPSM_SCALAR_SEQUENCE )
+            {
+                if( !sequence.empty( ) )
+                {
+                    sequence.erase( sequence.size( ) - 1 );
+                    processingProperties->_properties[ name ] = sequence;
+                    parsedAnything = true;
+                }
+                state = EPSM_READY;
+            }
+            break;
 
-       case YAML_MAPPING_START_EVENT:
-           if( state == EPSM_READY && processingProperties->_namespaces.empty( ) )
-               break;
+        case YAML_MAPPING_START_EVENT:
+            if( state == EPSM_READY && processingProperties->_namespaces.empty( ) )
+                break;
 
-           switch( state )
-           {
-           case EPSM_SCALAR_SEQUENCE:
-               sequence.clear( );
-               break;
-           case EPSM_READY:
-               name = processingProperties->_namespaces.back( )->_namespace;
-               break;
-           case EPSM_VALUE:
-               break;
-           }
+            switch( state )
+            {
+            case EPSM_SCALAR_SEQUENCE:
+                sequence.clear( );
+                break;
+            case EPSM_READY:
+                name = processingProperties->_namespaces.back( )->_namespace;
+                break;
+            case EPSM_VALUE:
+                break;
+            }
 
-           processingProperties->_namespaces.push_back( new Properties( ) );
-           processingProperties->_namespaces.back( )->_namespace = name;
-           name.clear( );
+            processingProperties->_namespaces.push_back( new Properties( ) );
+            processingProperties->_namespaces.back( )->_namespace = name;
+            name.clear( );
 
-           propertiesStack.push_back( processingProperties );
-           processingProperties = processingProperties->_namespaces.back( );
+            propertiesStack.push_back( processingProperties );
+            processingProperties = processingProperties->_namespaces.back( );
 
-           state = EPSM_READY;
-           parsedAnything = true;
-           break;
+            state = EPSM_READY;
+            parsedAnything = true;
+            break;
 
-       case YAML_MAPPING_END_EVENT:
-           if( !propertiesStack.empty( ) )
-           {
-               processingProperties->rewind( );
-               processingProperties = propertiesStack.back( );
-               propertiesStack.pop_back( );
-           }
-           break;
-       }
+        case YAML_MAPPING_END_EVENT:
+            if( !propertiesStack.empty( ) )
+            {
+                processingProperties->rewind( );
+                processingProperties = propertiesStack.back( );
+                propertiesStack.pop_back( );
+            }
+            break;
+        }
 
-       yaml_event_delete(&event);
-   }
+        yaml_event_delete(&event);
+    }
 
-   if( !result )
-   {
+    if( !result )
+    {
         stream->seek( curPos, SEEK_SET );
-       unsigned int count = _namespaces.size();
-       for (unsigned int i = 0; i < count; i++)
-           SAFE_DELETE(_namespaces[i]);
-       _namespaces.clear( );
-       _properties.clear( );
-   }
+        unsigned int count = _namespaces.size();
+        for (unsigned int i = 0; i < count; i++)
+            SAFE_DELETE(_namespaces[i]);
+        _namespaces.clear( );
+        _properties.clear( );
+    }
 
-   yaml_parser_delete(&parser);
+    yaml_parser_delete(&parser);
 
-   return result;
+    return result;
 }
 
 void Properties::readProperties(Stream* stream)
