@@ -41,7 +41,7 @@ LOCAL_SRC_FILES := \
     Gamepad.cpp \
     HeightField.cpp \
     Image.cpp \
-	ImageControl.cpp \
+    ImageControl.cpp \
     Joint.cpp \
     Joystick.cpp \
     Label.cpp \
@@ -78,6 +78,7 @@ LOCAL_SRC_FILES := \
     Plane.cpp \
     Platform.cpp \
     PlatformAndroid.cpp \
+    ProgressBar.cpp \
     Properties.cpp \
     Quaternion.cpp \
     RadioButton.cpp \
@@ -279,7 +280,7 @@ LOCAL_SRC_FILES := \
     lua/lua_VerticalLayout.cpp
 
     
-LOCAL_CFLAGS := -D__ANDROID__ -I"../../external-deps/libyaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/libpng/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"
+LOCAL_CFLAGS := -O3 -D__ANDROID__ -I"../../external-deps/libyaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/libpng/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
 
 include $(BUILD_STATIC_LIBRARY)

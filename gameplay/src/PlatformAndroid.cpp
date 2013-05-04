@@ -1469,6 +1469,118 @@ bool Platform::launchURL(const char *url)
     return result;
 }
 
+const char * Platform::getTemporaryFolderPath( )
+{
+    static std::string result;
+
+    if( result.empty( ) )
+    {
+        android_app* app = __state;
+        JNIEnv* env = app->activity->env;
+        JavaVM* vm = app->activity->vm;
+        vm->AttachCurrentThread(&env, NULL);
+
+        jclass classActivity = env->GetObjectClass(app->activity->clazz);
+
+        /* Get path to cache dir (/data/data/org.myapp/cache) */
+        jmethodID getCacheDir = env->GetMethodID(classActivity, "getCacheDir", "()Ljava/io/File;");
+        jobject file = env->CallObjectMethod(app->activity->clazz, getCacheDir);
+        jclass fileClass = env->FindClass("java/io/File");
+        jmethodID getAbsolutePath = env->GetMethodID(fileClass, "getAbsolutePath", "()Ljava/lang/String;");
+        jstring jpath = (jstring)env->CallObjectMethod(file, getAbsolutePath);
+        const char* app_dir = env->GetStringUTFChars(jpath, NULL);
+
+        result = app_dir;
+
+        env->ReleaseStringUTFChars(jpath, app_dir);
+
+        vm->DetachCurrentThread();
+    }
+
+    return result.c_str( );
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    static std::string result ( "Not implemented yet!" );
+
+    return result.c_str( );
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    static std::string result;
+
+    if( result.empty( ) )
+    {
+        android_app* app = __state;
+        JNIEnv* env = app->activity->env;
+        JavaVM* vm = app->activity->vm;
+        vm->AttachCurrentThread(&env, NULL);
+
+        jclass classActivity = env->GetObjectClass(app->activity->clazz);
+
+        jmethodID getCacheDir = env->GetMethodID(classActivity, "getFilesDir", "()Ljava/io/File;");
+        jobject file = env->CallObjectMethod(app->activity->clazz, getCacheDir);
+        jclass fileClass = env->FindClass("java/io/File");
+        jmethodID getAbsolutePath = env->GetMethodID(fileClass, "getAbsolutePath", "()Ljava/lang/String;");
+        jstring jpath = (jstring)env->CallObjectMethod(file, getAbsolutePath);
+        const char* app_dir = env->GetStringUTFChars(jpath, NULL);
+
+        result = app_dir;
+
+        env->ReleaseStringUTFChars(jpath, app_dir);
+
+        vm->DetachCurrentThread();
+    }
+
+    return result.c_str( );
+}
+
+//#include <uuid/uuid.h>
+
+std::string Platform::newUUID( )
+{
+    //uuid_t uuid;
+    //uuid_generate_random ( uuid );
+    //char s[37];
+    //uuid_unparse ( uuid, s );
+
+    return std::string( "000000000000000" );
+}
+
+const char * Platform::getUserAgentString( )
+{
+    static std::string result;
+
+    if( result.empty( ) )
+    {
+        android_app* app = __state;
+        JNIEnv* env = app->activity->env;
+        JavaVM* vm = app->activity->vm;
+
+        vm->AttachCurrentThread(&env, NULL);
+
+        jclass system = env->FindClass("java/lang/System");
+        jmethodID getPropertyMethod = env->GetStaticMethodID(system, "getProperty", "(Ljava/lang/String;)Ljava/lang/String;");
+        jstring userAgent = env->NewStringUTF( "http.agent" );
+        jstring userAgentResult = (jstring) env->CallStaticObjectMethod(system, getPropertyMethod, userAgent);
+        const char* temp = env->GetStringUTFChars(userAgentResult, NULL);
+
+        result = temp;
+
+        env->ReleaseStringUTFChars(userAgentResult, temp);
+        env->ReleaseStringUTFChars(userAgent, NULL);
+        env->DeleteLocalRef(userAgent);
+        env->DeleteLocalRef(userAgentResult);
+        env->DeleteLocalRef(system);
+
+        vm->DetachCurrentThread();
+    }
+
+    return result.c_str( );
+}
+
 }
 
 #endif
