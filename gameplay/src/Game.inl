@@ -171,11 +171,6 @@ inline const char * Game::getAppPrivateFolderPath( ) const
     return Platform::getAppPrivateFolderPath( );
 }
 
-inline std::string Game::newUUID( ) const
-{
-    return Platform::newUUID( );
-}
-
 inline const char * Game::getUserAgentString( ) const
 {
     return Platform::getUserAgentString( );

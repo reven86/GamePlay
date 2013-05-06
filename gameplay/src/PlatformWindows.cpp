@@ -1398,21 +1398,6 @@ const char * Platform::getAppPrivateFolderPath( )
     return path;
 }
 
-std::string Platform::newUUID( )
-{
-    UUID uuid;
-    UuidCreate ( &uuid );
-
-    unsigned char * str;
-    UuidToStringA ( &uuid, &str );
-
-    std::string s( ( char* ) str );
-
-    RpcStringFreeA ( &str );
-
-    return s;
-}
-
 const char * Platform::getUserAgentString( )
 {
     static char lpszData[ 1024 ];

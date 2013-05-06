@@ -1537,18 +1537,6 @@ const char * Platform::getAppPrivateFolderPath( )
     return result.c_str( );
 }
 
-//#include <uuid/uuid.h>
-
-std::string Platform::newUUID( )
-{
-    //uuid_t uuid;
-    //uuid_generate_random ( uuid );
-    //char s[37];
-    //uuid_unparse ( uuid, s );
-
-    return std::string( "000000000000000" );
-}
-
 const char * Platform::getUserAgentString( )
 {
     static std::string result;

@@ -310,11 +310,6 @@ private:
     static const char * getAppPrivateFolderPath( );
 
     /**
-     * Generate an UUID.
-     */
-    static std::string newUUID( );
-
-    /**
      * Gets default user-agent string.
      */
     static const char * getUserAgentString( );

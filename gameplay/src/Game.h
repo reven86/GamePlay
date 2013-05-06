@@ -614,11 +614,6 @@ public:
     virtual void reportError( bool isFatal, const char * errorMessage, ... );
 
     /**
-     * Generate an UUID.
-     */
-    std::string newUUID( ) const;
-
-    /**
      * Gets default user-agent string.
      */
     const char * getUserAgentString( ) const;
