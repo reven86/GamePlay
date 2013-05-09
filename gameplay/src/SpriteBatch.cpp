@@ -234,21 +234,16 @@ void SpriteBatch::draw(float x, float y, float z, float width, float height, flo
     float x2 = x + width;
     float y2 = y + height;
     
-    Vector2 upLeft(x, y);
-    Vector2 upRight(x2, y);
-    Vector2 downLeft(x, y2);
-    Vector2 downRight(x2, y2);
+    float sinAngle = sinf(rotationAngle);
+    float cosAngle = cosf(rotationAngle);
 
-    // Rotate points around rotationAxis by rotationAngle.
-    Vector2 pivotPoint(rotationPoint);
-    pivotPoint.x *= width;
-    pivotPoint.y *= height;
-    pivotPoint.x += x;
-    pivotPoint.y += y;
-    upLeft.rotate(pivotPoint, rotationAngle);
-    upRight.rotate(pivotPoint, rotationAngle);
-    downLeft.rotate(pivotPoint, rotationAngle);
-    downRight.rotate(pivotPoint, rotationAngle);
+    Vector2 du( width * cosAngle, width * sinAngle );
+    Vector2 dv( -height * sinAngle, height * cosAngle );
+
+    Vector2 upLeft(x + rotationPoint.x * ( width - du.x ) - dv.x * rotationPoint.y, y + rotationPoint.y * ( height - dv.y ) - du.y * rotationPoint.x );
+    Vector2 upRight( upLeft + du );
+    Vector2 downLeft( upLeft + dv );
+    Vector2 downRight( downLeft + du );
 
     // Write sprite vertex data.
     static SpriteVertex v[4];
