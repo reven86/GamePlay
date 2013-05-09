@@ -377,32 +377,26 @@ Stream* FileSystem::open(const char* path, size_t mode)
     char modeStr[] = "rb";
     if ((mode & WRITE) != 0)
         modeStr[0] = 'w';
+
+    std::string fullPath;
+    getFullPath(path, fullPath);
+
+    //gameplay::Logger::log(gameplay::Logger::LEVEL_INFO, "Trying to open file: %d %s", mode, fullPath.c_str( ) );
+
 #ifdef __ANDROID__
     if ((mode & WRITE) != 0)
     {
-        // Open a file on the SD card
-        std::string fullPath(__resourcePath);
-        fullPath += resolvePath(path);
-
-        size_t index = fullPath.rfind('/');
-        if (index != std::string::npos)
-        {
-            std::string directoryPath = fullPath.substr(0, index);
-            struct stat s;
-            if (stat(directoryPath.c_str(), &s) != 0)
-                makepath(directoryPath, 0777);
-        }
-        return FileStream::create(fullPath.c_str(), modeStr);
+        FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
+        return stream;
     }
     else
     {
-        // Open a file in the read-only asset directory
-        return FileStreamAndroid::create(resolvePath(path), modeStr);
+        // Open a file in the read-only asset directory if any, then try open file directly
+        Stream * stream = FileStreamAndroid::create(resolvePath(path), modeStr);
+        return stream == NULL ? FileStream::create(fullPath.c_str(), modeStr) : stream;
     }
-#else
-    std::string fullPath;
-    getFullPath(path, fullPath);
-    
+#endif
+
 #ifdef WIN32
     gp_stat_struct s;
     if (!isAbsolutePath(path) && stat(fullPath.c_str(), &s) != 0 && (mode & WRITE) == 0)
@@ -426,7 +420,6 @@ Stream* FileSystem::open(const char* path, size_t mode)
 #endif
     FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
     return stream;
-#endif
 }
 
 FILE* FileSystem::openFile(const char* filePath, const char* mode)
