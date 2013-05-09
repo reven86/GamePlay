@@ -7,6 +7,7 @@
 // Default font shaders
 #define FONT_VSH "res/shaders/font.vert"
 #define FONT_FSH "res/shaders/font.frag"
+#define FONT_FSH_ALPHA "res/shaders/font_alpha.frag"
 
 namespace gameplay
 {
@@ -14,6 +15,7 @@ namespace gameplay
 static std::vector<Font*> __fontCache;
 
 static Effect* __fontEffect = NULL;
+static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
     _style(PLAIN), _size(0), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL)
@@ -97,10 +99,11 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     GP_ASSERT(texture);
 
     // Create the effect for the font's sprite batch.
-    if (__fontEffect == NULL)
+    Effect ** fontEffect = style == Font::TEXTURED ? &__fontEffect : &__fontEffectAlpha;
+    if (*fontEffect == NULL)
     {
-        __fontEffect = Effect::createFromFile(FONT_VSH, FONT_FSH);
-        if (__fontEffect == NULL)
+        *fontEffect = Effect::createFromFile(FONT_VSH, style == Font::TEXTURED ? FONT_FSH : FONT_FSH_ALPHA);
+        if (*fontEffect == NULL)
         {
             GP_ERROR("Failed to create effect for font.");
             SAFE_RELEASE(texture);
@@ -109,14 +112,14 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     }
     else
     {
-        __fontEffect->addRef();
+        ( *fontEffect )->addRef();
     }
 
     // Create batch for the font.
-    SpriteBatch* batch = SpriteBatch::create(texture, __fontEffect, 128);
+    SpriteBatch* batch = SpriteBatch::create(texture, *fontEffect, 128);
     
     // Release __fontEffect since the SpriteBatch keeps a reference to it
-    SAFE_RELEASE(__fontEffect);
+    SAFE_RELEASE(*fontEffect);
 
     if (batch == NULL)
     {
