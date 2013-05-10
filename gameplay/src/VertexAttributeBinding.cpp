@@ -10,7 +10,7 @@ static GLuint __maxVertexAttribs = 0;
 static std::vector<VertexAttributeBinding*> __vertexAttributeBindingCache;
 
 VertexAttributeBinding::VertexAttributeBinding() :
-    _handle(0), _attributes(NULL), _mesh(NULL), _effect(NULL)
+    _handle(0), _attributes(NULL), _mesh(NULL), _effect(NULL), _attributesCount( 0 )
 {
 }
 
@@ -127,6 +127,7 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
             attribs[i].pointer = 0;
         }
         b->_attributes = attribs;
+        b->_attributesCount = 0;
     }
 
     if (mesh)
@@ -240,6 +241,9 @@ void VertexAttributeBinding::setVertexAttribPointer(GLuint indx, GLint size, GLe
         _attributes[indx].normalized = normalize;
         _attributes[indx].stride = stride;
         _attributes[indx].pointer = pointer;
+
+        if( indx + 1 > _attributesCount )
+            _attributesCount = indx + 1;
     }
 }
 
@@ -263,7 +267,7 @@ void VertexAttributeBinding::bind()
         }
 
         GP_ASSERT(_attributes);
-        for (unsigned int i = 0; i < __maxVertexAttribs; ++i)
+        for (unsigned int i = 0; i < _attributesCount; ++i)
         {
             VertexAttribute& a = _attributes[i];
             if (a.enabled)
@@ -291,7 +295,7 @@ void VertexAttributeBinding::unbind()
         }
 
         GP_ASSERT(_attributes);
-        for (unsigned int i = 0; i < __maxVertexAttribs; ++i)
+        for (unsigned int i = 0; i < _attributesCount; ++i)
         {
             if (_attributes[i].enabled)
             {

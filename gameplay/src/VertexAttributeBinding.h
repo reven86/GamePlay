@@ -112,6 +112,7 @@ private:
 
     GLuint _handle;
     VertexAttribute* _attributes;
+    unsigned int _attributesCount;
     Mesh* _mesh;
     Effect* _effect;
 };
