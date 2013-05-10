@@ -24,7 +24,8 @@ Game::Game()
       _clearDepth(1.0f), _clearStencil(0), _properties(NULL),
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
-      _timeEvents(NULL), _scriptController(NULL), _scriptListeners(NULL)
+      _timeEvents(NULL), _scriptController(NULL), _scriptListeners(NULL),
+      _clearColor( 0.0f, 0.0f, 0.0f, 0.0f )
 {
     GP_ASSERT(__gameInstance == NULL);
     __gameInstance = this;

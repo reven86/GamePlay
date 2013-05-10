@@ -10,7 +10,7 @@ int Transform::_suspendTransformChanged(0);
 std::vector<Transform*> Transform::_transformsChanged;
 
 Transform::Transform()
-    : _matrixDirtyBits(0), _listeners(NULL)
+    : _matrixDirtyBits(0), _listeners(NULL), _translation( 0.0f, 0.0f, 0.0f )
 {
     _targetType = AnimationTarget::TRANSFORM;
     _scale.set(Vector3::one());

@@ -665,7 +665,7 @@ float calculateHeight(float* heights, unsigned int width, unsigned int height, u
 }
 
 TerrainPatch::Layer::Layer() :
-    index(0), row(-1), column(-1), textureIndex(-1), blendIndex(-1)
+    index(0), row(-1), column(-1), textureIndex(-1), blendIndex(-1), textureRepeat( 0.0f, 0.0f )
 {
 }
 

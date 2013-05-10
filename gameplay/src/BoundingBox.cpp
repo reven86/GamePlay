@@ -7,6 +7,8 @@ namespace gameplay
 {
 
 BoundingBox::BoundingBox()
+    : min( 0.0f, 0.0f, 0.0f )
+    , max( 0.0f, 0.0f, 0.0f )
 {
 }
 

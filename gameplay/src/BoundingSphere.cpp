@@ -6,7 +6,7 @@ namespace gameplay
 {
 
 BoundingSphere::BoundingSphere()
-    : radius(0)
+    : radius(0), center( 0.0f, 0.0f, 0.0f )
 {
 }
 

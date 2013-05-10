@@ -5,6 +5,7 @@ namespace gameplay
 {
 
 Label::Label() : _text(""), _font(NULL)
+    , _textColor( 0.0f, 0.0f, 0.0f, 0.0f )
 {
 }
 

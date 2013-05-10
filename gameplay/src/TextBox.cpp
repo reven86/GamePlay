@@ -5,6 +5,7 @@ namespace gameplay
 {
 
 TextBox::TextBox() : _lastKeypress(0), _fontSize(0), _caretImage(NULL)
+    , _caretLocation( 0.0f, 0.0f ), _prevCaretLocation( 0.0f, 0.0f )
 {
 }
 

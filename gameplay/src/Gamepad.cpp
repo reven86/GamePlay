@@ -35,6 +35,9 @@ Gamepad::Gamepad(const char* formPath)
     }
 
     bindGamepadControls(_form);
+
+    _joysticks[ 0 ] = Vector2::zero( );
+    _joysticks[ 1 ] = Vector2::zero( );
 }
 
 Gamepad::Gamepad(GamepadHandle handle, unsigned int buttonCount, unsigned int joystickCount, unsigned int triggerCount,

@@ -5,7 +5,7 @@
 namespace gameplay
 {
 
-CheckBox::CheckBox() : _checked(false), _image(NULL)
+CheckBox::CheckBox() : _checked(false), _image(NULL), _imageSize( 0.0f, 0.0f )
 {
 }
 

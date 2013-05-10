@@ -5,6 +5,7 @@ namespace gameplay
 {
 
 Joystick::Joystick() : _radius(1.0f), _relative(true), _innerSize(NULL), _outerSize(NULL)
+    , _value( 0.0f, 0.0f ), _displacement( 0.0f, 0.0f ) 
 {
 }
 

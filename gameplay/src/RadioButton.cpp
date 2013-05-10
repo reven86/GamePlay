@@ -5,7 +5,7 @@ namespace gameplay
 {
 static std::vector<RadioButton*> __radioButtons;
 
-RadioButton::RadioButton() : _selected(false), _image(NULL)
+RadioButton::RadioButton() : _selected(false), _image(NULL), _imageSize( 0.0f, 0.0f )
 {
 }
 

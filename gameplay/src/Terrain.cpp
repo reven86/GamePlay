@@ -32,7 +32,8 @@ float getDefaultHeight(unsigned int width, unsigned int height);
 
 Terrain::Terrain() :
     _heightfield(NULL), _node(NULL), _normalMap(NULL), _flags(FRUSTUM_CULLING | LEVEL_OF_DETAIL),
-    _dirtyFlags(TERRAIN_DIRTY_WORLD_MATRIX | TERRAIN_DIRTY_INV_WORLD_MATRIX | TERRAIN_DIRTY_NORMAL_MATRIX)
+    _dirtyFlags(TERRAIN_DIRTY_WORLD_MATRIX | TERRAIN_DIRTY_INV_WORLD_MATRIX | TERRAIN_DIRTY_NORMAL_MATRIX),
+    _localScale( 0.0f, 0.0f, 0.0f )
 {
 }
 

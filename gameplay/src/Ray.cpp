@@ -10,6 +10,7 @@ namespace gameplay
 
 Ray::Ray()
     : _direction(0, 0, 1)
+    , _origin( 0.0f, 0.0f, 0.0f )
 {
 }
 

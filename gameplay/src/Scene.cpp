@@ -61,7 +61,8 @@ static bool endsWith(const char* str, const char* suffix, bool ignoreCase)
 
 Scene::Scene(const char* id)
     : _id(id ? id : ""), _activeCamera(NULL), _firstNode(NULL), _lastNode(NULL), _nodeCount(0), 
-    _lightColor(1,1,1), _lightDirection(0,-1,0), _bindAudioListenerToCamera(true), _debugBatch(NULL)
+    _lightColor(1,1,1), _lightDirection(0,-1,0), _bindAudioListenerToCamera(true), _debugBatch(NULL),
+    _ambientColor( 0.0f, 0.0f, 0.0f )
 {
     __sceneList.push_back(this);
 }

@@ -8,7 +8,11 @@ namespace gameplay
 
 AudioListener::AudioListener()
     : _gain(1.0f), _camera(NULL)
+    , _position( 0.0f, 0.0f, 0.0f )
+    , _velocity( 0.0f, 0.0f, 0.0f )
 {
+    _orientation[ 0 ] = Vector3::zero( );
+    _orientation[ 1 ] = Vector3::zero( );
 }
 
 AudioListener::~AudioListener()
