@@ -115,6 +115,19 @@ public:
     void add(const float* vertices, unsigned int vertexCount, const unsigned short* indices = NULL, unsigned int indexCount = 0);
 
     /**
+     * Reserves vertices and returns pointer to first new vertex.
+     * Application then can write directly vertex data into the memory pointed by returned pointer.
+     * Works only for unindexed primitives.
+     *
+     * The vertex list passed in should be a pointer of floats where every X floats represent a
+     * single vertex (e.g. {x,y,z,u,v}).
+     *
+     * @param vertexCount Number of vertices.
+     */
+    template< class T >
+    T * reserve(unsigned int vertexCount);
+
+    /**
      * Starts batching.
      *
      * This method should be called before calling add() to add primitives to the batch.
