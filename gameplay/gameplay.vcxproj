@@ -1027,10 +1027,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>YAML_DECLARE_STATIC;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>YAML_DECLARE_STATIC;WIN32;NDEBUG;_LIB;FORCE_CLEAN_SHUTDOWN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\libyaml\include;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
