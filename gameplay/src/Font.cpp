@@ -180,7 +180,6 @@ Font::Text* Font::createText(const char* text, const Rectangle& area, const Vect
 
     Text* batch = new Text(text);
     GP_ASSERT(batch->_vertices);
-    GP_ASSERT(batch->_indices);
 
     int xPos = area.x;
     std::vector<int>::const_iterator xPositionsIt = xPositions.begin();
@@ -290,33 +289,7 @@ Font::Text* Font::createText(const char* text, const Rectangle& area, const Vect
                             _batch->addSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
                         }
 
-                        if (batch->_vertexCount == 0)
-                        {
-                            // Simply copy values directly into the start of the index array
-                            batch->_indices[batch->_vertexCount] = batch->_vertexCount;
-                            batch->_indices[batch->_vertexCount + 1] = batch->_vertexCount + 1;
-                            batch->_indices[batch->_vertexCount + 2] = batch->_vertexCount + 2;
-                            batch->_indices[batch->_vertexCount + 3] = batch->_vertexCount + 3;
-                            batch->_vertexCount += 4;
-                            batch->_indexCount += 4;
-                        }
-                        else
-                        {
-                            // Create a degenerate triangle to connect separate triangle strips
-                            // by duplicating the previous and next vertices.
-                            batch->_indices[batch->_indexCount] = batch->_indices[batch->_indexCount - 1];
-                            batch->_indices[batch->_indexCount + 1] = batch->_vertexCount;
-            
-                            // Loop through all indices and insert them, their their value offset by
-                            // 'vertexCount' so that they are relative to the first newly insertted vertex
-                            for (unsigned int i = 0; i < 4; ++i)
-                            {
-                                batch->_indices[batch->_indexCount + 2 + i] = i + batch->_vertexCount;
-                            }
-
-                            batch->_indexCount += 6;
-                            batch->_vertexCount += 4;
-                        }
+                        batch->_vertexCount += 6;
 
                     }
                 }
@@ -394,8 +367,7 @@ void Font::drawText(Text* text) const
 {
     GP_ASSERT(_batch);
     GP_ASSERT(text->_vertices);
-    GP_ASSERT(text->_indices);
-    _batch->draw(text->_vertices, text->_vertexCount, text->_indices, text->_indexCount);
+    _batch->draw(text->_vertices, text->_vertexCount);
 }
 
 void Font::drawText(const char* text, int x, int y, const Vector4& color, unsigned int size, bool rightToLeft) const
@@ -1764,17 +1736,15 @@ Font::Justify Font::getJustify(const char* justify)
     return Font::ALIGN_TOP_LEFT;
 }
 
-Font::Text::Text(const char* text) : _text(text ? text : ""), _vertexCount(0), _vertices(NULL), _indexCount(0), _indices(NULL)
+Font::Text::Text(const char* text) : _text(text ? text : ""), _vertexCount(0), _vertices(NULL), _color( Vector4::zero( ) )
 {
     const size_t length = strlen(text);
-    _vertices = new SpriteBatch::SpriteVertex[length * 4];
-    _indices = new unsigned short[((length - 1) * 6) + 4];
+    _vertices = new SpriteBatch::SpriteVertex[length * 6];
 }
 
 Font::Text::~Text()
 {
     SAFE_DELETE_ARRAY(_vertices);
-    SAFE_DELETE_ARRAY(_indices);
 }
 
 const char* Font::Text::getText()

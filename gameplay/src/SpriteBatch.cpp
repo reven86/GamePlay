@@ -120,7 +120,7 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     VertexFormat vertexFormat(vertexElements, 3);
 
     // Create the mesh batch
-    MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLE_STRIP, material, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+    MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLES, material, false, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
     material->release(); // don't call SAFE_RELEASE since material is used below
 
     // Create the batch
@@ -155,7 +155,7 @@ SpriteBatch* SpriteBatch::create(Material* material, unsigned int initialCapacit
     VertexFormat vertexFormat(vertexElements, 3);
 
     // Create the mesh batch
-    MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLE_STRIP, material, true, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
+    MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLES, material, false, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
 
     Texture::Sampler * sampler = material->getParameter( "u_texture" )->getSampler( );
     sampler->addRef( );
@@ -246,15 +246,15 @@ void SpriteBatch::draw(float x, float y, float z, float width, float height, flo
     Vector2 downRight( downLeft + du );
 
     // Write sprite vertex data.
-    static SpriteVertex v[4];
+    static SpriteVertex v[6];
     SPRITE_ADD_VERTEX(v[0], downLeft.x, downLeft.y, z, u1, v1, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[1], upLeft.x, upLeft.y, z, u1, v2, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[2], downRight.x, downRight.y, z, u2, v1, color.x, color.y, color.z, color.w);
-    SPRITE_ADD_VERTEX(v[3], upRight.x, upRight.y, z, u2, v2, color.x, color.y, color.z, color.w);
+    v[3] = v[2];
+    v[4] = v[1];
+    SPRITE_ADD_VERTEX(v[5], upRight.x, upRight.y, z, u2, v2, color.x, color.y, color.z, color.w);
     
-    static unsigned short indices[4] = { 0, 1, 2, 3 };
-
-    _batch->add(v, 4, indices, 4);
+    _batch->add(v, 6);
 }
 
 void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vector3& forward, float width, float height,
@@ -312,14 +312,15 @@ void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vect
     p3 += rp;
 
     // Add the sprite vertex data to the batch.
-    static SpriteVertex v[4];
+    static SpriteVertex v[6];
     SPRITE_ADD_VERTEX(v[0], p0.x, p0.y, p0.z, u1, v1, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[1], p1.x, p1.y, p1.z, u2, v1, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[2], p2.x, p2.y, p2.z, u1, v2, color.x, color.y, color.z, color.w);
-    SPRITE_ADD_VERTEX(v[3], p3.x, p3.y, p3.z, u2, v2, color.x, color.y, color.z, color.w);
+    v[3] = v[2];
+    v[4] = v[1];
+    SPRITE_ADD_VERTEX(v[5], p3.x, p3.y, p3.z, u2, v2, color.x, color.y, color.z, color.w);
     
-    static const unsigned short indices[4] = { 0, 1, 2, 3 };
-    _batch->add(v, 4, const_cast<unsigned short*>(indices), 4);
+    _batch->add(v, 6);
 }
 
 void SpriteBatch::draw(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color)
@@ -343,7 +344,9 @@ void SpriteBatch::addSprite(float x, float y, float width, float height, float u
     SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.x, color.y, color.z, color.w);
-    SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
+    vertices[3] = vertices[2];
+    vertices[4] = vertices[1];
+    SPRITE_ADD_VERTEX(vertices[5], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
 }
 
 void SpriteBatch::addSprite(float x, float y, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, const Rectangle& clip, SpriteBatch::SpriteVertex* vertices)
@@ -358,16 +361,17 @@ void SpriteBatch::addSprite(float x, float y, float width, float height, float u
         SPRITE_ADD_VERTEX(vertices[0], x, y, 0, u1, v1, color.x, color.y, color.z, color.w);
         SPRITE_ADD_VERTEX(vertices[1], x, y2, 0, u1, v2, color.x, color.y, color.z, color.w);
         SPRITE_ADD_VERTEX(vertices[2], x2, y, 0, u2, v1, color.x, color.y, color.z, color.w);
-        SPRITE_ADD_VERTEX(vertices[3], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
+        vertices[3] = vertices[2];
+        vertices[4] = vertices[1];
+        SPRITE_ADD_VERTEX(vertices[5], x2, y2, 0, u2, v2, color.x, color.y, color.z, color.w);
     }
 }
 
-void SpriteBatch::draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount, unsigned short* indices, unsigned int indexCount)
+void SpriteBatch::draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount)
 {
     GP_ASSERT(vertices);
-    GP_ASSERT(indices);
 
-    _batch->add(vertices, vertexCount, indices, indexCount);
+    _batch->add(vertices, vertexCount);
 }
 
 void SpriteBatch::draw(float x, float y, float z, float width, float height, float u1, float v1, float u2, float v2, const Vector4& color, bool positionIsCenter)
@@ -382,15 +386,15 @@ void SpriteBatch::draw(float x, float y, float z, float width, float height, flo
     // Write sprite vertex data.
     const float x2 = x + width;
     const float y2 = y + height;
-    static SpriteVertex v[4];
+    static SpriteVertex v[6];
     SPRITE_ADD_VERTEX(v[0], x, y, z, u1, v1, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[1], x, y2, z, u1, v2, color.x, color.y, color.z, color.w);
     SPRITE_ADD_VERTEX(v[2], x2, y, z, u2, v1, color.x, color.y, color.z, color.w);
-    SPRITE_ADD_VERTEX(v[3], x2, y2, z, u2, v2, color.x, color.y, color.z, color.w);
+    v[3] = v[2];
+    v[4] = v[1];
+    SPRITE_ADD_VERTEX(v[5], x2, y2, z, u2, v2, color.x, color.y, color.z, color.w);
 
-    static unsigned short indices[4] = { 0, 1, 2, 3 };
-
-    _batch->add(v, 4, indices, 4);
+    _batch->add(v, 6);
 }
 
 void SpriteBatch::finish()

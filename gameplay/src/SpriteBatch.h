@@ -373,10 +373,8 @@ private:
      *
      * @param vertices The vertices to draw.
      * @param vertexCount The number of vertices within the vertex array.
-     * @param indices The vertex indices.
-     * @param indexCount The number of indices within the index array.
      */
-    void draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount, unsigned short* indices, unsigned int indexCount);
+    void draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount);
 
     /**
      * Clip position and size to fit within clip region.

@@ -88,8 +88,6 @@ public:
         std::string _text;
         unsigned int _vertexCount;
         SpriteBatch::SpriteVertex* _vertices;
-        unsigned int _indexCount;
-        unsigned short* _indices;
         Vector4 _color;
     };
 
