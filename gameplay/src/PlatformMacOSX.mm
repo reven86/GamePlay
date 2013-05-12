@@ -8,6 +8,7 @@
 #include "ScriptController.h"
 #include <unistd.h>
 #include <IOKit/hid/IOHIDLib.h>
+#include <WebKit/WebKit.h>
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 #import <OpenGL/OpenGL.h>
@@ -55,6 +56,7 @@ static CGPoint __mouseCapturePoint;
 static bool __multiSampling = false;
 static bool __cursorVisible = true;
 static View* __view = NULL;
+static std::string __defaultUserAgentString;
 
 static NSMutableDictionary *__activeGamepads = NULL;
 static NSMutableArray *__gamepads = NULL;
@@ -1633,6 +1635,13 @@ Platform* Platform::create(Game* game, void* attachToWindow)
 
 int Platform::enterMessagePump()
 {
+    WebView *webView = [[WebView alloc]initWithFrame:NSZeroRect];
+    if( webView )
+    {
+        NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        __defaultUserAgentString = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
+    }
+
     NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
     NSString* path = [bundlePath stringByAppendingString:@"/Contents/Resources/"];
     FileSystem::setResourcePath([path cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -2306,17 +2315,7 @@ const char * Platform::getAppPrivateFolderPath( )
 
 const char * Platform::getUserAgentString( )
 {
-    static std::string result;
-
-    if( result.empty( ) )
-    {
-        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero]; 
-        NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:"@navigator.userAgent"];
-
-        result = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
-    }
-
-    return result.c_str( );
+    return __defaultUserAgentString.c_str( );
 }
 
 #endif

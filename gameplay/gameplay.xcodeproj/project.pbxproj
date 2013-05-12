@@ -1161,14 +1161,17 @@
 		C054CBE8172EF541000B7DC3 /* lua_RenderStateCullFaceSide.h in Headers */ = {isa = PBXBuildFile; fileRef = C054CBE4172EF541000B7DC3 /* lua_RenderStateCullFaceSide.h */; };
 		DD1FF47216DBD8F9000B42EF /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1FF47116DBD8F9000B42EF /* Platform.cpp */; };
 		DD1FF47316DBD8F9000B42EF /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1FF47116DBD8F9000B42EF /* Platform.cpp */; };
-       EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
-       EB12FF6616EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
-       EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
-       EB12FF6816EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
-       EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
-       EBF7F62D163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
-       EBF7F62E163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
-       EBF7F62F163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
+		EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
+		EB12FF6616EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
+		EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
+		EB12FF6816EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
+		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
+		EB57EEDA173EE75500DF0714 /* lua_TextBoxInputMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */; };
+		EB57EEDB173EE75500DF0714 /* lua_TextBoxInputMode.h in Headers */ = {isa = PBXBuildFile; fileRef = EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */; };
+		EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
+		EBF7F62D163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
+		EBF7F62E163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
+		EBF7F62F163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
 		F1616ABC1614E24B008DD8B7 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */; };
 		F1616ABD1614E24B008DD8B7 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */; };
 		F18024A51627000D001BFF87 /* gameplay-main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18024A31627000D001BFF87 /* gameplay-main-ios.mm */; };
@@ -1781,11 +1784,14 @@
 		C054CBE3172EF541000B7DC3 /* lua_RenderStateCullFaceSide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_RenderStateCullFaceSide.cpp; sourceTree = "<group>"; };
 		C054CBE4172EF541000B7DC3 /* lua_RenderStateCullFaceSide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_RenderStateCullFaceSide.h; sourceTree = "<group>"; };
 		DD1FF47116DBD8F9000B42EF /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = src/Platform.cpp; sourceTree = SOURCE_ROOT; };
-       EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressBar.cpp; path = src/ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
-       EB12FF6416EBCC3D009BA84B /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressBar.h; path = src/ProgressBar.h; sourceTree = SOURCE_ROOT; };
-       EBF7F629163415EF00F350CE /* Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix3.cpp; path = src/Matrix3.cpp; sourceTree = SOURCE_ROOT; };
-       EBF7F62A163415EF00F350CE /* Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix3.h; path = src/Matrix3.h; sourceTree = SOURCE_ROOT; };
-       EBF7F62B163415EF00F350CE /* Matrix3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix3.inl; path = src/Matrix3.inl; sourceTree = SOURCE_ROOT; };
+		EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressBar.cpp; path = src/ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
+		EB12FF6416EBCC3D009BA84B /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressBar.h; path = src/ProgressBar.h; sourceTree = SOURCE_ROOT; };
+		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TextBoxInputMode.cpp; sourceTree = "<group>"; };
+		EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TextBoxInputMode.h; sourceTree = "<group>"; };
+		EBF7F629163415EF00F350CE /* Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix3.cpp; path = src/Matrix3.cpp; sourceTree = SOURCE_ROOT; };
+		EBF7F62A163415EF00F350CE /* Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix3.h; path = src/Matrix3.h; sourceTree = SOURCE_ROOT; };
+		EBF7F62B163415EF00F350CE /* Matrix3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix3.inl; path = src/Matrix3.inl; sourceTree = SOURCE_ROOT; };
 		F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtil.cpp; path = src/MathUtil.cpp; sourceTree = SOURCE_ROOT; };
 		F18024A31627000D001BFF87 /* gameplay-main-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "gameplay-main-ios.mm"; path = "src/gameplay-main-ios.mm"; sourceTree = SOURCE_ROOT; };
 		F18024A41627000D001BFF87 /* gameplay-main-macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "gameplay-main-macosx.mm"; path = "src/gameplay-main-macosx.mm"; sourceTree = SOURCE_ROOT; };
@@ -1796,6 +1802,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */,
 				5B21E99616153890006EBEAC /* IOKit.framework in Frameworks */,
 				5B2BC7641512516B00D176CD /* libz.dylib in Frameworks */,
 				5B2BC7621512514D00D176CD /* QuartzCore.framework in Frameworks */,
@@ -1844,11 +1851,11 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
-               EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */,
-               EB12FF6416EBCC3D009BA84B /* ProgressBar.h */,
-               EBF7F629163415EF00F350CE /* Matrix3.cpp */,
-               EBF7F62A163415EF00F350CE /* Matrix3.h */,
-               EBF7F62B163415EF00F350CE /* Matrix3.inl */,
+				EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */,
+				EB12FF6416EBCC3D009BA84B /* ProgressBar.h */,
+				EBF7F629163415EF00F350CE /* Matrix3.cpp */,
+				EBF7F62A163415EF00F350CE /* Matrix3.h */,
+				EBF7F62B163415EF00F350CE /* Matrix3.inl */,
 				42BCD31E15EFD0F300C0E076 /* lua */,
 				5BD52634150F822A004C9099 /* AbsoluteLayout.cpp */,
 				5BD52635150F822A004C9099 /* AbsoluteLayout.h */,
@@ -2103,6 +2110,8 @@
 		42BCD31E15EFD0F300C0E076 /* lua */ = {
 			isa = PBXGroup;
 			children = (
+				EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */,
+				EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */,
 				42BCD31F15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp */,
 				42BCD32015EFD0F300C0E076 /* lua_AbsoluteLayout.h */,
 				42BCD32115EFD0F300C0E076 /* lua_AIAgent.cpp */,
@@ -2473,6 +2482,7 @@
 		5B04C5FE14BFE52F00EB0071 /* MacOSX */ = {
 			isa = PBXGroup;
 			children = (
+				EB3D1D78173FB4D30008EC01 /* WebKit.framework */,
 				5B21E99516153890006EBEAC /* IOKit.framework */,
 				5B2BC7611512514D00D176CD /* QuartzCore.framework */,
 				5B2BC75D1512514500D176CD /* OpenAL.framework */,
@@ -2785,7 +2795,7 @@
 				B67EC8ED161DFC8E000B4D12 /* lua_Logger.h in Headers */,
 				B67EC8F1161DFC8E000B4D12 /* lua_LoggerLevel.h in Headers */,
 				B67EC8F8161DFCA8000B4D12 /* Logger.h in Headers */,
-               EBF7F62E163415F000F350CE /* Matrix3.h in Headers */,
+				EBF7F62E163415F000F350CE /* Matrix3.h in Headers */,
 				9FC6EE731665304F00F39955 /* Stream.h in Headers */,
 				B661730D16A619A60083A307 /* lua_HeightField.h in Headers */,
 				B661731516A619D30083A307 /* lua_Terrain.h in Headers */,
@@ -2816,11 +2826,12 @@
 				BD26373616CF865B00CFE15F /* Vector2.inl in Headers */,
 				BD26373716CF865B00CFE15F /* Vector3.inl in Headers */,
 				BD26373816CF865B00CFE15F /* Vector4.inl in Headers */,
-               EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */,
+				EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */,
 				42A5031316E8F06500F0246C /* ImageControl.h in Headers */,
 				42A5031916E8F08900F0246C /* lua_ImageControl.h in Headers */,
 				42A5031F16E8F0B800F0246C /* lua_TerrainListener.h in Headers */,
 				C054CBE7172EF541000B7DC3 /* lua_RenderStateCullFaceSide.h in Headers */,
+				EB57EEDB173EE75500DF0714 /* lua_TextBoxInputMode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3093,7 +3104,7 @@
 				B67EC8EE161DFC8E000B4D12 /* lua_Logger.h in Headers */,
 				B67EC8F2161DFC8E000B4D12 /* lua_LoggerLevel.h in Headers */,
 				B67EC8F9161DFCA8000B4D12 /* Logger.h in Headers */,
-               EBF7F62F163415F000F350CE /* Matrix3.h in Headers */,
+				EBF7F62F163415F000F350CE /* Matrix3.h in Headers */,
 				9FC6EE741665304F00F39955 /* Stream.h in Headers */,
 				B661730E16A619A60083A307 /* lua_HeightField.h in Headers */,
 				B661731616A619D30083A307 /* lua_Terrain.h in Headers */,
@@ -3125,7 +3136,7 @@
 				BD26371316CF779100CFE15F /* PhysicsSpringConstraint.inl in Headers */,
 				BD26371416CF779100CFE15F /* ScriptController.inl in Headers */,
 				BD26371516CF787600CFE15F /* TimeListener.h in Headers */,
-               EB12FF6816EBCC3D009BA84B /* ProgressBar.h in Headers */,
+				EB12FF6816EBCC3D009BA84B /* ProgressBar.h in Headers */,
 				42A5031416E8F06500F0246C /* ImageControl.h in Headers */,
 				42A5031A16E8F08900F0246C /* lua_ImageControl.h in Headers */,
 				42A5032016E8F0B800F0246C /* lua_TerrainListener.h in Headers */,
@@ -3493,7 +3504,7 @@
 				B67EC8F6161DFCA8000B4D12 /* Logger.cpp in Sources */,
 				F18024A51627000D001BFF87 /* gameplay-main-ios.mm in Sources */,
 				F18024A71627000D001BFF87 /* gameplay-main-macosx.mm in Sources */,
-               EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */,
+				EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */,
 				B661730B16A619A60083A307 /* lua_HeightField.cpp in Sources */,
 				B661731316A619D30083A307 /* lua_Terrain.cpp in Sources */,
 				B661731716A619D30083A307 /* lua_TerrainFlags.cpp in Sources */,
@@ -3503,11 +3514,12 @@
 				B661732F16A61A4B0083A307 /* lua_RenderStateDepthFunction.cpp in Sources */,
 				B661733516A61B430083A307 /* lua_GamepadButtonMapping.cpp in Sources */,
 				DD1FF47216DBD8F9000B42EF /* Platform.cpp in Sources */,
-               EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */,
+				EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */,
 				42A5031116E8F06500F0246C /* ImageControl.cpp in Sources */,
 				42A5031716E8F08900F0246C /* lua_ImageControl.cpp in Sources */,
 				42A5031D16E8F0B800F0246C /* lua_TerrainListener.cpp in Sources */,
 				C054CBE5172EF541000B7DC3 /* lua_RenderStateCullFaceSide.cpp in Sources */,
+				EB57EEDA173EE75500DF0714 /* lua_TextBoxInputMode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3776,7 +3788,7 @@
 				B67EC8F7161DFCA8000B4D12 /* Logger.cpp in Sources */,
 				F18024A61627000D001BFF87 /* gameplay-main-ios.mm in Sources */,
 				F18024A81627000D001BFF87 /* gameplay-main-macosx.mm in Sources */,
-               EBF7F62D163415EF00F350CE /* Matrix3.cpp in Sources */,
+				EBF7F62D163415EF00F350CE /* Matrix3.cpp in Sources */,
 				B661730C16A619A60083A307 /* lua_HeightField.cpp in Sources */,
 				B661731416A619D30083A307 /* lua_Terrain.cpp in Sources */,
 				B661731816A619D30083A307 /* lua_TerrainFlags.cpp in Sources */,
@@ -3786,7 +3798,7 @@
 				B661733016A61A4B0083A307 /* lua_RenderStateDepthFunction.cpp in Sources */,
 				B661733616A61B430083A307 /* lua_GamepadButtonMapping.cpp in Sources */,
 				DD1FF47316DBD8F9000B42EF /* Platform.cpp in Sources */,
-               EB12FF6616EBCC3D009BA84B /* ProgressBar.cpp in Sources */,
+				EB12FF6616EBCC3D009BA84B /* ProgressBar.cpp in Sources */,
 				42A5031216E8F06500F0246C /* ImageControl.cpp in Sources */,
 				42A5031816E8F08900F0246C /* lua_ImageControl.cpp in Sources */,
 				42A5031E16E8F0B800F0246C /* lua_TerrainListener.cpp in Sources */,
@@ -3800,6 +3812,9 @@
 		4234D99114686BB6003031B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_PREPROCESSOR_DEFINITIONS = FORCE_CLEAN_SHUTDOWN;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";
@@ -3810,6 +3825,9 @@
 		4234D99214686BB6003031B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_PREPROCESSOR_DEFINITIONS = FORCE_CLEAN_SHUTDOWN;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";
 				VALID_ARCHS = "armv7 armv7s i386 x86_64";
@@ -3848,7 +3866,7 @@
 					"../external-deps/libpng/include",
 					"../external-deps/oggvorbis/include",
 					./gameplay,
-                   "../external-deps/libyaml/include",
+					"../external-deps/libyaml/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -3889,7 +3907,7 @@
 					"../external-deps/libpng/include",
 					"../external-deps/oggvorbis/include",
 					./gameplay,
-                   "../external-deps/libyaml/include",
+					"../external-deps/libyaml/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -3932,7 +3950,7 @@
 					"../external-deps/lua/include",
 					"../external-deps/libpng/include",
 					"../external-deps/oggvorbis/include",
-                   "../external-deps/libyaml/include",
+					"../external-deps/libyaml/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -3978,7 +3996,7 @@
 					"../external-deps/lua/include",
 					"../external-deps/libpng/include",
 					"../external-deps/oggvorbis/include",
-                   "../external-deps/libyaml/include",
+					"../external-deps/libyaml/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
