@@ -1405,7 +1405,7 @@ const char * Platform::getUserAgentString( )
     if( SUCCEEDED( ObtainUserAgentString( 0, lpszData, &size ) ) )
         return lpszData;
 
-    return NULL;
+    return "";
 }
 
 }

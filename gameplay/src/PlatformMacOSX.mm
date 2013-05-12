@@ -2289,4 +2289,34 @@ bool Platform::launchURL(const char *url)
     return (err == noErr);
 }
 
+const char * Platform::getTemporaryFolderPath( )
+{
+    return "~/Library/Caches";
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    return "~/Library/Application Support";
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    return "~/Documents";
+}
+
+const char * Platform::getUserAgentString( )
+{
+    static std::string result;
+
+    if( result.empty( ) )
+    {
+        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero]; 
+        NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:"@navigator.userAgent"];
+
+        result = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
+    }
+
+    return result.c_str( );
+}
+
 #endif
