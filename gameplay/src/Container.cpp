@@ -507,7 +507,10 @@ void Container::draw(SpriteBatch* spriteBatch, const Rectangle& clip, bool needs
     }
 
     if (!_visible)
+    {
+        _dirty = false;
         return;
+    }
 
     spriteBatch->start();
     Control::drawBorder(spriteBatch, clip);
