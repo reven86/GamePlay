@@ -14,6 +14,9 @@ const static unsigned int __formsCount = 5;
 FormsSample::FormsSample()
     : _scene(NULL), _formNode(NULL), _formNodeParent(NULL), _formSelect(NULL), _activeForm(NULL), _gamepad(NULL), _keyFlags(0)
 {
+    _joysticks[ 0 ] = Vector2::zero( );
+    _joysticks[ 1 ] = Vector2::zero( );
+
     const char* formFiles[] = 
     {
         "res/common/forms/formBasicControls.form",
