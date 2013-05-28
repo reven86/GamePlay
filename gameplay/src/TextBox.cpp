@@ -4,7 +4,11 @@
 namespace gameplay
 {
 
-TextBox::TextBox() : _lastKeypress(0), _fontSize(0), _caretImage(NULL), _passwordChar('*'), _inputMode(TEXT)
+static bool space(char c) {
+    return isspace(c);
+}
+
+TextBox::TextBox() : _lastKeypress(0), _fontSize(0), _caretImage(NULL), _passwordChar('*'), _inputMode(TEXT), _ctrlPressed(false)
     , _caretLocation( 0.0f, 0.0f ), _prevCaretLocation( 0.0f, 0.0f )
 {
 }
@@ -120,18 +124,34 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
         {
             switch (key)
             {
+                case Keyboard::KEY_CTRL:
+                {
+                    _ctrlPressed = true;
+                    break;
+                }
                 case Keyboard::KEY_HOME:
                 {
-                    // TODO: Move cursor to beginning of line.
-                    // This only works for left alignment...
-                        
-                    //_caretLocation.x = _viewportClipBounds.x;
-                    //_dirty = true;
+                    Font* font = getFont(_state);
+                    GP_ASSERT(font);
+                    unsigned int fontSize = getFontSize(_state);
+                    Font::Justify textAlignment = getTextAlignment(_state);
+                    bool rightToLeft = getTextRightToLeft(_state);
+                    font->getLocationAtIndex(getDisplayedText().c_str(), _textBounds, fontSize, &_caretLocation, 0,
+                        textAlignment, true, rightToLeft);
+                    _dirty = true;
                     break;
                 }
                 case Keyboard::KEY_END:
                 {
-                    // TODO: Move cursor to end of line.
+                    Font* font = getFont(_state);
+                    GP_ASSERT(font);
+                    unsigned int fontSize = getFontSize(_state);
+                    Font::Justify textAlignment = getTextAlignment(_state);
+                    bool rightToLeft = getTextRightToLeft(_state);
+                    const std::string displayedText = getDisplayedText();
+                    font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, displayedText.size(),
+                        textAlignment, true, rightToLeft);
+                    _dirty = true;
                     break;
                 }
                 case Keyboard::KEY_DELETE:
@@ -169,7 +189,16 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
 
                     int textIndex = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, _caretLocation, &_caretLocation,
                         textAlignment, true, rightToLeft);
-                    font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, textIndex - 1,
+                    if (_ctrlPressed)
+                    {
+                        std::string::const_reverse_iterator it = std::find_if(displayedText.rend() - (textIndex - 1), displayedText.rend(), space);
+                        textIndex = std::distance(displayedText.begin(), it.base());
+                    }
+                    else
+                    {
+                        --textIndex;
+                    }
+                    font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, textIndex,
                         textAlignment, true, rightToLeft);
                     _dirty = true;
                     break;
@@ -185,7 +214,16 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
 
                     int textIndex = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, _caretLocation, &_caretLocation,
                         textAlignment, true, rightToLeft);
-                    font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, textIndex + 1,
+                    if (_ctrlPressed)
+                    {
+                        std::string::const_iterator it = std::find_if(displayedText.begin() + (textIndex + 1), displayedText.end(), space);
+                        textIndex = std::distance(displayedText.begin(), it);
+                    }
+                    else
+                    {
+                        ++textIndex;
+                    }
+                    font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, textIndex,
                         textAlignment, true, rightToLeft);
                     _dirty = true;
                     break;
@@ -324,7 +362,14 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
             break;
         }
         case Keyboard::KEY_RELEASE:
-            return false;
+            switch (key)
+            {
+                case Keyboard::KEY_CTRL:
+                {
+                    _ctrlPressed = false;
+                    break;
+                }
+            }
     }
 
     _lastKeypress = key;
@@ -491,7 +536,7 @@ std::string TextBox::getDisplayedText() const
     std::string displayedText;
     switch (_inputMode) {
         case PASSWORD:
-            displayedText.insert(0, _text.length(), _passwordChar);
+            displayedText.insert((size_t)0, _text.length(), _passwordChar);
             break;
 
         case TEXT:
