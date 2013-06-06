@@ -996,6 +996,8 @@ int Platform::enterMessagePump()
     }
     GP_ASSERT(env);
 
+    jvm->DetachCurrentThread();
+
     // Get the asset manager to get the resources from the .apk file.
     __assetManager = activity->assetManager; 
     
