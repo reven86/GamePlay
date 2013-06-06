@@ -21,7 +21,8 @@ static Effect* __formEffect = NULL;
 static std::vector<Form*> __forms;
 
 Form::Form() : _theme(NULL), _frameBuffer(NULL), _spriteBatch(NULL), _node(NULL),
-    _nodeQuad(NULL), _nodeMaterial(NULL) , _u2(0), _v1(0), _isGamepad(false)
+    _nodeQuad(NULL), _nodeMaterial(NULL) , _u2(0), _v1(0), _isGamepad(false),
+    _isDrawOntoScreen( false )
 {
 }
 
@@ -233,33 +234,36 @@ void Form::setSize(float width, float height)
         _u2 = width / (float)w;
         _v1 = height / (float)h;
 
-        // Create framebuffer if necessary. TODO: Use pool to cache.
-        if (_frameBuffer)
-            SAFE_RELEASE(_frameBuffer)
+        if( !_isDrawOntoScreen )
+        {
+            // Create framebuffer if necessary. TODO: Use pool to cache.
+            if (_frameBuffer)
+                SAFE_RELEASE(_frameBuffer)
         
-        _frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
-        GP_ASSERT(_frameBuffer);
+            _frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
+            GP_ASSERT(_frameBuffer);
 
-        // Re-create projection matrix.
-        Matrix::createOrthographicOffCenter(0, width, height, 0, 0, 1, &_projectionMatrix);
+            // Re-create projection matrix.
+            Matrix::createOrthographicOffCenter(0, width, height, 0, 0, 1, &_projectionMatrix);
 
-        // Re-create sprite batch.
-        SAFE_DELETE(_spriteBatch);
-        _spriteBatch = SpriteBatch::create(_frameBuffer->getRenderTarget()->getTexture());
-        GP_ASSERT(_spriteBatch);
+            // Re-create sprite batch.
+            SAFE_DELETE(_spriteBatch);
+            _spriteBatch = SpriteBatch::create(_frameBuffer->getRenderTarget()->getTexture());
+            GP_ASSERT(_spriteBatch);
 
-        // Clear the framebuffer black
-        Game* game = Game::getInstance();
-        FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
-        Rectangle previousViewport = game->getViewport();
+            // Clear the framebuffer black
+            Game* game = Game::getInstance();
+            FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
+            Rectangle previousViewport = game->getViewport();
 
-        game->setViewport(Rectangle(0, 0, width, height));
-        _theme->setProjectionMatrix(_projectionMatrix);
-        game->clear(Game::CLEAR_COLOR, Vector4::zero(), 1.0, 0);
-        _theme->setProjectionMatrix(_defaultProjectionMatrix);
+            game->setViewport(Rectangle(0, 0, width, height));
+            _theme->setProjectionMatrix(_projectionMatrix);
+            game->clear(Game::CLEAR_COLOR, Vector4::zero(), 1.0, 0);
+            _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
-        previousFrameBuffer->bind();
-        game->setViewport(previousViewport);
+            previousFrameBuffer->bind();
+            game->setViewport(previousViewport);
+        }
     }
     _bounds.width = width;
     _bounds.height = height;
@@ -335,6 +339,8 @@ void Form::setNode(Node* node)
     // If the user wants a custom node then we need to create a 3D quad
     if (node && node != _node)
     {
+        setDrawOntoScreen( false );
+
         // Set this Form up to be 3D by initializing a quad.
         float x2 = _bounds.width;
         float y2 = _bounds.height;
@@ -536,7 +542,12 @@ void Form::draw()
     // to render the contents of the framebuffer directly to the display.
 
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
-    if (isDirty())
+    if( _isDrawOntoScreen )
+    {
+        Container::draw(_theme->getSpriteBatch(), Rectangle(_bounds.x, _bounds.y, _bounds.width, _bounds.height),
+                        /*_skin != NULL*/ false, true, _bounds.height);
+    }
+    else if (isDirty())
     {
         GP_ASSERT(_frameBuffer);
         FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
@@ -554,6 +565,7 @@ void Form::draw()
         // dirty controls were last frame, and another to draw them where they are now.
         Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),
                         /*_skin != NULL*/ true, false, _bounds.height);
+
         _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
         // Restore the previous game viewport.
@@ -565,20 +577,24 @@ void Form::draw()
     // Draw either with a 3D quad or sprite batch.
     if (_node)
     {
+        GP_ASSERT( !_isDrawOntoScreen );
          // If we have the node set, then draw a 3D quad model.
         _nodeQuad->draw();
     }
     else
     {
         // Otherwise we draw the framebuffer in ortho space with a spritebatch.
-        if (!_spriteBatch)
+        if( !_isDrawOntoScreen )
         {
-            _spriteBatch = SpriteBatch::create(_frameBuffer->getRenderTarget()->getTexture());
-            GP_ASSERT(_spriteBatch);
+            if (!_spriteBatch)
+            {
+                _spriteBatch = SpriteBatch::create(_frameBuffer->getRenderTarget()->getTexture());
+                GP_ASSERT(_spriteBatch);
+            }
+            _spriteBatch->start();
+            _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, 0, _v1, _u2, 0, Vector4::one());
+            _spriteBatch->finish();
         }
-        _spriteBatch->start();
-        _spriteBatch->draw(_bounds.x, _bounds.y, 0, _bounds.width, _bounds.height, 0, _v1, _u2, 0, Vector4::one());
-        _spriteBatch->finish();
     }
 }
 
@@ -792,6 +808,50 @@ unsigned int Form::nextPowerOfTwo(unsigned int v)
     else
     {
         return v;
+    }
+}
+
+void Form::setDrawOntoScreen(bool draw)
+{
+    _isDrawOntoScreen = draw && _node == NULL;
+
+    if( _isDrawOntoScreen )
+    {
+        SAFE_RELEASE(_frameBuffer)
+        SAFE_DELETE(_spriteBatch);
+    }
+    else
+    {
+        unsigned int w = nextPowerOfTwo(_bounds.width);
+        unsigned int h = nextPowerOfTwo(_bounds.height);
+
+        // Create framebuffer if necessary. TODO: Use pool to cache.
+        if (_frameBuffer)
+            SAFE_RELEASE(_frameBuffer)
+        
+        _frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
+        GP_ASSERT(_frameBuffer);
+
+        // Re-create projection matrix.
+        Matrix::createOrthographicOffCenter(0, _bounds.width, _bounds.height, 0, 0, 1, &_projectionMatrix);
+
+        // Re-create sprite batch.
+        SAFE_DELETE(_spriteBatch);
+        _spriteBatch = SpriteBatch::create(_frameBuffer->getRenderTarget()->getTexture());
+        GP_ASSERT(_spriteBatch);
+
+        // Clear the framebuffer black
+        Game* game = Game::getInstance();
+        FrameBuffer* previousFrameBuffer = _frameBuffer->bind();
+        Rectangle previousViewport = game->getViewport();
+
+        game->setViewport(Rectangle(0, 0, _bounds.width, _bounds.height));
+        _theme->setProjectionMatrix(_projectionMatrix);
+        game->clear(Game::CLEAR_COLOR, Vector4::zero(), 1.0, 0);
+        _theme->setProjectionMatrix(_defaultProjectionMatrix);
+
+        previousFrameBuffer->bind();
+        game->setViewport(previousViewport);
     }
 }
 

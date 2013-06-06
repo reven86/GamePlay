@@ -162,6 +162,14 @@ public:
      */
     const char* getType() const;
 
+    /**
+     * Sets form to draw directly onto screen. This saves memory since 
+     * Framebuffer no longer used. Also direct drawing few controls onto screen 
+     * is faster than alpha-blending fullscreen Framebuffer quad on some
+     * older desktop and mobile GPU.
+     */
+    void setDrawOntoScreen(bool draw);
+
 private:
     
     /**
@@ -257,6 +265,7 @@ private:
     Matrix _projectionMatrix;           // Orthographic projection matrix to be set on SpriteBatch objects when rendering into the FBO.
     Matrix _defaultProjectionMatrix;
     bool _isGamepad;
+    bool _isDrawOntoScreen;
 };
 
 }
