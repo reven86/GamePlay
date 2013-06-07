@@ -1,5 +1,6 @@
 #include "Base.h"
 #include "ImageControl.h"
+#include "Material.h"
 
 namespace gameplay
 {
@@ -71,11 +72,25 @@ void ImageControl::initialize(Theme::Style* style, Properties* properties)
 void ImageControl::setImage(const char* path)
 {
     SAFE_DELETE(_batch);
-    Texture* texture = Texture::create(path);
-    _batch = SpriteBatch::create(texture);
-    _tw = 1.0f / texture->getWidth();
-    _th = 1.0f / texture->getHeight();
-    texture->release();
+
+    // check for '.material' extension
+    size_t pathLen = strlen(path);
+    if( pathLen > 9 && !stricmp( path + pathLen - 9, ".material" ) )
+    {
+        Material* material = Material::create(path);
+        _batch = SpriteBatch::create(material);
+        _tw = 1.0f / _batch->getSampler()->getTexture()->getWidth();
+        _th = 1.0f / _batch->getSampler()->getTexture()->getHeight();
+        SAFE_RELEASE(material);
+    }
+    else
+    {
+        Texture* texture = Texture::create(path);
+        _batch = SpriteBatch::create(texture);
+        _tw = 1.0f / texture->getWidth();
+        _th = 1.0f / texture->getHeight();
+        texture->release();
+    }
 }
 
 void ImageControl::setRegionSrc(float x, float y, float width, float height)
