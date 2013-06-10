@@ -160,12 +160,14 @@ void Font::start() const
     _batch->start();
 }
 
-Font::Text* Font::createText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size, Justify justify,
+Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, const Vector4& color, unsigned int size, Justify justify,
     bool wrap, bool rightToLeft, const Rectangle* clip)
 {
     GP_ASSERT(text);
     GP_ASSERT(_glyphs);
     GP_ASSERT(_batch);
+
+    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     if (size == 0)
         size = _size;
@@ -495,9 +497,11 @@ void Font::drawText(const char* text, int x, int y, float red, float green, floa
     drawText(text, x, y, Vector4(red, green, blue, alpha), size, rightToLeft);
 }
 
-void Font::drawText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
+void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vector4& color, unsigned int size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
 {
     GP_ASSERT(text);
+
+    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     if (size == 0)
         size = _size;
@@ -737,11 +741,13 @@ void Font::measureText(const char* text, unsigned int size, unsigned int* width,
     }
 }
 
-void Font::measureText(const char* text, const Rectangle& clip, unsigned int size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
+void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigned int size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(out);
+
+    Rectangle clip( floorf( clipUnaligned.x ), floorf( clipUnaligned.y ), clipUnaligned.width, clipUnaligned.height );
 
     if (strlen(text) == 0)
     {
@@ -1068,12 +1074,14 @@ void Font::measureText(const char* text, const Rectangle& clip, unsigned int siz
     }
 }
 
-void Font::getMeasurementInfo(const char* text, const Rectangle& area, unsigned int size, Justify justify, bool wrap, bool rightToLeft,
+void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, unsigned int size, Justify justify, bool wrap, bool rightToLeft,
         std::vector<int>* xPositions, int* yPosition, std::vector<unsigned int>* lineLengths) const 
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(yPosition);
+
+    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     float scale = (float)size / _size;
 
@@ -1264,12 +1272,14 @@ void Font::getLocationAtIndex(const char* text, const Rectangle& clip, unsigned 
     getIndexOrLocation(text, clip, size, *outLocation, outLocation, (const int)destIndex, justify, wrap, rightToLeft);
 }
 
-int Font::getIndexOrLocation(const char* text, const Rectangle& area, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
+int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
                                       const int destIndex, Justify justify, bool wrap, bool rightToLeft) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(outLocation);
+
+    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     unsigned int charIndex = 0;
 
@@ -1633,9 +1643,11 @@ int Font::handleDelimiters(const char** token, const unsigned int size, const in
     return 1;
 }
 
-void Font::addLineInfo(const Rectangle& area, int lineWidth, int lineLength, Justify hAlign,
+void Font::addLineInfo(const Rectangle& areaUnaligned, int lineWidth, int lineLength, Justify hAlign,
                        std::vector<int>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const
 {
+    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
+
     int hWhitespace = area.width - lineWidth;
     if (hAlign == ALIGN_HCENTER)
     {
