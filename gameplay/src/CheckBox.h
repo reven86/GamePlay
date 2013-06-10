@@ -28,6 +28,7 @@ namespace gameplay
          text        = <string>
          checked     = <bool>
          iconSize    = <width, height>   // The size to draw the checkbox icon, if different from its size in the texture.
+         textSpace   = <float> // Space between icon and text
          consumeEvents = <bool>  // Whether the checkbox propagates input events to the Game's input event handler. Default is true.
     }
  @endverbatim
@@ -177,6 +178,11 @@ protected:
      * The Theme::ThemeImage to display for the checkbox.
      */
     Theme::ThemeImage* _image;
+
+    /**
+     * The space between icon and text. Default is 5.
+     */
+    float _textSpace;
 
 private:
 

@@ -5,7 +5,7 @@
 namespace gameplay
 {
 
-CheckBox::CheckBox() : _checked(false), _image(NULL), _imageSize( 0.0f, 0.0f )
+CheckBox::CheckBox() : _checked(false), _image(NULL), _imageSize( 0.0f, 0.0f ), _textSpace( 5.0f )
 {
 }
 
@@ -34,6 +34,9 @@ CheckBox* CheckBox::create(Theme::Style* style, Properties* properties)
     checkBox->initialize(style, properties);
     properties->getVector2("imageSize", &checkBox->_imageSize);
     checkBox->_checked = properties->getBool("checked");
+
+    if (properties->exists("textSpace"))
+        checkBox->_textSpace = properties->getFloat("textSpace");
 
     return checkBox;
 }
@@ -146,8 +149,8 @@ void CheckBox::update(const Control* container, const Vector2& offset)
     }
     float iconWidth = size.x;
 
-    _textBounds.x += iconWidth + 5;
-    _textBounds.width -= iconWidth + 5;
+    _textBounds.x += iconWidth + _textSpace;
+    _textBounds.width -= iconWidth + _textSpace;
 
     if (_checked)
     {
