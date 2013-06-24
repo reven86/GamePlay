@@ -242,6 +242,8 @@ LOCAL_SRC_FILES := \
     lua/lua_RenderStateCullFaceSide.cpp \
     lua/lua_RenderStateDepthFunction.cpp \
     lua/lua_RenderStateStateBlock.cpp \
+    lua/lua_RenderStateStencilFunction.cpp \
+    lua/lua_RenderStateStencilOperation.cpp \
     lua/lua_RenderTarget.cpp \
     lua/lua_Scene.cpp \
     lua/lua_SceneDebugFlags.cpp \
