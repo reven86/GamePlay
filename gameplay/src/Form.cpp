@@ -544,8 +544,14 @@ void Form::draw()
     // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
     if( _isDrawOntoScreen )
     {
-        Container::draw(_theme->getSpriteBatch(), Rectangle(_bounds.x, _bounds.y, _bounds.width, _bounds.height),
+        Game* game = Game::getInstance();
+        Rectangle prevViewport = game->getViewport();
+        game->setViewport(Rectangle(_bounds.x, _bounds.y, _bounds.width, _bounds.height));
+
+        Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),
                         /*_skin != NULL*/ false, true, _bounds.height);
+
+        game->setViewport(prevViewport);
     }
     else if (isDirty())
     {
