@@ -273,10 +273,10 @@ Theme* Theme::create(const char* url)
                             font->addRef();
                     }
 
-                    unsigned int fontSize;
+                    float fontSize;
                     if (innerSpace->exists("fontSize"))
                     {
-                        fontSize = innerSpace->getInt("fontSize");
+                        fontSize = innerSpace->getFloat("fontSize");
                     }
                     else
                     {

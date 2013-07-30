@@ -234,12 +234,12 @@ void Theme::Style::Overlay::setFont(Font* font)
     }
 }
 
-unsigned int Theme::Style::Overlay::getFontSize() const
+float Theme::Style::Overlay::getFontSize() const
 {
     return _fontSize;
 }
 
-void Theme::Style::Overlay::setFontSize(unsigned int fontSize)
+void Theme::Style::Overlay::setFontSize(float fontSize)
 {
     _fontSize = fontSize;
 }

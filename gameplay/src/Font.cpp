@@ -160,23 +160,21 @@ void Font::start() const
     _batch->start();
 }
 
-Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, const Vector4& color, unsigned int size, Justify justify,
+Font::Text* Font::createText(const char* text, const Rectangle& area, const Vector4& color, float size, Justify justify,
     bool wrap, bool rightToLeft, const Rectangle* clip)
 {
     GP_ASSERT(text);
     GP_ASSERT(_glyphs);
     GP_ASSERT(_batch);
 
-    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
-
     if (size == 0)
-        size = _size;
+        size = static_cast< float >( _size );
     GP_ASSERT(_size);
     float scale = (float)size / _size;
-    int spacing = (int)(size * _spacing);
-    int yPos = area.y;
+    float spacing = size * _spacing;
+    float yPos = area.y;
     const float areaHeight = area.height - size;
-    std::vector<int> xPositions;
+    std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
     getMeasurementInfo(text, area, size, justify, wrap, rightToLeft, &xPositions, &yPos, &lineLengths);
@@ -184,8 +182,8 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
     Text* batch = new Text(text);
     GP_ASSERT(batch->_vertices);
 
-    int xPos = area.x;
-    std::vector<int>::const_iterator xPositionsIt = xPositions.begin();
+    float xPos = area.x;
+    std::vector<float>::const_iterator xPositionsIt = xPositions.begin();
     if (xPositionsIt != xPositions.end())
     {
         xPos = *xPositionsIt++;
@@ -216,7 +214,7 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
 
         bool truncated = false;
         unsigned int tokenLength;
-        unsigned int tokenWidth;
+        float tokenWidth;
         unsigned int startIndex;
         if (rightToLeft)
         {
@@ -236,9 +234,9 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + (int)tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
-            yPos += (int)size;
+            yPos += size;
             currentLineLength = tokenLength;
 
             if (xPositionsIt != xPositions.end())
@@ -252,7 +250,7 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
         }
 
         bool draw = true;
-        if (yPos < static_cast<int>(area.y))
+        if (yPos < area.y)
         {
             // Skip drawing until line break or wrap.
             draw = false;
@@ -272,7 +270,7 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + (int)(g.width*scale) > area.x + area.width)
+                if (xPos + g.width*scale > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -296,7 +294,7 @@ Font::Text* Font::createText(const char* text, const Rectangle& areaUnaligned, c
 
                     }
                 }
-                xPos += (int)(g.width)*scale + spacing;
+                xPos += g.width*scale + spacing;
             }
         }
 
@@ -373,14 +371,14 @@ void Font::drawText(Text* text) const
     _batch->draw(text->_vertices, text->_vertexCount);
 }
 
-void Font::drawText(const char* text, int x, int y, const Vector4& color, unsigned int size, bool rightToLeft) const
+void Font::drawText(const char* text, float x, float y, const Vector4& color, float size, bool rightToLeft) const
 {
     if (size == 0)
         size = _size;
     GP_ASSERT(_size);
     GP_ASSERT(text);
     float scale = (float)size / _size;
-    int spacing = (int)(size * _spacing);
+    float spacing = size * _spacing;
     const char* cursor = NULL;
 
     if (rightToLeft)
@@ -388,7 +386,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
         cursor = text;
     }
 
-    int xPos = x, yPos = y;
+    float xPos = x, yPos = y;
     bool done = false;
 
     while (!done)
@@ -409,7 +407,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                 switch (delimiter)
                 {
                 case ' ':
-                    xPos += size >> 1;
+                    xPos += size * 0.5f;
                     break;
                 case '\r':
                 case '\n':
@@ -417,7 +415,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                     xPos = x;
                     break;
                 case '\t':
-                    xPos += (size >> 1)*4;
+                    xPos += size * 0.5f * 4.0f;
                     break;
                 case 0:
                     done = true;
@@ -460,7 +458,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
             switch (c)
             {
             case ' ':
-                xPos += size >> 1;
+                xPos += size * 0.5f;
                 break;
             case '\r':
             case '\n':
@@ -468,7 +466,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                 xPos = x;
                 break;
             case '\t':
-                xPos += (size >> 1)*4;
+                xPos += size * 0.5f * 4.0f;
                 break;
             default:
                 int index = getGlyphIndexByCode( c );
@@ -476,7 +474,7 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
                 {
                     Glyph& g = _glyphs[index];
                     _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
-                    xPos += floor(g.width * scale + spacing);
+                    xPos += g.width * scale + spacing;
                     break;
                 }
                 break;
@@ -494,32 +492,30 @@ void Font::drawText(const char* text, int x, int y, const Vector4& color, unsign
     }
 }
 
-void Font::drawText(const char* text, int x, int y, float red, float green, float blue, float alpha, unsigned int size, bool rightToLeft) const
+void Font::drawText(const char* text, float x, float y, float red, float green, float blue, float alpha, float size, bool rightToLeft) const
 {
     drawText(text, x, y, Vector4(red, green, blue, alpha), size, rightToLeft);
 }
 
-void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vector4& color, unsigned int size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
+void Font::drawText(const char* text, const Rectangle& area, const Vector4& color, float size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
 {
     GP_ASSERT(text);
-
-    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     if (size == 0)
         size = _size;
     GP_ASSERT(_size);
     float scale = (float)size / _size;
-    int spacing = (int)(size * _spacing);
-    int yPos = area.y;
+    float spacing = size * _spacing;
+    float yPos = area.y;
     const float areaHeight = area.height - size;
-    std::vector<int> xPositions;
+    std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
     getMeasurementInfo(text, area, size, justify, wrap, rightToLeft, &xPositions, &yPos, &lineLengths);
 
     // Now we have the info we need in order to render.
-    int xPos = area.x;
-    std::vector<int>::const_iterator xPositionsIt = xPositions.begin();
+    float xPos = area.x;
+    std::vector<float>::const_iterator xPositionsIt = xPositions.begin();
     if (xPositionsIt != xPositions.end())
     {
         xPos = *xPositionsIt++;
@@ -550,7 +546,7 @@ void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vect
 
         bool truncated = false;
         unsigned int tokenLength;
-        unsigned int tokenWidth;
+        float tokenWidth;
         unsigned int startIndex;
         if (rightToLeft)
         {
@@ -570,9 +566,9 @@ void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vect
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + (int)tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
-            yPos += (int)size;
+            yPos += size;
             currentLineLength = tokenLength;
 
             if (xPositionsIt != xPositions.end())
@@ -586,7 +582,7 @@ void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vect
         }
 
         bool draw = true;
-        if (yPos < static_cast<int>(area.y - size))
+        if (yPos < area.y - size)
         {
             // Skip drawing until line break or wrap.
             draw = false;
@@ -608,7 +604,7 @@ void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vect
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + (int)(g.width*scale) > area.x + area.width)
+                if (xPos + g.width*scale > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -629,7 +625,7 @@ void Font::drawText(const char* text, const Rectangle& areaUnaligned, const Vect
                         }
                     }
                 }
-                xPos += (int)(g.width)*scale + spacing;
+                xPos += g.width*scale + spacing;
             }
         }
 
@@ -703,7 +699,7 @@ void Font::finish() const
     _batch->finish();
 }
 
-void Font::measureText(const char* text, unsigned int size, unsigned int* width, unsigned int* height) const
+void Font::measureText(const char* text, float size, float* width, float* height) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -734,7 +730,7 @@ void Font::measureText(const char* text, unsigned int size, unsigned int* width,
         }
 
         unsigned int tokenLength = (unsigned int)strcspn(token, "\n");
-        unsigned int tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+        float tokenWidth = getTokenWidth(token, tokenLength, size, scale);
         if (tokenWidth > *width)
         {
             *width = tokenWidth;
@@ -744,13 +740,11 @@ void Font::measureText(const char* text, unsigned int size, unsigned int* width,
     }
 }
 
-void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigned int size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
+void Font::measureText(const char* text, const Rectangle& clip, float size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(out);
-
-    Rectangle clip( floorf( clipUnaligned.x ), floorf( clipUnaligned.y ), clipUnaligned.width, clipUnaligned.height );
 
     if (strlen(text) == 0)
     {
@@ -775,13 +769,13 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
     std::vector<bool> emptyLines;
     std::vector<Vector2> lines;
 
-    unsigned int lineWidth = 0;
-    int yPos = clip.y + size;
+    float lineWidth = 0;
+    float yPos = clip.y + size;
     const float viewportHeight = clip.height;
 
     if (wrap)
     {
-        unsigned int delimWidth = 0;
+        float delimWidth = 0;
         bool reachedEOF = false;
         while (token[0] != 0)
         {
@@ -796,7 +790,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
                 switch (delimiter)
                 {
                     case ' ':
-                        delimWidth += size >> 1;
+                        delimWidth += size * 0.5f;
                         break;
                     case '\r':
                     case '\n':
@@ -806,11 +800,11 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
                         if (lineWidth > 0)
                         {
                             // Determine horizontal position and width.
-                            int hWhitespace = clip.width - lineWidth;
-                            int xPos = clip.x;
+                            float hWhitespace = clip.width - lineWidth;
+                            float xPos = clip.x;
                             if (hAlign == ALIGN_HCENTER)
                             {
-                                xPos += hWhitespace / 2;
+                                xPos += hWhitespace * 0.5f;
                             }
                             else if (hAlign == ALIGN_RIGHT)
                             {
@@ -832,7 +826,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
                         delimWidth = 0;
                         break;
                     case '\t':
-                        delimWidth += (size >> 1)*4;
+                        delimWidth += size * 0.5f * 4.0f;
                         break;
                     case 0:
                         reachedEOF = true;
@@ -855,7 +849,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
 
             // Measure the next token.
             unsigned int tokenLength = (unsigned int)strcspn(token, " \r\n\t");
-            unsigned int tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            float tokenWidth = getTokenWidth(token, tokenLength, size, scale);
 
             // Wrap if necessary.
             if (lineWidth + tokenWidth + delimWidth > clip.width)
@@ -864,11 +858,11 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
                 yPos += size;
 
                 // Determine horizontal position and width.
-                int hWhitespace = clip.width - lineWidth;
-                int xPos = clip.x;
+                float hWhitespace = clip.width - lineWidth;
+                float xPos = clip.x;
                 if (hAlign == ALIGN_HCENTER)
                 {
-                    xPos += hWhitespace / 2;
+                    xPos += hWhitespace * 0.5f;
                 }
                 else if (hAlign == ALIGN_RIGHT)
                 {
@@ -924,11 +918,11 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
             lineWidth = getTokenWidth(token, tokenLength, size, scale);
             
             // Determine horizontal position and width.
-            int xPos = clip.x;
-            int hWhitespace = clip.width - lineWidth;
+            float xPos = clip.x;
+            float hWhitespace = clip.width - lineWidth;
             if (hAlign == ALIGN_HCENTER)
             {
-                xPos += hWhitespace / 2;
+                xPos += hWhitespace * 0.5f;
             }
             else if (hAlign == ALIGN_RIGHT)
             {
@@ -947,11 +941,11 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
     if (wrap)
     {
         // Record the size of the last line.
-        int hWhitespace = clip.width - lineWidth;
-        int xPos = clip.x;
+        float hWhitespace = clip.width - lineWidth;
+        float xPos = clip.x;
         if (hAlign == ALIGN_HCENTER)
         {
-            xPos += hWhitespace / 2;
+            xPos += hWhitespace * 0.5f;
         }
         else if (hAlign == ALIGN_RIGHT)
         {
@@ -961,16 +955,16 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
         lines.push_back(Vector2(xPos, lineWidth));
     }
 
-    int x = INT_MAX;
-    int y = clip.y;
-    unsigned int width = 0;
-    int height = yPos - clip.y;
+    float x = FLT_MAX;
+    float y = clip.y;
+    float width = 0;
+    float height = yPos - clip.y;
 
     // Calculate top of text without clipping.
-    int vWhitespace = viewportHeight - height;
+    float vWhitespace = viewportHeight - height;
     if (vAlign == ALIGN_VCENTER)
     {
-        y += vWhitespace / 2;
+        y += vWhitespace * 0.5f;
     }
     else if (vAlign == ALIGN_BOTTOM)
     {
@@ -985,7 +979,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
         if (y >= clip.y)
         {
             // Text goes off the bottom of the clip.
-            clippedBottom = (height - viewportHeight) / size + 1;
+            clippedBottom = static_cast< int >( (height - viewportHeight) / size ) + 1;
             if (clippedBottom > 0)
             {
                 // Also need to crop empty lines above non-empty lines that have been clipped.
@@ -1006,7 +1000,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
         else
         {
             // Text goes above the top of the clip.
-            clippedTop = (clip.y - y) / size + 1;
+            clippedTop = static_cast< int >( (clip.y - y) / size ) + 1;
             if (clippedTop < 0)
             {
                 clippedTop = 0;
@@ -1024,7 +1018,7 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
             if (vAlign == ALIGN_VCENTER)
             {
                 // In this case lines may be clipped off the bottom as well.
-                clippedBottom = (height - viewportHeight + vWhitespace/2 + 0.01) / size + 1;
+                clippedBottom = static_cast< int >( (height - viewportHeight + vWhitespace/2 + 0.01) / size ) + 1;
                 if (clippedBottom > 0)
                 {
                     emptyIndex = emptyLines.size() - clippedBottom;
@@ -1077,14 +1071,12 @@ void Font::measureText(const char* text, const Rectangle& clipUnaligned, unsigne
     }
 }
 
-void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, unsigned int size, Justify justify, bool wrap, bool rightToLeft,
-        std::vector<int>* xPositions, int* yPosition, std::vector<unsigned int>* lineLengths) const 
+void Font::getMeasurementInfo(const char* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
+        std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const 
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(yPosition);
-
-    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     float scale = (float)size / _size;
 
@@ -1108,8 +1100,8 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
     // the number of characters on each line.
     if (vAlign != ALIGN_TOP || hAlign != ALIGN_LEFT || rightToLeft)
     {
-        int lineWidth = 0;
-        int delimWidth = 0;
+        float lineWidth = 0;
+        float delimWidth = 0;
 
         if (wrap)
         {
@@ -1118,7 +1110,7 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
             unsigned int lineLength = 0;
             while (token[0] != 0)
             {
-                unsigned int tokenWidth = 0;
+                float tokenWidth = 0;
 
                 // Handle delimiters until next token.
                 char delimiter = token[0];
@@ -1131,7 +1123,7 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
                     switch (delimiter)
                     {
                         case ' ':
-                            delimWidth += size >> 1;
+                            delimWidth += size * 0.5f;
                             lineLength++;
                             break;
                         case '\r':
@@ -1148,7 +1140,7 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
                             delimWidth = 0;
                             break;
                         case '\t':
-                            delimWidth += (size >> 1)*4;
+                            delimWidth += size * 0.5f * 4.0f;
                             lineLength++;
                             break;
                         case 0:
@@ -1205,11 +1197,11 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
             }
 
             // Final calculation of vertical position.
-            int textHeight = *yPosition - area.y;
-            int vWhiteSpace = areaHeight - textHeight;
+            float textHeight = *yPosition - area.y;
+            float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + vWhiteSpace / 2;
+                *yPosition = area.y + vWhiteSpace * 0.5f;
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
@@ -1238,17 +1230,17 @@ void Font::getMeasurementInfo(const char* text, const Rectangle& areaUnaligned, 
                     tokenLength = (unsigned int)strlen(token);
                 }
 
-                int lineWidth = getTokenWidth(token, tokenLength, size, scale);
+                float lineWidth = getTokenWidth(token, tokenLength, size, scale);
                 addLineInfo(area, lineWidth, tokenLength, hAlign, xPositions, lineLengths, rightToLeft);
 
                 token += tokenLength;
             }
 
-            int textHeight = *yPosition - area.y;
-            int vWhiteSpace = areaHeight - textHeight;
+            float textHeight = *yPosition - area.y;
+            float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + vWhiteSpace / 2;
+                *yPosition = area.y + vWhiteSpace * 0.5f;
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
@@ -1273,26 +1265,24 @@ void Font::setCharacterSpacing(float spacing)
     _spacing = spacing;
 }
 
-int Font::getIndexAtLocation(const char* text, const Rectangle& area, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
+int Font::getIndexAtLocation(const char* text, const Rectangle& area, float size, const Vector2& inLocation, Vector2* outLocation,
                                       Justify justify, bool wrap, bool rightToLeft) const
 {
     return getIndexOrLocation(text, area, size, inLocation, outLocation, -1, justify, wrap, rightToLeft);
 }
 
-void Font::getLocationAtIndex(const char* text, const Rectangle& clip, unsigned int size, Vector2* outLocation, const unsigned int destIndex,
+void Font::getLocationAtIndex(const char* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
                               Justify justify, bool wrap, bool rightToLeft) const
 {
     getIndexOrLocation(text, clip, size, *outLocation, outLocation, (const int)destIndex, justify, wrap, rightToLeft);
 }
 
-int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
+int Font::getIndexOrLocation(const char* text, const Rectangle& area, float size, const Vector2& inLocation, Vector2* outLocation,
                                       const int destIndex, Justify justify, bool wrap, bool rightToLeft) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(outLocation);
-
-    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
 
     unsigned int charIndex = 0;
 
@@ -1300,16 +1290,16 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
     if (size == 0)
         size = _size;
     float scale = (float)size / _size;
-    int spacing = (int)(size * _spacing);
-    int yPos = area.y;
+    float spacing = size * _spacing;
+    float yPos = area.y;
     const float areaHeight = area.height - size;
-    std::vector<int> xPositions;
+    std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
     getMeasurementInfo(text, area, size, justify, wrap, rightToLeft, &xPositions, &yPos, &lineLengths);
 
-    int xPos = area.x;
-    std::vector<int>::const_iterator xPositionsIt = xPositions.begin();
+    float xPos = area.x;
+    std::vector<float>::const_iterator xPositionsIt = xPositions.begin();
     if (xPositionsIt != xPositions.end())
     {
         xPos = *xPositionsIt++;
@@ -1365,7 +1355,7 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
 
         bool truncated = false;
         unsigned int tokenLength;
-        unsigned int tokenWidth;
+        float tokenWidth;
         unsigned int startIndex;
         if (rightToLeft)
         {
@@ -1386,7 +1376,7 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + (int)tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             yPos += size;
             currentLineLength = tokenLength;
@@ -1417,7 +1407,7 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + (int)(g.width*scale) > area.x + area.width)
+                if (xPos + g.width*scale > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -1427,7 +1417,7 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
                 // Check against inLocation.
                 if (destIndex == (int)charIndex ||
                     (destIndex == -1 &&
-                    inLocation.x >= xPos && inLocation.x < floor(xPos + g.width*scale + spacing) &&
+                    inLocation.x >= xPos && inLocation.x < xPos + g.width*scale + spacing &&
                     inLocation.y >= yPos && inLocation.y < yPos + size))
                 {
                     outLocation->x = xPos;
@@ -1435,7 +1425,7 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
                     return charIndex;
                 }
 
-                xPos += floor(g.width*scale + spacing);
+                xPos += g.width*scale + spacing;
                 charIndex++;
             }
         }
@@ -1520,34 +1510,34 @@ int Font::getIndexOrLocation(const char* text, const Rectangle& areaUnaligned, u
     return -1;
 }
 
-unsigned int Font::getTokenWidth(const char* token, unsigned int length, unsigned int size, float scale) const
+float Font::getTokenWidth(const char* token, unsigned int length, float size, float scale) const
 {
     GP_ASSERT(token);
     GP_ASSERT(_glyphs);
 
     if (size == 0)
         size = _size;
-    int spacing = (int)(size * _spacing);
+    float spacing = size * _spacing;
 
     // Calculate width of word or line.
-    unsigned int tokenWidth = 0;
+    float tokenWidth = 0;
     for (unsigned int i = 0; i < length; ++i)
     {
         char c = token[i];
         switch (c)
         {
         case ' ':
-            tokenWidth += size >> 1;
+            tokenWidth += size * 0.5f;
             break;
         case '\t':
-            tokenWidth += (size >> 1)*4;
+            tokenWidth += size * 0.5f * 4.0f;
             break;
         default:
             int glyphIndex = getGlyphIndexByCode( c );
             if (glyphIndex >= 0 && glyphIndex < (int)_glyphCount)
             {
                 Glyph& g = _glyphs[glyphIndex];
-                tokenWidth += floor(g.width * scale + spacing);
+                tokenWidth += g.width * scale + spacing;
             }
             break;
         }
@@ -1580,8 +1570,8 @@ unsigned int Font::getReversedTokenLength(const char* token, const char* bufStar
     return length;
 }
 
-int Font::handleDelimiters(const char** token, const unsigned int size, const int iteration, const int areaX, int* xPos, int* yPos, unsigned int* lineLength,
-                          std::vector<int>::const_iterator* xPositionsIt, std::vector<int>::const_iterator xPositionsEnd, unsigned int* charIndex,
+int Font::handleDelimiters(const char** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
+                          std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex,
                           const Vector2* stopAtPosition, const int currentIndex, const int destIndex) const
 {
     GP_ASSERT(token);
@@ -1600,8 +1590,8 @@ int Font::handleDelimiters(const char** token, const unsigned int size, const in
             delimiter == 0)
     {
         if ((stopAtPosition &&
-            stopAtPosition->x >= *xPos && stopAtPosition->x < *xPos + ((int)size >> 1) &&
-            stopAtPosition->y >= *yPos && stopAtPosition->y < *yPos + (int)size) ||
+            stopAtPosition->x >= *xPos && stopAtPosition->x < *xPos + size * 0.5f &&
+            stopAtPosition->y >= *yPos && stopAtPosition->y < *yPos + size) ||
             (currentIndex >= 0 && destIndex >= 0 && currentIndex + (int)*lineLength == destIndex))
         {
             // Success + stopAtPosition was reached.
@@ -1611,7 +1601,7 @@ int Font::handleDelimiters(const char** token, const unsigned int size, const in
         switch (delimiter)
         {
             case ' ':
-                *xPos += size >> 1;
+                *xPos += size * 0.5f;
                 (*lineLength)++;
                 if (charIndex)
                 {
@@ -1643,7 +1633,7 @@ int Font::handleDelimiters(const char** token, const unsigned int size, const in
                 }
                 break;
             case '\t':
-                *xPos += (size >> 1)*4;
+                *xPos += size * 0.5f * 4.0f;
                 (*lineLength)++;
                 if (charIndex)
                 {
@@ -1663,12 +1653,10 @@ int Font::handleDelimiters(const char** token, const unsigned int size, const in
     return 1;
 }
 
-void Font::addLineInfo(const Rectangle& areaUnaligned, int lineWidth, int lineLength, Justify hAlign,
-                       std::vector<int>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const
+void Font::addLineInfo(const Rectangle& area, float lineWidth, int lineLength, Justify hAlign,
+                       std::vector<float>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const
 {
-    Rectangle area( floorf( areaUnaligned.x ), floorf( areaUnaligned.y ), areaUnaligned.width, areaUnaligned.height );
-
-    int hWhitespace = area.width - lineWidth;
+    float hWhitespace = area.width - lineWidth;
     if (hAlign == ALIGN_HCENTER)
     {
         GP_ASSERT(xPositions);

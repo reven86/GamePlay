@@ -129,7 +129,7 @@ void InputSample::render(float elapsedTime)
 
     // Draw text
     Vector4 fontColor(1.0f, 1.0f, 1.0f, 1.0f);
-    unsigned int width, height;
+    float width, height;
     char buffer[50];
 
     _font->start();
@@ -147,16 +147,16 @@ void InputSample::render(float elapsedTime)
         {
             sprintf(buffer, "T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
             _font->measureText(buffer, _font->getSize(), &width, &height);
-            int x = it->_coord.x - (int)(width>>1);
-            int y = it->_coord.y - (int)(height>>1);
+            float x = it->_coord.x - width * 0.5f;
+            float y = it->_coord.y - height * 0.5f;
             _font->drawText(buffer, x, y, fontColor, _font->getSize());
         }
 
         // Mouse
         sprintf(buffer, "M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
         _font->measureText(buffer, _font->getSize(), &width, &height);
-        int x = _mousePoint.x - (int)(width>>1);
-        int y = _mousePoint.y - (int)(height>>1);
+        float x = _mousePoint.x - width * 0.5f;
+        float y = _mousePoint.y - height * 0.5f;
         _font->drawText(buffer, x, y, fontColor, _font->getSize());
         if (!_keyboardState && _mouseString.length() > 0)
         {
@@ -167,8 +167,8 @@ void InputSample::render(float elapsedTime)
         {
             sprintf(buffer, "%d", _mouseWheel);
             _font->measureText(buffer, _font->getSize(), &width, &height);
-            int x = _mouseWheelPoint.x - (int)(width>>1);
-            int y = _mouseWheelPoint.y + 4;
+            float x = _mouseWheelPoint.x - width * 0.5f;
+            float y = _mouseWheelPoint.y + 4;
             _font->drawText(buffer, x, y, fontColor, _font->getSize());
         }
     }
@@ -197,8 +197,8 @@ void InputSample::render(float elapsedTime)
         if (!displayKeys.empty())
         {
             _font->measureText(displayKeys.c_str(), _font->getSize(), &width, &height);
-            int x = Game::getInstance()->getWidth() - width;
-            int y = 0;
+            float x = Game::getInstance()->getWidth() - width;
+            float y = 0;
             _font->drawText(displayKeys.c_str(), x, y, fontColor, _font->getSize());
         }
     }

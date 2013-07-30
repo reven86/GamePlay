@@ -549,7 +549,7 @@ public:
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setFontSize(unsigned int size, unsigned char states = STATE_ALL);
+    void setFontSize(float size, unsigned char states = STATE_ALL);
 
     /**
      * Get this control's font size for a given state.
@@ -558,7 +558,7 @@ public:
      *
      * @return This control's font size.
      */
-    unsigned int getFontSize(State state = NORMAL) const;
+    float getFontSize(State state = NORMAL) const;
 
     /**
      * Set this control's text color.

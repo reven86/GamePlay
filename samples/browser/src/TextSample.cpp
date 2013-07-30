@@ -101,14 +101,14 @@ void TextSample::render(float elapsedTime)
     
     _form->draw();
 
-    unsigned int size = (float)_font->getSize() * _scale;
+    float size = (float)_font->getSize() * _scale;
     if (_font != _fonts[1])
         _font->start();
 
     if (_simple)
     {
         // Sample simple versions of measureText, drawText.
-        unsigned int w, h;
+        float w, h;
         _font->measureText(_sampleString.c_str(), size, &w, &h);
         _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), size, _rightToLeft);
 

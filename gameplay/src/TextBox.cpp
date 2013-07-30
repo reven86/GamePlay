@@ -133,7 +133,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 {
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
                     font->getLocationAtIndex(getDisplayedText().c_str(), _textBounds, fontSize, &_caretLocation, 0,
@@ -145,7 +145,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 {
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
                     const std::string displayedText = getDisplayedText();
@@ -158,7 +158,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 {
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
 
@@ -183,7 +183,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     const std::string displayedText = getDisplayedText();
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
 
@@ -208,7 +208,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     const std::string displayedText = getDisplayedText();
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
 
@@ -232,7 +232,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 {
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
                     _prevCaretLocation.set(_caretLocation);
@@ -251,7 +251,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 {
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
-                    unsigned int fontSize = getFontSize(_state);
+                    float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
                     _prevCaretLocation.set(_caretLocation);
@@ -274,7 +274,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
         {
             Font* font = getFont(_state);
             GP_ASSERT(font);
-            unsigned int fontSize = getFontSize(_state);
+            float fontSize = getFontSize(_state);
             Font::Justify textAlignment = getTextAlignment(_state);
             bool rightToLeft = getTextRightToLeft(_state);
 
@@ -339,8 +339,8 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     // Always check that the text still fits within the clip region.
                     Rectangle textBounds;
                     font->measureText(getDisplayedText().c_str(), _textBounds, fontSize, &textBounds, textAlignment, true, true);
-                    if (textBounds.x < floorf( _textBounds.x ) || textBounds.y < floorf( _textBounds.y ) ||
-                        textBounds.width >= floorf( _textBounds.width ) || textBounds.height >= floorf( _textBounds.height ) )
+                    if (textBounds.x < _textBounds.x || textBounds.y < _textBounds.y ||
+                        textBounds.width >= _textBounds.width || textBounds.height >= _textBounds.height )
                     {
                         // If not, undo the character insertion.
                         _text.erase(textIndex, 1);
@@ -414,7 +414,7 @@ void TextBox::setCaretLocation(int x, int y)
                        y + _absoluteBounds.y);
 
     Font* font = getFont(_state);
-    unsigned int fontSize = getFontSize(_state);
+    float fontSize = getFontSize(_state);
     Font::Justify textAlignment = getTextAlignment(_state);
     bool rightToLeft = getTextRightToLeft(_state);
     const std::string displayedText = getDisplayedText();
@@ -453,7 +453,7 @@ void TextBox::setCaretLocation(int x, int y)
         {
             Font* font = getFont(_state);
             GP_ASSERT(font);
-            unsigned int fontSize = getFontSize(_state);
+            float fontSize = getFontSize(_state);
             _caretLocation.y = textBounds.y + textBounds.height - fontSize;
         }
 

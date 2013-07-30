@@ -1747,13 +1747,13 @@ int lua_Font_measureText(lua_State* state)
                     const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
+                    float param2 = (float)luaL_checknumber(state, 3);
 
                     // Get parameter 3 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param3 = gameplay::ScriptUtil::getUnsignedIntPointer(4);
+                    gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
 
                     // Get parameter 4 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param4 = gameplay::ScriptUtil::getUnsignedIntPointer(5);
+                    gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
 
                     Font* instance = getInstance(state);
                     instance->measureText(param1, param2, param3, param4);

@@ -101,9 +101,9 @@ private:
 
         void setFont(Font* font);
 
-        unsigned int getFontSize() const;
+        float getFontSize() const;
 
-        void setFontSize(unsigned int fontSize);
+        void setFontSize(float fontSize);
 
         Font::Justify getTextAlignment() const;
 
@@ -168,7 +168,7 @@ private:
         Theme::ThemeImage* _cursor;
         Theme::ImageList* _imageList;
         Font* _font;
-        unsigned int _fontSize;
+        float _fontSize;
         Font::Justify _alignment;
         bool _textRightToLeft;
         Vector4 _textColor;

@@ -129,7 +129,7 @@ public:
      * @param size The size to draw text (0 for default size).
      * @param rightToLeft Whether to draw text from right to left.
      */
-    void drawText(const char* text, int x, int y, const Vector4& color, unsigned int size = 0, bool rightToLeft = false) const;
+    void drawText(const char* text, float x, float y, const Vector4& color, float size = 0, bool rightToLeft = false) const;
 
     /**
      * Draws the specified text in a solid color, with a scaling factor.
@@ -144,7 +144,7 @@ public:
      * @param size The size to draw text (0 for default size).
      * @param rightToLeft Whether to draw text from right to left.
      */
-    void drawText(const char* text, int x, int y, float red, float green, float blue, float alpha, unsigned int size = 0, bool rightToLeft = false) const;
+    void drawText(const char* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, bool rightToLeft = false) const;
 
     /**
      * Draws the specified text within a rectangular area, with a specified alignment and scale.
@@ -159,7 +159,7 @@ public:
      * @param rightToLeft Whether to draw text from right to left.
      * @param clip A region to clip text within after applying justification to the viewport area.
      */
-    void drawText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size = 0, 
+    void drawText(const char* text, const Rectangle& area, const Vector4& color, float size = 0, 
                   Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL) const;
 
     /**
@@ -186,7 +186,7 @@ public:
      *
      * @return A Text object.
      */
-    Text* createText(const char* text, const Rectangle& area, const Vector4& color, unsigned int size = 0,
+    Text* createText(const char* text, const Rectangle& area, const Vector4& color, float size = 0,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL);
 
     /**
@@ -202,7 +202,7 @@ public:
      * @param widthOut Destination for the text's width.
      * @param heightOut Destination for the text's height.
      */
-    void measureText(const char* text, unsigned int size, unsigned int* widthOut, unsigned int* heightOut) const;
+    void measureText(const char* text, float size, float* widthOut, float* heightOut) const;
 
     /**
      * Measures a string's bounding box after alignment, wrapping and clipping within a viewport.
@@ -216,7 +216,7 @@ public:
      * @param ignoreClip Whether to clip 'out' to the viewport.  Set false for the bounds of what would actually be drawn
      *                within the given viewport; true for bounds that are guaranteed to fit the entire string of text.
      */
-    void measureText(const char* text, const Rectangle& clip, unsigned int size, Rectangle* out,
+    void measureText(const char* text, const Rectangle& clip, float size, Rectangle* out,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool ignoreClip = false) const;
 
     /**
@@ -244,13 +244,13 @@ public:
     /**
      * Get an character index into a string corresponding to the character nearest the given location within the clip region.
      */
-    int getIndexAtLocation(const char* text, const Rectangle& clip, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
+    int getIndexAtLocation(const char* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
                            Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
     /**
      * Get the location of the character at the given index.
      */
-    void getLocationAtIndex(const char* text, const Rectangle& clip, unsigned int size, Vector2* outLocation, const unsigned int destIndex,
+    void getLocationAtIndex(const char* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
                             Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
     /**
@@ -337,22 +337,22 @@ private:
      */
     static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture);
 
-    void getMeasurementInfo(const char* text, const Rectangle& area, unsigned int size, Justify justify, bool wrap, bool rightToLeft,
-                            std::vector<int>* xPositions, int* yPosition, std::vector<unsigned int>* lineLengths) const;
+    void getMeasurementInfo(const char* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
+                            std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const;
 
-    int getIndexOrLocation(const char* text, const Rectangle& clip, unsigned int size, const Vector2& inLocation, Vector2* outLocation,
+    int getIndexOrLocation(const char* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
                            const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
-    unsigned int getTokenWidth(const char* token, unsigned length, unsigned int size, float scale) const;
+    float getTokenWidth(const char* token, unsigned int length, float size, float scale) const;
 
     unsigned int getReversedTokenLength(const char* token, const char* bufStart) const;
 
-    int handleDelimiters(const char** token, const unsigned int size, const int iteration, const int areaX, int* xPos, int* yPos, unsigned int* lineLength,
-                         std::vector<int>::const_iterator* xPositionsIt, std::vector<int>::const_iterator xPositionsEnd, unsigned int* charIndex = NULL,
+    int handleDelimiters(const char** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
+                         std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex = NULL,
                          const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1) const;
 
-    void addLineInfo(const Rectangle& area, int lineWidth, int lineLength, Justify hAlign,
-                     std::vector<int>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const;
+    void addLineInfo(const Rectangle& area, float lineWidth, int lineLength, Justify hAlign,
+                     std::vector<float>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const;
 
     //! Returns glyph index by character code or -1.
     int getGlyphIndexByCode( int characterCode ) const;

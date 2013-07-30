@@ -542,7 +542,7 @@ Font* Control::getFont(State state) const
     return overlay->getFont();
 }
 
-void Control::setFontSize(unsigned int fontSize, unsigned char states)
+void Control::setFontSize(float fontSize, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -557,7 +557,7 @@ void Control::setFontSize(unsigned int fontSize, unsigned char states)
     _dirty = true;
 }
 
-unsigned int Control::getFontSize(State state) const
+float Control::getFontSize(State state) const
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     GP_ASSERT(overlay);
@@ -1419,7 +1419,7 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
 
     if (properties->exists("fontSize"))
     {
-        setFontSize(properties->getInt("fontSize"), states);
+        setFontSize(properties->getFloat("fontSize"), states);
     }
 
     if (properties->exists("textColor"))
