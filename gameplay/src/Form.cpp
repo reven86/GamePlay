@@ -3,6 +3,7 @@
 #include "AbsoluteLayout.h"
 #include "FlowLayout.h"
 #include "VerticalLayout.h"
+#include "HorizontalLayout.h"
 #include "Game.h"
 #include "Theme.h"
 #include "Label.h"
@@ -65,6 +66,9 @@ Form* Form::create(const char* id, Theme::Style* style, Layout::Type layoutType)
     case Layout::LAYOUT_VERTICAL:
         layout = VerticalLayout::create();
         break;
+    case Layout::LAYOUT_HORIZONTAL:
+        layout = HorizontalLayout::create();
+        break;
     default:
         GP_ERROR("Unsupported layout type '%d'.", layoutType);
         break;
@@ -124,6 +128,9 @@ Form* Form::create(const char* url)
         break;
     case Layout::LAYOUT_VERTICAL:
         layout = VerticalLayout::create();
+        break;
+    case Layout::LAYOUT_HORIZONTAL:
+        layout = HorizontalLayout::create();
         break;
     default:
         GP_ERROR("Unsupported layout type '%d'.", getLayoutType(layoutString));

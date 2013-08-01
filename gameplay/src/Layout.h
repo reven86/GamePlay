@@ -45,7 +45,13 @@ public:
          * Absolute layout: Controls are not modified at all by this layout.
          * They must be positioned and sized manually.
          */
-        LAYOUT_ABSOLUTE
+        LAYOUT_ABSOLUTE,
+
+        /**
+         * Horizontal layout: Controls are placed next to one another horizontally until
+         * the right-most edge of the container is reached.
+         */
+        LAYOUT_HORIZONTAL
     };
 
     /**

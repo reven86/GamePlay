@@ -105,5 +105,6 @@
 #include "Layout.h"
 #include "AbsoluteLayout.h"
 #include "VerticalLayout.h"
+#include "HorizontalLayout.h"
 #include "FlowLayout.h"
 #include "ProgressBar.h"

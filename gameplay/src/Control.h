@@ -28,6 +28,7 @@ class Control : public Ref, public AnimationTarget, public ScriptTarget
     friend class Layout;
     friend class AbsoluteLayout;
     friend class VerticalLayout;
+    friend class HorizontalLayout;
     friend class FlowLayout;
 
 public:

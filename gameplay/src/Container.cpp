@@ -4,6 +4,7 @@
 #include "AbsoluteLayout.h"
 #include "FlowLayout.h"
 #include "VerticalLayout.h"
+#include "HorizontalLayout.h"
 #include "Label.h"
 #include "Button.h"
 #include "CheckBox.h"
@@ -100,6 +101,9 @@ Container* Container::create(Layout::Type type)
         break;
     case Layout::LAYOUT_VERTICAL:
         layout = VerticalLayout::create();
+        break;
+    case Layout::LAYOUT_HORIZONTAL:
+        layout = HorizontalLayout::create();
         break;
     }
 
@@ -1274,6 +1278,10 @@ Layout::Type Container::getLayoutType(const char* layoutString)
     else if (layoutName == "LAYOUT_VERTICAL")
     {
         return Layout::LAYOUT_VERTICAL;
+    }
+    else if (layoutName == "LAYOUT_HORIZONTAL")
+    {
+        return Layout::LAYOUT_HORIZONTAL;
     }
     else if (layoutName == "LAYOUT_FLOW")
     {

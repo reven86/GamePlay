@@ -867,6 +867,9 @@
     <ClCompile Include="src\lua\lua_RenderStateStencilOperation.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\HorizontalLayout.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation.h">
@@ -1720,6 +1723,9 @@
     </ClInclude>
     <ClInclude Include="src\lua\lua_RenderStateStencilOperation.h">
       <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HorizontalLayout.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
