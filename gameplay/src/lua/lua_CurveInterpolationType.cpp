@@ -150,6 +150,7 @@ Curve::InterpolationType lua_enumFromString_CurveInterpolationType(const char* s
         return Curve::BOUNCE_IN_OUT;
     if (strcmp(s, luaEnumString_CurveInterpolationType_BOUNCE_OUT_IN) == 0)
         return Curve::BOUNCE_OUT_IN;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Curve::InterpolationType.", s);
     return Curve::BEZIER;
 }
 
@@ -249,6 +250,7 @@ const char* lua_stringFromEnum_CurveInterpolationType(Curve::InterpolationType e
         return luaEnumString_CurveInterpolationType_BOUNCE_IN_OUT;
     if (e == Curve::BOUNCE_OUT_IN)
         return luaEnumString_CurveInterpolationType_BOUNCE_OUT_IN;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Curve::InterpolationType.", e);
     return enumStringEmpty;
 }
 

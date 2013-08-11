@@ -69,6 +69,7 @@ Gamepad::ButtonMapping lua_enumFromString_GamepadButtonMapping(const char* s)
         return Gamepad::BUTTON_LEFT;
     if (strcmp(s, luaEnumString_GamepadButtonMapping_BUTTON_RIGHT) == 0)
         return Gamepad::BUTTON_RIGHT;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Gamepad::ButtonMapping.", s);
     return Gamepad::BUTTON_A;
 }
 
@@ -114,6 +115,7 @@ const char* lua_stringFromEnum_GamepadButtonMapping(Gamepad::ButtonMapping e)
         return luaEnumString_GamepadButtonMapping_BUTTON_LEFT;
     if (e == Gamepad::BUTTON_RIGHT)
         return luaEnumString_GamepadButtonMapping_BUTTON_RIGHT;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Gamepad::ButtonMapping.", e);
     return enumStringEmpty;
 }
 

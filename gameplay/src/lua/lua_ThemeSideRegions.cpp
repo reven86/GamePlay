@@ -28,14 +28,14 @@ void luaRegister_ThemeSideRegions()
     std::vector<std::string> scopePath;
     scopePath.push_back("Theme");
 
-    gameplay::ScriptUtil::registerClass("ThemeSideRegions", lua_members, lua_ThemeSideRegions__init, lua_ThemeSideRegions__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("ThemeSideRegions", lua_members, lua_ThemeSideRegions__init, lua_ThemeSideRegions__gc, lua_statics, scopePath);
 }
 
 static Theme::SideRegions* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "ThemeSideRegions");
     luaL_argcheck(state, userdata != NULL, 1, "'ThemeSideRegions' expected.");
-    return (Theme::SideRegions*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Theme::SideRegions*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_ThemeSideRegions__gc(lua_State* state)
@@ -52,7 +52,7 @@ int lua_ThemeSideRegions__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "ThemeSideRegions");
                 luaL_argcheck(state, userdata != NULL, 1, "'ThemeSideRegions' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Theme::SideRegions* instance = (Theme::SideRegions*)object->instance;
@@ -89,7 +89,7 @@ int lua_ThemeSideRegions__init(lua_State* state)
             void* returnPtr = (void*)new Theme::SideRegions();
             if (returnPtr)
             {
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "ThemeSideRegions");
@@ -213,7 +213,7 @@ int lua_ThemeSideRegions_static_empty(lua_State* state)
             void* returnPtr = (void*)&(Theme::SideRegions::empty());
             if (returnPtr)
             {
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "ThemeSideRegions");

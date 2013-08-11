@@ -8,7 +8,7 @@ static bool space(char c) {
     return isspace(c);
 }
 
-TextBox::TextBox() : _lastKeypress(0), _fontSize(0), _caretImage(NULL), _passwordChar('*'), _inputMode(TEXT), _ctrlPressed(false)
+TextBox::TextBox() : _lastKeypress(0), _fontSize(0), _caretImage(NULL), _passwordChar(L'*'), _inputMode(TEXT), _ctrlPressed(false)
     , _caretLocation( 0.0f, 0.0f ), _prevCaretLocation( 0.0f, 0.0f )
 {
 }
@@ -148,7 +148,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     float fontSize = getFontSize(_state);
                     Font::Justify textAlignment = getTextAlignment(_state);
                     bool rightToLeft = getTextRightToLeft(_state);
-                    const std::string displayedText = getDisplayedText();
+                    const std::wstring displayedText = getDisplayedText();
                     font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &_caretLocation, displayedText.size(),
                         textAlignment, true, rightToLeft);
                     _dirty = true;
@@ -180,7 +180,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 }
                 case Keyboard::KEY_LEFT_ARROW:
                 {
-                    const std::string displayedText = getDisplayedText();
+                    const std::wstring displayedText = getDisplayedText();
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
                     float fontSize = getFontSize(_state);
@@ -191,7 +191,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                         textAlignment, true, rightToLeft);
                     if (_ctrlPressed)
                     {
-                        std::string::const_reverse_iterator it = std::find_if(displayedText.rend() - (textIndex - 1), displayedText.rend(), space);
+                        std::wstring::const_reverse_iterator it = std::find_if(displayedText.rend() - (textIndex - 1), displayedText.rend(), space);
                         textIndex = std::distance(displayedText.begin(), it.base());
                     }
                     else
@@ -205,7 +205,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                 }
                 case Keyboard::KEY_RIGHT_ARROW:
                 {
-                    const std::string displayedText = getDisplayedText();
+                    const std::wstring displayedText = getDisplayedText();
                     Font* font = getFont(_state);
                     GP_ASSERT(font);
                     float fontSize = getFontSize(_state);
@@ -216,7 +216,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                         textAlignment, true, rightToLeft);
                     if (_ctrlPressed)
                     {
-                        std::string::const_iterator it = std::find_if(displayedText.begin() + (textIndex + 1), displayedText.end(), space);
+                        std::wstring::const_iterator it = std::find_if(displayedText.begin() + (textIndex + 1), displayedText.end(), space);
                         textIndex = std::distance(displayedText.begin(), it);
                     }
                     else
@@ -312,6 +312,8 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     return false;
                     break;
                 default:
+                // allow entering only ASCII chars.
+                if( isascii( key ) )
                 {
                     // Insert character into string.
                     _text.insert(textIndex, 1, (char)key);
@@ -417,7 +419,7 @@ void TextBox::setCaretLocation(int x, int y)
     float fontSize = getFontSize(_state);
     Font::Justify textAlignment = getTextAlignment(_state);
     bool rightToLeft = getTextRightToLeft(_state);
-    const std::string displayedText = getDisplayedText();
+    const std::wstring displayedText = getDisplayedText();
 
     int index = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, _caretLocation, &_caretLocation,
             textAlignment, true, rightToLeft);
@@ -473,12 +475,12 @@ const char* TextBox::getType() const
     return "textBox";
 }
 
-void TextBox::setPasswordChar(char character)
+void TextBox::setPasswordChar(wchar_t character)
 {
     _passwordChar = character;
 }
 
-char TextBox::getPasswordChar() const
+wchar_t TextBox::getPasswordChar() const
 {
     return _passwordChar;
 }
@@ -501,7 +503,7 @@ void TextBox::drawText(const Rectangle& clip)
     // Draw the text.
     if (_font)
     {
-        const std::string displayedText = getDisplayedText();
+        const std::wstring displayedText = getDisplayedText();
         _font->start();
         _font->drawText(displayedText.c_str(), _textBounds, _textColor, getFontSize(_state), getTextAlignment(_state), true, getTextRightToLeft(_state), &_viewportClipBounds);
         _font->finish();
@@ -532,9 +534,9 @@ TextBox::InputMode TextBox::getInputMode(const char* inputMode)
     return TextBox::TEXT;
 }
 
-std::string TextBox::getDisplayedText() const
+std::wstring TextBox::getDisplayedText() const
 {
-    std::string displayedText;
+    std::wstring displayedText;
     switch (_inputMode) {
         case PASSWORD:
             displayedText.insert((size_t)0, _text.length(), _passwordChar);

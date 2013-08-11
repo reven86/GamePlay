@@ -33,6 +33,7 @@
 #include "lua_PhysicsCollisionObjectType.h"
 #include "lua_PhysicsCollisionShapeType.h"
 #include "lua_PhysicsControllerListenerEventType.h"
+#include "lua_ProgressBarOrientationType.h"
 #include "lua_PropertiesType.h"
 #include "lua_RenderStateAutoBinding.h"
 #include "lua_RenderStateBlend.h"

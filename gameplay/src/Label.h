@@ -49,15 +49,17 @@ public:
      * Set the text for this label to display.
      *
      * @param text The text to display.
+     * @script{ignore}
      */
-    void setText(const char* text);
+    void setText(const wchar_t* text);
 
     /**
      * Get the text displayed by this label.
      *
      * @return The text displayed by this label.
+     * @script{ignore}
      */
-    const char* getText();
+    const wchar_t* getText();
 
     /**
      * @see Control::getType
@@ -122,7 +124,7 @@ protected:
     /**
      * The text displayed by this label.
      */
-    std::string _text;
+    std::wstring _text;
 
     /**
      * The font being used to display the label.

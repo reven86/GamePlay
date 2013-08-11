@@ -33,6 +33,7 @@ RenderState::StencilFunction lua_enumFromString_RenderStateStencilFunction(const
         return RenderState::STENCIL_GEQUAL;
     if (strcmp(s, luaEnumString_RenderStateStencilFunction_STENCIL_NOTEQUAL) == 0)
         return RenderState::STENCIL_NOTEQUAL;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration RenderState::StencilFunction.", s);
     return RenderState::STENCIL_NEVER;
 }
 
@@ -54,6 +55,7 @@ const char* lua_stringFromEnum_RenderStateStencilFunction(RenderState::StencilFu
         return luaEnumString_RenderStateStencilFunction_STENCIL_GEQUAL;
     if (e == RenderState::STENCIL_NOTEQUAL)
         return luaEnumString_RenderStateStencilFunction_STENCIL_NOTEQUAL;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration RenderState::StencilFunction.", e);
     return enumStringEmpty;
 }
 

@@ -15,14 +15,14 @@ void luaRegister_Mouse()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Mouse", lua_members, NULL, lua_Mouse__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("Mouse", lua_members, NULL, lua_Mouse__gc, lua_statics, scopePath);
 }
 
 static Mouse* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Mouse");
     luaL_argcheck(state, userdata != NULL, 1, "'Mouse' expected.");
-    return (Mouse*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Mouse*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Mouse__gc(lua_State* state)
@@ -39,7 +39,7 @@ int lua_Mouse__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Mouse");
                 luaL_argcheck(state, userdata != NULL, 1, "'Mouse' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Mouse* instance = (Mouse*)object->instance;

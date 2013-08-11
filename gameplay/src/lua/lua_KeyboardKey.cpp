@@ -477,6 +477,7 @@ Keyboard::Key lua_enumFromString_KeyboardKey(const char* s)
         return Keyboard::KEY_MIDDLE_DOT;
     if (strcmp(s, luaEnumString_KeyboardKey_KEY_SEARCH) == 0)
         return Keyboard::KEY_SEARCH;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Keyboard::Key.", s);
     return Keyboard::KEY_NONE;
 }
 
@@ -794,6 +795,7 @@ const char* lua_stringFromEnum_KeyboardKey(Keyboard::Key e)
         return luaEnumString_KeyboardKey_KEY_MIDDLE_DOT;
     if (e == Keyboard::KEY_SEARCH)
         return luaEnumString_KeyboardKey_KEY_SEARCH;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Keyboard::Key.", e);
     return enumStringEmpty;
 }
 

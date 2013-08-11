@@ -113,6 +113,8 @@ Properties* Properties::create(const char* url)
     return p;
 }
 
+/** @script{ignore}
+ */
 int yaml_read_handler( void * data, unsigned char * buffer, size_t size, size_t* size_read )
 {
     Stream * stream = ( Stream * ) data;

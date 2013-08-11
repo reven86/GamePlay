@@ -22,14 +22,14 @@ void luaRegister_AudioBuffer()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("AudioBuffer", lua_members, NULL, lua_AudioBuffer__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("AudioBuffer", lua_members, NULL, lua_AudioBuffer__gc, lua_statics, scopePath);
 }
 
 static AudioBuffer* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "AudioBuffer");
     luaL_argcheck(state, userdata != NULL, 1, "'AudioBuffer' expected.");
-    return (AudioBuffer*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (AudioBuffer*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_AudioBuffer__gc(lua_State* state)
@@ -46,7 +46,7 @@ int lua_AudioBuffer__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "AudioBuffer");
                 luaL_argcheck(state, userdata != NULL, 1, "'AudioBuffer' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     AudioBuffer* instance = (AudioBuffer*)object->instance;

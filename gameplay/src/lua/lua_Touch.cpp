@@ -15,14 +15,14 @@ void luaRegister_Touch()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Touch", lua_members, NULL, lua_Touch__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("Touch", lua_members, NULL, lua_Touch__gc, lua_statics, scopePath);
 }
 
 static Touch* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Touch");
     luaL_argcheck(state, userdata != NULL, 1, "'Touch' expected.");
-    return (Touch*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Touch*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Touch__gc(lua_State* state)
@@ -39,7 +39,7 @@ int lua_Touch__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Touch");
                 luaL_argcheck(state, userdata != NULL, 1, "'Touch' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Touch* instance = (Touch*)object->instance;

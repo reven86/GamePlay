@@ -17,14 +17,14 @@ void luaRegister_ThemeStyle()
     std::vector<std::string> scopePath;
     scopePath.push_back("Theme");
 
-    gameplay::ScriptUtil::registerClass("ThemeStyle", lua_members, NULL, NULL, lua_statics, scopePath);
+    ScriptUtil::registerClass("ThemeStyle", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static Theme::Style* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "ThemeStyle");
     luaL_argcheck(state, userdata != NULL, 1, "'ThemeStyle' expected.");
-    return (Theme::Style*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Theme::Style*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_ThemeStyle_getTheme(lua_State* state)
@@ -43,7 +43,7 @@ int lua_ThemeStyle_getTheme(lua_State* state)
                 void* returnPtr = (void*)instance->getTheme();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Theme");

@@ -143,9 +143,9 @@
     <ClCompile Include="src\lua\lua_FileSystem.cpp" />
     <ClCompile Include="src\lua\lua_FlowLayout.cpp" />
     <ClCompile Include="src\lua\lua_Font.cpp" />
+    <ClCompile Include="src\lua\lua_FontGlyph.cpp" />
     <ClCompile Include="src\lua\lua_FontJustify.cpp" />
     <ClCompile Include="src\lua\lua_FontStyle.cpp" />
-    <ClCompile Include="src\lua\lua_FontText.cpp" />
     <ClCompile Include="src\lua\lua_Form.cpp" />
     <ClCompile Include="src\lua\lua_FrameBuffer.cpp" />
     <ClCompile Include="src\lua\lua_Frustum.cpp" />
@@ -159,6 +159,7 @@
     <ClCompile Include="src\lua\lua_GestureGestureEvent.cpp" />
     <ClCompile Include="src\lua\lua_Global.cpp" />
     <ClCompile Include="src\lua\lua_HeightField.cpp" />
+    <ClCompile Include="src\lua\lua_HorizontalLayout.cpp" />
     <ClCompile Include="src\lua\lua_Image.cpp" />
     <ClCompile Include="src\lua\lua_ImageControl.cpp" />
     <ClCompile Include="src\lua\lua_ImageFormat.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="src\lua\lua_MaterialParameter.cpp" />
     <ClCompile Include="src\lua\lua_MathUtil.cpp" />
     <ClCompile Include="src\lua\lua_Matrix.cpp" />
+    <ClCompile Include="src\lua\lua_Matrix3.cpp" />
     <ClCompile Include="src\lua\lua_Mesh.cpp" />
     <ClCompile Include="src\lua\lua_MeshBatch.cpp" />
     <ClCompile Include="src\lua\lua_MeshIndexFormat.cpp" />
@@ -220,6 +222,8 @@
     <ClCompile Include="src\lua\lua_PhysicsVehicleWheel.cpp" />
     <ClCompile Include="src\lua\lua_Plane.cpp" />
     <ClCompile Include="src\lua\lua_Platform.cpp" />
+    <ClCompile Include="src\lua\lua_ProgressBar.cpp" />
+    <ClCompile Include="src\lua\lua_ProgressBarOrientationType.cpp" />
     <ClCompile Include="src\lua\lua_Properties.cpp" />
     <ClCompile Include="src\lua\lua_PropertiesType.cpp" />
     <ClCompile Include="src\lua\lua_Quaternion.cpp" />
@@ -430,9 +434,9 @@
     <ClInclude Include="src\lua\lua_FileSystem.h" />
     <ClInclude Include="src\lua\lua_FlowLayout.h" />
     <ClInclude Include="src\lua\lua_Font.h" />
+    <ClInclude Include="src\lua\lua_FontGlyph.h" />
     <ClInclude Include="src\lua\lua_FontJustify.h" />
     <ClInclude Include="src\lua\lua_FontStyle.h" />
-    <ClInclude Include="src\lua\lua_FontText.h" />
     <ClInclude Include="src\lua\lua_Form.h" />
     <ClInclude Include="src\lua\lua_FrameBuffer.h" />
     <ClInclude Include="src\lua\lua_Frustum.h" />
@@ -446,6 +450,7 @@
     <ClInclude Include="src\lua\lua_GestureGestureEvent.h" />
     <ClInclude Include="src\lua\lua_Global.h" />
     <ClInclude Include="src\lua\lua_HeightField.h" />
+    <ClInclude Include="src\lua\lua_HorizontalLayout.h" />
     <ClInclude Include="src\lua\lua_Image.h" />
     <ClInclude Include="src\lua\lua_ImageControl.h" />
     <ClInclude Include="src\lua\lua_ImageFormat.h" />
@@ -465,6 +470,7 @@
     <ClInclude Include="src\lua\lua_MaterialParameter.h" />
     <ClInclude Include="src\lua\lua_MathUtil.h" />
     <ClInclude Include="src\lua\lua_Matrix.h" />
+    <ClInclude Include="src\lua\lua_Matrix3.h" />
     <ClInclude Include="src\lua\lua_Mesh.h" />
     <ClInclude Include="src\lua\lua_MeshBatch.h" />
     <ClInclude Include="src\lua\lua_MeshIndexFormat.h" />
@@ -507,6 +513,8 @@
     <ClInclude Include="src\lua\lua_PhysicsVehicleWheel.h" />
     <ClInclude Include="src\lua\lua_Plane.h" />
     <ClInclude Include="src\lua\lua_Platform.h" />
+    <ClInclude Include="src\lua\lua_ProgressBar.h" />
+    <ClInclude Include="src\lua\lua_ProgressBarOrientationType.h" />
     <ClInclude Include="src\lua\lua_Properties.h" />
     <ClInclude Include="src\lua\lua_PropertiesType.h" />
     <ClInclude Include="src\lua\lua_Quaternion.h" />

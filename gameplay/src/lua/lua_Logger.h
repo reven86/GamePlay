@@ -7,6 +7,7 @@ namespace gameplay
 // Lua bindings for Logger.
 int lua_Logger_static_isEnabled(lua_State* state);
 int lua_Logger_static_log(lua_State* state);
+int lua_Logger_static_reportError(lua_State* state);
 int lua_Logger_static_set(lua_State* state);
 int lua_Logger_static_setEnabled(lua_State* state);
 

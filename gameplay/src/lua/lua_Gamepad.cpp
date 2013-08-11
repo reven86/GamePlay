@@ -36,14 +36,14 @@ void luaRegister_Gamepad()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Gamepad", lua_members, NULL, NULL, lua_statics, scopePath);
+    ScriptUtil::registerClass("Gamepad", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static Gamepad* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Gamepad");
     luaL_argcheck(state, userdata != NULL, 1, "'Gamepad' expected.");
-    return (Gamepad*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Gamepad*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Gamepad_draw(lua_State* state)
@@ -129,7 +129,7 @@ int lua_Gamepad_getForm(lua_State* state)
                 void* returnPtr = (void*)instance->getForm();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Form");
@@ -211,7 +211,7 @@ int lua_Gamepad_getJoystickValues(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<Vector2> param2 = gameplay::ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
+                ScriptUtil::LuaArray<Vector2> param2 = ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector2'.");

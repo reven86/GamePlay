@@ -17,20 +17,21 @@ void luaRegister_Logger()
     {
         {"isEnabled", lua_Logger_static_isEnabled},
         {"log", lua_Logger_static_log},
+        {"reportError", lua_Logger_static_reportError},
         {"set", lua_Logger_static_set},
         {"setEnabled", lua_Logger_static_setEnabled},
         {NULL, NULL}
     };
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Logger", lua_members, NULL, NULL, lua_statics, scopePath);
+    ScriptUtil::registerClass("Logger", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static Logger* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Logger");
     luaL_argcheck(state, userdata != NULL, 1, "'Logger' expected.");
-    return (Logger*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Logger*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Logger_static_isEnabled(lua_State* state)
@@ -87,7 +88,7 @@ int lua_Logger_static_log(lua_State* state)
                 Logger::Level param1 = (Logger::Level)lua_enumFromString_LoggerLevel(luaL_checkstring(state, 1));
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(2, false);
+                const char* param2 = ScriptUtil::getString(2, false);
 
                 Logger::log(param1, param2);
                 
@@ -101,6 +102,52 @@ int lua_Logger_static_log(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Logger_static_reportError(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 4:
+        {
+            if (lua_type(state, 1) == LUA_TBOOLEAN &&
+                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL) &&
+                lua_type(state, 3) == LUA_TNUMBER &&
+                (lua_type(state, 4) == LUA_TSTRING || lua_type(state, 4) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = ScriptUtil::luaCheckBool(state, 1);
+
+                // Get parameter 2 off the stack.
+                const char* param2 = ScriptUtil::getString(2, false);
+
+                // Get parameter 3 off the stack.
+                int param3 = (int)luaL_checkint(state, 3);
+
+                // Get parameter 4 off the stack.
+                const char* param4 = ScriptUtil::getString(4, false);
+
+                Logger::reportError(param1, param2, param3, param4);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Logger_static_reportError - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 4).");
             lua_error(state);
             break;
         }
@@ -125,7 +172,7 @@ int lua_Logger_static_set(lua_State* state)
                 Logger::Level param1 = (Logger::Level)lua_enumFromString_LoggerLevel(luaL_checkstring(state, 1));
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(2, false);
+                const char* param2 = ScriptUtil::getString(2, false);
 
                 Logger::set(param1, param2);
                 
@@ -163,7 +210,7 @@ int lua_Logger_static_setEnabled(lua_State* state)
                 Logger::Level param1 = (Logger::Level)lua_enumFromString_LoggerLevel(luaL_checkstring(state, 1));
 
                 // Get parameter 2 off the stack.
-                bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param2 = ScriptUtil::luaCheckBool(state, 2);
 
                 Logger::setEnabled(param1, param2);
                 

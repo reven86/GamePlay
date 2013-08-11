@@ -15,6 +15,7 @@ TextBox::InputMode lua_enumFromString_TextBoxInputMode(const char* s)
         return TextBox::TEXT;
     if (strcmp(s, luaEnumString_TextBoxInputMode_PASSWORD) == 0)
         return TextBox::PASSWORD;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration TextBox::InputMode.", s);
     return TextBox::TEXT;
 }
 
@@ -24,6 +25,7 @@ const char* lua_stringFromEnum_TextBoxInputMode(TextBox::InputMode e)
         return luaEnumString_TextBoxInputMode_TEXT;
     if (e == TextBox::PASSWORD)
         return luaEnumString_TextBoxInputMode_PASSWORD;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration TextBox::InputMode.", e);
     return enumStringEmpty;
 }
 

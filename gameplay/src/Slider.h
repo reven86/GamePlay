@@ -342,7 +342,7 @@ protected:
     /**
      * The text displayed by this slider if set to display its value.
      */
-    std::string _valueText;
+    std::wstring _valueText;
 
     // Used by gamepads to toggle Slider state between FOCUS and ACTIVE.
     bool _selectButtonDown;

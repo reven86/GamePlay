@@ -18,6 +18,7 @@ Light::Type lua_enumFromString_LightType(const char* s)
         return Light::POINT;
     if (strcmp(s, luaEnumString_LightType_SPOT) == 0)
         return Light::SPOT;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Light::Type.", s);
     return Light::DIRECTIONAL;
 }
 
@@ -29,6 +30,7 @@ const char* lua_stringFromEnum_LightType(Light::Type e)
         return luaEnumString_LightType_POINT;
     if (e == Light::SPOT)
         return luaEnumString_LightType_SPOT;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Light::Type.", e);
     return enumStringEmpty;
 }
 

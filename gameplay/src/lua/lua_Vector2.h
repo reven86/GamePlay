@@ -27,6 +27,7 @@ int lua_Vector2_static_angle(lua_State* state);
 int lua_Vector2_static_clamp(lua_State* state);
 int lua_Vector2_static_dot(lua_State* state);
 int lua_Vector2_static_one(lua_State* state);
+int lua_Vector2_static_random(lua_State* state);
 int lua_Vector2_static_subtract(lua_State* state);
 int lua_Vector2_static_unitX(lua_State* state);
 int lua_Vector2_static_unitY(lua_State* state);

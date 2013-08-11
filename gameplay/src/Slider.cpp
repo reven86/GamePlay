@@ -14,7 +14,7 @@ static const float SLIDER_THRESHOLD = 5.0f;
 
 Slider::Slider() : _min(0.0f), _max(0.0f), _step(0.0f), _value(0.0f), _delta(0.0f), _minImage(NULL),
     _maxImage(NULL), _trackImage(NULL), _markerImage(NULL), _valueTextVisible(false),
-    _valueTextAlignment(Font::ALIGN_BOTTOM_HCENTER), _valueTextPrecision(0), _valueText(""),
+    _valueTextAlignment(Font::ALIGN_BOTTOM_HCENTER), _valueTextPrecision(0), _valueText(L""),
     _selectButtonDown(false), _directionButtonDown(false), _gamepadValue(0.0f)
 {
 }
@@ -451,8 +451,8 @@ void Slider::update(const Control* container, const Vector2& offset)
     _markerImage = getImage("marker", _state);
     _trackImage = getImage("track", _state);
 
-    char s[32];
-    sprintf(s, "%.*f", _valueTextPrecision, _value);
+    wchar_t s[32];
+    swprintf(s, 32, L"%.*f", _valueTextPrecision, _value);
     _valueText = s;
 
     if (_delta != 0.0f)

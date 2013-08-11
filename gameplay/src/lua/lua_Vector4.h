@@ -26,6 +26,7 @@ int lua_Vector4_static_clamp(lua_State* state);
 int lua_Vector4_static_dot(lua_State* state);
 int lua_Vector4_static_fromColor(lua_State* state);
 int lua_Vector4_static_one(lua_State* state);
+int lua_Vector4_static_random(lua_State* state);
 int lua_Vector4_static_subtract(lua_State* state);
 int lua_Vector4_static_unitW(lua_State* state);
 int lua_Vector4_static_unitX(lua_State* state);

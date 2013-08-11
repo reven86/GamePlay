@@ -99,15 +99,18 @@ public:
      * Set the character displayed in password mode.
      *
      * @param character Character to display in password mode.
+     * @script{ignore}
      */
-    void setPasswordChar(char character);
+    void setPasswordChar(wchar_t character);
 
     /**
      * Get the character displayed in password mode.
      *
      * @return The character displayed in password mode.
+     *
+     * @script{ignore}
      */
-    char getPasswordChar() const;
+    wchar_t getPasswordChar() const;
 
     /**
      * Set the input mode.
@@ -210,7 +213,7 @@ protected:
      *
      * @return The text to be displayed.
      */
-    std::string getDisplayedText() const;
+    std::wstring getDisplayedText() const;
 
     /**
      * The current position of the TextBox's caret.
@@ -240,7 +243,7 @@ protected:
     /**
      * The character displayed in password mode.
      */
-    char _passwordChar;
+    wchar_t _passwordChar;
 
     /**
      * The mode used to display the typed text.

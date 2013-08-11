@@ -54,14 +54,14 @@ void luaRegister_MaterialParameter()
     };
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("MaterialParameter", lua_members, NULL, lua_MaterialParameter__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("MaterialParameter", lua_members, NULL, lua_MaterialParameter__gc, lua_statics, scopePath);
 }
 
 static MaterialParameter* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "MaterialParameter");
     luaL_argcheck(state, userdata != NULL, 1, "'MaterialParameter' expected.");
-    return (MaterialParameter*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (MaterialParameter*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_MaterialParameter__gc(lua_State* state)
@@ -78,7 +78,7 @@ int lua_MaterialParameter__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "MaterialParameter");
                 luaL_argcheck(state, userdata != NULL, 1, "'MaterialParameter' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     MaterialParameter* instance = (MaterialParameter*)object->instance;
@@ -150,7 +150,7 @@ int lua_MaterialParameter_bindValue(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
+                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
@@ -158,7 +158,7 @@ int lua_MaterialParameter_bindValue(lua_State* state)
                 }
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                const char* param2 = ScriptUtil::getString(3, false);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->bindValue(param1, param2);
@@ -197,16 +197,16 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                    const char* param2 = ScriptUtil::getString(3, false);
 
                     MaterialParameter* instance = getInstance(state);
                     void* returnPtr = (void*)instance->createAnimation(param1, param2);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Animation");
@@ -228,11 +228,11 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     (lua_type(state, 3) == LUA_TUSERDATA || lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    gameplay::ScriptUtil::LuaArray<Properties> param2 = gameplay::ScriptUtil::getObjectPointer<Properties>(3, "Properties", false, &param2Valid);
+                    ScriptUtil::LuaArray<Properties> param2 = ScriptUtil::getObjectPointer<Properties>(3, "Properties", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -240,7 +240,7 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     void* returnPtr = (void*)instance->createAnimation(param1, param2);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Animation");
@@ -272,7 +272,7 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     (lua_type(state, 7) == LUA_TSTRING || lua_type(state, 7) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
                     int param2 = (int)luaL_checkint(state, 3);
@@ -281,10 +281,10 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
 
                     // Get parameter 4 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param4 = gameplay::ScriptUtil::getUnsignedIntPointer(5);
+                    ScriptUtil::LuaArray<unsigned int> param4 = ScriptUtil::getUnsignedIntPointer(5);
 
                     // Get parameter 5 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
+                    ScriptUtil::LuaArray<float> param5 = ScriptUtil::getFloatPointer(6);
 
                     // Get parameter 6 off the stack.
                     Curve::InterpolationType param6 = (Curve::InterpolationType)lua_enumFromString_CurveInterpolationType(luaL_checkstring(state, 7));
@@ -293,7 +293,7 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     void* returnPtr = (void*)instance->createAnimation(param1, param2, param3, param4, param5, param6);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Animation");
@@ -327,7 +327,7 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     (lua_type(state, 9) == LUA_TSTRING || lua_type(state, 9) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
                     int param2 = (int)luaL_checkint(state, 3);
@@ -336,16 +336,16 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
 
                     // Get parameter 4 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param4 = gameplay::ScriptUtil::getUnsignedIntPointer(5);
+                    ScriptUtil::LuaArray<unsigned int> param4 = ScriptUtil::getUnsignedIntPointer(5);
 
                     // Get parameter 5 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
+                    ScriptUtil::LuaArray<float> param5 = ScriptUtil::getFloatPointer(6);
 
                     // Get parameter 6 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param6 = gameplay::ScriptUtil::getFloatPointer(7);
+                    ScriptUtil::LuaArray<float> param6 = ScriptUtil::getFloatPointer(7);
 
                     // Get parameter 7 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param7 = gameplay::ScriptUtil::getFloatPointer(8);
+                    ScriptUtil::LuaArray<float> param7 = ScriptUtil::getFloatPointer(8);
 
                     // Get parameter 8 off the stack.
                     Curve::InterpolationType param8 = (Curve::InterpolationType)lua_enumFromString_CurveInterpolationType(luaL_checkstring(state, 9));
@@ -354,7 +354,7 @@ int lua_MaterialParameter_createAnimation(lua_State* state)
                     void* returnPtr = (void*)instance->createAnimation(param1, param2, param3, param4, param5, param6, param7, param8);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Animation");
@@ -402,16 +402,16 @@ int lua_MaterialParameter_createAnimationFromBy(lua_State* state)
                 lua_type(state, 7) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 // Get parameter 2 off the stack.
                 int param2 = (int)luaL_checkint(state, 3);
 
                 // Get parameter 3 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
+                ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
 
                 // Get parameter 4 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
+                ScriptUtil::LuaArray<float> param4 = ScriptUtil::getFloatPointer(5);
 
                 // Get parameter 5 off the stack.
                 Curve::InterpolationType param5 = (Curve::InterpolationType)lua_enumFromString_CurveInterpolationType(luaL_checkstring(state, 6));
@@ -423,7 +423,7 @@ int lua_MaterialParameter_createAnimationFromBy(lua_State* state)
                 void* returnPtr = (void*)instance->createAnimationFromBy(param1, param2, param3, param4, param5, param6);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Animation");
@@ -470,16 +470,16 @@ int lua_MaterialParameter_createAnimationFromTo(lua_State* state)
                 lua_type(state, 7) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 // Get parameter 2 off the stack.
                 int param2 = (int)luaL_checkint(state, 3);
 
                 // Get parameter 3 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
+                ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
 
                 // Get parameter 4 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
+                ScriptUtil::LuaArray<float> param4 = ScriptUtil::getFloatPointer(5);
 
                 // Get parameter 5 off the stack.
                 Curve::InterpolationType param5 = (Curve::InterpolationType)lua_enumFromString_CurveInterpolationType(luaL_checkstring(state, 6));
@@ -491,7 +491,7 @@ int lua_MaterialParameter_createAnimationFromTo(lua_State* state)
                 void* returnPtr = (void*)instance->createAnimationFromTo(param1, param2, param3, param4, param5, param6);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Animation");
@@ -547,7 +547,7 @@ int lua_MaterialParameter_destroyAnimation(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->destroyAnimation(param1);
@@ -585,7 +585,7 @@ int lua_MaterialParameter_getAnimation(lua_State* state)
                 void* returnPtr = (void*)instance->getAnimation();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Animation");
@@ -609,13 +609,13 @@ int lua_MaterialParameter_getAnimation(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 MaterialParameter* instance = getInstance(state);
                 void* returnPtr = (void*)instance->getAnimation(param1);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Animation");
@@ -701,7 +701,7 @@ int lua_MaterialParameter_getAnimationPropertyValue(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<AnimationValue> param2 = gameplay::ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
+                ScriptUtil::LuaArray<AnimationValue> param2 = ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'AnimationValue'.");
@@ -814,7 +814,7 @@ int lua_MaterialParameter_getSampler(lua_State* state)
                 void* returnPtr = (void*)instance->getSampler();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "TextureSampler");
@@ -844,7 +844,7 @@ int lua_MaterialParameter_getSampler(lua_State* state)
                 void* returnPtr = (void*)instance->getSampler(param1);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "TextureSampler");
@@ -923,7 +923,7 @@ int lua_MaterialParameter_setAnimationPropertyValue(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<AnimationValue> param2 = gameplay::ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
+                ScriptUtil::LuaArray<AnimationValue> param2 = ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'AnimationValue'.");
@@ -952,7 +952,7 @@ int lua_MaterialParameter_setAnimationPropertyValue(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<AnimationValue> param2 = gameplay::ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
+                ScriptUtil::LuaArray<AnimationValue> param2 = ScriptUtil::getObjectPointer<AnimationValue>(3, "AnimationValue", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'AnimationValue'.");
@@ -1033,7 +1033,7 @@ int lua_MaterialParameter_setFloatArray(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -1056,13 +1056,13 @@ int lua_MaterialParameter_setFloatArray(lua_State* state)
                 lua_type(state, 4) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setFloatArray(param1, param2, param3);
@@ -1135,7 +1135,7 @@ int lua_MaterialParameter_setIntArray(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<int> param1 = gameplay::ScriptUtil::getIntPointer(2);
+                ScriptUtil::LuaArray<int> param1 = ScriptUtil::getIntPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -1158,13 +1158,13 @@ int lua_MaterialParameter_setIntArray(lua_State* state)
                 lua_type(state, 4) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<int> param1 = gameplay::ScriptUtil::getIntPointer(2);
+                ScriptUtil::LuaArray<int> param1 = ScriptUtil::getIntPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setIntArray(param1, param2, param3);
@@ -1201,7 +1201,7 @@ int lua_MaterialParameter_setMatrix(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -1244,7 +1244,7 @@ int lua_MaterialParameter_setMatrixArray(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -1273,7 +1273,7 @@ int lua_MaterialParameter_setMatrixArray(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -1284,7 +1284,7 @@ int lua_MaterialParameter_setMatrixArray(lua_State* state)
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setMatrixArray(param1, param2, param3);
@@ -1323,7 +1323,7 @@ int lua_MaterialParameter_setSampler(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Texture::Sampler> param1 = gameplay::ScriptUtil::getObjectPointer<Texture::Sampler>(2, "TextureSampler", false, &param1Valid);
+                    ScriptUtil::LuaArray<Texture::Sampler> param1 = ScriptUtil::getObjectPointer<Texture::Sampler>(2, "TextureSampler", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1347,16 +1347,16 @@ int lua_MaterialParameter_setSampler(lua_State* state)
                     lua_type(state, 3) == LUA_TBOOLEAN)
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 3);
+                    bool param2 = ScriptUtil::luaCheckBool(state, 3);
 
                     MaterialParameter* instance = getInstance(state);
                     void* returnPtr = (void*)instance->setSampler(param1, param2);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "TextureSampler");
@@ -1431,7 +1431,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                     (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                     MaterialParameter* instance = getInstance(state);
                     instance->setValue(param1);
@@ -1446,7 +1446,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                     (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    gameplay::ScriptUtil::LuaArray<int> param1 = gameplay::ScriptUtil::getIntPointer(2);
+                    ScriptUtil::LuaArray<int> param1 = ScriptUtil::getIntPointer(2);
 
                     MaterialParameter* instance = getInstance(state);
                     instance->setValue(param1);
@@ -1462,7 +1462,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", true, &param1Valid);
+                    ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1480,7 +1480,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1498,7 +1498,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1516,7 +1516,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1534,7 +1534,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
+                    ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1552,7 +1552,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1570,7 +1570,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1588,7 +1588,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1606,7 +1606,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Texture::Sampler> param1 = gameplay::ScriptUtil::getObjectPointer<Texture::Sampler>(2, "TextureSampler", false, &param1Valid);
+                    ScriptUtil::LuaArray<Texture::Sampler> param1 = ScriptUtil::getObjectPointer<Texture::Sampler>(2, "TextureSampler", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1630,7 +1630,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                     lua_type(state, 3) == LUA_TNUMBER)
                 {
                     // Get parameter 1 off the stack.
-                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                     // Get parameter 2 off the stack.
                     unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -1649,7 +1649,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                     lua_type(state, 3) == LUA_TNUMBER)
                 {
                     // Get parameter 1 off the stack.
-                    gameplay::ScriptUtil::LuaArray<int> param1 = gameplay::ScriptUtil::getIntPointer(2);
+                    ScriptUtil::LuaArray<int> param1 = ScriptUtil::getIntPointer(2);
 
                     // Get parameter 2 off the stack.
                     unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -1669,7 +1669,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1691,7 +1691,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1713,7 +1713,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
+                    ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1735,7 +1735,7 @@ int lua_MaterialParameter_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1756,16 +1756,16 @@ int lua_MaterialParameter_setValue(lua_State* state)
                     lua_type(state, 3) == LUA_TBOOLEAN)
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 3);
+                    bool param2 = ScriptUtil::luaCheckBool(state, 3);
 
                     MaterialParameter* instance = getInstance(state);
                     void* returnPtr = (void*)instance->setValue(param1, param2);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "TextureSampler");
@@ -1809,7 +1809,7 @@ int lua_MaterialParameter_setVector2(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", true, &param1Valid);
+                ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector2'.");
@@ -1852,7 +1852,7 @@ int lua_MaterialParameter_setVector2Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector2'.");
@@ -1881,7 +1881,7 @@ int lua_MaterialParameter_setVector2Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector2> param1 = gameplay::ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector2> param1 = ScriptUtil::getObjectPointer<Vector2>(2, "Vector2", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector2'.");
@@ -1892,7 +1892,7 @@ int lua_MaterialParameter_setVector2Array(lua_State* state)
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setVector2Array(param1, param2, param3);
@@ -1929,7 +1929,7 @@ int lua_MaterialParameter_setVector3(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1972,7 +1972,7 @@ int lua_MaterialParameter_setVector3Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -2001,7 +2001,7 @@ int lua_MaterialParameter_setVector3Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -2012,7 +2012,7 @@ int lua_MaterialParameter_setVector3Array(lua_State* state)
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setVector3Array(param1, param2, param3);
@@ -2049,7 +2049,7 @@ int lua_MaterialParameter_setVector4(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
+                ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector4'.");
@@ -2092,7 +2092,7 @@ int lua_MaterialParameter_setVector4Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector4'.");
@@ -2121,7 +2121,7 @@ int lua_MaterialParameter_setVector4Array(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector4'.");
@@ -2132,7 +2132,7 @@ int lua_MaterialParameter_setVector4Array(lua_State* state)
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
 
                 // Get parameter 3 off the stack.
-                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+                bool param3 = ScriptUtil::luaCheckBool(state, 4);
 
                 MaterialParameter* instance = getInstance(state);
                 instance->setVector4Array(param1, param2, param3);

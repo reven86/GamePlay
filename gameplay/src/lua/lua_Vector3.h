@@ -29,6 +29,7 @@ int lua_Vector3_static_cross(lua_State* state);
 int lua_Vector3_static_dot(lua_State* state);
 int lua_Vector3_static_fromColor(lua_State* state);
 int lua_Vector3_static_one(lua_State* state);
+int lua_Vector3_static_random(lua_State* state);
 int lua_Vector3_static_subtract(lua_State* state);
 int lua_Vector3_static_unitX(lua_State* state);
 int lua_Vector3_static_unitY(lua_State* state);

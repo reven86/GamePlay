@@ -30,14 +30,14 @@ void luaRegister_Frustum()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Frustum", lua_members, lua_Frustum__init, lua_Frustum__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("Frustum", lua_members, lua_Frustum__init, lua_Frustum__gc, lua_statics, scopePath);
 }
 
 static Frustum* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Frustum");
     luaL_argcheck(state, userdata != NULL, 1, "'Frustum' expected.");
-    return (Frustum*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Frustum*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Frustum__gc(lua_State* state)
@@ -54,7 +54,7 @@ int lua_Frustum__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Frustum");
                 luaL_argcheck(state, userdata != NULL, 1, "'Frustum' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Frustum* instance = (Frustum*)object->instance;
@@ -91,7 +91,7 @@ int lua_Frustum__init(lua_State* state)
             void* returnPtr = (void*)new Frustum();
             if (returnPtr)
             {
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Frustum");
@@ -113,14 +113,14 @@ int lua_Frustum__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = (void*)new Frustum(*param1);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Frustum");
@@ -141,14 +141,14 @@ int lua_Frustum__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Frustum> param1 = gameplay::ScriptUtil::getObjectPointer<Frustum>(1, "Frustum", true, &param1Valid);
+                    ScriptUtil::LuaArray<Frustum> param1 = ScriptUtil::getObjectPointer<Frustum>(1, "Frustum", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = (void*)new Frustum(*param1);
                     if (returnPtr)
                     {
-                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Frustum");
@@ -193,7 +193,7 @@ int lua_Frustum_getBottom(lua_State* state)
                 void* returnPtr = (void*)&(instance->getBottom());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -236,7 +236,7 @@ int lua_Frustum_getCorners(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -279,7 +279,7 @@ int lua_Frustum_getFar(lua_State* state)
                 void* returnPtr = (void*)&(instance->getFar());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -322,7 +322,7 @@ int lua_Frustum_getFarCorners(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -365,7 +365,7 @@ int lua_Frustum_getLeft(lua_State* state)
                 void* returnPtr = (void*)&(instance->getLeft());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -408,7 +408,7 @@ int lua_Frustum_getMatrix(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -451,7 +451,7 @@ int lua_Frustum_getNear(lua_State* state)
                 void* returnPtr = (void*)&(instance->getNear());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -494,7 +494,7 @@ int lua_Frustum_getNearCorners(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -537,7 +537,7 @@ int lua_Frustum_getRight(lua_State* state)
                 void* returnPtr = (void*)&(instance->getRight());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -581,7 +581,7 @@ int lua_Frustum_getTop(lua_State* state)
                 void* returnPtr = (void*)&(instance->getTop());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Plane");
@@ -626,7 +626,7 @@ int lua_Frustum_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -647,7 +647,7 @@ int lua_Frustum_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<BoundingSphere> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
+                    ScriptUtil::LuaArray<BoundingSphere> param1 = ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -668,7 +668,7 @@ int lua_Frustum_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<BoundingBox> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
+                    ScriptUtil::LuaArray<BoundingBox> param1 = ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -689,7 +689,7 @@ int lua_Frustum_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
+                    ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -710,7 +710,7 @@ int lua_Frustum_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Ray> param1 = gameplay::ScriptUtil::getObjectPointer<Ray>(2, "Ray", true, &param1Valid);
+                    ScriptUtil::LuaArray<Ray> param1 = ScriptUtil::getObjectPointer<Ray>(2, "Ray", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -787,7 +787,7 @@ int lua_Frustum_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Frustum> param1 = gameplay::ScriptUtil::getObjectPointer<Frustum>(2, "Frustum", true, &param1Valid);
+                    ScriptUtil::LuaArray<Frustum> param1 = ScriptUtil::getObjectPointer<Frustum>(2, "Frustum", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -805,7 +805,7 @@ int lua_Frustum_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 

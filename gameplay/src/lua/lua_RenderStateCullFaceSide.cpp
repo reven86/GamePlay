@@ -18,6 +18,7 @@ RenderState::CullFaceSide lua_enumFromString_RenderStateCullFaceSide(const char*
         return RenderState::CULL_FACE_SIDE_FRONT;
     if (strcmp(s, luaEnumString_RenderStateCullFaceSide_CULL_FACE_SIDE_FRONT_AND_BACK) == 0)
         return RenderState::CULL_FACE_SIDE_FRONT_AND_BACK;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration RenderState::CullFaceSide.", s);
     return RenderState::CULL_FACE_SIDE_BACK;
 }
 
@@ -29,6 +30,7 @@ const char* lua_stringFromEnum_RenderStateCullFaceSide(RenderState::CullFaceSide
         return luaEnumString_RenderStateCullFaceSide_CULL_FACE_SIDE_FRONT;
     if (e == RenderState::CULL_FACE_SIDE_FRONT_AND_BACK)
         return luaEnumString_RenderStateCullFaceSide_CULL_FACE_SIDE_FRONT_AND_BACK;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration RenderState::CullFaceSide.", e);
     return enumStringEmpty;
 }
 

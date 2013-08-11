@@ -23,14 +23,14 @@ void luaRegister_AIAgentListener()
     std::vector<std::string> scopePath;
     scopePath.push_back("AIAgent");
 
-    gameplay::ScriptUtil::registerClass("AIAgentListener", lua_members, NULL, lua_AIAgentListener__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("AIAgentListener", lua_members, NULL, lua_AIAgentListener__gc, lua_statics, scopePath);
 }
 
 static AIAgent::Listener* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "AIAgentListener");
     luaL_argcheck(state, userdata != NULL, 1, "'AIAgentListener' expected.");
-    return (AIAgent::Listener*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (AIAgent::Listener*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_AIAgentListener__gc(lua_State* state)
@@ -47,7 +47,7 @@ int lua_AIAgentListener__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "AIAgentListener");
                 luaL_argcheck(state, userdata != NULL, 1, "'AIAgentListener' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     AIAgent::Listener* instance = (AIAgent::Listener*)object->instance;
@@ -86,7 +86,7 @@ int lua_AIAgentListener_messageReceived(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<AIMessage> param1 = gameplay::ScriptUtil::getObjectPointer<AIMessage>(2, "AIMessage", false, &param1Valid);
+                ScriptUtil::LuaArray<AIMessage> param1 = ScriptUtil::getObjectPointer<AIMessage>(2, "AIMessage", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'AIMessage'.");

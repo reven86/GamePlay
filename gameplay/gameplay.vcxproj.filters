@@ -366,9 +366,6 @@
     <ClCompile Include="src\lua\lua_Font.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\lua_FontText.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
     <ClCompile Include="src\lua\lua_Form.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
@@ -870,6 +867,21 @@
     <ClCompile Include="src\HorizontalLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\lua\lua_FontGlyph.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_HorizontalLayout.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_Matrix3.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_ProgressBar.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_ProgressBarOrientationType.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation.h">
@@ -1230,9 +1242,6 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Font.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_FontText.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Form.h">
@@ -1726,6 +1735,21 @@
     </ClInclude>
     <ClInclude Include="src\HorizontalLayout.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_FontGlyph.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_HorizontalLayout.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_Matrix3.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_ProgressBar.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_ProgressBarOrientationType.h">
+      <Filter>src\lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

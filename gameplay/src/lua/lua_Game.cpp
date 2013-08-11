@@ -35,10 +35,12 @@ void luaRegister_Game()
         {"getAIController", lua_Game_getAIController},
         {"getAccelerometerValues", lua_Game_getAccelerometerValues},
         {"getAnimationController", lua_Game_getAnimationController},
+        {"getAppPrivateFolderPath", lua_Game_getAppPrivateFolderPath},
         {"getAspectRatio", lua_Game_getAspectRatio},
         {"getAudioController", lua_Game_getAudioController},
         {"getAudioListener", lua_Game_getAudioListener},
         {"getConfig", lua_Game_getConfig},
+        {"getDocumentsFolderPath", lua_Game_getDocumentsFolderPath},
         {"getFrameRate", lua_Game_getFrameRate},
         {"getGamepad", lua_Game_getGamepad},
         {"getGamepadCount", lua_Game_getGamepadCount},
@@ -47,6 +49,8 @@ void luaRegister_Game()
         {"getRawSensorValues", lua_Game_getRawSensorValues},
         {"getScriptController", lua_Game_getScriptController},
         {"getState", lua_Game_getState},
+        {"getTemporaryFolderPath", lua_Game_getTemporaryFolderPath},
+        {"getUserAgentString", lua_Game_getUserAgentString},
         {"getViewport", lua_Game_getViewport},
         {"getWidth", lua_Game_getWidth},
         {"hasAccelerometer", lua_Game_hasAccelerometer},
@@ -64,6 +68,7 @@ void luaRegister_Game()
         {"mouseEvent", lua_Game_mouseEvent},
         {"pause", lua_Game_pause},
         {"registerGesture", lua_Game_registerGesture},
+        {"reportError", lua_Game_reportError},
         {"resizeEvent", lua_Game_resizeEvent},
         {"resume", lua_Game_resume},
         {"run", lua_Game_run},
@@ -88,14 +93,14 @@ void luaRegister_Game()
     };
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Game", lua_members, NULL, lua_Game__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("Game", lua_members, NULL, lua_Game__gc, lua_statics, scopePath);
 }
 
 static Game* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Game");
     luaL_argcheck(state, userdata != NULL, 1, "'Game' expected.");
-    return (Game*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Game*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Game__gc(lua_State* state)
@@ -112,7 +117,7 @@ int lua_Game__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Game");
                 luaL_argcheck(state, userdata != NULL, 1, "'Game' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Game* instance = (Game*)object->instance;
@@ -194,7 +199,7 @@ int lua_Game_clear(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    gameplay::ScriptUtil::LuaArray<Vector4> param2 = gameplay::ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", true, &param2Valid);
+                    ScriptUtil::LuaArray<Vector4> param2 = ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -284,7 +289,7 @@ int lua_Game_displayKeyboard(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
 
                 Game* instance = getInstance(state);
                 instance->displayKeyboard(param1);
@@ -389,7 +394,7 @@ int lua_Game_gamepadEvent(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<Gamepad> param2 = gameplay::ScriptUtil::getObjectPointer<Gamepad>(3, "Gamepad", false, &param2Valid);
+                ScriptUtil::LuaArray<Gamepad> param2 = ScriptUtil::getObjectPointer<Gamepad>(3, "Gamepad", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Gamepad'.");
@@ -560,7 +565,7 @@ int lua_Game_getAIController(lua_State* state)
                 void* returnPtr = (void*)instance->getAIController();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "AIController");
@@ -603,10 +608,10 @@ int lua_Game_getAccelerometerValues(lua_State* state)
                 (lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TLIGHTUSERDATA))
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
+                ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(3);
 
                 Game* instance = getInstance(state);
                 instance->getAccelerometerValues(param1, param2);
@@ -644,7 +649,7 @@ int lua_Game_getAnimationController(lua_State* state)
                 void* returnPtr = (void*)instance->getAnimationController();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "AnimationController");
@@ -659,6 +664,41 @@ int lua_Game_getAnimationController(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Game_getAnimationController - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getAppPrivateFolderPath(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                const char* result = instance->getAppPrivateFolderPath();
+
+                // Push the return value onto the stack.
+                lua_pushstring(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getAppPrivateFolderPath - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -723,7 +763,7 @@ int lua_Game_getAudioController(lua_State* state)
                 void* returnPtr = (void*)instance->getAudioController();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "AudioController");
@@ -767,7 +807,7 @@ int lua_Game_getAudioListener(lua_State* state)
                 void* returnPtr = (void*)instance->getAudioListener();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "AudioListener");
@@ -811,7 +851,7 @@ int lua_Game_getConfig(lua_State* state)
                 void* returnPtr = (void*)instance->getConfig();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Properties");
@@ -826,6 +866,41 @@ int lua_Game_getConfig(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Game_getConfig - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getDocumentsFolderPath(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                const char* result = instance->getDocumentsFolderPath();
+
+                // Push the return value onto the stack.
+                lua_pushstring(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getDocumentsFolderPath - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -894,7 +969,7 @@ int lua_Game_getGamepad(lua_State* state)
                 void* returnPtr = (void*)instance->getGamepad(param1);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Gamepad");
@@ -922,13 +997,13 @@ int lua_Game_getGamepad(lua_State* state)
                 unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
 
                 // Get parameter 2 off the stack.
-                bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 3);
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
 
                 Game* instance = getInstance(state);
                 void* returnPtr = (void*)instance->getGamepad(param1, param2);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Gamepad");
@@ -1042,7 +1117,7 @@ int lua_Game_getPhysicsController(lua_State* state)
                 void* returnPtr = (void*)instance->getPhysicsController();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "PhysicsController");
@@ -1089,22 +1164,22 @@ int lua_Game_getRawSensorValues(lua_State* state)
                 (lua_type(state, 7) == LUA_TTABLE || lua_type(state, 7) == LUA_TLIGHTUSERDATA))
             {
                 // Get parameter 1 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
+                ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(3);
 
                 // Get parameter 3 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
+                ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
 
                 // Get parameter 4 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
+                ScriptUtil::LuaArray<float> param4 = ScriptUtil::getFloatPointer(5);
 
                 // Get parameter 5 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
+                ScriptUtil::LuaArray<float> param5 = ScriptUtil::getFloatPointer(6);
 
                 // Get parameter 6 off the stack.
-                gameplay::ScriptUtil::LuaArray<float> param6 = gameplay::ScriptUtil::getFloatPointer(7);
+                ScriptUtil::LuaArray<float> param6 = ScriptUtil::getFloatPointer(7);
 
                 Game* instance = getInstance(state);
                 instance->getRawSensorValues(param1, param2, param3, param4, param5, param6);
@@ -1142,7 +1217,7 @@ int lua_Game_getScriptController(lua_State* state)
                 void* returnPtr = (void*)instance->getScriptController();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "ScriptController");
@@ -1205,6 +1280,76 @@ int lua_Game_getState(lua_State* state)
     return 0;
 }
 
+int lua_Game_getTemporaryFolderPath(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                const char* result = instance->getTemporaryFolderPath();
+
+                // Push the return value onto the stack.
+                lua_pushstring(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getTemporaryFolderPath - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getUserAgentString(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                const char* result = instance->getUserAgentString();
+
+                // Push the return value onto the stack.
+                lua_pushstring(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getUserAgentString - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Game_getViewport(lua_State* state)
 {
     // Get the number of parameters.
@@ -1221,7 +1366,7 @@ int lua_Game_getViewport(lua_State* state)
                 void* returnPtr = (void*)&(instance->getViewport());
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Rectangle");
@@ -1661,7 +1806,7 @@ int lua_Game_launchURL(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 Game* instance = getInstance(state);
                 bool result = instance->launchURL(param1);
@@ -1837,6 +1982,46 @@ int lua_Game_registerGesture(lua_State* state)
     return 0;
 }
 
+int lua_Game_reportError(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN &&
+                (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+
+                // Get parameter 2 off the stack.
+                const char* param2 = ScriptUtil::getString(3, false);
+
+                Game* instance = getInstance(state);
+                instance->reportError(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Game_reportError - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Game_resizeEvent(lua_State* state)
 {
     // Get the number of parameters.
@@ -1962,7 +2147,7 @@ int lua_Game_schedule(lua_State* state)
                 float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                const char* param2 = ScriptUtil::getString(3, false);
 
                 Game* instance = getInstance(state);
                 instance->schedule(param1, param2);
@@ -1998,7 +2183,7 @@ int lua_Game_setCursorVisible(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
 
                 Game* instance = getInstance(state);
                 instance->setCursorVisible(param1);
@@ -2034,7 +2219,7 @@ int lua_Game_setMouseCaptured(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
 
                 Game* instance = getInstance(state);
                 instance->setMouseCaptured(param1);
@@ -2070,7 +2255,7 @@ int lua_Game_setMultiSampling(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
 
                 Game* instance = getInstance(state);
                 instance->setMultiSampling(param1);
@@ -2106,7 +2291,7 @@ int lua_Game_setMultiTouch(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
 
                 Game* instance = getInstance(state);
                 instance->setMultiTouch(param1);
@@ -2143,7 +2328,7 @@ int lua_Game_setViewport(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Rectangle'.");
@@ -2239,7 +2424,7 @@ int lua_Game_static_getInstance(lua_State* state)
             void* returnPtr = (void*)Game::getInstance();
             if (returnPtr)
             {
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Game");
@@ -2304,7 +2489,7 @@ int lua_Game_static_setVsync(lua_State* state)
             if (lua_type(state, 1) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 1);
+                bool param1 = ScriptUtil::luaCheckBool(state, 1);
 
                 Game::setVsync(param1);
                 

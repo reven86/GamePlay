@@ -36,14 +36,14 @@ void luaRegister_RenderState()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("RenderState", lua_members, NULL, lua_RenderState__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("RenderState", lua_members, NULL, lua_RenderState__gc, lua_statics, scopePath);
 }
 
 static RenderState* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "RenderState");
     luaL_argcheck(state, userdata != NULL, 1, "'RenderState' expected.");
-    return (RenderState*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (RenderState*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_RenderState__gc(lua_State* state)
@@ -60,7 +60,7 @@ int lua_RenderState__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "RenderState");
                 luaL_argcheck(state, userdata != NULL, 1, "'RenderState' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     RenderState* instance = (RenderState*)object->instance;
@@ -130,7 +130,7 @@ int lua_RenderState_clearParameter(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 RenderState* instance = getInstance(state);
                 instance->clearParameter(param1);
@@ -166,13 +166,13 @@ int lua_RenderState_getParameter(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 RenderState* instance = getInstance(state);
                 void* returnPtr = (void*)instance->getParameter(param1);
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MaterialParameter");
@@ -251,7 +251,7 @@ int lua_RenderState_getStateBlock(lua_State* state)
                 void* returnPtr = (void*)instance->getStateBlock();
                 if (returnPtr)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "RenderStateStateBlock");
@@ -328,7 +328,7 @@ int lua_RenderState_setParameterAutoBinding(lua_State* state)
                     (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
                     RenderState::AutoBinding param2 = (RenderState::AutoBinding)lua_enumFromString_RenderStateAutoBinding(luaL_checkstring(state, 3));
@@ -347,10 +347,10 @@ int lua_RenderState_setParameterAutoBinding(lua_State* state)
                     (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param1 = ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                    const char* param2 = ScriptUtil::getString(3, false);
 
                     RenderState* instance = getInstance(state);
                     instance->setParameterAutoBinding(param1, param2);
@@ -388,7 +388,7 @@ int lua_RenderState_setStateBlock(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<RenderState::StateBlock> param1 = gameplay::ScriptUtil::getObjectPointer<RenderState::StateBlock>(2, "RenderStateStateBlock", false, &param1Valid);
+                ScriptUtil::LuaArray<RenderState::StateBlock> param1 = ScriptUtil::getObjectPointer<RenderState::StateBlock>(2, "RenderStateStateBlock", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'RenderState::StateBlock'.");

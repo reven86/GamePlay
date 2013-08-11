@@ -24,14 +24,14 @@ void luaRegister_Platform()
     };
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("Platform", lua_members, NULL, lua_Platform__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("Platform", lua_members, NULL, lua_Platform__gc, lua_statics, scopePath);
 }
 
 static Platform* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Platform");
     luaL_argcheck(state, userdata != NULL, 1, "'Platform' expected.");
-    return (Platform*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Platform*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Platform__gc(lua_State* state)
@@ -48,7 +48,7 @@ int lua_Platform__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Platform");
                 luaL_argcheck(state, userdata != NULL, 1, "'Platform' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Platform* instance = (Platform*)object->instance;

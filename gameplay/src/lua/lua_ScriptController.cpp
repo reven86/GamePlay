@@ -25,14 +25,14 @@ void luaRegister_ScriptController()
     };
     std::vector<std::string> scopePath;
 
-    gameplay::ScriptUtil::registerClass("ScriptController", lua_members, NULL, NULL, lua_statics, scopePath);
+    ScriptUtil::registerClass("ScriptController", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static ScriptController* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "ScriptController");
     luaL_argcheck(state, userdata != NULL, 1, "'ScriptController' expected.");
-    return (ScriptController*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (ScriptController*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_ScriptController_loadScript(lua_State* state)
@@ -49,7 +49,7 @@ int lua_ScriptController_loadScript(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 ScriptController* instance = getInstance(state);
                 instance->loadScript(param1);
@@ -68,10 +68,10 @@ int lua_ScriptController_loadScript(lua_State* state)
                 lua_type(state, 3) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 // Get parameter 2 off the stack.
-                bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 3);
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
 
                 ScriptController* instance = getInstance(state);
                 instance->loadScript(param1, param2);
@@ -107,7 +107,7 @@ int lua_ScriptController_loadUrl(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 ScriptController* instance = getInstance(state);
                 std::string result = instance->loadUrl(param1);
@@ -147,10 +147,10 @@ int lua_ScriptController_registerCallback(lua_State* state)
                 (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                const char* param2 = ScriptUtil::getString(3, false);
 
                 ScriptController* instance = getInstance(state);
                 instance->registerCallback(param1, param2);
@@ -187,7 +187,7 @@ int lua_ScriptController_static_print(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
+                    const char* param1 = ScriptUtil::getString(1, false);
 
                     ScriptController::print(param1);
                     
@@ -207,10 +207,10 @@ int lua_ScriptController_static_print(lua_State* state)
                     (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
+                    const char* param1 = ScriptUtil::getString(1, false);
 
                     // Get parameter 2 off the stack.
-                    const char* param2 = gameplay::ScriptUtil::getString(2, false);
+                    const char* param2 = ScriptUtil::getString(2, false);
 
                     ScriptController::print(param1, param2);
                     
@@ -247,10 +247,10 @@ int lua_ScriptController_unregisterCallback(lua_State* state)
                 (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
+                const char* param1 = ScriptUtil::getString(2, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = gameplay::ScriptUtil::getString(3, false);
+                const char* param2 = ScriptUtil::getString(3, false);
 
                 ScriptController* instance = getInstance(state);
                 instance->unregisterCallback(param1, param2);

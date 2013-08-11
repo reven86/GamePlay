@@ -18,6 +18,7 @@ Keyboard::KeyEvent lua_enumFromString_KeyboardKeyEvent(const char* s)
         return Keyboard::KEY_RELEASE;
     if (strcmp(s, luaEnumString_KeyboardKeyEvent_KEY_CHAR) == 0)
         return Keyboard::KEY_CHAR;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Keyboard::KeyEvent.", s);
     return Keyboard::KEY_PRESS;
 }
 
@@ -29,6 +30,7 @@ const char* lua_stringFromEnum_KeyboardKeyEvent(Keyboard::KeyEvent e)
         return luaEnumString_KeyboardKeyEvent_KEY_RELEASE;
     if (e == Keyboard::KEY_CHAR)
         return luaEnumString_KeyboardKeyEvent_KEY_CHAR;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Keyboard::KeyEvent.", e);
     return enumStringEmpty;
 }
 

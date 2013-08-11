@@ -4,7 +4,7 @@
 namespace gameplay
 {
 
-Label::Label() : _text(""), _font(NULL)
+Label::Label() : _text(L""), _font(NULL)
     , _textColor( 0.0f, 0.0f, 0.0f, 0.0f )
 {
 }
@@ -50,7 +50,7 @@ void Label::initialize(Theme::Style* style, Properties* properties)
     const char* text = properties->getString("text");
     if (text)
     {
-        _text = text;
+        _text.assign( text, text + strlen( text ) );
     }
 }
 
@@ -67,19 +67,19 @@ void Label::addListener(Control::Listener* listener, int eventFlags)
 
     Control::addListener(listener, eventFlags);
 }
-    
-void Label::setText(const char* text)
+
+void Label::setText(const wchar_t* text)
 {
     assert(text);
 
-    if (strcmp(text, _text.c_str()) != 0)
+    if (wcscmp(text, _text.c_str()) != 0)
     {
         _text = text;
         _dirty = true;
     }
 }
 
-const char* Label::getText()
+const wchar_t* Label::getText()
 {
     return _text.c_str();
 }

@@ -80,6 +80,7 @@ int lua_Form_setBounds(lua_State* state);
 int lua_Form_setConsumeInputEvents(lua_State* state);
 int lua_Form_setCursorColor(lua_State* state);
 int lua_Form_setCursorRegion(lua_State* state);
+int lua_Form_setDrawOntoScreen(lua_State* state);
 int lua_Form_setEnabled(lua_State* state);
 int lua_Form_setFocusIndex(lua_State* state);
 int lua_Form_setFont(lua_State* state);

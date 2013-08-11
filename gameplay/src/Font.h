@@ -54,6 +54,8 @@ public:
      * Vertex coordinates, UVs and indices can be computed and stored in a Text object.
      * For static text labels that do not change frequently, this means these computations
      * need not be performed every frame.
+     *
+     * @script{ignore}
      */
     class Text
     {
@@ -63,7 +65,7 @@ public:
         /**
          * Constructor.
          */
-        Text(const char* text);
+        Text(const wchar_t* text);
 
         /**
          * Destructor.
@@ -73,7 +75,7 @@ public:
         /**
          * Get the string that will be drawn from this Text object.
          */
-        const char* getText();
+        const wchar_t* getText();
 
     private:
         /**
@@ -85,7 +87,7 @@ public:
          */
         Text& operator=(const Text&);
         
-        std::string _text;
+        std::wstring _text;
         unsigned int _vertexCount;
         SpriteBatch::SpriteVertex* _vertices;
         Vector4 _color;
@@ -128,8 +130,9 @@ public:
      * @param color The color of text.
      * @param size The size to draw text (0 for default size).
      * @param rightToLeft Whether to draw text from right to left.
+     * @script{ignore}
      */
-    void drawText(const char* text, float x, float y, const Vector4& color, float size = 0, bool rightToLeft = false) const;
+    void drawText(const wchar_t* text, float x, float y, const Vector4& color, float size = 0, bool rightToLeft = false) const;
 
     /**
      * Draws the specified text in a solid color, with a scaling factor.
@@ -143,8 +146,9 @@ public:
      * @param alpha The alpha channel of the text color.
      * @param size The size to draw text (0 for default size).
      * @param rightToLeft Whether to draw text from right to left.
+     * @script{ignore}
      */
-    void drawText(const char* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, bool rightToLeft = false) const;
+    void drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, bool rightToLeft = false) const;
 
     /**
      * Draws the specified text within a rectangular area, with a specified alignment and scale.
@@ -158,14 +162,16 @@ public:
      * @param wrap Wraps text to fit within the width of the viewport if true.
      * @param rightToLeft Whether to draw text from right to left.
      * @param clip A region to clip text within after applying justification to the viewport area.
+     * @script{ignore}
      */
-    void drawText(const char* text, const Rectangle& area, const Vector4& color, float size = 0, 
+    void drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size = 0, 
                   Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL) const;
 
     /**
      * Draw a string from a precomputed Text object.
      *
      * @param text The text to draw.
+     * @script{ignore}
      */
     void drawText(Text* text) const;
 
@@ -183,10 +189,11 @@ public:
      * @param wrap Wraps text to fit within the width of the viewport if true.
      * @param rightToLeft Whether to draw text from right to left.
      * @param clip A region to clip text within after applying justification to the viewport area.
+     * @script{ignore}
      *
      * @return A Text object.
      */
-    Text* createText(const char* text, const Rectangle& area, const Vector4& color, float size = 0,
+    Text* createText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size = 0,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle* clip = NULL);
 
     /**
@@ -201,8 +208,9 @@ public:
      * @param size The font height to scale to.
      * @param widthOut Destination for the text's width.
      * @param heightOut Destination for the text's height.
+     * @script{ignore}
      */
-    void measureText(const char* text, float size, float* widthOut, float* heightOut) const;
+    void measureText(const wchar_t* text, float size, float* widthOut, float* heightOut) const;
 
     /**
      * Measures a string's bounding box after alignment, wrapping and clipping within a viewport.
@@ -215,8 +223,9 @@ public:
      * @param wrap Whether to measure text with wrapping applied.
      * @param ignoreClip Whether to clip 'out' to the viewport.  Set false for the bounds of what would actually be drawn
      *                within the given viewport; true for bounds that are guaranteed to fit the entire string of text.
+     * @script{ignore}
      */
-    void measureText(const char* text, const Rectangle& clip, float size, Rectangle* out,
+    void measureText(const wchar_t* text, const Rectangle& clip, float size, Rectangle* out,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool ignoreClip = false) const;
 
     /**
@@ -243,14 +252,16 @@ public:
 
     /**
      * Get an character index into a string corresponding to the character nearest the given location within the clip region.
+     * @script{ignore}
      */
-    int getIndexAtLocation(const char* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
+    int getIndexAtLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
                            Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
     /**
      * Get the location of the character at the given index.
+     * @script{ignore}
      */
-    void getLocationAtIndex(const char* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
+    void getLocationAtIndex(const wchar_t* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
                             Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
     /**
@@ -337,17 +348,17 @@ private:
      */
     static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture);
 
-    void getMeasurementInfo(const char* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
+    void getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
                             std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const;
 
-    int getIndexOrLocation(const char* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
+    int getIndexOrLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
                            const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
-    float getTokenWidth(const char* token, unsigned int length, float size, float scale) const;
+    float getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale) const;
 
-    unsigned int getReversedTokenLength(const char* token, const char* bufStart) const;
+    unsigned int getReversedTokenLength(const wchar_t* token, const wchar_t* bufStart) const;
 
-    int handleDelimiters(const char** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
+    int handleDelimiters(const wchar_t** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
                          std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex = NULL,
                          const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1) const;
 

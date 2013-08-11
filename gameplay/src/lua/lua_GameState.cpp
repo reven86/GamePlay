@@ -18,6 +18,7 @@ Game::State lua_enumFromString_GameState(const char* s)
         return Game::RUNNING;
     if (strcmp(s, luaEnumString_GameState_PAUSED) == 0)
         return Game::PAUSED;
+    GP_ERROR("Invalid enumeration value '%s' for enumeration Game::State.", s);
     return Game::UNINITIALIZED;
 }
 
@@ -29,6 +30,7 @@ const char* lua_stringFromEnum_GameState(Game::State e)
         return luaEnumString_GameState_RUNNING;
     if (e == Game::PAUSED)
         return luaEnumString_GameState_PAUSED;
+    GP_ERROR("Invalid enumeration value '%d' for enumeration Game::State.", e);
     return enumStringEmpty;
 }
 

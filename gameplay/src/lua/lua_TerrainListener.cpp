@@ -30,14 +30,14 @@ void luaRegister_TerrainListener()
     std::vector<std::string> scopePath;
     scopePath.push_back("Terrain");
 
-    gameplay::ScriptUtil::registerClass("TerrainListener", lua_members, NULL, lua_TerrainListener__gc, lua_statics, scopePath);
+    ScriptUtil::registerClass("TerrainListener", lua_members, NULL, lua_TerrainListener__gc, lua_statics, scopePath);
 }
 
 static Terrain::Listener* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "TerrainListener");
     luaL_argcheck(state, userdata != NULL, 1, "'TerrainListener' expected.");
-    return (Terrain::Listener*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
+    return (Terrain::Listener*)((ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_TerrainListener__gc(lua_State* state)
@@ -54,7 +54,7 @@ int lua_TerrainListener__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "TerrainListener");
                 luaL_argcheck(state, userdata != NULL, 1, "'TerrainListener' expected.");
-                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
+                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Terrain::Listener* instance = (Terrain::Listener*)object->instance;
@@ -94,7 +94,7 @@ int lua_TerrainListener_materialUpdated(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Terrain> param1 = gameplay::ScriptUtil::getObjectPointer<Terrain>(2, "Terrain", false, &param1Valid);
+                ScriptUtil::LuaArray<Terrain> param1 = ScriptUtil::getObjectPointer<Terrain>(2, "Terrain", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Terrain'.");
@@ -103,7 +103,7 @@ int lua_TerrainListener_materialUpdated(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<Material> param2 = gameplay::ScriptUtil::getObjectPointer<Material>(3, "Material", false, &param2Valid);
+                ScriptUtil::LuaArray<Material> param2 = ScriptUtil::getObjectPointer<Material>(3, "Material", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Material'.");

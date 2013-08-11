@@ -505,6 +505,8 @@ extern void print(const char* format, ...)
     int sz = vfprintf(stderr, format, argptr);
     if (sz > 0)
     {
+        fflush(stderr);
+
         char* buf = new char[sz + 1];
         vsprintf(buf, format, argptr);
         buf[sz] = 0;
