@@ -28,18 +28,22 @@ void Platform::keyEventInternal(Keyboard::KeyEvent evt, int key)
 
 bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 {
-    if (Form::mouseEventInternal(evt, x, y, wheelDelta))
+    bool eventConsumed = Form::mouseEventInternal(evt, x, y, wheelDelta);
+
+    // send mouse move event even if it is consumed by form
+    if( !eventConsumed || evt == Mouse::MOUSE_MOVE )
     {
-        return true;
+        if (Game::getInstance()->mouseEvent(evt, x, y, wheelDelta))
+        {
+            return true;
+        }
+        else
+        {
+            return Game::getInstance()->getScriptController()->mouseEvent(evt, x, y, wheelDelta);
+        }
     }
-    else if (Game::getInstance()->mouseEvent(evt, x, y, wheelDelta))
-    {
-        return true;
-    }
-    else
-    {
-        return Game::getInstance()->getScriptController()->mouseEvent(evt, x, y, wheelDelta);
-    }
+
+    return eventConsumed;
 }
 
 void Platform::gestureSwipeEventInternal(int x, int y, int direction)
