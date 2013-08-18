@@ -709,8 +709,8 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
     const size_t length = wcslen(text);
     if (length == 0)
     {
-        *width = 0;
-        *height = 0;
+        *width = 1;
+        *height = size;
         return;
     }
 
@@ -738,6 +738,9 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
 
         token += tokenLength;
     }
+
+    // width should be at least one pix
+    *width += 1;
 }
 
 void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
@@ -748,7 +751,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
 
     if (wcslen(text) == 0)
     {
-        out->set(0, 0, 0, 0);
+        out->set(0, 0, 1.0f, size);
         return;
     }
 
@@ -1059,14 +1062,14 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
         // Guarantee that the output rect will fit within the clip.
         out->x = (x >= clip.x)? x : clip.x;
         out->y = (y >= clip.y)? y : clip.y;
-        out->width = (width <= clip.width)? width : clip.width;
+        out->width = (width <= clip.width)? width + 1.0f : clip.width;
         out->height = (height <= viewportHeight)? height : viewportHeight;
     }
     else
     {
         out->x = x;
         out->y = y;
-        out->width = width;
+        out->width = width + 1.0f;
         out->height = height;
     }
 }
