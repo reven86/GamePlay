@@ -74,7 +74,7 @@ void ImageControl::setImage(const char* path)
     SAFE_DELETE(_batch);
 
     // check for '.material' extension
-    std::string pathString(pathString);
+    std::string pathString(path);
     std::transform(pathString.begin(), pathString.end(), pathString.begin(), (int(*)(int))tolower);
     
     size_t pathLen = strlen(path);
