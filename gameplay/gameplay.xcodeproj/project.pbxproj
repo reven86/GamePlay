@@ -286,10 +286,6 @@
 		42BCD51115EFD0F300C0E076 /* lua_FontStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37915EFD0F300C0E076 /* lua_FontStyle.cpp */; };
 		42BCD51215EFD0F300C0E076 /* lua_FontStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37A15EFD0F300C0E076 /* lua_FontStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42BCD51315EFD0F300C0E076 /* lua_FontStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37A15EFD0F300C0E076 /* lua_FontStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD51415EFD0F300C0E076 /* lua_FontText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37B15EFD0F300C0E076 /* lua_FontText.cpp */; };
-		42BCD51515EFD0F300C0E076 /* lua_FontText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37B15EFD0F300C0E076 /* lua_FontText.cpp */; };
-		42BCD51615EFD0F300C0E076 /* lua_FontText.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37C15EFD0F300C0E076 /* lua_FontText.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD51715EFD0F300C0E076 /* lua_FontText.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37C15EFD0F300C0E076 /* lua_FontText.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42BCD51815EFD0F300C0E076 /* lua_Form.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */; };
 		42BCD51915EFD0F300C0E076 /* lua_Form.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */; };
 		42BCD51A15EFD0F300C0E076 /* lua_Form.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37E15EFD0F300C0E076 /* lua_Form.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1178,8 +1174,30 @@
 		EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
 		EB12FF6816EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
 		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
-		EB57EEDA173EE75500DF0714 /* lua_TextBoxInputMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */; };
-		EB57EEDB173EE75500DF0714 /* lua_TextBoxInputMode.h in Headers */ = {isa = PBXBuildFile; fileRef = EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */; };
+		EBEA401E17BE709400BFE948 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
+		EBEA401F17BE709400BFE948 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
+		EBEA402017BE709400BFE948 /* HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA401D17BE709400BFE948 /* HorizontalLayout.h */; };
+		EBEA402117BE709400BFE948 /* HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA401D17BE709400BFE948 /* HorizontalLayout.h */; };
+		EBEA402D17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */; };
+		EBEA402E17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */; };
+		EBEA402F17BE70DF00BFE948 /* lua_FontGlyph.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */; };
+		EBEA403017BE70DF00BFE948 /* lua_FontGlyph.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */; };
+		EBEA403117BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */; };
+		EBEA403217BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */; };
+		EBEA403317BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402617BE70DF00BFE948 /* lua_HorizontalLayout.h */; };
+		EBEA403417BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402617BE70DF00BFE948 /* lua_HorizontalLayout.h */; };
+		EBEA403517BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */; };
+		EBEA403617BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */; };
+		EBEA403717BE70DF00BFE948 /* lua_Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402817BE70DF00BFE948 /* lua_Matrix3.h */; };
+		EBEA403817BE70DF00BFE948 /* lua_Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402817BE70DF00BFE948 /* lua_Matrix3.h */; };
+		EBEA403917BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */; };
+		EBEA403A17BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */; };
+		EBEA403B17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402A17BE70DF00BFE948 /* lua_ProgressBar.h */; };
+		EBEA403C17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402A17BE70DF00BFE948 /* lua_ProgressBar.h */; };
+		EBEA403D17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402B17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp */; };
+		EBEA403E17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402B17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp */; };
+		EBEA403F17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402C17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h */; };
+		EBEA404017BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402C17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h */; };
 		EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
 		EBF7F62D163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
 		EBF7F62E163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
@@ -1346,8 +1364,6 @@
 		42BCD37815EFD0F300C0E076 /* lua_FontJustify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_FontJustify.h; sourceTree = "<group>"; };
 		42BCD37915EFD0F300C0E076 /* lua_FontStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FontStyle.cpp; sourceTree = "<group>"; };
 		42BCD37A15EFD0F300C0E076 /* lua_FontStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_FontStyle.h; sourceTree = "<group>"; };
-		42BCD37B15EFD0F300C0E076 /* lua_FontText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FontText.cpp; sourceTree = "<group>"; };
-		42BCD37C15EFD0F300C0E076 /* lua_FontText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_FontText.h; sourceTree = "<group>"; };
 		42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Form.cpp; sourceTree = "<group>"; };
 		42BCD37E15EFD0F300C0E076 /* lua_Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Form.h; sourceTree = "<group>"; };
 		42BCD37F15EFD0F300C0E076 /* lua_FrameBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FrameBuffer.cpp; sourceTree = "<group>"; };
@@ -1807,6 +1823,18 @@
 		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TextBoxInputMode.cpp; sourceTree = "<group>"; };
 		EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TextBoxInputMode.h; sourceTree = "<group>"; };
+		EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HorizontalLayout.cpp; path = src/HorizontalLayout.cpp; sourceTree = SOURCE_ROOT; };
+		EBEA401D17BE709400BFE948 /* HorizontalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HorizontalLayout.h; path = src/HorizontalLayout.h; sourceTree = SOURCE_ROOT; };
+		EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_FontGlyph.cpp; sourceTree = "<group>"; };
+		EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_FontGlyph.h; sourceTree = "<group>"; };
+		EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_HorizontalLayout.cpp; sourceTree = "<group>"; };
+		EBEA402617BE70DF00BFE948 /* lua_HorizontalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_HorizontalLayout.h; sourceTree = "<group>"; };
+		EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Matrix3.cpp; sourceTree = "<group>"; };
+		EBEA402817BE70DF00BFE948 /* lua_Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Matrix3.h; sourceTree = "<group>"; };
+		EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_ProgressBar.cpp; sourceTree = "<group>"; };
+		EBEA402A17BE70DF00BFE948 /* lua_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ProgressBar.h; sourceTree = "<group>"; };
+		EBEA402B17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_ProgressBarOrientationType.cpp; sourceTree = "<group>"; };
+		EBEA402C17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ProgressBarOrientationType.h; sourceTree = "<group>"; };
 		EBF7F629163415EF00F350CE /* Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix3.cpp; path = src/Matrix3.cpp; sourceTree = SOURCE_ROOT; };
 		EBF7F62A163415EF00F350CE /* Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix3.h; path = src/Matrix3.h; sourceTree = SOURCE_ROOT; };
 		EBF7F62B163415EF00F350CE /* Matrix3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix3.inl; path = src/Matrix3.inl; sourceTree = SOURCE_ROOT; };
@@ -1869,6 +1897,8 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */,
+				EBEA401D17BE709400BFE948 /* HorizontalLayout.h */,
 				EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */,
 				EB12FF6416EBCC3D009BA84B /* ProgressBar.h */,
 				EBF7F629163415EF00F350CE /* Matrix3.cpp */,
@@ -2128,6 +2158,16 @@
 		42BCD31E15EFD0F300C0E076 /* lua */ = {
 			isa = PBXGroup;
 			children = (
+				EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */,
+				EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */,
+				EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */,
+				EBEA402617BE70DF00BFE948 /* lua_HorizontalLayout.h */,
+				EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */,
+				EBEA402817BE70DF00BFE948 /* lua_Matrix3.h */,
+				EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */,
+				EBEA402A17BE70DF00BFE948 /* lua_ProgressBar.h */,
+				EBEA402B17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp */,
+				EBEA402C17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h */,
 				EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */,
 				EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */,
 				42BCD31F15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp */,
@@ -2222,8 +2262,6 @@
 				42BCD37815EFD0F300C0E076 /* lua_FontJustify.h */,
 				42BCD37915EFD0F300C0E076 /* lua_FontStyle.cpp */,
 				42BCD37A15EFD0F300C0E076 /* lua_FontStyle.h */,
-				42BCD37B15EFD0F300C0E076 /* lua_FontText.cpp */,
-				42BCD37C15EFD0F300C0E076 /* lua_FontText.h */,
 				42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */,
 				42BCD37E15EFD0F300C0E076 /* lua_Form.h */,
 				42BCD37F15EFD0F300C0E076 /* lua_FrameBuffer.cpp */,
@@ -2700,7 +2738,6 @@
 				42BCD50A15EFD0F300C0E076 /* lua_Font.h in Headers */,
 				42BCD50E15EFD0F300C0E076 /* lua_FontJustify.h in Headers */,
 				42BCD51215EFD0F300C0E076 /* lua_FontStyle.h in Headers */,
-				42BCD51615EFD0F300C0E076 /* lua_FontText.h in Headers */,
 				42BCD51A15EFD0F300C0E076 /* lua_Form.h in Headers */,
 				42BCD51E15EFD0F300C0E076 /* lua_FrameBuffer.h in Headers */,
 				42BCD52215EFD0F300C0E076 /* lua_Frustum.h in Headers */,
@@ -2858,6 +2895,12 @@
 				C07A674B1742988E00D65C04 /* lua_TextBoxInputMode.h in Headers */,
 				C01405171765345800B9FFB1 /* lua_RenderStateStencilFunction.h in Headers */,
 				C014051B1765345800B9FFB1 /* lua_RenderStateStencilOperation.h in Headers */,
+				EBEA402017BE709400BFE948 /* HorizontalLayout.h in Headers */,
+				EBEA402F17BE70DF00BFE948 /* lua_FontGlyph.h in Headers */,
+				EBEA403317BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */,
+				EBEA403717BE70DF00BFE948 /* lua_Matrix3.h in Headers */,
+				EBEA403B17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */,
+				EBEA403F17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3011,7 +3054,6 @@
 				42BCD50B15EFD0F300C0E076 /* lua_Font.h in Headers */,
 				42BCD50F15EFD0F300C0E076 /* lua_FontJustify.h in Headers */,
 				42BCD51315EFD0F300C0E076 /* lua_FontStyle.h in Headers */,
-				42BCD51715EFD0F300C0E076 /* lua_FontText.h in Headers */,
 				42BCD51B15EFD0F300C0E076 /* lua_Form.h in Headers */,
 				42BCD51F15EFD0F300C0E076 /* lua_FrameBuffer.h in Headers */,
 				42BCD52315EFD0F300C0E076 /* lua_Frustum.h in Headers */,
@@ -3170,6 +3212,12 @@
 				C07A674C1742988E00D65C04 /* lua_TextBoxInputMode.h in Headers */,
 				C01405181765345800B9FFB1 /* lua_RenderStateStencilFunction.h in Headers */,
 				C014051C1765345800B9FFB1 /* lua_RenderStateStencilOperation.h in Headers */,
+				EBEA402117BE709400BFE948 /* HorizontalLayout.h in Headers */,
+				EBEA403017BE70DF00BFE948 /* lua_FontGlyph.h in Headers */,
+				EBEA403417BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */,
+				EBEA403817BE70DF00BFE948 /* lua_Matrix3.h in Headers */,
+				EBEA403C17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */,
+				EBEA404017BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3411,7 +3459,6 @@
 				42BCD50815EFD0F300C0E076 /* lua_Font.cpp in Sources */,
 				42BCD50C15EFD0F300C0E076 /* lua_FontJustify.cpp in Sources */,
 				42BCD51015EFD0F300C0E076 /* lua_FontStyle.cpp in Sources */,
-				42BCD51415EFD0F300C0E076 /* lua_FontText.cpp in Sources */,
 				42BCD51815EFD0F300C0E076 /* lua_Form.cpp in Sources */,
 				42BCD51C15EFD0F300C0E076 /* lua_FrameBuffer.cpp in Sources */,
 				42BCD52015EFD0F300C0E076 /* lua_Frustum.cpp in Sources */,
@@ -3551,6 +3598,12 @@
 				C07A67491742988E00D65C04 /* lua_TextBoxInputMode.cpp in Sources */,
 				C01405151765345800B9FFB1 /* lua_RenderStateStencilFunction.cpp in Sources */,
 				C01405191765345800B9FFB1 /* lua_RenderStateStencilOperation.cpp in Sources */,
+				EBEA401E17BE709400BFE948 /* HorizontalLayout.cpp in Sources */,
+				EBEA402D17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */,
+				EBEA403117BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */,
+				EBEA403517BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */,
+				EBEA403917BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */,
+				EBEA403D17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3697,7 +3750,6 @@
 				42BCD50915EFD0F300C0E076 /* lua_Font.cpp in Sources */,
 				42BCD50D15EFD0F300C0E076 /* lua_FontJustify.cpp in Sources */,
 				42BCD51115EFD0F300C0E076 /* lua_FontStyle.cpp in Sources */,
-				42BCD51515EFD0F300C0E076 /* lua_FontText.cpp in Sources */,
 				42BCD51915EFD0F300C0E076 /* lua_Form.cpp in Sources */,
 				42BCD51D15EFD0F300C0E076 /* lua_FrameBuffer.cpp in Sources */,
 				42BCD52115EFD0F300C0E076 /* lua_Frustum.cpp in Sources */,
@@ -3837,6 +3889,12 @@
 				C07A674A1742988E00D65C04 /* lua_TextBoxInputMode.cpp in Sources */,
 				C01405161765345800B9FFB1 /* lua_RenderStateStencilFunction.cpp in Sources */,
 				C014051A1765345800B9FFB1 /* lua_RenderStateStencilOperation.cpp in Sources */,
+				EBEA401F17BE709400BFE948 /* HorizontalLayout.cpp in Sources */,
+				EBEA402E17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */,
+				EBEA403217BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */,
+				EBEA403617BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */,
+				EBEA403A17BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */,
+				EBEA403E17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

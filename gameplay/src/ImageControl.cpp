@@ -72,8 +72,11 @@ void ImageControl::setImage(const char* path)
     SAFE_DELETE(_batch);
 
     // check for '.material' extension
+    std::string pathString(path);
+    std::transform(pathString.begin(), pathString.end(), pathString.begin(), (int(*)(int))tolower);
+    
     size_t pathLen = strlen(path);
-    if( pathLen > 9 && !stricmp( path + pathLen - 9, ".material" ) )
+    if( pathLen > 9 && !strcmp( pathString.c_str() + pathLen - 9, ".material" ) )
     {
         Material* material = Material::create(path);
         _batch = SpriteBatch::create(material);
