@@ -40,6 +40,7 @@ LOCAL_SRC_FILES := \
     Game.cpp \
     Gamepad.cpp \
     HeightField.cpp \
+    HorizontalLayout.cpp \
     Image.cpp \
     ImageControl.cpp \
     Joint.cpp \
@@ -154,7 +155,6 @@ LOCAL_SRC_FILES := \
     lua/lua_Font.cpp \
     lua/lua_FontJustify.cpp \
     lua/lua_FontStyle.cpp \
-    lua/lua_FontText.cpp \
     lua/lua_Form.cpp \
     lua/lua_FrameBuffer.cpp \
     lua/lua_Frustum.cpp \
@@ -168,6 +168,7 @@ LOCAL_SRC_FILES := \
     lua/lua_GestureGestureEvent.cpp \
     lua/lua_Global.cpp \
     lua/lua_HeightField.cpp \
+    lua/lua_HorizontalLayout.cpp \
     lua/lua_Image.cpp \
     lua/lua_ImageControl.cpp \
     lua/lua_ImageFormat.cpp \
