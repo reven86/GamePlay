@@ -153,6 +153,7 @@ LOCAL_SRC_FILES := \
     lua/lua_FileSystem.cpp \
     lua/lua_FlowLayout.cpp \
     lua/lua_Font.cpp \
+    lua/lua_FontGlyph.cpp \
     lua/lua_FontJustify.cpp \
     lua/lua_FontStyle.cpp \
     lua/lua_Form.cpp \
@@ -188,6 +189,7 @@ LOCAL_SRC_FILES := \
     lua/lua_MaterialParameter.cpp \
     lua/lua_MathUtil.cpp \
     lua/lua_Matrix.cpp \
+    lua/lua_Matrix3.cpp \
     lua/lua_Mesh.cpp \
     lua/lua_MeshBatch.cpp \
     lua/lua_MeshIndexFormat.cpp \
@@ -230,6 +232,8 @@ LOCAL_SRC_FILES := \
     lua/lua_PhysicsVehicleWheel.cpp \
     lua/lua_Plane.cpp \
     lua/lua_Platform.cpp \
+    lua/lua_ProgressBar.cpp \
+    lua/lua_ProgressBarOrientationType.cpp \
     lua/lua_Properties.cpp \
     lua/lua_PropertiesType.cpp \
     lua/lua_Quaternion.cpp \
