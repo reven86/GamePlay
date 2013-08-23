@@ -730,7 +730,7 @@ bool initializeGL(WindowCreationParams* params)
     int attribs[] =
     {
         WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-        WGL_CONTEXT_MINOR_VERSION_ARB, 1,
+        WGL_CONTEXT_MINOR_VERSION_ARB, 0,
         0
     };
 
