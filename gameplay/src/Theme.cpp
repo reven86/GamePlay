@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "Theme.h"
 #include "ThemeStyle.h"
+#include "Material.h"
 
 namespace gameplay
 {
@@ -89,11 +90,30 @@ Theme* Theme::create(const char* url)
         
     // Parse the Properties object and set up the theme.
     const char* textureFile = themeProperties->getString("texture");
-    theme->_texture = Texture::create(textureFile, false);
-    GP_ASSERT(theme->_texture);
-    theme->_spriteBatch = SpriteBatch::create(theme->_texture);
-    GP_ASSERT(theme->_spriteBatch);
-    theme->_spriteBatch->getSampler()->setFilterMode(Texture::NEAREST, Texture::NEAREST);
+
+    // check for '.material' extension
+    std::string pathString(textureFile);
+    std::transform(pathString.begin(), pathString.end(), pathString.begin(), (int(*)(int))tolower);
+
+    size_t pathLen = strlen(textureFile);
+    if( pathLen > 9 && !strcmp( pathString.c_str() + pathLen - 9, ".material" ) )
+    {
+        Material* material = Material::create(textureFile);
+        GP_ASSERT(material);
+        theme->_spriteBatch = SpriteBatch::create(material);
+        GP_ASSERT(theme->_spriteBatch);
+        theme->_texture = theme->_spriteBatch->getSampler( )->getTexture( );
+        theme->_texture->addRef( );
+        SAFE_RELEASE(material);
+    }
+    else
+    {
+        theme->_texture = Texture::create(textureFile, false);
+        GP_ASSERT(theme->_texture);
+        theme->_spriteBatch = SpriteBatch::create(theme->_texture);
+        GP_ASSERT(theme->_spriteBatch);
+        theme->_spriteBatch->getSampler()->setFilterMode(Texture::NEAREST, Texture::NEAREST);
+    }
 
     float tw = 1.0f / theme->_texture->getWidth();
     float th = 1.0f / theme->_texture->getHeight();
