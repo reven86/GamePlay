@@ -1641,6 +1641,7 @@ int Platform::enterMessagePump()
         NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
         __defaultUserAgentString = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
     }
+    [webView release];
 
     NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
     NSString* path = [bundlePath stringByAppendingString:@"/Contents/Resources/"];

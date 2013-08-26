@@ -67,6 +67,7 @@ static double __timeAbsolute;
 static bool __vsync = WINDOW_VSYNC;
 static float __pitch;
 static float __roll;
+static std::string __defaultUserAgentString;
 
 
 double getMachTimeInMilliseconds();
@@ -188,6 +189,14 @@ int getUnicode(int key);
         updating = FALSE;
         game = nil;
         
+        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero];
+        if( webView )
+        {
+            NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+            __defaultUserAgentString = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
+        }
+        [webView release];
+
         // Set the resource path and initalize the game
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
         FileSystem::setResourcePath([bundlePath fileSystemRepresentation]); 
@@ -1557,6 +1566,70 @@ bool Platform::launchURL(const char *url)
     return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String: url]]];
 }
     
+const char * Platform::getTemporaryFolderPath( )
+{
+    NSFileManager* sharedFM = [NSFileManager defaultManager];
+    NSArray* possibleURLs = [sharedFM URLsForDirectory:NSCachesDirectory
+                                             inDomains:NSUserDomainMask];
+    NSURL* dir = nil;
+    
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        dir = [possibleURLs objectAtIndex:0];
+    }
+    
+    static std::string result;
+    result = [dir.path cStringUsingEncoding:NSASCIIStringEncoding];
+    return result.c_str( );
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    NSFileManager* sharedFM = [NSFileManager defaultManager];
+    NSArray* possibleURLs = [sharedFM URLsForDirectory:NSDocumentDirectory
+                                             inDomains:NSUserDomainMask];
+    NSURL* dir = nil;
+    
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        dir = [possibleURLs objectAtIndex:0];
+    }
+    
+    static std::string result;
+    result = [dir.path cStringUsingEncoding:NSASCIIStringEncoding];
+    return result.c_str( );
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    NSFileManager* sharedFM = [NSFileManager defaultManager];
+    NSArray* possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory
+                                             inDomains:NSUserDomainMask];
+    NSURL* appSupportDir = nil;
+    NSURL* appDirectory = nil;
+    
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        appSupportDir = [possibleURLs objectAtIndex:0];
+    }
+    
+    // If a valid app support directory exists, add the
+    // app's bundle ID to it to specify the final directory.
+    if (appSupportDir) {
+        NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+        appDirectory = [appSupportDir URLByAppendingPathComponent:appBundleID];
+    }
+    
+    static std::string result;
+    result = [appDirectory.path cStringUsingEncoding:NSASCIIStringEncoding];
+    return result.c_str( );
+}
+
+const char * Platform::getUserAgentString( )
+{
+    return __defaultUserAgentString.c_str( );
+}
+
 }
 
 #endif
