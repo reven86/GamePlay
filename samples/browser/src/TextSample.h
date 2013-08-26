@@ -41,7 +41,7 @@ private:
     unsigned int _fontIndex;
     Font* _font;
     Rectangle _viewport;
-    std::string _sampleString;
+    std::wstring _sampleString;
 
 };
 

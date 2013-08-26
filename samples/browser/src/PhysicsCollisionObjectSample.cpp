@@ -12,7 +12,7 @@ PhysicsCollisionObjectSample::PhysicsCollisionObjectSample()
     _collisionObjectPaths.assign(paths, paths + 4);
     const char* nodeIds[] = {"sphere", "box", "capsule", "duck"};
     _nodeIds.assign(nodeIds, nodeIds + 4);
-    const char* nodeNames[] = {"Sphere", "Box", "Capsule", "Duck"};
+    const wchar_t* nodeNames[] = {L"Sphere", L"Box", L"Capsule", L"Duck"};
     _nodeNames.assign(nodeNames, nodeNames + 4);
     Vector4 colors[] = {Vector4(1, 0, 0, 1), Vector4(0.1f, 0.6f, 0.1f, 1), Vector4(0, 0, 1, 1), Vector4(1, 1, 0, 1)};
     _colors.assign(colors, colors + 4);
@@ -189,13 +189,13 @@ void PhysicsCollisionObjectSample::fireProjectile(const Ray& ray)
 void PhysicsCollisionObjectSample::incrementDebugDraw()
 {
     _drawDebug = (_drawDebug + 1) % 2;
-    static_cast<Button*>(_form->getControl("drawDebugButton"))->setText(_drawDebug == 0 ? "Normal" : "Debug");
+    static_cast<Button*>(_form->getControl("drawDebugButton"))->setText(_drawDebug == 0 ? L"Normal" : L"Debug");
 }
 
 void PhysicsCollisionObjectSample::toggleWireframe()
 {
     _wireFrame = !_wireFrame;
-    static_cast<Button*>(_form->getControl("wireframeButton"))->setText(_wireFrame ? "Wireframe" : "Solid");
+    static_cast<Button*>(_form->getControl("wireframeButton"))->setText(_wireFrame ? L"Wireframe" : L"Solid");
 }
 
 void PhysicsCollisionObjectSample::controlEvent(Control* control, EventType evt)
@@ -214,7 +214,7 @@ void PhysicsCollisionObjectSample::controlEvent(Control* control, EventType evt)
     else if (strcmp(button->getId(), "throwButton") == 0)
     {
         _throw = !_throw;
-        button->setText(_throw ? "Throw" : "Drop");
+        button->setText(_throw ? L"Throw" : L"Drop");
     }
     else if (strcmp(button->getId(), "shapeButton") == 0)
     {

@@ -75,7 +75,7 @@ void TextureSample::initialize()
         node->setTranslation(-25, cubeSize, 0);
         // Find the position of the node in screen space
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("Quad: Textured", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
+        _text.push_back(_font->createText(L"Quad: Textured", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
     }
     // Textured quad points
     {
@@ -85,7 +85,7 @@ void TextureSample::initialize()
         setTextureUnlitMaterial(node->getModel(), "res/png/color-wheel.png");
         node->setTranslation(-14, cubeSize, 0);
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("Quad: Points", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
+        _text.push_back(_font->createText(L"Quad: Points", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
     }
     // Texture clamp
     {
@@ -94,7 +94,7 @@ void TextureSample::initialize()
         node->setId("clamp");
         node->setTranslation(-3, cubeSize, 0);
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("Wrap: Clamp", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
+        _text.push_back(_font->createText(L"Wrap: Clamp", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_TOP_HCENTER, false));
     }
     // Texture wrapped+repeat
     {
@@ -108,7 +108,7 @@ void TextureSample::initialize()
         }
         node->setTranslation(8, cubeSize, 0);
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("Wrap: Repeat", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
+        _text.push_back(_font->createText(L"Wrap: Repeat", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
     }
     // Mipmapping Off
     {
@@ -117,7 +117,7 @@ void TextureSample::initialize()
         node->setId("mipmap off");
         node->setTranslation(-25.5f, -2.5f, 0);
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("MipMap: Off", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
+        _text.push_back(_font->createText(L"MipMap: Off", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
     }
     // Mipmapping On
     {
@@ -126,7 +126,7 @@ void TextureSample::initialize()
         node->setId("mipmap on");
         node->setTranslation(-5.5f, -2.5f, 0);
         _scene->getActiveCamera()->project(getViewport(), node->getTranslationWorld(), &x, &y);
-        _text.push_back(_font->createText("MipMap: On", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
+        _text.push_back(_font->createText(L"MipMap: On", Rectangle(x, y, textWidth, fontSize), Vector4::one(), fontSize, Font::ALIGN_HCENTER, false));
     }
 }
 

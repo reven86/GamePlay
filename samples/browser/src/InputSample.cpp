@@ -63,7 +63,7 @@ void InputSample::initialize()
     Label* label = Label::create("sensorLabel", theme->getStyle("iconNoBorder"));
     label->setPosition(25, 15);
     label->setSize(175, 50);
-    label->setText("Raw sensor response (accel/gyro)");
+    label->setText(L"Raw sensor response (accel/gyro)");
     form->addControl(label);
     label->release();
     _formNode->setScale(0.0015f, 0.0015f, 1.0f);
@@ -130,7 +130,7 @@ void InputSample::render(float elapsedTime)
     // Draw text
     Vector4 fontColor(1.0f, 1.0f, 1.0f, 1.0f);
     float width, height;
-    char buffer[50];
+    wchar_t buffer[50];
 
     _font->start();
     
@@ -145,7 +145,7 @@ void InputSample::render(float elapsedTime)
     {
         for (std::list<TouchPoint>::const_iterator it = _touchPoints.begin(); it != _touchPoints.end(); ++it)
         {
-            sprintf(buffer, "T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
+            swprintf(buffer, 50, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
             _font->measureText(buffer, _font->getSize(), &width, &height);
             float x = it->_coord.x - width * 0.5f;
             float y = it->_coord.y - height * 0.5f;
@@ -153,7 +153,7 @@ void InputSample::render(float elapsedTime)
         }
 
         // Mouse
-        sprintf(buffer, "M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
+        swprintf(buffer, 50, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
         _font->measureText(buffer, _font->getSize(), &width, &height);
         float x = _mousePoint.x - width * 0.5f;
         float y = _mousePoint.y - height * 0.5f;
@@ -161,11 +161,11 @@ void InputSample::render(float elapsedTime)
         if (!_keyboardState && _mouseString.length() > 0)
         {
             int y = getHeight() - _font->getSize();
-            _font->drawText(_mouseString.c_str(), 0, y, fontColor, _font->getSize());
+            _font->drawText(std::wstring(_mouseString.begin(), _mouseString.end( )).c_str(), 0, y, fontColor, _font->getSize());
         }
         if (_mouseWheel)
         {
-            sprintf(buffer, "%d", _mouseWheel);
+            swprintf(buffer, 50, L"%d", _mouseWheel);
             _font->measureText(buffer, _font->getSize(), &width, &height);
             float x = _mouseWheelPoint.x - width * 0.5f;
             float y = _mouseWheelPoint.y + 4;
@@ -176,23 +176,23 @@ void InputSample::render(float elapsedTime)
     // Pressed keys
     if (_keyboardString.length() > 0)
     {
-        _font->drawText(_keyboardString.c_str(), 0, 0, fontColor, _font->getSize());
+        _font->drawText(std::wstring(_keyboardString.begin(),_keyboardString.end()).c_str(), 0, 0, fontColor, _font->getSize());
     }
     
     // Printable symbols typed
     if (_symbolsString.length() > 0)
     {
-        _font->drawText(_symbolsString.c_str(), 0, _font->getSize(), fontColor, _font->getSize());
+        _font->drawText(std::wstring(_symbolsString.begin(),_symbolsString.end()).c_str(), 0, _font->getSize(), fontColor, _font->getSize());
     }
 
     // Held keys
     if (!_downKeys.empty())
     {
-        std::string displayKeys;
+        std::wstring displayKeys;
         for (std::set<int>::const_iterator i = _downKeys.begin(); i != _downKeys.end(); ++i)
         {
             const char* str = keyString(*i);
-            displayKeys.append(str);
+            displayKeys.append(std::wstring(str, str + strlen(str)));
         }
         if (!displayKeys.empty())
         {
@@ -216,7 +216,7 @@ void InputSample::render(float elapsedTime)
     {
         _formNode->getForm()->draw();
 
-        sprintf(buffer, "Pitch: %f   Roll: %f", pitch, roll);
+        swprintf(buffer, 50, L"Pitch: %f   Roll: %f", pitch, roll);
         _font->measureText(buffer, _font->getSize(), &width, &height);
         _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, _font->getSize());
     }
@@ -387,7 +387,7 @@ void InputSample::controlEvent(Control* control, EventType evt)
     {
         _keyboardState = !_keyboardState;
         displayKeyboard(_keyboardState);
-        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? "Hide virtual keyboard" : "Show virtual keyboard");
+        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? L"Hide virtual keyboard" : L"Show virtual keyboard");
     }
     else if (strcmp(control->getId(), "captureMouseButton") == 0 && hasMouse())
     {

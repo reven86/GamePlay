@@ -48,7 +48,7 @@ void SamplesGame::initialize()
         categoryLabel->setAutoWidth(true);
         categoryLabel->setTextAlignment(Font::ALIGN_BOTTOM_LEFT);
         categoryLabel->setHeight(40);
-        categoryLabel->setText((*_categories)[i].c_str());
+        categoryLabel->setText(std::wstring((*_categories)[i].begin(), (*_categories)[i].end()).c_str());
         categoryLabel->setConsumeInputEvents(false);
         _sampleSelectForm->addControl(categoryLabel);
         categoryLabel->release();
@@ -59,7 +59,7 @@ void SamplesGame::initialize()
         {
             SampleRecord sampleRecord = list[j];
             Button* sampleButton = Button::create(sampleRecord.title.c_str(), buttonStyle);
-            sampleButton->setText(sampleRecord.title.c_str());
+            sampleButton->setText(std::wstring(sampleRecord.title.begin(), sampleRecord.title.end()).c_str());
             sampleButton->setAutoWidth(true);
             sampleButton->setHeight(60);      // Tall enough to touch easily on a BB10 device.
             sampleButton->setConsumeInputEvents(false);   // This lets the user scroll the container if they swipe starting from a button.
@@ -121,7 +121,7 @@ void SamplesGame::render(float elapsedTime)
         
         // Draw back arrow
         _font->start();
-        _font->drawText("<<", getWidth() - 40, 20, Vector4::one(), 28);
+        _font->drawText(L"<<", getWidth() - 40, 20, Vector4::one(), 28);
         _font->finish();
         return;
     }

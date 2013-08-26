@@ -72,7 +72,6 @@
 		42DFAB2016AD8BBC0000F342 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DFAB1C16AD8BBC0000F342 /* OpenGLES.framework */; };
 		42DFAB2116AD8BBC0000F342 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DFAB1D16AD8BBC0000F342 /* QuartzCore.framework */; };
 		42DFAB2216AD8BBC0000F342 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DFAB1E16AD8BBC0000F342 /* UIKit.framework */; };
-		42DFABD116AD961C0000F342 /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DFABD016AD961C0000F342 /* libgameplay.a */; };
 		42DFABD416AD96F10000F342 /* TerrainSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42DFABD216AD96F10000F342 /* TerrainSample.cpp */; };
 		42DFABD516AD96F10000F342 /* TerrainSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42DFABD216AD96F10000F342 /* TerrainSample.cpp */; };
 		42F237A816AD9DD70019CAC9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F237A716AD9DD70019CAC9 /* Default-568h@2x.png */; };
@@ -82,6 +81,9 @@
 		9F4C6D00162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		9F4C6D01162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		B616B282161119EF00CB514C /* game.config in Resources */ = {isa = PBXBuildFile; fileRef = 428F7BDD15CB131A009ED24C /* game.config */; };
+		EB9BF4FB17CBD5F600D636A0 /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF4FA17CBD5F600D636A0 /* libgameplay.a */; };
+		EB9BF4FD17CBD70D00D636A0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF4FC17CBD70D00D636A0 /* WebKit.framework */; };
+		EB9BF4FF17CBD72700D636A0 /* libyaml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF4FE17CBD72700D636A0 /* libyaml.a */; };
 		F10DEAB716726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F10DEAB816726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F1E4B3FA1671372E007516A7 /* FormsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E4B3F81671372E007516A7 /* FormsSample.cpp */; };
@@ -165,6 +167,9 @@
 		5B61612E14CCC24D0073B857 /* sample-browser-ios.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "sample-browser-ios.plist"; sourceTree = "<group>"; };
 		9F4C6CFE162735020076E137 /* GestureSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureSample.cpp; sourceTree = "<group>"; };
 		9F4C6CFF162735020076E137 /* GestureSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureSample.h; sourceTree = "<group>"; };
+		EB9BF4FA17CBD5F600D636A0 /* libgameplay.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgameplay.a; path = ../../gameplay/build/Debug/libgameplay.a; sourceTree = "<group>"; };
+		EB9BF4FC17CBD70D00D636A0 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EB9BF4FE17CBD72700D636A0 /* libyaml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyaml.a; path = "../../../libyaml-multiplatform/_xcode/Build/Products/Release/libyaml.a"; sourceTree = "<group>"; };
 		F10DEAB516726157006FFFDC /* BillboardSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardSample.cpp; sourceTree = "<group>"; };
 		F10DEAB616726157006FFFDC /* BillboardSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardSample.h; sourceTree = "<group>"; };
 		F1E4B3F81671372E007516A7 /* FormsSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormsSample.cpp; sourceTree = "<group>"; };
@@ -178,7 +183,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42DFABD116AD961C0000F342 /* libgameplay.a in Frameworks */,
+				EB9BF4FF17CBD72700D636A0 /* libyaml.a in Frameworks */,
+				EB9BF4FD17CBD70D00D636A0 /* WebKit.framework in Frameworks */,
+				EB9BF4FB17CBD5F600D636A0 /* libgameplay.a in Frameworks */,
 				F1F6195216A71DB100C4FEA1 /* liblua.a in Frameworks */,
 				42C933211491A6C70098216A /* libbullet.a in Frameworks */,
 				42C933261491A6E50098216A /* libogg.a in Frameworks */,
@@ -270,6 +277,9 @@
 		42C932B11491A0DB0098216A = {
 			isa = PBXGroup;
 			children = (
+				EB9BF4FE17CBD72700D636A0 /* libyaml.a */,
+				EB9BF4FC17CBD70D00D636A0 /* WebKit.framework */,
+				EB9BF4FA17CBD5F600D636A0 /* libgameplay.a */,
 				42F237A716AD9DD70019CAC9 /* Default-568h@2x.png */,
 				5B61611214CCC2200073B857 /* sample-browser-macosx.plist */,
 				5B61612E14CCC24D0073B857 /* sample-browser-ios.plist */,
@@ -564,6 +574,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -595,6 +607,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -637,6 +651,8 @@
 					"\"../../external-deps/lua/lib/macosx\"",
 					"\"../../external-deps/oggvorbis/lib/macosx\"",
 					"\"~/Library/Developer/Xcode/DerivedData/gameplay-exiunaubxxjndaapmcqkaoeboiob/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../gameplay/build/Debug\"",
+					"\"$(SRCROOT)/../../../libyaml-multiplatform/_xcode/Build/Products/Release\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -668,6 +684,8 @@
 					"\"../../external-deps/lua/lib/macosx\"",
 					"\"../../external-deps/oggvorbis/lib/macosx\"",
 					"\"~/Library/Developer/Xcode/DerivedData/gameplay-exiunaubxxjndaapmcqkaoeboiob/Build/Products/Debug\"",
+					"\"$(SRCROOT)/../../gameplay/build/Debug\"",
+					"\"$(SRCROOT)/../../../libyaml-multiplatform/_xcode/Build/Products/Release\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

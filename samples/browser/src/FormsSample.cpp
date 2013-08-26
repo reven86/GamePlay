@@ -167,14 +167,14 @@ void FormsSample::createSampleForm(Theme* theme)
     Label* label = Label::create("testLabel", theme->getStyle("iconNoBorder"));
     label->setPosition(50, 50);
     label->setSize(200, 50);
-    label->setText("Label:");
+    label->setText(L"Label:");
     form->addControl(label);
     label->release();
 
     Button* button = Button::create("opacityButton", theme->getStyle("buttonStyle"));
     button->setPosition(45, 100);
     button->setSize(200, 100);
-    button->setText("This is a button.  Click to change its opacity.");
+    button->setText(L"This is a button.  Click to change its opacity.");
     button->addListener(this, Control::Listener::CLICK);
     form->addControl(button);
     button->release();

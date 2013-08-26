@@ -61,7 +61,7 @@ private:
     bool _wireFrame;
     std::vector<const char*> _collisionObjectPaths;
     std::vector<const char*> _nodeIds;
-    std::vector<const char*> _nodeNames;
+    std::vector<const wchar_t*> _nodeNames;
     std::vector<Vector4> _colors;
 };
 

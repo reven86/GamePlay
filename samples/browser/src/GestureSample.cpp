@@ -72,7 +72,7 @@ void GestureSample::render(float elapsedTime)
     for (std::list<std::string>::const_iterator it = _eventLog.begin(); it != _eventLog.end(); ++it)
     {
         ++count;
-        _font->drawText(it->c_str(), 0, y, fontColor, _font->getSize());
+        _font->drawText(std::wstring(it->begin(), it->end()).c_str(), 0, y, fontColor, _font->getSize());
         y += _font->getSize();
 
         if (y > (int)getHeight())
@@ -87,17 +87,17 @@ void GestureSample::render(float elapsedTime)
 
     if (isGestureSupported(Gesture::GESTURE_TAP))
     {
-        _font->drawText("Tap supported", x, y, fontColor, _font->getSize());
+        _font->drawText(L"Tap supported", x, y, fontColor, _font->getSize());
         y += _font->getSize();
     }
     if (isGestureSupported(Gesture::GESTURE_SWIPE))
     {
-        _font->drawText("Swipe supported", x, y, fontColor, _font->getSize());
+        _font->drawText(L"Swipe supported", x, y, fontColor, _font->getSize());
         y += _font->getSize();
     }
     if (isGestureSupported(Gesture::GESTURE_PINCH))
     {
-        _font->drawText("Pinch supported", x, y, fontColor, _font->getSize());
+        _font->drawText(L"Pinch supported", x, y, fontColor, _font->getSize());
         y += _font->getSize();
     }
 

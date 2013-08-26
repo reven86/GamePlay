@@ -220,8 +220,8 @@ bool PostProcessSample::drawScene(Node* node)
 
 void PostProcessSample::drawTechniqueId(const char* techniqueId)
 {
-    char buffer[128];
-    sprintf(buffer, "%s", techniqueId);
+    wchar_t buffer[128];
+    swprintf(buffer, 128, L"%s", techniqueId);
     _font->start();
     _font->drawText(buffer, Rectangle(0, 10, getWidth(), getHeight()), Vector4::one(), _font->getSize(), Font::ALIGN_TOP_HCENTER);
     _font->finish();

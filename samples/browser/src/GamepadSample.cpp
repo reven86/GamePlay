@@ -73,7 +73,7 @@ void GamepadSample::render(float elapsedTime)
     drawFrameRate(_font, Vector4(0, 0.5f, 1, 1), 5, 1, getFrameRate());
 
     _font->start();
-    _font->drawText(_status.c_str(), 5, 25, Vector4::one());
+    _font->drawText(std::wstring(_status.begin(),_status.end()).c_str(), 5, 25, Vector4::one());
     _font->finish();
 
 

@@ -140,18 +140,18 @@ void TerrainSample::render(float elapsedTime)
     _form->draw();
 
     // Draw text
-    char buffer[1024];
-    sprintf(buffer, "FPS: %d", getFrameRate());
+    wchar_t buffer[1024];
+    swprintf(buffer, 1024, L"FPS: %d", getFrameRate());
     _font->start();
     _font->drawText(buffer, 65, 18, Vector4::one(), 30);
     if (_formVisible)
     {
         // Draw stats
-        sprintf(buffer,
-            "Total Patches: %d\n" \
-            "Visible Patches: %d\n" \
-            "Total Triangles: %d\n" \
-            "Visible Triangles: %d\n",
+        swprintf(buffer, 1024,
+            L"Total Patches: %d\n" \
+            L"Visible Patches: %d\n" \
+            L"Total Triangles: %d\n" \
+            L"Visible Triangles: %d\n",
             _terrain->getPatchCount(),
             _terrain->getVisiblePatchCount(),
             _terrain->getTriangleCount(),
@@ -375,6 +375,6 @@ void TerrainSample::controlEvent(Control* control, EventType evt)
 void TerrainSample::setMessage(const char* message)
 {
     Label* label = static_cast<Label*>(_form->getControl("message"));
-    label->setText(message ? message : "");
+    label->setText(message ? std::wstring(message, message+strlen(message)).c_str() : L"");
     _form->getControl("messageBox")->setVisible(message ? true : false);
 }
