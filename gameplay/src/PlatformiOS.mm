@@ -1613,15 +1613,8 @@ const char * Platform::getAppPrivateFolderPath( )
         appSupportDir = [possibleURLs objectAtIndex:0];
     }
     
-    // If a valid app support directory exists, add the
-    // app's bundle ID to it to specify the final directory.
-    if (appSupportDir) {
-        NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-        appDirectory = [appSupportDir URLByAppendingPathComponent:appBundleID];
-    }
-    
     static std::string result;
-    result = [appDirectory.path cStringUsingEncoding:NSASCIIStringEncoding];
+    result = [appSupportDir.path cStringUsingEncoding:NSASCIIStringEncoding];
     return result.c_str( );
 }
 
