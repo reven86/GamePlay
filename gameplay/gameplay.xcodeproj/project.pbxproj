@@ -3273,8 +3273,8 @@
 					"../external-deps/bullet/include",
 					"../external-deps/oggvorbis/include",
 					"../external-deps/libpng/include",
+					"../../libyaml-multiplatform/include",
 					./gameplay,
-					"../external-deps/libyaml/include",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";
@@ -3293,8 +3293,8 @@
 					"../external-deps/bullet/include",
 					"../external-deps/oggvorbis/include",
 					"../external-deps/libpng/include",
+					"../../libyaml-multiplatform/include",
 					./gameplay,
-					"../external-deps/libyaml/include",
 				);
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";
 				VALID_ARCHS = "armv7 armv7s i386 x86_64";
