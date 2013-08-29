@@ -92,6 +92,8 @@ void ImageControl::setImage(const char* path)
         _th = 1.0f / texture->getHeight();
         texture->release();
     }
+    _batch->getSampler( )->setWrapMode( Texture::CLAMP, Texture::CLAMP );
+
     _dirty = true;
 }
 
