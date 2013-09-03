@@ -236,6 +236,7 @@
     <ClCompile Include="src\lua\lua_RenderStateBlend.cpp" />
     <ClCompile Include="src\lua\lua_RenderStateCullFaceSide.cpp" />
     <ClCompile Include="src\lua\lua_RenderStateDepthFunction.cpp" />
+    <ClCompile Include="src\lua\lua_RenderStateFrontFace.cpp" />
     <ClCompile Include="src\lua\lua_RenderStateStateBlock.cpp" />
     <ClCompile Include="src\lua\lua_RenderStateStencilFunction.cpp" />
     <ClCompile Include="src\lua\lua_RenderStateStencilOperation.cpp" />
@@ -527,6 +528,7 @@
     <ClInclude Include="src\lua\lua_RenderStateBlend.h" />
     <ClInclude Include="src\lua\lua_RenderStateCullFaceSide.h" />
     <ClInclude Include="src\lua\lua_RenderStateDepthFunction.h" />
+    <ClInclude Include="src\lua\lua_RenderStateFrontFace.h" />
     <ClInclude Include="src\lua\lua_RenderStateStateBlock.h" />
     <ClInclude Include="src\lua\lua_RenderStateStencilFunction.h" />
     <ClInclude Include="src\lua\lua_RenderStateStencilOperation.h" />

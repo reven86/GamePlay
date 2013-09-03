@@ -3,6 +3,7 @@
 #include "lua_ThemeUVs.h"
 #include "Base.h"
 #include "Game.h"
+#include "Material.h"
 #include "Ref.h"
 #include "Theme.h"
 #include "ThemeStyle.h"
