@@ -157,6 +157,14 @@ unsigned int Font::getSize() const
 void Font::start() const
 {
     GP_ASSERT(_batch);
+
+    // Update the projection matrix for our batch to match the current viewport
+    const Rectangle& vp = Game::getInstance()->getViewport();
+    Game* game = Game::getInstance();
+    Matrix projectionMatrix;
+    Matrix::createOrthographicOffCenter(vp.x, vp.width, vp.height, vp.y, 0, 1, &projectionMatrix);
+    _batch->setProjectionMatrix(projectionMatrix);
+
     _batch->start();
 }
 
