@@ -162,7 +162,7 @@ void Font::start() const
     const Rectangle& vp = Game::getInstance()->getViewport();
     Game* game = Game::getInstance();
     Matrix projectionMatrix;
-    Matrix::createOrthographicOffCenter(vp.x, vp.width, vp.height, vp.y, 0, 1, &projectionMatrix);
+    Matrix::createOrthographicOffCenter(0, vp.width, vp.height, 0, 0, 1, &projectionMatrix);
     _batch->setProjectionMatrix(projectionMatrix);
 
     _batch->start();
