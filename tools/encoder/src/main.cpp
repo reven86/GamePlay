@@ -85,7 +85,7 @@ int main(int argc, const char** argv)
                 fontSize = promptUserFontSize();
             }
             std::string id = getBaseName(arguments.getFilePath());
-            writeFont(arguments.getFilePath().c_str(), arguments.getOutputFilePath().c_str(), fontSize, id.c_str(), arguments.fontPreviewEnabled());
+            writeFont(arguments.getFilePath().c_str(), arguments.getOutputFilePath().c_str(), fontSize, id.c_str(), arguments.fontPreviewEnabled(), arguments.getCharacterSet().c_str( ) );
             break;
         }
     case EncoderArguments::FILEFORMAT_GPB:

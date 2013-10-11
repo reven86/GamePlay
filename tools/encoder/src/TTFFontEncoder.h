@@ -25,10 +25,11 @@ public:
  * @param fontSize Size of the font.
  * @param id ID string of the font in the ref table.
  * @param fontpreview True if the pgm font preview file should be written. (For debugging)
+ * @param characterSet Character set used to draw image or NULL (standard ASCII chars will be used).
  * 
  * @return 0 if successful, -1 if error.
  */
-int writeFont(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, bool fontpreview);
+int writeFont(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, bool fontpreview, const wchar_t * characterSet);
 
 
 /**
@@ -42,6 +43,6 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
  * 
  * @return 0 if successful, -1 if error.
  */
-int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const char * characterSet);
+int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const wchar_t * characterSet);
 
 }

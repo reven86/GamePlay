@@ -198,7 +198,7 @@ const Vector3& EncoderArguments::getHeightmapWorldSize() const
     return _heightmapWorldSize;
 }
 
-const std::string& EncoderArguments::getCharacterSet( ) const
+const std::wstring& EncoderArguments::getCharacterSet( ) const
 {
     return _characterSet;
 }
@@ -289,10 +289,10 @@ void EncoderArguments::printUsage() const
         "  terrain generation tools.\n" \
     "\n" \
     "TTF file options:\n" \
-    LOG(1, "  -s <size>\tSize of the font.\n");
-    LOG(1, "  -c <character set>\tCharacter set (only for textured PNG fonts).\n");
-    LOG(1, "  -p\t\tOutput font preview (only for TTF fonts).\n");
-    LOG(1, "\n");
+    "  -s <size>\tSize of the font.\n" \
+    "  -c <character set>\tCharacter set file name containing chars in UTF-16 format.\n" \
+    "  -p\t\tOutput font preview (only for TTF fonts).\n" \
+    "\n");
     exit(8);
 }
 
@@ -630,7 +630,7 @@ void EncoderArguments::readOption(const std::vector<std::string>& options, size_
             return;
         }
         {
-            FILE * characterSetFile = fopen( options[*index].c_str(), "rt" );
+            FILE * characterSetFile = fopen( options[*index].c_str(), "rb" );
             if( !characterSetFile )
             {
                 LOG(1, "Error: opening character set file.\n");
@@ -640,17 +640,20 @@ void EncoderArguments::readOption(const std::vector<std::string>& options, size_
 
             fseek( characterSetFile, 0, SEEK_END );
             long fileLength = ftell( characterSetFile );
-            char * buf = reinterpret_cast< char * >( calloc( 1, fileLength ) );
+            wchar_t * buf = reinterpret_cast< wchar_t * >( calloc( 1, fileLength + sizeof( wchar_t ) + 1 ) );
             if( !buf )
             {
-                LOG(1, "Error: not enough memory stack to load character set file.\n");
+                LOG(1, "Error: not enough memory on stack to load character set file.\n");
                 _parseError = true;
                 return;
             }
 
             fseek( characterSetFile, 0, SEEK_SET );
             fread( buf, fileLength, 1, characterSetFile );
+            buf[ fileLength / sizeof( wchar_t ) ] = L'\0';
             _characterSet = buf;
+            if( !_characterSet.empty( ) && _characterSet[ 0 ] == 0xfeff )
+                _characterSet.erase( _characterSet.begin( ) );
 
             fclose(characterSetFile);
         }

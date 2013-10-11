@@ -35,9 +35,24 @@ static void writeString(FILE* fp, const char* str)
     }
 }
 
-int writeFont(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, bool fontpreview = false)
+int writeFont(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, bool fontpreview = false, const wchar_t * characterSet = NULL)
 {
-    Glyph glyphArray[END_INDEX - START_INDEX];
+    if( characterSet == NULL || wcslen( characterSet ) == 0 )
+    {
+        wchar_t * defaultSet = reinterpret_cast< wchar_t * >( calloc( END_INDEX - START_INDEX + 1, sizeof( wchar_t ) ) );
+        for( wchar_t ch = START_INDEX; ch < END_INDEX; ch++ )
+            defaultSet[ ch - START_INDEX ] = ch;
+        defaultSet[ END_INDEX - START_INDEX] = NULL;
+
+        characterSet = defaultSet;
+    }
+
+    Glyph * glyphArray = reinterpret_cast< Glyph * >( calloc( wcslen( characterSet ), sizeof( Glyph ) ) );
+    if( !glyphArray )
+    {
+        LOG( 1, "Not enough stack memory to allocate glyphs." );
+        return -1;
+    }
     
     // Initialize freetype library.
     FT_Library library;
@@ -87,10 +102,10 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
     int rowSize = 0; // Stores the total number of rows required to all glyphs.
     
     // Find the width of the image.
-    for (unsigned char ascii = START_INDEX; ascii < END_INDEX; ++ascii)
+    for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
     {
         // Load glyph image into the slot (erase previous one)
-        error = FT_Load_Char(face, ascii, FT_LOAD_RENDER);
+        error = FT_Load_Char(face, *ascii, FT_LOAD_RENDER);
         if (error)
         {
             LOG(1, "FT_Load_Char error : %d \n", error);
@@ -132,10 +147,10 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
 
         // Find out the squared texture size that would fit all the require font glyphs.
         i = 0;
-        for (unsigned char ascii = START_INDEX; ascii < END_INDEX; ++ascii)
+        for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
         {
             // Load glyph image into the slot (erase the previous one).
-            error = FT_Load_Char(face, ascii, FT_LOAD_RENDER);
+            error = FT_Load_Char(face, *ascii, FT_LOAD_RENDER);
             if (error)
             {
                 LOG(1, "FT_Load_Char error : %d \n", error);
@@ -168,7 +183,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
             // Move Y back to the top of the row.
             penY = row * rowSize;
 
-            if (ascii == (END_INDEX-1))
+            if (*(ascii + 1) == NULL)
             {
                 textureSizeFound = true;
             }
@@ -199,10 +214,10 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
     penY = 0;
     row = 0;
     i = 0;
-    for (unsigned char ascii = START_INDEX; ascii < END_INDEX; ++ascii)
+    for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
     {
         // Load glyph image into the slot (erase the previous one).
-        error = FT_Load_Char(face, ascii, FT_LOAD_RENDER);
+        error = FT_Load_Char(face, *ascii, FT_LOAD_RENDER);
         if (error)
         {
             LOG(1, "FT_Load_Char error : %d \n", error);
@@ -238,7 +253,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
         // Move Y back to the top of the row.
         penY = row * rowSize;
 
-        glyphArray[i].index = ascii;
+        glyphArray[i].index = *ascii;
         glyphArray[i].width = advance - GLYPH_PADDING;
         
         // Generate UV coords.
@@ -285,9 +300,9 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
     writeString(gpbFp, "");
     
     // Glyphs.
-    unsigned int glyphSetSize = END_INDEX - START_INDEX;
+    unsigned int glyphSetSize = wcslen( characterSet );
     writeUint(gpbFp, glyphSetSize);
-    fwrite(&glyphArray, sizeof(Glyph), glyphSetSize, gpbFp);
+    fwrite(glyphArray, sizeof(Glyph), glyphSetSize, gpbFp);
     
     // Texture.
     unsigned int textureSize = imageWidth * imageHeight;
@@ -320,7 +335,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, unsigned int font
     return 0;
 }
 
-int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const char * characterSet)
+int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned int fontSize, const char* id, const wchar_t * characterSet)
 {
     Image * image = Image::create( inFilePath );
     if( image == NULL )
@@ -329,7 +344,7 @@ int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned
         return -1;
     }
 
-    Glyph * glyphArray = reinterpret_cast< Glyph * >( calloc( strlen( characterSet ), sizeof( Glyph ) ) );
+    Glyph * glyphArray = reinterpret_cast< Glyph * >( calloc( wcslen( characterSet ), sizeof( Glyph ) ) );
     if( !glyphArray )
     {
         LOG( 1, "Not enough stack memory to allocate glyphs." );
@@ -358,9 +373,9 @@ int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned
 
     while( *characterSet )
     {
-        unsigned char ch = *characterSet++;
+        wchar_t ch = *characterSet++;
 
-        if( ch == '\n' )
+        if( ch == L'\n' )
         {
             scanline += width * charHeight;
             x = 0;
@@ -375,7 +390,7 @@ int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned
 
             oldscanline = scanline;
         }
-        else if( ch != '\r' )
+        else if( ch != L'\r' )
         {
             unsigned long * newscanline = oldscanline + 1;
             unsigned charWidth = 1;
@@ -431,7 +446,7 @@ int writeFontFromImage(const char* inFilePath, const char* outFilePath, unsigned
 
     // Character set.
     // TODO: Empty for now
-    writeString(gpbFp, characterSet);
+    writeString(gpbFp, "");//characterSet);
     
     // Glyphs.
     writeUint(gpbFp, glyphsCount);
