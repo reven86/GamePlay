@@ -242,7 +242,7 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             yPos += size;
             currentLineLength = tokenLength;
@@ -258,12 +258,12 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
         }
 
         bool draw = true;
-        if (yPos < area.y)
+        if (ceilf(yPos) < area.y)
         {
             // Skip drawing until line break or wrap.
             draw = false;
         }
-        else if (yPos > area.y + areaHeight)
+        else if (floorf(yPos) > area.y + areaHeight)
         {
             // Truncate below area's vertical limit.
             break;
@@ -278,13 +278,13 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + g.width*scale > area.x + area.width)
+                if (floorf(xPos + g.width*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
                     break;
                 }
-                else if (xPos >= area.x)
+                else if (ceilf(xPos) >= area.x)
                 {
                     // Draw this character.
                     if (draw)
@@ -574,7 +574,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             yPos += size;
             currentLineLength = tokenLength;
@@ -590,12 +590,12 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         }
 
         bool draw = true;
-        if (yPos < area.y - size)
+        if (ceilf(yPos) < area.y - size)
         {
             // Skip drawing until line break or wrap.
             draw = false;
         }
-        else if (yPos > area.y + areaHeight)
+        else if (floorf(yPos) > area.y + areaHeight)
         {
             // Truncate below area's vertical limit.
             break;
@@ -612,13 +612,13 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + g.width*scale > area.x + area.width)
+                if (floorf(xPos + g.width*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
                     break;
                 }
-                else if (xPos >= area.x)
+                else if (ceilf(xPos) >= area.x)
                 {
                     // Draw this character.
                     if (draw)
@@ -717,8 +717,8 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
     const size_t length = wcslen(text);
     if (length == 0)
     {
-        *width = 1;
-        *height = size;
+        *width = 0;
+        *height = 0;
         return;
     }
 
@@ -746,9 +746,6 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
 
         token += tokenLength;
     }
-
-    // width should be at least one pix
-    *width += 1;
 }
 
 void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
@@ -759,7 +756,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
 
     if (wcslen(text) == 0)
     {
-        out->set(0, 0, 1.0f, size);
+        out->set(0, 0, 0, 0);
         return;
     }
 
@@ -1070,14 +1067,14 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
         // Guarantee that the output rect will fit within the clip.
         out->x = (x >= clip.x)? x : clip.x;
         out->y = (y >= clip.y)? y : clip.y;
-        out->width = (width <= clip.width)? width + 1.0f : clip.width;
+        out->width = (width <= clip.width)? width : clip.width;
         out->height = (height <= viewportHeight)? height : viewportHeight;
     }
     else
     {
         out->x = x;
         out->y = y;
-        out->width = width + 1.0f;
+        out->width = width;
         out->height = height;
     }
 }
@@ -1387,7 +1384,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         }
 
         // Wrap if necessary.
-        if (wrap && (xPos + tokenWidth > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
+        if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             yPos += size;
             currentLineLength = tokenLength;
@@ -1402,7 +1399,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             }
         }
 
-        if (yPos > area.y + areaHeight)
+        if (floorf(yPos) > area.y + areaHeight)
         {
             // Truncate below area's vertical limit.
             break;
@@ -1418,7 +1415,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (xPos + g.width*scale > area.x + area.width)
+                if (floorf(xPos + g.width*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
