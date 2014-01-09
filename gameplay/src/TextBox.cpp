@@ -440,23 +440,23 @@ void TextBox::setCaretLocation(int x, int y)
 
         if (_caretLocation.x < textBounds.x)
         {
-            _caretLocation.x = textBounds.x;
+            _caretLocation.x = floorf(textBounds.x);
         }
         else if (_caretLocation.x > textBounds.x + textBounds.width)
         {
-            _caretLocation.x = textBounds.x + textBounds.width;
+            _caretLocation.x = ceilf(textBounds.x + textBounds.width);
         }
 
         if (_caretLocation.y < textBounds.y)
         {
-            _caretLocation.y = textBounds.y;
+            _caretLocation.y = floorf(textBounds.y);
         }
         else if (_caretLocation.y > textBounds.y + textBounds.height)
         {
             Font* font = getFont(_state);
             GP_ASSERT(font);
             float fontSize = getFontSize(_state);
-            _caretLocation.y = textBounds.y + textBounds.height - fontSize;
+            _caretLocation.y = ceilf(textBounds.y + textBounds.height - fontSize);
         }
 
         index = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, _caretLocation, &_caretLocation,

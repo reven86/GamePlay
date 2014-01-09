@@ -241,6 +241,9 @@ void Form::setSize(float width, float height)
         _u2 = width / (float)w;
         _v1 = height / (float)h;
 
+        // Re-create projection matrix.
+        Matrix::createOrthographicOffCenter(0, width, height, 0, 0, 1, &_projectionMatrix);
+
         if( !_isDrawOntoScreen )
         {
             // Create framebuffer if necessary. TODO: Use pool to cache.
@@ -249,9 +252,6 @@ void Form::setSize(float width, float height)
         
             _frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
             GP_ASSERT(_frameBuffer);
-
-            // Re-create projection matrix.
-            Matrix::createOrthographicOffCenter(0, width, height, 0, 0, 1, &_projectionMatrix);
 
             // Re-create sprite batch.
             SAFE_DELETE(_spriteBatch);
@@ -555,8 +555,13 @@ void Form::draw()
         Rectangle prevViewport = game->getViewport();
         game->setViewport(Rectangle(_bounds.x, _bounds.y, _bounds.width, _bounds.height));
 
+        GP_ASSERT(_theme);
+        _theme->setProjectionMatrix(_projectionMatrix);
+
         Container::draw(_theme->getSpriteBatch(), Rectangle(0, 0, _bounds.width, _bounds.height),
                         /*_skin != NULL*/ false, true, _bounds.height);
+
+        _theme->setProjectionMatrix(_defaultProjectionMatrix);
 
         game->setViewport(prevViewport);
     }
@@ -714,6 +719,10 @@ static bool shouldPropagateMouseEvent(Control::State state, Mouse::MouseEvent ev
 
 bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
 {
+    // Do not process mouse input when mouse is captured
+    if (Game::getInstance()->isMouseCaptured())
+        return false;
+
     for (size_t i = 0; i < __forms.size(); ++i)
     {
         Form* form = __forms[i];
@@ -828,6 +837,9 @@ void Form::setDrawOntoScreen(bool draw)
 {
     _isDrawOntoScreen = draw && _node == NULL;
 
+    // Re-create projection matrix.
+    Matrix::createOrthographicOffCenter(0, _bounds.width, _bounds.height, 0, 0, 1, &_projectionMatrix);
+
     if( _isDrawOntoScreen )
     {
         SAFE_RELEASE(_frameBuffer)
@@ -844,9 +856,6 @@ void Form::setDrawOntoScreen(bool draw)
         
         _frameBuffer = FrameBuffer::create(_id.c_str(), w, h);
         GP_ASSERT(_frameBuffer);
-
-        // Re-create projection matrix.
-        Matrix::createOrthographicOffCenter(0, _bounds.width, _bounds.height, 0, 0, 1, &_projectionMatrix);
 
         // Re-create sprite batch.
         SAFE_DELETE(_spriteBatch);

@@ -793,6 +793,14 @@ void luaRegister_lua_Global()
         ScriptUtil::registerConstantString("DEPTH_ALWAYS", "DEPTH_ALWAYS", scopePath);
     }
 
+    // Register enumeration RenderState::FrontFace.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("RenderState");
+        ScriptUtil::registerConstantString("FRONT_FACE_CW", "FRONT_FACE_CW", scopePath);
+        ScriptUtil::registerConstantString("FRONT_FACE_CCW", "FRONT_FACE_CCW", scopePath);
+    }
+
     // Register enumeration RenderState::StencilFunction.
     {
         std::vector<std::string> scopePath;
@@ -987,6 +995,8 @@ const char* lua_stringFromEnumGlobal(std::string& enumname, unsigned int value)
         return lua_stringFromEnum_RenderStateCullFaceSide((RenderState::CullFaceSide)value);
     if (enumname == "RenderState::DepthFunction")
         return lua_stringFromEnum_RenderStateDepthFunction((RenderState::DepthFunction)value);
+    if (enumname == "RenderState::FrontFace")
+        return lua_stringFromEnum_RenderStateFrontFace((RenderState::FrontFace)value);
     if (enumname == "RenderState::StencilFunction")
         return lua_stringFromEnum_RenderStateStencilFunction((RenderState::StencilFunction)value);
     if (enumname == "RenderState::StencilOperation")
