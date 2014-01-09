@@ -1606,7 +1606,6 @@ const char * Platform::getAppPrivateFolderPath( )
     NSArray* possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory
                                              inDomains:NSUserDomainMask];
     NSURL* appSupportDir = nil;
-    NSURL* appDirectory = nil;
     
     if ([possibleURLs count] >= 1) {
         // Use the first directory (if multiple are returned)
