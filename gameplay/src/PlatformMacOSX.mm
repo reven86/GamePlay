@@ -982,7 +982,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
     [__view->gameLock lock];
     if (!gameplay::Platform::mouseEventInternal(mouseEvent, x, y, s))
     {
-        gameplay::Platform::touchEventInternal(touchEvent, x, y, 0);
+        gameplay::Platform::touchEventInternal(touchEvent, x, y, 0, true);
     }
     [__view->gameLock unlock];
 }

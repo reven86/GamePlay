@@ -588,6 +588,9 @@
 		C07A67491742988E00D65C04 /* lua_TextBoxInputMode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C07A67471742988E00D65C04 /* lua_TextBoxInputMode.cpp */; };
 		C07A674B1742988E00D65C04 /* lua_TextBoxInputMode.h in Headers */ = {isa = PBXBuildFile; fileRef = C07A67481742988E00D65C04 /* lua_TextBoxInputMode.h */; };
 		DD1FF47216DBD8F9000B42EF /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1FF47116DBD8F9000B42EF /* Platform.cpp */; };
+		EB0A3A9F187F73C30014C140 /* lua_RenderStateFrontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */; };
+		EB0A3AA0187F73C30014C140 /* lua_RenderStateFrontFace.h in Headers */ = {isa = PBXBuildFile; fileRef = EB0A3A9E187F73C30014C140 /* lua_RenderStateFrontFace.h */; };
+		EB0A3AA5187F7A3C0014C140 /* lua_RenderStateFrontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */; };
 		EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
 		EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
 		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
@@ -1513,6 +1516,8 @@
 		C07A67471742988E00D65C04 /* lua_TextBoxInputMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TextBoxInputMode.cpp; sourceTree = "<group>"; };
 		C07A67481742988E00D65C04 /* lua_TextBoxInputMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TextBoxInputMode.h; sourceTree = "<group>"; };
 		DD1FF47116DBD8F9000B42EF /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = src/Platform.cpp; sourceTree = SOURCE_ROOT; };
+		EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_RenderStateFrontFace.cpp; sourceTree = "<group>"; };
+		EB0A3A9E187F73C30014C140 /* lua_RenderStateFrontFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_RenderStateFrontFace.h; sourceTree = "<group>"; };
 		EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressBar.cpp; path = src/ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
 		EB12FF6416EBCC3D009BA84B /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressBar.h; path = src/ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -1850,6 +1855,8 @@
 		42BCD31E15EFD0F300C0E076 /* lua */ = {
 			isa = PBXGroup;
 			children = (
+				EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */,
+				EB0A3A9E187F73C30014C140 /* lua_RenderStateFrontFace.h */,
 				EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */,
 				EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */,
 				EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */,
@@ -2594,6 +2601,7 @@
 				EBEA403717BE70DF00BFE948 /* lua_Matrix3.h in Headers */,
 				EBEA403B17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */,
 				EBEA403F17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */,
+				EB0A3AA0187F73C30014C140 /* lua_RenderStateFrontFace.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2966,6 +2974,7 @@
 				EBEA403517BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */,
 				EBEA403917BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */,
 				EBEA403D17BE70DF00BFE948 /* lua_ProgressBarOrientationType.cpp in Sources */,
+				EB0A3A9F187F73C30014C140 /* lua_RenderStateFrontFace.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2973,6 +2982,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB0A3AA5187F7A3C0014C140 /* lua_RenderStateFrontFace.cpp in Sources */,
 				EB9BF51617CBF02100D636A0 /* HorizontalLayout.cpp in Sources */,
 				EB9BF51817CBF02100D636A0 /* ProgressBar.cpp in Sources */,
 				EB9BF51A17CBF02100D636A0 /* Matrix3.cpp in Sources */,
