@@ -397,7 +397,7 @@ void Game::updateOnce()
 void Game::setViewport(const Rectangle& viewport)
 {
     _viewport = viewport;
-    glViewport((GLuint)viewport.x, (GLuint)viewport.y, (GLuint)viewport.width, (GLuint)viewport.height);
+    glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.width, (GLsizei)viewport.height);
 }
 
 void Game::clear(ClearFlags flags, const Vector4& clearColor, float clearDepth, int clearStencil)
