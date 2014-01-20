@@ -1727,6 +1727,7 @@ bool Container::pointerEvent(bool mouse, char evt, int x, int y, int data)
         Control::State currentState = control->getState();
         if ((currentState != Control::NORMAL) ||
             ((evt == Touch::TOUCH_PRESS ||
+              evt == Touch::TOUCH_RELEASE ||
               evt == Mouse::MOUSE_PRESS_LEFT_BUTTON ||
               evt == Mouse::MOUSE_PRESS_MIDDLE_BUTTON ||
               evt == Mouse::MOUSE_PRESS_RIGHT_BUTTON ||
