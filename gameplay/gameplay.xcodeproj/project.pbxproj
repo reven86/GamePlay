@@ -823,7 +823,7 @@
 		EB9BF6E517CBF02200D636A0 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DE8147D8FF50000361E /* Material.cpp */; };
 		EB9BF6E717CBF02200D636A0 /* MaterialParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DEA147D8FF50000361E /* MaterialParameter.cpp */; };
 		EB9BF6E917CBF02200D636A0 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */; };
-		EB9BF6ED17CBF02200D636A0 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DEC147D8FF50000361E /* Matrix.cpp */; };
+		EB9BF6ED17CBF02200D636A0 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DEC147D8FF50000361E /* Matrix.cpp */; settings = {COMPILER_FLAGS = "-O1"; }; };
 		EB9BF6F017CBF02200D636A0 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DEF147D8FF50000361E /* Mesh.cpp */; };
 		EB9BF6F217CBF02200D636A0 /* MeshBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4201818D14A41B18008C3F56 /* MeshBatch.cpp */; };
 		EB9BF6F517CBF02200D636A0 /* MeshPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DF1147D8FF50000361E /* MeshPart.cpp */; };
@@ -1768,9 +1768,9 @@
 				421FBD4D1602818800A61BC0 /* PhysicsVehicleWheel.cpp */,
 				421FBD4E1602818800A61BC0 /* PhysicsVehicleWheel.h */,
 				DD1FF47116DBD8F9000B42EF /* Platform.cpp */,
+				5B04C5CC14BFD48500EB0071 /* PlatformiOS.mm */,
 				42CD0E19147D8FF50000361E /* Platform.h */,
 				42CD0E1A147D8FF50000361E /* PlatformMacOSX.mm */,
-				5B04C5CC14BFD48500EB0071 /* PlatformiOS.mm */,
 				42CD0E1D147D8FF50000361E /* Properties.cpp */,
 				42CD0E1E147D8FF50000361E /* Properties.h */,
 				42CD0E1F147D8FF50000361E /* Quaternion.cpp */,
@@ -3286,7 +3286,7 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SUPPORTED_PLATFORMS = "iphonesimulator macosx iphoneos";
 				VALID_ARCHS = "armv7 armv7s i386 x86_64";
 			};
@@ -3403,10 +3403,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = gameplay;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.1;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				VALID_ARCHS = "armv7 armv7s i386";
@@ -3427,10 +3427,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = gameplay;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos5.1;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				VALIDATE_PRODUCT = YES;
