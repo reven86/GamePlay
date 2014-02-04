@@ -305,6 +305,35 @@ typedef GLuint RenderBufferHandle;
 #endif
 }
 
+#if defined(__QNX__)
+	#include <bps/bps.h>
+    typedef bps_event_t PlatformEvent;
+#elif defined(WIN32)
+	#include <Windows.h>
+    typedef MSG PlatformEvent;
+#elif defined(__APPLE__)
+    #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+        #ifdef __OBJC__
+            @class UIEvent;
+        #else
+            class UIEvent;
+        #endif
+        typedef UIEvent PlatformEvent;
+    #else
+        #ifdef __OBJC__
+            @class NSEvent;
+        #else
+            class NSEvent;
+        #endif
+        typedef NSEvent PlatformEvent;
+    #endif
+#elif defined(__ANDROID__)
+	#include <android_native_app_glue.h>
+    typedef AInputEvent PlatformEvent;
+#else
+    typedef XEvent PlatformEvent;
+#endif
+
 /**
  * GL assertion that can be used for any OpenGL function call.
  *

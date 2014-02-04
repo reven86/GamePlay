@@ -92,6 +92,12 @@ LOCAL_SRC_FILES := \
     ScriptController.cpp \
     ScriptTarget.cpp \
     Slider.cpp \
+	SocialAchievement.cpp \
+	SocialChallenge.cpp \
+	SocialController.cpp \
+	SocialPlayer.cpp \
+	SocialScore.cpp \
+	SocialSessionListener.cpp \
     SpriteBatch.cpp \
     Technique.cpp \
     Terrain.cpp \
@@ -282,7 +288,8 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormat.cpp \
     lua/lua_VertexFormatElement.cpp \
     lua/lua_VertexFormatUsage.cpp \
-    lua/lua_VerticalLayout.cpp
+    lua/lua_VerticalLayout.cpp \
+	social/GooglePlaySocialSession.cpp
 
     
 LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"

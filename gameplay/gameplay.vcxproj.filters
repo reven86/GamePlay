@@ -873,7 +873,24 @@
     <ClCompile Include="src\lua\lua_CameraListener.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\JoystickControl.cpp">
+    <ClCompile Include="src\social\GooglePlaySocialSession.cpp" />
+    <ClCompile Include="src\social\ScoreloopSocialSession.cpp" />
+    <ClCompile Include="src\SocialAchievement.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SocialChallenge.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SocialController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SocialPlayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SocialScore.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SocialSessionListener.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_JoystickControl.cpp">
@@ -1734,6 +1751,32 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\JoystickControl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\social\GooglePlaySocialSession.h" />
+    <ClInclude Include="src\social\ScoreloopSocialSession.h" />
+    <ClInclude Include="src\Social.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialAchievement.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialChallenge.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialPlayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialScore.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialSession.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SocialSessionListener.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_JoystickControl.h">

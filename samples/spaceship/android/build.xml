@@ -60,10 +60,11 @@
        If this is not done in place, override ${out.dex.input.absolute.dir} */
        -->
     <target name="-post-compile">
+		<copy file="../game.config" tofile="assets/game.config"/>
+		<copy file="../social.config" tofile="assets/social.config"/>
         <copy file="../res/airstrip.gpb" tofile="assets/res/airstrip.gpb"/>
         <copy file="../res/background.ogg" tofile="assets/res/background.ogg"/>
         <copy file="../res/background.png" tofile="assets/res/background.png"/>
-		<copy file="../res/challenge.form" tofile="assets/res/challenge.form"/>
         <copy file="../res/menu.form" tofile="assets/res/menu.form"/>
 		<copy file="../res/menu.theme" tofile="assets/res/menu.theme"/>
 		<copy file="../res/menuAtlas.png" tofile="assets/res/menuAtlas.png"/>

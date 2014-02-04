@@ -589,6 +589,20 @@
 		5B2BC7601512514500D176CD /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2BC75E1512514500D176CD /* OpenGL.framework */; };
 		5B2BC7621512514D00D176CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2BC7611512514D00D176CD /* QuartzCore.framework */; };
 		5B2BC7641512516B00D176CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2BC7631512516B00D176CD /* libz.dylib */; };
+		623AB5E11890805700103168 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5CD1890805700103168 /* GameCenterSocialSession.mm */; };
+		623AB5E21890805700103168 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5CD1890805700103168 /* GameCenterSocialSession.mm */; };
+		623AB5E71890805700103168 /* SocialAchievement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D41890805700103168 /* SocialAchievement.cpp */; };
+		623AB5E81890805700103168 /* SocialAchievement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D41890805700103168 /* SocialAchievement.cpp */; };
+		623AB5E91890805700103168 /* SocialChallenge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D61890805700103168 /* SocialChallenge.cpp */; };
+		623AB5EA1890805700103168 /* SocialChallenge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D61890805700103168 /* SocialChallenge.cpp */; };
+		623AB5EB1890805700103168 /* SocialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D81890805700103168 /* SocialController.cpp */; };
+		623AB5EC1890805700103168 /* SocialController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5D81890805700103168 /* SocialController.cpp */; };
+		623AB5ED1890805700103168 /* SocialPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DA1890805700103168 /* SocialPlayer.cpp */; };
+		623AB5EE1890805700103168 /* SocialPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DA1890805700103168 /* SocialPlayer.cpp */; };
+		623AB5EF1890805700103168 /* SocialScore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DC1890805700103168 /* SocialScore.cpp */; };
+		623AB5F01890805700103168 /* SocialScore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DC1890805700103168 /* SocialScore.cpp */; };
+		623AB5F11890805700103168 /* SocialSessionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DF1890805700103168 /* SocialSessionListener.cpp */; };
+		623AB5F21890805700103168 /* SocialSessionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 623AB5DF1890805700103168 /* SocialSessionListener.cpp */; };
 		6290E04A18223DCC00A28FB9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6290E04918223DCC00A28FB9 /* GameKit.framework */; };
 		6290E04C18223DDD00A28FB9 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6290E04B18223DDD00A28FB9 /* GameKit.framework */; };
 		BD2636E516CF5B7400CFE15F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD2636DF16CF5B7400CFE15F /* CoreMotion.framework */; };
@@ -1216,6 +1230,22 @@
 		5B5DB93114C25BA5007755DB /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = "../external-deps/oggvorbis/lib/ios/armv7s/libogg.a"; sourceTree = "<group>"; };
 		5B5DB93214C25BA5007755DB /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = "../external-deps/oggvorbis/lib/ios/armv7s/libvorbis.a"; sourceTree = "<group>"; };
 		5BC4E7D4150F8C3C00CBE1C0 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		623AB5CC1890805700103168 /* GameCenterSocialSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCenterSocialSession.h; sourceTree = "<group>"; };
+		623AB5CD1890805700103168 /* GameCenterSocialSession.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameCenterSocialSession.mm; sourceTree = "<group>"; };
+		623AB5D31890805700103168 /* Social.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Social.h; path = src/Social.h; sourceTree = SOURCE_ROOT; };
+		623AB5D41890805700103168 /* SocialAchievement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialAchievement.cpp; path = src/SocialAchievement.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5D51890805700103168 /* SocialAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialAchievement.h; path = src/SocialAchievement.h; sourceTree = SOURCE_ROOT; };
+		623AB5D61890805700103168 /* SocialChallenge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialChallenge.cpp; path = src/SocialChallenge.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5D71890805700103168 /* SocialChallenge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialChallenge.h; path = src/SocialChallenge.h; sourceTree = SOURCE_ROOT; };
+		623AB5D81890805700103168 /* SocialController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialController.cpp; path = src/SocialController.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5D91890805700103168 /* SocialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialController.h; path = src/SocialController.h; sourceTree = SOURCE_ROOT; };
+		623AB5DA1890805700103168 /* SocialPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialPlayer.cpp; path = src/SocialPlayer.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5DB1890805700103168 /* SocialPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialPlayer.h; path = src/SocialPlayer.h; sourceTree = SOURCE_ROOT; };
+		623AB5DC1890805700103168 /* SocialScore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialScore.cpp; path = src/SocialScore.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5DD1890805700103168 /* SocialScore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialScore.h; path = src/SocialScore.h; sourceTree = SOURCE_ROOT; };
+		623AB5DE1890805700103168 /* SocialSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialSession.h; path = src/SocialSession.h; sourceTree = SOURCE_ROOT; };
+		623AB5DF1890805700103168 /* SocialSessionListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocialSessionListener.cpp; path = src/SocialSessionListener.cpp; sourceTree = SOURCE_ROOT; };
+		623AB5E01890805700103168 /* SocialSessionListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocialSessionListener.h; path = src/SocialSessionListener.h; sourceTree = SOURCE_ROOT; };
 		6290E04918223DCC00A28FB9 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
 		6290E04B18223DDD00A28FB9 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		BD2636DF16CF5B7400CFE15F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
@@ -1641,6 +1671,21 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				623AB5CB1890805700103168 /* social */,
+				623AB5D31890805700103168 /* Social.h */,
+				623AB5D41890805700103168 /* SocialAchievement.cpp */,
+				623AB5D51890805700103168 /* SocialAchievement.h */,
+				623AB5D61890805700103168 /* SocialChallenge.cpp */,
+				623AB5D71890805700103168 /* SocialChallenge.h */,
+				623AB5D81890805700103168 /* SocialController.cpp */,
+				623AB5D91890805700103168 /* SocialController.h */,
+				623AB5DA1890805700103168 /* SocialPlayer.cpp */,
+				623AB5DB1890805700103168 /* SocialPlayer.h */,
+				623AB5DC1890805700103168 /* SocialScore.cpp */,
+				623AB5DD1890805700103168 /* SocialScore.h */,
+				623AB5DE1890805700103168 /* SocialSession.h */,
+				623AB5DF1890805700103168 /* SocialSessionListener.cpp */,
+				623AB5E01890805700103168 /* SocialSessionListener.h */,
 				420BBAA51817416D00C7B720 /* lua */,
 				42CC52F71809A4EB00AAD8AD /* AbsoluteLayout.cpp */,
 				42CC52F81809A4EB00AAD8AD /* AbsoluteLayout.h */,
@@ -1962,6 +2007,16 @@
 			name = MacOSX;
 			sourceTree = "<group>";
 		};
+		623AB5CB1890805700103168 /* social */ = {
+			isa = PBXGroup;
+			children = (
+				623AB5CC1890805700103168 /* GameCenterSocialSession.h */,
+				623AB5CD1890805700103168 /* GameCenterSocialSession.mm */,
+			);
+			name = social;
+			path = src/social;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2081,6 +2136,7 @@
 				420BBC921817416F00C7B720 /* lua_ControlAlignment.cpp in Sources */,
 				420BBCEE1817416F00C7B720 /* lua_GamepadButtonMapping.cpp in Sources */,
 				420BBD2E1817416F00C7B720 /* lua_Layout.cpp in Sources */,
+				623AB5E11890805700103168 /* GameCenterSocialSession.mm in Sources */,
 				420BBC6A1817416F00C7B720 /* lua_BoundingBox.cpp in Sources */,
 				42CC55881809A4EF00AAD8AD /* AnimationClip.cpp in Sources */,
 				420BBD921817416F00C7B720 /* lua_PhysicsCharacter.cpp in Sources */,
@@ -2188,6 +2244,7 @@
 				42CC59261809A4EF00AAD8AD /* Node.cpp in Sources */,
 				42CC597A1809A4EF00AAD8AD /* PlatformMacOSX.mm in Sources */,
 				420BBEAE1817416F00C7B720 /* lua_Transform.cpp in Sources */,
+				623AB5F11890805700103168 /* SocialSessionListener.cpp in Sources */,
 				420BBD961817416F00C7B720 /* lua_PhysicsCollisionObject.cpp in Sources */,
 				420BBDEE1817416F00C7B720 /* lua_PhysicsVehicle.cpp in Sources */,
 				420BBC2E1817416F00C7B720 /* lua_AIStateListener.cpp in Sources */,
@@ -2216,6 +2273,7 @@
 				420BBD6E1817416F00C7B720 /* lua_Model.cpp in Sources */,
 				420BBE821817416F00C7B720 /* lua_TextureFilter.cpp in Sources */,
 				420BBC121817416F00C7B720 /* lua_AbsoluteLayout.cpp in Sources */,
+				623AB5EF1890805700103168 /* SocialScore.cpp in Sources */,
 				420BBC6E1817416F00C7B720 /* lua_BoundingSphere.cpp in Sources */,
 				42CC596A1809A4EF00AAD8AD /* Plane.cpp in Sources */,
 				42CC55E61809A4EF00AAD8AD /* Form.cpp in Sources */,
@@ -2223,6 +2281,7 @@
 				420BBE6A1817416F00C7B720 /* lua_Terrain.cpp in Sources */,
 				42CC55801809A4EF00AAD8AD /* AIStateMachine.cpp in Sources */,
 				42252DCC1828145B00EE234B /* lua_CameraListener.cpp in Sources */,
+				623AB5ED1890805700103168 /* SocialPlayer.cpp in Sources */,
 				420BBCDA1817416F00C7B720 /* lua_FrameBuffer.cpp in Sources */,
 				42CC560E1809A4EF00AAD8AD /* Image.cpp in Sources */,
 				42CC591C1809A4EF00AAD8AD /* MeshSkin.cpp in Sources */,
@@ -2231,6 +2290,7 @@
 				420BBD021817416F00C7B720 /* lua_Global.cpp in Sources */,
 				42CC55741809A4EF00AAD8AD /* AIController.cpp in Sources */,
 				420BBC9A1817416F00C7B720 /* lua_ControlListener.cpp in Sources */,
+				623AB5E71890805700103168 /* SocialAchievement.cpp in Sources */,
 				42CC59361809A4EF00AAD8AD /* PhysicsCollisionObject.cpp in Sources */,
 				420BBCFA1817416F00C7B720 /* lua_Gesture.cpp in Sources */,
 				420BBE1A1817416F00C7B720 /* lua_RenderState.cpp in Sources */,
@@ -2255,6 +2315,7 @@
 				420BBDE61817416F00C7B720 /* lua_PhysicsSocketConstraint.cpp in Sources */,
 				420BBEBA1817416F00C7B720 /* lua_Vector2.cpp in Sources */,
 				420BBCE21817416F00C7B720 /* lua_Game.cpp in Sources */,
+				623AB5E91890805700103168 /* SocialChallenge.cpp in Sources */,
 				42CC55F61809A4EF00AAD8AD /* Gamepad.cpp in Sources */,
 				42CC56201809A4EF00AAD8AD /* Label.cpp in Sources */,
 				420BBC221817416F00C7B720 /* lua_AIMessage.cpp in Sources */,
@@ -2283,6 +2344,7 @@
 				420BBD4E1817416F00C7B720 /* lua_MathUtil.cpp in Sources */,
 				420BBEA21817416F00C7B720 /* lua_ThemeUVs.cpp in Sources */,
 				42CC593A1809A4EF00AAD8AD /* PhysicsCollisionShape.cpp in Sources */,
+				623AB5EB1890805700103168 /* SocialController.cpp in Sources */,
 				42CC59FA1809A4EF00AAD8AD /* Theme.cpp in Sources */,
 				420BBD321817416F00C7B720 /* lua_LayoutType.cpp in Sources */,
 				42CC55C21809A4EF00AAD8AD /* Container.cpp in Sources */,
@@ -2376,6 +2438,7 @@
 				420BBC931817416F00C7B720 /* lua_ControlAlignment.cpp in Sources */,
 				420BBCEF1817416F00C7B720 /* lua_GamepadButtonMapping.cpp in Sources */,
 				420BBD2F1817416F00C7B720 /* lua_Layout.cpp in Sources */,
+				623AB5E21890805700103168 /* GameCenterSocialSession.mm in Sources */,
 				42CC59731809A4EF00AAD8AD /* PlatformAndroid.cpp in Sources */,
 				420BBC6B1817416F00C7B720 /* lua_BoundingBox.cpp in Sources */,
 				42CC55891809A4EF00AAD8AD /* AnimationClip.cpp in Sources */,
@@ -2483,6 +2546,7 @@
 				420BBDD71817416F00C7B720 /* lua_PhysicsGhostObject.cpp in Sources */,
 				420BBCE71817416F00C7B720 /* lua_GameClearFlags.cpp in Sources */,
 				42CC59271809A4EF00AAD8AD /* Node.cpp in Sources */,
+				623AB5F21890805700103168 /* SocialSessionListener.cpp in Sources */,
 				420BBEAF1817416F00C7B720 /* lua_Transform.cpp in Sources */,
 				420BBD971817416F00C7B720 /* lua_PhysicsCollisionObject.cpp in Sources */,
 				420BBDEF1817416F00C7B720 /* lua_PhysicsVehicle.cpp in Sources */,
@@ -2511,6 +2575,7 @@
 				420BBEC71817416F00C7B720 /* lua_VertexAttributeBinding.cpp in Sources */,
 				420BBD6F1817416F00C7B720 /* lua_Model.cpp in Sources */,
 				420BBE831817416F00C7B720 /* lua_TextureFilter.cpp in Sources */,
+				623AB5F01890805700103168 /* SocialScore.cpp in Sources */,
 				420BBC131817416F00C7B720 /* lua_AbsoluteLayout.cpp in Sources */,
 				420BBC6F1817416F00C7B720 /* lua_BoundingSphere.cpp in Sources */,
 				42CC596B1809A4EF00AAD8AD /* Plane.cpp in Sources */,
@@ -2518,6 +2583,7 @@
 				420BBC4B1817416F00C7B720 /* lua_AnimationController.cpp in Sources */,
 				420BBE6B1817416F00C7B720 /* lua_Terrain.cpp in Sources */,
 				42252DCD1828145B00EE234B /* lua_CameraListener.cpp in Sources */,
+				623AB5EE1890805700103168 /* SocialPlayer.cpp in Sources */,
 				42CC55811809A4EF00AAD8AD /* AIStateMachine.cpp in Sources */,
 				420BBCDB1817416F00C7B720 /* lua_FrameBuffer.cpp in Sources */,
 				42CC560F1809A4EF00AAD8AD /* Image.cpp in Sources */,
@@ -2526,6 +2592,7 @@
 				420BBD031817416F00C7B720 /* lua_Global.cpp in Sources */,
 				42CC55751809A4EF00AAD8AD /* AIController.cpp in Sources */,
 				420BBC9B1817416F00C7B720 /* lua_ControlListener.cpp in Sources */,
+				623AB5E81890805700103168 /* SocialAchievement.cpp in Sources */,
 				42CC59371809A4EF00AAD8AD /* PhysicsCollisionObject.cpp in Sources */,
 				420BBCFB1817416F00C7B720 /* lua_Gesture.cpp in Sources */,
 				420BBE1B1817416F00C7B720 /* lua_RenderState.cpp in Sources */,
@@ -2550,6 +2617,7 @@
 				420BBDE71817416F00C7B720 /* lua_PhysicsSocketConstraint.cpp in Sources */,
 				420BBEBB1817416F00C7B720 /* lua_Vector2.cpp in Sources */,
 				420BBCE31817416F00C7B720 /* lua_Game.cpp in Sources */,
+				623AB5EA1890805700103168 /* SocialChallenge.cpp in Sources */,
 				42CC55F71809A4EF00AAD8AD /* Gamepad.cpp in Sources */,
 				42CC56211809A4EF00AAD8AD /* Label.cpp in Sources */,
 				420BBC231817416F00C7B720 /* lua_AIMessage.cpp in Sources */,
@@ -2578,6 +2646,7 @@
 				420BBD4F1817416F00C7B720 /* lua_MathUtil.cpp in Sources */,
 				420BBEA31817416F00C7B720 /* lua_ThemeUVs.cpp in Sources */,
 				42CC593B1809A4EF00AAD8AD /* PhysicsCollisionShape.cpp in Sources */,
+				623AB5EC1890805700103168 /* SocialController.cpp in Sources */,
 				42CC59FB1809A4EF00AAD8AD /* Theme.cpp in Sources */,
 				420BBD331817416F00C7B720 /* lua_LayoutType.cpp in Sources */,
 				42CC55C31809A4EF00AAD8AD /* Container.cpp in Sources */,
@@ -2653,6 +2722,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GP_USE_SOCIAL=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -2699,6 +2769,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "GP_USE_SOCIAL=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -2742,7 +2813,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"GP_USE_SOCIAL=1",
+					"DEBUG=1",
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -2792,7 +2866,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "GP_USE_SOCIAL=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;

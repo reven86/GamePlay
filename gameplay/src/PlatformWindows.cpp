@@ -987,6 +987,8 @@ int Platform::enterMessagePump()
     {
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
+            Game::getInstance()->handlePlatformEvent(&msg);
+
             TranslateMessage(&msg);
             DispatchMessage(&msg);
 

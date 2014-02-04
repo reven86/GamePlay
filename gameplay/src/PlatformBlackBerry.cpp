@@ -3,6 +3,7 @@
 #include "Base.h"
 #include "Platform.h"
 #include "FileSystem.h"
+#include "SocialController.h"
 #include "Game.h"
 #include "Form.h"
 #include "ScriptController.h"
@@ -1099,11 +1100,8 @@ int Platform::enterMessagePump()
             if (event == NULL)
                 break;
 
-#ifdef GP_USE_SOCIAL
-            // if the social controller needs to deal with the event do that here
-            if (Game::getInstance()->getSocialController()->handleEvent(event))
+            if (Game::getInstance()->handlePlatformEvent(event))
             	break;
-#endif
 
             domain = bps_event_get_domain(event);
 

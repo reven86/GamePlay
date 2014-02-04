@@ -1151,6 +1151,8 @@ int Platform::enterMessagePump()
         {
             XNextEvent(__display, &evt);
 
+            Game::getInstance()->handlePlatformEvent(&evt);
+
             switch (evt.type)
             {
                 case ClientMessage:

@@ -704,6 +704,8 @@ static int getUnicode(int keycode, int metastate)
 // Process the next input event.
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
 {
+	Game::getInstance()->handlePlatformEvent(event);
+
     if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
     {
         int32_t action = AMotionEvent_getAction(event);
