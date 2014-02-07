@@ -548,7 +548,6 @@ void Form::draw()
     // On the other hand, if this form has not been set on a node, SpriteBatch will be used
     // to render the contents of the framebuffer directly to the display.
 
-    // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
     if( _isDrawOntoScreen )
     {
         Game* game = Game::getInstance();
@@ -565,6 +564,7 @@ void Form::draw()
 
         game->setViewport(prevViewport);
     }
+    // Check whether this form has changed since the last call to draw() and if so, render into the framebuffer.
     else if (isDirty())
     {
         GP_ASSERT(_frameBuffer);
