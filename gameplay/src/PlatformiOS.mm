@@ -220,7 +220,10 @@ int getUnicode(int key);
 - (void) dealloc
 {
     if (game)
+    {
         game->exit();
+        game->frame();  // make sure shutdown is called properly
+    }
     [self deleteFramebuffer];
     
     if ([EAGLContext currentContext] == context)
