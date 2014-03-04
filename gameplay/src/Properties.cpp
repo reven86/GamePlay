@@ -242,7 +242,7 @@ bool Properties::readPropertiesYAML( Stream * stream )
                 if( !sequence.empty( ) )
                 {
                     sequence.erase( sequence.size( ) - 1 );
-                    processingProperties->_properties.push_back( Property( name.c_str( ), value.c_str( ) ) );
+                    processingProperties->_properties.push_back( Property( name.c_str( ), sequence.c_str( ) ) );
                     parsedAnything = true;
                 }
                 state = EPSM_READY;
