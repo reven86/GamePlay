@@ -30,7 +30,6 @@ void luaRegister_Node()
 {
     const luaL_Reg lua_members[] = 
     {
-        {"addAdvertisedDescendant", lua_Node_addAdvertisedDescendant},
         {"addChild", lua_Node_addChild},
         {"addListener", lua_Node_addListener},
         {"addRef", lua_Node_addRef},
@@ -43,7 +42,6 @@ void luaRegister_Node()
         {"findNode", lua_Node_findNode},
         {"getActiveCameraTranslationView", lua_Node_getActiveCameraTranslationView},
         {"getActiveCameraTranslationWorld", lua_Node_getActiveCameraTranslationWorld},
-        {"getAdvertisedDescendant", lua_Node_getAdvertisedDescendant},
         {"getAgent", lua_Node_getAgent},
         {"getAnimation", lua_Node_getAnimation},
         {"getAnimationPropertyComponentCount", lua_Node_getAnimationPropertyComponentCount},
@@ -70,7 +68,6 @@ void luaRegister_Node()
         {"getMatrix", lua_Node_getMatrix},
         {"getModel", lua_Node_getModel},
         {"getNextSibling", lua_Node_getNextSibling},
-        {"getNumAdvertisedDescendants", lua_Node_getNumAdvertisedDescendants},
         {"getParent", lua_Node_getParent},
         {"getParticleEmitter", lua_Node_getParticleEmitter},
         {"getPreviousSibling", lua_Node_getPreviousSibling},
@@ -102,6 +99,8 @@ void luaRegister_Node()
         {"getWorldViewMatrix", lua_Node_getWorldViewMatrix},
         {"getWorldViewProjectionMatrix", lua_Node_getWorldViewProjectionMatrix},
         {"hasTag", lua_Node_hasTag},
+        {"isActive", lua_Node_isActive},
+        {"isActiveInHierarchy", lua_Node_isActiveInHierarchy},
         {"isStatic", lua_Node_isStatic},
         {"release", lua_Node_release},
         {"removeAllChildren", lua_Node_removeAllChildren},
@@ -117,6 +116,7 @@ void luaRegister_Node()
         {"scaleY", lua_Node_scaleY},
         {"scaleZ", lua_Node_scaleZ},
         {"set", lua_Node_set},
+        {"setActive", lua_Node_setActive},
         {"setAgent", lua_Node_setAgent},
         {"setAnimationPropertyValue", lua_Node_setAnimationPropertyValue},
         {"setAudioSource", lua_Node_setAudioSource},
@@ -149,6 +149,7 @@ void luaRegister_Node()
         {"translateX", lua_Node_translateX},
         {"translateY", lua_Node_translateY},
         {"translateZ", lua_Node_translateZ},
+        {"update", lua_Node_update},
         {NULL, NULL}
     };
     const luaL_Reg lua_statics[] = 
@@ -216,48 +217,6 @@ int lua_Node__gc(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Node_addAdvertisedDescendant(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                bool param1Valid;
-                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
-                if (!param1Valid)
-                {
-                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
-                    lua_error(state);
-                }
-
-                Node* instance = getInstance(state);
-                instance->addAdvertisedDescendant(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_Node_addAdvertisedDescendant - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
             lua_error(state);
             break;
         }
@@ -1083,54 +1042,6 @@ int lua_Node_getActiveCameraTranslationWorld(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Node_getAdvertisedDescendant(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TNUMBER)
-            {
-                // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
-
-                Node* instance = getInstance(state);
-                void* returnPtr = (void*)instance->getAdvertisedDescendant(param1);
-                if (returnPtr)
-                {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = false;
-                    luaL_getmetatable(state, "Node");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_Node_getAdvertisedDescendant - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
             lua_error(state);
             break;
         }
@@ -2386,41 +2297,6 @@ int lua_Node_getNextSibling(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Node_getNextSibling - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Node_getNumAdvertisedDescendants(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                Node* instance = getInstance(state);
-                unsigned int result = instance->getNumAdvertisedDescendants();
-
-                // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_Node_getNumAdvertisedDescendants - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3890,6 +3766,76 @@ int lua_Node_hasTag(lua_State* state)
     return 0;
 }
 
+int lua_Node_isActive(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Node* instance = getInstance(state);
+                bool result = instance->isActive();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Node_isActive - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_isActiveInHierarchy(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Node* instance = getInstance(state);
+                bool result = instance->isActiveInHierarchy();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Node_isActiveInHierarchy - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Node_isStatic(lua_State* state)
 {
     // Get the number of parameters.
@@ -4683,6 +4629,42 @@ int lua_Node_set(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 2, 4 or 5).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_setActive(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+
+                Node* instance = getInstance(state);
+                instance->setActive(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Node_setActive - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
             lua_error(state);
             break;
         }
@@ -6916,6 +6898,42 @@ int lua_Node_translateZ(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Node_translateZ - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_update(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Node* instance = getInstance(state);
+                instance->update(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Node_update - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

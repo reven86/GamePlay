@@ -27,6 +27,7 @@ namespace gameplay
 class ProgressBar : public Control
 {
     friend class Container;
+    friend class ControlFactory;
 
 public:
 
@@ -100,7 +101,7 @@ protected:
     /**
      * Destructor.
      */
-    ~ProgressBar();
+    virtual ~ProgressBar();
 
     /**
      * Create a progress bar with a given style and properties.
@@ -110,24 +111,19 @@ protected:
      *
      * @return The new progress bar.
      */
-    static ProgressBar* create(Theme::Style* style, Properties* properties);
+    static Control* create(Theme::Style* style, Properties* properties = NULL);
+
+    void initialize(const char* typeName, Theme::Style* style, Properties* properties);
 
     /**
-     * Draw the images associated with this control.
-     *
-     * @param spriteBatch The sprite batch containing this control's icons.
-     * @param clip The clipping rectangle of this control's parent container.
+     * @see Control::drawImages
      */
-    void drawImages(SpriteBatch* spriteBatch, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip);
 
     /**
-     * Called when a progress bar's properties change. Updates this progress bar's internal rendering
-     * properties.
-     *
-     * @param container This progress bar's parent container.
-     * @param offset The scroll offset of this progress bar's parent container.
+     * @see Control::updateState
      */
-    void update(const Control* container, const Vector2& offset);
+    void updateState(State state);
 
     /**
      * The progress bar's current value.

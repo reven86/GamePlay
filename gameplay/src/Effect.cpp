@@ -253,8 +253,6 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         replaceIncludes(vshPath, vshSource, vshSourceStr);
         if (vshSource && strlen(vshSource) != 0)
             vshSourceStr += "\n";
-            
-        //writeShaderToErrorFile(vshPath, vshSourceStr.c_str());   // Debugging
     }
     shaderSource[2] = vshPath ? vshSourceStr.c_str() :  vshSource;
     GL_ASSERT( vertexShader = glCreateShader(GL_VERTEX_SHADER) );
@@ -296,8 +294,6 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         replaceIncludes(fshPath, fshSource, fshSourceStr);
         if (fshSource && strlen(fshSource) != 0)
             fshSourceStr += "\n";
-
-        //writeShaderToErrorFile(fshPath, fshSourceStr.c_str()); // Debugging
     }
     shaderSource[2] = fshPath ? fshSourceStr.c_str() : fshSource;
     GL_ASSERT( fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
@@ -476,6 +472,27 @@ VertexAttribute Effect::getVertexAttribute(const char* name) const
 Uniform* Effect::getUniform(const char* name) const
 {
     std::map<std::string, Uniform*>::const_iterator itr = _uniforms.find(name);
+
+    if (itr == _uniforms.end())
+    {
+        GLint uniformLocation;
+        GL_ASSERT( uniformLocation = glGetUniformLocation(_program, name) );
+        if (uniformLocation > -1)
+        {
+            Uniform* uniform = new Uniform();
+            uniform->_effect = const_cast<Effect*>(this);
+            uniform->_name = name;
+            uniform->_location = uniformLocation;
+            uniform->_index = 0;
+            GLchar uniformName[128];
+            GLint uniformSize;
+            GL_ASSERT( glGetActiveUniform(_program, uniformLocation, 128, NULL, &uniformSize, &uniform->_type, uniformName) );
+            _uniforms[name] = uniform;
+
+            return uniform;
+        }
+    }
+
     return (itr == _uniforms.end() ? NULL : itr->second);
 }
 

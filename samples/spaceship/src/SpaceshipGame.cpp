@@ -59,10 +59,15 @@ SpaceshipGame game;
 // Clamp function
 #define CLAMP(x, min, max) (x < min ? min : (x > max ? max : x))
 
-SpaceshipGame::SpaceshipGame() 
+static const char *leaderboardName = "leaderboard";
+static const char *DATA_STORAGE_KEY = "myDataKey";
+
+SpaceshipGame::SpaceshipGame()
     : _scene(NULL), _cameraNode(NULL), _shipGroupNode(NULL), _shipNode(NULL), _propulsionNode(NULL), _glowNode(NULL),
-      _stateBlock(NULL), _font(NULL), _throttle(0), _shipTilt(0), _finished(false), _finishedTime(0), _pushing(false), _time(0), 
-       _glowDiffuseParameter(NULL), _shipSpecularParameter(NULL), _spaceshipSound(NULL)
+      _stateBlock(NULL), _font(NULL), _throttle(0), _shipTilt(0), _finished(true), _finishedTime(0), _pushing(false), _time(0),
+       _glowDiffuseParameter(NULL), _shipSpecularParameter(NULL), _spaceshipSound(NULL), _socialSession(NULL), _currentChallenge(NULL),
+       _challengedPlayer(NULL), _hitSomething(false), _wonChallenge(false), _createdChallenge(false), _creatingChallenge(false), _hasAcceptedChallenge(false),
+       _menu(NULL)
 {
 }
 
@@ -98,9 +103,20 @@ void SpaceshipGame::initialize()
     _backgroundSound = AudioSource::create("res/background.ogg");
     if (_backgroundSound)
         _backgroundSound->setLooped(true);
-    
+
     // Create font
-    _font = Font::create("res/airstrip28.gpb");
+    _font = Font::create("res/airstrip.gpb");
+
+    // Create menu.
+    _menu = Form::create("res/menu.form");
+    _menu->setEnabled(true);
+
+
+    // Listen for menu-button click events.
+    _menu->getControl("reset")->addListener(this, Control::Listener::CLICK);
+    _menu->getControl("leaderboard")->addListener(this, Control::Listener::CLICK);
+    _menu->getControl("achievements")->addListener(this, Control::Listener::CLICK);
+    _menu->getControl("challenges")->addListener(this, Control::Listener::CLICK);
 
     // Store camera node
     _cameraNode = _scene->findNode("camera1");
@@ -109,6 +125,9 @@ void SpaceshipGame::initialize()
     _initialShipPos = _shipGroupNode->getTranslation();
     _initialShipRot = _shipGroupNode->getRotation();
     _initialCameraPos = _cameraNode->getTranslation();
+
+    if (getSocialController())
+    	getSocialController()->authenticate(this);
 }
 
 void SpaceshipGame::initializeSpaceship()
@@ -120,28 +139,28 @@ void SpaceshipGame::initializeSpaceship()
     // Setup spaceship model
     // Part 0
     _shipNode = _scene->findNode("pSpaceShip");
-    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR", 0);
+    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1", 0);
     material->getParameter("u_diffuseColor")->setValue(Vector4(0.53544f, 0.53544f, 0.53544f, 1.0f));
     initializeMaterial(material, true, true);
     // Part 1
-    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR", 1);
+    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1", 1);
     material->getParameter("u_diffuseColor")->setValue(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
     _shipSpecularParameter = material->getParameter("u_specularExponent");
     initializeMaterial(material, true, true);
     // Part 2
-    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR", 2);
+    material = _shipNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1", 2);
     material->getParameter("u_diffuseColor")->setValue(Vector4(0.280584f, 0.5584863f, 0.6928f, 1.0f));
     initializeMaterial(material, true, true);
 
     // Setup spaceship propulsion model
     _propulsionNode = _scene->findNode("pPropulsion");
-    material = _propulsionNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR");
+    material = _propulsionNode->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1");
     material->getParameter("u_diffuseColor")->setValue(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
     initializeMaterial(material, true, true);
 
     // Glow effect node
     _glowNode = _scene->findNode("pGlow");
-    material = _glowNode->getModel()->setMaterial("res/shaders/textured-unlit.vert", "res/shaders/textured-unlit.frag", "MODULATE_COLOR");
+    material = _glowNode->getModel()->setMaterial("res/shaders/textured.vert", "res/shaders/textured.frag", "MODULATE_COLOR");
     material->getParameter("u_diffuseTexture")->setValue("res/propulsion_glow.png", true);
     _glowDiffuseParameter = material->getParameter("u_modulateColor");
     initializeMaterial(material, false, false);
@@ -164,7 +183,7 @@ void SpaceshipGame::initializeEnvironment()
     for (size_t i = 0, count = nodes.size(); i < count; ++i)
     {
         Node* pGround = nodes[i];
-        material = pGround->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR");
+        material = pGround->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1");
         material->getParameter("u_diffuseColor")->setValue(Vector4(0.280584f, 0.5584863f, 0.6928f, 1.0f));
         initializeMaterial(material, true, true);
     }
@@ -175,7 +194,7 @@ void SpaceshipGame::initializeEnvironment()
     for (size_t i = 0, count = nodes.size(); i < count; ++i)
     {
         Node* pRoof = nodes[i];
-        material = pRoof->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR");
+        material = pRoof->getModel()->setMaterial("res/shaders/colored.vert", "res/shaders/colored.frag", "SPECULAR;DIRECTIONAL_LIGHT_COUNT 1");
         material->getParameter("u_diffuseColor")->setValue(Vector4(0.280584f, 0.5584863f, 0.6928f, 1.0f));
         initializeMaterial(material, true, true);
     }
@@ -183,7 +202,7 @@ void SpaceshipGame::initializeEnvironment()
     // Setup background model
     nodes.clear();
     Node* pBackground = _scene->findNode("pBackground");
-    material = pBackground->getModel()->setMaterial("res/shaders/textured.vert", "res/shaders/textured.frag");
+    material = pBackground->getModel()->setMaterial("res/shaders/textured.vert", "res/shaders/textured.frag", "DIRECTIONAL_LIGHT_COUNT 1");
     material->getParameter("u_diffuseTexture")->setValue("res/background.png", true);
     initializeMaterial(material, true, false);
 }
@@ -200,15 +219,16 @@ void SpaceshipGame::initializeMaterial(Material* material, bool lighting, bool s
     {
         // Apply lighting material parameters
         material->setParameterAutoBinding("u_inverseTransposeWorldViewMatrix", RenderState::INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX);
+        material->getParameter("u_ambientColor")->setValue(AMBIENT_LIGHT_COLOR);
 
         Node* lightNode = _scene->findNode("directionalLight1");
         Vector3 lightDirection = lightNode->getForwardVector();
         lightDirection.normalize();
-
-        material->getParameter("u_lightDirection")->setValue(lightDirection);
-        material->getParameter("u_lightColor")->setValue(lightNode->getLight()->getColor());
-        material->getParameter("u_ambientColor")->setValue(AMBIENT_LIGHT_COLOR);
-       
+        if (lightNode)
+        {
+            material->getParameter("u_directionalLightColor[0]")->setValue(lightNode->getLight()->getColor());
+            material->getParameter("u_directionalLightDirection[0]")->setValue(lightDirection);
+        }
 
         if (specular)
         {
@@ -222,18 +242,22 @@ void SpaceshipGame::initializeMaterial(Material* material, bool lighting, bool s
 
 void SpaceshipGame::finalize()
 {
+	if (_socialSession)
+		_socialSession->submitSavedData(DATA_STORAGE_KEY, "some test data to save");
+
     SAFE_RELEASE(_backgroundSound);
     SAFE_RELEASE(_spaceshipSound);
     SAFE_RELEASE(_font);
     SAFE_RELEASE(_stateBlock);
     SAFE_RELEASE(_scene);
+    SAFE_RELEASE(_menu);
 }
 
 void SpaceshipGame::update(float elapsedTime)
 {
     // Calculate elapsed time in seconds
     float t = (float)elapsedTime / 1000.0;
-    
+
     if (!_finished)
     {
         _time += t;
@@ -245,10 +269,14 @@ void SpaceshipGame::update(float elapsedTime)
     else
     {
         // Stop the background track
-        if (_backgroundSound->getState() != AudioSource::STOPPED)
+        if (_backgroundSound->getState() == AudioSource::PLAYING || _backgroundSound->getState() == AudioSource::PAUSED)
+		{
             _backgroundSound->stop();
+        	_throttle = 0.0f;
 
-        _throttle = 0.0f;
+        	postScore(_time);
+        	updateAchievements(_time);
+		}
     }
 
     // Set initial force due to gravity
@@ -266,7 +294,7 @@ void SpaceshipGame::update(float elapsedTime)
         // We will use this vector to apply a "pushing" force to the space ship, similar to what
         // happens when you hold a magnet close to an object with opposite polarity.
         Vector2 pushForce((shipCenterScreen.x - _pushPoint.x), -(shipCenterScreen.y - _pushPoint.y));
-        
+
         // Transform the vector so that a smaller magnitude emits a larger force and applying the
         // maximum touch distance.
         float distance = (std::max)(TOUCH_DISTANCE_MAX - pushForce.length(), 0.0f);
@@ -341,7 +369,7 @@ void SpaceshipGame::update(float elapsedTime)
         // Play sound effect
         if (_spaceshipSound->getState() != AudioSource::PLAYING)
             _spaceshipSound->play();
-        
+
         // Set the pitch based on the throttle
         _spaceshipSound->setPitch(_throttle * SOUND_PITCH_SCALE);
     }
@@ -354,6 +382,10 @@ void SpaceshipGame::update(float elapsedTime)
     // Modify ship glow effect based on the throttle
     _glowDiffuseParameter->setValue(Vector4(1, 1, 1, _throttle * ENGINE_POWER));
     _shipSpecularParameter->setValue(SPECULAR - ((SPECULAR-2.0f) * _throttle));
+
+    if (_menu->isEnabled())
+        _menu->update(elapsedTime);
+
 }
 
 void SpaceshipGame::handleCollisions(float t)
@@ -401,6 +433,7 @@ void SpaceshipGame::handleCollisions(float t)
         {
             _velocity.x = (std::min)(_velocity.x - friction  * t, 0.0f);
         }
+		_hitSomething = true;
     }
 
     // Keep the ship within the playable area of the map
@@ -418,6 +451,7 @@ void SpaceshipGame::handleCollisions(float t)
             _finished = true;
             _finishedTime = getAbsoluteTime();
             _pushing = false;
+            _menu->setEnabled(true);
         }
     }
 }
@@ -448,6 +482,7 @@ void SpaceshipGame::resetGame()
     _velocity.set(0, 0);
     _shipGroupNode->setTranslation(_initialShipPos);
     _cameraNode->setTranslation(_initialCameraPos);
+    _hitSomething = false;
 }
 
 void SpaceshipGame::render(float elapsedTime)
@@ -462,6 +497,11 @@ void SpaceshipGame::render(float elapsedTime)
 
     // Draw game text (yellow)
     drawText();
+
+    // Draw menu
+    if (_menu->isEnabled())
+        _menu->draw();
+
 }
 
 void SpaceshipGame::drawSplash(void* param)
@@ -496,7 +536,7 @@ void SpaceshipGame::drawText()
     char text[1024];
     sprintf(text, "%dsec.", (int)_time);
     _font->drawText(text, getWidth() - 120, 10, Vector4(1, 1, 0, 1), _font->getSize());
-    if (_finished)
+    if (0 && _finished)
     {
         _font->drawText("Click to Play Again", getWidth()/2 - 175, getHeight()/2 - 40, Vector4::one(), _font->getSize());
     }
@@ -521,10 +561,10 @@ void SpaceshipGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int
     switch (evt)
     {
     case Touch::TOUCH_PRESS:
-        if (_finished && (getAbsoluteTime() - _finishedTime) > 1000L)
-        {
-            resetGame();
-        }
+     //   if (_finished && (getAbsoluteTime() - _finishedTime) > 1000L)
+     //   {
+     //       resetGame();
+     //   }
     case Touch::TOUCH_MOVE:
         if (!_finished)
         {
@@ -537,4 +577,288 @@ void SpaceshipGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int
         _pushing = false;
         break;
     }
+}
+
+bool SpaceshipGame::handlePlatformEvent(PlatformEvent *event)
+{
+	return (_socialSession) ? _socialSession->handleEvent(event) : false;
+}
+
+void SpaceshipGame::controlEvent(Control* control, EventType evt)
+{
+    // Handle UI events.
+    switch (evt)
+    {
+		case Listener::CLICK:
+			if (strcmp(control->getId(), "reset") == 0)
+			{
+				// Play again.
+				_menu->setEnabled(false);
+				if (_creatingChallenge)
+				{
+					_creatingChallenge = false;
+					_challengedPlayer = 0;
+				}
+				resetGame();
+			}
+			else if (_socialSession && strcmp(control->getId(), "leaderboard") == 0)
+			{
+				// Display the leaderboard.
+				_socialSession->displayLeaderboard(leaderboardName);
+			}
+			else if (_socialSession && strcmp(control->getId(), "achievements") == 0)
+			{
+				// Display the achievements.
+				_socialSession->displayAchievements();
+			}
+			else if (_socialSession && strcmp(control->getId(), "challenges") == 0)
+			{
+				// Display the challenges.
+				_socialSession->displayChallenges();
+			}
+			break;
+        default:
+            break;
+    }
+}
+
+void SpaceshipGame::postScore(double result)
+{
+	if (_socialSession)
+	{
+		_socialSession->submitScore(leaderboardName, result);
+
+		if (_creatingChallenge)
+		{
+			//_socialSession->submitChallenge(_challengedPlayer, result);
+			_creatingChallenge = false;
+            _createdChallenge = true;
+			_challengedPlayer = 0;
+		}
+		else if (_hasAcceptedChallenge)
+		{
+			if (_currentChallenge)
+				_socialSession->displayChallengeSubmit(_currentChallenge, result);
+
+			_currentChallenge = 0;
+			_hasAcceptedChallenge = false;
+		}
+	}
+}
+
+void SpaceshipGame::updateAchievements(double time)
+{
+	// go through our achievements and update them accordingly
+	if (_socialSession)
+	{
+		_socialSession->submitAchievement("gameplay.spaceship.firsttime", 100, true);
+
+		// increase the game count awards
+		_socialSession->incrementAchievement("gameplay.spaceship.tentimes", 10);
+		_socialSession->incrementAchievement("gameplay.spaceship.fiftytimes", 50);
+		_socialSession->incrementAchievement("gameplay.spaceship.hundredtimes", 100);
+
+		// clean run award
+		if (!_hitSomething)
+			_socialSession->submitAchievement("gameplay.spaceship.cleanrun", 100, true);
+
+		if (time < 16)
+			_socialSession->submitAchievement("gameplay.spaceship.under16", 100, true);
+
+		if (time < 17)
+			_socialSession->submitAchievement("gameplay.spaceship.under17", 100, true);
+
+		if (time < 20)
+			_socialSession->submitAchievement("gameplay.spaceship.under20", 100, true);
+
+        if (_createdChallenge)
+        {
+            _socialSession->submitAchievement("gameplay.spaceship.challenge", 100, true);
+            _createdChallenge = false;
+        }
+
+        if (_wonChallenge)
+        {
+            _socialSession->submitAchievement("gameplay.spaceship.winchallenge", 100, true);
+            _wonChallenge = false;
+        }
+
+		_socialSession->synchronizeAchievements();
+	}
+}
+
+const SocialPlayer *SpaceshipGame::getPlayer(const char *name) const
+{
+	for (unsigned int i = 0; i < _friends.size(); i++)
+	{
+		if (strcmp(_friends[i].name.data(), name) == 0)
+			return &_friends[i];
+	}
+
+	return 0;
+}
+
+const SocialChallenge *SpaceshipGame::getChallenge(const char *date) const
+{
+	for (unsigned int i = 0; i < _challenges.size(); i++)
+	{
+		if (strcmp(_challenges[i].dateTimeIssued.data(), date) == 0)
+			return &_challenges[i];
+	}
+
+	return 0;
+}
+
+void SpaceshipGame::authenticateEvent(ResponseCode code, SocialSession* session)
+{
+	if (code == SUCCESS)
+	{
+		_socialSession = session;
+
+		_socialSession->loadSavedData(DATA_STORAGE_KEY);
+
+		// load the challenges to see if we've won one yet
+		_socialSession->loadChallenges(false);
+
+		// and then try and load our friends just for fun
+		_socialSession->loadFriends();
+	}
+	else
+    {
+		print( "Error authenticating the social session %d\n", code);
+		return;
+    }
+}
+
+void SpaceshipGame::loadFriendsEvent(ResponseCode code, std::vector<SocialPlayer> friends)
+{
+	if (code == SUCCESS)
+	{
+		_friends.clear();
+		_friends = friends;
+
+		for (unsigned int i = 0 ; i < _friends.size(); i++)
+		{
+			print( "Friend %d is %s\n", i, _friends[i].name.data());
+		}
+
+		_socialSession->loadAchievements();
+	}
+	else
+	{
+		print( "Error loading friends %d\n", code);
+	}
+}
+
+void SpaceshipGame::loadAchievementsEvent(ResponseCode code, std::vector<SocialAchievement> achievements)
+{
+	if (code == SUCCESS)
+	{
+		for (unsigned int i = 0 ; i < achievements.size(); i++)
+		{
+			print( "Achievement %d is %s\n", i, achievements[i].name.data());
+		}
+	}
+	else
+    {
+		print( "Error loading achievements %d\n", code);
+    }
+}
+
+void SpaceshipGame::submitAchievementEvent(ResponseCode code)
+{
+}
+
+void SpaceshipGame::synchronizeAchievementEvent(ResponseCode code)
+{
+}
+
+void SpaceshipGame::awardAchievedEvent(ResponseCode code, const SocialAchievement &achievement)
+{
+	if (code == SUCCESS)
+	{
+		char message[256];
+		sprintf(message, "You've earned the %s award.", achievement.title.data());
+
+		_socialSession->displayPopup(message);
+	}
+}
+
+void SpaceshipGame::loadScoresEvent(ResponseCode code, std::vector<SocialScore> scores)
+{
+	if (code == SUCCESS)
+	{
+        for (unsigned int i = 0 ; i < scores.size(); i++)
+		{
+			print( "Score %d for %s is %lf\n", i, scores[i].playerName.data(), scores[i].value);
+		}
+	}
+	else
+    {
+		print( "Error loading scores %d\n", code);
+    }
+}
+
+void SpaceshipGame::submitScoreEvent(ResponseCode code)
+{
+	_socialSession->loadScores(leaderboardName, SocialSession::COMMUNITY_SCOPE_ALL, SocialSession::TIME_SCOPE_ALL, 1, 20);
+}
+
+void SpaceshipGame::submitChallengeEvent(ResponseCode code, const SocialChallenge &challenge)
+{
+    _createdChallenge = true;
+}
+
+void SpaceshipGame::startChallengeEvent(ResponseCode code, const SocialChallenge &challenge)
+{
+	if (code == SUCCESS)
+	{
+		_creatingChallenge = true;
+		_hasAcceptedChallenge = true;
+		_currentChallenge = &challenge;
+		_menu->setEnabled(false);
+		resetGame();
+	}
+}
+
+void SpaceshipGame::replyToChallengeEvent(ResponseCode code)
+{
+}
+
+void SpaceshipGame::loadChallengesEvent(ResponseCode code, std::vector<SocialChallenge> challenges)
+{
+	if (code == SUCCESS)
+	{
+		_challenges.clear();
+		_challenges = challenges;
+
+		for (unsigned int i = 0 ; i < challenges.size(); i++)
+		{
+			// see if we won a challenge
+            if (challenges[i].state == SocialChallenge::COMPLETE &&
+            	challenges[i].score < challenges[i].opponentScore)
+            {
+                _wonChallenge = true;
+                break;
+            }
+
+			//print( "Challenge score %lf opponent score %lf issued on %s by %s for %s.  Status %d\n", challenges[i].score, challenges[i].opponentScore, challenges[i].dateTimeIssued.c_str(), challenges[i].issuedPlayerName.c_str(), challenges[i].challengedPlayerName.c_str(), challenges[i].state);
+		}
+	}
+	else
+    {
+		print( "Error loading challenges %d\n", code);
+    }
+}
+
+void SpaceshipGame::loadSavedDataEvent(ResponseCode code, std::string data)
+{
+	if (code == SUCCESS)
+		print("Loaded data is %s\n", data.data());
+}
+
+void SpaceshipGame::submitSavedDataEvent(ResponseCode code)
+{
+	if (code == SUCCESS)
+		print("Saving custom data\n");
 }

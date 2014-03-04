@@ -8,7 +8,9 @@ namespace gameplay
 {
 
 /**
- * Horizontal layout: Controls are placed next to one another Horizontally until
+ * Defines a horizontal layout.
+ *
+ * Controls are placed next to one another horizontally until
  * the right-most edge of the container is reached.
  */
 class HorizontalLayout : public Layout
@@ -40,6 +42,20 @@ public:
      */
     Layout::Type getType();
 
+    /**
+     * Returns the horizontal spacing between controls in the layout.
+     *
+     * @return The horizontal spacing between controls.
+     */
+    int getSpacing() const;
+
+    /**
+     * Sets the horizontal spacing to add between controls in the layout.
+     *
+     * @param spacing The horizontal spacing between controls.
+     */
+    void setSpacing(int spacing);
+
 protected:
 
     /**
@@ -59,15 +75,19 @@ protected:
      * the right-most edge of the container is reached.
      *
      * @param container The container to update.
-     * @param offset Positioning offset to add to the control's position.
      */
-    void update(const Container* container, const Vector2& offset);
+    void update(const Container* container);
 
     /**
      * Flag determining whether this layout will start laying out controls from the right of the container.
      * The default is 'false' meaning controls will start at the left.
      */
     bool _rightToLeft;
+
+    /**
+     * Spacing between controls in the layout.
+     */
+    int _spacing;
 
 private:
 

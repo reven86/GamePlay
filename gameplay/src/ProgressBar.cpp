@@ -16,25 +16,29 @@ ProgressBar* ProgressBar::create(const char* id, Theme::Style* style)
     GP_ASSERT(style);
 
     ProgressBar* progressBar = new ProgressBar();
-    if (id)
-        progressBar->_id = id;
-    progressBar->setStyle(style);
+    progressBar->_id = id ? id : "";
+    progressBar->initialize("ProgressBar", style, NULL);
 
     return progressBar;
 }
 
-ProgressBar* ProgressBar::create(Theme::Style* style, Properties* properties)
+Control* ProgressBar::create(Theme::Style* style, Properties* properties)
 {
-    GP_ASSERT(properties);
-
     ProgressBar* progressBar = new ProgressBar();
-    progressBar->initialize(style, properties);
-
-    progressBar->_value = properties->getFloat("value");
-    if( properties->exists( "orientation" ) )
-        progressBar->_orientation = strcmp( properties->getString("orientation"), "VERTICAL" ) == 0 ? ORIENTATION_VERTICAL : ORIENTATION_HORIZONTAL;
-
+    progressBar->initialize("Image", style, properties);
     return progressBar;
+}
+
+void ProgressBar::initialize(const char* typeName, Theme::Style* style, Properties* properties)
+{
+	Control::initialize(typeName, style, properties);
+
+    if(properties)
+    {
+        _value = properties->getFloat("value");
+        if( properties->exists( "orientation" ) )
+            _orientation = strcmpnocase( properties->getString("orientation"), "VERTICAL" ) == 0 ? ORIENTATION_VERTICAL : ORIENTATION_HORIZONTAL;
+    }
 }
 
 float ProgressBar::getValue() const
@@ -57,17 +61,17 @@ void ProgressBar::setOrientation( const OrientationType& orientation )
     _orientation = orientation;
 }
 
-void ProgressBar::update(const Control* container, const Vector2& offset)
+void ProgressBar::updateState(State state)
 {
-    Control::update(container, offset);
+    Control::updateState(state);
 
     _trackImage = getImage("track", _state);
 }
 
-void ProgressBar::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
+unsigned ProgressBar::drawImages(Form* form, const Rectangle& clip)
 {
-    GP_ASSERT(spriteBatch);
-    GP_ASSERT(_trackImage);
+    if(!_trackImage)
+        return 0;
 
     const Rectangle& trackRegion = _trackImage->getRegion();
     const Theme::UVs& track = _trackImage->getUVs();
@@ -76,15 +80,20 @@ void ProgressBar::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
     trackColor.w *= _opacity;
 
     // Draw order: track, caps, marker.
+    SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
+    startBatch(form, batch);
     if( _orientation == ORIENTATION_HORIZONTAL )
-        spriteBatch->draw(
+        batch->draw(
             _viewportBounds.x, _viewportBounds.y, _viewportBounds.width * _value, _viewportBounds.height, 
             track.u1, track.v1, track.u1 + ( track.u2 - track.u1 ) * _value, track.v2, trackColor, _viewportClipBounds);
     else
-        spriteBatch->draw(
+        batch->draw(
             _viewportBounds.x, _viewportBounds.y + _viewportBounds.height * ( 1.0f - _value ), 
             _viewportBounds.width, _viewportBounds.height * _value, 
             track.u1, track.v2 + ( track.v1 - track.v2 ) * _value, track.u2, track.v2, trackColor, _viewportClipBounds);
+
+    finishBatch(form, batch);
+    return 1;
 }
 
 const char* ProgressBar::getType() const

@@ -51,6 +51,15 @@ public:
     };
 
     /**
+     * Defines the format of the font.
+     */
+    enum Format
+    {
+        BITMAP = 0,
+        DISTANCE_FIELD = 1
+    };
+
+    /**
      * Vertex coordinates, UVs and indices can be computed and stored in a Text object.
      * For static text labels that do not change frequently, this means these computations
      * need not be performed every frame.
@@ -78,10 +87,12 @@ public:
         const wchar_t* getText();
 
     private:
+
         /**
          * Hidden copy constructor.
          */
-        Text(const Text&); 
+        Text(const Text&);
+
         /**
          * Hidden copy assignment operator.
          */
@@ -91,6 +102,7 @@ public:
         unsigned int _vertexCount;
         SpriteBatch::SpriteVertex* _vertices;
         Vector4 _color;
+        Font* _font;
     };
 
     /**
@@ -106,15 +118,39 @@ public:
      * @param path The path to a bundle file containing a font resource.
      * @param id An optional ID of the font resource within the bundle (NULL for the first/only resource).
      * 
-     * @return The specified font.
+     * @return The specified Font or NULL if there was an error.
      * @script{create}
      */
     static Font* create(const char* path, const char* id = NULL);
 
     /**
-     * Returns the font size (max height of glyphs) in pixels.
+     * Gets the font size (max height of glyphs) in pixels, at the specified index.
+     *
+     * The Font class can store multiple sizes of glyphs for a font. The number of font
+     * sizes stored can be retrieved via getSizeCount.
+     *
+     * @param index Index of the size to returned (default is 0).
+     * @see getSizeCount
      */
-    unsigned int getSize() const;
+    unsigned int getSize(unsigned int index = 0) const;
+
+    /**
+     * Returns the number of font sizes supported by this Font.
+     */
+    unsigned int getSizeCount() const;
+
+    /**
+     * Gets the font format. BITMAP or DISTANCEMAP.
+     */
+    Format getFormat() const;
+
+    /**
+     * Determines if this font supports the specified character code.
+     *
+     * @param character The character code to check.
+     * @return True if this Font supports (can draw) the specified character, false otherwise.
+     */
+    bool isCharacterSupported(int character) const;
 
     /**
      * Starts text drawing for this font.
@@ -265,11 +301,13 @@ public:
                             Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
 
     /**
-     * Gets the sprite batch for this Font.
+     * Gets the sprite batch used to draw this Font.
      * 
-     * @return The sprite batch for this Font.
+     * @param size The font size to be drawn.
+     *
+     * @return The SpriteBatch that most closely matches the requested font size.
      */
-    SpriteBatch* getSpriteBatch() const;
+    SpriteBatch* getSpriteBatch(unsigned int size) const;
 
     /**
      * Gets the Justify value from the given string.
@@ -343,10 +381,11 @@ private:
      * @param glyphs An array of font glyphs, defining each character in the font within the texture map.
      * @param glyphCount The number of items in the glyph array.
      * @param texture A texture map containing rendered glyphs.
+     * @param format The format of the font (bitmap or distance fields)
      * 
-     * @return The new Font.
+     * @return The new Font or NULL if there was an error.
      */
-    static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture);
+    static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture, Font::Format format);
 
     void getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
                             std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const;
@@ -368,17 +407,24 @@ private:
     //! Returns glyph index by character code or -1.
     int getGlyphIndexByCode( int characterCode ) const;
 
+    const Font* findClosestSize(int size) const;
+
+    void lazyStart() const;
+
+    Format _format;
     std::string _path;
     std::string _id;
     std::string _family;
     Style _style;
     unsigned int _size;
+    std::vector<Font*> _sizes; // stores additional font sizes of the same family
     float _spacing;
     Glyph* _glyphs;
     unsigned int _glyphCount;
     Texture* _texture;
     SpriteBatch* _batch;
     Rectangle _viewport;
+    mutable MaterialParameter* _cutoffParam;    // cached value, updated on draw.
 };
 
 }

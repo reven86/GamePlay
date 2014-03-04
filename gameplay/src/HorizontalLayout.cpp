@@ -4,7 +4,7 @@
 namespace gameplay
 {
 
-HorizontalLayout::HorizontalLayout() : _rightToLeft(false)
+HorizontalLayout::HorizontalLayout() : _rightToLeft(false), _spacing(0)
 {
 }
 
@@ -32,7 +32,17 @@ Layout::Type HorizontalLayout::getType()
     return Layout::LAYOUT_HORIZONTAL;
 }
 
-void HorizontalLayout::update(const Container* container, const Vector2& offset)
+int HorizontalLayout::getSpacing() const
+{
+    return _spacing;
+}
+
+void HorizontalLayout::setSpacing(int spacing)
+{
+    _spacing = spacing;
+}
+
+void HorizontalLayout::update(const Container* container)
 {
     GP_ASSERT(container);
 
@@ -63,17 +73,17 @@ void HorizontalLayout::update(const Container* container, const Vector2& offset)
         Control* control = controls.at(i);
         GP_ASSERT(control);
 
-        align(control, container);
+        if (control->isVisible())
+        {
+            const Rectangle& bounds = control->getBounds();
+            const Theme::Margin& margin = control->getMargin();
 
-        const Rectangle& bounds = control->getBounds();
-        const Theme::Margin& margin = control->getMargin();
+            xPosition += margin.left;
 
-        xPosition += margin.left;
+            control->setPosition(xPosition, margin.top);
 
-        control->setPosition(xPosition, margin.top);
-        control->update(container, offset);
-
-        xPosition += bounds.width + margin.right;
+            xPosition += bounds.width + margin.right + _spacing;
+        }
 
         i += iter;
     }

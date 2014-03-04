@@ -76,15 +76,29 @@ private:
 
     void drawFrameRate(Font* font, const Vector4& color, unsigned int x, unsigned int y, unsigned int fps);
 
-    std::string openFile(const char* title, const char* filterDescription, const char* filterExtension);
-
-    void saveFile();
-
     void updateTexture();
 
     void updateImageControl();
 
     void updateFrames();
+    
+    void addGrid(unsigned int lineCount);
+
+    void saveFile();
+    
+    std::string toString(bool b);
+    
+    std::string toString(int i);
+    
+    std::string toString(unsigned int i);
+    
+    std::string toString(const Vector3& v);
+    
+    std::string toString(const Vector4& v);
+    
+    std::string toString(const Quaternion& q);
+    
+    std::string toString(ParticleEmitter::TextureBlending blending);
 
     Scene* _scene;
     Node* _particleEmitterNode;

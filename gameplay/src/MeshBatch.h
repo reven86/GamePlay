@@ -140,6 +140,11 @@ public:
     void start();
 
     /**
+    * Determines if the batch has been started and not yet finished.
+    */
+    bool isStarted() const;
+
+    /**
      * Indicates that batching is complete and prepares the batch for drawing.
      */
     void finish();
@@ -186,6 +191,7 @@ private:
     unsigned char* _verticesPtr;
     unsigned short* _indices;
     unsigned short* _indicesPtr;
+    bool _started;
 
 };
 

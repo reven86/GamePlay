@@ -17,6 +17,7 @@ class Node;
 
 /**
  * Defines a particle emitter that can be made to simulate and render a particle system.
+ *
  * Once created, the emitter can be set on a node in order to follow an object or be placed
  * within a scene.
  *
@@ -135,6 +136,7 @@ class Node;
  * be set before rendering the particle system and then will be reset to their original
  * values.  Accepts the same symbolic constants as glBlendFunc().
  *
+ * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-Particles
  */
 class ParticleEmitter : public Ref
 {
@@ -201,7 +203,7 @@ public:
      * The reference count of the specified texture is increased, and the 
      * current texture's reference count is decreased.
      *
-     * @param The new texture to set.
+     * @param texture The new texture to set.
      * @param textureBlending Blending mode for the new texture.
      */
     void setTexture(Texture* texture, TextureBlending textureBlending);
@@ -700,7 +702,7 @@ public:
     /**
      * Draws the particles currently being emitted.
      */
-    void draw();
+    unsigned int draw();
 
     /**
      * Gets a TextureBlending enum from a corresponding string.

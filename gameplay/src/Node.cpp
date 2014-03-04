@@ -20,7 +20,7 @@ namespace gameplay
 {
 
 Node::Node(const char* id)
-    : _scene(NULL), _firstChild(NULL), _nextSibling(NULL), _prevSibling(NULL), _parent(NULL), _childCount(0),
+    : _scene(NULL), _firstChild(NULL), _nextSibling(NULL), _prevSibling(NULL), _parent(NULL), _childCount(0), _active(true),
     _tags(NULL), _camera(NULL), _light(NULL), _model(NULL), _terrain(NULL), _form(NULL), _audioSource(NULL), _particleEmitter(NULL),
     _collisionObject(NULL), _agent(NULL), _dirtyBits(NODE_DIRTY_ALL), _notifyHierarchyChanged(true), _userData(NULL)
 {
@@ -292,6 +292,35 @@ void Node::setUserPointer(void* pointer, void (*cleanupCallback)(void*))
     }
 }
 
+void Node::setActive(bool active)
+{
+    if (_active != active)
+    {
+        if (_collisionObject)
+            _collisionObject->setEnabled(active);
+
+        _active = active;
+    }
+}
+
+bool Node::isActive() const
+{
+    return _active;
+}
+
+bool Node::isActiveInHierarchy() const
+{
+    if (!_active)
+       return false;
+   Node* node = _parent;
+   while (node)
+   {
+       if (!node->_active)
+           return false;
+   }
+   return true;
+}
+
 unsigned int Node::getChildCount() const
 {
     return _childCount;
@@ -406,6 +435,15 @@ Node* Node::getRootNode() const
         n = n->getParent();
     }
     return n;
+}
+
+void Node::update(float elapsedTime)
+{
+    for (Node* node = _firstChild; node != NULL; node = node->_nextSibling)
+    {
+        if (node->isActive())
+            node->update(elapsedTime);
+    }
 }
 
 bool Node::isStatic() const
@@ -1233,21 +1271,6 @@ PhysicsCollisionObject* Node::setCollisionObject(Properties* properties)
     }
 
     return _collisionObject;
-}
-
-unsigned int Node::getNumAdvertisedDescendants() const
-{
-    return (unsigned int)_advertisedDescendants.size();
-}
-
-Node* Node::getAdvertisedDescendant(unsigned int i) const
-{
-    return _advertisedDescendants.at(i);
-}
-
-void Node::addAdvertisedDescendant(Node* node)
-{
-    _advertisedDescendants.push_back(node);
 }
 
 AIAgent* Node::getAgent() const

@@ -18,7 +18,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _style(PLAIN), _size(0), _spacing(0.125f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.125f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -34,6 +34,12 @@ Font::~Font()
     SAFE_DELETE(_batch);
     SAFE_DELETE_ARRAY(_glyphs);
     SAFE_RELEASE(_texture);
+
+    // Free child fonts
+    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
+    {
+        SAFE_RELEASE(_sizes[i]);
+    }
 }
 
 Font* Font::create(const char* path, const char* id)
@@ -57,7 +63,7 @@ Font* Font::create(const char* path, const char* id)
     Bundle* bundle = Bundle::create(path);
     if (bundle == NULL)
     {
-        GP_ERROR("Failed to load font bundle '%s'.", path);
+        GP_WARN("Failed to load font bundle '%s'.", path);
         return NULL;
     }
 
@@ -68,7 +74,7 @@ Font* Font::create(const char* path, const char* id)
         const char* id;
         if ((id = bundle->getObjectId(0)) == NULL)
         {
-            GP_ERROR("Failed to load font without explicit id; the first object in the font bundle has a null id.");
+            GP_WARN("Failed to load font without explicit id; the first object in the font bundle has a null id.");
             return NULL;
         }
 
@@ -92,7 +98,7 @@ Font* Font::create(const char* path, const char* id)
     return font;
 }
 
-Font* Font::create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture)
+Font* Font::create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture, Font::Format format)
 {
     GP_ASSERT(family);
     GP_ASSERT(glyphs);
@@ -102,10 +108,13 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     Effect ** fontEffect = style == Font::TEXTURED ? &__fontEffect : &__fontEffectAlpha;
     if (*fontEffect == NULL)
     {
-        *fontEffect = Effect::createFromFile(FONT_VSH, style == Font::TEXTURED ? FONT_FSH : FONT_FSH_ALPHA);
+        const char* defines = NULL;
+        if (format == DISTANCE_FIELD)
+            defines = "DISTANCE_FIELD";
+        *fontEffect = Effect::createFromFile(FONT_VSH, style == Font::TEXTURED ? FONT_FSH : FONT_FSH_ALPHA, defines);
         if (*fontEffect == NULL)
         {
-            GP_ERROR("Failed to create effect for font.");
+            GP_WARN("Failed to create effect for font.");
             SAFE_RELEASE(texture);
             return NULL;
         }
@@ -123,18 +132,20 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
 
     if (batch == NULL)
     {
-        GP_ERROR("Failed to create batch for font.");
+        GP_WARN("Failed to create batch for font.");
         return NULL;
     }
 
     // Add linear filtering for better font quality.
     Texture::Sampler* sampler = batch->getSampler();
-    sampler->setFilterMode(Texture::LINEAR, Texture::LINEAR);
+    sampler->setFilterMode(Texture::LINEAR_MIPMAP_LINEAR, Texture::LINEAR);
+    sampler->setWrapMode(Texture::CLAMP, Texture::CLAMP);
 
     // Increase the ref count of the texture to retain it.
     texture->addRef();
 
     Font* font = new Font();
+    font->_format = format;
     font->_family = family;
     font->_style = style;
     font->_size = size;
@@ -149,23 +160,66 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     return font;
 }
 
-unsigned int Font::getSize() const
+unsigned int Font::getSize(unsigned int index) const
 {
-    return _size;
+    GP_ASSERT(index <= _sizes.size());
+
+    // index zero == this font
+    return index == 0 ? _size : _sizes[index - 1]->_size;
+}
+
+unsigned int Font::getSizeCount() const
+{
+    return _sizes.size() + 1; // +1 for "this" font
+}
+
+Font::Format Font::getFormat() const
+{
+    return _format;
+}
+
+bool Font::isCharacterSupported(int character) const
+{
+    // TODO: Update this once we support unicode fonts
+    int glyphIndex = character - 32; // HACK for ASCII
+    return (glyphIndex >= 0 && glyphIndex < (int)_glyphCount);
 }
 
 void Font::start() const
 {
-    GP_ASSERT(_batch);
+    // no-op : fonts now are lazily started on the first draw call
+}
+
+void Font::lazyStart() const
+{
+    if (_batch->isStarted())
+        return; // already started
 
     // Update the projection matrix for our batch to match the current viewport
     const Rectangle& vp = Game::getInstance()->getViewport();
-    Game* game = Game::getInstance();
-    Matrix projectionMatrix;
-    Matrix::createOrthographicOffCenter(0, vp.width, vp.height, 0, 0, 1, &projectionMatrix);
-    _batch->setProjectionMatrix(projectionMatrix);
+    if (!vp.isEmpty())
+    {
+        Game* game = Game::getInstance();
+        Matrix projectionMatrix;
+        Matrix::createOrthographicOffCenter(0, vp.width, vp.height, 0, 0, 1, &projectionMatrix);
+        _batch->setProjectionMatrix(projectionMatrix);
+    }
 
     _batch->start();
+}
+
+void Font::finish() const
+{
+    // Finish any font batches that have been started
+    if (_batch->isStarted())
+        _batch->finish();
+
+    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
+    {
+        SpriteBatch* batch = _sizes[i]->_batch;
+        if (batch->isStarted())
+            batch->finish();
+    }
 }
 
 Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify,
@@ -174,10 +228,22 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
     GP_ASSERT(text);
     GP_ASSERT(_glyphs);
     GP_ASSERT(_batch);
+    GP_ASSERT(_size);
 
     if (size == 0)
+    {
         size = static_cast< float >( _size );
-    GP_ASSERT(_size);
+    }
+    else
+    {
+        // Delegate to closest sized font
+        Font* f = const_cast< Font * >( findClosestSize(size) );
+        if (f != this)
+        {
+            return f->createText(text, area, color, size, justify, wrap, rightToLeft, clip);
+        }
+    }
+
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float yPos = area.y;
@@ -188,6 +254,9 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
     getMeasurementInfo(text, area, size, justify, wrap, rightToLeft, &xPositions, &yPos, &lineLengths);
 
     Text* batch = new Text(text);
+    batch->_font = this;
+    batch->_font->addRef();
+
     GP_ASSERT(batch->_vertices);
 
     float xPos = area.x;
@@ -372,19 +441,68 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
     return batch;
 }
 
+const Font* Font::findClosestSize(int size) const
+{
+    if (size == _size)
+        return this;
+
+    int diff = abs(size - (int)_size);
+    const Font* closest = this;
+    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
+    {
+        Font* f = _sizes[i];
+        int d = abs(size - (int)f->_size);
+        if (d < diff || (d == diff && f->_size > closest->_size)) // prefer scaling down instead of up
+        {
+            diff = d;
+            closest = f;
+        }
+    }
+
+    return closest;
+}
+
 void Font::drawText(Text* text) const
 {
+    GP_ASSERT(text);
+    GP_ASSERT(text->_font);
+
+    if (text->_font != this)
+    {
+        // Make sure we draw using the font/batch the text was created with
+        text->_font->drawText(text);
+        return;
+    }
+
     GP_ASSERT(_batch);
     GP_ASSERT(text->_vertices);
+
+    lazyStart();
     _batch->draw(text->_vertices, text->_vertexCount);
 }
 
 void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color, float size, bool rightToLeft) const
 {
-    if (size == 0)
-        size = _size;
     GP_ASSERT(_size);
     GP_ASSERT(text);
+
+    if (size == 0)
+    {
+        size = _size;
+    }
+    else
+    {
+        // Delegate to closest sized font
+        const Font* f = findClosestSize(size);
+        if (f != this)
+        {
+            f->drawText(text, x, y, color, size, rightToLeft);
+            return;
+        }
+    }
+
+    lazyStart();
+
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     const wchar_t* cursor = NULL;
@@ -481,6 +599,14 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 if (index >= 0 && index < (int)_glyphCount)
                 {
                     Glyph& g = _glyphs[index];
+
+                    if (getFormat() == DISTANCE_FIELD )
+                    {
+                        if (_cutoffParam == NULL)
+                            _cutoffParam = _batch->getMaterial()->getParameter("u_cutoff");    
+                        // TODO: Fix me so that smaller font are much smoother
+                        _cutoffParam->setVector2(Vector2(1.0, 1.0));
+                    }
                     _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                     xPos += g.width * scale + spacing;
                     break;
@@ -508,10 +634,25 @@ void Font::drawText(const wchar_t* text, float x, float y, float red, float gree
 void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
 {
     GP_ASSERT(text);
+    GP_ASSERT(_size);
 
     if (size == 0)
+    {
         size = _size;
-    GP_ASSERT(_size);
+    }
+    else
+    {
+        // Delegate to closest sized font
+        const Font* f = findClosestSize(size);
+        if (f != this)
+        {
+            f->drawText(text, area, color, size, justify, wrap, rightToLeft, clip);
+            return;
+        }
+    }
+
+    lazyStart();
+
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float yPos = area.y;
@@ -623,6 +764,13 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                     // Draw this character.
                     if (draw)
                     {
+                        if (getFormat() == DISTANCE_FIELD)
+                        {
+                            if (_cutoffParam == NULL)
+                                _cutoffParam = _batch->getMaterial()->getParameter("u_cutoff");
+                            // TODO: Fix me so that smaller font are much smoother
+                            _cutoffParam->setVector2(Vector2(1.0, 1.0));
+                        }
                         if (clip)
                         {
                             _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
@@ -701,18 +849,27 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
     }
 }
 
-void Font::finish() const
-{
-    GP_ASSERT(_batch);
-    _batch->finish();
-}
-
 void Font::measureText(const wchar_t* text, float size, float* width, float* height) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(width);
     GP_ASSERT(height);
+
+    if (size == 0)
+    {
+        size = _size;
+    }
+    else
+    {
+        // Delegate to closest sized font
+        const Font* f = findClosestSize(size);
+        if (f != this)
+        {
+            f->measureText(text, size, width, height);
+            return;
+        }
+    }
 
     const size_t length = wcslen(text);
     if (length == 0)
@@ -753,6 +910,21 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
     GP_ASSERT(_size);
     GP_ASSERT(text);
     GP_ASSERT(out);
+
+    if (size == 0)
+    {
+        size = _size;
+    }
+    else
+    {
+        // Delegate to closest sized font
+        const Font* f = findClosestSize(size);
+        if (f != this)
+        {
+            f->measureText(text, clip, size, out, justify, wrap, ignoreClip);
+            return;
+        }
+    }
 
     if (wcslen(text) == 0)
     {
@@ -1086,6 +1258,9 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
     GP_ASSERT(text);
     GP_ASSERT(yPosition);
 
+    if (size == 0)
+        size = _size;
+
     float scale = (float)size / _size;
 
     Justify vAlign = static_cast<Justify>(justify & 0xF0);
@@ -1292,11 +1467,23 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
     GP_ASSERT(text);
     GP_ASSERT(outLocation);
 
+    if (size == 0)
+    {
+        size = _size;
+    }
+    else
+    {
+        // Delegate to closest sized font
+        const Font* f = findClosestSize(size);
+        if (f != this)
+        {
+            return f->getIndexOrLocation(text, area, size, inLocation, outLocation, destIndex, justify, wrap, rightToLeft);
+        }
+    }
+
     unsigned int charIndex = 0;
 
     // Essentially need to measure text until we reach inLocation.
-    if (size == 0)
-        size = _size;
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float yPos = area.y;
@@ -1683,9 +1870,13 @@ void Font::addLineInfo(const Rectangle& area, float lineWidth, int lineLength, J
     }
 }
 
-SpriteBatch* Font::getSpriteBatch() const
+SpriteBatch* Font::getSpriteBatch(unsigned int size) const
 {
-    return _batch;
+    if (size == 0)
+        return _batch;
+
+    // Find the closest sized child font
+    return const_cast<Font*>(this)->findClosestSize(size)->_batch;
 }
 
 Font::Justify Font::getJustify(const char* justify)
@@ -1695,76 +1886,76 @@ Font::Justify Font::getJustify(const char* justify)
         return Font::ALIGN_TOP_LEFT;
     }
 
-    if (strcmp(justify, "ALIGN_LEFT") == 0)
+    if (strcmpnocase(justify, "ALIGN_LEFT") == 0)
     {
         return Font::ALIGN_LEFT;
     }
-    else if (strcmp(justify, "ALIGN_HCENTER") == 0)
+    else if (strcmpnocase(justify, "ALIGN_HCENTER") == 0)
     {
         return Font::ALIGN_HCENTER;
     }
-    else if (strcmp(justify, "ALIGN_RIGHT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_RIGHT") == 0)
     {
         return Font::ALIGN_RIGHT;
     }
-    else if (strcmp(justify, "ALIGN_TOP") == 0)
+    else if (strcmpnocase(justify, "ALIGN_TOP") == 0)
     {
         return Font::ALIGN_TOP;
     }
-    else if (strcmp(justify, "ALIGN_VCENTER") == 0)
+    else if (strcmpnocase(justify, "ALIGN_VCENTER") == 0)
     {
         return Font::ALIGN_VCENTER;
     }
-    else if (strcmp(justify, "ALIGN_BOTTOM") == 0)
+    else if (strcmpnocase(justify, "ALIGN_BOTTOM") == 0)
     {
         return Font::ALIGN_BOTTOM;
     }
-    else if (strcmp(justify, "ALIGN_TOP_LEFT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_TOP_LEFT") == 0)
     {
         return Font::ALIGN_TOP_LEFT;
     }
-    else if (strcmp(justify, "ALIGN_VCENTER_LEFT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_VCENTER_LEFT") == 0)
     {
         return Font::ALIGN_VCENTER_LEFT;
     }
-    else if (strcmp(justify, "ALIGN_BOTTOM_LEFT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_BOTTOM_LEFT") == 0)
     {
         return Font::ALIGN_BOTTOM_LEFT;
     }
-    else if (strcmp(justify, "ALIGN_TOP_HCENTER") == 0)
+    else if (strcmpnocase(justify, "ALIGN_TOP_HCENTER") == 0)
     {
         return Font::ALIGN_TOP_HCENTER;
     }
-    else if (strcmp(justify, "ALIGN_VCENTER_HCENTER") == 0)
+    else if (strcmpnocase(justify, "ALIGN_VCENTER_HCENTER") == 0)
     {
         return Font::ALIGN_VCENTER_HCENTER;
     }
-    else if (strcmp(justify, "ALIGN_BOTTOM_HCENTER") == 0)
+    else if (strcmpnocase(justify, "ALIGN_BOTTOM_HCENTER") == 0)
     {
         return Font::ALIGN_BOTTOM_HCENTER;
     }
-    else if (strcmp(justify, "ALIGN_TOP_RIGHT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_TOP_RIGHT") == 0)
     {
         return Font::ALIGN_TOP_RIGHT;
     }
-    else if (strcmp(justify, "ALIGN_VCENTER_RIGHT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_VCENTER_RIGHT") == 0)
     {
         return Font::ALIGN_VCENTER_RIGHT;
     }
-    else if (strcmp(justify, "ALIGN_BOTTOM_RIGHT") == 0)
+    else if (strcmpnocase(justify, "ALIGN_BOTTOM_RIGHT") == 0)
     {
         return Font::ALIGN_BOTTOM_RIGHT;
     }
     else
     {
-        GP_ERROR("Failed to get corresponding font justification for unsupported value '%s'.", justify);
+        GP_WARN("Invalid alignment string: '%s'. Defaulting to ALIGN_TOP_LEFT.", justify);
     }
 
     // Default.
     return Font::ALIGN_TOP_LEFT;
 }
 
-Font::Text::Text(const wchar_t* text) : _text(text ? text : L""), _vertexCount(0), _vertices(NULL), _color( Vector4::zero( ) )
+Font::Text::Text(const wchar_t* text) : _text(text ? text : L""), _vertexCount(0), _vertices(NULL), _font(NULL), _color( Vector4::zero( ) )
 {
     const size_t length = wcslen(text);
     _vertices = new SpriteBatch::SpriteVertex[length * 6];
@@ -1773,6 +1964,7 @@ Font::Text::Text(const wchar_t* text) : _text(text ? text : L""), _vertexCount(0
 Font::Text::~Text()
 {
     SAFE_DELETE_ARRAY(_vertices);
+    SAFE_RELEASE(_font);
 }
 
 const wchar_t* Font::Text::getText()

@@ -18,53 +18,45 @@ ImageControl::~ImageControl()
 
 ImageControl* ImageControl::create(const char* id, Theme::Style* style)
 {
-    GP_ASSERT(style);
-
     ImageControl* imageControl = new ImageControl();
-    if (id)
-        imageControl->_id = id;
-    imageControl->setStyle(style);
-
-    imageControl->_focusIndex = -2;
-
+    imageControl->_id = id ? id : "";
+    imageControl->initialize("Image", style, NULL);
     return imageControl;
 }
 
-ImageControl* ImageControl::create(Theme::Style* style, Properties* properties)
+Control* ImageControl::create(Theme::Style* style, Properties* properties)
 {
     ImageControl* imageControl = new ImageControl();
-    imageControl->initialize(style, properties);
-
-    imageControl->_focusIndex = -2;
-
+    imageControl->initialize("Image", style, properties);
     return imageControl;
 }
 
-void ImageControl::initialize(Theme::Style* style, Properties* properties)
+void ImageControl::initialize(const char* typeName, Theme::Style* style, Properties* properties)
 {
-    GP_ASSERT(properties);
+	Control::initialize(typeName, style, properties);
 
-    Control::initialize(style, properties);
+	if (properties)
+	{
+		std::string path;
+		if (properties->getPath("path", &path))
+		{
+			setImage(path.c_str());
+		}
 
-    std::string path;
-    if (properties->getPath("path", &path))
-    {
-        setImage(path.c_str());
-    }
+		if (properties->exists("srcRegion"))
+		{
+			Vector4 region;
+			properties->getVector4("srcRegion", &region);
+			setRegionSrc(region.x, region.y, region.z, region.w);
+		}
 
-    if (properties->exists("srcRegion"))
-    {
-        Vector4 region;
-        properties->getVector4("srcRegion", &region);
-        setRegionSrc(region.x, region.y, region.z, region.w);
-    }
-
-    if (properties->exists("dstRegion"))
-    {
-        Vector4 region;
-        properties->getVector4("dstRegion", &region);
-        setRegionDst(region.x, region.y, region.z, region.w);
-    }
+		if (properties->exists("dstRegion"))
+		{
+			Vector4 region;
+			properties->getVector4("dstRegion", &region);
+			setRegionDst(region.x, region.y, region.z, region.w);
+		}
+	}
 }
 
 void ImageControl::setImage(const char* path)
@@ -94,7 +86,9 @@ void ImageControl::setImage(const char* path)
     }
     _batch->getSampler( )->setWrapMode( Texture::CLAMP, Texture::CLAMP );
 
-    _dirty = true;
+
+    if (_autoSize != AUTO_SIZE_NONE)
+        setDirty(DIRTY_BOUNDS);
 }
 
 void ImageControl::setRegionSrc(float x, float y, float width, float height)
@@ -105,13 +99,11 @@ void ImageControl::setRegionSrc(float x, float y, float width, float height)
     _uvs.u2 = (x + width) * _tw;
     _uvs.v1 = 1.0f - (y * _th);
     _uvs.v2 = 1.0f - ((y + height) * _th);
-    _dirty = true;
 }
 
 void ImageControl::setRegionSrc(const Rectangle& region)
 {
     setRegionSrc(region.x, region.y, region.width, region.height);
-    _dirty = true;
 }
 
 const Rectangle& ImageControl::getRegionSrc() const
@@ -122,13 +114,11 @@ const Rectangle& ImageControl::getRegionSrc() const
 void ImageControl::setRegionDst(float x, float y, float width, float height)
 {
     _dstRegion.set(x, y, width, height);
-    _dirty = true;
 }
 
 void ImageControl::setRegionDst(const Rectangle& region)
 {
     setRegionDst(region.x, region.y, region.width, region.height);
-    _dirty = true;
 }
 
 const Rectangle& ImageControl::getRegionDst() const
@@ -141,17 +131,16 @@ const char* ImageControl::getType() const
     return "image";
 }
 
-void ImageControl::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
+unsigned int ImageControl::drawImages(Form* form, const Rectangle& clip)
 {
-    spriteBatch->finish();
+    if (!_batch)
+        return 0;
 
-    // An ImageControl is not part of the texture atlas but should use the same projection matrix.
-    _batch->setProjectionMatrix(spriteBatch->getProjectionMatrix());
+    startBatch(form, _batch);
 
     Vector4 color = Vector4::one();
     color.w *= _opacity;
 
-    _batch->start();
     if (_dstRegion.isEmpty())
     {
         _batch->draw(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height,
@@ -163,9 +152,28 @@ void ImageControl::drawImages(SpriteBatch* spriteBatch, const Rectangle& clip)
             _dstRegion.width, _dstRegion.height,
             _uvs.u1, _uvs.v1, _uvs.u2, _uvs.v2, color, _viewportClipBounds);
     }
-    _batch->finish();
 
-    spriteBatch->start();
+    finishBatch(form, _batch);
+
+    return 1;
+}
+
+void ImageControl::updateBounds()
+{
+    if (_batch)
+    {
+        if (_autoSize & AUTO_SIZE_WIDTH)
+        {
+            setWidthInternal(_batch->getSampler()->getTexture()->getWidth());
+        }
+
+        if (_autoSize & AUTO_SIZE_HEIGHT)
+        {
+            setHeightInternal(_batch->getSampler()->getTexture()->getWidth());
+        }
+    }
+
+    Control::updateBounds();
 }
 
 }

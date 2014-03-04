@@ -5,13 +5,16 @@
 #include "AnimationTarget.h"
 #include "Base.h"
 #include "Control.h"
+#include "Form.h"
 #include "Game.h"
 #include "Node.h"
 #include "ProgressBar.h"
 #include "Ref.h"
 #include "ScriptController.h"
 #include "ScriptTarget.h"
+#include "Theme.h"
 #include "lua_ControlAlignment.h"
+#include "lua_ControlAutoSize.h"
 #include "lua_ControlListenerEventType.h"
 #include "lua_ControlState.h"
 #include "lua_CurveInterpolationType.h"
@@ -28,6 +31,7 @@ void luaRegister_ProgressBar()
         {"addListener", lua_ProgressBar_addListener},
         {"addRef", lua_ProgressBar_addRef},
         {"addScriptCallback", lua_ProgressBar_addScriptCallback},
+        {"canFocus", lua_ProgressBar_canFocus},
         {"createAnimation", lua_ProgressBar_createAnimation},
         {"createAnimationFromBy", lua_ProgressBar_createAnimationFromBy},
         {"createAnimationFromTo", lua_ProgressBar_createAnimationFromTo},
@@ -37,8 +41,7 @@ void luaRegister_ProgressBar()
         {"getAnimation", lua_ProgressBar_getAnimation},
         {"getAnimationPropertyComponentCount", lua_ProgressBar_getAnimationPropertyComponentCount},
         {"getAnimationPropertyValue", lua_ProgressBar_getAnimationPropertyValue},
-        {"getAutoHeight", lua_ProgressBar_getAutoHeight},
-        {"getAutoWidth", lua_ProgressBar_getAutoWidth},
+        {"getAutoSize", lua_ProgressBar_getAutoSize},
         {"getBorder", lua_ProgressBar_getBorder},
         {"getBounds", lua_ProgressBar_getBounds},
         {"getClip", lua_ProgressBar_getClip},
@@ -59,6 +62,7 @@ void luaRegister_ProgressBar()
         {"getOpacity", lua_ProgressBar_getOpacity},
         {"getOrientation", lua_ProgressBar_getOrientation},
         {"getPadding", lua_ProgressBar_getPadding},
+        {"getParent", lua_ProgressBar_getParent},
         {"getRefCount", lua_ProgressBar_getRefCount},
         {"getSkinColor", lua_ProgressBar_getSkinColor},
         {"getSkinRegion", lua_ProgressBar_getSkinRegion},
@@ -67,32 +71,44 @@ void luaRegister_ProgressBar()
         {"getTextAlignment", lua_ProgressBar_getTextAlignment},
         {"getTextColor", lua_ProgressBar_getTextColor},
         {"getTextRightToLeft", lua_ProgressBar_getTextRightToLeft},
+        {"getTheme", lua_ProgressBar_getTheme},
+        {"getTopLevelForm", lua_ProgressBar_getTopLevelForm},
         {"getType", lua_ProgressBar_getType},
         {"getValue", lua_ProgressBar_getValue},
         {"getWidth", lua_ProgressBar_getWidth},
         {"getX", lua_ProgressBar_getX},
         {"getY", lua_ProgressBar_getY},
         {"getZIndex", lua_ProgressBar_getZIndex},
+        {"hasFocus", lua_ProgressBar_hasFocus},
+        {"isChild", lua_ProgressBar_isChild},
         {"isContainer", lua_ProgressBar_isContainer},
         {"isEnabled", lua_ProgressBar_isEnabled},
+        {"isEnabledInHierarchy", lua_ProgressBar_isEnabledInHierarchy},
+        {"isHeightPercentage", lua_ProgressBar_isHeightPercentage},
         {"isVisible", lua_ProgressBar_isVisible},
+        {"isVisibleInHierarchy", lua_ProgressBar_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_ProgressBar_isWidthPercentage},
+        {"isXPercentage", lua_ProgressBar_isXPercentage},
+        {"isYPercentage", lua_ProgressBar_isYPercentage},
         {"release", lua_ProgressBar_release},
         {"removeListener", lua_ProgressBar_removeListener},
         {"removeScriptCallback", lua_ProgressBar_removeScriptCallback},
         {"setAlignment", lua_ProgressBar_setAlignment},
         {"setAnimationPropertyValue", lua_ProgressBar_setAnimationPropertyValue},
-        {"setAutoHeight", lua_ProgressBar_setAutoHeight},
-        {"setAutoWidth", lua_ProgressBar_setAutoWidth},
+        {"setAutoSize", lua_ProgressBar_setAutoSize},
         {"setBorder", lua_ProgressBar_setBorder},
         {"setBounds", lua_ProgressBar_setBounds},
+        {"setCanFocus", lua_ProgressBar_setCanFocus},
         {"setConsumeInputEvents", lua_ProgressBar_setConsumeInputEvents},
         {"setCursorColor", lua_ProgressBar_setCursorColor},
         {"setCursorRegion", lua_ProgressBar_setCursorRegion},
         {"setEnabled", lua_ProgressBar_setEnabled},
+        {"setFocus", lua_ProgressBar_setFocus},
         {"setFocusIndex", lua_ProgressBar_setFocusIndex},
         {"setFont", lua_ProgressBar_setFont},
         {"setFontSize", lua_ProgressBar_setFontSize},
         {"setHeight", lua_ProgressBar_setHeight},
+        {"setId", lua_ProgressBar_setId},
         {"setImageColor", lua_ProgressBar_setImageColor},
         {"setImageRegion", lua_ProgressBar_setImageRegion},
         {"setMargin", lua_ProgressBar_setMargin},
@@ -103,7 +119,6 @@ void luaRegister_ProgressBar()
         {"setSize", lua_ProgressBar_setSize},
         {"setSkinColor", lua_ProgressBar_setSkinColor},
         {"setSkinRegion", lua_ProgressBar_setSkinRegion},
-        {"setState", lua_ProgressBar_setState},
         {"setStyle", lua_ProgressBar_setStyle},
         {"setTextAlignment", lua_ProgressBar_setTextAlignment},
         {"setTextColor", lua_ProgressBar_setTextColor},
@@ -111,6 +126,8 @@ void luaRegister_ProgressBar()
         {"setValue", lua_ProgressBar_setValue},
         {"setVisible", lua_ProgressBar_setVisible},
         {"setWidth", lua_ProgressBar_setWidth},
+        {"setX", lua_ProgressBar_setX},
+        {"setY", lua_ProgressBar_setY},
         {"setZIndex", lua_ProgressBar_setZIndex},
         {NULL, NULL}
     };
@@ -287,6 +304,41 @@ int lua_ProgressBar_addScriptCallback(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_canFocus(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->canFocus();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_canFocus - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
             lua_error(state);
             break;
         }
@@ -921,7 +973,7 @@ int lua_ProgressBar_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAutoHeight(lua_State* state)
+int lua_ProgressBar_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -934,50 +986,15 @@ int lua_ProgressBar_getAutoHeight(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 ProgressBar* instance = getInstance(state);
-                bool result = instance->getAutoHeight();
+                Control::AutoSize result = instance->getAutoSize();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushstring(state, lua_stringFromEnum_ControlAutoSize(result));
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_getAutoHeight - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_ProgressBar_getAutoWidth(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                ProgressBar* instance = getInstance(state);
-                bool result = instance->getAutoWidth();
-
-                // Push the return value onto the stack.
-                lua_pushboolean(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_ProgressBar_getAutoWidth - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_getAutoSize - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -1946,6 +1963,50 @@ int lua_ProgressBar_getPadding(lua_State* state)
     return 0;
 }
 
+int lua_ProgressBar_getParent(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getParent();
+                if (returnPtr)
+                {
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Control");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getParent - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ProgressBar_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
@@ -2394,6 +2455,94 @@ int lua_ProgressBar_getTextRightToLeft(lua_State* state)
     return 0;
 }
 
+int lua_ProgressBar_getTheme(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getTheme();
+                if (returnPtr)
+                {
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Theme");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getTheme - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_getTopLevelForm(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getTopLevelForm();
+                if (returnPtr)
+                {
+                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Form");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getTopLevelForm - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ProgressBar_getType(lua_State* state)
 {
     // Get the number of parameters.
@@ -2604,6 +2753,86 @@ int lua_ProgressBar_getZIndex(lua_State* state)
     return 0;
 }
 
+int lua_ProgressBar_hasFocus(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->hasFocus();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_hasFocus - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isChild(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                ScriptUtil::LuaArray<Control> param1 = ScriptUtil::getObjectPointer<Control>(2, "Control", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Control'.");
+                    lua_error(state);
+                }
+
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isChild(param1);
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isChild - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ProgressBar_isContainer(lua_State* state)
 {
     // Get the number of parameters.
@@ -2674,6 +2903,76 @@ int lua_ProgressBar_isEnabled(lua_State* state)
     return 0;
 }
 
+int lua_ProgressBar_isEnabledInHierarchy(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isEnabledInHierarchy();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isEnabledInHierarchy - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isHeightPercentage(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isHeightPercentage();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isHeightPercentage - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ProgressBar_isVisible(lua_State* state)
 {
     // Get the number of parameters.
@@ -2696,6 +2995,146 @@ int lua_ProgressBar_isVisible(lua_State* state)
             }
 
             lua_pushstring(state, "lua_ProgressBar_isVisible - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isVisibleInHierarchy(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isVisibleInHierarchy();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isVisibleInHierarchy - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isWidthPercentage(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isWidthPercentage();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isWidthPercentage - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isXPercentage(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isXPercentage();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isXPercentage - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_isYPercentage(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->isYPercentage();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_isYPercentage - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2937,7 +3376,7 @@ int lua_ProgressBar_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setAutoHeight(lua_State* state)
+int lua_ProgressBar_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2948,54 +3387,18 @@ int lua_ProgressBar_setAutoHeight(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+                Control::AutoSize param1 = (Control::AutoSize)lua_enumFromString_ControlAutoSize(luaL_checkstring(state, 2));
 
                 ProgressBar* instance = getInstance(state);
-                instance->setAutoHeight(param1);
+                instance->setAutoSize(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_setAutoHeight - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_ProgressBar_setAutoWidth(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
-            {
-                // Get parameter 1 off the stack.
-                bool param1 = ScriptUtil::luaCheckBool(state, 2);
-
-                ProgressBar* instance = getInstance(state);
-                instance->setAutoWidth(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_ProgressBar_setAutoWidth - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_setAutoSize - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3120,6 +3523,42 @@ int lua_ProgressBar_setBounds(lua_State* state)
             }
 
             lua_pushstring(state, "lua_ProgressBar_setBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_setCanFocus(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setCanFocus(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setCanFocus - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3290,6 +3729,41 @@ int lua_ProgressBar_setEnabled(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_setFocus(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->setFocus();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setFocus - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
             lua_error(state);
             break;
         }
@@ -3484,6 +3958,64 @@ int lua_ProgressBar_setHeight(lua_State* state)
             }
 
             lua_pushstring(state, "lua_ProgressBar_setHeight - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setHeight(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setHeight - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_setId(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                const char* param1 = ScriptUtil::getString(2, false);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setId(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setId - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -4063,42 +4595,6 @@ int lua_ProgressBar_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setState(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                Control::State param1 = (Control::State)lua_enumFromString_ControlState(luaL_checkstring(state, 2));
-
-                ProgressBar* instance = getInstance(state);
-                instance->setState(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_ProgressBar_setState - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
 int lua_ProgressBar_setStyle(lua_State* state)
 {
     // Get the number of parameters.
@@ -4425,9 +4921,147 @@ int lua_ProgressBar_setWidth(lua_State* state)
             lua_error(state);
             break;
         }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setWidth(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setWidth - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_setX(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setX(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setX - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setX(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setX - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ProgressBar_setY(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setY(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setY - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                bool param2 = ScriptUtil::luaCheckBool(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setY(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setY - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
             lua_error(state);
             break;
         }

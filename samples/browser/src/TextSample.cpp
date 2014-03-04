@@ -5,20 +5,28 @@
     ADD_SAMPLE("Graphics", "Text", TextSample, 9);
 #endif
 
-#define FONT_COUNT 6
+#define FONT_COUNT 5
 
 std::string _fontNames[] =
 {
-    "arial18",
-    "dynamic",
-    "pirulen",
-    "squarehead",
-    "baroque",
-    "custom",
+    "arial",
+    "arial-dist.field",
+    "badaboom",
+    "fishfingers",
+    "neuropol"
+};
+
+std::string _fontFiles[] =
+{
+    "res/ui/arial.gpb",
+    "res/common/fonts/arial-distance.gpb",
+    "res/common/fonts/badaboom.gpb",
+    "res/common/fonts/fishfingers.gpb",
+    "res/common/fonts/neuropol.gpb"
 };
 
 TextSample::TextSample()
-    : _form(NULL), _stateBlock(NULL), _scale(1.0f), _wrap(true), _ignoreClip(false), _useViewport(true), _rightToLeft(false), _simple(false), _alignment(Font::ALIGN_LEFT),
+    : _form(NULL), _stateBlock(NULL), _size(18), _wrap(true), _ignoreClip(false), _useViewport(true), _rightToLeft(false), _simple(false), _alignment(Font::ALIGN_LEFT),
       _fontsCount(FONT_COUNT), _fontIndex(0), _font(NULL), _viewport(250, 100, 512, 200)
 {
 }
@@ -47,9 +55,7 @@ void TextSample::initialize()
 
     for (unsigned int i = 0; i < _fontsCount; i++)
     {
-        std::string s = "res/common/";
-        s += _fontNames[i].c_str();
-        s += ".gpb";
+        std::string s = _fontFiles[i].c_str();
         Font* f = Font::create(s.c_str());
         _fonts.push_back(f);
     }
@@ -95,13 +101,13 @@ void TextSample::render(float elapsedTime)
     wchar_t fps[5];
     swprintf(fps, 5, L"%u", getFrameRate());
 
-    _fonts[1]->start();
+    _fonts[0]->start();
 
-    _fonts[1]->drawText(fps, 245, 5, Vector4(0, 0.5f, 1, 1), _fonts[0]->getSize());
+    _fonts[0]->drawText(fps, 245, 5, Vector4(0, 0.5f, 1, 1), _size);
     
     _form->draw();
 
-    float size = (float)_font->getSize() * _scale;
+    float size = (float)_font->getSize() * _size;
     if (_font != _fonts[1])
         _font->start();
 
@@ -109,37 +115,39 @@ void TextSample::render(float elapsedTime)
     {
         // Sample simple versions of measureText, drawText.
         float w, h;
-        _font->measureText(_sampleString.c_str(), size, &w, &h);
-        _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), size, _rightToLeft);
+        _font->measureText(_sampleString.c_str(), _size, &w, &h);
+        _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), _size, _rightToLeft);
 
-        _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L".", _viewport.x, _viewport.y + h, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L"'", _viewport.x + w, _viewport.y, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L".", _viewport.x + w, _viewport.y + h, Vector4::fromColor(0x00ff00ff), size);
+        _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L".", _viewport.x, _viewport.y + h, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L"'", _viewport.x + w, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L".", _viewport.x + w, _viewport.y + h, Vector4::fromColor(0x00ff00ff), _size);
     }
     else
     {
         // Sample viewport versions.
         gameplay::Rectangle area;
-        _font->measureText(_sampleString.c_str(), _viewport, size, &area, _alignment, _wrap, _ignoreClip);
-        _font->drawText(_sampleString.c_str(), _useViewport? _viewport : area, Vector4::fromColor(0xffffffff), size, _alignment, _wrap, _rightToLeft);
+        _font->measureText(_sampleString.c_str(), _viewport, _size, &area, _alignment, _wrap, _ignoreClip);
+        _font->drawText(_sampleString.c_str(), _useViewport? _viewport : area, Vector4::fromColor(0xffffffff), _size, _alignment, _wrap, _rightToLeft);
     
-        _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L".", _viewport.x, _viewport.y + _viewport.height, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L"'", _viewport.x + _viewport.width, _viewport.y, Vector4::fromColor(0x00ff00ff), size);
-        _font->drawText(L".", _viewport.x + _viewport.width, _viewport.y + _viewport.height, Vector4::fromColor(0x00ff00ff), size);
+        _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L".", _viewport.x, _viewport.y + _viewport.height, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L"'", _viewport.x + _viewport.width, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
+        _font->drawText(L".", _viewport.x + _viewport.width, _viewport.y + _viewport.height, Vector4::fromColor(0x00ff00ff), _size);
 
-        _font->drawText(L"'", area.x, area.y, Vector4::fromColor(0x0000ffff), size);
-        _font->drawText(L".", area.x, area.y + area.height, Vector4::fromColor(0x0000ffff), size);
-        _font->drawText(L"'", area.x + area.width, area.y, Vector4::fromColor(0x0000ffff), size);
-        _font->drawText(L".", area.x + area.width, area.y + area.height, Vector4::fromColor(0x0000ffff), size);
+        _font->drawText(L"'", area.x, area.y, Vector4::fromColor(0x0000ffff), _size);
+        _font->drawText(L".", area.x, area.y + area.height, Vector4::fromColor(0x0000ffff), _size);
+        _font->drawText(L"'", area.x + area.width, area.y, Vector4::fromColor(0x0000ffff), _size);
+        _font->drawText(L".", area.x + area.width, area.y + area.height, Vector4::fromColor(0x0000ffff), _size);
     }
 
-    if (_font != _fonts[1])
+    if (_font != _fonts[0])
     {
         _font->finish();
     }
-    _fonts[1]->finish();
+    _fonts[0]->finish();
+
+    _form->draw();
 }
 
 void TextSample::touchEvent(Touch::TouchEvent event, int x, int y, unsigned int contactIndex)
@@ -210,22 +218,22 @@ void TextSample::controlEvent(Control* control, EventType evt)
     }
     else if (strcmp(id, "smallerButton") == 0)
     {
-        if (_scale > 0.11f)
+        if (_size > 8)
         {
-            _scale -= 0.1f;
-            Label* scaleLabel = static_cast<Label*>(_form->getControl("scaleLabel"));
+            _size -= 2;
+            Label* sizeLabel = static_cast<Label*>(_form->getControl("sizeLabel"));
             wchar_t s[20];
-            swprintf(s, 20, L"Font Scale (%.1f)", _scale);
-            scaleLabel->setText(s);
+            swprintf(s, 20, L"Size (%u)", _size);
+            sizeLabel->setText(s);
         }
     }
     else if (strcmp(id, "biggerButton") == 0)
     {
-        _scale += 0.1f;
-        Label* scaleLabel = static_cast<Label*>(_form->getControl("scaleLabel"));
+        _size += 2;
+        Label* sizeLabel = static_cast<Label*>(_form->getControl("sizeLabel"));
         wchar_t s[20];
-        swprintf(s, 20, L"Scale (%.1f)", _scale);
-        scaleLabel->setText(s);
+        swprintf(s, 20, L"Size (%u)", _size);
+        sizeLabel->setText(s);
     }
     else if (strcmp(id, "topLeftButton") == 0)
     {

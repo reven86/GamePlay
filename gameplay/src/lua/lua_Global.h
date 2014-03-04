@@ -7,10 +7,12 @@
 #include "lua_CameraType.h"
 #include "lua_ContainerScroll.h"
 #include "lua_ControlAlignment.h"
+#include "lua_ControlAutoSize.h"
 #include "lua_ControlListenerEventType.h"
 #include "lua_ControlState.h"
 #include "lua_CurveInterpolationType.h"
 #include "lua_DepthStencilTargetFormat.h"
+#include "lua_FontFormat.h"
 #include "lua_FontJustify.h"
 #include "lua_FontStyle.h"
 #include "lua_GameClearFlags.h"
@@ -42,7 +44,6 @@
 #include "lua_RenderStateFrontFace.h"
 #include "lua_RenderStateStencilFunction.h"
 #include "lua_RenderStateStencilOperation.h"
-#include "lua_SceneDebugFlags.h"
 #include "lua_TerrainFlags.h"
 #include "lua_TextBoxInputMode.h"
 #include "lua_TextureFilter.h"
@@ -53,6 +54,9 @@
 
 namespace gameplay
 {
+
+// Lua bindings for global functions.
+int lua__strcmpnocase(lua_State* state);
 
 // Global enum to string conversion function (used to pass enums to Lua from C++).
 const char* lua_stringFromEnumGlobal(std::string& enumname, unsigned int value);

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Spaceship</string>
+    <string name="you_beat">You just beat</string>
+    <string name="cloud_load_error_network">Your game progress could not be loaded from the server due to a network error. Check that you are online and try again.</string>
+    <string name="cloud_load_error_other">Your game progress could not be loaded due to an error. Please try again later.</string>
 </resources>

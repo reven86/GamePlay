@@ -7,14 +7,16 @@ namespace gameplay
 {
 
 /**
- * Represents an image (currently only supports PNG files).
+ * Defines an image buffer of RGB or RGBA color data.
+ *
+ * Currently only supports loading from .png image files.
  */
 class Image : public Ref
 {
 public:
 
     /**
-     * Defines the set of supported image formats.
+     * Defines the set of supported color formats.
      */
     enum Format
     {
@@ -24,7 +26,7 @@ public:
 
     /**
      * Creates an image from the image file at the given path.
-     * 
+     *
      * @param path The path to the image file.
      * @return The newly created image.
      * @script{create}
@@ -33,7 +35,7 @@ public:
 
 	/**
      * Creates an image from the data provided
-     * 
+     *
      * @param width The width of the image data.
 	 * @param height The height of the image data.
 	 * @param format The format of the image data.
@@ -45,7 +47,7 @@ public:
 
     /**
      * Gets the image's raw pixel data.
-     * 
+     *
      * @return The image's pixel data.
      * @script{ignore}
      */
@@ -53,21 +55,21 @@ public:
 
     /**
      * Gets the image's format.
-     * 
+     *
      * @return The image's format.
      */
     inline Format getFormat() const;
 
     /**
      * Gets the height of the image.
-     * 
+     *
      * @return The height of the image.
      */
     inline unsigned int getHeight() const;
-        
+
     /**
      * Gets the width of the image.
-     * 
+     *
      * @return The width of the image.
      */
     inline unsigned int getWidth() const;
@@ -91,8 +93,8 @@ private:
 
     unsigned char* _data;
     Format _format;
-    unsigned int _height;
     unsigned int _width;
+    unsigned int _height;
 };
 
 }

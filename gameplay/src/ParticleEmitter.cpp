@@ -9,7 +9,7 @@
 #define PARTICLE_COUNT_MAX                       100
 #define PARTICLE_EMISSION_RATE                   10
 #define PARTICLE_EMISSION_RATE_TIME_INTERVAL     1000.0f / (float)PARTICLE_EMISSION_RATE
-#define PARTICLE_UPDATE_RATE_MAX                 16
+#define PARTICLE_UPDATE_RATE_MAX                 8
 
 namespace gameplay
 {
@@ -75,7 +75,7 @@ ParticleEmitter* ParticleEmitter::create(const char* url)
         GP_ERROR("Failed to create particle emitter from file.");
         return NULL;
     }
-
+    
     ParticleEmitter* particle = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace());
     SAFE_DELETE(properties);
 
@@ -685,8 +685,6 @@ void ParticleEmitter::setSpriteFrameCoords(unsigned int frameCount, int width, i
     GP_ASSERT(width);
     GP_ASSERT(height);
 
-    int x;
-    int y;
     Rectangle* frameCoords = new Rectangle[frameCount];
     unsigned int cols = _spriteTextureWidth / width;
     unsigned int rows = _spriteTextureHeight / height;
@@ -694,10 +692,10 @@ void ParticleEmitter::setSpriteFrameCoords(unsigned int frameCount, int width, i
     unsigned int n = 0;
     for (unsigned int i = 0; i < rows; ++i)
     {
-        y = i * height;
+        int y = i * height;
         for (unsigned int j = 0; j < cols; ++j)
         {
-            x = j * width;
+            int x = j * width;
             frameCoords[i*cols + j] = Rectangle(x, y, width, height);
             if (++n == frameCount)
             {
@@ -981,12 +979,10 @@ void ParticleEmitter::update(float elapsedTime)
     }
 }
 
-void ParticleEmitter::draw()
+unsigned int ParticleEmitter::draw()
 {
     if (!isActive())
-    {
-        return;
-    }
+        return 0;
 
     if (_particleCount > 0)
     {
@@ -1027,6 +1023,7 @@ void ParticleEmitter::draw()
         // Render.
         _spriteBatch->finish();
     }
+    return 1;
 }
 
 ParticleEmitter* ParticleEmitter::clone()

@@ -7,12 +7,12 @@
 #include "Bundle.h"
 #include "Terrain.h"
 
-#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+#ifdef GP_USE_MEM_LEAK_DETECTION
 #undef new
 #endif
 #include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
-#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+#ifdef GP_USE_MEM_LEAK_DETECTION
 #define new DEBUG_NEW
 #endif
 
@@ -538,7 +538,7 @@ void PhysicsController::update(float elapsedTime)
     // set to COLLISION and the DIRTY bit is cleared. Then, after collision processing 
     // is finished, if a given status is still dirty, the COLLISION bit is cleared.
     //
-    // If an entry was marked for removal in the last frame, remove it now.
+    // If an entry was marked for removal in the last frame, fire NOT_COLLIDING if appropriate and remove it now.
 
     // Dirty the collision status cache entries.
     std::map<PhysicsCollisionObject::CollisionPair, CollisionInfo>::iterator iter = _collisionStatus.begin();
@@ -546,6 +546,16 @@ void PhysicsController::update(float elapsedTime)
     {
         if ((iter->second._status & REMOVE) != 0)
         {
+            if ((iter->second._status & COLLISION) != 0 && iter->first.objectB)
+            {
+                size_t size = iter->second._listeners.size();
+                for (size_t i = 0; i < size; i++)
+                {
+                    PhysicsCollisionObject::CollisionPair cp(iter->first.objectA, NULL);
+                    iter->second._listeners[i]->collisionEvent(PhysicsCollisionObject::CollisionListener::NOT_COLLIDING, cp);
+                }
+            }
+
             std::map<PhysicsCollisionObject::CollisionPair, CollisionInfo>::iterator eraseIter = iter;
             iter++;
             _collisionStatus.erase(eraseIter);
@@ -1024,7 +1034,7 @@ PhysicsCollisionShape* PhysicsController::createHeightfield(Node* node, HeightFi
     // If the node has a terrain, apply the terrain's local scale to the world scale
     if (node->getTerrain())
     {
-        Vector3& tScale = node->getTerrain()->_localScale;
+        const Vector3& tScale = node->getTerrain()->_localScale;
         scale.set(scale.x * tScale.x, scale.y * tScale.y, scale.z * tScale.z);
     }
 

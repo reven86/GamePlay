@@ -41,9 +41,9 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Light.h"
-#include "Scene.h"
 #include "Node.h"
 #include "Joint.h"
+#include "Scene.h"
 #include "Font.h"
 #include "SpriteBatch.h"
 #include "ParticleEmitter.h"
@@ -53,6 +53,8 @@
 #include "ScreenDisplayer.h"
 #include "HeightField.h"
 #include "Terrain.h"
+#include "TerrainPatch.h"
+
 
 // Audio
 #include "AudioController.h"
@@ -92,6 +94,7 @@
 // UI
 #include "Theme.h"
 #include "Control.h"
+#include "ControlFactory.h"
 #include "Container.h"
 #include "Form.h"
 #include "Label.h"
@@ -101,10 +104,18 @@
 #include "RadioButton.h"
 #include "Slider.h"
 #include "ImageControl.h"
-#include "Joystick.h"
+#include "JoystickControl.h"
 #include "Layout.h"
 #include "AbsoluteLayout.h"
 #include "VerticalLayout.h"
 #include "HorizontalLayout.h"
 #include "FlowLayout.h"
 #include "ProgressBar.h"
+
+// Social
+#include "SocialController.h"
+#include "SocialSession.h"
+#include "SocialSessionListener.h"
+#include "SocialPlayer.h"
+#include "SocialAchievement.h"
+#include "SocialScore.h"

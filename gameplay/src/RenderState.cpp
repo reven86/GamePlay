@@ -26,7 +26,7 @@ namespace gameplay
 {
 
 RenderState::StateBlock* RenderState::StateBlock::_defaultState = NULL;
-std::vector<RenderState::ResolveAutoBindingCallback> RenderState::_customAutoBindingResolvers;
+std::vector<RenderState::AutoBindingResolver*> RenderState::_customAutoBindingResolvers;
 
 RenderState::RenderState()
     : _nodeBinding(NULL), _state(NULL), _parent(NULL)
@@ -57,11 +57,6 @@ void RenderState::finalize()
     SAFE_RELEASE(StateBlock::_defaultState);
 }
 
-void RenderState::registerAutoBindingResolver(ResolveAutoBindingCallback callback)
-{
-    _customAutoBindingResolvers.push_back(callback);
-}
-
 MaterialParameter* RenderState::getParameter(const char* name) const
 {
     GP_ASSERT(name);
@@ -85,7 +80,23 @@ MaterialParameter* RenderState::getParameter(const char* name) const
     return param;
 }
 
-void RenderState::clearParameter(const char* name)
+unsigned int RenderState::getParameterCount() const
+{
+    return _parameters.size();
+}
+
+MaterialParameter* RenderState::getParameterByIndex(unsigned int index)
+{
+    return _parameters[index];
+}
+
+void RenderState::addParameter(MaterialParameter* param)
+{
+    _parameters.push_back(param);
+    param->addRef();
+}
+
+void RenderState::removeParameter(const char* name)
 {
     for (size_t i = 0, count = _parameters.size(); i < count; ++i)
     {
@@ -142,12 +153,6 @@ const char* autoBindingToString(RenderState::AutoBinding autoBinding)
 
     case RenderState::SCENE_AMBIENT_COLOR:
         return "SCENE_AMBIENT_COLOR";
-
-    case RenderState::SCENE_LIGHT_COLOR:
-        return "SCENE_LIGHT_COLOR";
-
-    case RenderState::SCENE_LIGHT_DIRECTION:
-        return "SCENE_LIGHT_DIRECTION";
 
     default:
         return "";
@@ -238,16 +243,13 @@ void RenderState::applyAutoBinding(const char* uniformName, const char* autoBind
     bool bound = false;
 
     // First attempt to resolve the binding using custom registered resolvers.
-    if (_customAutoBindingResolvers.size() > 0)
+    for (size_t i = 0, count = _customAutoBindingResolvers.size(); i < count; ++i)
     {
-        for (size_t i = 0, count = _customAutoBindingResolvers.size(); i < count; ++i)
+        if (_customAutoBindingResolvers[i]->resolveAutoBinding(autoBinding, _nodeBinding, param))
         {
-            if (_customAutoBindingResolvers[i](autoBinding, _nodeBinding, param))
-            {
-                // Handled by custom auto binding resolver
-                bound = true;
-                break;
-            }
+            // Handled by custom auto binding resolver
+            bound = true;
+            break;
         }
     }
 
@@ -304,18 +306,10 @@ void RenderState::applyAutoBinding(const char* uniformName, const char* autoBind
         {
             param->bindValue(this, &RenderState::autoBindingGetAmbientColor);
         }
-        else if (strcmp(autoBinding, "SCENE_LIGHT_COLOR") == 0)
-        {
-            param->bindValue(this, &RenderState::autoBindingGetLightColor);
-        }
-        else if (strcmp(autoBinding, "SCENE_LIGHT_DIRECTION") == 0)
-        {
-            param->bindValue(this, &RenderState::autoBindingGetLightDirection);
-        }
         else
         {
             bound = false;
-            GP_WARN("Unsupported auto binding type (%d).", autoBinding);
+            GP_WARN("Unsupported auto binding type (%s).", autoBinding);
         }
     }
 
@@ -397,25 +391,6 @@ const Vector3& RenderState::autoBindingGetAmbientColor() const
     return scene ? scene->getAmbientColor() : Vector3::zero();
 }
 
-const Vector3& RenderState::autoBindingGetLightColor() const
-{
-    Scene* scene = _nodeBinding ? _nodeBinding->getScene() : NULL;
-    return scene ? scene->getLightColor() : Vector3::one();
-}
-
-const Vector3& RenderState::autoBindingGetLightDirection() const
-{
-    static Vector3 down(0, -1, 0);
-    Scene* scene = _nodeBinding ? _nodeBinding->getScene() : NULL;
-    if (scene) {
-        static Vector3 lightDirection;
-        lightDirection.set(scene->getLightDirection());
-        _nodeBinding->getViewMatrix().transformVector(&lightDirection);
-        return lightDirection;
-    }
-    return down;
-}
-
 void RenderState::bind(Pass* pass)
 {
     GP_ASSERT(pass);
@@ -471,7 +446,7 @@ RenderState* RenderState::getTopmost(RenderState* below)
         }
         rs = rs->_parent;
     }
-    
+
     return NULL;
 }
 
@@ -514,8 +489,8 @@ void RenderState::cloneInto(RenderState* renderState, NodeCloneContext& context)
 RenderState::StateBlock::StateBlock()
     : _cullFaceEnabled(false), _depthTestEnabled(false), _depthWriteEnabled(true), _depthFunction(RenderState::DEPTH_LESS),
       _blendEnabled(false), _blendSrc(RenderState::BLEND_ONE), _blendDst(RenderState::BLEND_ZERO),
-      _cullFaceSide(CULL_FACE_SIDE_BACK), _frontFace(FRONT_FACE_CCW), _stencilTestEnabled(false), _stencilWrite(RS_ALL_ONES), 
-	  _stencilFunction(RenderState::STENCIL_ALWAYS), _stencilFunctionRef(0), _stencilFunctionMask(RS_ALL_ONES), 
+      _cullFaceSide(CULL_FACE_SIDE_BACK), _frontFace(FRONT_FACE_CCW), _stencilTestEnabled(false), _stencilWrite(RS_ALL_ONES),
+	  _stencilFunction(RenderState::STENCIL_ALWAYS), _stencilFunctionRef(0), _stencilFunctionMask(RS_ALL_ONES),
 	  _stencilOpSfail(RenderState::STENCIL_OP_KEEP), _stencilOpDpfail(RenderState::STENCIL_OP_KEEP), _stencilOpDppass(RenderState::STENCIL_OP_KEEP),
       _bits(0L)
 {
@@ -586,9 +561,9 @@ void RenderState::StateBlock::bindNoRestore()
     }
     if ((_bits & RS_DEPTH_TEST) && (_depthTestEnabled != _defaultState->_depthTestEnabled))
     {
-        if (_depthTestEnabled) 
+        if (_depthTestEnabled)
             GL_ASSERT( glEnable(GL_DEPTH_TEST) );
-        else 
+        else
             GL_ASSERT( glDisable(GL_DEPTH_TEST) );
         _defaultState->_depthTestEnabled = _depthTestEnabled;
     }
@@ -604,9 +579,9 @@ void RenderState::StateBlock::bindNoRestore()
     }
 	if ((_bits & RS_STENCIL_TEST) && (_stencilTestEnabled != _defaultState->_stencilTestEnabled))
     {
-        if (_stencilTestEnabled) 
+        if (_stencilTestEnabled)
 			GL_ASSERT( glEnable(GL_STENCIL_TEST) );
-        else 
+        else
             GL_ASSERT( glDisable(GL_STENCIL_TEST) );
         _defaultState->_stencilTestEnabled = _stencilTestEnabled;
     }
@@ -615,7 +590,7 @@ void RenderState::StateBlock::bindNoRestore()
 		GL_ASSERT( glStencilMask(_stencilWrite) );
         _defaultState->_stencilWrite = _stencilWrite;
     }
-	if ((_bits & RS_STENCIL_FUNC) && (_stencilFunction != _defaultState->_stencilFunction || 
+	if ((_bits & RS_STENCIL_FUNC) && (_stencilFunction != _defaultState->_stencilFunction ||
 										_stencilFunctionRef != _defaultState->_stencilFunctionRef ||
 										_stencilFunctionMask != _defaultState->_stencilFunctionMask))
     {
@@ -624,7 +599,7 @@ void RenderState::StateBlock::bindNoRestore()
 		_defaultState->_stencilFunctionRef = _stencilFunctionRef;
 		_defaultState->_stencilFunctionMask = _stencilFunctionMask;
     }
-	if ((_bits & RS_STENCIL_OP) && (_stencilOpSfail != _defaultState->_stencilOpSfail || 
+	if ((_bits & RS_STENCIL_OP) && (_stencilOpSfail != _defaultState->_stencilOpSfail ||
 									_stencilOpDpfail != _defaultState->_stencilOpDpfail ||
 									_stencilOpDppass != _defaultState->_stencilOpDppass))
     {
@@ -1235,6 +1210,18 @@ void RenderState::StateBlock::setStencilOperation(StencilOperation sfail, Stenci
 	{
 		_bits |= RS_STENCIL_OP;
 	}
+}
+
+RenderState::AutoBindingResolver::AutoBindingResolver()
+{
+    _customAutoBindingResolvers.push_back(this);
+}
+
+RenderState::AutoBindingResolver::~AutoBindingResolver()
+{
+    std::vector<RenderState::AutoBindingResolver*>::iterator itr = std::find(_customAutoBindingResolvers.begin(), _customAutoBindingResolvers.end(), this);
+    if (itr != _customAutoBindingResolvers.end())
+        _customAutoBindingResolvers.erase(itr);
 }
 
 }

@@ -3,6 +3,7 @@
 
 #include <set>
 #include "Vector3.h"
+#include "Font.h"
 
 namespace gameplay
 {
@@ -157,14 +158,19 @@ public:
      */
     void printUsage() const;
 
+    std::vector<unsigned int> getFontSizes() const;
+
     bool fontPreviewEnabled() const;
+
+    Font::FontFormat getFontFormat() const;
+
     bool textOutputEnabled() const;
+
     bool optimizeAnimationsEnabled() const;
+
     bool outputMaterialEnabled() const;
 
     const char* getNodeId() const;
-    unsigned int getFontSize() const;
-
 
     static std::string getRealPath(const std::string& filepath);
 
@@ -198,7 +204,6 @@ private:
     std::string _fileOutputPath;
     std::string _nodeId;
 
-    unsigned int _fontSize;
     std::wstring _characterSet;
 
     bool _normalMap;
@@ -206,7 +211,9 @@ private:
     int _heightmapResolution[2];
 
     bool _parseError;
+    std::vector<unsigned int> _fontSizes;
     bool _fontPreview;
+    Font::FontFormat _fontFormat;
     bool _textOutput;
     bool _optimizeAnimations;
     AnimationGroupOption _animationGrouping;
