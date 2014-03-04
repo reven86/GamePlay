@@ -106,7 +106,8 @@ extern int strcmpnocase(const char* s1, const char* s2);
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, "%s -- ", __current__func__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, __VA_ARGS__); \
         gameplay::Logger::log(gameplay::Logger::LEVEL_WARN, "\n"); \
-        gameplay::Logger::reportError( true, __current__func__, __LINE__, __VA_ARGS__ ); \
+        gameplay::Logger::reportError( false, __current__func__, __LINE__, __VA_ARGS__ ); \
+        DEBUG_BREAK(); \
     } while (0)
 
 #if defined(WIN32)
