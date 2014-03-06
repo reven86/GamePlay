@@ -95,7 +95,10 @@ void Container::initialize(const char* typeName, Theme::Style* style, Properties
 
 	if (properties)
 	{
-		// Parse layout
+        // Make containers to not consume input events by default (all other controls do)
+		_consumeInputEvents = properties->getBool("consumeInputEvents", false);
+
+        // Parse layout
 		Properties* layoutNS = properties->getNamespace("layout", true, false);
 		if (layoutNS)
 		{
