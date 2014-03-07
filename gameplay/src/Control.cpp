@@ -47,7 +47,7 @@ static bool parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percenta
 
 Control::Control()
     : _id(""), _boundsBits(0), _dirtyBits(DIRTY_BOUNDS | DIRTY_STATE), _consumeInputEvents(true), _alignment(ALIGN_TOP_LEFT),
-    _autoSize(AUTO_SIZE_BOTH), _style(NULL), _listeners(NULL), _visible(true), _zIndex(-1),
+    _autoSize(AUTO_SIZE_BOTH), _style(NULL), _listeners(NULL), _visible(true), _zIndex(-1), _isAlignmentSet(false),
     _contactIndex(INVALID_CONTACT_INDEX), _focusIndex(-1), _canFocus(false), _state(NORMAL), _parent(NULL), _styleOverridden(false), _skin(NULL)
 {
     addScriptEvent("controlEvent", "<Control>[Control::Listener::EventType]");
@@ -144,6 +144,7 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 		// Properties not defined by the style.
 		const char* alignmentString = properties->getString("alignment");
 
+        _isAlignmentSet = alignmentString != NULL;
 		_alignment = getAlignment(alignmentString);
 
 		_consumeInputEvents = properties->getBool("consumeInputEvents", true);
@@ -471,6 +472,7 @@ void Control::setAlignment(Alignment alignment)
     if (_alignment != alignment)
     {
         _alignment = alignment;
+        _isAlignmentSet = true;
         setDirty(DIRTY_BOUNDS);
     }
 }
@@ -1187,21 +1189,22 @@ void Control::updateBounds()
 
     const Rectangle parentAbsoluteBounds = _parent ? _parent->_viewportBounds : Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
 
+    const Theme::Margin& margin = _style->getMargin();
+
     // Calculate local unclipped bounds.
     _bounds.set(_relativeBounds);
     if (isXPercentage())
-        _bounds.x *= parentAbsoluteBounds.width;
+        _bounds.x = _bounds.x * parentAbsoluteBounds.width + margin.left;
     if (isYPercentage())
-        _bounds.y *= parentAbsoluteBounds.height;
+        _bounds.y = _bounds.y * parentAbsoluteBounds.height + margin.top;
     if (isWidthPercentage())
-        _bounds.width *= parentAbsoluteBounds.width;
+        _bounds.width *= parentAbsoluteBounds.width - margin.left - margin.right;
     if (isHeightPercentage())
-        _bounds.height *= parentAbsoluteBounds.height;
+        _bounds.height *= parentAbsoluteBounds.height - margin.top - margin.bottom;
 
     // Apply control alignment
-    if (_alignment != Control::ALIGN_TOP_LEFT)
+    if (_alignment != Control::ALIGN_TOP_LEFT || _isAlignmentSet)
     {
-        const Theme::Margin& margin = _style->getMargin();
         const Rectangle& parentBounds = _parent ? _parent->getBounds() : Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
         const Theme::Border& parentBorder = _parent ? _parent->getBorder(_parent->getState()) : Theme::Border::empty();
         const Theme::Padding& parentPadding = _parent ? _parent->getPadding() : Theme::Padding::empty();

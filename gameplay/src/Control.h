@@ -1347,6 +1347,11 @@ protected:
     Alignment _alignment;
     
     /**
+     * Whether the Control's alignment has been set programmatically.
+     */
+    bool _isAlignmentSet;
+
+    /**
      * The Control's auto size mode.
      */
     AutoSize _autoSize;
