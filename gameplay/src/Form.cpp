@@ -135,8 +135,8 @@ void Form::initialize(const char* typeName, Theme::Style* style, Properties* pro
 
     // After creation, update our bounds once so code that runs immediately after form
     // creation has access to up-to-date bounds.
-    if (updateBoundsInternal(Vector2::zero()))
-        updateBoundsInternal(Vector2::zero());
+    while(updateBoundsInternal(Vector2::zero()))
+        ;
 }
 
 Form* Form::getForm(const char* id)
@@ -207,8 +207,8 @@ void Form::update(float elapsedTime)
     // Do a two-pass bounds update:
     //  1. First pass updates leaf controls
     //  2. Second pass updates parent controls that depend on child sizes
-    if (updateBoundsInternal(Vector2::zero()))
-        updateBoundsInternal(Vector2::zero());
+    while(updateBoundsInternal(Vector2::zero()))
+        ;
 }
 
 void Form::startBatch(SpriteBatch* batch)
