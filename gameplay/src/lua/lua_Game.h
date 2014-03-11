@@ -39,7 +39,6 @@ int lua_Game_getTemporaryFolderPath(lua_State* state);
 int lua_Game_getUserAgentString(lua_State* state);
 int lua_Game_getViewport(lua_State* state);
 int lua_Game_getWidth(lua_State* state);
-int lua_Game_handlePlatformEvent(lua_State* state);
 int lua_Game_hasAccelerometer(lua_State* state);
 int lua_Game_hasMouse(lua_State* state);
 int lua_Game_isCursorVisible(lua_State* state);

@@ -241,6 +241,8 @@ void luaRegister_lua_Global()
         ScriptUtil::registerConstantString("TEXT_CHANGED", "TEXT_CHANGED", scopePath);
         ScriptUtil::registerConstantString("MIDDLE_CLICK", "MIDDLE_CLICK", scopePath);
         ScriptUtil::registerConstantString("RIGHT_CLICK", "RIGHT_CLICK", scopePath);
+        ScriptUtil::registerConstantString("ENTER", "ENTER", scopePath);
+        ScriptUtil::registerConstantString("LEAVE", "LEAVE", scopePath);
         ScriptUtil::registerConstantString("FOCUS_GAINED", "FOCUS_GAINED", scopePath);
         ScriptUtil::registerConstantString("FOCUS_LOST", "FOCUS_LOST", scopePath);
     }

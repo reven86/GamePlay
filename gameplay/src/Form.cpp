@@ -135,8 +135,8 @@ void Form::initialize(const char* typeName, Theme::Style* style, Properties* pro
 
     // After creation, update our bounds once so code that runs immediately after form
     // creation has access to up-to-date bounds.
-    while(updateBoundsInternal(Vector2::zero()))
-        ;
+    if (updateBoundsInternal(Vector2::zero()))
+        updateBoundsInternal(Vector2::zero());
 }
 
 Form* Form::getForm(const char* id)
@@ -207,8 +207,8 @@ void Form::update(float elapsedTime)
     // Do a two-pass bounds update:
     //  1. First pass updates leaf controls
     //  2. Second pass updates parent controls that depend on child sizes
-    while(updateBoundsInternal(Vector2::zero()))
-        ;
+    if (updateBoundsInternal(Vector2::zero()))
+        updateBoundsInternal(Vector2::zero());
 }
 
 void Form::startBatch(SpriteBatch* batch)
@@ -464,6 +464,9 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
                 {
                     if (__activeControl[contactIndex])
                     {
+                        if (__activeControl[contactIndex]->_state == HOVER)
+                            __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
+
                         __activeControl[contactIndex]->_state = NORMAL;
                         __activeControl[contactIndex]->setDirty(Control::DIRTY_STATE);
                     }
@@ -471,6 +474,7 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
                     __activeControl[contactIndex] = ctrl;
                     ctrl->_state = HOVER;
                     ctrl->setDirty(DIRTY_STATE);
+                    ctrl->notifyListeners(Control::Listener::ENTER);
                 }
             }
             else
@@ -478,6 +482,9 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
                 // Control no longer active
                 if (__activeControl[contactIndex])
                 {
+                    if (__activeControl[contactIndex]->_state == HOVER)
+                        __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
+
                     __activeControl[contactIndex]->setDirty(Control::DIRTY_STATE);
                     __activeControl[contactIndex]->_state = NORMAL;
                     __activeControl[contactIndex] = NULL;
@@ -536,6 +543,9 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
             {
                 if (__activeControl[contactIndex])
                 {
+                    if (__activeControl[contactIndex]->_state == HOVER)
+                        __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
+
                     __activeControl[contactIndex]->_state = NORMAL;
                     __activeControl[contactIndex]->setDirty(DIRTY_STATE);
                 }
@@ -543,6 +553,7 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
                 __activeControl[contactIndex] = ctrl;
                 ctrl->_state = HOVER;
                 ctrl->setDirty(DIRTY_STATE);
+                ctrl->notifyListeners(Control::Listener::ENTER);
             }
         }
         else
@@ -550,6 +561,9 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
             // No active/hover control
             if (__activeControl[contactIndex])
             {
+                if (__activeControl[contactIndex]->_state == HOVER)
+                    __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
+
                 __activeControl[contactIndex]->setDirty(DIRTY_STATE);
                 __activeControl[contactIndex]->_state = NORMAL;
                 __activeControl[contactIndex] = NULL;
