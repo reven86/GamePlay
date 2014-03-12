@@ -892,7 +892,9 @@ int getUnicode(int key);
 @interface ViewController : UIViewController
 - (void)startUpdating;
 - (void)stopUpdating;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController;
+#endif
 @end
 
 
@@ -965,10 +967,12 @@ int getUnicode(int key);
     [(View*)self.view stopUpdating];
 }
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+#endif
 @end
 
 

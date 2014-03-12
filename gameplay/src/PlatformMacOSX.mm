@@ -1593,7 +1593,9 @@ int getUnicode(int key)
 {
 }
 
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > 1070
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController;
+#endif
 @end
 
 @implementation FullscreenWindow
@@ -1602,11 +1604,13 @@ int getUnicode(int key)
     return YES;
 }
 
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > 1070
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
 {
     GKDialogController *sdc = [GKDialogController sharedDialogController];
     [sdc dismiss: self];
 }
+#endif
 @end
 
 

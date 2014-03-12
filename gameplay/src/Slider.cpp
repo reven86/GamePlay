@@ -110,7 +110,7 @@ void Slider::setValue(float value)
     if (_valueTextVisible)
     {
         wchar_t s[32];
-        swprintf(s, L"%.*f", _valueTextPrecision, _value);
+        swprintf(s, 32, L"%.*f", _valueTextPrecision, _value);
         _valueText = s;
     }
 }
