@@ -137,12 +137,12 @@ public:
     /**
      * Pauses the game after being run.
      */
-    void pause();
+    virtual void pause();
 
     /**
      * Resumes the game after being paused.
      */
-    void resume();
+    virtual void resume();
 
     /**
      * Exits the game.
