@@ -10,7 +10,12 @@ namespace gameplay
 
 void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool actuallyMouse)
 {
-    if (actuallyMouse || !Form::touchEventInternal(evt, x, y, contactIndex))
+    bool eventNotProcessed = actuallyMouse || !Form::touchEventInternal(evt, x, y, contactIndex);
+    
+    if (!eventNotProcessed && evt == Touch::TOUCH_PRESS)
+        evt = Touch::TOUCH_MOVE;    // little hack to make sure app updates touch cursor on first press event
+    
+    if (eventNotProcessed || evt == Touch::TOUCH_MOVE)
     {
         Game::getInstance()->touchEvent(evt, x, y, contactIndex);
         Game::getInstance()->getScriptController()->touchEvent(evt, x, y, contactIndex);
