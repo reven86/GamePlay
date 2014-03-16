@@ -470,9 +470,11 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
 
     case WM_SETFOCUS:
+        game->resume( );
         break;
 
     case WM_KILLFOCUS:
+        game->pause( );
         break;
 
     case WM_SIZE:
