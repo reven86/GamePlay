@@ -78,7 +78,7 @@ extern int strcmpnocase(const char* s1, const char* s2);
 #define GP_ASSERT(expression)
 #endif
 
-#if defined(WIN32) && defined(_MSC_VER)
+#if defined(WIN32) && defined(_MSC_VER) && defined(_DEBUG)
 #define DEBUG_BREAK() __debugbreak()
 #else
 #define DEBUG_BREAK()
