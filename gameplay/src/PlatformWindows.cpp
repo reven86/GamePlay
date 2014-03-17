@@ -955,6 +955,7 @@ Platform* Platform::create(Game* game)
 
     // Show the window.
     ShowWindow(__hwnd, SW_SHOW);
+    SetFocus(__hwnd);
 
 #ifdef GP_USE_GAMEPAD
     // Initialize XInputGamepads.
