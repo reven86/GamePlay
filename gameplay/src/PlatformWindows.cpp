@@ -586,11 +586,14 @@ bool createWindow(WindowCreationParams* params, HWND* hwnd, HDC* hdc)
         return false;
     }
 
-    // Center the window
-    GetWindowRect(*hwnd, &rect);
-    const int screenX = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
-    const int screenY = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
-    SetWindowPos(*hwnd, *hwnd, screenX, screenY, -1, -1, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+    if( !fullscreen )
+    {
+        // Center the window
+        GetWindowRect(*hwnd, &rect);
+        const int screenX = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
+        const int screenY = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+        SetWindowPos(*hwnd, *hwnd, screenX, screenY, -1, -1, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+    }
 
     return true;
 }
@@ -658,7 +661,7 @@ bool initializeGL(WindowCreationParams* params)
         return false;
     }
 
-    if( wglChoosePixelFormatARB && wglCreateContextAttribsARB )
+    if( wglChoosePixelFormatARB && wglCreateContextAttribsARB && params && params->samples > 0 )
     {
     // Choose pixel format using wglChoosePixelFormatARB, which allows us to specify
     // additional attributes such as multisampling.
@@ -932,12 +935,18 @@ Platform* Platform::create(Game* game)
         dm.dmBitsPerPel = DEFAULT_COLOR_BUFFER_SIZE;
         dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
-        // Try to set selected mode and get results. NOTE: CDS_FULLSCREEN gets rid of start bar.
-        if (ChangeDisplaySettings(&dm, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+        const int screenX = GetSystemMetrics(SM_CXSCREEN);
+        const int screenY = GetSystemMetrics(SM_CYSCREEN);
+        const int bpp = GetDeviceCaps(GetDC(NULL), BITSPIXEL);
+        if(screenX != width || screenY != height || bpp != DEFAULT_COLOR_BUFFER_SIZE)
         {
-            params.fullscreen = false;
-            GP_ERROR("Failed to start game in full-screen mode with resolution %dx%d.", width, height);
-            goto error;
+            // Try to set selected mode and get results. NOTE: CDS_FULLSCREEN gets rid of start bar.
+            if (ChangeDisplaySettings(&dm, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+            {
+                params.fullscreen = false;
+                GP_ERROR("Failed to start game in full-screen mode with resolution %dx%d.", width, height);
+                goto error;
+            }
         }
     }
 
