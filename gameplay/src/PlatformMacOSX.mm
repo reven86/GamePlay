@@ -14,7 +14,9 @@
 #import <OpenGL/OpenGL.h>
 #import <mach/mach_time.h>
 #import <Foundation/Foundation.h>
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > 1070
 #import <GameKit/GameKit.h>
+#endif
 
 // These should probably be moved to a platform common file
 #define SONY_USB_VENDOR_ID              0x054c
@@ -854,7 +856,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         NSOpenGLPFAColorSize, 32,
         NSOpenGLPFADepthSize, 24,
         NSOpenGLPFAAlphaSize, 8,
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+        99, 0x1000,
+#else
         NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+#endif
         0
     };
     NSOpenGLPixelFormatAttribute fullscreenAttrs[] = 
@@ -868,7 +874,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         NSOpenGLPFAColorSize, 32,
         NSOpenGLPFADepthSize, 24,
         NSOpenGLPFAAlphaSize, 8,
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
+        99, 0x1000,
+#else
         NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
+#endif
         0
     };
     NSOpenGLPixelFormatAttribute* attrs = __fullscreen ? fullscreenAttrs : windowedAttrs;
