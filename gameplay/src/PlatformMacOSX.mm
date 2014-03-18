@@ -1596,6 +1596,33 @@ int getUnicode(int key)
     [gameLock unlock];
 }
 
+- (void) windowDidBecomeKey:(NSNotification *)notification
+{
+    [gameLock lock];
+    _game->resume();
+    [gameLock unlock];
+}
+
+- (void) windowDidResignKey:(NSNotification *)notification
+{
+    [gameLock lock];
+    _game->pause();
+    [gameLock unlock];
+}
+
+- (void) windowDidBecomeMain:(NSNotification *)notification
+{
+    [gameLock lock];
+    _game->resume();
+    [gameLock unlock];
+}
+
+- (void) windowDidResignMain:(NSNotification *)notification
+{
+    [gameLock lock];
+    _game->pause();
+    [gameLock unlock];
+}
 
 @end
 
