@@ -475,14 +475,23 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     case WM_KILLFOCUS:
         game->pause( );
-        break;
+        return 0;
 
     case WM_SIZE:
         // Window was resized.
         gameplay::Platform::resizeEventInternal((unsigned int)(short)LOWORD(lParam), (unsigned int)(short)HIWORD(lParam));
+        return 0;
+
+    case WM_SYSCOMMAND:
+        switch (wParam)
+        {
+            case SC_SCREENSAVE:
+            case SC_MONITORPOWER:
+                return 0;
+        }
         break;
     }
-    
+
     return DefWindowProc(hwnd, msg, wParam, lParam); 
 }
 
@@ -954,8 +963,10 @@ Platform* Platform::create(Game* game)
         goto error;
 
     // Show the window.
-    ShowWindow(__hwnd, SW_SHOW);
+    ShowWindow(__hwnd, SW_SHOWNORMAL);
+    SetForegroundWindow(__hwnd);
     SetFocus(__hwnd);
+    BringWindowToTop(__hwnd);
 
 #ifdef GP_USE_GAMEPAD
     // Initialize XInputGamepads.
@@ -1036,9 +1047,10 @@ int Platform::enterMessagePump()
                 }
             }
 #endif
-            _game->frame();
-            SwapBuffers(__hdc);
         }
+
+        _game->frame();
+        SwapBuffers(__hdc);
 
         // If we are done, then exit.
         if (_game->getState() == Game::UNINITIALIZED)
