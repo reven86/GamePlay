@@ -1541,7 +1541,7 @@ unsigned int Platform::getDisplayHeight()
 double Platform::getAbsoluteTime()
 {
     __timeAbsolute = getMachTimeInMilliseconds();
-    return __timeAbsolute;
+    return __timeAbsolute - __timeStart;
 }
 
 void Platform::setAbsoluteTime(double time)
