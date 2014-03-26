@@ -3436,7 +3436,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = FORCE_CLEAN_SHUTDOWN;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					FORCE_CLEAN_SHUTDOWN,
+					GP_USE_SOCIAL,
+				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",
 					"../external-deps/bullet/include",
@@ -3458,7 +3461,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = FORCE_CLEAN_SHUTDOWN;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					FORCE_CLEAN_SHUTDOWN,
+					GP_USE_SOCIAL,
+				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",
 					"../external-deps/bullet/include",

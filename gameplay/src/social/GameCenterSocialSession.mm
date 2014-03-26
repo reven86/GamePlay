@@ -1,4 +1,4 @@
-#if defined(__APPLE__) && defined(GP_USE_SOCIAL)
+#if defined(__APPLE__) && defined(GP_USE_SOCIAL) && (__MAC_OS_X_VERSION_MIN_REQUIRED > 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
 
 #include "Base.h"
 #import "GameCenterSocialSession.h"

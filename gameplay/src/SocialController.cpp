@@ -105,7 +105,7 @@ void SocialController::authenticate(SocialSessionListener* listener)
     {
         listener->authenticateEvent(SocialSessionListener::ERROR_INITIALIZATION, NULL);
     }
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED > 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
     if (strcmp(providerStr, "GameCenter") == 0)
     {
         _session = GameCenterSocialSession::authenticate(listener, socialProperties);
