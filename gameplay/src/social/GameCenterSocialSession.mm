@@ -1,6 +1,7 @@
-#if defined(__APPLE__) && defined(GP_USE_SOCIAL) && (__MAC_OS_X_VERSION_MIN_REQUIRED > 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
-
 #include "Base.h"
+
+#if defined(__APPLE__) && defined(GP_USE_SOCIAL) && (__MAC_OS_X_VERSION_MIN_REQUIRED > 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
+
 #import "GameCenterSocialSession.h"
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
@@ -85,7 +86,11 @@ SocialSession *GameCenterSocialSession::authenticate(SocialSessionListener* list
                     if (player.isAuthenticated)
                     {
                         _session->_user.handle = player;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                         _session->_user.name = [player.displayName UTF8String];
+#else
+                        _session->_user.name = [player.alias UTF8String];
+#endif
                         
                         listener->authenticateEvent(SocialSessionListener::SUCCESS, _session);
                     }
@@ -154,7 +159,11 @@ void GameCenterSocialSession::loadFriends()
                             {
                                 SocialPlayer player;
                                 player.handle = friendPlayer;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                                 player.name = [friendPlayer.displayName UTF8String];
+#else
+                                player.name = [friendPlayer.alias UTF8String];
+#endif
                                 _friends.push_back(player);
                             }
                         }
@@ -450,7 +459,11 @@ void GameCenterSocialSession::attachPlayerNameToScore(const char *playerID, Soci
              {
                  if ([player.playerID isEqualToString: playerString])
                  {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                      score->playerName = [player.displayName UTF8String];
+#else
+                     score->playerName = [player.alias UTF8String];
+#endif
                      break;
                  }
              }
@@ -493,7 +506,7 @@ void GameCenterSocialSession::loadScores(const char* leaderboardId, SocialSessio
                 break;
         }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
         leaderboardRequest.identifier = [[NSString alloc] initWithUTF8String:realLeaderboardId];
 #endif
         leaderboardRequest.range = NSMakeRange(start, start+count);
@@ -575,7 +588,7 @@ void GameCenterSocialSession::loadScores(const char* leaderboardId, SocialSessio
                 break;
         }
         
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
         leaderboardRequest.identifier = [[NSString alloc] initWithUTF8String:realLeaderboardId];
 #endif
         // first load all of the scores and find the player
@@ -726,6 +739,8 @@ void GameCenterSocialSession::loadChallenges(bool showOpenChallengesOnly)
     if (showOpenChallengesOnly == false)
         NSLog(@"open challenges are only supported on IOS");
     
+#if !defined(TARGET_OS_IPHONE) || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+    
     [GKChallenge loadReceivedChallengesWithCompletionHandler:^(NSArray *challenges, NSError *error)
     {
         if (error == nil)
@@ -793,6 +808,8 @@ void GameCenterSocialSession::loadChallenges(bool showOpenChallengesOnly)
         // if we wanted to show the list of challenges we could call something like this
         //[_viewController presentChallengeList: challenges];
     }];
+    
+#endif
 }
 
 /**
@@ -821,6 +838,8 @@ void GameCenterSocialSession::submitSavedData(const char* key, std::string data)
   
 void GameCenterSocialSession::showGameCenter(int startingScreen) const
 {
+#if !defined(TARGET_OS_IPHONE) || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+    
     GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
     if (gameCenterController != nil)
     {
@@ -835,23 +854,30 @@ void GameCenterSocialSession::showGameCenter(int startingScreen) const
         sdc.parentWindow = [[NSApplication sharedApplication] mainWindow];
         [sdc presentViewController: gameCenterController];
 #endif
-
     }
+    
+#endif
 }
 
 void GameCenterSocialSession::displayLeaderboard(const char* leaderboardId) const
 {
+#if !defined(TARGET_OS_IPHONE) || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
     showGameCenter(GKGameCenterViewControllerStateLeaderboards);
+#endif
 }
 
 void GameCenterSocialSession::displayAchievements() const
 {
+#if !defined(TARGET_OS_IPHONE) || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
     showGameCenter(GKGameCenterViewControllerStateAchievements);
+#endif
 }
 
 void GameCenterSocialSession::displayChallenges() const
 {
+#if !defined(TARGET_OS_IPHONE) || __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
     showGameCenter(GKGameCenterViewControllerStateChallenges);
+#endif
 }
 
 void GameCenterSocialSession::displayChallengeSubmit(const SocialChallenge *challenge, float score) const
