@@ -239,6 +239,11 @@ protected:
      */
     bool _ctrlPressed;
 
+    /**
+     * Indicate if text input is limited to control's bounds.
+     */
+    bool _limitTextToBounds;
+
 private:
 
     /**

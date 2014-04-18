@@ -10,7 +10,7 @@ static bool space(char c)
 }
 
 TextBox::TextBox() : _caretLocation(0), _lastKeypress(0), _fontSize(0), _caretImage(NULL), _passwordChar('*'), _inputMode(TEXT), _ctrlPressed(false)
-    , _prevCaretLocation( 0.0f, 0.0f )
+    , _prevCaretLocation( 0.0f, 0.0f ), _limitTextToBounds(false)
 {
     _canFocus = true;
 }
@@ -41,6 +41,7 @@ void TextBox::initialize(const char* typeName, Theme::Style* style, Properties* 
 	if (properties)
 	{
 		_inputMode = getInputMode(properties->getString("inputMode"));
+        _limitTextToBounds = properties->getBool("limitText", false);
 	}
 }
 
@@ -265,7 +266,24 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                         if (_caretLocation <= _text.length())
                         {
                             _text.insert(_caretLocation, 1, (char)key);
-                            ++_caretLocation;
+                            _caretLocation++;
+
+                            if (_limitTextToBounds)
+                            {
+                                Control::State state = getState();
+                                Font* font = getFont(state);
+                                unsigned int fontSize = getFontSize(state);
+                                Font::Justify textAlignment = getTextAlignment(state);
+
+                                Rectangle textBounds;
+                                font->measureText(getDisplayedText().c_str(), _bounds, fontSize, &textBounds, textAlignment, true, true);
+
+                                if (textBounds.width > _bounds.width || textBounds.height > _bounds.height)
+                                {
+                                    _caretLocation--;
+                                    _text.erase (_caretLocation, 1);
+                                }
+                            }
                         }
 
                         notifyListeners(Control::Listener::TEXT_CHANGED);
