@@ -95,12 +95,12 @@ LOCAL_SRC_FILES := \
     ScriptController.cpp \
     ScriptTarget.cpp \
     Slider.cpp \
-	SocialAchievement.cpp \
-	SocialChallenge.cpp \
-	SocialController.cpp \
-	SocialPlayer.cpp \
-	SocialScore.cpp \
-	SocialSessionListener.cpp \
+    SocialAchievement.cpp \
+    SocialChallenge.cpp \
+    SocialController.cpp \
+    SocialPlayer.cpp \
+    SocialScore.cpp \
+    SocialSessionListener.cpp \
     SpriteBatch.cpp \
     Technique.cpp \
     Terrain.cpp \
@@ -163,6 +163,7 @@ LOCAL_SRC_FILES := \
     lua/lua_FlowLayout.cpp \
     lua/lua_Font.cpp \
     lua/lua_FontFormat.cpp \
+    lua/lua_FontGlyph.cpp \
     lua/lua_FontJustify.cpp \
     lua/lua_FontStyle.cpp \
     lua/lua_Form.cpp \
@@ -295,11 +296,11 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormatElement.cpp \
     lua/lua_VertexFormatUsage.cpp \
     lua/lua_VerticalLayout.cpp \
-	social/GooglePlaySocialSession.cpp \
+    social/GooglePlaySocialSession.cpp \
     tthread/tinythread.cpp
 
     
-LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/libyaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"
+LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/libyaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/libpng/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
 LOCAL_ARM_MODE := arm
 
