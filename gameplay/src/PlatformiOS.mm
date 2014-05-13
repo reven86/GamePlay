@@ -993,7 +993,7 @@ int getUnicode(int key);
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     __appDelegate = self;
-    [UIApplication sharedApplication].statusBarHidden = YES;
+    [[UIApplication sharedApplication]setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
     motionManager = [[CMMotionManager alloc] init];
