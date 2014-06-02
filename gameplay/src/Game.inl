@@ -68,6 +68,11 @@ inline SocialController* Game::getSocialController() const
     return _socialController;
 }
 
+inline StoreController* Game::getStoreController() const
+{
+    return _storeController;
+}
+
 template <class T>
 void Game::renderOnce(T* instance, void (T::*method)(void*), void* cookie)
 {

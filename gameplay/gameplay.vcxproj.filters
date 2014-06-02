@@ -22,6 +22,9 @@
     <Filter Include="res\ui">
       <UniqueIdentifier>{eb377577-593a-469f-9361-b6950a99e431}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\storefront">
+      <UniqueIdentifier>{4f81934a-b6b2-465c-b2f5-d581fb0b7f36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Plane.cpp">
@@ -938,6 +941,12 @@
     </ClCompile>
     <ClCompile Include="src\lua\lua_FontGlyph.cpp">
       <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\storefront\StoreProduct.cpp">
+      <Filter>src\storefront</Filter>
+    </ClCompile>
+    <ClCompile Include="src\storefront\StoreController.cpp">
+      <Filter>src\storefront</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1864,6 +1873,15 @@
     </ClInclude>
     <ClInclude Include="src\lua\lua_FontGlyph.h">
       <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\storefront\StoreProduct.h">
+      <Filter>src\storefront</Filter>
+    </ClInclude>
+    <ClInclude Include="src\storefront\StoreController.h">
+      <Filter>src\storefront</Filter>
+    </ClInclude>
+    <ClInclude Include="src\storefront\StoreFront.h">
+      <Filter>src\storefront</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

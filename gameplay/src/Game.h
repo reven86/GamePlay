@@ -10,6 +10,7 @@
 #include "AnimationController.h"
 #include "PhysicsController.h"
 #include "SocialController.h"
+#include "storefront/StoreController.h"
 #include "AIController.h"
 #include "AudioListener.h"
 #include "Rectangle.h"
@@ -273,6 +274,14 @@ public:
      * @script{ignore}
      */
     inline SocialController* getSocialController() const;
+
+    /**
+     * Gets the store controller for managing storefront and IAPs
+     * associated with the game.
+     *
+     * @script{ignore}
+     */
+    inline StoreController* getStoreController() const;
 
     /**
      * Gets the audio listener for 3D audio.
@@ -825,6 +834,7 @@ private:
     std::priority_queue<TimeEvent, std::vector<TimeEvent>, std::less<TimeEvent> >* _timeEvents;     // Contains the scheduled time events.
     ScriptController* _scriptController;            // Controls the scripting engine.
     SocialController* _socialController;		// Controls social aspect of the game.
+    StoreController* _storeController;          // Controls storefront and IAPs.
     std::vector<ScriptListener*>* _scriptListeners; // Lua script listeners.
 
     // Note: Do not add STL object member variables on the stack; this will cause false memory leaks to be reported.

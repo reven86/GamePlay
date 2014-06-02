@@ -27,7 +27,7 @@ Game::Game()
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
       _timeEvents(NULL), _scriptController(NULL), _socialController(NULL), _scriptListeners(NULL),
-      _clearColor( 0.0f, 0.0f, 0.0f, 0.0f )
+      _clearColor( 0.0f, 0.0f, 0.0f, 0.0f ), _storeController(NULL)
 {
     GP_ASSERT(__gameInstance == NULL);
     __gameInstance = this;
@@ -120,6 +120,9 @@ bool Game::startup()
     _socialController = new SocialController();
     _socialController->initialize();
 
+    _storeController = new StoreController();
+    _storeController->initialize();
+
     // Load any gamepads, ui or physical.
     loadGamepads();
 
@@ -203,6 +206,9 @@ void Game::shutdown()
         _socialController->finalize();
         SAFE_DELETE(_socialController);
 
+        _storeController->finalize();
+        SAFE_DELETE(_storeController);
+
         ControlFactory::finalize();
 
         Theme::finalize();
@@ -236,6 +242,7 @@ void Game::pause()
         _physicsController->pause();
         _aiController->pause();
         _socialController->pause();
+        _storeController->pause();
     }
 
     ++_pausedCount;
@@ -260,6 +267,7 @@ void Game::resume()
             _physicsController->resume();
             _aiController->resume();
             _socialController->resume();
+            _storeController->resume();
         }
     }
 }
@@ -346,6 +354,9 @@ void Game::frame()
         // Social Update.
         _socialController->update(elapsedTime);
 
+        // Storefront Update.
+        _storeController->update(elapsedTime);
+
         // Graphics Rendering.
         render(elapsedTime);
 
@@ -409,6 +420,7 @@ void Game::updateOnce()
     _audioController->update(elapsedTime);
     _scriptController->update(elapsedTime);
     _socialController->update(elapsedTime);
+    _storeController->update(elapsedTime);
 }
 
 void Game::setViewport(const Rectangle& viewport)
