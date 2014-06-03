@@ -29,7 +29,7 @@ public:
      *
      * @return The asynchronous response listener that registered for this session.
      */
-    virtual StoreListener* getListener() = 0;
+    virtual class StoreListener* getListener() = 0;
 
     /**
      * Determine whether the user can make payments.

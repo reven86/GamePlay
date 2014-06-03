@@ -19,14 +19,14 @@ struct StoreProduct
     const std::string id;
 
     /**
-     * The localized name of the product (read-only).
+     * The localized UTF8 name of the product (read-only).
      */
-    const std::wstring name;
+    const std::string name;
 
     /**
-     * The localized description of the product (read-only).
+     * The localized UTF8 description of the product (read-only).
      */
-    const std::wstring description;
+    const std::string description;
 
     /**
      * The product's price in local currency (read-only).
