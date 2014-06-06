@@ -16,6 +16,8 @@ namespace gameplay
  */
 class AppleStoreFront : public StoreFront
 {
+    friend class StoreController;
+
 public:
     /**
      * Sets the asynchronous response listener that registered for this session.
