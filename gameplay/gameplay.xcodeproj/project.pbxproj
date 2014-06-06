@@ -934,6 +934,17 @@
 		EBEA403F17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402C17BE70DF00BFE948 /* lua_ProgressBarOrientationType.h */; };
 		EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
 		EBF7F62E163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
+		EBF8AC5E193F732100C0EE93 /* StoreController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC59193F732000C0EE93 /* StoreController.cpp */; };
+		EBF8AC5F193F732100C0EE93 /* StoreController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC59193F732000C0EE93 /* StoreController.cpp */; };
+		EBF8AC60193F732100C0EE93 /* StoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC5A193F732000C0EE93 /* StoreController.h */; };
+		EBF8AC61193F732100C0EE93 /* Storefront.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC5B193F732000C0EE93 /* Storefront.h */; };
+		EBF8AC62193F732100C0EE93 /* StoreProduct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC5C193F732000C0EE93 /* StoreProduct.cpp */; };
+		EBF8AC63193F732100C0EE93 /* StoreProduct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC5C193F732000C0EE93 /* StoreProduct.cpp */; };
+		EBF8AC64193F732100C0EE93 /* StoreProduct.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC5D193F732000C0EE93 /* StoreProduct.h */; };
+		EBF8AC66193F73CE00C0EE93 /* AppleStoreFront.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC65193F73CE00C0EE93 /* AppleStoreFront.h */; };
+		EBF8AC68193F746800C0EE93 /* AppleStoreFront.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC67193F746800C0EE93 /* AppleStoreFront.mm */; };
+		EBF8AC69193F746800C0EE93 /* AppleStoreFront.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC67193F746800C0EE93 /* AppleStoreFront.mm */; };
+		EBF8AC6B19419A5E00C0EE93 /* StoreListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC6A19419A5E00C0EE93 /* StoreListener.h */; };
 		F1616ABC1614E24B008DD8B7 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */; };
 		F18024A51627000D001BFF87 /* gameplay-main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18024A31627000D001BFF87 /* gameplay-main-ios.mm */; };
 		F18024A71627000D001BFF87 /* gameplay-main-macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18024A41627000D001BFF87 /* gameplay-main-macosx.mm */; };
@@ -1611,6 +1622,14 @@
 		EBF7F629163415EF00F350CE /* Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix3.cpp; path = src/Matrix3.cpp; sourceTree = SOURCE_ROOT; };
 		EBF7F62A163415EF00F350CE /* Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix3.h; path = src/Matrix3.h; sourceTree = SOURCE_ROOT; };
 		EBF7F62B163415EF00F350CE /* Matrix3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix3.inl; path = src/Matrix3.inl; sourceTree = SOURCE_ROOT; };
+		EBF8AC59193F732000C0EE93 /* StoreController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StoreController.cpp; path = src/storefront/StoreController.cpp; sourceTree = SOURCE_ROOT; };
+		EBF8AC5A193F732000C0EE93 /* StoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreController.h; path = src/storefront/StoreController.h; sourceTree = SOURCE_ROOT; };
+		EBF8AC5B193F732000C0EE93 /* Storefront.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Storefront.h; path = src/storefront/Storefront.h; sourceTree = SOURCE_ROOT; };
+		EBF8AC5C193F732000C0EE93 /* StoreProduct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StoreProduct.cpp; path = src/storefront/StoreProduct.cpp; sourceTree = SOURCE_ROOT; };
+		EBF8AC5D193F732000C0EE93 /* StoreProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreProduct.h; path = src/storefront/StoreProduct.h; sourceTree = SOURCE_ROOT; };
+		EBF8AC65193F73CE00C0EE93 /* AppleStoreFront.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleStoreFront.h; path = src/storefront/AppleStoreFront.h; sourceTree = SOURCE_ROOT; };
+		EBF8AC67193F746800C0EE93 /* AppleStoreFront.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppleStoreFront.mm; path = src/storefront/AppleStoreFront.mm; sourceTree = SOURCE_ROOT; };
+		EBF8AC6A19419A5E00C0EE93 /* StoreListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreListener.h; path = src/storefront/StoreListener.h; sourceTree = SOURCE_ROOT; };
 		F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtil.cpp; path = src/MathUtil.cpp; sourceTree = SOURCE_ROOT; };
 		F18024A31627000D001BFF87 /* gameplay-main-ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "gameplay-main-ios.mm"; path = "src/gameplay-main-ios.mm"; sourceTree = SOURCE_ROOT; };
 		F18024A41627000D001BFF87 /* gameplay-main-macosx.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "gameplay-main-macosx.mm"; path = "src/gameplay-main-macosx.mm"; sourceTree = SOURCE_ROOT; };
@@ -1665,6 +1684,7 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				EBF8AC58193F72E900C0EE93 /* storefront */,
 				EB16DDAE18CE943800458A01 /* Social.h */,
 				EB16DDAF18CE943800458A01 /* SocialAchievement.cpp */,
 				EB16DDB018CE943800458A01 /* SocialAchievement.h */,
@@ -2400,6 +2420,21 @@
 			name = tthread;
 			sourceTree = "<group>";
 		};
+		EBF8AC58193F72E900C0EE93 /* storefront */ = {
+			isa = PBXGroup;
+			children = (
+				EBF8AC65193F73CE00C0EE93 /* AppleStoreFront.h */,
+				EBF8AC67193F746800C0EE93 /* AppleStoreFront.mm */,
+				EBF8AC59193F732000C0EE93 /* StoreController.cpp */,
+				EBF8AC5A193F732000C0EE93 /* StoreController.h */,
+				EBF8AC5B193F732000C0EE93 /* Storefront.h */,
+				EBF8AC5C193F732000C0EE93 /* StoreProduct.cpp */,
+				EBF8AC5D193F732000C0EE93 /* StoreProduct.h */,
+				EBF8AC6A19419A5E00C0EE93 /* StoreListener.h */,
+			);
+			name = storefront;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2445,6 +2480,7 @@
 				42CD0E8E147D8FF60000361E /* ParticleEmitter.h in Headers */,
 				42CD0E90147D8FF60000361E /* Pass.h in Headers */,
 				42CD0E92147D8FF60000361E /* PhysicsConstraint.h in Headers */,
+				EBF8AC61193F732100C0EE93 /* Storefront.h in Headers */,
 				42CD0E94147D8FF60000361E /* PhysicsController.h in Headers */,
 				42CD0E96147D8FF60000361E /* PhysicsFixedConstraint.h in Headers */,
 				42CD0E98147D8FF60000361E /* PhysicsGenericConstraint.h in Headers */,
@@ -2455,9 +2491,11 @@
 				42CD0EA2147D8FF60000361E /* PhysicsSpringConstraint.h in Headers */,
 				42CD0EA4147D8FF60000361E /* Plane.h in Headers */,
 				42CD0EA5147D8FF60000361E /* Platform.h in Headers */,
+				EBF8AC66193F73CE00C0EE93 /* AppleStoreFront.h in Headers */,
 				42CD0EAA147D8FF60000361E /* Properties.h in Headers */,
 				42CD0EAC147D8FF60000361E /* Quaternion.h in Headers */,
 				42CD0EAE147D8FF60000361E /* Ray.h in Headers */,
+				EBF8AC64193F732100C0EE93 /* StoreProduct.h in Headers */,
 				42CD0EB0147D8FF60000361E /* Rectangle.h in Headers */,
 				42CD0EB2147D8FF60000361E /* Ref.h in Headers */,
 				42CD0EB4147D8FF60000361E /* RenderState.h in Headers */,
@@ -2496,6 +2534,7 @@
 				5BD52667150F822A004C9099 /* TimeListener.h in Headers */,
 				5BD52669150F822A004C9099 /* VerticalLayout.h in Headers */,
 				5BD52671150F8258004C9099 /* PhysicsCharacter.h in Headers */,
+				EBF8AC6B19419A5E00C0EE93 /* StoreListener.h in Headers */,
 				5BD52675150F8258004C9099 /* PhysicsCollisionObject.h in Headers */,
 				5BBE14401513E400003FB362 /* PhysicsGhostObject.h in Headers */,
 				42554EA3152BC35C000ED910 /* PhysicsCollisionShape.h in Headers */,
@@ -2703,6 +2742,7 @@
 				BD26372516CF865B00CFE15F /* BoundingSphere.inl in Headers */,
 				BD26372616CF865B00CFE15F /* Game.inl in Headers */,
 				BD26372716CF865B00CFE15F /* Image.inl in Headers */,
+				EBF8AC60193F732100C0EE93 /* StoreController.h in Headers */,
 				BD26372916CF865B00CFE15F /* MathUtil.inl in Headers */,
 				BD26372A16CF865B00CFE15F /* MathUtilNeon.inl in Headers */,
 				BD26372B16CF865B00CFE15F /* Matrix.inl in Headers */,
@@ -2949,6 +2989,7 @@
 				42BCD4CC15EFD0F300C0E076 /* lua_CheckBox.cpp in Sources */,
 				42BCD4D015EFD0F300C0E076 /* lua_Container.cpp in Sources */,
 				42BCD4D415EFD0F300C0E076 /* lua_ContainerScroll.cpp in Sources */,
+				EBF8AC5E193F732100C0EE93 /* StoreController.cpp in Sources */,
 				42BCD4D815EFD0F300C0E076 /* lua_Control.cpp in Sources */,
 				42BCD4DC15EFD0F300C0E076 /* lua_ControlAlignment.cpp in Sources */,
 				42BCD4E015EFD0F300C0E076 /* lua_ControlListener.cpp in Sources */,
@@ -3049,6 +3090,7 @@
 				42BCD64C15EFD0F300C0E076 /* lua_RenderTarget.cpp in Sources */,
 				42BCD65015EFD0F300C0E076 /* lua_Scene.cpp in Sources */,
 				42BCD65815EFD0F300C0E076 /* lua_ScreenDisplayer.cpp in Sources */,
+				EBF8AC68193F746800C0EE93 /* AppleStoreFront.mm in Sources */,
 				42BCD65C15EFD0F300C0E076 /* lua_ScriptController.cpp in Sources */,
 				42BCD66015EFD0F300C0E076 /* lua_ScriptTarget.cpp in Sources */,
 				42BCD66415EFD0F300C0E076 /* lua_Slider.cpp in Sources */,
@@ -3056,6 +3098,7 @@
 				42BCD66C15EFD0F300C0E076 /* lua_Technique.cpp in Sources */,
 				42BCD67015EFD0F300C0E076 /* lua_TextBox.cpp in Sources */,
 				42BCD67415EFD0F300C0E076 /* lua_Texture.cpp in Sources */,
+				EBF8AC62193F732100C0EE93 /* StoreProduct.cpp in Sources */,
 				42BCD67815EFD0F300C0E076 /* lua_TextureFilter.cpp in Sources */,
 				EB16DDBF18CE943800458A01 /* SocialChallenge.cpp in Sources */,
 				42BCD67C15EFD0F300C0E076 /* lua_TextureFormat.cpp in Sources */,
@@ -3225,6 +3268,7 @@
 				EB9BF5CF17CBF02100D636A0 /* lua_MeshSkin.cpp in Sources */,
 				EB9BF5D117CBF02100D636A0 /* lua_Model.cpp in Sources */,
 				EB9BF5D317CBF02100D636A0 /* lua_Mouse.cpp in Sources */,
+				EBF8AC69193F746800C0EE93 /* AppleStoreFront.mm in Sources */,
 				EB9BF5D517CBF02100D636A0 /* lua_MouseMouseEvent.cpp in Sources */,
 				EB9BF5D717CBF02100D636A0 /* lua_Node.cpp in Sources */,
 				EB9BF5D917CBF02100D636A0 /* lua_NodeCloneContext.cpp in Sources */,
@@ -3408,6 +3452,8 @@
 				EB9BF74217CBF02200D636A0 /* ScriptController.cpp in Sources */,
 				EB9BF74517CBF02200D636A0 /* ScriptTarget.cpp in Sources */,
 				EB9BF74717CBF02200D636A0 /* Slider.cpp in Sources */,
+				EBF8AC63193F732100C0EE93 /* StoreProduct.cpp in Sources */,
+				EBF8AC5F193F732100C0EE93 /* StoreController.cpp in Sources */,
 				EB9BF74917CBF02200D636A0 /* SpriteBatch.cpp in Sources */,
 				EB9BF74C17CBF02200D636A0 /* Technique.cpp in Sources */,
 				EB9BF74E17CBF02200D636A0 /* Terrain.cpp in Sources */,

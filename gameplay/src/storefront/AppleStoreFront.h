@@ -1,61 +1,63 @@
-#ifndef STOREFRONT_H_
-#define STOREFRONT_H_
+#ifndef APPLESTOREFRONT_H_
+#define APPLESTOREFRONT_H_
+
+#include "StoreFront.h"
 
 
 namespace gameplay
 {
 
 /**
- * Defines an abstract class for typical store front.
+ * Defines an class for store front that uses StoreKit.
  *
  * @script{ignore}
  */
-class StoreFront
+class AppleStoreFront : public StoreFront
 {
-    friend class StoreController;
-
 public:
     /**
      * Sets the asynchronous response listener that registered for this session.
      */
-    virtual void setListener(class StoreListener* listener) = 0;
+    virtual void setListener(class StoreListener* listener);
     
     /**
      * Gets the asynchronous response listener that registered for this session.
      *
      * @return The asynchronous response listener that registered for this session.
      */
-    virtual class StoreListener* getListener() = 0;
-
+    virtual class StoreListener* getListener();
+    
     /**
      * Determine whether the user can make payments.
      */
-    virtual bool canMakePayments() const = 0;
-
+    virtual bool canMakePayments() const;
+    
     /**
      * Get list of the products.
      *
      * @param productIDs    Null-terminated array of product identifiers.
      */
-    virtual void getProducts( const char ** productIDs ) const = 0;
+    virtual void getProducts( const char ** productIDs ) const;
     
     /**
      * Start a payment transaction.
      */
-    virtual void makePayment(const char * productID, int quantity, const char * usernameHash) = 0;
-
+    virtual void makePayment(const char * productID, int quantity, const char * usernameHash = NULL);
+    
 protected:
-
+    
     /**
      * Contructor
      */
-    StoreFront() { };
-
+    AppleStoreFront();
+    
     /**
      * Destructor
      */
-    virtual ~StoreFront() { };
-
+    virtual ~AppleStoreFront();
+    
+private:
+    StoreListener * _listener;
 };
 
 }

@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "StoreController.h"
 #include "Game.h"
+#include "AppleStoreFront.h"
 
 namespace gameplay
 {
@@ -20,12 +21,14 @@ void StoreController::initialize()
 #if defined(__QNX__)
 #elif defined(__ANDROID__)
 #elif defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
+    _storeFront = new AppleStoreFront( );
 #endif
 #endif
 }
 
 void StoreController::finalize()
 {
+    SAFE_DELETE( _storeFront );
 }
 
 void StoreController::pause()

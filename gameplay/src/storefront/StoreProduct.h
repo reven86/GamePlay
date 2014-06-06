@@ -16,28 +16,33 @@ struct StoreProduct
     /**
      * The string that identifies the product to the Store provider (read-only).
      */
-    const std::string id;
+    std::string id;
 
     /**
      * The localized UTF8 name of the product (read-only).
      */
-    const std::string name;
+    std::string name;
 
     /**
      * The localized UTF8 description of the product (read-only).
      */
-    const std::string description;
+    std::string description;
 
     /**
      * The product's price in local currency (read-only).
      */
-    const float price;
+    float price;
 
+    /**
+     * The product's localized price in local currency (read-only).
+     */
+    std::string localizedPrice;
+    
     /**
      * Constructor
      */
-    StoreProduct( const std::string& _id, const std::string& _name, const std::string& _description, float _price );
-
+    StoreProduct( const char * _id, const char * _name, const char * _description, float _price, const char * _localizedPrice );
+    
     /**
      * Destructor
      */
