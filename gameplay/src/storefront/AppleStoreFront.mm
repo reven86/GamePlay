@@ -1,4 +1,7 @@
 #include "Base.h"
+
+#if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
+
 #include "StoreListener.h"
 
 #import "AppleStoreFront.h"
@@ -153,3 +156,5 @@ void AppleStoreFront::makePayment(const char * productID, int quantity, const ch
 }
 
 }
+
+#endif

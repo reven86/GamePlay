@@ -3485,6 +3485,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
+					GP_USE_STOREFRONT,
 				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",
@@ -3510,6 +3511,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
+					GP_USE_STOREFRONT,
 				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",

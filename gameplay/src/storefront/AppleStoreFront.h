@@ -1,3 +1,5 @@
+#if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
+
 #ifndef APPLESTOREFRONT_H_
 #define APPLESTOREFRONT_H_
 
@@ -62,4 +64,5 @@ private:
 
 }
 
+#endif
 #endif
