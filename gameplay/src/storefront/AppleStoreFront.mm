@@ -1,4 +1,4 @@
-#include "Base.h"
+ #include "Base.h"
 
 #if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
 
@@ -49,7 +49,21 @@
     }
     
     _storeFront->getListener()->getProductsEvent(products, invalidProducts);
+}
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error
+{
+    GP_ASSERT( _storeFront->getListener( ) );
+    //NSLog( @"Payments request fail %@", error );
     
+    _storeFront->getListener()->getProductsFailedEvent([error.localizedDescription UTF8String]);
+    
+    [request release];
+}
+
+- (void)requestDidFinish:(SKRequest *)request
+{
+    //NSLog( @"Payments request is completed" );
     [request release];
 }
 

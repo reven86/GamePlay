@@ -25,7 +25,9 @@ public:
      */
     virtual ~StoreListener() {};
     
-    virtual void getProductsEvent(const std::vector<StoreProduct>& products, const std::vector<std::string>& invalidProducts) {};
+    virtual void getProductsEvent( const std::vector<StoreProduct>& products, const std::vector<std::string>& invalidProducts ) {};
+    
+    virtual void getProductsFailedEvent( const char * error ) {};
     
     virtual void paymentTransactionInProcessEvent( const char * productID, int quantity ) {};
 
