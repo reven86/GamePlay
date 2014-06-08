@@ -56,7 +56,7 @@
     GP_ASSERT( _storeFront->getListener( ) );
     //NSLog( @"Payments request fail %@", error );
     
-    _storeFront->getListener()->getProductsFailedEvent([error.localizedDescription UTF8String]);
+    _storeFront->getListener()->getProductsFailedEvent(error.code, [error.localizedDescription UTF8String]);
     
     [request release];
 }
@@ -80,7 +80,7 @@
                 }
                 break;
             case SKPaymentTransactionStateFailed:
-                _storeFront->getListener()->paymentTransactionFailedEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity, [transaction.error.localizedDescription UTF8String]);
+                _storeFront->getListener()->paymentTransactionFailedEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity, transaction.error.code, [transaction.error.localizedDescription UTF8String]);
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStateRestored:

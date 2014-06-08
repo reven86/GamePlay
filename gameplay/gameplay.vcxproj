@@ -314,6 +314,7 @@
     <ClCompile Include="src\social\GooglePlaySocialSession.cpp" />
     <ClCompile Include="src\social\ScoreloopSocialSession.cpp" />
     <ClCompile Include="src\SpriteBatch.cpp" />
+    <ClCompile Include="src\storefront\NullStoreFront.cpp" />
     <ClCompile Include="src\storefront\StoreController.cpp" />
     <ClCompile Include="src\storefront\StoreProduct.cpp" />
     <ClCompile Include="src\Technique.cpp" />
@@ -619,6 +620,7 @@
     <ClInclude Include="src\social\GooglePlaySocialSession.h" />
     <ClInclude Include="src\social\ScoreloopSocialSession.h" />
     <ClInclude Include="src\SpriteBatch.h" />
+    <ClInclude Include="src\storefront\NullStoreFront.h" />
     <ClInclude Include="src\storefront\StoreController.h" />
     <ClInclude Include="src\storefront\StoreFront.h" />
     <ClInclude Include="src\storefront\StoreProduct.h" />

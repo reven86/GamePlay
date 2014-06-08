@@ -27,7 +27,7 @@ public:
     
     virtual void getProductsEvent( const std::vector<StoreProduct>& products, const std::vector<std::string>& invalidProducts ) {};
     
-    virtual void getProductsFailedEvent( const char * error ) {};
+    virtual void getProductsFailedEvent( int errorCode, const char * error ) {};
     
     virtual void paymentTransactionInProcessEvent( const char * productID, int quantity ) {};
 
@@ -36,7 +36,7 @@ public:
      */
     virtual bool paymentTransactionSucceededEvent( const char * productID, int quantity, double timestamp, const char * transactionID ) { return true; };
     
-    virtual void paymentTransactionFailedEvent( const char * productID, int quantity, const char * error ) {};
+    virtual void paymentTransactionFailedEvent( const char * productID, int quantity, int errorCode, const char * error ) {};
     
     /**
      * Return true for this event to complete the transaction.

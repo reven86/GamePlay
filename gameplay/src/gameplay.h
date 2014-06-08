@@ -125,3 +125,4 @@
 #include "storefront/StoreProduct.h"
 #include "storefront/StoreFront.h"
 #include "storefront/StoreListener.h"
+#include "storefront/NullStoreFront.h"

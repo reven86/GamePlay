@@ -37,7 +37,7 @@ public:
      *
      * @param productIDs    Null-terminated array of product identifiers.
      */
-    virtual void getProducts( const char ** productIDs ) const = 0;
+    virtual void getProducts(const char ** productIDs) const = 0;
     
     /**
      * Start a payment transaction.

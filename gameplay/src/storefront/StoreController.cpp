@@ -2,6 +2,7 @@
 #include "StoreController.h"
 #include "Game.h"
 #include "AppleStoreFront.h"
+#include "NullStoreFront.h"
 
 namespace gameplay
 {
@@ -22,7 +23,11 @@ void StoreController::initialize()
 #elif defined(__ANDROID__)
 #elif defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
     _storeFront = new AppleStoreFront( );
+#else
+    _storeFront = new NullStoreFront( );
 #endif
+#else
+    _storeFront = new NullStoreFront( );
 #endif
 }
 
