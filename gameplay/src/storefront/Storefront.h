@@ -16,6 +16,11 @@ class StoreFront
 
 public:
     /**
+     * Returns the name of the Store.
+     */
+    virtual const char * getName( ) const = 0;
+
+    /**
      * Sets the asynchronous response listener that registered for this session.
      */
     virtual void setListener(class StoreListener* listener) = 0;
@@ -42,7 +47,12 @@ public:
     /**
      * Start a payment transaction.
      */
-    virtual void makePayment(const char * productID, int quantity, const char * usernameHash) = 0;
+    virtual void makePayment(const char * productID, int quantity, const char * usernameHash = NULL) = 0;
+
+    /**
+     * Get a product's shipping cost in product's currency.
+     */
+    virtual float getShippingCost( const class StoreProduct& product, int quantity ) const = 0;
 
 protected:
 

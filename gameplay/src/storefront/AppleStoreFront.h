@@ -20,6 +20,11 @@ class AppleStoreFront : public StoreFront
 
 public:
     /**
+     * Returns the name of the Store.
+     */
+    virtual const char * getName( ) const {return "AppleStore";};
+
+    /**
      * Sets the asynchronous response listener that registered for this session.
      */
     virtual void setListener(class StoreListener* listener);
@@ -48,6 +53,11 @@ public:
      */
     virtual void makePayment(const char * productID, int quantity, const char * usernameHash = NULL);
     
+    /**
+     * Get a product shipping cost in product's currency.
+     */
+    virtual float getShippingCost( const StoreProduct& product, int quantity ) const;
+
 protected:
     
     /**

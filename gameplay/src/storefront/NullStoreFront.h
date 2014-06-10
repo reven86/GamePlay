@@ -19,6 +19,11 @@ class NullStoreFront : public StoreFront
 
 public:
     /**
+     * Returns the name of the Store.
+     */
+    virtual const char * getName( ) const {return "Null";};
+
+    /**
      * Sets the asynchronous response listener that registered for this session.
      */
     virtual void setListener(class StoreListener* listener);
@@ -48,6 +53,11 @@ public:
      * Start a payment transaction.
      */
     virtual void makePayment(const char * productID, int quantity, const char * usernameHash);
+
+    /**
+     * Get a product shipping cost in product's currency.
+     */
+    virtual float getShippingCost( const StoreProduct& product, int quantity ) const {return 0;};
 
 protected:
 

@@ -169,6 +169,11 @@ void AppleStoreFront::makePayment(const char * productID, int quantity, const ch
     [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
+float AppleStoreFront::getShippingCost( const gameplay::StoreProduct& product, int quantity ) const
+{
+    return product.price * quantity * 0.3f;
+}
+
 }
 
 #endif
