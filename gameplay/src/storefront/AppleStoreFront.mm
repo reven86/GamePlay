@@ -13,14 +13,20 @@
 @interface AppleStoreKitController : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 {
     @public gameplay::AppleStoreFront * _storeFront;
+    NSArray * products;
+    @public bool _observerAdded;
 }
+@property (strong, nonatomic) NSArray * products;
 @end
 
 @implementation AppleStoreKitController
+@synthesize products;
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
     GP_ASSERT( _storeFront->getListener( ) );
+    
+    self.products = response.products;
     
     std::vector< gameplay::StoreProduct > products;
     std::vector< std::string > invalidProducts;
@@ -38,7 +44,8 @@
             [product.localizedTitle UTF8String],
             [product.localizedDescription UTF8String],
             [product.price floatValue],
-            [formattedString UTF8String]
+            [formattedString UTF8String],
+            [numberFormatter.currencyCode UTF8String]
             ));
     }
     [numberFormatter release];
@@ -49,6 +56,12 @@
     }
     
     _storeFront->getListener()->getProductsEvent(products, invalidProducts);
+    
+    if( !_observerAdded )
+    {
+        _observerAdded = true;
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    }
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
@@ -113,7 +126,7 @@ AppleStoreFront::AppleStoreFront()
     {
         gStoreKitController = [[AppleStoreKitController alloc] init];
         gStoreKitController->_storeFront = this;
-        [[SKPaymentQueue defaultQueue] addTransactionObserver:gStoreKitController];
+        gStoreKitController->_observerAdded = false;
     }
 }
 
@@ -121,7 +134,11 @@ AppleStoreFront::~AppleStoreFront()
 {
     if( gStoreKitController != nil )
     {
-        [[SKPaymentQueue defaultQueue] removeTransactionObserver:gStoreKitController];
+        if( gStoreKitController->_observerAdded )
+        {
+            [[SKPaymentQueue defaultQueue] removeTransactionObserver:gStoreKitController];
+            gStoreKitController->_observerAdded = false;
+        }
         [gStoreKitController release];
         gStoreKitController = nil;
     }
@@ -160,13 +177,19 @@ void AppleStoreFront::getProducts(const char ** productIDs) const
     
 void AppleStoreFront::makePayment(const char * productID, int quantity, const char * usernameHash)
 {
-    SKMutablePayment * payment = [SKMutablePayment paymentWithProductIdentifier:[NSString stringWithUTF8String:productID]];
-    payment.quantity = quantity;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-    if( usernameHash )
-        payment.applicationUsername = [NSString stringWithUTF8String:usernameHash];
+    NSString * productIdentifier = [NSString stringWithUTF8String:productID];
+    for (SKProduct * product in gStoreKitController.products)
+        if( [product.productIdentifier compare:productIdentifier] == NSOrderedSame )
+        {
+            SKMutablePayment * payment = [SKMutablePayment paymentWithProduct:product];
+            payment.quantity = quantity;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000 or __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+            if( usernameHash )
+                payment.applicationUsername = [NSString stringWithUTF8String:usernameHash];
 #endif
-    [[SKPaymentQueue defaultQueue] addPayment:payment];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+            return;
+        }
 }
 
 float AppleStoreFront::getShippingCost( const gameplay::StoreProduct& product, int quantity ) const
