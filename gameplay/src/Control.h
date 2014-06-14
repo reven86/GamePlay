@@ -456,6 +456,11 @@ public:
     void setAlignment(Alignment alignment);
 
     /**
+     * Resets the alignment so control can be used with non-default Layouts.
+     */
+    void resetAlignment( );
+
+    /**
      * Get the alignment of this control within its parent container.
      *
      * @return The alignment of this control within its parent container.

@@ -477,6 +477,16 @@ void Control::setAlignment(Alignment alignment)
     }
 }
 
+void Control::resetAlignment( )
+{
+    if( _isAlignmentSet )
+    {
+        _alignment = ALIGN_TOP_LEFT;
+        _isAlignmentSet = false;
+        setDirty(DIRTY_BOUNDS);
+    }
+}
+
 Control::Alignment Control::getAlignment() const
 {
     return _alignment;
@@ -1149,14 +1159,14 @@ bool Control::updateBoundsInternal(const Vector2& offset)
         _dirtyBits &= ~DIRTY_STATE;
     }
 
-    // Clear our dirty bounds bit
-    bool dirtyBounds = (_dirtyBits & DIRTY_BOUNDS) != 0;
-    _dirtyBits &= ~DIRTY_BOUNDS;
-
     // If we are a container, always update child bounds first
     bool changed = false;
     if (isContainer())
         changed = static_cast<Container*>(this)->updateChildBounds();
+
+    // Clear our dirty bounds bit
+    bool dirtyBounds = (_dirtyBits & DIRTY_BOUNDS) != 0;
+    _dirtyBits &= ~DIRTY_BOUNDS;
 
     if (dirtyBounds)
     {
