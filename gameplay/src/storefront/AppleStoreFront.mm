@@ -37,6 +37,7 @@
     for (SKProduct * product in response.products)
     {
         [numberFormatter setLocale:product.priceLocale];
+        [numberFormatter setCurrencySymbol:numberFormatter.currencyCode];
         NSString *formattedString = [numberFormatter stringFromNumber:product.price];
         
         products.push_back(gameplay::StoreProduct(
