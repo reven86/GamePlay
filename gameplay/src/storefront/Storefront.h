@@ -52,7 +52,7 @@ public:
     /**
      * Get a product's shipping cost in product's currency.
      */
-    virtual float getShippingCost( const class StoreProduct& product, int quantity ) const = 0;
+    virtual float getShippingCost( const struct StoreProduct& product, int quantity ) const = 0;
 
 protected:
 
