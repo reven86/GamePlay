@@ -58,10 +58,10 @@ void Platform::gestureSwipeEventInternal(int x, int y, int direction)
     Game::getInstance()->getScriptController()->gestureSwipeEvent(x, y, direction);
 }
 
-void Platform::gesturePinchEventInternal(int x, int y, float scale, bool started)
+void Platform::gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches)
 {
     // TODO: Add support to Form for gestures
-    Game::getInstance()->gesturePinchEvent(x, y, scale, started);
+    Game::getInstance()->gesturePinchEvent(x, y, scale, numberOfTouches);
     Game::getInstance()->getScriptController()->gesturePinchEvent(x, y, scale);
 }
 

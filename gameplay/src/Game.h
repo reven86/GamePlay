@@ -463,9 +463,9 @@ public:
      * @param x The centroid x-coordinate of the pinch.
      * @param y The centroid y-coordinate of the pinch.
      * @param scale The scale of the pinch.
-     * @param started The event is recognized as first in series.
+     * @param numberOfTouches Touches' number or 0 if pinch is ended.
      */
-    virtual void gesturePinchEvent(int x, int y, float scale, bool started);
+    virtual void gesturePinchEvent(int x, int y, float scale, int numberOfTouches);
 
     /**
      * Gesture callback on Gesture::LONG_TAP events.

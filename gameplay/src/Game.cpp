@@ -532,7 +532,7 @@ void Game::gestureSwipeEvent(int x, int y, int direction)
 {
 }
 
-void Game::gesturePinchEvent(int x, int y, float scale, bool started)
+void Game::gesturePinchEvent(int x, int y, float scale, int numberOfTouches)
 {
 }
 

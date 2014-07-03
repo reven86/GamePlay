@@ -359,7 +359,7 @@ public:
      *
      * @script{ignore}
      */
-    static void gesturePinchEventInternal(int x, int y, float scale, bool started);
+    static void gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches);
 
     /**
      * Internal method used only from static code in various platform implementation.
