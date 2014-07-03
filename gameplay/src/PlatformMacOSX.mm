@@ -1579,7 +1579,12 @@ int getUnicode(int key)
 {
     if([self isGestureRegistered:Gesture::GESTURE_PINCH] == false) return;
     
-    NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseAny  inView:nil];
+    NSSet *touches = [event touchesMatchingPhase:NSTouchPhaseBegan  inView:nil];
+    bool begin = touches.count != 0;
+    
+    if( !begin )
+        touches = [event touchesMatchingPhase:NSTouchPhaseAny  inView:nil];
+    
     // Approximate the center by adding and averageing for now
     // Note this is centroid on the physical device be used for touching, not the display
     float xavg = 0.0f;
@@ -1592,7 +1597,7 @@ int getUnicode(int key)
     yavg /= [touches count];
     
     [gameLock lock];
-    gameplay::Platform::gesturePinchEventInternal((int)xavg, (int)yavg, [event magnification]);
+    gameplay::Platform::gesturePinchEventInternal((int)xavg, (int)yavg, [event magnification], begin);
     [gameLock unlock];
 }
 

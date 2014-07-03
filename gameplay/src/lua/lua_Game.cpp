@@ -574,7 +574,7 @@ int lua_Game_gesturePinchEvent(lua_State* state)
                 float param3 = (float)luaL_checknumber(state, 4);
 
                 Game* instance = getInstance(state);
-                instance->gesturePinchEvent(param1, param2, param3);
+                instance->gesturePinchEvent(param1, param2, param3, false);
                 
                 return 0;
             }

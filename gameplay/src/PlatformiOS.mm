@@ -810,7 +810,7 @@ int getUnicode(int key);
 {
     CGFloat factor = [sender scale];
     CGPoint location = [sender locationInView:self];
-    gameplay::Platform::gesturePinchEventInternal(location.x, location.y, factor);
+    gameplay::Platform::gesturePinchEventInternal(location.x, location.y, factor, sender.state == UIGestureRecognizerStateBegan);
 }
 
 - (void)handleSwipeGesture:(UISwipeGestureRecognizer*)sender
