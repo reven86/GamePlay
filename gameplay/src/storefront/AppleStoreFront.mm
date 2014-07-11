@@ -198,6 +198,14 @@ float AppleStoreFront::getShippingCost( const gameplay::StoreProduct& product, i
     return product.price * quantity * 0.3f;
 }
 
+void AppleStoreFront::restoreTransactions(const char * usernameHash)
+{
+    if( usernameHash )
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactionsWithApplicationUsername:[NSString stringWithUTF8String:usernameHash]];
+    else
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+    
 }
 
 #endif

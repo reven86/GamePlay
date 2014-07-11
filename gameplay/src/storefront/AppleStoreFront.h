@@ -58,6 +58,11 @@ public:
      */
     virtual float getShippingCost( const StoreProduct& product, int quantity ) const;
 
+    /**
+     * Restore completed transactions.
+     */
+    virtual void restoreTransactions( const char * usernameHash );
+    
 protected:
     
     /**
