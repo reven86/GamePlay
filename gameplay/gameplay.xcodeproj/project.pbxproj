@@ -3495,7 +3495,7 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				VALID_ARCHS = "armv7 armv7s i386 x86_64";
@@ -3521,7 +3521,7 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				VALID_ARCHS = "armv7 armv7s i386 x86_64";
 			};
@@ -3615,7 +3615,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = gameplay;
-				SDKROOT = iphoneos5.1;
+				SDKROOT = iphoneos6.1;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -3636,7 +3636,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = gameplay;
-				SDKROOT = iphoneos5.1;
+				SDKROOT = iphoneos6.1;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
