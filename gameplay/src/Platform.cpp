@@ -44,7 +44,7 @@ bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheel
         }
         else
         {
-            return Game::getInstance()->getScriptController()->mouseEvent(evt, x, y, wheelDelta);
+            return Game::getInstance()->getScriptController()->mouseEvent(evt, x, y, wheelDelta) || eventConsumed;
         }
     }
 
