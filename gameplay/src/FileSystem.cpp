@@ -240,7 +240,7 @@ const char* FileSystem::resolvePath(const char* path)
         std::string alias(path + 1);
         std::map<std::string, std::string>::const_iterator itr = __aliases.find(alias);
         if (itr == __aliases.end())
-            return path; // no matching alias found
+            return path + 1; // no matching alias found
         return itr->second.c_str();
     }
 
