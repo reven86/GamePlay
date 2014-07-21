@@ -94,7 +94,7 @@ private:
 #define MATRIX_SIZE ( sizeof(float) * 16 )
 #define MATRIX3_SIZE ( sizeof(float) * 9 )
 
-#ifdef USE_NEON
+#ifdef GP_USE_NEON
 #include "MathUtilNeon.inl"
 #else
 #include "MathUtil.inl"

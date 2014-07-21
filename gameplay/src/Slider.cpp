@@ -1,8 +1,6 @@
 #include "Slider.h"
 #include "Game.h"
 
-inline float round( float x ) { return static_cast< float >( static_cast< int >( x + 0.5f ) ); }
-
 namespace gameplay
 {
 

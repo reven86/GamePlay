@@ -15,6 +15,7 @@ const Game::ClearFlags& Sample::CLEAR_COLOR_DEPTH_STENCIL = Game::CLEAR_COLOR_DE
 
 Sample::Sample()
 {
+	std::locale("");
 }
 
 Sample::~Sample()

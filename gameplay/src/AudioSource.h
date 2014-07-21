@@ -43,7 +43,7 @@ public:
      * "<file-path>.<extension>#<namespace-id>/<namespace-id>/.../<namespace-id>" and "#<namespace-id>/<namespace-id>/.../<namespace-id>" is optional).
      * 
      * @param url The relative location on disk of the sound file or a URL specifying a Properties object defining an audio source.
-     * @param streamed Use streaming.
+     * @param streamed Don't read the entire audio buffer first before playing, instead play immediately from a stream that is read on demand.
      * @return The newly created audio source, or NULL if an audio source cannot be created.
      * @script{create}
      */
@@ -91,18 +91,18 @@ public:
     AudioSource::State getState() const;
 
     /**
+     * Determines whether the audio source is streaming or not.
+     *
+     * @return true if the audio source is streaming, false if not.
+     */
+    bool isStreamed() const;
+
+    /**
      * Determines whether the audio source is looped or not.
      *
      * @return true if the audio source is looped, false if not.
      */
     bool isLooped() const;
-
-    /**
-     * Determines whether the audio source is streamed or not.
-     *
-     * @return true if the audio source is streamed, false if not.
-     */
-    bool isStreamed() const;
 
     /**
      * Sets the state of the audio source to be looping or not.

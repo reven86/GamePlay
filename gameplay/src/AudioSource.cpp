@@ -11,14 +11,16 @@ namespace gameplay
 
 AudioSource::AudioSource(AudioBuffer* buffer, ALuint source) 
     : _alSource(source), _buffer(buffer), _looped(false), _gain(1.0f), _pitch(1.0f), _node(NULL)
-    , _velocity( 0.0f, 0.0f, 0.0f )
 {
     GP_ASSERT(buffer);
+
     if (isStreamed())
-        AL_CHECK( alSourceQueueBuffers(_alSource, 1, &buffer->_alBufferQueue[0]) );
+        AL_CHECK(alSourceQueueBuffers(_alSource, 1, &buffer->_alBufferQueue[0]));
     else
-        AL_CHECK( alSourcei(_alSource, AL_BUFFER, buffer->_alBufferQueue[0]) );
-    AL_CHECK( alSourcei(_alSource, AL_LOOPING, _looped && !isStreamed()) );
+        AL_CHECK(alSourcei(_alSource, AL_BUFFER, buffer->_alBufferQueue[0]));
+    
+    AL_CHECK(alSourcei(_alSource, AL_LOOPING, _looped && !isStreamed()));
+    
     AL_CHECK( alSourcef(_alSource, AL_PITCH, _pitch) );
     AL_CHECK( alSourcef(_alSource, AL_GAIN, _gain) );
     AL_CHECK( alSourcefv(_alSource, AL_VELOCITY, (const ALfloat*)&_velocity) );
@@ -35,9 +37,6 @@ AudioSource::~AudioSource()
             GP_ASSERT(audioController);
             audioController->removePlayingSource(this);
         }
-
-        AL_CHECK( alDeleteSources(1, &_alSource) );
-        _alSource = 0;
     }
     SAFE_RELEASE(_buffer);
 }
@@ -151,6 +150,12 @@ AudioSource::State AudioSource::getState() const
     return INITIAL;
 }
 
+bool AudioSource::isStreamed() const
+{
+    GP_ASSERT(_buffer);
+    return _buffer->_streamed;
+}
+
 void AudioSource::play()
 {
     AL_CHECK( alSourcePlay(_alSource) );
@@ -200,15 +205,9 @@ bool AudioSource::isLooped() const
     return _looped;
 }
 
-bool AudioSource::isStreamed() const
-{
-    GP_ASSERT( _buffer );
-    return _buffer->_useStreaming;
-}
-
 void AudioSource::setLooped(bool looped)
 {
-    AL_CHECK( alSourcei(_alSource, AL_LOOPING, (looped && !isStreamed()) ? AL_TRUE : AL_FALSE) );
+    AL_CHECK(alSourcei(_alSource, AL_LOOPING, (looped && !isStreamed()) ? AL_TRUE : AL_FALSE));
     if (AL_LAST_ERROR())
     {
         GP_ERROR("Failed to set audio source's looped attribute with error: %d", AL_LAST_ERROR());
@@ -339,7 +338,7 @@ bool AudioSource::streamDataIfNeeded()
 
     int queuedBuffers;
     alGetSourcei(_alSource, AL_BUFFERS_QUEUED, &queuedBuffers);
-
+ 
     int buffersNeeded = std::min<int>(_buffer->_buffersNeededCount, AudioBuffer::STREAMING_BUFFER_QUEUE_SIZE);
     if (queuedBuffers < buffersNeeded)
     {
@@ -347,6 +346,7 @@ bool AudioSource::streamDataIfNeeded()
         {
             if (!_buffer->streamData(_buffer->_alBufferQueue[queuedBuffers], _looped))
                 return false;
+            
             AL_CHECK( alSourceQueueBuffers(_alSource, 1, &_buffer->_alBufferQueue[queuedBuffers]) );
             queuedBuffers++;
         }
@@ -355,17 +355,17 @@ bool AudioSource::streamDataIfNeeded()
     {
         int processedBuffers;
         alGetSourcei(_alSource, AL_BUFFERS_PROCESSED, &processedBuffers);
-
+ 
         while (processedBuffers-- > 0)
         {
             ALuint bufferID;
             AL_CHECK( alSourceUnqueueBuffers(_alSource, 1, &bufferID) );
             if (!_buffer->streamData(bufferID, _looped))
                 return false;
+            
             AL_CHECK( alSourceQueueBuffers(_alSource, 1, &bufferID) );
         }
     }
-
     return true;
 }
 

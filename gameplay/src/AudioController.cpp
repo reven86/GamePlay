@@ -3,14 +3,12 @@
 #include "AudioListener.h"
 #include "AudioBuffer.h"
 #include "AudioSource.h"
-#include "tthread/tinythread.h"
 
 namespace gameplay
 {
 
 AudioController::AudioController() 
-    : _alcDevice(NULL), _alcContext(NULL), _pausingSource(NULL)
-    , _streamingThreadActive( true )
+: _alcDevice(NULL), _alcContext(NULL), _pausingSource(NULL), _streamingThreadActive(true)
 {
 }
 
@@ -42,14 +40,12 @@ void AudioController::initialize()
     {
         GP_ERROR("Unable to make OpenAL context current. Error: %d\n", alcErr);
     }
-    
-    _streamingQueueMutex.reset(new tthread::mutex());
+    _streamingMutex.reset(new std::mutex());
 }
 
 void AudioController::finalize()
 {
-    GP_ASSERT( _streamedSources.empty() );
-
+    GP_ASSERT(_streamingSources.empty());
     if (_streamingThread.get())
     {
         _streamingThreadActive = false;
@@ -116,58 +112,59 @@ void AudioController::update(float elapsedTime)
     }
 }
 
-void AudioController::addPlayingSource(AudioSource * source)
+void AudioController::addPlayingSource(AudioSource* source)
 {
     if (_playingSources.find(source) == _playingSources.end())
+    {
         _playingSources.insert(source);
 
-    if (source->isStreamed())
-    {
-        GP_ASSERT( _streamedSources.find(source) == _streamedSources.end() );
-        bool startThread = _streamedSources.empty() && _streamingThread.get() == NULL;
-        _streamingQueueMutex->lock();
-        _streamedSources.insert(source);
-        _streamingQueueMutex->unlock();
+        if (source->isStreamed())
+        {
+            GP_ASSERT(_streamingSources.find(source) == _streamingSources.end());
+            bool startThread = _streamingSources.empty() && _streamingThread.get() == NULL;
+            _streamingMutex->lock();
+            _streamingSources.insert(source);
+            _streamingMutex->unlock();
 
-        if (startThread)
-            _streamingThread.reset(new tthread::thread(&streamingThreadProc, this));
+            if (startThread)
+                _streamingThread.reset(new std::thread(&streamingThreadProc, this));
+        }
     }
 }
 
-void AudioController::removePlayingSource(AudioSource * source)
+void AudioController::removePlayingSource(AudioSource* source)
 {
     if (_pausingSource != source)
     {
         std::set<AudioSource*>::iterator iter = _playingSources.find(source);
         if (iter != _playingSources.end())
+        {
             _playingSources.erase(iter);
-    }
-
-    if (source->isStreamed())
-    {
-        GP_ASSERT( _streamedSources.find(source) != _streamedSources.end() );
-        _streamingQueueMutex->lock();
-        _streamedSources.erase(source);
-        _streamingQueueMutex->unlock();
-    }
+ 
+            if (source->isStreamed())
+            {
+                GP_ASSERT(_streamingSources.find(source) != _streamingSources.end());
+                _streamingMutex->lock();
+                _streamingSources.erase(source);
+                _streamingMutex->unlock();
+            }
+        }
+    } 
 }
 
 void AudioController::streamingThreadProc(void* arg)
 {
-    AudioController * _this = (AudioController *) arg;
+    AudioController* controller = (AudioController*)arg;
 
-    while(_this->_streamingThreadActive)
+    while (controller->_streamingThreadActive)
     {
-        _this->_streamingQueueMutex->lock();
-        
-        std::for_each(
-            _this->_streamedSources.begin(),
-            _this->_streamedSources.end(),
-            std::mem_fun(&AudioSource::streamDataIfNeeded));
-        
-        _this->_streamingQueueMutex->unlock();
+        controller->_streamingMutex->lock();
 
-        tthread::this_thread::sleep_for(tthread::chrono::milliseconds(50));
+        std::for_each(controller->_streamingSources.begin(), controller->_streamingSources.end(), std::mem_fn(&AudioSource::streamDataIfNeeded));
+        
+        controller->_streamingMutex->unlock();
+   
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 

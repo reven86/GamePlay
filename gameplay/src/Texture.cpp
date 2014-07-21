@@ -234,7 +234,7 @@ static unsigned int computePVRTCDataSize(int width, int height, int bpp)
 
 Texture* Texture::createCompressedPVRTC(const char* path)
 {
-    std::auto_ptr<Stream> stream(FileSystem::open(path));
+    std::unique_ptr<Stream> stream(FileSystem::open(path));
     if (stream.get() == NULL || !stream->canRead())
     {
         GP_ERROR("Failed to load file '%s'.", path);
@@ -557,7 +557,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     Texture* texture = NULL;
 
     // Read DDS file.
-    std::auto_ptr<Stream> stream(FileSystem::open(path));
+    std::unique_ptr<Stream> stream(FileSystem::open(path));
     if (stream.get() == NULL || !stream->canRead())
     {
         GP_ERROR("Failed to open file '%s'.", path);
@@ -854,7 +854,7 @@ void Texture::generateMipmaps()
     {
         GL_ASSERT( glBindTexture(GL_TEXTURE_2D, _handle) );
         GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
-        if (glGenerateMipmap)
+        if (std::addressof(glGenerateMipmap))
             GL_ASSERT( glGenerateMipmap(GL_TEXTURE_2D) );
 
         _mipmapped = true;
