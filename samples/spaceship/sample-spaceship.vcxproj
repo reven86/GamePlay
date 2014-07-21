@@ -73,15 +73,16 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\bullet\include;..\..\external-deps\lua\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\vorbis\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Debug;..\..\external-deps\bullet\lib\windows\x64\Debug;..\..\external-deps\openal\lib\windows\x64\Debug;..\..\external-deps\ogg\lib\windows\x64\Debug;..\..\external-deps\vorbis\lib\windows\x64\Debug;..\..\external-deps\glew\lib\windows\x64\Debug;..\..\external-deps\png\lib\windows\x64\Debug;..\..\external-deps\zlib\lib\windows\x64\Debug;..\..\gameplay\windows\x64\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;GLEW.lib;OpenAL.lib;lua.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Release;..\..\external-deps\bullet\lib\windows\x64\Release;..\..\external-deps\openal\lib\windows\x64\Release;..\..\external-deps\ogg\lib\windows\x64\Release;..\..\external-deps\vorbis\lib\windows\x64\Release;..\..\external-deps\glew\lib\windows\x64\Release;..\..\external-deps\png\lib\windows\x64\Release;..\..\external-deps\zlib\lib\windows\x64\Release;..\..\external-deps\yaml\lib\windows\x64;..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Urlmon.lib;libyaml.lib;lua.lib;OpenAL.lib;OpenGL32.lib;GLU32.lib;glew.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:msvcprtd.lib /NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>

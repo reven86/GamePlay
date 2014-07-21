@@ -54,86 +54,6 @@ protected:
      */
     void render(float elapsedTime);
 
-    /**
-     * @see Game::handlePlatformEvent
-     */
-    bool handlePlatformEvent(PlatformEvent *event);
-
-    /**
-     * @see SocialSessionListener::authenticateEvent
-     */
-    void authenticateEvent(ResponseCode code, SocialSession* session);
-
-    /**
-     * @see SocialSessionListener::loadFriendsEvent
-     */
-    void loadFriendsEvent(ResponseCode code, std::vector<SocialPlayer> friends);
-
-    /**
-     * @see SocialSessionListener::loadAchievementsEvent
-     */
-    void loadAchievementsEvent(ResponseCode code, std::vector<SocialAchievement> achievements);
-
-    /**
-     * @see SocialSessionListener::submitAchievementEvent
-     */
-    void synchronizeAchievementEvent(ResponseCode code);
-
-    /**
-     * @see SocialSessionListener::sumbitAchievementEvent
-     */
-    void submitAchievementEvent(ResponseCode code);
-
-    /**
-     * @see SocialSessionListener::awardAchievedEvent
-     */
-    void awardAchievedEvent(ResponseCode code, const SocialAchievement &achievement);
-
-    /**
-     * @see SocialSessionListener::loadScoresEvent
-     */
-    void loadScoresEvent(ResponseCode code, std::vector<SocialScore> scores);
-
-    /**
-     * @see SocialSessionListener::submitScoreEvent
-     */
-    void submitScoreEvent(ResponseCode code);
-
-    /**
-     * @see SocialSessionListener::submitChallengeEvent
-     */
-    void submitChallengeEvent(ResponseCode code, const SocialChallenge &challenge);
-
-    /**
-     * @see SocialSessionListener::startChallengeEvent
-     */
-    void startChallengeEvent(ResponseCode code, const SocialChallenge &challenge);
-
-    /**
-      * @see SocialSessionListener::replyToChallengeEvent
-      */
-    void replyToChallengeEvent(ResponseCode code);
-
-    /**
-     * @see SocialSessionListener::loadChallengesEvent
-     */
-    void loadChallengesEvent(ResponseCode code);
-
-    /**
-     * @see SocialSessionListener::loadChallengesEvent
-     */
-    void loadChallengesEvent(ResponseCode code, std::vector<SocialChallenge> challenges);
-
-    /**
-     * @see SocialSessionListener::loadSavedDataEvent
-     */
-    void loadSavedDataEvent(ResponseCode code, std::string data);
-
-    /**
-     * @see SocialSessionListener::submitSavedDataEvent
-     */
-    void submitSavedDataEvent(ResponseCode code);
-
 
 
 private:
@@ -199,7 +119,7 @@ private:
     /**
      * @see ControlListener::controlEvent
      */
-    void controlEvent(Control* control, EventType evt);
+	void controlEvent(Control* control, EventType evt){};
 
     const SocialPlayer *getPlayer(const char *name) const;
 
