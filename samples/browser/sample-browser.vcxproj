@@ -78,7 +78,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_ALLOW_RUNTIME_LIBRARY_MISMATCH;_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include;..\..\external-deps\vorbis\include</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -87,8 +87,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Urlmon.lib;libyaml.lib;lua.lib;OpenAL.lib;OpenGL32.lib;GLU32.lib;glew.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Release;..\..\external-deps\bullet\lib\windows\x64\Release;..\..\external-deps\openal\lib\windows\x64\Release;..\..\external-deps\ogg\lib\windows\x64\Release;..\..\external-deps\vorbis\lib\windows\x64\Release;..\..\external-deps\glew\lib\windows\x64\Release;..\..\external-deps\png\lib\windows\x64\Release;..\..\external-deps\zlib\lib\windows\x64\Release;..\..\external-deps\yaml\lib\windows\x64;..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalOptions>/NODEFAULTLIB:msvcprtd.lib /NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\$(Configuration);..\..\external-deps\bullet\lib\windows\x64\$(Configuration);..\..\external-deps\openal\lib\windows\x64\$(Configuration);..\..\external-deps\ogg\lib\windows\x64\$(Configuration);..\..\external-deps\vorbis\lib\windows\x64\$(Configuration);..\..\external-deps\glew\lib\windows\x64\$(Configuration);..\..\external-deps\png\lib\windows\x64\$(Configuration);..\..\external-deps\zlib\lib\windows\x64\$(Configuration);..\..\external-deps\yaml\lib\windows\x64;..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>

@@ -3,11 +3,6 @@
 
 // C/C++
 
-#if _MSC_VER && defined(_DEBUG)
-#define __DEF_DEBUG
-#undef _DEBUG
-#endif
-
 #include <new>
 #include <memory>
 #include <cstdio>
@@ -37,12 +32,6 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
-
-#ifdef __DEF_DEBUG
-#undef __DEF_DEBUG
-#define _DEBUG
-#endif
-
 #include "Logger.h"
 
 // Bring common functions from C into global namespace
