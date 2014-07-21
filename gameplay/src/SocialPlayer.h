@@ -17,9 +17,14 @@ class SocialPlayer
 public:
 
     /**
-     * The players friendly name.
+     * The players friendly name or full name.
      */
     std::string name;
+
+    /**
+    * The players alias/nickname.
+    */
+    std::string alias;
 
     /**
      * The provider handle for a player.

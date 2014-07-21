@@ -86,10 +86,11 @@ SocialSession *GameCenterSocialSession::authenticate(SocialSessionListener* list
                     if (player.isAuthenticated)
                     {
                         _session->_user.handle = player;
-#if 0 //__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+                        _session->_user.alias = [player.alias UTF8String];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                         _session->_user.name = [player.displayName UTF8String];
 #else
-                        _session->_user.name = [player.alias UTF8String];
+                        _session->_user.name = _session->_user.alias;
 #endif
                         
                         listener->authenticateEvent(SocialSessionListener::SUCCESS, _session);
@@ -159,10 +160,11 @@ void GameCenterSocialSession::loadFriends()
                             {
                                 SocialPlayer player;
                                 player.handle = friendPlayer;
+                                player.alias = [friendPlayer.alias UTF8String];
 #if 0 //__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                                 player.name = [friendPlayer.displayName UTF8String];
 #else
-                                player.name = [friendPlayer.alias UTF8String];
+								player.name = player.alias;
 #endif
                                 _friends.push_back(player);
                             }
@@ -459,7 +461,7 @@ void GameCenterSocialSession::attachPlayerNameToScore(const char *playerID, Soci
              {
                  if ([player.playerID isEqualToString: playerString])
                  {
-#if 0 //__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
                      score->playerName = [player.displayName UTF8String];
 #else
                      score->playerName = [player.alias UTF8String];
