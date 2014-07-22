@@ -621,10 +621,6 @@
 		EB16DDD118CEE79700458A01 /* GameCenterSocialSession.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDCF18CEE79700458A01 /* GameCenterSocialSession.h */; };
 		EB16DDD218CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB16DDD318CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
-		EB309C1718A3D46D00826B52 /* fast_mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = EB309C1418A3D46D00826B52 /* fast_mutex.h */; };
-		EB309C1818A3D46D00826B52 /* tinythread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB309C1518A3D46D00826B52 /* tinythread.cpp */; };
-		EB309C1918A3D46D00826B52 /* tinythread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB309C1518A3D46D00826B52 /* tinythread.cpp */; };
-		EB309C1A18A3D46D00826B52 /* tinythread.h in Headers */ = {isa = PBXBuildFile; fileRef = EB309C1618A3D46D00826B52 /* tinythread.h */; };
 		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
 		EB9BF50A17CBEF1E00D636A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF50917CBEF1E00D636A0 /* Foundation.framework */; };
 		EB9BF51617CBF02100D636A0 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
@@ -1599,9 +1595,6 @@
 		EB16DDCB18CECB2000458A01 /* lua_TerrainPatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TerrainPatch.h; sourceTree = "<group>"; };
 		EB16DDCF18CEE79700458A01 /* GameCenterSocialSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCenterSocialSession.h; path = src/social/GameCenterSocialSession.h; sourceTree = SOURCE_ROOT; };
 		EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GameCenterSocialSession.mm; path = src/social/GameCenterSocialSession.mm; sourceTree = SOURCE_ROOT; };
-		EB309C1418A3D46D00826B52 /* fast_mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fast_mutex.h; path = src/tthread/fast_mutex.h; sourceTree = SOURCE_ROOT; };
-		EB309C1518A3D46D00826B52 /* tinythread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinythread.cpp; path = src/tthread/tinythread.cpp; sourceTree = SOURCE_ROOT; };
-		EB309C1618A3D46D00826B52 /* tinythread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinythread.h; path = src/tthread/tinythread.h; sourceTree = SOURCE_ROOT; };
 		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TextBoxInputMode.cpp; sourceTree = "<group>"; };
 		EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TextBoxInputMode.h; sourceTree = "<group>"; };
@@ -1700,7 +1693,6 @@
 				EB16DDBA18CE943800458A01 /* SocialSessionListener.cpp */,
 				EB16DDBB18CE943800458A01 /* SocialSessionListener.h */,
 				EB16DD9F18CE940B00458A01 /* social */,
-				EB309C1318A3D44400826B52 /* tthread */,
 				EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */,
 				EBEA401D17BE709400BFE948 /* HorizontalLayout.h */,
 				EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */,
@@ -2410,16 +2402,6 @@
 			name = social;
 			sourceTree = "<group>";
 		};
-		EB309C1318A3D44400826B52 /* tthread */ = {
-			isa = PBXGroup;
-			children = (
-				EB309C1418A3D46D00826B52 /* fast_mutex.h */,
-				EB309C1518A3D46D00826B52 /* tinythread.cpp */,
-				EB309C1618A3D46D00826B52 /* tinythread.h */,
-			);
-			name = tthread;
-			sourceTree = "<group>";
-		};
 		EBF8AC58193F72E900C0EE93 /* storefront */ = {
 			isa = PBXGroup;
 			children = (
@@ -2446,14 +2428,12 @@
 				42CD0E49147D8FF60000361E /* AnimationClip.h in Headers */,
 				42CD0E4B147D8FF60000361E /* AnimationController.h in Headers */,
 				42CD0E4D147D8FF60000361E /* AnimationTarget.h in Headers */,
-				EB309C1A18A3D46D00826B52 /* tinythread.h in Headers */,
 				42CD0E4F147D8FF60000361E /* AnimationValue.h in Headers */,
 				42CD0E51147D8FF60000361E /* AudioBuffer.h in Headers */,
 				42CD0E53147D8FF60000361E /* AudioController.h in Headers */,
 				42CD0E55147D8FF60000361E /* AudioListener.h in Headers */,
 				42CD0E57147D8FF60000361E /* AudioSource.h in Headers */,
 				42CD0E58147D8FF60000361E /* Base.h in Headers */,
-				EB309C1718A3D46D00826B52 /* fast_mutex.h in Headers */,
 				42CD0E5A147D8FF60000361E /* BoundingBox.h in Headers */,
 				42CD0E5C147D8FF60000361E /* BoundingSphere.h in Headers */,
 				42CD0E5E147D8FF60000361E /* Camera.h in Headers */,
@@ -3151,7 +3131,6 @@
 				42A5031716E8F08900F0246C /* lua_ImageControl.cpp in Sources */,
 				C054CBE5172EF541000B7DC3 /* lua_RenderStateCullFaceSide.cpp in Sources */,
 				EB16DD9718CE940300458A01 /* lua_CameraListener.cpp in Sources */,
-				EB309C1818A3D46D00826B52 /* tinythread.cpp in Sources */,
 				EB16DD9B18CE940300458A01 /* lua_FontFormat.cpp in Sources */,
 				C07A67491742988E00D65C04 /* lua_TextBoxInputMode.cpp in Sources */,
 				C01405151765345800B9FFB1 /* lua_RenderStateStencilFunction.cpp in Sources */,
@@ -3409,7 +3388,6 @@
 				EB9BF6E917CBF02200D636A0 /* MathUtil.cpp in Sources */,
 				EB9BF6ED17CBF02200D636A0 /* Matrix.cpp in Sources */,
 				EB9BF6F017CBF02200D636A0 /* Mesh.cpp in Sources */,
-				EB309C1918A3D46D00826B52 /* tinythread.cpp in Sources */,
 				EBE308F318D0A1410015FC66 /* AIAgent.cpp in Sources */,
 				EB9BF6F217CBF02200D636A0 /* MeshBatch.cpp in Sources */,
 				EB9BF6F517CBF02200D636A0 /* MeshPart.cpp in Sources */,
@@ -3479,9 +3457,9 @@
 		4234D99114686BB6003031B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
@@ -3490,8 +3468,9 @@
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",
 					"../external-deps/bullet/include",
-					"../external-deps/oggvorbis/include",
-					"../external-deps/libpng/include",
+					"../external-deps/ogg/include",
+					"../external-deps/vorbis/include",
+					"../external-deps/png/include",
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
@@ -3505,9 +3484,9 @@
 		4234D99214686BB6003031B3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libstdc++";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
@@ -3516,8 +3495,9 @@
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/lua/include",
 					"../external-deps/bullet/include",
-					"../external-deps/oggvorbis/include",
-					"../external-deps/libpng/include",
+					"../external-deps/ogg/include",
+					"../external-deps/vorbis/include",
+					"../external-deps/png/include",
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
@@ -3531,7 +3511,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -3556,7 +3535,7 @@
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = gameplay;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)_include";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SHARED_PRECOMPS_DIR = "";
 				SUPPORTED_PLATFORMS = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3567,7 +3546,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3585,7 +3563,7 @@
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = gameplay;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)_include";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SHARED_PRECOMPS_DIR = "";
 				SUPPORTED_PLATFORMS = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
