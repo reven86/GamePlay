@@ -11,6 +11,7 @@ namespace gameplay
 
 AudioSource::AudioSource(AudioBuffer* buffer, ALuint source) 
     : _alSource(source), _buffer(buffer), _looped(false), _gain(1.0f), _pitch(1.0f), _node(NULL)
+    , _velocity( 0.0f, 0.0f, 0.0f )
 {
     GP_ASSERT(buffer);
 

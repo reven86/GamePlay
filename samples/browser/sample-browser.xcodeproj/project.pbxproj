@@ -84,6 +84,9 @@
 		9F4C6D00162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		9F4C6D01162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		B616B282161119EF00CB514C /* game.config in Resources */ = {isa = PBXBuildFile; fileRef = 428F7BDD15CB131A009ED24C /* game.config */; };
+		EB2FD37A197FEAF000F8C175 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FD379197FEAF000F8C175 /* StoreKit.framework */; };
+		EB2FD37C197FEB0B00F8C175 /* libyaml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FD37B197FEB0B00F8C175 /* libyaml.a */; };
+		EB2FD380197FEBF600F8C175 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FD37F197FEBF600F8C175 /* CoreGraphics.framework */; };
 		F10DEAB716726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F10DEAB816726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F1E4B3FA1671372E007516A7 /* FormsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E4B3F81671372E007516A7 /* FormsSample.cpp */; };
@@ -169,6 +172,10 @@
 		6212DAB71829DA1D006213DD /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		9F4C6CFE162735020076E137 /* GestureSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureSample.cpp; sourceTree = "<group>"; };
 		9F4C6CFF162735020076E137 /* GestureSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureSample.h; sourceTree = "<group>"; };
+		EB2FD379197FEAF000F8C175 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		EB2FD37B197FEB0B00F8C175 /* libyaml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyaml.a; path = "../../../libyaml-multiplatform/_xcode/Build/Products/Release-iphoneos/libyaml.a"; sourceTree = "<group>"; };
+		EB2FD37D197FEB6500F8C175 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		EB2FD37F197FEBF600F8C175 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		F10DEAB516726157006FFFDC /* BillboardSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardSample.cpp; sourceTree = "<group>"; };
 		F10DEAB616726157006FFFDC /* BillboardSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardSample.h; sourceTree = "<group>"; };
 		F1E4B3F81671372E007516A7 /* FormsSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormsSample.cpp; sourceTree = "<group>"; };
@@ -204,6 +211,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB2FD380197FEBF600F8C175 /* CoreGraphics.framework in Frameworks */,
+				42DFAB2216AD8BBC0000F342 /* UIKit.framework in Frameworks */,
+				42DFAAD416AD8A8C0000F342 /* Foundation.framework in Frameworks */,
+				EB2FD37C197FEB0B00F8C175 /* libyaml.a in Frameworks */,
+				EB2FD37A197FEAF000F8C175 /* StoreKit.framework in Frameworks */,
 				42CACBDF16ADA45F000D911A /* liblua.a in Frameworks */,
 				42CACBE016ADA463000D911A /* libogg.a in Frameworks */,
 				422E8EC21956324B001DE81F /* libBulletDynamics.a in Frameworks */,
@@ -211,7 +223,6 @@
 				42CACBE216ADA468000D911A /* libvorbis.a in Frameworks */,
 				42CACBE516ADA473000D911A /* libz.dylib in Frameworks */,
 				42DFAABC16AD89670000F342 /* CoreMotion.framework in Frameworks */,
-				42DFAAD416AD8A8C0000F342 /* Foundation.framework in Frameworks */,
 				42DFAB1F16AD8BBC0000F342 /* OpenAL.framework in Frameworks */,
 				422E8EC11956324B001DE81F /* libBulletCollision.a in Frameworks */,
 				422E8EC31956324B001DE81F /* libLinearMath.a in Frameworks */,
@@ -219,7 +230,6 @@
 				42DFAB2016AD8BBC0000F342 /* OpenGLES.framework in Frameworks */,
 				425F3A5617FBCBF00085454F /* libgameplay.a in Frameworks */,
 				42DFAB2116AD8BBC0000F342 /* QuartzCore.framework in Frameworks */,
-				42DFAB2216AD8BBC0000F342 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +311,10 @@
 		42C932BF1491A0DB0098216A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB2FD37F197FEBF600F8C175 /* CoreGraphics.framework */,
+				EB2FD37D197FEB6500F8C175 /* CoreFoundation.framework */,
+				EB2FD37B197FEB0B00F8C175 /* libyaml.a */,
+				EB2FD379197FEAF000F8C175 /* StoreKit.framework */,
 				5B61613A14CCC3590073B857 /* MacOSX */,
 				5B61613914CCC3560073B857 /* iOS */,
 			);
@@ -599,7 +613,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				INFOPLIST_FILE = "sample-browser-macosx.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = "armv7 armv7s arm64 i386 x86_64";
@@ -726,7 +740,7 @@
 					"../../external-deps/vorbis/include",
 				);
 				INFOPLIST_FILE = "sample-browser-ios.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"../../external-deps/bullet/lib/ios/$(CURRENT_ARCH)",
@@ -734,13 +748,14 @@
 					"../../external-deps/lua/lib/ios/$(CURRENT_ARCH)",
 					"../../external-deps/ogg/lib/ios/$(CURRENT_ARCH)",
 					"../../external-deps/vorbis/lib/ios/$(CURRENT_ARCH)",
-					"~/Library/Developer/Xcode/DerivedData/gameplay-exiunaubxxjndaapmcqkaoeboiob/Build/Products/Debug-iphoneos",
+					"../../gameplay/build/Release-iphoneos",
+					"/Users/reven86/Documents/Projects/libyaml-multiplatform/_xcode/Build/Products/Release-iphoneos",
 				);
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -750,7 +765,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
@@ -763,7 +778,7 @@
 					"../../external-deps/vorbis/include",
 				);
 				INFOPLIST_FILE = "sample-browser-ios.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"../../external-deps/bullet/lib/ios/$(CURRENT_ARCH)",
@@ -771,13 +786,14 @@
 					"../../external-deps/lua/lib/ios/$(CURRENT_ARCH)",
 					"../../external-deps/ogg/lib/ios/$(CURRENT_ARCH)",
 					"../../external-deps/vorbis/lib/ios/$(CURRENT_ARCH)",
-					"~/Library/Developer/Xcode/DerivedData/gameplay-exiunaubxxjndaapmcqkaoeboiob/Build/Products/Debug-iphoneos",
+					"../../gameplay/build/Release-iphoneos",
+					"/Users/reven86/Documents/Projects/libyaml-multiplatform/_xcode/Build/Products/Release-iphoneos",
 				);
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
