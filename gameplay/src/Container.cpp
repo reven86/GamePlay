@@ -246,6 +246,7 @@ unsigned int Container::addControl(Control* control)
 	control->_parent = this;
 
 	sortControls();
+    setDirty(Control::DIRTY_BOUNDS);
 
 	return (unsigned int)( _controls.size() - 1 );
 }
@@ -265,6 +266,7 @@ void Container::insertControl(Control* control, unsigned int index)
         _controls.insert(it, control);
         control->addRef();
         control->_parent = this;
+        setDirty(Control::DIRTY_BOUNDS);
     }
 }
 
@@ -276,6 +278,7 @@ void Container::removeControl(unsigned int index)
     Control* control = *it;
     _controls.erase(it);
     control->_parent = NULL;
+    setDirty(Control::DIRTY_BOUNDS);
 
     if (_activeControl == control)
         _activeControl = NULL;
@@ -559,7 +562,7 @@ void Container::updateBounds()
             for (size_t i = 0, count = _controls.size(); i < count; ++i)
             {
                 Control* ctrl = _controls[i];
-                if (!ctrl->isXPercentage() && !ctrl->isWidthPercentage())
+                if (ctrl->isVisible() && !ctrl->isXPercentage() && !ctrl->isWidthPercentage())
                 {
                     float w = ctrl->getX() + ctrl->getWidth();
                     if (width < w)
@@ -577,7 +580,7 @@ void Container::updateBounds()
             for (size_t i = 0, count = _controls.size(); i < count; ++i)
             {
                 Control* ctrl = _controls[i];
-                if (!ctrl->isYPercentage() && !ctrl->isHeightPercentage())
+                if (ctrl->isVisible() && !ctrl->isYPercentage() && !ctrl->isHeightPercentage())
                 {
                     float h = ctrl->getY() + ctrl->getHeight();
                     if (height < h)
