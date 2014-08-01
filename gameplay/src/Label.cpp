@@ -100,11 +100,11 @@ void Label::updateBounds()
         _font->measureText(_text.c_str(), getFontSize(NORMAL), &w, &h);
         if (_autoSize & AUTO_SIZE_WIDTH)
         {
-            setWidthInternal(w + getBorder(NORMAL).left + getBorder(NORMAL).right + getPadding().left + getPadding().right);
+            setWidthInternal(ceilf(w + getBorder(NORMAL).left + getBorder(NORMAL).right + getPadding().left + getPadding().right));
         }
         if (_autoSize & AUTO_SIZE_HEIGHT)
         {
-            setHeightInternal(h + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom);
+            setHeightInternal(ceilf(h + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom));
         }
     }
 }
@@ -113,7 +113,7 @@ void Label::updateAbsoluteBounds(const Vector2& offset)
 {
     Control::updateAbsoluteBounds(offset);
 
-    _textBounds.set((int)_viewportBounds.x, (int)_viewportBounds.y, _viewportBounds.width, _viewportBounds.height);
+    _textBounds.set(floorf(_viewportBounds.x), floorf(_viewportBounds.y), _viewportBounds.width, _viewportBounds.height);
 }
 
 unsigned int Label::drawText(Form* form, const Rectangle& clip)
