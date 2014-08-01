@@ -151,6 +151,22 @@ public:
     float intersects(const Plane& plane) const;
 
     /**
+    * Tests whether this ray intersects the specified triangle, returns the distance
+    * from the origin of the ray to the triangle and barycentric coordinates. The
+    * algorithm does not cull backfacing triangles.
+    *
+    * @param v0 The triangle's first vertex position.
+    * @param v1 The triangle's second vertex position.
+    * @param v2 The triangle's third vertex position.
+    * @param[out] uOut Pointer to store first barycentric coordinate.
+    * @param[out] vOut Pointer to store second barycentric coordinate.
+    *
+    * @return The distance from the origin of this ray to the plane of triangle or
+    *     INTERSECTS_NONE if this ray does not intersect the plane.
+    */
+    float intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut) const;
+
+    /**
      * Sets this ray to the specified values.
      *
      * @param origin The ray's origin.

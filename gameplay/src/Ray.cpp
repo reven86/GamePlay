@@ -150,6 +150,45 @@ float Ray::intersects(const Plane& plane) const
     return d;
 }
 
+float Ray::intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut) const
+{
+    // http://people.cs.clemson.edu/~dhouse/courses/405/papers/raytriangle-moeller02.pdf
+
+    Vector3 e1(v1 - v0);
+    Vector3 e2(v2 - v0);
+
+    Vector3 p(_direction);
+    p.cross(e2);
+
+    float det = Vector3::dot(p, e1);
+    if (fabs(det) < MATH_EPSILON)
+        return INTERSECTS_NONE;
+
+    float invDet = 1.0f / det;
+    Vector3 s(_origin - v0);
+
+    float u = Vector3::dot(s, p) * invDet;
+    if (u < 0.0f || u > 1.0f)
+        return INTERSECTS_NONE;
+
+    Vector3 q(s);
+    q.cross(e1);
+    float v = Vector3::dot(_direction, q) * invDet;
+    if (v < 0.0f || v > 1.0f || u + v > 1.0f)
+        return INTERSECTS_NONE;
+
+    float t = Vector3::dot(e2, q) * invDet;
+    if (t < 0.0f)
+        return INTERSECTS_NONE;
+
+    if (uOut)
+        *uOut = u;
+    if (vOut)
+        *vOut = v;
+
+    return t;
+}
+
 void Ray::set(const Vector3& origin, const Vector3& direction)
 {
     _origin = origin;
