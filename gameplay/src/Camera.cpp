@@ -394,7 +394,6 @@ void Camera::unproject(const Rectangle& viewport, float x, float y, float depth,
     // Map to range -1 to 1.
     screen.x = screen.x * 2.0f - 1.0f;
     screen.y = screen.y * 2.0f - 1.0f;
-    screen.z = screen.z * 2.0f - 1.0f;
 
     // Transform the screen-space NDC by our inverse view projection matrix.
     getInverseViewProjectionMatrix().transformVector(screen, &screen);
