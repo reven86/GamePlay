@@ -90,17 +90,17 @@ void Matrix::createLookAt(float eyePositionX, float eyePositionY, float eyePosit
     yaxis.normalize();
 
     dst->m[0] = xaxis.x;
-    dst->m[1] = yaxis.x;
-    dst->m[2] = zaxis.x;
+    dst->m[1] = xaxis.y;
+    dst->m[2] = xaxis.z;
     dst->m[3] = 0.0f;
 
-    dst->m[4] = xaxis.y;
+    dst->m[4] = yaxis.x;
     dst->m[5] = yaxis.y;
-    dst->m[6] = zaxis.y;
+    dst->m[6] = yaxis.z;
     dst->m[7] = 0.0f;
 
-    dst->m[8] = xaxis.z;
-    dst->m[9] = yaxis.z;
+    dst->m[8] = zaxis.x;
+    dst->m[9] = zaxis.y;
     dst->m[10] = zaxis.z;
     dst->m[11] = 0.0f;
 
