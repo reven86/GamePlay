@@ -5,7 +5,7 @@
 namespace gameplay
 {
 
-CheckBox::CheckBox() : _checked(false), _image(NULL), _textSpace( 5.0f )
+CheckBox::CheckBox() : _checked(false), _image(NULL), _textSpace(5.0f), _iconScale(1.0f)
 {
 }
 
@@ -38,6 +38,8 @@ void CheckBox::initialize(const char* typeName, Theme::Style* style, Properties*
         _checked = properties->getBool("checked");
         if (properties->exists("textSpace"))
             _textSpace = properties->getFloat("textSpace");
+        if (properties->exists("iconScale"))
+            _iconScale = properties->getFloat("iconScale");
     }
 }
 
@@ -100,6 +102,14 @@ void CheckBox::updateBounds()
 {
     Label::updateBounds();
 
+    Vector2 uncheckedSize;
+    const Rectangle& unselectedRegion = getImageRegion("unchecked", NORMAL);
+    uncheckedSize.set(unselectedRegion.width, unselectedRegion.height);
+
+    float scaleFactor = 1.0f;
+    if (_bounds.height > 0)
+        scaleFactor = _bounds.height * _iconScale / uncheckedSize.y;
+
     Vector2 size;
     if (_checked)
     {
@@ -108,9 +118,11 @@ void CheckBox::updateBounds()
     }
     else
     {
-        const Rectangle& unselectedRegion = getImageRegion("unchecked", NORMAL);
-        size.set(unselectedRegion.width, unselectedRegion.height);
+        size = uncheckedSize;
     }
+
+    // make image size related to text height
+    size *= scaleFactor;
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {

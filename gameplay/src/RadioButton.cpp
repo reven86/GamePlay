@@ -5,7 +5,7 @@ namespace gameplay
 {
 static std::vector<RadioButton*> __radioButtons;
 
-RadioButton::RadioButton() : _selected(false), _image(NULL)
+RadioButton::RadioButton() : _selected(false), _image(NULL), _iconScale(1.0f)
 {
 }
 
@@ -57,6 +57,9 @@ void RadioButton::initialize(const char* typeName, Theme::Style* style, Properti
         {
             _groupId = groupId;
         }
+
+        if (properties->exists("iconScale"))
+            _iconScale = properties->getFloat("iconScale");
     }
 }
 
@@ -142,6 +145,14 @@ void RadioButton::updateBounds()
 {
     Label::updateBounds();
 
+    Vector2 unselectedSize;
+    const Rectangle& unselectedRegion = getImageRegion("unselected", NORMAL);
+    unselectedSize.set(unselectedRegion.width, unselectedRegion.height);
+
+    float scaleFactor = 1.0f;
+    if (_bounds.height > 0)
+        scaleFactor = _bounds.height * _iconScale / unselectedSize.y;
+
     Vector2 size;
     if (_selected)
     {
@@ -150,9 +161,11 @@ void RadioButton::updateBounds()
     }
     else
     {
-        const Rectangle& unselectedRegion = getImageRegion("unselected", NORMAL);
-        size.set(unselectedRegion.width, unselectedRegion.height);
+        size = unselectedSize;
     }
+
+    // make image size related to text height
+    size *= scaleFactor;
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {

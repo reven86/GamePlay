@@ -159,6 +159,12 @@ protected:
      */
     Theme::ThemeImage* _image;
 
+    /**
+    * The scale of icon. 1 means icon height of unchecked image is
+    * equal to text height.
+    */
+    float _iconScale;
+
 private:
 
     RadioButton(const RadioButton& copy);
