@@ -63,8 +63,12 @@ Properties::Properties(Stream* stream, const char* name, const char* id, const c
     {
         _parentID = parentID;
     }
-    readProperties(stream);
-    rewind();
+
+    if (stream)
+    {
+        readProperties(stream);
+        rewind();
+    }
 }
 
 Properties* Properties::create(const char* url)
@@ -213,7 +217,14 @@ bool Properties::readPropertiesYAML( Stream * stream )
                 else if( name == "parentID" )
                     processingProperties->_parentID = value;
                 else
-                    processingProperties->_properties.push_back( Property( name.c_str( ), value.c_str( ) ) );
+                {
+                    // Is this a variable assignment?
+                    char variable[256];
+                    if (isVariable(name.c_str(), variable, 256))
+                        processingProperties->setVariable(variable, value.c_str());
+                    else
+                        processingProperties->_properties.push_back(Property(name.c_str(), value.c_str()));
+                }
                 name.clear( );
                 state = EPSM_READY;
                 parsedAnything = true;
@@ -265,7 +276,7 @@ bool Properties::readPropertiesYAML( Stream * stream )
                 break;
             }
 
-            processingProperties->_namespaces.push_back( new Properties( ) );
+            processingProperties->_namespaces.push_back(new Properties(NULL, name.c_str(), NULL, NULL, processingProperties));
             processingProperties->_namespaces.back( )->_namespace = name;
             name.clear( );
 
