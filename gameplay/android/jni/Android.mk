@@ -298,9 +298,12 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormatUsage.cpp \
     lua/lua_VerticalLayout.cpp \
     social/GooglePlaySocialSession.cpp \
+    storefront/StoreProduct.cpp \
+    storefront/StoreController.cpp \
+    storefront/NullStoreFront.cpp \
 
 LOCAL_CPPFLAGS += -std=c++11 -Wno-switch-enum -Wno-switch
-LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/libyaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/libpng/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"
+LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/yaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/ogg/include" -I"../../external-deps/vorbis/include" -I"../../external-deps/openal/include"
 LOCAL_ARM_MODE := arm
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
 

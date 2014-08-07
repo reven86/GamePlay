@@ -938,7 +938,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
 								if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
 								{
 									int pointer0Distance, pointer1Distance;
-
+                                    bool eventWasStarted = __gesturePinching;
 									if (__pointer0.pointerId == pointerId)
 									{
 										__gesturePointer0LastPosition = __gesturePointer0CurrentPosition;
@@ -978,7 +978,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
 										if (((currentDistancePointer0 >= lastDistancePointer0) && (currentDistancePointer1 >= lastDistancePointer1)) ||
 											((currentDistancePointer0 <= lastDistancePointer0) && (currentDistancePointer1 <= lastDistancePointer1)))
 										{
-											gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale);	
+                                            gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, !eventWasStarted);
 											gestureDetected = true;
 										}
 										else

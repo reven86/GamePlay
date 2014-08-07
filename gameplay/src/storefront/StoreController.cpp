@@ -21,6 +21,7 @@ void StoreController::initialize()
 #if defined(GP_USE_STOREFRONT)
 #if defined(__QNX__)
 #elif defined(__ANDROID__)
+    _storeFront = new NullStoreFront( );
 #elif defined(__APPLE__) && (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
     _storeFront = new AppleStoreFront( );
 #else
