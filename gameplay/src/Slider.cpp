@@ -107,9 +107,13 @@ void Slider::setValue(float value)
     // Always update value text if it's visible
     if (_valueTextVisible)
     {
-        wchar_t s[32];
-        swprintf(s, 32, L"%.*f", _valueTextPrecision, _value);
-        _valueText = s;
+        char s[32];
+        sprintf(s, "%.*f", _valueTextPrecision, _value);
+        _valueText.clear();
+
+        const char * p = s;
+        while (*p)
+            _valueText.push_back(*p++);
     }
 }
 
