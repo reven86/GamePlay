@@ -622,6 +622,9 @@
 		EB16DDD218CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB16DDD318CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
+		EB6D717619A60E30006857C1 /* lua_ContainerDirection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6D717419A60E30006857C1 /* lua_ContainerDirection.cpp */; };
+		EB6D717719A60E30006857C1 /* lua_ContainerDirection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB6D717419A60E30006857C1 /* lua_ContainerDirection.cpp */; };
+		EB6D717819A60E30006857C1 /* lua_ContainerDirection.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6D717519A60E30006857C1 /* lua_ContainerDirection.h */; };
 		EB9BF50A17CBEF1E00D636A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF50917CBEF1E00D636A0 /* Foundation.framework */; };
 		EB9BF51617CBF02100D636A0 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
 		EB9BF51817CBF02100D636A0 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
@@ -1598,6 +1601,8 @@
 		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		EB57EED8173EE75500DF0714 /* lua_TextBoxInputMode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TextBoxInputMode.cpp; sourceTree = "<group>"; };
 		EB57EED9173EE75500DF0714 /* lua_TextBoxInputMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TextBoxInputMode.h; sourceTree = "<group>"; };
+		EB6D717419A60E30006857C1 /* lua_ContainerDirection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_ContainerDirection.cpp; sourceTree = "<group>"; };
+		EB6D717519A60E30006857C1 /* lua_ContainerDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ContainerDirection.h; sourceTree = "<group>"; };
 		EB9BF50817CBEF1E00D636A0 /* libgameplay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgameplay.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9BF50917CBEF1E00D636A0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HorizontalLayout.cpp; path = src/HorizontalLayout.cpp; sourceTree = SOURCE_ROOT; };
@@ -1955,6 +1960,8 @@
 		42BCD31E15EFD0F300C0E076 /* lua */ = {
 			isa = PBXGroup;
 			children = (
+				EB6D717419A60E30006857C1 /* lua_ContainerDirection.cpp */,
+				EB6D717519A60E30006857C1 /* lua_ContainerDirection.h */,
 				EB16DDCA18CECB2000458A01 /* lua_TerrainPatch.cpp */,
 				EB16DDCB18CECB2000458A01 /* lua_TerrainPatch.h */,
 				EB16DD8F18CE940300458A01 /* lua_CameraListener.cpp */,
@@ -2566,6 +2573,7 @@
 				42BCD4BE15EFD0F300C0E076 /* lua_Bundle.h in Headers */,
 				42BCD4C215EFD0F300C0E076 /* lua_Button.h in Headers */,
 				42BCD4C615EFD0F300C0E076 /* lua_Camera.h in Headers */,
+				EB6D717819A60E30006857C1 /* lua_ContainerDirection.h in Headers */,
 				42BCD4CA15EFD0F300C0E076 /* lua_CameraType.h in Headers */,
 				42BCD4CE15EFD0F300C0E076 /* lua_CheckBox.h in Headers */,
 				42BCD4D215EFD0F300C0E076 /* lua_Container.h in Headers */,
@@ -2990,6 +2998,7 @@
 				42BCD52015EFD0F300C0E076 /* lua_Frustum.cpp in Sources */,
 				42BCD52415EFD0F300C0E076 /* lua_Game.cpp in Sources */,
 				42BCD52815EFD0F300C0E076 /* lua_GameClearFlags.cpp in Sources */,
+				EB6D717619A60E30006857C1 /* lua_ContainerDirection.cpp in Sources */,
 				42BCD52C15EFD0F300C0E076 /* lua_Gamepad.cpp in Sources */,
 				42BCD53415EFD0F300C0E076 /* lua_GamepadGamepadEvent.cpp in Sources */,
 				42BCD53815EFD0F300C0E076 /* lua_GameState.cpp in Sources */,
@@ -3253,6 +3262,7 @@
 				EB9BF5D917CBF02100D636A0 /* lua_NodeCloneContext.cpp in Sources */,
 				EB9BF5DB17CBF02100D636A0 /* lua_NodeType.cpp in Sources */,
 				EB9BF5DD17CBF02100D636A0 /* lua_ParticleEmitter.cpp in Sources */,
+				EB6D717719A60E30006857C1 /* lua_ContainerDirection.cpp in Sources */,
 				EB9BF5DF17CBF02100D636A0 /* lua_ParticleEmitterTextureBlending.cpp in Sources */,
 				EB9BF5E117CBF02100D636A0 /* lua_Pass.cpp in Sources */,
 				EB9BF5E317CBF02100D636A0 /* lua_PhysicsCharacter.cpp in Sources */,
