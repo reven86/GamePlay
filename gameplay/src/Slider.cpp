@@ -12,7 +12,7 @@ static const float MOVE_FRACTION = 0.005f;
 Slider::Slider() : _min(0.0f), _max(0.0f), _step(0.0f), _value(0.0f), _delta(0.0f), _minImage(NULL),
     _maxImage(NULL), _trackImage(NULL), _markerImage(NULL), _valueTextVisible(false),
     _valueTextAlignment(Font::ALIGN_BOTTOM_HCENTER), _valueTextPrecision(0), _valueText(L""), 
-    _trackHeight(0.0f), _gamepadValue(0.0f)
+    _trackHeight(0.0f), _gamepadValue(0.0f), _imageScale(1.0f)
 {
     _canFocus = true;
 }
@@ -173,7 +173,7 @@ void Slider::updateValue(int x, int y)
     const Rectangle& maxCapRegion = _maxImage->getRegion();
     const Rectangle& markerRegion = _markerImage->getRegion();
 
-    float markerPosition = (x - markerRegion.width * 0.5f) / (_viewportBounds.width - markerRegion.width);
+    float markerPosition = (x - markerRegion.width * 0.5f * _imageScale) / (_viewportBounds.width - markerRegion.width * _imageScale);
             
     if (markerPosition > 1.0f)
     {
@@ -356,7 +356,7 @@ void Slider::updateBounds()
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {
-        float height = _bounds.height + _trackHeight;
+        float height = _bounds.height + _trackHeight * _imageScale;
         if (_valueTextVisible)
             height += getFontSize(NORMAL);
         setHeightInternal(height);
@@ -454,24 +454,24 @@ unsigned int Slider::drawImages(Form* form, const Rectangle& clip)
     float midY = _viewportBounds.y + startY + (endY - startY) * 0.5f;
 
     // Draw track below the slider text
-    Vector2 pos(_viewportBounds.x + minCapRegion.width, midY - trackRegion.height * 0.5f);
-    batch->draw(pos.x, pos.y, _viewportBounds.width - minCapRegion.width - maxCapRegion.width, trackRegion.height, track.u1, track.v1, track.u2, track.v2, trackColor, _viewportClipBounds);
+    Vector2 pos(_viewportBounds.x + minCapRegion.width * _imageScale, midY - trackRegion.height * 0.5f * _imageScale);
+    batch->draw(pos.x, pos.y, _viewportBounds.width - (minCapRegion.width + maxCapRegion.width) * _imageScale, trackRegion.height * _imageScale, track.u1, track.v1, track.u2, track.v2, trackColor, _viewportClipBounds);
 
     // Draw min cap to the left of the track
-    pos.y = midY - minCapRegion.height * 0.5f;
+    pos.y = midY - minCapRegion.height * 0.5f * _imageScale;
     pos.x = _viewportBounds.x;
-    batch->draw(pos.x, pos.y, minCapRegion.width, minCapRegion.height, minCap.u1, minCap.v1, minCap.u2, minCap.v2, minCapColor, _viewportClipBounds);
+    batch->draw(pos.x, pos.y, minCapRegion.width * _imageScale, minCapRegion.height * _imageScale, minCap.u1, minCap.v1, minCap.u2, minCap.v2, minCapColor, _viewportClipBounds);
 
     // Draw max cap to the right of the track
-    pos.x = _viewportBounds.right() - maxCapRegion.width;
-    batch->draw(pos.x, pos.y, maxCapRegion.width, maxCapRegion.height, maxCap.u1, maxCap.v1, maxCap.u2, maxCap.v2, maxCapColor, _viewportClipBounds);
+    pos.x = _viewportBounds.right() - maxCapRegion.width * _imageScale;
+    batch->draw(pos.x, pos.y, maxCapRegion.width * _imageScale, maxCapRegion.height * _imageScale, maxCap.u1, maxCap.v1, maxCap.u2, maxCap.v2, maxCapColor, _viewportClipBounds);
 
     // Draw the marker at the correct position
     float markerPosition = (_value - _min) / (_max - _min);
-    markerPosition *= _viewportBounds.width - markerRegion.width;
+    markerPosition *= _viewportBounds.width - markerRegion.width * _imageScale;
     pos.x = _viewportBounds.x + markerPosition;
-    pos.y = midY - markerRegion.height * 0.5f;
-    batch->draw(pos.x, pos.y, markerRegion.width, markerRegion.height, marker.u1, marker.v1, marker.u2, marker.v2, markerColor, _viewportClipBounds);
+    pos.y = midY - markerRegion.height * 0.5f * _imageScale;
+    batch->draw(pos.x, pos.y, markerRegion.width * _imageScale, markerRegion.height * _imageScale, marker.u1, marker.v1, marker.u2, marker.v2, markerColor, _viewportClipBounds);
 
     finishBatch(form, batch);
 
@@ -501,6 +501,16 @@ unsigned int Slider::drawText(Form* form, const Rectangle& clip)
 const char* Slider::getType() const
 {
     return "slider";
+}
+
+void Slider::setScaleFactor(float scale)
+{
+    _imageScale = scale;
+}
+
+float Slider::getScaleFactor() const
+{
+    return _imageScale;
 }
 
 }

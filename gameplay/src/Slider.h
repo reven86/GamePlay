@@ -141,6 +141,16 @@ public:
     unsigned int getValueTextPrecision() const;
 
     /**
+    * Sets the scale factor for images. Default is 1.
+    */
+    void setScaleFactor(float scale);
+
+    /**
+    * Gets the scale factor for images. Default is 1.
+    */
+    float getScaleFactor() const;
+
+    /**
      * Add a listener to be notified of specific events affecting
      * this control.  Event types can be OR'ed together.
      * E.g. To listen to touch-press and touch-release events,
@@ -306,6 +316,11 @@ protected:
      * Number of digits after the decimal to draw for value text.
      */
     unsigned int _valueTextPrecision;
+
+    /**
+     * Scale factor for the images.
+     */
+    float _imageScale;
 
 private:
 
