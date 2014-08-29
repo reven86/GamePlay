@@ -11,6 +11,7 @@
 #include "Bundle.h"
 #include "MathUtil.h"
 #include "Logger.h"
+#include "Package.h"
 
 // Math
 #include "Rectangle.h"

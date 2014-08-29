@@ -3,6 +3,7 @@
 #include "Properties.h"
 #include "Stream.h"
 #include "Platform.h"
+#include "Package.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -88,6 +89,7 @@ static bool androidFileExists(const char* filePath)
 /** @script{ignore} */
 static std::string __resourcePath("./");
 static std::map<std::string, std::string> __aliases;
+static std::vector<Package *> __packages;
 
 /**
  * Gets the fully resolved path.
@@ -354,8 +356,14 @@ bool FileSystem::fileExists(const char* filePath)
     getFullPath(filePath, fullPath);
 
     gp_stat_struct s;
-    return stat(fullPath.c_str(), &s) == 0;
+    if (stat(fullPath.c_str(), &s) == 0)
+        return true;
 
+    for (auto it = __packages.begin(), endIt = __packages.end(); it != endIt; it++)
+        if ((*it)->fileExists(filePath))
+            return true;
+
+    return false;
 }
 
 Stream* FileSystem::open(const char* path, size_t streamMode)
@@ -369,22 +377,26 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
 
     //gameplay::Logger::log(gameplay::Logger::LEVEL_INFO, "Trying to open file: %d %s", mode, fullPath.c_str( ) );
 
+    Stream * stream = NULL;
 #ifdef __ANDROID__
     if ((streamMode & WRITE) != 0)
     {
-        FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
-        return stream;
+        stream = FileStream::create(fullPath.c_str(), modeStr);
     }
     else
     {
         // Open a file in the read-only asset directory if any, then try open file directly
-        Stream * stream = FileStreamAndroid::create(resolvePath(path), modeStr);
-        return stream == NULL ? FileStream::create(fullPath.c_str(), modeStr) : stream;
+        stream = FileStreamAndroid::create(resolvePath(path), modeStr);
+        if (stream == NULL)
+            stream = FileStream::create(fullPath.c_str(), modeStr);
     }
 #else
-    FileStream* stream = FileStream::create(fullPath.c_str(), modeStr);
-    return stream;
+    stream = FileStream::create(fullPath.c_str(), modeStr);
 #endif
+    for (auto it = __packages.begin(), endIt = __packages.end(); stream == NULL && it != endIt; it++)
+        stream = (*it)->open(path, streamMode);
+
+    return stream;
 }
 
 FILE* FileSystem::openFile(const char* filePath, const char* mode)
@@ -555,6 +567,11 @@ std::string FileSystem::getExtension(const char* path)
         ext += std::toupper(str[i]);
 
     return ext;
+}
+
+void FileSystem::registerPackage(Package * package)
+{
+    __packages.push_back(package);
 }
 
 //////////////////

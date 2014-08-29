@@ -61,6 +61,7 @@ LOCAL_SRC_FILES := \
     MeshSkin.cpp \
     Model.cpp \
     Node.cpp \
+    Package.cpp \
     ParticleEmitter.cpp \
     Pass.cpp \
     PhysicsCharacter.cpp \

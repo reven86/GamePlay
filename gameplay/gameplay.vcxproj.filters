@@ -942,6 +942,9 @@
     <ClCompile Include="src\storefront\NullStoreFront.cpp">
       <Filter>src\storefront</Filter>
     </ClCompile>
+    <ClCompile Include="src\Package.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Plane.h">
@@ -1876,6 +1879,9 @@
     </ClInclude>
     <ClInclude Include="src\storefront\NullStoreFront.h">
       <Filter>src\storefront</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Package.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

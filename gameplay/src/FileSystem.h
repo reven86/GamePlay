@@ -238,6 +238,11 @@ public:
      */
     static std::string getExtension(const char* path);
 
+    /**
+     * Registers the package.
+     */
+    static void registerPackage(class Package * package);
+
 private:
 
     /**
