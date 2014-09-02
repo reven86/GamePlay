@@ -299,6 +299,7 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormatUsage.cpp \
     lua/lua_VerticalLayout.cpp \
     social/GooglePlaySocialSession.cpp \
+    storefront/GoogleStoreFront.cpp \
     storefront/StoreProduct.cpp \
     storefront/StoreController.cpp \
     storefront/NullStoreFront.cpp \

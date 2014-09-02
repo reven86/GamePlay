@@ -42,6 +42,12 @@ public:
      * Return true for this event to complete the transaction.
      */
     virtual bool paymentTransactionRestoredEvent( const char * productID, int quantity, double timestamp, const char * transactionID ) { return true; };
+
+    /**
+     * Return true if the item should be consumed.
+     * Note: this method is not called for App Store market.
+     */
+    virtual bool isProductConsumable(const char * productID) { return true; };
 };
 
 }

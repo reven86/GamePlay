@@ -612,6 +612,7 @@
     <ClInclude Include="src\storefront\NullStoreFront.h" />
     <ClInclude Include="src\storefront\StoreController.h" />
     <ClInclude Include="src\storefront\StoreFront.h" />
+    <ClInclude Include="src\storefront\StoreListener.h" />
     <ClInclude Include="src\storefront\StoreProduct.h" />
     <ClInclude Include="src\Stream.h" />
     <ClInclude Include="src\Technique.h" />

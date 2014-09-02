@@ -58,7 +58,7 @@ public:
      * Restore completed transactions.
      */
     virtual void restoreTransactions( const char * usernameHash ) = 0;
-    
+
 protected:
 
     /**

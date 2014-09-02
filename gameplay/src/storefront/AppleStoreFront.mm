@@ -1,5 +1,9 @@
 #include "Base.h"
 
+//
+// List of error codes: https://developer.apple.com/library/ios/documentation/StoreKit/Reference/StoreKitTypes/Reference/reference.html
+//
+
 #if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
 
 #include "StoreListener.h"
@@ -184,7 +188,7 @@ void AppleStoreFront::makePayment(const char * productID, int quantity, const ch
         {
             SKMutablePayment * payment = [SKMutablePayment paymentWithProduct:product];
             payment.quantity = quantity;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000 or __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
             if( usernameHash )
                 payment.applicationUsername = [NSString stringWithUTF8String:usernameHash];
 #endif

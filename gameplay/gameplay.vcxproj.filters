@@ -1883,6 +1883,9 @@
     <ClInclude Include="src\Package.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\storefront\StoreListener.h">
+      <Filter>src\storefront</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ScriptController.inl">
