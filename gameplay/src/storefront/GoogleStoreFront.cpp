@@ -42,11 +42,7 @@ void Java_org_gameplay3d_GooglePlayIAB_setIABEnabled(JNIEnv* env, jobject thiz)
 int Java_org_gameplay3d_GooglePlayIAB_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
-
-    //return gameplay::Game::getInstance()->getStoreController()->;
     bool res = __instance->getListener()->isProductConsumable(productID);
-    GP_LOG("productID: %x %d", productID, res);
-
     env->ReleaseStringUTFChars(sku, productID);
 
     return res ? 1 : 0;
@@ -57,7 +53,6 @@ void Java_org_gameplay3d_GooglePlayIAB_itemPurchased(JNIEnv* env, jobject thiz, 
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
 
-    GP_LOG("paymentTransactionSucceededEvent: %s %s", productID, orderID);
     __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID);
 
     env->ReleaseStringUTFChars(orderId, orderID);
@@ -130,18 +125,6 @@ GoogleStoreFront::~GoogleStoreFront()
 void GoogleStoreFront::setListener(StoreListener * listener)
 {
     _listener = listener;
-
-    // get current purchases
-
-    android_app* app = __state;
-    JNIEnv* env = app->activity->env;
-    JavaVM* vm = app->activity->vm;
-    vm->AttachCurrentThread(&env, NULL);
-
-    jmethodID midSetupIABHelper = env->GetMethodID(__mainActivityClass, "setupIABHelper", "()V");
-    jobject setupIABHelperRes = env->CallObjectMethod(app->activity->clazz, midSetupIABHelper);
-
-    vm->DetachCurrentThread();
 }
 
 StoreListener * GoogleStoreFront::getListener()
