@@ -106,9 +106,7 @@ void CheckBox::updateBounds()
     const Rectangle& unselectedRegion = getImageRegion("unchecked", NORMAL);
     uncheckedSize.set(unselectedRegion.width, unselectedRegion.height);
 
-    float scaleFactor = 1.0f;
-    if (_bounds.height > 0)
-        scaleFactor = _bounds.height * _iconScale / uncheckedSize.y;
+    float scaleFactor = getFontSize(NORMAL) * _iconScale / uncheckedSize.y;
 
     Vector2 size;
     if (_checked)
@@ -129,7 +127,7 @@ void CheckBox::updateBounds()
         // Text-only width was already measured in Label::update - append image
         const Theme::Border& border = getBorder(NORMAL);
         const Theme::Border& padding = getPadding();
-        setHeightInternal(std::max(_bounds.height, size.y + border.top + border.bottom + padding.top + padding.bottom));
+        setHeightInternal(size.y + border.top + border.bottom + padding.top + padding.bottom);
     }
 
     if (_autoSize & AUTO_SIZE_WIDTH)
