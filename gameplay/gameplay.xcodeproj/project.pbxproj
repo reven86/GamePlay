@@ -582,6 +582,9 @@
 		EB0A3A9F187F73C30014C140 /* lua_RenderStateFrontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */; };
 		EB0A3AA0187F73C30014C140 /* lua_RenderStateFrontFace.h in Headers */ = {isa = PBXBuildFile; fileRef = EB0A3A9E187F73C30014C140 /* lua_RenderStateFrontFace.h */; };
 		EB0A3AA5187F7A3C0014C140 /* lua_RenderStateFrontFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */; };
+		EB12352F19C08617003D090A /* Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12352D19C08617003D090A /* Package.cpp */; };
+		EB12353019C08617003D090A /* Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12352D19C08617003D090A /* Package.cpp */; };
+		EB12353119C08617003D090A /* Package.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12352E19C08617003D090A /* Package.h */; };
 		EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
 		EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EB12FF6416EBCC3D009BA84B /* ProgressBar.h */; };
 		EB16DD8B18CE93D400458A01 /* ControlFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8718CE93D400458A01 /* ControlFactory.cpp */; };
@@ -1561,6 +1564,8 @@
 		DD1FF47116DBD8F9000B42EF /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Platform.cpp; path = src/Platform.cpp; sourceTree = SOURCE_ROOT; };
 		EB0A3A9D187F73C30014C140 /* lua_RenderStateFrontFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_RenderStateFrontFace.cpp; sourceTree = "<group>"; };
 		EB0A3A9E187F73C30014C140 /* lua_RenderStateFrontFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_RenderStateFrontFace.h; sourceTree = "<group>"; };
+		EB12352D19C08617003D090A /* Package.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Package.cpp; path = src/Package.cpp; sourceTree = SOURCE_ROOT; };
+		EB12352E19C08617003D090A /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = src/Package.h; sourceTree = SOURCE_ROOT; };
 		EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgressBar.cpp; path = src/ProgressBar.cpp; sourceTree = SOURCE_ROOT; };
 		EB12FF6416EBCC3D009BA84B /* ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressBar.h; path = src/ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		EB16DD8718CE93D400458A01 /* ControlFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlFactory.cpp; path = src/ControlFactory.cpp; sourceTree = SOURCE_ROOT; };
@@ -1682,6 +1687,8 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				EB12352D19C08617003D090A /* Package.cpp */,
+				EB12352E19C08617003D090A /* Package.h */,
 				EBF8AC58193F72E900C0EE93 /* storefront */,
 				EB16DDAE18CE943800458A01 /* Social.h */,
 				EB16DDAF18CE943800458A01 /* SocialAchievement.cpp */,
@@ -2578,6 +2585,7 @@
 				42BCD4CE15EFD0F300C0E076 /* lua_CheckBox.h in Headers */,
 				42BCD4D215EFD0F300C0E076 /* lua_Container.h in Headers */,
 				EB16DD9C18CE940300458A01 /* lua_FontFormat.h in Headers */,
+				EB12353119C08617003D090A /* Package.h in Headers */,
 				42BCD4D615EFD0F300C0E076 /* lua_ContainerScroll.h in Headers */,
 				42BCD4DA15EFD0F300C0E076 /* lua_Control.h in Headers */,
 				42BCD4DE15EFD0F300C0E076 /* lua_ControlAlignment.h in Headers */,
@@ -2854,6 +2862,7 @@
 				42CD0E48147D8FF60000361E /* AnimationClip.cpp in Sources */,
 				42CD0E4A147D8FF60000361E /* AnimationController.cpp in Sources */,
 				42CD0E4C147D8FF60000361E /* AnimationTarget.cpp in Sources */,
+				EB12352F19C08617003D090A /* Package.cpp in Sources */,
 				42CD0E4E147D8FF60000361E /* AnimationValue.cpp in Sources */,
 				42CD0E50147D8FF60000361E /* AudioBuffer.cpp in Sources */,
 				42CD0E52147D8FF60000361E /* AudioController.cpp in Sources */,
@@ -3346,6 +3355,7 @@
 				EB9BF67917CBF02200D636A0 /* lua_VertexFormat.cpp in Sources */,
 				EB9BF67B17CBF02200D636A0 /* lua_VertexFormatElement.cpp in Sources */,
 				EB9BF67D17CBF02200D636A0 /* lua_VertexFormatUsage.cpp in Sources */,
+				EB12353019C08617003D090A /* Package.cpp in Sources */,
 				EB9BF67F17CBF02200D636A0 /* lua_VerticalLayout.cpp in Sources */,
 				EB9BF68517CBF02200D636A0 /* AIController.cpp in Sources */,
 				EB9BF68717CBF02200D636A0 /* AIMessage.cpp in Sources */,
