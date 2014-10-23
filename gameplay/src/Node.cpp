@@ -676,7 +676,10 @@ Vector3 Node::getActiveCameraTranslationView() const
 void Node::hierarchyChanged()
 {
     // When our hierarchy changes our world transform is affected, so we must dirty it.
-    transformChanged();
+    //transformChanged();
+
+    // ^^^ this is not true. When our hierarchy changed, e.g. child added/removed, 
+    // our transform is not affected (it's relied on our parent, not children)
 }
 
 void Node::transformChanged()
