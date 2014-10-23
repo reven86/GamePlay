@@ -760,20 +760,19 @@ int getUnicode(int key);
     }
     if((evt & Gesture::GESTURE_LONG_TAP) == Gesture::GESTURE_LONG_TAP && _longTapRecognizer != NULL)
     {
-        if (_dragAndDropRecognizer == NULL)
+        if (_longTapRecognizer == NULL)
         {
-            [self removeGestureRecognizer:_longPressRecognizer];
-            [_longPressRecognizer release];
+            [self removeGestureRecognizer:_longTapRecognizer];
+            [_longTapRecognizer release];
         }
         _longTapRecognizer = NULL;
     }
     if (((evt & Gesture::GESTURE_DRAG) == Gesture::GESTURE_DRAG || (evt & Gesture::GESTURE_DROP) == Gesture::GESTURE_DROP) && _dragAndDropRecognizer != NULL)
     {
-        
-        if (_longTapRecognizer == NULL)
+        if (_dragAndDropRecognizer == NULL)
         {
-            [self removeGestureRecognizer:_longPressRecognizer];
-            [_longPressRecognizer release];
+            [self removeGestureRecognizer:_dragAndDropRecognizer];
+            [_dragAndDropRecognizer release];
         }
         _dragAndDropRecognizer = NULL;
     }
@@ -1535,14 +1534,34 @@ bool Platform::canExit()
 
 unsigned int Platform::getDisplayWidth()
 {
-    CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
-    return size.width;
+#ifdef NSFoundationVersionNumber_iOS_7_1
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+    {
+        //iOS 8+
+        return [[UIScreen mainScreen] bounds].size.width * [[UIScreen mainScreen] scale];
+    }
+    else
+#endif
+    {
+        CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
+        return size.width;
+    }
 }
 
 unsigned int Platform::getDisplayHeight()
 {
-    CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
-    return size.height;
+#ifdef NSFoundationVersionNumber_iOS_7_1
+    if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1)
+    {
+        //iOS 8+
+        return [[UIScreen mainScreen] bounds].size.height * [[UIScreen mainScreen] scale];
+    }
+    else
+#endif
+    {
+        CGSize size = DeviceOrientedSize([__appDelegate.viewController interfaceOrientation]);
+        return size.height;
+    }
 }
 
 double Platform::getAbsoluteTime()

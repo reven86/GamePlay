@@ -18,7 +18,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.125f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -347,7 +347,7 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (floorf(xPos + g.width*scale) > area.x + area.width)
+                if (floorf(xPos + g.advance*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -360,18 +360,18 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
                     {
                         if (clip)
                         {
-                            _batch->addSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip, &batch->_vertices[batch->_vertexCount]);
+                            _batch->addSprite(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip, &batch->_vertices[batch->_vertexCount]);
                         }
                         else
                         {
-                            _batch->addSprite(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
+                            _batch->addSprite(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
                         }
 
                         batch->_vertexCount += 6;
 
                     }
                 }
-                xPos += g.width*scale + spacing;
+                xPos += g.advance*scale + spacing;
             }
         }
 
@@ -533,7 +533,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 switch (delimiter)
                 {
                 case L' ':
-                    xPos += size * 0.5f;
+                    xPos += _glyphs[0].advance;
                     break;
                 case L'\r':
                 case L'\n':
@@ -541,7 +541,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                     xPos = x;
                     break;
                 case L'\t':
-                    xPos += size * 0.5f * 4.0f;
+                    xPos += _glyphs[0].advance * 4;
                     break;
                 case 0:
                     done = true;
@@ -584,7 +584,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
             switch (c)
             {
             case L' ':
-                xPos += size * 0.5f;
+                xPos += _glyphs[0].advance;
                 break;
             case L'\r':
             case L'\n':
@@ -592,7 +592,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 xPos = x;
                 break;
             case L'\t':
-                xPos += size * 0.5f * 4.0f;
+                xPos += _glyphs[0].advance * 4;
                 break;
             default:
                 int index = getGlyphIndexByCode( c );
@@ -607,8 +607,8 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                         // TODO: Fix me so that smaller font are much smoother
                         _cutoffParam->setVector2(Vector2(1.0, 1.0));
                     }
-                    _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
-                    xPos += g.width * scale + spacing;
+                    _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                    xPos += g.advance * scale + spacing;
                     break;
                 }
                 break;
@@ -753,7 +753,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (floorf(xPos + g.width*scale) > area.x + area.width)
+                if (floorf(xPos + g.advance*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -773,15 +773,15 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                         }
                         if (clip)
                         {
-                            _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
+                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
                         }
                         else
                         {
-                            _batch->draw(xPos, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                         }
                     }
                 }
-                xPos += g.width*scale + spacing;
+                xPos += g.advance*scale + spacing;
             }
         }
 
@@ -970,7 +970,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
                 switch (delimiter)
                 {
                     case L' ':
-                        delimWidth += size * 0.5f;
+                        delimWidth += _glyphs[0].advance;
                         break;
                     case L'\r':
                     case L'\n':
@@ -1006,7 +1006,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
                         delimWidth = 0;
                         break;
                     case L'\t':
-                        delimWidth += size * 0.5f * 4.0f;
+                        delimWidth += _glyphs[0].advance * 4;
                         break;
                     case 0:
                         reachedEOF = true;
@@ -1306,7 +1306,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                     switch (delimiter)
                     {
                         case L' ':
-                            delimWidth += size * 0.5f;
+                            delimWidth += _glyphs[0].advance;
                             lineLength++;
                             break;
                         case L'\r':
@@ -1323,7 +1323,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                             delimWidth = 0;
                             break;
                         case L'\t':
-                            delimWidth += size * 0.5f * 4.0f;
+                            delimWidth += _glyphs[0].advance * 4;
                             lineLength++;
                             break;
                         case 0:
@@ -1602,7 +1602,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (floorf(xPos + g.width*scale) > area.x + area.width)
+                if (floorf(xPos + g.advance*scale) > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
@@ -1620,7 +1620,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
                     return charIndex;
                 }
 
-                xPos += g.width*scale + spacing;
+                xPos += g.advance*scale + spacing;
                 charIndex++;
             }
         }
@@ -1722,17 +1722,17 @@ float Font::getTokenWidth(const wchar_t* token, unsigned int length, float size,
         switch (c)
         {
         case L' ':
-            tokenWidth += size * 0.5f;
+            tokenWidth += _glyphs[0].advance;
             break;
         case L'\t':
-            tokenWidth += size * 0.5f * 4.0f;
+            tokenWidth += _glyphs[0].advance * 4;
             break;
         default:
             int glyphIndex = getGlyphIndexByCode( c );
             if (glyphIndex >= 0 && glyphIndex < (int)_glyphCount)
             {
                 Glyph& g = _glyphs[glyphIndex];
-                tokenWidth += g.width * scale + spacing;
+                tokenWidth += g.advance * scale + spacing;
             }
             break;
         }
@@ -1796,7 +1796,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, const int it
         switch (delimiter)
         {
             case L' ':
-                *xPos += size * 0.5f;
+                *xPos += _glyphs[0].advance;
                 (*lineLength)++;
                 if (charIndex)
                 {
@@ -1828,7 +1828,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, const int it
                 }
                 break;
             case L'\t':
-                *xPos += size * 0.5f * 4.0f;
+                *xPos += _glyphs[0].advance * 4;
                 (*lineLength)++;
                 if (charIndex)
                 {

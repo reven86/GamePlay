@@ -909,7 +909,10 @@
     <ClCompile Include="src\lua\lua_HorizontalLayout.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\lua_Matrix3.cpp">
+    <ClCompile Include="src\lua\lua_TextureCubeFace.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_TextureType.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_ProgressBar.cpp">
@@ -1847,7 +1850,10 @@
     <ClInclude Include="src\lua\lua_HorizontalLayout.h">
       <Filter>src\lua</Filter>
     </ClInclude>
-    <ClInclude Include="src\lua\lua_Matrix3.h">
+    <ClInclude Include="src\lua\lua_TextureCubeFace.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_TextureType.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_ProgressBar.h">
