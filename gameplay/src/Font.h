@@ -406,7 +406,7 @@ private:
 
     unsigned int getReversedTokenLength(const wchar_t* token, const wchar_t* bufStart) const;
 
-    int handleDelimiters(const wchar_t** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
+    int handleDelimiters(const wchar_t** token, const float size, float scale, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
                          std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex = NULL,
                          const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1) const;
 
