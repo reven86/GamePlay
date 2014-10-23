@@ -1731,7 +1731,7 @@ Font* Bundle::loadFont(const char* id)
             {
                 // Fallback values for older GBP format.
                 glyphs[j].bearingX = 0;
-                glyphs[j].advance = glyphs[j].width;
+                glyphs[j].advance = glyphs[j].code == ' ' ? size >> 1 : glyphs[j].width;
             }
             if (_stream->read(&glyphs[j].uvs, 4, 4) != 4)
             {

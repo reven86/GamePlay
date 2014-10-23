@@ -284,7 +284,7 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
     while (token[0] != 0)
     {
         // Handle delimiters until next token.
-        if (!handleDelimiters(&token, size, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+        if (!handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
         {
             break;
         }
@@ -384,7 +384,7 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
                     token += lineLength;
 
                     // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                     {
                         break;
                     }
@@ -412,7 +412,7 @@ Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const V
             {
                 token = lineStart + lineLength;
 
-                if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                 {
                     break;
                 }
@@ -515,6 +515,9 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
     float xPos = x, yPos = y;
     bool done = false;
 
+    int spaceIndex = getGlyphIndexByCode(' ');
+    float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+
     while (!done)
     {
         size_t length;
@@ -533,7 +536,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 switch (delimiter)
                 {
                 case L' ':
-                    xPos += _glyphs[0].advance;
+                    xPos += spaceAdvance;
                     break;
                 case L'\r':
                 case L'\n':
@@ -541,7 +544,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                     xPos = x;
                     break;
                 case L'\t':
-                    xPos += _glyphs[0].advance * 4;
+                    xPos += spaceAdvance * 4;
                     break;
                 case 0:
                     done = true;
@@ -584,7 +587,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
             switch (c)
             {
             case L' ':
-                xPos += _glyphs[0].advance;
+                xPos += spaceAdvance;
                 break;
             case L'\r':
             case L'\n':
@@ -592,7 +595,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 xPos = x;
                 break;
             case L'\t':
-                xPos += _glyphs[0].advance * 4;
+                xPos += spaceAdvance * 4;
                 break;
             default:
                 int index = getGlyphIndexByCode( c );
@@ -688,7 +691,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
     while (token[0] != 0)
     {
         // Handle delimiters until next token.
-        if (!handleDelimiters(&token, size, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+        if (!handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
         {
             break;
         }
@@ -794,7 +797,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                     token += lineLength;
 
                     // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                     {
                         break;
                     }
@@ -822,7 +825,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
             {
                 token = lineStart + lineLength;
 
-                if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                 {
                     break;
                 }
@@ -953,6 +956,9 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
     float yPos = clip.y + size;
     const float viewportHeight = clip.height;
 
+    int spaceIndex = getGlyphIndexByCode(' ');
+    float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+
     if (wrap)
     {
         float delimWidth = 0;
@@ -970,7 +976,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
                 switch (delimiter)
                 {
                     case L' ':
-                        delimWidth += _glyphs[0].advance;
+                        delimWidth += spaceAdvance;
                         break;
                     case L'\r':
                     case L'\n':
@@ -1006,7 +1012,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
                         delimWidth = 0;
                         break;
                     case L'\t':
-                        delimWidth += _glyphs[0].advance * 4;
+                        delimWidth += spaceAdvance * 4;
                         break;
                     case 0:
                         reachedEOF = true;
@@ -1278,6 +1284,9 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
     const wchar_t* token = text;
     const float areaHeight = area.height - size;
 
+    int spaceIndex = getGlyphIndexByCode(' ');
+    float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+
     // For alignments other than top-left, need to calculate the y position to begin drawing from
     // and the starting x position of each line.  For right-to-left text, need to determine
     // the number of characters on each line.
@@ -1306,7 +1315,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                     switch (delimiter)
                     {
                         case L' ':
-                            delimWidth += _glyphs[0].advance;
+                            delimWidth += spaceAdvance;
                             lineLength++;
                             break;
                         case L'\r':
@@ -1323,7 +1332,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                             delimWidth = 0;
                             break;
                         case L'\t':
-                            delimWidth += _glyphs[0].advance * 4;
+                            delimWidth += spaceAdvance * 4;
                             lineLength++;
                             break;
                         case 0:
@@ -1523,11 +1532,11 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         int result;
         if (destIndex == -1)
         {
-            result = handleDelimiters(&token, size, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, &inLocation);
+            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, &inLocation);
         }
         else
         {
-            result = handleDelimiters(&token, size, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, NULL, charIndex, destIndex);
+            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, NULL, charIndex, destIndex);
         }
 
         currentLineLength += delimLength;
@@ -1634,7 +1643,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
                     token += lineLength;
 
                     // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                     {
                         break;
                     }
@@ -1664,7 +1673,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             {
                 token = lineStart + lineLength;
 
-                if (!handleDelimiters(&token, size, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
                 {
                     break;
                 }
@@ -1714,6 +1723,9 @@ float Font::getTokenWidth(const wchar_t* token, unsigned int length, float size,
         size = _size;
     float spacing = size * _spacing;
 
+    int spaceIndex = getGlyphIndexByCode(' ');
+    float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+
     // Calculate width of word or line.
     float tokenWidth = 0;
     for (unsigned int i = 0; i < length; ++i)
@@ -1722,10 +1734,10 @@ float Font::getTokenWidth(const wchar_t* token, unsigned int length, float size,
         switch (c)
         {
         case L' ':
-            tokenWidth += _glyphs[0].advance;
+            tokenWidth += spaceAdvance;
             break;
         case L'\t':
-            tokenWidth += _glyphs[0].advance * 4;
+            tokenWidth += spaceAdvance * 4;
             break;
         default:
             int glyphIndex = getGlyphIndexByCode( c );
@@ -1765,7 +1777,7 @@ unsigned int Font::getReversedTokenLength(const wchar_t* token, const wchar_t* b
     return length;
 }
 
-int Font::handleDelimiters(const wchar_t** token, const float size, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
+int Font::handleDelimiters(const wchar_t** token, const float size, float scale, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
                           std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex,
                           const Vector2* stopAtPosition, const int currentIndex, const int destIndex) const
 {
@@ -1775,6 +1787,9 @@ int Font::handleDelimiters(const wchar_t** token, const float size, const int it
     GP_ASSERT(yPos);
     GP_ASSERT(lineLength);
     GP_ASSERT(xPositionsIt);
+
+    int spaceIndex = getGlyphIndexByCode(' ');
+    float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
 
     wchar_t delimiter = *token[0];
     bool nextLine = true;
@@ -1796,7 +1811,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, const int it
         switch (delimiter)
         {
             case L' ':
-                *xPos += _glyphs[0].advance;
+                *xPos += spaceAdvance;
                 (*lineLength)++;
                 if (charIndex)
                 {
@@ -1828,7 +1843,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, const int it
                 }
                 break;
             case L'\t':
-                *xPos += _glyphs[0].advance * 4;
+                *xPos += spaceAdvance * 4;
                 (*lineLength)++;
                 if (charIndex)
                 {
