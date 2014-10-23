@@ -7,8 +7,8 @@ namespace gameplay
 {
 
 BoundingBox::BoundingBox()
-    : min( 0.0f, 0.0f, 0.0f )
-    , max( 0.0f, 0.0f, 0.0f )
+    : min(FLT_MAX, FLT_MAX, FLT_MAX)
+    , max(-FLT_MAX, -FLT_MAX, -FLT_MAX)
 {
 }
 
@@ -216,7 +216,7 @@ float BoundingBox::intersects(const Ray& ray) const
 
 bool BoundingBox::isEmpty() const
 {
-    return min.x == max.x && min.y == max.y && min.z == max.z;
+    return min.x > max.x && min.y > max.y && min.z > max.z;
 }
 
 void BoundingBox::merge(const BoundingBox& box)
@@ -260,7 +260,7 @@ void BoundingBox::set(float minX, float minY, float minZ, float maxX, float maxY
     max.set(maxX, maxY, maxZ);
 }
 
-static void updateMinMax(Vector3* point, Vector3* min, Vector3* max)
+static void updateMinMax(const Vector3* point, Vector3* min, Vector3* max)
 {
     GP_ASSERT(point);
     GP_ASSERT(min);
@@ -346,6 +346,11 @@ void BoundingBox::transform(const Matrix& matrix)
     this->max.x = newMax.x;
     this->max.y = newMax.y;
     this->max.z = newMax.z;
+}
+
+void BoundingBox::enlarge(const Vector3& point)
+{
+    updateMinMax(&point, &min, &max);
 }
 
 }

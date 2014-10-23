@@ -215,6 +215,13 @@ public:
      * @return This bounding box, after the transformation occurs.
      */
     inline BoundingBox& operator*=(const Matrix& matrix);
+
+    /**
+     * Enlarge bounding box so it contains given point.
+     *
+     * @param point Point.
+     */
+    void enlarge(const Vector3& point);
 };
 
 /**
