@@ -37,6 +37,11 @@ void Ref::addRef()
 
 void Ref::release()
 {
+#if defined(WIN32) && defined(_MSC_VER) && defined(_DEBUG)
+    if (_refCount == 0 || (_refCount & 0x80000000) != 0)
+        DEBUG_BREAK();
+#endif
+    GP_ASSERT(_refCount > 0 && (_refCount & 0x80000000) == 0);
     if ((--_refCount) <= 0)
     {
 #ifdef GP_USE_MEM_LEAK_DETECTION
