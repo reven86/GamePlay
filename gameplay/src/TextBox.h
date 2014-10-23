@@ -245,6 +245,11 @@ protected:
      */
     bool _limitTextToBounds;
 
+    /**
+     * Indicate if the SHIFT key is currently pressed.
+     */
+    bool _shiftPressed = false;
+
 private:
 
     /**

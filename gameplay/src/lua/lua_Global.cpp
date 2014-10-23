@@ -879,6 +879,18 @@ void luaRegister_lua_Global()
         ScriptUtil::registerConstantString("PASSWORD", "PASSWORD", scopePath);
     }
 
+    // Register enumeration Texture::CubeFace.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Texture");
+        gameplay::ScriptUtil::registerConstantString("POSITIVE_X", "POSITIVE_X", scopePath);
+        gameplay::ScriptUtil::registerConstantString("NEGATIVE_X", "NEGATIVE_X", scopePath);
+        gameplay::ScriptUtil::registerConstantString("POSITIVE_Y", "POSITIVE_Y", scopePath);
+        gameplay::ScriptUtil::registerConstantString("NEGATIVE_Y", "NEGATIVE_Y", scopePath);
+        gameplay::ScriptUtil::registerConstantString("POSITIVE_Z", "POSITIVE_Z", scopePath);
+        gameplay::ScriptUtil::registerConstantString("NEGATIVE_Z", "NEGATIVE_Z", scopePath);
+    }
+
     // Register enumeration Texture::Filter.
     {
         std::vector<std::string> scopePath;
@@ -899,6 +911,14 @@ void luaRegister_lua_Global()
         ScriptUtil::registerConstantString("RGB", "RGB", scopePath);
         ScriptUtil::registerConstantString("RGBA", "RGBA", scopePath);
         ScriptUtil::registerConstantString("ALPHA", "ALPHA", scopePath);
+    }
+
+    // Register enumeration Texture::Type.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Texture");
+        gameplay::ScriptUtil::registerConstantString("TEXTURE_2D", "TEXTURE_2D", scopePath);
+        gameplay::ScriptUtil::registerConstantString("TEXTURE_CUBE", "TEXTURE_CUBE", scopePath);
     }
 
     // Register enumeration Texture::Wrap.
@@ -1077,10 +1097,14 @@ const char* lua_stringFromEnumGlobal(std::string& enumname, unsigned int value)
         return lua_stringFromEnum_TerrainFlags((Terrain::Flags)value);
     if (enumname == "TextBox::InputMode")
         return lua_stringFromEnum_TextBoxInputMode((TextBox::InputMode)value);
+    if (enumname == "Texture::CubeFace")
+        return lua_stringFromEnum_TextureCubeFace((Texture::CubeFace)value);
     if (enumname == "Texture::Filter")
         return lua_stringFromEnum_TextureFilter((Texture::Filter)value);
     if (enumname == "Texture::Format")
         return lua_stringFromEnum_TextureFormat((Texture::Format)value);
+    if (enumname == "Texture::Type")
+        return lua_stringFromEnum_TextureType((Texture::Type)value);
     if (enumname == "Texture::Wrap")
         return lua_stringFromEnum_TextureWrap((Texture::Wrap)value);
     if (enumname == "Touch::TouchEvent")

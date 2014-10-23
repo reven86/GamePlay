@@ -63,7 +63,7 @@ void InputSample::initialize()
     Label* label = Label::create("sensorLabel", theme->getStyle("iconNoBorder"));
     label->setPosition(25, 15);
     label->setSize(175, 50);
-    label->setText(L"Raw sensor response (accel/gyro)");
+    label->setText("Raw sensor response (accel/gyro)");
     form->addControl(label);
     label->release();
     _formNode->setScale(0.0015f, 0.0015f, 1.0f);
@@ -129,9 +129,10 @@ void InputSample::render(float elapsedTime)
     _inputSampleControls->draw();
 
     // Draw text
+    unsigned int fontSize = 18;
     Vector4 fontColor(1.0f, 1.0f, 1.0f, 1.0f);
-    float width, height;
-    wchar_t buffer[50];
+    unsigned int width, height;
+    char buffer[50];
 
     _font->start();
     
@@ -146,61 +147,61 @@ void InputSample::render(float elapsedTime)
     {
         for (std::list<TouchPoint>::const_iterator it = _touchPoints.begin(); it != _touchPoints.end(); ++it)
         {
-            swprintf(buffer, 50, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
-            _font->measureText(buffer, _font->getSize(), &width, &height);
-            float x = it->_coord.x - width * 0.5f;
-            float y = it->_coord.y - height * 0.5f;
-            _font->drawText(buffer, x, y, fontColor, _font->getSize());
+            sprintf(buffer, "T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
+            _font->measureText(buffer, fontSize, &width, &height);
+            int x = it->_coord.x - (int)(width>>1);
+            int y = it->_coord.y - (int)(height>>1);
+            _font->drawText(buffer, x, y, fontColor, fontSize);
         }
 
         // Mouse
-        swprintf(buffer, 50, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
-        _font->measureText(buffer, _font->getSize(), &width, &height);
-        float x = _mousePoint.x - width * 0.5f;
-        float y = _mousePoint.y - height * 0.5f;
-        _font->drawText(buffer, x, y, fontColor, _font->getSize());
+        sprintf(buffer, "M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
+        _font->measureText(buffer, fontSize, &width, &height);
+        int x = _mousePoint.x - (int)(width>>1);
+        int y = _mousePoint.y - (int)(height>>1);
+        _font->drawText(buffer, x, y, fontColor, fontSize);
         if (!_keyboardState && _mouseString.length() > 0)
         {
-            int y = getHeight() - _font->getSize();
-            _font->drawText(std::wstring(_mouseString.begin(), _mouseString.end( )).c_str(), 0, y, fontColor, _font->getSize());
+            int y = getHeight() - fontSize;
+            _font->drawText(_mouseString.c_str(), 0, y, fontColor, fontSize);
         }
         if (_mouseWheel)
         {
-            swprintf(buffer, 50, L"%d", _mouseWheel);
-            _font->measureText(buffer, _font->getSize(), &width, &height);
-            float x = _mouseWheelPoint.x - width * 0.5f;
-            float y = _mouseWheelPoint.y + 4;
-            _font->drawText(buffer, x, y, fontColor, _font->getSize());
+            sprintf(buffer, "%d", _mouseWheel);
+            _font->measureText(buffer, fontSize, &width, &height);
+            int x = _mouseWheelPoint.x - (int)(width>>1);
+            int y = _mouseWheelPoint.y + 4;
+            _font->drawText(buffer, x, y, fontColor, fontSize);
         }
     }
 
     // Pressed keys
     if (_keyboardString.length() > 0)
     {
-        _font->drawText(std::wstring(_keyboardString.begin(),_keyboardString.end()).c_str(), 0, 0, fontColor, _font->getSize());
+        _font->drawText(_keyboardString.c_str(), 0, 0, fontColor, fontSize);
     }
     
     // Printable symbols typed
     if (_symbolsString.length() > 0)
     {
-        _font->drawText(std::wstring(_symbolsString.begin(),_symbolsString.end()).c_str(), 0, _font->getSize(), fontColor, _font->getSize());
+        _font->drawText(_symbolsString.c_str(), 0, 18, fontColor, fontSize);
     }
 
     // Held keys
     if (!_downKeys.empty())
     {
-        std::wstring displayKeys;
+        std::string displayKeys;
         for (std::set<int>::const_iterator i = _downKeys.begin(); i != _downKeys.end(); ++i)
         {
             const char* str = keyString(*i);
-            displayKeys.append(std::wstring(str, str + strlen(str)));
+            displayKeys.append(str);
         }
         if (!displayKeys.empty())
         {
-            _font->measureText(displayKeys.c_str(), _font->getSize(), &width, &height);
-            float x = Game::getInstance()->getWidth() - width;
-            float y = 0;
-            _font->drawText(displayKeys.c_str(), x, y, fontColor, _font->getSize());
+            _font->measureText(displayKeys.c_str(), 18, &width, &height);
+            int x = Game::getInstance()->getWidth() - width;
+            int y = 0;
+            _font->drawText(displayKeys.c_str(), x, y, fontColor, fontSize);
         }
     }
 
@@ -217,9 +218,9 @@ void InputSample::render(float elapsedTime)
     {
         _formNode->getForm()->draw();
 
-        swprintf(buffer, 50, L"Pitch: %f   Roll: %f", pitch, roll);
-        _font->measureText(buffer, _font->getSize(), &width, &height);
-        _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, _font->getSize());
+        sprintf(buffer, "Pitch: %f   Roll: %f", pitch, roll);
+        _font->measureText(buffer, 18, &width, &height);
+        _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, fontSize);
     }
     _font->finish();
 }
@@ -388,7 +389,7 @@ void InputSample::controlEvent(Control* control, EventType evt)
     {
         _keyboardState = !_keyboardState;
         displayKeyboard(_keyboardState);
-        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? L"Hide virtual keyboard" : L"Show virtual keyboard");
+        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? "Hide virtual keyboard" : "Show virtual keyboard");
     }
     else if (strcmp(control->getId(), "captureMouseButton") == 0 && hasMouse())
     {

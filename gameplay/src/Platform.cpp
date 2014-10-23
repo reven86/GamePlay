@@ -15,7 +15,7 @@ void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned 
     if (!eventNotProcessed && evt == Touch::TOUCH_PRESS)
         evt = Touch::TOUCH_MOVE;    // little hack to make sure app updates touch cursor on first press event
     
-    if (eventNotProcessed || evt == Touch::TOUCH_MOVE)
+    if (eventNotProcessed)// || evt == Touch::TOUCH_MOVE)
     {
         Game::getInstance()->touchEvent(evt, x, y, contactIndex);
         Game::getInstance()->getScriptController()->touchEvent(evt, x, y, contactIndex);

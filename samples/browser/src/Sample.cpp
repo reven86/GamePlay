@@ -269,6 +269,6 @@ void Sample::drawFrameRate(Font* font, const Vector4& color, unsigned int x, uns
     wchar_t buffer[10];
     swprintf(buffer, 10, L"%u", fps);
     font->start();
-    font->drawText(buffer, x, y, color, font->getSize());
+    font->drawText(buffer, x, y, color, 18);
     font->finish();
 }
