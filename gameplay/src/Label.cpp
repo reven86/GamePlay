@@ -122,7 +122,7 @@ unsigned int Label::drawText(Form* form, const Rectangle& clip)
     if (_text.size() > 0 && _font)
     {
         Control::State state = getState();
-        unsigned int fontSize = getFontSize(state);
+        float fontSize = getFontSize(state);
 
         SpriteBatch* batch = _font->getSpriteBatch(fontSize);
         startBatch(form, batch);

@@ -133,7 +133,7 @@ void CheckBox::updateBounds()
     if (_autoSize & AUTO_SIZE_WIDTH)
     {
         // Text-only width was already measured in Label::update - append image
-        setWidthInternal(size.x + _textSpace + _bounds.width);
+        setWidthInternal(_bounds.height + _textSpace + _bounds.width);
     }
 }
 
@@ -141,7 +141,7 @@ void CheckBox::updateAbsoluteBounds(const Vector2& offset)
 {
     Label::updateAbsoluteBounds(offset);
 
-    _textBounds.x += _bounds.height + 5;
+    _textBounds.x += _bounds.height + _textSpace;
 }
 
 unsigned int CheckBox::drawImages(Form* form, const Rectangle& clip)
