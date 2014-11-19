@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugMem|x64">
       <Configuration>DebugMem</Configuration>
@@ -79,16 +79,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include;..\..\external-deps\vorbis\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\vorbis\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Urlmon.lib;libyaml.lib;lua.lib;OpenAL.lib;OpenGL32.lib;GLU32.lib;glew.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\$(Configuration);..\..\external-deps\bullet\lib\windows\x64\$(Configuration);..\..\external-deps\openal\lib\windows\x64\$(Configuration);..\..\external-deps\ogg\lib\windows\x64\$(Configuration);..\..\external-deps\vorbis\lib\windows\x64\$(Configuration);..\..\external-deps\glew\lib\windows\x64\$(Configuration);..\..\external-deps\png\lib\windows\x64\$(Configuration);..\..\external-deps\zlib\lib\windows\x64\$(Configuration);..\..\external-deps\yaml\lib\windows\x64;..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;GLEW.lib;OpenAL.lib;lua.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Debug;..\..\external-deps\bullet\lib\windows\x64\Debug;..\..\external-deps\openal\lib\windows\x64\Debug;..\..\external-deps\ogg\lib\windows\x64\Debug;..\..\external-deps\vorbis\lib\windows\x64\Debug;..\..\external-deps\glew\lib\windows\x64\Debug;..\..\external-deps\png\lib\windows\x64\Debug;..\..\external-deps\zlib\lib\windows\x64\Debug;..\..\gameplay\windows\x64\Debug</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -110,8 +109,8 @@ copy ..\..\gameplay\res\logo_powered_white.png res</Command>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GP_USE_MEM_LEAK_DETECTION;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include;..\..\external-deps\vorbis\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GP_USE_MEM_LEAK_DETECTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\vorbis\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <ShowIncludes>false</ShowIncludes>
       <PreprocessToFile>false</PreprocessToFile>
@@ -120,8 +119,8 @@ copy ..\..\gameplay\res\logo_powered_white.png res</Command>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Urlmon.lib;libyaml.lib;lua.lib;OpenAL.lib;OpenGL32.lib;GLU32.lib;glew.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\$(Configuration);..\..\external-deps\bullet\lib\windows\x64\$(Configuration);..\..\external-deps\openal\lib\windows\x64\$(Configuration);..\..\external-deps\ogg\lib\windows\x64\$(Configuration);..\..\external-deps\vorbis\lib\windows\x64\$(Configuration);..\..\external-deps\glew\lib\windows\x64\$(Configuration);..\..\external-deps\png\lib\windows\x64\$(Configuration);..\..\external-deps\zlib\lib\windows\x64\$(Configuration);..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;GLEW.lib;OpenAL.lib;lua.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Debug;..\..\external-deps\bullet\lib\windows\x64\Debug;..\..\external-deps\openal\lib\windows\x64\Debug;..\..\external-deps\ogg\lib\windows\x64\Debug;..\..\external-deps\vorbis\lib\windows\x64\Debug;..\..\external-deps\glew\lib\windows\x64\Debug;..\..\external-deps\png\lib\windows\x64\Debug;..\..\external-deps\zlib\lib\windows\x64\Debug;..\..\gameplay\windows\x64\DebugMem</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -145,16 +144,16 @@ copy ..\..\gameplay\res\logo_powered_white.png res</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include;..\..\external-deps\vorbis\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\gameplay\src;..\..\external-deps\lua\include;..\..\external-deps\bullet\include;..\..\external-deps\openal\include\AL;..\..\external-deps\ogg\include;..\..\external-deps\vorbis\include;..\..\external-deps\png\include;..\..\external-deps\zlib\include;..\..\external-deps\glew\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Urlmon.lib;libyaml.lib;lua.lib;OpenAL.lib;OpenGL32.lib;GLU32.lib;glew.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\$(Configuration);..\..\external-deps\bullet\lib\windows\x64\$(Configuration);..\..\external-deps\openal\lib\windows\x64\$(Configuration);..\..\external-deps\ogg\lib\windows\x64\$(Configuration);..\..\external-deps\vorbis\lib\windows\x64\$(Configuration);..\..\external-deps\glew\lib\windows\x64\$(Configuration);..\..\external-deps\png\lib\windows\x64\$(Configuration);..\..\external-deps\zlib\lib\windows\x64\$(Configuration);..\..\external-deps\yaml\lib\windows\x64;..\..\gameplay\windows\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;GLEW.lib;OpenAL.lib;lua.lib;png.lib;zlib.lib;gameplay.lib;ogg.lib;vorbis.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\external-deps\lua\lib\windows\x64\Release;..\..\external-deps\bullet\lib\windows\x64\Release;..\..\external-deps\openal\lib\windows\x64\Release;..\..\external-deps\ogg\lib\windows\x64\Release;..\..\external-deps\vorbis\lib\windows\x64\Release;..\..\external-deps\glew\lib\windows\x64\Release;..\..\external-deps\png\lib\windows\x64\Release;..\..\external-deps\zlib\lib\windows\x64\Release;..\..\gameplay\windows\x64\Release</AdditionalLibraryDirectories>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -274,6 +273,7 @@ copy ..\..\gameplay\res\logo_powered_white.png res</Command>
     <ClCompile Include="src\TextSample.cpp" />
     <ClCompile Include="src\TextureSample.cpp" />
     <ClCompile Include="src\MeshBatchSample.cpp" />
+    <ClCompile Include="src\WaterSample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio3DSample.h" />
@@ -298,6 +298,7 @@ copy ..\..\gameplay\res\logo_powered_white.png res</Command>
     <ClInclude Include="src\TextSample.h" />
     <ClInclude Include="src\TextureSample.h" />
     <ClInclude Include="src\MeshBatchSample.h" />
+    <ClInclude Include="src\WaterSample.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\common\terrain\dirt.dds" />
