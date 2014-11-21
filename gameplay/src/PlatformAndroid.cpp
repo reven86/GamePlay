@@ -810,13 +810,13 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
             float rightTrigger = AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_GAS, 0);
             gameplay::Platform::gamepadTriggerChangedEventInternal(deviceId, 1, rightTrigger);
 
-            // jJoystick handling
+            // Joystick handling
             float fuzz = 0.15f;
             float x = AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_X, 0);
-            float y = AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_Y, 0);
+            float y = -AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_Y, 0);
             gameplay::Platform::gamepadJoystickChangedEventInternal(deviceId, 0, clampFuzz(x, fuzz), clampFuzz(y, fuzz));
             float z = AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_Z, 0);
-            float rz = AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_RZ, 0);
+            float rz = -AMotionEvent_getAxisValue(event, AMOTION_EVENT_AXIS_RZ, 0);
             gameplay::Platform::gamepadJoystickChangedEventInternal(deviceId, 1, clampFuzz(z, fuzz), clampFuzz(rz, fuzz));
         }
         else
@@ -1851,7 +1851,7 @@ const char * Platform::getUserAgentString( )
 extern "C"
 {
 
-JNIEXPORT void JNICALL Java_org_gameplay3d_GameNativeActivity_gamepadEventConnectedImpl(JNIEnv* env, jclass clazz, jint deviceId, jint buttonCount, jint joystickCount, jint triggerCount, jstring deviceName)
+JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_gamepadEventConnectedImpl(JNIEnv* env, jclass clazz, jint deviceId, jint buttonCount, jint joystickCount, jint triggerCount, jstring deviceName)
 {
     const char* name = env->GetStringUTFChars(deviceName, JNI_FALSE);
     
@@ -1860,7 +1860,7 @@ JNIEXPORT void JNICALL Java_org_gameplay3d_GameNativeActivity_gamepadEventConnec
     env->ReleaseStringUTFChars(deviceName, name);
 }
 
-JNIEXPORT void JNICALL Java_org_gameplay3d_GameNativeActivity_gamepadEventDisconnectedImpl(JNIEnv* env, jclass clazz, jint deviceId)
+JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_gamepadEventDisconnectedImpl(JNIEnv* env, jclass clazz, jint deviceId)
 {
 	gameplay::Platform::gamepadEventDisconnectedInternal(deviceId);
 }
