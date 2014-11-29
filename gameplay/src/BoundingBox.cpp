@@ -73,6 +73,9 @@ void BoundingBox::getCenter(Vector3* dst) const
 {
     GP_ASSERT(dst);
 
+    if (isEmpty())
+        return dst->set(0.0f, 0.0f, 0.0f);
+
     dst->set(min, max);
     dst->scale(0.5f);
     dst->add(min);
