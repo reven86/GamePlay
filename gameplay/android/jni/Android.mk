@@ -8,6 +8,7 @@ BULLET_PATH := ../../external-deps/bullet/lib/android/$(TARGET_ARCH_ABI)
 OGG_PATH := ../../external-deps/ogg/lib/android/$(TARGET_ARCH_ABI)
 VORBIS_PATH := ../../external-deps/vorbis/lib/android/$(TARGET_ARCH_ABI)
 OPENAL_PATH := ../../external-deps/openal/lib/android/$(TARGET_ARCH_ABI)
+LIBYAML_PATH := ../../external-deps/yaml/lib/android/$(TARGET_ARCH_ABI)
 
 # libpng
 LOCAL_PATH := $(PNG_PATH)
@@ -70,6 +71,13 @@ LOCAL_PATH := $(OPENAL_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libOpenAL
 LOCAL_SRC_FILES := libOpenAL.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+# libyaml
+LOCAL_PATH := $(LIBYAML_PATH)
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libyaml
+LOCAL_SRC_FILES := libyaml.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 # libgameplay
@@ -380,11 +388,11 @@ LOCAL_SRC_FILES := \
     storefront/NullStoreFront.cpp \
 
 LOCAL_CPPFLAGS += -std=c++11 -Wno-switch-enum -Wno-switch
-LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/yaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/ogg/include" -I"../../external-deps/vorbis/include" -I"../../external-deps/openal/include"
+LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/yaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/ogg/include" -I"../../external-deps/vorbis/include" -I"../../external-deps/openal/include" -I"../../external-deps/yaml/include"
 LOCAL_ARM_MODE := arm
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
-LOCAL_STATIC_LIBRARIES := android_native_app_glue libpng libz liblua libBulletDynamics libBulletCollision libLinearMath libvorbis libogg libOpenAL
+LOCAL_STATIC_LIBRARIES := android_native_app_glue libpng libz liblua libBulletDynamics libBulletCollision libLinearMath libvorbis libogg libOpenAL libyaml
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,android/native_app_glue)

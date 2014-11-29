@@ -7,7 +7,7 @@
 
 
 extern struct android_app* __state;
-extern const char * androidMainActivityClassName;
+const char * androidMainActivityClassName = "org/gameplay3d/GamePlayNativeActivity";
 
 
 namespace gameplay
@@ -34,12 +34,12 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 }
 
 // JNI stuff
-void Java_org_gameplay3d_GooglePlayIAB_setIABEnabled(JNIEnv* env, jobject thiz)
+void Java_org_gameplay3d_GamePlayNativeActivity_setIABEnabled(JNIEnv* env, jobject thiz)
 {
     __iabEnabled = true;
 }
 
-int Java_org_gameplay3d_GooglePlayIAB_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
+int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     bool res = __instance->getListener()->isProductConsumable(productID);
@@ -48,7 +48,7 @@ int Java_org_gameplay3d_GooglePlayIAB_isItemConsumable(JNIEnv* env, jobject thiz
     return res ? 1 : 0;
 }
 
-void Java_org_gameplay3d_GooglePlayIAB_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
+void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
@@ -59,7 +59,7 @@ void Java_org_gameplay3d_GooglePlayIAB_itemPurchased(JNIEnv* env, jobject thiz, 
     env->ReleaseStringUTFChars(sku, productID);
 }
 
-void Java_org_gameplay3d_GooglePlayIAB_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
+void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* msg = env->GetStringUTFChars(message, NULL);
@@ -70,14 +70,14 @@ void Java_org_gameplay3d_GooglePlayIAB_itemPurchaseFailed(JNIEnv* env, jobject t
     env->ReleaseStringUTFChars(sku, productID);
 }
 
-void Java_org_gameplay3d_GooglePlayIAB_getProductsFailed(JNIEnv* env, jobject thiz, jint error, jstring message)
+void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIEnv* env, jobject thiz, jint error, jstring message)
 {
     const char* msg = env->GetStringUTFChars(message, NULL);
     __instance->getListener()->getProductsFailedEvent(error, msg);
     env->ReleaseStringUTFChars(message, msg);
 }
 
-void Java_org_gameplay3d_GooglePlayIAB_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, jstring descr, jstring priceAmount, jstring priceCurrency)
+void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, jstring descr, jstring priceAmount, jstring priceCurrency)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* cPrice = env->GetStringUTFChars(price, NULL);
@@ -97,7 +97,7 @@ void Java_org_gameplay3d_GooglePlayIAB_productValidated(JNIEnv* env, jobject thi
     env->ReleaseStringUTFChars(priceCurrency, cPriceCurrency);
 }
 
-void Java_org_gameplay3d_GooglePlayIAB_finishProductsValidation(JNIEnv* env, jobject thiz)
+void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidation(JNIEnv* env, jobject thiz)
 {
     __instance->getListener()->getProductsEvent(__products, std::vector< std::string >());
 }

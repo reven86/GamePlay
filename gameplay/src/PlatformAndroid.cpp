@@ -1117,6 +1117,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                     }
                 }
                 break;
+            }
         }
         return 1;
     } 

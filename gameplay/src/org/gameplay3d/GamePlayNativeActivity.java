@@ -121,7 +121,21 @@ public class GamePlayNativeActivity extends NativeActivity
     // JNI calls to PlatformAndroid.cpp
     private static native void gamepadEventConnectedImpl(int deviceId, int buttonCount, int joystickCount, int triggerCount, String deviceName);
     private static native void gamepadEventDisconnectedImpl(int deviceId);
-    
+
+    // IAB
+    public native void setIABEnabled();
+    public native int isItemConsumable(String sku);
+    public native void itemPurchased(String sku, long purchaseTime, String orderId);
+    public native void itemPurchaseFailed(String sku, int error, String message);
+    public native void getProductsFailed(int error, String message);
+    public native void productValidated(String sku, String price, String title, String description, String priceAmount, String priceCurrency);
+    public native void finishProductsValidation();
+
+    public void queueSkuDetailsRequest(String sku) {};
+    public void flushSkuDetailsQueue() {};
+    public void purchaseItem(final String sku) {};
+    public void restorePurchases() {};
+
     private InputManager _inputManager;
     private SparseArray<InputDevice> _gamepadDevices;
 }
