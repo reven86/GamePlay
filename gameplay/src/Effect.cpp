@@ -277,7 +277,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         if (vshPath)
             writeShaderToErrorFile(vshPath, shaderSource[2]);
 
-        GP_ERROR("Compile failed for vertex shader '%s' with error '%s'.", vshPath == NULL ? vshSource : vshPath, infoLog == NULL ? "" : infoLog);
+        GP_ERROR("Compile failed (%s): %s.", vshPath == NULL ? vshSource : vshPath, infoLog == NULL ? "" : infoLog);
         SAFE_DELETE_ARRAY(infoLog);
 
         // Clean up.
@@ -318,7 +318,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         if (fshPath)
             writeShaderToErrorFile(fshPath, shaderSource[2]);
 
-        GP_ERROR("Compile failed for fragment shader (%s): %s", fshPath == NULL ? fshSource : fshPath, infoLog == NULL ? "" : infoLog);
+        GP_ERROR("Compile failed (%s): %s", fshPath == NULL ? fshSource : fshPath, infoLog == NULL ? "" : infoLog);
         SAFE_DELETE_ARRAY(infoLog);
 
         // Clean up.
