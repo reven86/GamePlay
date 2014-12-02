@@ -771,6 +771,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
         int x;
         int y;
         
+#if __ANDROID_API__ >= 16
         if ((source & AINPUT_SOURCE_JOYSTICK) == AINPUT_SOURCE_JOYSTICK)
         {
             // DPAD handling (axis hats)
@@ -820,6 +821,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
             gameplay::Platform::gamepadJoystickChangedEventInternal(deviceId, 1, clampFuzz(z, fuzz), clampFuzz(rz, fuzz));
         }
         else
+#endif
         {
             switch (action & AMOTION_EVENT_ACTION_MASK)
             {
@@ -1134,11 +1136,13 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
         switch(action)
         {
             case AKEY_EVENT_ACTION_DOWN:
+#if __ANDROID_API__ >= 16
                 if (((source & AINPUT_SOURCE_GAMEPAD) == AINPUT_SOURCE_GAMEPAD) || ((source & AINPUT_SOURCE_JOYSTICK) == AINPUT_SOURCE_JOYSTICK))
                 {
                     gameplay::Platform::gamepadButtonPressedEventInternal(deviceId, gameplay::getGamepadButtonMapping(keycode));
                 }
                 else
+#endif
                 {
                     gameplay::Platform::keyEventInternal(Keyboard::KEY_PRESS, getKey(keycode, metastate));
                     if (int character = getUnicode(keycode, metastate))
@@ -1147,11 +1151,13 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                 break;
                     
             case AKEY_EVENT_ACTION_UP:
+#if __ANDROID_API__ >= 16
                 if (((source & AINPUT_SOURCE_GAMEPAD) == AINPUT_SOURCE_GAMEPAD) || ((source & AINPUT_SOURCE_JOYSTICK) == AINPUT_SOURCE_JOYSTICK))
                 {
                     gameplay::Platform::gamepadButtonReleasedEventInternal(deviceId, gameplay::getGamepadButtonMapping(keycode));
                 }
                 else
+#endif
                 {
                     gameplay::Platform::keyEventInternal(Keyboard::KEY_RELEASE, getKey(keycode, metastate));
                 }
@@ -1836,7 +1842,6 @@ const char * Platform::getUserAgentString( )
         result = temp;
 
         env->ReleaseStringUTFChars(userAgentResult, temp);
-        env->ReleaseStringUTFChars(userAgent, NULL);
         env->DeleteLocalRef(userAgent);
         env->DeleteLocalRef(userAgentResult);
         env->DeleteLocalRef(system);
