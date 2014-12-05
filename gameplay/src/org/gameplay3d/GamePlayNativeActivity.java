@@ -26,6 +26,7 @@ public class GamePlayNativeActivity extends NativeActivity
     implements InputManager.InputDeviceListener {
     
     static {
+        System.loadLibrary("gnustl_shared");
         System.loadLibrary("gameplay");
     }
     

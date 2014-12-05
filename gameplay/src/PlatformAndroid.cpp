@@ -27,7 +27,7 @@ static int __height;
 static struct timespec __timespec;
 static double __timeStart;
 static double __timeAbsolute;
-static bool __vsync = WINDOW_VSYNC;
+static bool __vsync = false;// WINDOW_VSYNC;
 static ASensorManager* __sensorManager;
 static ASensorEventQueue* __sensorEventQueue;
 static ASensorEvent __sensorEvent;
