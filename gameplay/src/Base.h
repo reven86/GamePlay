@@ -194,8 +194,9 @@ extern int strcmpnocase(const char* s1, const char* s2);
     #include <AL/al.h>
     #include <AL/alc.h>
 #elif WIN32
-    #include <al.h>
-    #include <alc.h>
+    #define AL_LIBTYPE_STATIC
+    #include <AL/al.h>
+    #include <AL/alc.h>
 #elif __linux__
     #include <AL/al.h>
     #include <AL/alc.h>
@@ -212,7 +213,7 @@ extern int strcmpnocase(const char* s1, const char* s2);
 
 // Scripting
 using std::va_list;
-#include <lua.hpp>
+#include <lua/lua.hpp>
 
 #define WINDOW_VSYNC        1
 
@@ -335,7 +336,7 @@ typedef unsigned long GamepadHandle;
  * mode and is therefore safe to use for realtime/per-frame GL
  * function calls.
  */
-#ifdef NDEBUG
+#if defined(NDEBUG) || (defined(__APPLE__) && !defined(DEBUG))
 #define GL_ASSERT( gl_code ) gl_code
 #else
 #define GL_ASSERT( gl_code ) do \

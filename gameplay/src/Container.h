@@ -11,7 +11,7 @@ namespace gameplay
 /**
  * Defines a container that contains zero or more controls.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class Container : public Control
 {
@@ -61,6 +61,16 @@ public:
      * @script{create}
      */
     static Container* create(const char* id, Theme::Style* style = NULL, Layout::Type layout = Layout::LAYOUT_ABSOLUTE);
+
+    /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * Child controls should override this function to return the correct type name.
+     *
+     * @return The type name of this class: "Container"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
 
     /**
      * Get this container's layout.
@@ -232,11 +242,6 @@ public:
      * @see Control::isContainer
      */
     bool isContainer() const;
-
-    /**
-     * @see Control::getType
-     */
-    const char* getType() const;
 
     /**
      * Get whether this container requires focus in order to handle scroll-wheel events.

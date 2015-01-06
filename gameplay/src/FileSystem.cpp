@@ -88,6 +88,7 @@ static bool androidFileExists(const char* filePath)
 
 /** @script{ignore} */
 static std::string __resourcePath("./");
+static std::string __assetPath("");
 static std::map<std::string, std::string> __aliases;
 static std::vector<Package *> __packages;
 
@@ -345,14 +346,18 @@ bool FileSystem::fileExists(const char* filePath)
 {
     GP_ASSERT(filePath);
 
+    std::string fullPath;
+
 #ifdef __ANDROID__
-    if (androidFileExists(resolvePath(filePath)))
+    fullPath = __assetPath;
+    fullPath += resolvePath(filePath);
+
+    if (androidFileExists(fullPath.c_str()))
     {
         return true;
     }
 #endif
 
-    std::string fullPath;
     getFullPath(filePath, fullPath);
 
     gp_stat_struct s;
@@ -375,20 +380,37 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
     std::string fullPath;
     getFullPath(path, fullPath);
 
-    //gameplay::Logger::log(gameplay::Logger::LEVEL_INFO, "Trying to open file: %d %s", mode, fullPath.c_str( ) );
-
     Stream * stream = NULL;
 #ifdef __ANDROID__
+    std::string fullPath(__resourcePath);
+    fullPath += resolvePath(path);
+
     if ((streamMode & WRITE) != 0)
     {
+        // Open a file on the SD card
+        size_t index = fullPath.rfind('/');
+        if (index != std::string::npos)
+        {
+            std::string directoryPath = fullPath.substr(0, index);
+            gp_stat_struct s;
+            if (stat(directoryPath.c_str(), &s) != 0)
+                makepath(directoryPath, 0777);
+        }
         stream = FileStream::create(fullPath.c_str(), modeStr);
     }
     else
     {
-        // Open a file in the read-only asset directory if any, then try open file directly
-        stream = FileStreamAndroid::create(resolvePath(path), modeStr);
-        if (stream == NULL)
-            stream = FileStream::create(fullPath.c_str(), modeStr);
+        // First try the SD card
+        Stream* stream = FileStream::create(fullPath.c_str(), modeStr);
+
+        if (!stream)
+        {
+            // Otherwise fall-back to assets loaded via the AssetManager
+            fullPath = __assetPath;
+            fullPath += resolvePath(path);
+
+            stream = FileStreamAndroid::create(fullPath.c_str(), modeStr);
+        }
     }
 #else
     stream = FileStream::create(fullPath.c_str(), modeStr);
@@ -460,6 +482,16 @@ bool FileSystem::isAbsolutePath(const char* filePath)
 #else
     return filePath[0] == '/';
 #endif
+}
+
+void FileSystem::setAssetPath(const char* path)
+{
+    __assetPath = path;
+}
+
+const char* FileSystem::getAssetPath()
+{
+    return __assetPath.c_str();
 }
 
 void FileSystem::createFileFromAsset(const char* path)

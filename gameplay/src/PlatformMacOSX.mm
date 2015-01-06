@@ -14,6 +14,7 @@
 #import <OpenGL/OpenGL.h>
 #import <mach/mach_time.h>
 #import <Foundation/Foundation.h>
+#import <Availability.h>
 #if __MAC_OS_X_VERSION_MIN_REQUIRED > 1070
 #import <GameKit/GameKit.h>
 #endif
@@ -858,7 +859,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(CGMainDisplayID()),
+    #if (__MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_7)
         NSOpenGLPFAFullScreen,
+    #endif
         NSOpenGLPFAColorSize, 32,
         NSOpenGLPFADepthSize, 24,
         NSOpenGLPFAAlphaSize, 8,
@@ -1149,7 +1152,7 @@ bool getMousePointForEvent(NSPoint& point, NSEvent* event)
     NSPoint point = [self convertPoint:[event locationInWindow] fromView:nil];
 
     [__view->gameLock lock];
-    gameplay::Platform::mouseEventInternal(Mouse::MOUSE_WHEEL, point.x, __height - point.y, (int)([event deltaY] * 10.0f));
+    gameplay::Platform::mouseEventInternal(Mouse::MOUSE_WHEEL, point.x, __height - point.y, (int)([event deltaY]));
     [__view->gameLock unlock];
 }
 

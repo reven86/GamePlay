@@ -100,16 +100,15 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     }
 
     // Wrap the effect in a material
-    Material* material = Material::create(effect); // +ref effect
+    Material* material = Material::create(effect);
 
     // Set initial material state
     material->getStateBlock()->setBlend(true);
     material->getStateBlock()->setBlendSrc(RenderState::BLEND_SRC_ALPHA);
     material->getStateBlock()->setBlendDst(RenderState::BLEND_ONE_MINUS_SRC_ALPHA);
-    //material->getStateBlock()->setDepthFunction(RenderState::DEPTH_LEQUAL);
 
     // Bind the texture to the material as a sampler
-    Texture::Sampler* sampler = Texture::Sampler::create(texture); // +ref texture
+    Texture::Sampler* sampler = Texture::Sampler::create(texture);
     material->getParameter(samplerUniform->getName())->setValue(sampler);
     
     // Define the vertex format for the batch
@@ -287,34 +286,34 @@ void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vect
     p3 += tForward;
 
     // Calculate the rotation point.
-    Vector3 rp = p0;
-    tRight = right;
-    tRight *= width * rotationPoint.x;
-    tForward *= rotationPoint.y;
-    rp += tRight;
-    rp += tForward;
+    if (rotationAngle != 0)
+    {
+        Vector3 rp = p0;
+        tRight = right;
+        tRight *= width * rotationPoint.x;
+        tForward *= rotationPoint.y;
+        rp += tRight;
+        rp += tForward;
 
-    // Rotate all points the specified amount about the given point (about the up vector).
-    static Vector3 u;
-    Vector3::cross(right, forward, &u);
-    static Matrix rotation;
-    Matrix::createRotation(u, rotationAngle, &rotation);
+        // Rotate all points the specified amount about the given point (about the up vector).
+        static Vector3 u;
+        Vector3::cross(right, forward, &u);
+        static Matrix rotation;
+        Matrix::createRotation(u, rotationAngle, &rotation);
+        p0 -= rp;
+        p0 *= rotation;
+        p0 += rp;
+        p1 -= rp;
+        p1 *= rotation;
+        p1 += rp;
+        p2 -= rp;
+        p2 *= rotation;
+        p2 += rp;
+        p3 -= rp;
+        p3 *= rotation;
+        p3 += rp;
+    }
 
-    p0 -= rp;
-    p0 *= rotation;
-    p0 += rp;
-
-    p1 -= rp;
-    p1 *= rotation;
-    p1 += rp;
-
-    p2 -= rp;
-    p2 *= rotation;
-    p2 += rp;
-
-    p3 -= rp;
-    p3 *= rotation;
-    p3 += rp;
 
     // Add the sprite vertex data to the batch.
     SpriteVertex * v = _batch->reserve< SpriteVertex >( 6 );

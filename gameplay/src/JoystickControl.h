@@ -11,7 +11,7 @@ namespace gameplay
  *
  * This is used in virtual Gamepad instances.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class JoystickControl : public Control
 {
@@ -31,6 +31,16 @@ public:
      * @script{create}
      */
     static JoystickControl* create(const char* id, Theme::Style* style = NULL);
+
+    /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * Child controls should override this function to return the correct type name.
+     *
+     * @return The type name of this class: "JoystickControl"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
 
     /**
      * Add a listener to be notified of specific events affecting
@@ -107,11 +117,6 @@ public:
      * @return The index of this joystick on a form.
      */
     unsigned int getIndex() const;
-    
-    /**
-     * @see Control::getType
-     */
-    const char* getType() const;
 
 protected:
     

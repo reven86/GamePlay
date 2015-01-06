@@ -30,8 +30,8 @@
 #include "Curve.h"
 
 // Graphics
-#include "Texture.h"
 #include "Image.h"
+#include "Texture.h"
 #include "Mesh.h"
 #include "MeshPart.h"
 #include "Effect.h"
@@ -47,6 +47,9 @@
 #include "Scene.h"
 #include "Font.h"
 #include "SpriteBatch.h"
+#include "Sprite.h"
+#include "Text.h"
+#include "TileSet.h"
 #include "ParticleEmitter.h"
 #include "FrameBuffer.h"
 #include "RenderTarget.h"
@@ -55,7 +58,6 @@
 #include "HeightField.h"
 #include "Terrain.h"
 #include "TerrainPatch.h"
-
 
 // Audio
 #include "AudioController.h"

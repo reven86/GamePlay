@@ -43,6 +43,11 @@ void CheckBox::initialize(const char* typeName, Theme::Style* style, Properties*
     }
 }
 
+const char* CheckBox::getTypeName() const
+{
+    return "CheckBox";
+}
+
 bool CheckBox::isChecked()
 {
     return _checked;
@@ -165,11 +170,6 @@ unsigned int CheckBox::drawImages(Form* form, const Rectangle& clip)
     finishBatch(form, batch);
 
     return 1;
-}
-
-const char* CheckBox::getType() const
-{
-    return "checkBox";
 }
 
 }

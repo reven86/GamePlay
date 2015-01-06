@@ -59,6 +59,11 @@ void Slider::initialize(const char* typeName, Theme::Style* style, Properties* p
     setValue(_value);
 }
 
+const char* Slider::getTypeName() const
+{
+    return "Slider";
+}
+
 void Slider::setMin(float min)
 {
     _min = min;
@@ -481,7 +486,7 @@ unsigned int Slider::drawText(Form* form, const Rectangle& clip)
 
         SpriteBatch* batch = _font->getSpriteBatch(fontSize);
         startBatch(form, batch);
-        _font->drawText(_valueText.c_str(), _textBounds, _textColor, fontSize, _valueTextAlignment, true, getTextRightToLeft(state), &_viewportClipBounds);
+        _font->drawText(_valueText.c_str(), _textBounds, _textColor, fontSize, _valueTextAlignment, true, getTextRightToLeft(state), _viewportClipBounds);
         finishBatch(form, batch);
 
         ++drawCalls;
@@ -490,10 +495,7 @@ unsigned int Slider::drawText(Form* form, const Rectangle& clip)
     return drawCalls;
 }
 
-const char* Slider::getType() const
-{
-    return "slider";
-}
+
 
 void Slider::setScaleFactor(float scale)
 {

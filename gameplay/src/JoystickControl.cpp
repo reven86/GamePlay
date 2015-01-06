@@ -32,6 +32,11 @@ Control* JoystickControl::create(Theme::Style* style, Properties* properties)
     return joystickControl;
 }
 
+const char* JoystickControl::getTypeName() const
+{
+    return "JoystickControl";
+}
+
 const Vector2& JoystickControl::getValue() const
 {
     return _value;
@@ -343,11 +348,6 @@ unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip)
     }
 
     return drawCalls;
-}
-
-const char* JoystickControl::getType() const
-{
-    return "joystick";
 }
 
 }

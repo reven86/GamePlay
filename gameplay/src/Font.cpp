@@ -1,5 +1,6 @@
 #include "Base.h"
 #include "Font.h"
+#include "Text.h"
 #include "Game.h"
 #include "FileSystem.h"
 #include "Bundle.h"
@@ -18,7 +19,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -33,7 +34,6 @@ Font::~Font()
 
     SAFE_DELETE(_batch);
     SAFE_DELETE_ARRAY(_glyphs);
-    SAFE_RELEASE(_texture);
 
     // Free child fonts
     for (size_t i = 0, count = _sizes.size(); i < count; ++i)
@@ -149,7 +149,6 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     font->_family = family;
     font->_style = style;
     font->_size = size;
-    font->_texture = texture;
     font->_batch = batch;
 
     // Copy the glyphs array.
@@ -222,225 +221,6 @@ void Font::finish() const
     }
 }
 
-Font::Text* Font::createText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify,
-    bool wrap, bool rightToLeft, const Rectangle* clip)
-{
-    GP_ASSERT(text);
-    GP_ASSERT(_glyphs);
-    GP_ASSERT(_batch);
-    GP_ASSERT(_size);
-
-    if (size == 0)
-    {
-        size = static_cast< float >( _size );
-    }
-    else
-    {
-        // Delegate to closest sized font
-        Font* f = const_cast< Font * >( findClosestSize(size) );
-        if (f != this)
-        {
-            return f->createText(text, area, color, size, justify, wrap, rightToLeft, clip);
-        }
-    }
-
-    float scale = (float)size / _size;
-    float spacing = size * _spacing;
-    float yPos = area.y;
-    const float areaHeight = area.height - size;
-    std::vector<float> xPositions;
-    std::vector<unsigned int> lineLengths;
-
-    getMeasurementInfo(text, area, size, justify, wrap, rightToLeft, &xPositions, &yPos, &lineLengths);
-
-    Text* batch = new Text(text);
-    batch->_font = this;
-    batch->_font->addRef();
-
-    GP_ASSERT(batch->_vertices);
-
-    float xPos = area.x;
-    std::vector<float>::const_iterator xPositionsIt = xPositions.begin();
-    if (xPositionsIt != xPositions.end())
-    {
-        xPos = *xPositionsIt++;
-    }
-
-    const wchar_t* token = text;
-    int iteration = 1;
-    unsigned int lineLength;
-    unsigned int currentLineLength = 0;
-    const wchar_t* lineStart;
-    std::vector<unsigned int>::const_iterator lineLengthsIt;
-    if (rightToLeft)
-    {
-        lineStart = token;
-        lineLengthsIt = lineLengths.begin();
-        lineLength = *lineLengthsIt++;
-        token += lineLength - 1;
-        iteration = -1;
-    }
-
-    while (token[0] != 0)
-    {
-        // Handle delimiters until next token.
-        if (!handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
-        {
-            break;
-        }
-
-        bool truncated = false;
-        unsigned int tokenLength;
-        float tokenWidth;
-        unsigned int startIndex;
-        if (rightToLeft)
-        {
-            tokenLength = getReversedTokenLength(token, text);
-            currentLineLength += tokenLength;
-            token -= (tokenLength - 1);
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
-            iteration = -1;
-            startIndex = tokenLength - 1;
-        }
-        else
-        {
-            tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
-            iteration = 1;
-            startIndex = 0;
-        }
-
-        // Wrap if necessary.
-        if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
-        {
-            yPos += size;
-            currentLineLength = tokenLength;
-
-            if (xPositionsIt != xPositions.end())
-            {
-                xPos = *xPositionsIt++;
-            }
-            else
-            {
-                xPos = area.x;
-            }
-        }
-
-        bool draw = true;
-        if (ceilf(yPos) < area.y)
-        {
-            // Skip drawing until line break or wrap.
-            draw = false;
-        }
-        else if (floorf(yPos) > area.y + areaHeight)
-        {
-            // Truncate below area's vertical limit.
-            break;
-        }
-
-        for (int i = startIndex; i < (int)tokenLength && i >= 0; i += iteration)
-        {
-            wchar_t c = token[i];
-            int glyphIndex = getGlyphIndexByCode( c );
-
-            if (glyphIndex >= 0 && glyphIndex < (int)_glyphCount)
-            {
-                Glyph& g = _glyphs[glyphIndex];
-
-                if (floorf(xPos + g.advance*scale) > area.x + area.width)
-                {
-                    // Truncate this line and go on to the next one.
-                    truncated = true;
-                    break;
-                }
-                else if (ceilf(xPos) >= area.x)
-                {
-                    // Draw this character.
-                    if (draw)
-                    {
-                        if (clip)
-                        {
-                            _batch->addSprite(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip, &batch->_vertices[batch->_vertexCount]);
-                        }
-                        else
-                        {
-                            _batch->addSprite(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, &batch->_vertices[batch->_vertexCount]);
-                        }
-
-                        batch->_vertexCount += 6;
-
-                    }
-                }
-                xPos += g.advance*scale + spacing;
-            }
-        }
-
-        if (!truncated)
-        {
-            if (rightToLeft)
-            {
-                if (token == lineStart)
-                {
-                    token += lineLength;
-
-                    // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
-                    {
-                        break;
-                    }
-
-                    if (lineLengthsIt != lineLengths.end())
-                    {
-                        lineLength = *lineLengthsIt++;
-                    }
-                    lineStart = token;
-                    token += lineLength-1;
-                }
-                else
-                {
-                    token--;
-                }
-            }
-            else
-            {
-                token += tokenLength;
-            }
-        }
-        else
-        {
-            if (rightToLeft)
-            {
-                token = lineStart + lineLength;
-
-                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
-                {
-                    break;
-                }
-
-                if (lineLengthsIt != lineLengths.end())
-                {
-                    lineLength = *lineLengthsIt++;
-                }
-                lineStart = token;
-                token += lineLength-1;
-            }
-            else
-            {
-                // Skip the rest of this line.
-                size_t tokenLength = wcscspn (token, L"\n");
-
-                if (tokenLength > 0)
-                {
-                    // Get first token of next line.
-                    token += tokenLength;
-                }
-            }
-        }
-    }
-
-    return batch;
-}
-
 const Font* Font::findClosestSize(int size) const
 {
     if (size == (int)_size)
@@ -460,25 +240,6 @@ const Font* Font::findClosestSize(int size) const
     }
 
     return closest;
-}
-
-void Font::drawText(Text* text) const
-{
-    GP_ASSERT(text);
-    GP_ASSERT(text->_font);
-
-    if (text->_font != this)
-    {
-        // Make sure we draw using the font/batch the text was created with
-        text->_font->drawText(text);
-        return;
-    }
-
-    GP_ASSERT(_batch);
-    GP_ASSERT(text->_vertices);
-
-    lazyStart();
-    _batch->draw(text->_vertices, text->_vertexCount);
 }
 
 void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color, float size, bool rightToLeft) const
@@ -634,7 +395,7 @@ void Font::drawText(const wchar_t* text, float x, float y, float red, float gree
     drawText(text, x, y, Vector4(red, green, blue, alpha), size, rightToLeft);
 }
 
-void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify, bool wrap, bool rightToLeft, const Rectangle* clip) const
+void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify, bool wrap, bool rightToLeft, const Rectangle& clip) const
 {
     GP_ASSERT(text);
     GP_ASSERT(_size);
@@ -774,9 +535,9 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                             // TODO: Fix me so that smaller font are much smoother
                             _cutoffParam->setVector2(Vector2(1.0, 1.0));
                         }
-                        if (clip)
+                        if (clip != Rectangle(0, 0, 0, 0))
                         {
-                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, *clip);
+                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, clip);
                         }
                         else
                         {
@@ -1970,22 +1731,6 @@ Font::Justify Font::getJustify(const char* justify)
     return Font::ALIGN_TOP_LEFT;
 }
 
-Font::Text::Text(const wchar_t* text) : _text(text ? text : L""), _vertexCount(0), _vertices(NULL), _font(NULL), _color( Vector4::zero( ) )
-{
-    const size_t length = wcslen(text);
-    _vertices = new SpriteBatch::SpriteVertex[length * 6];
-}
-
-Font::Text::~Text()
-{
-    SAFE_DELETE_ARRAY(_vertices);
-    SAFE_RELEASE(_font);
-}
-
-const wchar_t* Font::Text::getText()
-{
-    return _text.c_str();
-}
 
 int Font::getGlyphIndexByCode( int characterCode ) const
 {

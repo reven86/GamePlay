@@ -91,7 +91,11 @@ Scene* SceneLoader::loadInternal(const char* url)
         SceneNodeProperty::CAMERA |
         SceneNodeProperty::ROTATE |
         SceneNodeProperty::SCALE |
-        SceneNodeProperty::TRANSLATE);
+        SceneNodeProperty::TRANSLATE |
+        SceneNodeProperty::SCRIPT |
+        SceneNodeProperty::SPRITE |
+        SceneNodeProperty::TILESET |
+        SceneNodeProperty::TEXT);
     applyNodeProperties(sceneProperties, SceneNodeProperty::COLLISION_OBJECT);
 
     // Apply node tags
@@ -245,7 +249,10 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
         snp._type == SceneNodeProperty::TERRAIN ||
         snp._type == SceneNodeProperty::LIGHT ||
         snp._type == SceneNodeProperty::CAMERA ||
-        snp._type == SceneNodeProperty::COLLISION_OBJECT)
+        snp._type == SceneNodeProperty::COLLISION_OBJECT ||
+        snp._type == SceneNodeProperty::SPRITE ||
+        snp._type == SceneNodeProperty::TILESET ||
+        snp._type == SceneNodeProperty::TEXT)
     {
         // Check to make sure the referenced properties object was loaded properly.
         Properties* p = _properties[snp._value];
@@ -269,6 +276,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
             break;
         }
         case SceneNodeProperty::MATERIAL:
+        {
             if (!node->getModel())
             {
                 GP_ERROR("Attempting to set a material on node '%s', which has no model.", sceneNode._nodeID);
@@ -281,6 +289,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
                 SAFE_RELEASE(material);
             }
             break;
+        }
         case SceneNodeProperty::PARTICLE:
         {
             ParticleEmitter* particleEmitter = ParticleEmitter::create(p);
@@ -370,6 +379,27 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
             }
             break;
         }
+        case SceneNodeProperty::SPRITE:
+        {
+            Sprite* sprite = Sprite::create(p);
+            node->setSprite(sprite);
+            SAFE_RELEASE(sprite);
+            break;
+        }
+        case SceneNodeProperty::TILESET:
+        {
+            TileSet* tileset = TileSet::create(p);
+            node->setTileSet(tileset);
+            SAFE_RELEASE(tileset);
+            break;
+        }
+        case SceneNodeProperty::TEXT:
+        {
+            Text* text = Text::create(p);
+            node->setText(text);
+            SAFE_RELEASE(text);
+            break;
+        }
         default:
             GP_ERROR("Unsupported node property type (%d).", snp._type);
             break;
@@ -377,7 +407,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
     }
     else
     {
-        // Handle scale, rotate and translate.
+        // Handle simple types (scale, rotate, translate, script, etc)
         switch (snp._type)
         {
         case SceneNodeProperty::TRANSLATE:
@@ -401,6 +431,9 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
                 node->scale(s);
             break;
         }
+        case SceneNodeProperty::SCRIPT:
+            node->addScript(snp._value.c_str());
+            break;
         default:
             GP_ERROR("Unsupported node property type (%d).", snp._type);
             break;
@@ -704,6 +737,24 @@ void SceneLoader::parseNode(Properties* ns, SceneNode* parent, const std::string
             addSceneNodeProperty(sceneNode, SceneNodeProperty::COLLISION_OBJECT, propertyUrl.c_str());
             _properties[propertyUrl] = subns;
         }
+        else if (strcmp(subns->getNamespace(), "sprite") == 0)
+        {
+            propertyUrl = path + "sprite/" + std::string(subns->getId());
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::SPRITE, propertyUrl.c_str());
+            _properties[propertyUrl] = subns;
+        }
+        else if (strcmp(subns->getNamespace(), "tileset") == 0)
+        {
+            propertyUrl = path + "tileset/" + std::string(subns->getId());
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::TILESET, propertyUrl.c_str());
+            _properties[propertyUrl] = subns;
+        }
+        else if (strcmp(subns->getNamespace(), "text") == 0)
+        {
+            propertyUrl = path + "text/" + std::string(subns->getId());
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::TEXT, propertyUrl.c_str());
+            _properties[propertyUrl] = subns;
+        }
         else if (strcmp(subns->getNamespace(), "tags") == 0)
         {
             while ((name = subns->getNextProperty()) != NULL)
@@ -760,6 +811,18 @@ void SceneLoader::parseNode(Properties* ns, SceneNode* parent, const std::string
         {
             addSceneNodeProperty(sceneNode, SceneNodeProperty::COLLISION_OBJECT, ns->getString(), true);
         }
+        else if (strcmp(name, "sprite") == 0)
+        {
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::SPRITE, ns->getString(), true);
+        }
+        else if (strcmp(name, "tileset") == 0)
+        {
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::TILESET, ns->getString(), true);
+        }
+        else if (strcmp(name, "text") == 0)
+        {
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::TEXT, ns->getString(), true);
+        }
         else if (strcmp(name, "rigidBodyModel") == 0)
         {
             // Ignore this for now. We process this when we do rigid body creation.
@@ -779,6 +842,10 @@ void SceneLoader::parseNode(Properties* ns, SceneNode* parent, const std::string
         else if (strcmp(name, "scale") == 0)
         {
             addSceneNodeProperty(sceneNode, SceneNodeProperty::SCALE, ns->getString());
+        }
+        else if (strcmp(name, "script") == 0)
+        {
+            addSceneNodeProperty(sceneNode, SceneNodeProperty::SCRIPT, ns->getString());
         }
         else
         {
@@ -1203,29 +1270,33 @@ void splitURL(const std::string& url, std::string* file, std::string* id)
         return;
     }
 
-    // Check if the url references a file (otherwise, it only references a node within the main GPB).
-    size_t loc = url.rfind(".");
+    // Check if the url references a file (otherwise, it only references some sort of ID)
+    size_t loc = url.rfind("#"); 
     if (loc != std::string::npos)
     {
-        // If the url references a specific namespace within the file,
-        // set the id out parameter appropriately. Otherwise, set the id out
-        // parameter to the empty string so we know to load the first namespace.
-        loc = url.rfind("#");
-        if (loc != std::string::npos)
+        *file = url.substr(0, loc);
+        if (FileSystem::fileExists(file->c_str()))
         {
-            *file = url.substr(0, loc);
             *id = url.substr(loc + 1);
         }
         else
         {
-            *file = url;
-            *id = std::string();
+            *file = std::string();
+            *id = url;
         }
     }
     else
     {
-        *file = std::string();
-        *id = url;
+        if (FileSystem::fileExists(url.c_str()))
+        {
+            *file = url;
+            *id = std::string();
+        }
+        else
+        {
+            *file = std::string();
+            *id = url;
+        }
     }
 }
 

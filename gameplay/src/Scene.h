@@ -12,7 +12,7 @@ namespace gameplay
 /**
  * Defines the root container for a hierarchy of Node objects.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-Scene
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Scene
  */
 class Scene : public Ref
 {
@@ -175,6 +175,17 @@ public:
      * @see getAmbientColor()
      */
     void setAmbientColor(float red, float green, float blue);
+
+    /**
+     * Updates all active nodes in the scene.
+     *
+     * This method is recursively calls the Node::update(float) method on all nodes that
+     * are active within the scene. A Node is considered active if Node::isActive()
+     * returns true.
+     *
+     * @param elapsedTime Elapsed time in milliseconds.
+     */
+    void update(float elapsedTime);
 
     /**
      * Visits each node in the scene and calls the specified method pointer.

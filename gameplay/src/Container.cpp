@@ -183,6 +183,11 @@ void Container::addControls(Properties* properties)
     sortControls();
 }
 
+const char* Container::getTypeName() const
+{
+    return "Container";
+}
+
 Layout* Container::getLayout()
 {
     return _layout;
@@ -450,11 +455,6 @@ Animation* Container::getAnimation(const char* id) const
         }
     }
     return NULL;
-}
-
-const char* Container::getType() const
-{
-    return "container";
 }
 
 bool Container::getScrollWheelRequiresFocus() const

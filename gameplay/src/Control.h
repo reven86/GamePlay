@@ -21,12 +21,16 @@ class Form;
 /**
  * Defines the base class for all controls.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class Control : public Ref, public AnimationTarget, public ScriptTarget
 {
     friend class Form;
     friend class Container;
+
+    GP_SCRIPT_EVENTS_START();
+    GP_SCRIPT_EVENT(controlEvent, "<Control>[Control::Listener::EventType]");
+    GP_SCRIPT_EVENTS_END();
 
 public:
 
@@ -240,6 +244,16 @@ public:
      * Opacity property.  Data = opacity
      */
     static const int ANIMATE_OPACITY = 7;
+
+    /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * Child controls should override this function to return the correct type name.
+     *
+     * @return The type name of this class: "Control"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
 
     /**
      * Get this control's ID string.
@@ -918,13 +932,6 @@ public:
      * @return true if this object is of class Container, false otherwise.
      */
     virtual bool isContainer() const;
-
-    /**
-     * Gets the type of the Control and returns it as a string.
-     *
-     * @return The string of the Control type, all in lower-case.
-     */
-    virtual const char* getType() const;
 
     /**
      * Returns this control's parent, or NULL if this control does not have a parent.

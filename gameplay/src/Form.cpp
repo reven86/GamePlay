@@ -171,6 +171,11 @@ void Form::clearFocus()
     setFocusControl(NULL);
 }
 
+const char* Form::getTypeName() const
+{
+    return "Form";
+}
+
 bool Form::isForm() const
 {
     return true;
@@ -280,12 +285,6 @@ unsigned int Form::draw()
 
     return drawCalls;
 }
-
-const char* Form::getType() const
-{
-    return "form";
-}
-
 
 bool Form::isBatchingEnabled() const
 {

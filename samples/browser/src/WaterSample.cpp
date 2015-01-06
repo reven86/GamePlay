@@ -2,7 +2,7 @@
 #include "SamplesGame.h"
 
 #if defined(ADD_SAMPLE)
-ADD_SAMPLE("Graphics", "Water", WaterSample, 14);
+ADD_SAMPLE("Graphics", "Water", WaterSample, 13);
 #endif
 
 // Camera movement consts

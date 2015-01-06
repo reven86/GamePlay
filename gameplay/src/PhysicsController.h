@@ -20,7 +20,7 @@ class ScriptListener;
 /**
  * Defines a class for controlling game physics.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-Physics
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Physics
  */
 class PhysicsController : public ScriptTarget
 {
@@ -31,6 +31,10 @@ class PhysicsController : public ScriptTarget
     friend class PhysicsVehicle;
     friend class PhysicsCollisionObject;
     friend class PhysicsGhostObject;
+
+    GP_SCRIPT_EVENTS_START();
+    GP_SCRIPT_EVENT(statusEvent, "[PhysicsController::Listener::EventType]");
+    GP_SCRIPT_EVENTS_END();
 
 public:
 
@@ -143,6 +147,14 @@ public:
          */
         virtual bool hit(const HitResult& result);
     };
+
+    /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * @return The type name of this class: "PhysicsController"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
 
     /**
      * Adds a listener to the physics controller.

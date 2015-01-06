@@ -17,8 +17,7 @@ void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned 
     
     if (eventNotProcessed)// || evt == Touch::TOUCH_MOVE)
     {
-        Game::getInstance()->touchEvent(evt, x, y, contactIndex);
-        Game::getInstance()->getScriptController()->touchEvent(evt, x, y, contactIndex);
+        Game::getInstance()->touchEventInternal(evt, x, y, contactIndex);
     }
 }
 
@@ -26,8 +25,7 @@ void Platform::keyEventInternal(Keyboard::KeyEvent evt, int key)
 {
     if (!Form::keyEventInternal(evt, key))
     {
-        Game::getInstance()->keyEvent(evt, key);
-        Game::getInstance()->getScriptController()->keyEvent(evt, key);
+        Game::getInstance()->keyEventInternal(evt, key);
     }
 }
 
@@ -37,66 +35,45 @@ bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheel
 
     // send mouse move event even if it is consumed by form
     if( !eventConsumed || evt == Mouse::MOUSE_MOVE )
-    {
-        if (Game::getInstance()->mouseEvent(evt, x, y, wheelDelta))
-        {
-            return true;
-        }
-        else
-        {
-            return Game::getInstance()->getScriptController()->mouseEvent(evt, x, y, wheelDelta) || eventConsumed;
-        }
-    }
+        return Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta);
+
 
     return eventConsumed;
 }
 
 void Platform::gestureSwipeEventInternal(int x, int y, int direction)
 {
-    Game::getInstance()->gestureSwipeEvent(x, y, direction);
-    Game::getInstance()->getScriptController()->gestureSwipeEvent(x, y, direction);
+    Game::getInstance()->gestureSwipeEventInternal(x, y, direction);
 }
 
 void Platform::gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches)
 {
-    Game::getInstance()->gesturePinchEvent(x, y, scale, numberOfTouches);
-    Game::getInstance()->getScriptController()->gesturePinchEvent(x, y, scale);
+    Game::getInstance()->gesturePinchEventInternal(x, y, scale, numberOfTouches);
 }
 
 void Platform::gestureTapEventInternal(int x, int y)
 {
-    Game::getInstance()->gestureTapEvent(x, y);
-    Game::getInstance()->getScriptController()->gestureTapEvent(x, y);
+    Game::getInstance()->gestureTapEventInternal(x, y);
 }
 
 void Platform::gestureLongTapEventInternal(int x, int y, float duration)
 {
-	Game::getInstance()->gestureLongTapEvent(x, y, duration);
-	Game::getInstance()->getScriptController()->gestureLongTapEvent(x, y, duration);
+    Game::getInstance()->gestureLongTapEventInternal(x, y, duration);
 }
 
 void Platform::gestureDragEventInternal(int x, int y)
 {
-	Game::getInstance()->gestureDragEvent(x, y);
-	Game::getInstance()->getScriptController()->gestureDragEvent(x, y);
+    Game::getInstance()->gestureDragEventInternal(x, y);
 }
 
 void Platform::gestureDropEventInternal(int x, int y)
 {
-	Game::getInstance()->gestureDropEvent(x, y);
-	Game::getInstance()->getScriptController()->gestureDropEvent(x, y);
+    Game::getInstance()->gestureDropEventInternal(x, y);
 }
 
 void Platform::resizeEventInternal(unsigned int width, unsigned int height)
 {
-    Game* game = Game::getInstance();
-    if (game->_width != width || game->_height != height)
-    {
-        game->_width = width;
-        game->_height = height;
-        game->resizeEvent(width, height);
-        game->getScriptController()->resizeEvent(width, height);
-    }
+    Game::getInstance()->resizeEventInternal(width, height);
     Form::resizeEventInternal(width, height);
 }
 

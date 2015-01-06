@@ -333,7 +333,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         // Allocate temporary image buffer to draw the glyphs into.
         unsigned char* imageBuffer = (unsigned char*)malloc(imageWidth * imageHeight);
         memset(imageBuffer, 0, imageWidth * imageHeight);
-        penX = 0;
+        penX = 1;
         penY = 0;
         row = 0;
         i = 0;
@@ -356,7 +356,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
             // If we reach the end of the image wrap aroud to the next row.
             if ((penX + advance) > (int)imageWidth)
             {
-                penX = 0;
+                penX = 1;
                 row += 1;
                 penY = row * rowSize;
                 if (penY + rowSize > (int)imageHeight)

@@ -2,7 +2,7 @@
 #include "SamplesGame.h"
 
 #if defined(ADD_SAMPLE)
-    ADD_SAMPLE("Scene", "Terrain", TerrainSample, 4);
+    ADD_SAMPLE("Graphics", "Terrain", TerrainSample, 12);
 #endif
 
 struct TerrainHitFilter : public PhysicsController::HitFilter
