@@ -61,7 +61,7 @@ static void makepath(std::string path, int mode)
             // Directory does not exist.
             if (mkdir(dirPath.c_str(), 0777) != 0)
             {
-                GP_ERROR("Failed to create directory: '%s'", dirPath.c_str());
+                GP_WARN("Failed to create directory: '%s'", dirPath.c_str());
                 return;
             }
         }
@@ -382,26 +382,14 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
 
     Stream * stream = NULL;
 #ifdef __ANDROID__
-    std::string fullPath(__resourcePath);
-    fullPath += resolvePath(path);
-
     if ((streamMode & WRITE) != 0)
     {
-        // Open a file on the SD card
-        size_t index = fullPath.rfind('/');
-        if (index != std::string::npos)
-        {
-            std::string directoryPath = fullPath.substr(0, index);
-            gp_stat_struct s;
-            if (stat(directoryPath.c_str(), &s) != 0)
-                makepath(directoryPath, 0777);
-        }
         stream = FileStream::create(fullPath.c_str(), modeStr);
     }
     else
     {
         // First try the SD card
-        Stream* stream = FileStream::create(fullPath.c_str(), modeStr);
+        stream = FileStream::create(fullPath.c_str(), modeStr);
 
         if (!stream)
         {

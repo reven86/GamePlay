@@ -53,14 +53,14 @@ void luaRegister_Vector3()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Vector3", lua_members, lua_Vector3__init, lua_Vector3__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Vector3", lua_members, lua_Vector3__init, lua_Vector3__gc, lua_statics, scopePath);
 }
 
 static Vector3* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Vector3");
     luaL_argcheck(state, userdata != NULL, 1, "'Vector3' expected.");
-    return (Vector3*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Vector3*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Vector3__gc(lua_State* state)
@@ -77,7 +77,7 @@ int lua_Vector3__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Vector3");
                 luaL_argcheck(state, userdata != NULL, 1, "'Vector3' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Vector3* instance = (Vector3*)object->instance;
@@ -114,7 +114,7 @@ int lua_Vector3__init(lua_State* state)
             void* returnPtr = ((void*)new Vector3());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Vector3");
@@ -135,12 +135,12 @@ int lua_Vector3__init(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TTABLE || lua_type(state, 1) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(1);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(1);
 
                     void* returnPtr = ((void*)new Vector3(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Vector3");
@@ -161,14 +161,14 @@ int lua_Vector3__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Vector3(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Vector3");
@@ -196,20 +196,20 @@ int lua_Vector3__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     void* returnPtr = ((void*)new Vector3(*param1, *param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Vector3");
@@ -248,7 +248,7 @@ int lua_Vector3__init(lua_State* state)
                     void* returnPtr = ((void*)new Vector3(param1, param2, param3));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Vector3");
@@ -292,7 +292,7 @@ int lua_Vector3_add(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -335,7 +335,7 @@ int lua_Vector3_clamp(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -344,7 +344,7 @@ int lua_Vector3_clamp(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -386,7 +386,7 @@ int lua_Vector3_cross(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -428,7 +428,7 @@ int lua_Vector3_distance(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -473,7 +473,7 @@ int lua_Vector3_distanceSquared(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -518,7 +518,7 @@ int lua_Vector3_dot(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -738,7 +738,7 @@ int lua_Vector3_normalize(lua_State* state)
                     void* returnPtr = (void*)&(instance->normalize());
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Vector3");
@@ -766,7 +766,7 @@ int lua_Vector3_normalize(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -843,7 +843,7 @@ int lua_Vector3_set(lua_State* state)
                     (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                     Vector3* instance = getInstance(state);
                     instance->set(param1);
@@ -859,7 +859,7 @@ int lua_Vector3_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -884,13 +884,13 @@ int lua_Vector3_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -961,7 +961,7 @@ int lua_Vector3_smooth(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1010,7 +1010,7 @@ int lua_Vector3_static_add(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1019,7 +1019,7 @@ int lua_Vector3_static_add(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1028,7 +1028,7 @@ int lua_Vector3_static_add(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Vector3'.");
@@ -1069,7 +1069,7 @@ int lua_Vector3_static_angle(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1078,7 +1078,7 @@ int lua_Vector3_static_angle(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1124,7 +1124,7 @@ int lua_Vector3_static_clamp(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1133,7 +1133,7 @@ int lua_Vector3_static_clamp(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1142,7 +1142,7 @@ int lua_Vector3_static_clamp(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Vector3'.");
@@ -1151,7 +1151,7 @@ int lua_Vector3_static_clamp(lua_State* state)
 
                 // Get parameter 4 off the stack.
                 bool param4Valid;
-                ScriptUtil::LuaArray<Vector3> param4 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param4Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param4 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param4Valid);
                 if (!param4Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 4 to type 'Vector3'.");
@@ -1193,7 +1193,7 @@ int lua_Vector3_static_cross(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1202,7 +1202,7 @@ int lua_Vector3_static_cross(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1211,7 +1211,7 @@ int lua_Vector3_static_cross(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Vector3'.");
@@ -1252,7 +1252,7 @@ int lua_Vector3_static_dot(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1261,7 +1261,7 @@ int lua_Vector3_static_dot(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1308,7 +1308,7 @@ int lua_Vector3_static_fromColor(lua_State* state)
                 void* returnPtr = (void*)new Vector3(Vector3::fromColor(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Vector3");
@@ -1349,7 +1349,7 @@ int lua_Vector3_static_one(lua_State* state)
             void* returnPtr = (void*)&(Vector3::one());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Vector3");
@@ -1386,7 +1386,7 @@ int lua_Vector3_static_random(lua_State* state)
             void* returnPtr = (void*)new Vector3(Vector3::random());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Vector3");
@@ -1426,7 +1426,7 @@ int lua_Vector3_static_subtract(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1435,7 +1435,7 @@ int lua_Vector3_static_subtract(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -1444,7 +1444,7 @@ int lua_Vector3_static_subtract(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Vector3'.");
@@ -1483,7 +1483,7 @@ int lua_Vector3_static_unitX(lua_State* state)
             void* returnPtr = (void*)&(Vector3::unitX());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Vector3");
@@ -1520,7 +1520,7 @@ int lua_Vector3_static_unitY(lua_State* state)
             void* returnPtr = (void*)&(Vector3::unitY());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Vector3");
@@ -1557,7 +1557,7 @@ int lua_Vector3_static_unitZ(lua_State* state)
             void* returnPtr = (void*)&(Vector3::unitZ());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Vector3");
@@ -1594,7 +1594,7 @@ int lua_Vector3_static_zero(lua_State* state)
             void* returnPtr = (void*)&(Vector3::zero());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Vector3");
@@ -1633,7 +1633,7 @@ int lua_Vector3_subtract(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");

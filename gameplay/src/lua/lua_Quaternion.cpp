@@ -41,14 +41,14 @@ void luaRegister_Quaternion()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Quaternion", lua_members, lua_Quaternion__init, lua_Quaternion__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Quaternion", lua_members, lua_Quaternion__init, lua_Quaternion__gc, lua_statics, scopePath);
 }
 
 static Quaternion* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Quaternion");
     luaL_argcheck(state, userdata != NULL, 1, "'Quaternion' expected.");
-    return (Quaternion*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Quaternion*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Quaternion__gc(lua_State* state)
@@ -65,7 +65,7 @@ int lua_Quaternion__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Quaternion");
                 luaL_argcheck(state, userdata != NULL, 1, "'Quaternion' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Quaternion* instance = (Quaternion*)object->instance;
@@ -102,7 +102,7 @@ int lua_Quaternion__init(lua_State* state)
             void* returnPtr = ((void*)new Quaternion());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Quaternion");
@@ -123,12 +123,12 @@ int lua_Quaternion__init(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TTABLE || lua_type(state, 1) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(1);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(1);
 
                     void* returnPtr = ((void*)new Quaternion(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Quaternion");
@@ -149,14 +149,14 @@ int lua_Quaternion__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Quaternion(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Quaternion");
@@ -177,14 +177,14 @@ int lua_Quaternion__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Quaternion(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Quaternion");
@@ -212,7 +212,7 @@ int lua_Quaternion__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -222,7 +222,7 @@ int lua_Quaternion__init(lua_State* state)
                     void* returnPtr = ((void*)new Quaternion(*param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Quaternion");
@@ -265,7 +265,7 @@ int lua_Quaternion__init(lua_State* state)
                     void* returnPtr = ((void*)new Quaternion(param1, param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Quaternion");
@@ -328,7 +328,7 @@ int lua_Quaternion_conjugate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -390,7 +390,7 @@ int lua_Quaternion_inverse(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -503,7 +503,7 @@ int lua_Quaternion_multiply(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -564,7 +564,7 @@ int lua_Quaternion_normalize(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -605,7 +605,7 @@ int lua_Quaternion_set(lua_State* state)
                     (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                     Quaternion* instance = getInstance(state);
                     instance->set(param1);
@@ -621,7 +621,7 @@ int lua_Quaternion_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -639,7 +639,7 @@ int lua_Quaternion_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -664,7 +664,7 @@ int lua_Quaternion_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -773,7 +773,7 @@ int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -785,7 +785,7 @@ int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Quaternion> param3 = ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param3 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Quaternion'.");
@@ -826,7 +826,7 @@ int lua_Quaternion_static_createFromRotationMatrix(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -835,7 +835,7 @@ int lua_Quaternion_static_createFromRotationMatrix(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -874,7 +874,7 @@ int lua_Quaternion_static_identity(lua_State* state)
             void* returnPtr = (void*)&(Quaternion::identity());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Quaternion");
@@ -915,7 +915,7 @@ int lua_Quaternion_static_lerp(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -924,7 +924,7 @@ int lua_Quaternion_static_lerp(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -936,7 +936,7 @@ int lua_Quaternion_static_lerp(lua_State* state)
 
                 // Get parameter 4 off the stack.
                 bool param4Valid;
-                ScriptUtil::LuaArray<Quaternion> param4 = ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", false, &param4Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param4 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", false, &param4Valid);
                 if (!param4Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 4 to type 'Quaternion'.");
@@ -978,7 +978,7 @@ int lua_Quaternion_static_multiply(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -987,7 +987,7 @@ int lua_Quaternion_static_multiply(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -996,7 +996,7 @@ int lua_Quaternion_static_multiply(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Quaternion> param3 = ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param3 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Quaternion'.");
@@ -1039,7 +1039,7 @@ int lua_Quaternion_static_slerp(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -1048,7 +1048,7 @@ int lua_Quaternion_static_slerp(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -1060,7 +1060,7 @@ int lua_Quaternion_static_slerp(lua_State* state)
 
                 // Get parameter 4 off the stack.
                 bool param4Valid;
-                ScriptUtil::LuaArray<Quaternion> param4 = ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", false, &param4Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param4 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", false, &param4Valid);
                 if (!param4Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 4 to type 'Quaternion'.");
@@ -1105,7 +1105,7 @@ int lua_Quaternion_static_squad(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -1114,7 +1114,7 @@ int lua_Quaternion_static_squad(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -1123,7 +1123,7 @@ int lua_Quaternion_static_squad(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Quaternion> param3 = ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", true, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param3 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", true, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Quaternion'.");
@@ -1132,7 +1132,7 @@ int lua_Quaternion_static_squad(lua_State* state)
 
                 // Get parameter 4 off the stack.
                 bool param4Valid;
-                ScriptUtil::LuaArray<Quaternion> param4 = ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", true, &param4Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param4 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", true, &param4Valid);
                 if (!param4Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 4 to type 'Quaternion'.");
@@ -1144,7 +1144,7 @@ int lua_Quaternion_static_squad(lua_State* state)
 
                 // Get parameter 6 off the stack.
                 bool param6Valid;
-                ScriptUtil::LuaArray<Quaternion> param6 = ScriptUtil::getObjectPointer<Quaternion>(6, "Quaternion", false, &param6Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param6 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(6, "Quaternion", false, &param6Valid);
                 if (!param6Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 6 to type 'Quaternion'.");
@@ -1183,7 +1183,7 @@ int lua_Quaternion_static_zero(lua_State* state)
             void* returnPtr = (void*)&(Quaternion::zero());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Quaternion");
@@ -1222,7 +1222,7 @@ int lua_Quaternion_toAxisAngle(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");

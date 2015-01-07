@@ -28,14 +28,14 @@ void luaRegister_CameraListener()
     std::vector<std::string> scopePath;
     scopePath.push_back("Camera");
 
-    ScriptUtil::registerClass("CameraListener", lua_members, NULL, lua_CameraListener__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("CameraListener", lua_members, NULL, lua_CameraListener__gc, lua_statics, scopePath);
 }
 
 static Camera::Listener* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "CameraListener");
     luaL_argcheck(state, userdata != NULL, 1, "'CameraListener' expected.");
-    return (Camera::Listener*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Camera::Listener*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_CameraListener__gc(lua_State* state)
@@ -52,7 +52,7 @@ int lua_CameraListener__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "CameraListener");
                 luaL_argcheck(state, userdata != NULL, 1, "'CameraListener' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Camera::Listener* instance = (Camera::Listener*)object->instance;
@@ -91,7 +91,7 @@ int lua_CameraListener_cameraChanged(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Camera> param1 = ScriptUtil::getObjectPointer<Camera>(2, "Camera", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Camera> param1 = gameplay::ScriptUtil::getObjectPointer<Camera>(2, "Camera", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Camera'.");

@@ -9,6 +9,7 @@
 #include "Form.h"
 #include "Game.h"
 #include "ImageControl.h"
+#include "Material.h"
 #include "Node.h"
 #include "Ref.h"
 #include "ScriptController.h"
@@ -92,6 +93,7 @@ void luaRegister_ImageControl()
         {"removeListener", lua_ImageControl_removeListener},
         {"removeScript", lua_ImageControl_removeScript},
         {"removeScriptCallback", lua_ImageControl_removeScriptCallback},
+        {"resetAlignment", lua_ImageControl_resetAlignment},
         {"setAlignment", lua_ImageControl_setAlignment},
         {"setAnimationPropertyValue", lua_ImageControl_setAnimationPropertyValue},
         {"setAutoSize", lua_ImageControl_setAutoSize},
@@ -1601,10 +1603,10 @@ int lua_ImageControl_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 ImageControl* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1622,10 +1624,10 @@ int lua_ImageControl_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 ImageControl* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -3522,6 +3524,38 @@ int lua_ImageControl_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_ImageControl_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ImageControl* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ImageControl_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ImageControl_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
@@ -4151,7 +4185,7 @@ int lua_ImageControl_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 ImageControl* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4170,7 +4204,7 @@ int lua_ImageControl_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);

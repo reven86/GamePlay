@@ -7,7 +7,7 @@ namespace gameplay
 {
   
 Text::Text() :
-    _font(NULL), _text(""), _size(0), _width(0), _height(0), _wrap(true), _rightToLeft(false),
+    _font(NULL), _text(L""), _size(0), _width(0), _height(0), _wrap(true), _rightToLeft(false),
     _align(Font::ALIGN_TOP_LEFT), _clip(Rectangle(0, 0, 0, 0)),
     _opacity(1.0f), _color(Vector4::one()), _node(NULL)
 {
@@ -24,7 +24,7 @@ Text& Text::operator=(const Text& text)
     return *this;
 }
     
-Text* Text::create(const char* fontPath, const char* str, const Vector4& color, unsigned int size)
+Text* Text::create(const char* fontPath, const wchar_t* str, const Vector4& color, unsigned int size)
 {
     GP_ASSERT(fontPath);
     GP_ASSERT(str);
@@ -38,17 +38,17 @@ Text* Text::create(const char* fontPath, const char* str, const Vector4& color, 
     else
     {
         // Delegate to closest sized font
-        font = font->findClosestSize(size);
+        font = const_cast<Font *>(font->findClosestSize(size));
         size = font->_size;
     }
-    unsigned int widthOut, heightOut;
+    float widthOut, heightOut;
     font->measureText(str, size, &widthOut, &heightOut);
     Text* text = new Text();
     text->_font = font;
     text->_text = str;
     text->_size = size;
-    text->_width = (float)widthOut + 1;
-    text->_height = (float)heightOut + 1;
+    text->_width = widthOut;
+    text->_height = heightOut;
     text->_color = color;
 
     return text;

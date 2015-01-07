@@ -14,6 +14,7 @@
 #include "FlowLayout.h"
 #include "Form.h"
 #include "Game.h"
+#include "HorizontalLayout.h"
 #include "ImageControl.h"
 #include "JoystickControl.h"
 #include "Label.h"
@@ -119,6 +120,7 @@ void luaRegister_Container()
         {"removeListener", lua_Container_removeListener},
         {"removeScript", lua_Container_removeScript},
         {"removeScriptCallback", lua_Container_removeScriptCallback},
+        {"resetAlignment", lua_Container_resetAlignment},
         {"setActiveControl", lua_Container_setActiveControl},
         {"setAlignment", lua_Container_setAlignment},
         {"setAnimationPropertyValue", lua_Container_setAnimationPropertyValue},
@@ -1837,10 +1839,10 @@ int lua_Container_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Container* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1858,10 +1860,10 @@ int lua_Container_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Container* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -4160,6 +4162,38 @@ int lua_Container_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_Container_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Container_setActiveControl(lua_State* state)
 {
     // Get the number of parameters.
@@ -4831,7 +4865,7 @@ int lua_Container_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 Container* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4850,7 +4884,7 @@ int lua_Container_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);

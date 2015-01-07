@@ -46,8 +46,9 @@ public:
      * @param size The font size to draw text (0 for default font size).
      *
      * @return A Text object.
+     * @script{ignore}
      */
-    static Text* create(const char* fontPath, const char* str, const Vector4& color = Vector4::one(), unsigned int size = 0);
+    static Text* create(const char* fontPath, const wchar_t* str, const Vector4& color = Vector4::one(), unsigned int size = 0);
     
     /**
      * Creates text from a properties object.
@@ -61,15 +62,17 @@ public:
      * Sets the text to be drawn.
      *
      * @param str The text string to be drawn.
+     * @script{ignore}
      */
-    void setText(const char* str);
+    void setText(const wchar_t* str);
     
     /**
      * Get the string that will be drawn from this Text object.
      *
      * @return The text string to be drawn.
+     * @script{ignore}
      */
-    const char* getText() const;
+    const wchar_t* getText() const;
     
     /**
      * Gets the size of the text to be drawn.
@@ -256,7 +259,7 @@ protected:
     void cloneInto(Text* text, NodeCloneContext &context) const;
 
     Font* _font;
-    std::string _text;
+    std::wstring _text;
     unsigned int _size;
     float _width;
     float _height;

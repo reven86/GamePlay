@@ -42,14 +42,14 @@ void luaRegister_Terrain()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Terrain", lua_members, NULL, lua_Terrain__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Terrain", lua_members, NULL, lua_Terrain__gc, lua_statics, scopePath);
 }
 
 static Terrain* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Terrain");
     luaL_argcheck(state, userdata != NULL, 1, "'Terrain' expected.");
-    return (Terrain*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Terrain*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Terrain__gc(lua_State* state)
@@ -66,7 +66,7 @@ int lua_Terrain__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Terrain");
                 luaL_argcheck(state, userdata != NULL, 1, "'Terrain' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Terrain* instance = (Terrain*)object->instance;
@@ -153,7 +153,7 @@ int lua_Terrain_draw(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
 
                 Terrain* instance = getInstance(state);
                 unsigned int result = instance->draw(param1);
@@ -194,7 +194,7 @@ int lua_Terrain_getBoundingBox(lua_State* state)
                 void* returnPtr = (void*)&(instance->getBoundingBox());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "BoundingBox");
@@ -281,7 +281,7 @@ int lua_Terrain_getNode(lua_State* state)
                 void* returnPtr = ((void*)instance->getNode());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Node");
@@ -329,7 +329,7 @@ int lua_Terrain_getPatch(lua_State* state)
                 void* returnPtr = ((void*)instance->getPatch(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "TerrainPatch");
@@ -516,7 +516,7 @@ int lua_Terrain_setFlag(lua_State* state)
                 Terrain::Flags param1 = (Terrain::Flags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
-                bool param2 = ScriptUtil::luaCheckBool(state, 3);
+                bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 3);
 
                 Terrain* instance = getInstance(state);
                 instance->setFlag(param1, param2);
@@ -553,12 +553,12 @@ int lua_Terrain_static_create(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(1, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                     void* returnPtr = ((void*)Terrain::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -579,14 +579,14 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Properties> param1 = ScriptUtil::getObjectPointer<Properties>(1, "Properties", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Properties> param1 = gameplay::ScriptUtil::getObjectPointer<Properties>(1, "Properties", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)Terrain::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -607,14 +607,14 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)Terrain::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -642,20 +642,20 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     void* returnPtr = ((void*)Terrain::create(param1, *param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -684,13 +684,13 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -700,7 +700,7 @@ int lua_Terrain_static_create(lua_State* state)
                     void* returnPtr = ((void*)Terrain::create(param1, *param2, param3));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -730,13 +730,13 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -749,7 +749,7 @@ int lua_Terrain_static_create(lua_State* state)
                     void* returnPtr = ((void*)Terrain::create(param1, *param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -780,13 +780,13 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -802,7 +802,7 @@ int lua_Terrain_static_create(lua_State* state)
                     void* returnPtr = ((void*)Terrain::create(param1, *param2, param3, param4, param5));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -834,13 +834,13 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -854,12 +854,12 @@ int lua_Terrain_static_create(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    const char* param6 = ScriptUtil::getString(6, false);
+                    const char* param6 = gameplay::ScriptUtil::getString(6, false);
 
                     void* returnPtr = ((void*)Terrain::create(param1, *param2, param3, param4, param5, param6));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");
@@ -892,13 +892,13 @@ int lua_Terrain_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<HeightField> param1 = ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<HeightField> param1 = gameplay::ScriptUtil::getObjectPointer<HeightField>(1, "HeightField", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -912,15 +912,15 @@ int lua_Terrain_static_create(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    const char* param6 = ScriptUtil::getString(6, false);
+                    const char* param6 = gameplay::ScriptUtil::getString(6, false);
 
                     // Get parameter 7 off the stack.
-                    const char* param7 = ScriptUtil::getString(7, false);
+                    const char* param7 = gameplay::ScriptUtil::getString(7, false);
 
                     void* returnPtr = ((void*)Terrain::create(param1, *param2, param3, param4, param5, param6, param7));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Terrain");

@@ -50,14 +50,14 @@ void luaRegister_Mesh()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Mesh", lua_members, NULL, lua_Mesh__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Mesh", lua_members, NULL, lua_Mesh__gc, lua_statics, scopePath);
 }
 
 static Mesh* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Mesh");
     luaL_argcheck(state, userdata != NULL, 1, "'Mesh' expected.");
-    return (Mesh*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Mesh*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Mesh__gc(lua_State* state)
@@ -74,7 +74,7 @@ int lua_Mesh__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Mesh");
                 luaL_argcheck(state, userdata != NULL, 1, "'Mesh' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Mesh* instance = (Mesh*)object->instance;
@@ -126,7 +126,7 @@ int lua_Mesh_addPart(lua_State* state)
                 void* returnPtr = ((void*)instance->addPart(param1, param2, param3));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MeshPart");
@@ -162,13 +162,13 @@ int lua_Mesh_addPart(lua_State* state)
                 unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
 
                 // Get parameter 4 off the stack.
-                bool param4 = ScriptUtil::luaCheckBool(state, 5);
+                bool param4 = gameplay::ScriptUtil::luaCheckBool(state, 5);
 
                 Mesh* instance = getInstance(state);
                 void* returnPtr = ((void*)instance->addPart(param1, param2, param3, param4));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MeshPart");
@@ -244,7 +244,7 @@ int lua_Mesh_getBoundingBox(lua_State* state)
                 void* returnPtr = (void*)&(instance->getBoundingBox());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "BoundingBox");
@@ -288,7 +288,7 @@ int lua_Mesh_getBoundingSphere(lua_State* state)
                 void* returnPtr = (void*)&(instance->getBoundingSphere());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "BoundingSphere");
@@ -336,7 +336,7 @@ int lua_Mesh_getPart(lua_State* state)
                 void* returnPtr = ((void*)instance->getPart(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MeshPart");
@@ -520,7 +520,7 @@ int lua_Mesh_getVertexBuffer(lua_State* state)
                 void* returnPtr = (void*)new GLuint(instance->getVertexBuffer());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "GLuint");
@@ -599,7 +599,7 @@ int lua_Mesh_getVertexFormat(lua_State* state)
                 void* returnPtr = (void*)&(instance->getVertexFormat());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "VertexFormat");
@@ -744,7 +744,7 @@ int lua_Mesh_setBoundingBox(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<BoundingBox> param1 = ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<BoundingBox> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'BoundingBox'.");
@@ -786,7 +786,7 @@ int lua_Mesh_setBoundingSphere(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<BoundingSphere> param1 = ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<BoundingSphere> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'BoundingSphere'.");
@@ -863,7 +863,7 @@ int lua_Mesh_setVertexData(lua_State* state)
                 (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
             {
                 // Get parameter 1 off the stack.
-                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                 Mesh* instance = getInstance(state);
                 instance->setVertexData(param1);
@@ -882,7 +882,7 @@ int lua_Mesh_setVertexData(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -905,7 +905,7 @@ int lua_Mesh_setVertexData(lua_State* state)
                 lua_type(state, 4) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                 // Get parameter 2 off the stack.
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
@@ -947,7 +947,7 @@ int lua_Mesh_static_createBoundingBox(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<BoundingBox> param1 = ScriptUtil::getObjectPointer<BoundingBox>(1, "BoundingBox", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<BoundingBox> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingBox>(1, "BoundingBox", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'BoundingBox'.");
@@ -957,7 +957,7 @@ int lua_Mesh_static_createBoundingBox(lua_State* state)
                 void* returnPtr = ((void*)Mesh::createBoundingBox(*param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Mesh");
@@ -1000,7 +1000,7 @@ int lua_Mesh_static_createLines(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -1013,7 +1013,7 @@ int lua_Mesh_static_createLines(lua_State* state)
                 void* returnPtr = ((void*)Mesh::createLines(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Mesh");
@@ -1056,7 +1056,7 @@ int lua_Mesh_static_createMesh(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<VertexFormat> param1 = ScriptUtil::getObjectPointer<VertexFormat>(1, "VertexFormat", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<VertexFormat> param1 = gameplay::ScriptUtil::getObjectPointer<VertexFormat>(1, "VertexFormat", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'VertexFormat'.");
@@ -1069,7 +1069,7 @@ int lua_Mesh_static_createMesh(lua_State* state)
                 void* returnPtr = ((void*)Mesh::createMesh(*param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Mesh");
@@ -1095,7 +1095,7 @@ int lua_Mesh_static_createMesh(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<VertexFormat> param1 = ScriptUtil::getObjectPointer<VertexFormat>(1, "VertexFormat", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<VertexFormat> param1 = gameplay::ScriptUtil::getObjectPointer<VertexFormat>(1, "VertexFormat", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'VertexFormat'.");
@@ -1106,12 +1106,12 @@ int lua_Mesh_static_createMesh(lua_State* state)
                 unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 2);
 
                 // Get parameter 3 off the stack.
-                bool param3 = ScriptUtil::luaCheckBool(state, 3);
+                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 3);
 
                 void* returnPtr = ((void*)Mesh::createMesh(*param1, param2, param3));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Mesh");
@@ -1158,32 +1158,32 @@ int lua_Mesh_static_createQuad(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Vector3> param4 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param4 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param4Valid);
                     if (!param4Valid)
                         break;
 
                     void* returnPtr = ((void*)Mesh::createQuad(*param1, *param2, *param3, *param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1220,7 +1220,7 @@ int lua_Mesh_static_createQuad(lua_State* state)
                     void* returnPtr = ((void*)Mesh::createQuad(param1, param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1267,7 +1267,7 @@ int lua_Mesh_static_createQuad(lua_State* state)
                     void* returnPtr = ((void*)Mesh::createQuad(param1, param2, param3, param4, param5));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1318,7 +1318,7 @@ int lua_Mesh_static_createQuad(lua_State* state)
                     void* returnPtr = ((void*)Mesh::createQuad(param1, param2, param3, param4, param5, param6));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1373,7 +1373,7 @@ int lua_Mesh_static_createQuad(lua_State* state)
                     void* returnPtr = ((void*)Mesh::createQuad(param1, param2, param3, param4, param5, param6, param7));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1432,7 +1432,7 @@ int lua_Mesh_static_createQuad(lua_State* state)
                     void* returnPtr = ((void*)Mesh::createQuad(param1, param2, param3, param4, param5, param6, param7, param8));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Mesh");
@@ -1474,7 +1474,7 @@ int lua_Mesh_static_createQuadFullscreen(lua_State* state)
             void* returnPtr = ((void*)Mesh::createQuadFullscreen());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Mesh");

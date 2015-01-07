@@ -16,6 +16,7 @@ int lua_FileSystem_static_getResourcePath(lua_State* state);
 int lua_FileSystem_static_isAbsolutePath(lua_State* state);
 int lua_FileSystem_static_loadResourceAliases(lua_State* state);
 int lua_FileSystem_static_readAll(lua_State* state);
+int lua_FileSystem_static_registerPackage(lua_State* state);
 int lua_FileSystem_static_resolvePath(lua_State* state);
 int lua_FileSystem_static_setAssetPath(lua_State* state);
 int lua_FileSystem_static_setResourcePath(lua_State* state);

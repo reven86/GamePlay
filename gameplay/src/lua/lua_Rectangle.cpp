@@ -37,14 +37,14 @@ void luaRegister_Rectangle()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Rectangle", lua_members, lua_Rectangle__init, lua_Rectangle__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Rectangle", lua_members, lua_Rectangle__init, lua_Rectangle__gc, lua_statics, scopePath);
 }
 
 static Rectangle* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Rectangle");
     luaL_argcheck(state, userdata != NULL, 1, "'Rectangle' expected.");
-    return (Rectangle*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Rectangle*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Rectangle__gc(lua_State* state)
@@ -61,7 +61,7 @@ int lua_Rectangle__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Rectangle");
                 luaL_argcheck(state, userdata != NULL, 1, "'Rectangle' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Rectangle* instance = (Rectangle*)object->instance;
@@ -98,7 +98,7 @@ int lua_Rectangle__init(lua_State* state)
             void* returnPtr = ((void*)new Rectangle());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Rectangle");
@@ -120,14 +120,14 @@ int lua_Rectangle__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Rectangle(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Rectangle");
@@ -162,7 +162,7 @@ int lua_Rectangle__init(lua_State* state)
                     void* returnPtr = ((void*)new Rectangle(param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Rectangle");
@@ -205,7 +205,7 @@ int lua_Rectangle__init(lua_State* state)
                     void* returnPtr = ((void*)new Rectangle(param1, param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Rectangle");
@@ -286,7 +286,7 @@ int lua_Rectangle_contains(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -464,7 +464,7 @@ int lua_Rectangle_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -650,7 +650,7 @@ int lua_Rectangle_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -764,7 +764,7 @@ int lua_Rectangle_static_combine(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Rectangle'.");
@@ -773,7 +773,7 @@ int lua_Rectangle_static_combine(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Rectangle'.");
@@ -782,7 +782,7 @@ int lua_Rectangle_static_combine(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Rectangle> param3 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param3 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Rectangle'.");
@@ -821,7 +821,7 @@ int lua_Rectangle_static_empty(lua_State* state)
             void* returnPtr = (void*)&(Rectangle::empty());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Rectangle");
@@ -861,7 +861,7 @@ int lua_Rectangle_static_intersect(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(1, "Rectangle", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Rectangle'.");
@@ -870,7 +870,7 @@ int lua_Rectangle_static_intersect(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Rectangle'.");
@@ -879,7 +879,7 @@ int lua_Rectangle_static_intersect(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Rectangle> param3 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Rectangle> param3 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Rectangle'.");

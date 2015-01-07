@@ -68,7 +68,6 @@ void luaRegister_RadioButton()
         {"getSkinRegion", lua_RadioButton_getSkinRegion},
         {"getState", lua_RadioButton_getState},
         {"getStyle", lua_RadioButton_getStyle},
-        {"getText", lua_RadioButton_getText},
         {"getTextAlignment", lua_RadioButton_getTextAlignment},
         {"getTextColor", lua_RadioButton_getTextColor},
         {"getTextRightToLeft", lua_RadioButton_getTextRightToLeft},
@@ -96,6 +95,7 @@ void luaRegister_RadioButton()
         {"removeListener", lua_RadioButton_removeListener},
         {"removeScript", lua_RadioButton_removeScript},
         {"removeScriptCallback", lua_RadioButton_removeScriptCallback},
+        {"resetAlignment", lua_RadioButton_resetAlignment},
         {"setAlignment", lua_RadioButton_setAlignment},
         {"setAnimationPropertyValue", lua_RadioButton_setAnimationPropertyValue},
         {"setAutoSize", lua_RadioButton_setAutoSize},
@@ -124,7 +124,6 @@ void luaRegister_RadioButton()
         {"setSkinColor", lua_RadioButton_setSkinColor},
         {"setSkinRegion", lua_RadioButton_setSkinRegion},
         {"setStyle", lua_RadioButton_setStyle},
-        {"setText", lua_RadioButton_setText},
         {"setTextAlignment", lua_RadioButton_setTextAlignment},
         {"setTextColor", lua_RadioButton_setTextColor},
         {"setTextRightToLeft", lua_RadioButton_setTextRightToLeft},
@@ -1605,10 +1604,10 @@ int lua_RadioButton_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 RadioButton* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1626,10 +1625,10 @@ int lua_RadioButton_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 RadioButton* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -2394,41 +2393,6 @@ int lua_RadioButton_getStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_RadioButton_getStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_RadioButton_getText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                RadioButton* instance = getInstance(state);
-                const char* result = instance->getText();
-
-                // Push the return value onto the stack.
-                lua_pushstring(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_RadioButton_getText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3543,6 +3507,38 @@ int lua_RadioButton_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_RadioButton_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                RadioButton* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_RadioButton_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_RadioButton_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
@@ -4172,7 +4168,7 @@ int lua_RadioButton_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 RadioButton* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4191,7 +4187,7 @@ int lua_RadioButton_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
@@ -4941,42 +4937,6 @@ int lua_RadioButton_setStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_RadioButton_setStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_RadioButton_setText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
-
-                RadioButton* instance = getInstance(state);
-                instance->setText(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_RadioButton_setText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

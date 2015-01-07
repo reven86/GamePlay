@@ -29,14 +29,14 @@ void luaRegister_PhysicsCollisionObjectCollisionPair()
     std::vector<std::string> scopePath;
     scopePath.push_back("PhysicsCollisionObject");
 
-    ScriptUtil::registerClass("PhysicsCollisionObjectCollisionPair", lua_members, lua_PhysicsCollisionObjectCollisionPair__init, lua_PhysicsCollisionObjectCollisionPair__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("PhysicsCollisionObjectCollisionPair", lua_members, lua_PhysicsCollisionObjectCollisionPair__init, lua_PhysicsCollisionObjectCollisionPair__gc, lua_statics, scopePath);
 }
 
 static PhysicsCollisionObject::CollisionPair* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "PhysicsCollisionObjectCollisionPair");
     luaL_argcheck(state, userdata != NULL, 1, "'PhysicsCollisionObjectCollisionPair' expected.");
-    return (PhysicsCollisionObject::CollisionPair*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (PhysicsCollisionObject::CollisionPair*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_PhysicsCollisionObjectCollisionPair__gc(lua_State* state)
@@ -53,7 +53,7 @@ int lua_PhysicsCollisionObjectCollisionPair__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "PhysicsCollisionObjectCollisionPair");
                 luaL_argcheck(state, userdata != NULL, 1, "'PhysicsCollisionObjectCollisionPair' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     PhysicsCollisionObject::CollisionPair* instance = (PhysicsCollisionObject::CollisionPair*)object->instance;
@@ -92,7 +92,7 @@ int lua_PhysicsCollisionObjectCollisionPair__init(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<PhysicsCollisionObject> param1 = ScriptUtil::getObjectPointer<PhysicsCollisionObject>(1, "PhysicsCollisionObject", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<PhysicsCollisionObject> param1 = gameplay::ScriptUtil::getObjectPointer<PhysicsCollisionObject>(1, "PhysicsCollisionObject", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'PhysicsCollisionObject'.");
@@ -101,7 +101,7 @@ int lua_PhysicsCollisionObjectCollisionPair__init(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = gameplay::ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'PhysicsCollisionObject'.");
@@ -111,7 +111,7 @@ int lua_PhysicsCollisionObjectCollisionPair__init(lua_State* state)
                 void* returnPtr = ((void*)new PhysicsCollisionObject::CollisionPair(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "PhysicsCollisionObjectCollisionPair");
@@ -153,7 +153,7 @@ int lua_PhysicsCollisionObjectCollisionPair_objectA(lua_State* state)
     {
         // Get parameter 2 off the stack.
         bool param2Valid;
-        ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
+        gameplay::ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = gameplay::ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
         if (!param2Valid)
         {
             lua_pushstring(state, "Failed to convert parameter 2 to type 'PhysicsCollisionObject'.");
@@ -168,7 +168,7 @@ int lua_PhysicsCollisionObjectCollisionPair_objectA(lua_State* state)
         void* returnPtr = (void*)instance->objectA;
         if (returnPtr)
         {
-            ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+            gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
             object->instance = returnPtr;
             object->owns = false;
             luaL_getmetatable(state, "PhysicsCollisionObject");
@@ -197,7 +197,7 @@ int lua_PhysicsCollisionObjectCollisionPair_objectB(lua_State* state)
     {
         // Get parameter 2 off the stack.
         bool param2Valid;
-        ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
+        gameplay::ScriptUtil::LuaArray<PhysicsCollisionObject> param2 = gameplay::ScriptUtil::getObjectPointer<PhysicsCollisionObject>(2, "PhysicsCollisionObject", false, &param2Valid);
         if (!param2Valid)
         {
             lua_pushstring(state, "Failed to convert parameter 2 to type 'PhysicsCollisionObject'.");
@@ -212,7 +212,7 @@ int lua_PhysicsCollisionObjectCollisionPair_objectB(lua_State* state)
         void* returnPtr = (void*)instance->objectB;
         if (returnPtr)
         {
-            ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+            gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
             object->instance = returnPtr;
             object->owns = false;
             luaL_getmetatable(state, "PhysicsCollisionObject");

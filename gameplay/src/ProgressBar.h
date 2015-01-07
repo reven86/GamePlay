@@ -73,9 +73,9 @@ public:
     float getValue() const;
 
     /**
-     * @see Control::getType
+     * @see ScriptTarget::getTypeName
      */
-    const char* getType() const;
+    const char* getTypeName() const;
 
     /**
      * Get progress bar's orientation.

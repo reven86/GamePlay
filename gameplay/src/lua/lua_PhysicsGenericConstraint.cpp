@@ -43,14 +43,14 @@ void luaRegister_PhysicsGenericConstraint()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("PhysicsGenericConstraint", lua_members, NULL, NULL, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("PhysicsGenericConstraint", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static PhysicsGenericConstraint* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "PhysicsGenericConstraint");
     luaL_argcheck(state, userdata != NULL, 1, "'PhysicsGenericConstraint' expected.");
-    return (PhysicsGenericConstraint*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (PhysicsGenericConstraint*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_PhysicsGenericConstraint_getBreakingImpulse(lua_State* state)
@@ -104,7 +104,7 @@ int lua_PhysicsGenericConstraint_getRotationOffsetA(lua_State* state)
                 void* returnPtr = (void*)&(instance->getRotationOffsetA());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Quaternion");
@@ -148,7 +148,7 @@ int lua_PhysicsGenericConstraint_getRotationOffsetB(lua_State* state)
                 void* returnPtr = (void*)&(instance->getRotationOffsetB());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Quaternion");
@@ -192,7 +192,7 @@ int lua_PhysicsGenericConstraint_getTranslationOffsetA(lua_State* state)
                 void* returnPtr = (void*)&(instance->getTranslationOffsetA());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Vector3");
@@ -236,7 +236,7 @@ int lua_PhysicsGenericConstraint_getTranslationOffsetB(lua_State* state)
                 void* returnPtr = (void*)&(instance->getTranslationOffsetB());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Vector3");
@@ -314,7 +314,7 @@ int lua_PhysicsGenericConstraint_setAngularLowerLimit(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -356,7 +356,7 @@ int lua_PhysicsGenericConstraint_setAngularUpperLimit(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -433,7 +433,7 @@ int lua_PhysicsGenericConstraint_setEnabled(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
 
                 PhysicsGenericConstraint* instance = getInstance(state);
                 instance->setEnabled(param1);
@@ -470,7 +470,7 @@ int lua_PhysicsGenericConstraint_setLinearLowerLimit(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -512,7 +512,7 @@ int lua_PhysicsGenericConstraint_setLinearUpperLimit(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -554,7 +554,7 @@ int lua_PhysicsGenericConstraint_setRotationOffsetA(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -596,7 +596,7 @@ int lua_PhysicsGenericConstraint_setRotationOffsetB(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -638,7 +638,7 @@ int lua_PhysicsGenericConstraint_setTranslationOffsetA(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -680,7 +680,7 @@ int lua_PhysicsGenericConstraint_setTranslationOffsetB(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -722,7 +722,7 @@ int lua_PhysicsGenericConstraint_static_centerOfMassMidpoint(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
@@ -731,7 +731,7 @@ int lua_PhysicsGenericConstraint_static_centerOfMassMidpoint(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Node> param2 = ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Node> param2 = gameplay::ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Node'.");
@@ -741,7 +741,7 @@ int lua_PhysicsGenericConstraint_static_centerOfMassMidpoint(lua_State* state)
                 void* returnPtr = (void*)new Vector3(PhysicsGenericConstraint::centerOfMassMidpoint(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Vector3");
@@ -784,7 +784,7 @@ int lua_PhysicsGenericConstraint_static_getRotationOffset(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
@@ -793,7 +793,7 @@ int lua_PhysicsGenericConstraint_static_getRotationOffset(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -803,7 +803,7 @@ int lua_PhysicsGenericConstraint_static_getRotationOffset(lua_State* state)
                 void* returnPtr = (void*)new Quaternion(PhysicsGenericConstraint::getRotationOffset(param1, *param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Quaternion");
@@ -846,7 +846,7 @@ int lua_PhysicsGenericConstraint_static_getTranslationOffset(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(1, "Node", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
@@ -855,7 +855,7 @@ int lua_PhysicsGenericConstraint_static_getTranslationOffset(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -865,7 +865,7 @@ int lua_PhysicsGenericConstraint_static_getTranslationOffset(lua_State* state)
                 void* returnPtr = (void*)new Vector3(PhysicsGenericConstraint::getTranslationOffset(param1, *param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Vector3");

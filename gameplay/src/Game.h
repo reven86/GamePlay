@@ -805,7 +805,7 @@ private:
     bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
     void resizeEventInternal(unsigned int width, unsigned int height);
     void gestureSwipeEventInternal(int x, int y, int direction);
-    void gesturePinchEventInternal(int x, int y, float scale);
+    void gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches);
     void gestureTapEventInternal(int x, int y);
     void gestureLongTapEventInternal(int x, int y, float duration);
     void gestureDragEventInternal(int x, int y);

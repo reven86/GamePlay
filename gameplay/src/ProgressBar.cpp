@@ -96,9 +96,9 @@ unsigned ProgressBar::drawImages(Form* form, const Rectangle& clip)
     return 1;
 }
 
-const char* ProgressBar::getType() const
+const char* ProgressBar::getTypeName() const
 {
-    return "progressbar";
+    return "ProgressBar";
 }
 
 }

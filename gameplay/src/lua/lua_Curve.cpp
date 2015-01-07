@@ -20,6 +20,9 @@ void luaRegister_Curve()
         {"getComponentCount", lua_Curve_getComponentCount},
         {"getEndTime", lua_Curve_getEndTime},
         {"getPointCount", lua_Curve_getPointCount},
+        {"getPointInterpolation", lua_Curve_getPointInterpolation},
+        {"getPointTime", lua_Curve_getPointTime},
+        {"getPointValues", lua_Curve_getPointValues},
         {"getRefCount", lua_Curve_getRefCount},
         {"getStartTime", lua_Curve_getStartTime},
         {"release", lua_Curve_release},
@@ -35,14 +38,14 @@ void luaRegister_Curve()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Curve", lua_members, NULL, lua_Curve__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Curve", lua_members, NULL, lua_Curve__gc, lua_statics, scopePath);
 }
 
 static Curve* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Curve");
     luaL_argcheck(state, userdata != NULL, 1, "'Curve' expected.");
-    return (Curve*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Curve*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Curve__gc(lua_State* state)
@@ -59,7 +62,7 @@ int lua_Curve__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Curve");
                 luaL_argcheck(state, userdata != NULL, 1, "'Curve' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Curve* instance = (Curve*)object->instance;
@@ -135,7 +138,7 @@ int lua_Curve_evaluate(lua_State* state)
                     float param1 = (float)luaL_checknumber(state, 2);
 
                     // Get parameter 2 off the stack.
-                    ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(3);
+                    gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
 
                     Curve* instance = getInstance(state);
                     instance->evaluate(param1, param2);
@@ -172,7 +175,7 @@ int lua_Curve_evaluate(lua_State* state)
                     float param4 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 5 off the stack.
-                    ScriptUtil::LuaArray<float> param5 = ScriptUtil::getFloatPointer(6);
+                    gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
 
                     Curve* instance = getInstance(state);
                     instance->evaluate(param1, param2, param3, param4, param5);
@@ -293,6 +296,132 @@ int lua_Curve_getPointCount(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Curve_getPointInterpolation(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                Curve* instance = getInstance(state);
+                Curve::InterpolationType result = instance->getPointInterpolation(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, (int)result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Curve_getPointInterpolation - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Curve_getPointTime(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                Curve* instance = getInstance(state);
+                float result = instance->getPointTime(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Curve_getPointTime - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Curve_getPointValues(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 5:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                (lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TLIGHTUSERDATA) &&
+                (lua_type(state, 4) == LUA_TTABLE || lua_type(state, 4) == LUA_TLIGHTUSERDATA) &&
+                (lua_type(state, 5) == LUA_TTABLE || lua_type(state, 5) == LUA_TLIGHTUSERDATA))
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                // Get parameter 2 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
+
+                // Get parameter 3 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
+
+                // Get parameter 4 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
+
+                Curve* instance = getInstance(state);
+                instance->getPointValues(param1, param2, param3, param4);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Curve_getPointValues - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 5).");
             lua_error(state);
             break;
         }
@@ -427,7 +556,7 @@ int lua_Curve_setPoint(lua_State* state)
                     float param2 = (float)luaL_checknumber(state, 3);
 
                     // Get parameter 3 off the stack.
-                    ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
+                    gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
 
                     // Get parameter 4 off the stack.
                     Curve::InterpolationType param4 = (Curve::InterpolationType)luaL_checkint(state, 5);
@@ -462,16 +591,16 @@ int lua_Curve_setPoint(lua_State* state)
                     float param2 = (float)luaL_checknumber(state, 3);
 
                     // Get parameter 3 off the stack.
-                    ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
+                    gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
 
                     // Get parameter 4 off the stack.
                     Curve::InterpolationType param4 = (Curve::InterpolationType)luaL_checkint(state, 5);
 
                     // Get parameter 5 off the stack.
-                    ScriptUtil::LuaArray<float> param5 = ScriptUtil::getFloatPointer(6);
+                    gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
 
                     // Get parameter 6 off the stack.
-                    ScriptUtil::LuaArray<float> param6 = ScriptUtil::getFloatPointer(7);
+                    gameplay::ScriptUtil::LuaArray<float> param6 = gameplay::ScriptUtil::getFloatPointer(7);
 
                     Curve* instance = getInstance(state);
                     instance->setPoint(param1, param2, param3, param4, param5, param6);
@@ -517,10 +646,10 @@ int lua_Curve_setTangent(lua_State* state)
                 Curve::InterpolationType param2 = (Curve::InterpolationType)luaL_checkint(state, 3);
 
                 // Get parameter 3 off the stack.
-                ScriptUtil::LuaArray<float> param3 = ScriptUtil::getFloatPointer(4);
+                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
 
                 // Get parameter 4 off the stack.
-                ScriptUtil::LuaArray<float> param4 = ScriptUtil::getFloatPointer(5);
+                gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
 
                 Curve* instance = getInstance(state);
                 instance->setTangent(param1, param2, param3, param4);
@@ -564,7 +693,7 @@ int lua_Curve_static_create(lua_State* state)
                 void* returnPtr = ((void*)Curve::create(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "Curve");

@@ -35,8 +35,8 @@ bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheel
 
     // send mouse move event even if it is consumed by form
     if( !eventConsumed || evt == Mouse::MOUSE_MOVE )
-        return Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta);
-
+        if (Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta))
+            return true;
 
     return eventConsumed;
 }

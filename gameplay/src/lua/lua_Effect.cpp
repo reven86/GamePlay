@@ -35,14 +35,14 @@ void luaRegister_Effect()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Effect", lua_members, NULL, lua_Effect__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Effect", lua_members, NULL, lua_Effect__gc, lua_statics, scopePath);
 }
 
 static Effect* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Effect");
     luaL_argcheck(state, userdata != NULL, 1, "'Effect' expected.");
-    return (Effect*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Effect*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Effect__gc(lua_State* state)
@@ -59,7 +59,7 @@ int lua_Effect__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Effect");
                 luaL_argcheck(state, userdata != NULL, 1, "'Effect' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Effect* instance = (Effect*)object->instance;
@@ -233,13 +233,13 @@ int lua_Effect_getUniform(lua_State* state)
                     (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(2, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                     Effect* instance = getInstance(state);
                     void* returnPtr = ((void*)instance->getUniform(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Uniform");
@@ -266,7 +266,7 @@ int lua_Effect_getUniform(lua_State* state)
                     void* returnPtr = ((void*)instance->getUniform(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = false;
                         luaL_getmetatable(state, "Uniform");
@@ -344,13 +344,13 @@ int lua_Effect_getVertexAttribute(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(2, false);
+                const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                 Effect* instance = getInstance(state);
                 void* returnPtr = (void*)new GLint(instance->getVertexAttribute(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = true;
                     luaL_getmetatable(state, "GLint");
@@ -428,7 +428,7 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -450,12 +450,12 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
-                    ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(3);
+                    gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
 
                     Effect* instance = getInstance(state);
                     instance->setValue(param1, param2);
@@ -472,7 +472,7 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -494,12 +494,12 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
-                    ScriptUtil::LuaArray<int> param2 = ScriptUtil::getIntPointer(3);
+                    gameplay::ScriptUtil::LuaArray<int> param2 = gameplay::ScriptUtil::getIntPointer(3);
 
                     Effect* instance = getInstance(state);
                     instance->setValue(param1, param2);
@@ -516,13 +516,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -541,13 +541,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -566,13 +566,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector2> param2 = ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param2 = gameplay::ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -591,13 +591,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector2> param2 = ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param2 = gameplay::ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -616,13 +616,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -641,13 +641,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -666,13 +666,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector4> param2 = ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param2 = gameplay::ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -691,13 +691,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector4> param2 = ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param2 = gameplay::ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -716,13 +716,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Texture::Sampler> param2 = ScriptUtil::getObjectPointer<Texture::Sampler>(3, "TextureSampler", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Texture::Sampler> param2 = gameplay::ScriptUtil::getObjectPointer<Texture::Sampler>(3, "TextureSampler", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -748,12 +748,12 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
-                    ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(3);
+                    gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
 
                     // Get parameter 3 off the stack.
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
@@ -774,12 +774,12 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
-                    ScriptUtil::LuaArray<int> param2 = ScriptUtil::getIntPointer(3);
+                    gameplay::ScriptUtil::LuaArray<int> param2 = gameplay::ScriptUtil::getIntPointer(3);
 
                     // Get parameter 3 off the stack.
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
@@ -800,13 +800,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -829,13 +829,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector2> param2 = ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param2 = gameplay::ScriptUtil::getObjectPointer<Vector2>(3, "Vector2", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -858,13 +858,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -887,13 +887,13 @@ int lua_Effect_setValue(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Uniform> param1 = ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Uniform> param1 = gameplay::ScriptUtil::getObjectPointer<Uniform>(2, "Uniform", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector4> param2 = ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param2 = gameplay::ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -935,15 +935,15 @@ int lua_Effect_static_createFromFile(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(1, false);
+                const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = ScriptUtil::getString(2, false);
+                const char* param2 = gameplay::ScriptUtil::getString(2, false);
 
                 void* returnPtr = ((void*)Effect::createFromFile(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Effect");
@@ -968,18 +968,18 @@ int lua_Effect_static_createFromFile(lua_State* state)
                 (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(1, false);
+                const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = ScriptUtil::getString(2, false);
+                const char* param2 = gameplay::ScriptUtil::getString(2, false);
 
                 // Get parameter 3 off the stack.
-                const char* param3 = ScriptUtil::getString(3, false);
+                const char* param3 = gameplay::ScriptUtil::getString(3, false);
 
                 void* returnPtr = ((void*)Effect::createFromFile(param1, param2, param3));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Effect");
@@ -1021,15 +1021,15 @@ int lua_Effect_static_createFromSource(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(1, false);
+                const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = ScriptUtil::getString(2, false);
+                const char* param2 = gameplay::ScriptUtil::getString(2, false);
 
                 void* returnPtr = ((void*)Effect::createFromSource(param1, param2));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Effect");
@@ -1054,18 +1054,18 @@ int lua_Effect_static_createFromSource(lua_State* state)
                 (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(1, false);
+                const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                 // Get parameter 2 off the stack.
-                const char* param2 = ScriptUtil::getString(2, false);
+                const char* param2 = gameplay::ScriptUtil::getString(2, false);
 
                 // Get parameter 3 off the stack.
-                const char* param3 = ScriptUtil::getString(3, false);
+                const char* param3 = gameplay::ScriptUtil::getString(3, false);
 
                 void* returnPtr = ((void*)Effect::createFromSource(param1, param2, param3));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Effect");
@@ -1106,7 +1106,7 @@ int lua_Effect_static_getCurrentEffect(lua_State* state)
             void* returnPtr = ((void*)Effect::getCurrentEffect());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Effect");

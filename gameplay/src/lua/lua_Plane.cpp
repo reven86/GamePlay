@@ -37,14 +37,14 @@ void luaRegister_Plane()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Plane", lua_members, lua_Plane__init, lua_Plane__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Plane", lua_members, lua_Plane__init, lua_Plane__gc, lua_statics, scopePath);
 }
 
 static Plane* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Plane");
     luaL_argcheck(state, userdata != NULL, 1, "'Plane' expected.");
-    return (Plane*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Plane*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Plane__gc(lua_State* state)
@@ -61,7 +61,7 @@ int lua_Plane__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Plane");
                 luaL_argcheck(state, userdata != NULL, 1, "'Plane' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Plane* instance = (Plane*)object->instance;
@@ -98,7 +98,7 @@ int lua_Plane__init(lua_State* state)
             void* returnPtr = ((void*)new Plane());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Plane");
@@ -120,14 +120,14 @@ int lua_Plane__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Plane(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Plane");
@@ -155,7 +155,7 @@ int lua_Plane__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -165,7 +165,7 @@ int lua_Plane__init(lua_State* state)
                     void* returnPtr = ((void*)new Plane(*param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Plane");
@@ -208,7 +208,7 @@ int lua_Plane__init(lua_State* state)
                     void* returnPtr = ((void*)new Plane(param1, param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Plane");
@@ -252,7 +252,7 @@ int lua_Plane_distance(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -333,7 +333,7 @@ int lua_Plane_getNormal(lua_State* state)
                 void* returnPtr = (void*)&(instance->getNormal());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Vector3");
@@ -378,7 +378,7 @@ int lua_Plane_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<BoundingSphere> param1 = ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<BoundingSphere> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingSphere>(2, "BoundingSphere", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -399,7 +399,7 @@ int lua_Plane_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<BoundingBox> param1 = ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<BoundingBox> param1 = gameplay::ScriptUtil::getObjectPointer<BoundingBox>(2, "BoundingBox", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -420,7 +420,7 @@ int lua_Plane_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Frustum> param1 = ScriptUtil::getObjectPointer<Frustum>(2, "Frustum", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Frustum> param1 = gameplay::ScriptUtil::getObjectPointer<Frustum>(2, "Frustum", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -441,7 +441,7 @@ int lua_Plane_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -462,7 +462,7 @@ int lua_Plane_intersects(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Ray> param1 = ScriptUtil::getObjectPointer<Ray>(2, "Ray", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Ray> param1 = gameplay::ScriptUtil::getObjectPointer<Ray>(2, "Ray", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -505,7 +505,7 @@ int lua_Plane_isParallel(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Plane'.");
@@ -552,7 +552,7 @@ int lua_Plane_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -577,7 +577,7 @@ int lua_Plane_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -658,7 +658,7 @@ int lua_Plane_setNormal(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -780,7 +780,7 @@ int lua_Plane_static_intersection(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Plane'.");
@@ -789,7 +789,7 @@ int lua_Plane_static_intersection(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Plane> param2 = ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Plane> param2 = gameplay::ScriptUtil::getObjectPointer<Plane>(2, "Plane", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Plane'.");
@@ -798,7 +798,7 @@ int lua_Plane_static_intersection(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Plane> param3 = ScriptUtil::getObjectPointer<Plane>(3, "Plane", true, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Plane> param3 = gameplay::ScriptUtil::getObjectPointer<Plane>(3, "Plane", true, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Plane'.");
@@ -807,7 +807,7 @@ int lua_Plane_static_intersection(lua_State* state)
 
                 // Get parameter 4 off the stack.
                 bool param4Valid;
-                ScriptUtil::LuaArray<Vector3> param4 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param4Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param4 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param4Valid);
                 if (!param4Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 4 to type 'Vector3'.");
@@ -848,7 +848,7 @@ int lua_Plane_transform(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");

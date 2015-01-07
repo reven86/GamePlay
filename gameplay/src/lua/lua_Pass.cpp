@@ -42,14 +42,14 @@ void luaRegister_Pass()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Pass", lua_members, NULL, lua_Pass__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Pass", lua_members, NULL, lua_Pass__gc, lua_statics, scopePath);
 }
 
 static Pass* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Pass");
     luaL_argcheck(state, userdata != NULL, 1, "'Pass' expected.");
-    return (Pass*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Pass*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Pass__gc(lua_State* state)
@@ -66,7 +66,7 @@ int lua_Pass__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Pass");
                 luaL_argcheck(state, userdata != NULL, 1, "'Pass' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Pass* instance = (Pass*)object->instance;
@@ -105,7 +105,7 @@ int lua_Pass_addParameter(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<MaterialParameter> param1 = ScriptUtil::getObjectPointer<MaterialParameter>(2, "MaterialParameter", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<MaterialParameter> param1 = gameplay::ScriptUtil::getObjectPointer<MaterialParameter>(2, "MaterialParameter", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'MaterialParameter'.");
@@ -212,7 +212,7 @@ int lua_Pass_getEffect(lua_State* state)
                 void* returnPtr = ((void*)instance->getEffect());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Effect");
@@ -289,13 +289,13 @@ int lua_Pass_getParameter(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(2, false);
+                const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                 Pass* instance = getInstance(state);
                 void* returnPtr = ((void*)instance->getParameter(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MaterialParameter");
@@ -343,7 +343,7 @@ int lua_Pass_getParameterByIndex(lua_State* state)
                 void* returnPtr = ((void*)instance->getParameterByIndex(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "MaterialParameter");
@@ -457,7 +457,7 @@ int lua_Pass_getStateBlock(lua_State* state)
                 void* returnPtr = ((void*)instance->getStateBlock());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "RenderStateStateBlock");
@@ -501,7 +501,7 @@ int lua_Pass_getVertexAttributeBinding(lua_State* state)
                 void* returnPtr = ((void*)instance->getVertexAttributeBinding());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "VertexAttributeBinding");
@@ -575,7 +575,7 @@ int lua_Pass_removeParameter(lua_State* state)
                 (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
             {
                 // Get parameter 1 off the stack.
-                const char* param1 = ScriptUtil::getString(2, false);
+                const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                 Pass* instance = getInstance(state);
                 instance->removeParameter(param1);
@@ -612,7 +612,7 @@ int lua_Pass_setNodeBinding(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Node> param1 = ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
@@ -656,7 +656,7 @@ int lua_Pass_setParameterAutoBinding(lua_State* state)
                     lua_type(state, 3) == LUA_TNUMBER)
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(2, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
                     RenderState::AutoBinding param2 = (RenderState::AutoBinding)luaL_checkint(state, 3);
@@ -675,10 +675,10 @@ int lua_Pass_setParameterAutoBinding(lua_State* state)
                     (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(2, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                     // Get parameter 2 off the stack.
-                    const char* param2 = ScriptUtil::getString(3, false);
+                    const char* param2 = gameplay::ScriptUtil::getString(3, false);
 
                     Pass* instance = getInstance(state);
                     instance->setParameterAutoBinding(param1, param2);
@@ -716,7 +716,7 @@ int lua_Pass_setStateBlock(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<RenderState::StateBlock> param1 = ScriptUtil::getObjectPointer<RenderState::StateBlock>(2, "RenderStateStateBlock", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<RenderState::StateBlock> param1 = gameplay::ScriptUtil::getObjectPointer<RenderState::StateBlock>(2, "RenderStateStateBlock", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'RenderState::StateBlock'.");
@@ -758,7 +758,7 @@ int lua_Pass_setVertexAttributeBinding(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<VertexAttributeBinding> param1 = ScriptUtil::getObjectPointer<VertexAttributeBinding>(2, "VertexAttributeBinding", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<VertexAttributeBinding> param1 = gameplay::ScriptUtil::getObjectPointer<VertexAttributeBinding>(2, "VertexAttributeBinding", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'VertexAttributeBinding'.");

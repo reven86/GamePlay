@@ -80,6 +80,7 @@ int lua_JoystickControl_release(lua_State* state);
 int lua_JoystickControl_removeListener(lua_State* state);
 int lua_JoystickControl_removeScript(lua_State* state);
 int lua_JoystickControl_removeScriptCallback(lua_State* state);
+int lua_JoystickControl_resetAlignment(lua_State* state);
 int lua_JoystickControl_setAlignment(lua_State* state);
 int lua_JoystickControl_setAnimationPropertyValue(lua_State* state);
 int lua_JoystickControl_setAutoSize(lua_State* state);

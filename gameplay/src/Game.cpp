@@ -691,9 +691,9 @@ void Game::gestureSwipeEventInternal(int x, int y, int direction)
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gestureSwipeEvent), x, y, direction);
 }
 
-void Game::gesturePinchEventInternal(int x, int y, float scale)
+void Game::gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches)
 {
-    gesturePinchEvent(x, y, scale);
+    gesturePinchEvent(x, y, scale, numberOfTouches);
     if (_scriptTarget)
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gesturePinchEvent), x, y, scale);
 }

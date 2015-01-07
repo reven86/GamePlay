@@ -77,6 +77,7 @@ int lua_ImageControl_release(lua_State* state);
 int lua_ImageControl_removeListener(lua_State* state);
 int lua_ImageControl_removeScript(lua_State* state);
 int lua_ImageControl_removeScriptCallback(lua_State* state);
+int lua_ImageControl_resetAlignment(lua_State* state);
 int lua_ImageControl_setAlignment(lua_State* state);
 int lua_ImageControl_setAnimationPropertyValue(lua_State* state);
 int lua_ImageControl_setAutoSize(lua_State* state);

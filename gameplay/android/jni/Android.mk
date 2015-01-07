@@ -2,7 +2,7 @@ GAMEPLAY_PATH := $(call my-dir)/../../src
 
 # external-deps
 GAMEPLAY_DEPS := ../../external-deps/lib/android/$(TARGET_ARCH_ABI)
-LIBYAML_PATH := ../../external-deps/yaml/lib/android/$(TARGET_ARCH_ABI)
+LIBYAML_PATH := ../../external-deps/lib/android/$(TARGET_ARCH_ABI)
 
 # libgameplay-deps
 LOCAL_PATH := $(GAMEPLAY_DEPS)
@@ -175,6 +175,7 @@ LOCAL_SRC_FILES := \
     lua/lua_FileSystem.cpp \
     lua/lua_FlowLayout.cpp \
     lua/lua_Font.cpp \
+    lua/lua_FontGlyph.cpp \
     lua/lua_Form.cpp \
     lua/lua_FrameBuffer.cpp \
     lua/lua_Frustum.cpp \
@@ -206,6 +207,7 @@ LOCAL_SRC_FILES := \
     lua/lua_Mouse.cpp \
     lua/lua_Node.cpp \
     lua/lua_NodeCloneContext.cpp \
+    lua/lua_Package.cpp \
     lua/lua_ParticleEmitter.cpp \
     lua/lua_Pass.cpp \
     lua/lua_PhysicsCharacter.cpp \
@@ -232,7 +234,6 @@ LOCAL_SRC_FILES := \
     lua/lua_Plane.cpp \
     lua/lua_Platform.cpp \
     lua/lua_ProgressBar.cpp \
-    lua/lua_ProgressBarOrientationType.cpp \
     lua/lua_Properties.cpp \
     lua/lua_Quaternion.cpp \
     lua/lua_RadioButton.cpp \
@@ -250,13 +251,17 @@ LOCAL_SRC_FILES := \
     lua/lua_ScriptTargetEvent.cpp \
     lua/lua_ScriptTargetEventRegistry.cpp \
     lua/lua_Slider.cpp \
+    lua/lua_Sprite.cpp \
     lua/lua_SpriteBatch.cpp \
+    lua/lua_SpriteBatchSpriteVertex.cpp \
     lua/lua_Technique.cpp \
     lua/lua_Terrain.cpp \
     lua/lua_TerrainPatch.cpp \
+    lua/lua_Text.cpp \
     lua/lua_TextBox.cpp \
     lua/lua_Texture.cpp \
     lua/lua_TextureSampler.cpp \
+    lua/lua_TileSet.cpp \
     lua/lua_Theme.cpp \
     lua/lua_ThemeSideRegions.cpp \
     lua/lua_ThemeStyle.cpp \
@@ -280,12 +285,11 @@ LOCAL_SRC_FILES := \
     storefront/NullStoreFront.cpp \
 
 LOCAL_CPPFLAGS += -std=c++11 -Wno-switch-enum -Wno-switch
-LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/yaml/include" -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/png/include" -I"../../external-deps/ogg/include" -I"../../external-deps/vorbis/include" -I"../../external-deps/openal/include" -I"../../external-deps/yaml/include"
 LOCAL_ARM_MODE := arm
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"
 LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
-LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps
+LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps libyaml
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,android/native_app_glue)

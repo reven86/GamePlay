@@ -302,7 +302,7 @@ public:
      * @param indices The vertex indices.
      * @param indexCount The number of indices within the index array.
      */
-    void draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount, unsigned short* indices, unsigned int indexCount);
+    void draw(SpriteBatch::SpriteVertex* vertices, unsigned int vertexCount);
     
     /**
      * Finishes sprite drawing.

@@ -64,7 +64,6 @@ void luaRegister_Label()
         {"getSkinRegion", lua_Label_getSkinRegion},
         {"getState", lua_Label_getState},
         {"getStyle", lua_Label_getStyle},
-        {"getText", lua_Label_getText},
         {"getTextAlignment", lua_Label_getTextAlignment},
         {"getTextColor", lua_Label_getTextColor},
         {"getTextRightToLeft", lua_Label_getTextRightToLeft},
@@ -91,6 +90,7 @@ void luaRegister_Label()
         {"removeListener", lua_Label_removeListener},
         {"removeScript", lua_Label_removeScript},
         {"removeScriptCallback", lua_Label_removeScriptCallback},
+        {"resetAlignment", lua_Label_resetAlignment},
         {"setAlignment", lua_Label_setAlignment},
         {"setAnimationPropertyValue", lua_Label_setAnimationPropertyValue},
         {"setAutoSize", lua_Label_setAutoSize},
@@ -117,7 +117,6 @@ void luaRegister_Label()
         {"setSkinColor", lua_Label_setSkinColor},
         {"setSkinRegion", lua_Label_setSkinRegion},
         {"setStyle", lua_Label_setStyle},
-        {"setText", lua_Label_setText},
         {"setTextAlignment", lua_Label_setTextAlignment},
         {"setTextColor", lua_Label_setTextColor},
         {"setTextRightToLeft", lua_Label_setTextRightToLeft},
@@ -1598,10 +1597,10 @@ int lua_Label_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Label* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1619,10 +1618,10 @@ int lua_Label_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Label* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -2352,41 +2351,6 @@ int lua_Label_getStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Label_getStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Label_getText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                Label* instance = getInstance(state);
-                const char* result = instance->getText();
-
-                // Push the return value onto the stack.
-                lua_pushstring(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_Label_getText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3466,6 +3430,38 @@ int lua_Label_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_Label_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Label* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Label_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Label_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
@@ -4095,7 +4091,7 @@ int lua_Label_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 Label* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4114,7 +4110,7 @@ int lua_Label_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
@@ -4792,42 +4788,6 @@ int lua_Label_setStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Label_setStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Label_setText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
-
-                Label* instance = getInstance(state);
-                instance->setText(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_Label_setText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

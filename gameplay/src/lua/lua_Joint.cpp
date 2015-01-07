@@ -85,8 +85,11 @@ void luaRegister_Joint()
         {"getScaleZ", lua_Joint_getScaleZ},
         {"getScene", lua_Joint_getScene},
         {"getScriptEvent", lua_Joint_getScriptEvent},
+        {"getSprite", lua_Joint_getSprite},
         {"getTag", lua_Joint_getTag},
         {"getTerrain", lua_Joint_getTerrain},
+        {"getText", lua_Joint_getText},
+        {"getTileSet", lua_Joint_getTileSet},
         {"getTranslation", lua_Joint_getTranslation},
         {"getTranslationView", lua_Joint_getTranslationView},
         {"getTranslationWorld", lua_Joint_getTranslationWorld},
@@ -139,8 +142,11 @@ void luaRegister_Joint()
         {"setScaleX", lua_Joint_setScaleX},
         {"setScaleY", lua_Joint_setScaleY},
         {"setScaleZ", lua_Joint_setScaleZ},
+        {"setSprite", lua_Joint_setSprite},
         {"setTag", lua_Joint_setTag},
         {"setTerrain", lua_Joint_setTerrain},
+        {"setText", lua_Joint_setText},
+        {"setTileSet", lua_Joint_setTileSet},
         {"setTranslation", lua_Joint_setTranslation},
         {"setTranslationX", lua_Joint_setTranslationX},
         {"setTranslationY", lua_Joint_setTranslationY},
@@ -3193,6 +3199,50 @@ int lua_Joint_getScriptEvent(lua_State* state)
     return 0;
 }
 
+int lua_Joint_getSprite(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Joint* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getSprite());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Sprite");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Joint_getSprite - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Joint_getTag(lua_State* state)
 {
     // Get the number of parameters.
@@ -3263,6 +3313,94 @@ int lua_Joint_getTerrain(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Joint_getTerrain - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Joint_getText(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Joint* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getText());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Text");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Joint_getText - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Joint_getTileSet(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Joint* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getTileSet());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "TileSet");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Joint_getTileSet - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -6054,6 +6192,48 @@ int lua_Joint_setScaleZ(lua_State* state)
     return 0;
 }
 
+int lua_Joint_setSprite(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Sprite> param1 = gameplay::ScriptUtil::getObjectPointer<Sprite>(2, "Sprite", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Sprite'.");
+                    lua_error(state);
+                }
+
+                Joint* instance = getInstance(state);
+                instance->setSprite(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Joint_setSprite - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Joint_setTag(lua_State* state)
 {
     // Get the number of parameters.
@@ -6141,6 +6321,90 @@ int lua_Joint_setTerrain(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Joint_setTerrain - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Joint_setText(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Text> param1 = gameplay::ScriptUtil::getObjectPointer<Text>(2, "Text", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Text'.");
+                    lua_error(state);
+                }
+
+                Joint* instance = getInstance(state);
+                instance->setText(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Joint_setText - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Joint_setTileSet(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<TileSet> param1 = gameplay::ScriptUtil::getObjectPointer<TileSet>(2, "TileSet", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'TileSet'.");
+                    lua_error(state);
+                }
+
+                Joint* instance = getInstance(state);
+                instance->setTileSet(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Joint_setTileSet - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

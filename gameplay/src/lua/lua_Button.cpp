@@ -66,7 +66,6 @@ void luaRegister_Button()
         {"getSkinRegion", lua_Button_getSkinRegion},
         {"getState", lua_Button_getState},
         {"getStyle", lua_Button_getStyle},
-        {"getText", lua_Button_getText},
         {"getTextAlignment", lua_Button_getTextAlignment},
         {"getTextColor", lua_Button_getTextColor},
         {"getTextRightToLeft", lua_Button_getTextRightToLeft},
@@ -92,6 +91,7 @@ void luaRegister_Button()
         {"removeListener", lua_Button_removeListener},
         {"removeScript", lua_Button_removeScript},
         {"removeScriptCallback", lua_Button_removeScriptCallback},
+        {"resetAlignment", lua_Button_resetAlignment},
         {"setAlignment", lua_Button_setAlignment},
         {"setAnimationPropertyValue", lua_Button_setAnimationPropertyValue},
         {"setAutoSize", lua_Button_setAutoSize},
@@ -118,7 +118,6 @@ void luaRegister_Button()
         {"setSkinColor", lua_Button_setSkinColor},
         {"setSkinRegion", lua_Button_setSkinRegion},
         {"setStyle", lua_Button_setStyle},
-        {"setText", lua_Button_setText},
         {"setTextAlignment", lua_Button_setTextAlignment},
         {"setTextColor", lua_Button_setTextColor},
         {"setTextRightToLeft", lua_Button_setTextRightToLeft},
@@ -1599,10 +1598,10 @@ int lua_Button_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Button* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1620,10 +1619,10 @@ int lua_Button_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Button* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -2353,41 +2352,6 @@ int lua_Button_getStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Button_getStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Button_getText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                Button* instance = getInstance(state);
-                const char* result = instance->getText();
-
-                // Push the return value onto the stack.
-                lua_pushstring(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_Button_getText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3432,6 +3396,38 @@ int lua_Button_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_Button_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Button* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Button_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
@@ -4061,7 +4057,7 @@ int lua_Button_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 Button* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4080,7 +4076,7 @@ int lua_Button_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
@@ -4758,42 +4754,6 @@ int lua_Button_setStyle(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Button_setStyle - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Button_setText(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(2, false);
-
-                Button* instance = getInstance(state);
-                instance->setText(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_Button_setText - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

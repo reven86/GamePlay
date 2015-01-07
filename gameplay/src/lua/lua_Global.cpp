@@ -25,9 +25,11 @@
 #include "PhysicsCollisionObject.h"
 #include "PhysicsCollisionShape.h"
 #include "PhysicsController.h"
+#include "ProgressBar.h"
 #include "Properties.h"
 #include "RenderState.h"
 #include "Script.h"
+#include "Sprite.h"
 #include "Terrain.h"
 #include "TextBox.h"
 #include "Texture.h"
@@ -51,8 +53,11 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Label");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "MaterialParameter");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Node");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "ProgressBar");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "RadioButton");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Slider");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Sprite");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Text");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "TextBox");
     gameplay::ScriptUtil::setGlobalHierarchyPair("AnimationTarget", "Transform");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Button", "CheckBox");
@@ -67,6 +72,7 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "ImageControl");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "JoystickControl");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "Label");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "ProgressBar");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "RadioButton");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "Slider");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "TextBox");
@@ -77,6 +83,7 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Label", "TextBox");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Layout", "AbsoluteLayout");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Layout", "FlowLayout");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Layout", "HorizontalLayout");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Layout", "VerticalLayout");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Node", "Joint");
     gameplay::ScriptUtil::setGlobalHierarchyPair("PhysicsCollisionObject", "PhysicsCharacter");
@@ -113,6 +120,7 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Form");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "FrameBuffer");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "HeightField");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "HorizontalLayout");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Image");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "ImageControl");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Joint");
@@ -128,6 +136,7 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "ParticleEmitter");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Pass");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "PhysicsCollisionShape");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "ProgressBar");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "RadioButton");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "RenderState");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "RenderState::StateBlock");
@@ -135,13 +144,16 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Scene");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Script");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Slider");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Sprite");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Technique");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Terrain");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Text");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "TextBox");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Texture");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Texture::Sampler");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Theme");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "Theme::ThemeImage");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "TileSet");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "VertexAttributeBinding");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Ref", "VerticalLayout");
     gameplay::ScriptUtil::setGlobalHierarchyPair("RenderState", "Material");
@@ -160,6 +172,7 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "Label");
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "Node");
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "PhysicsController");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "ProgressBar");
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "RadioButton");
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "Slider");
     gameplay::ScriptUtil::setGlobalHierarchyPair("ScriptTarget", "TextBox");
@@ -280,6 +293,8 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::TEXT_CHANGED, "TEXT_CHANGED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::MIDDLE_CLICK, "MIDDLE_CLICK", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::RIGHT_CLICK, "RIGHT_CLICK", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Control::Listener::ENTER, "ENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Control::Listener::LEAVE, "LEAVE", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::FOCUS_GAINED, "FOCUS_GAINED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::FOCUS_LOST, "FOCUS_LOST", scopePath);
     }
@@ -393,6 +408,7 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerEnumValue(Font::BOLD, "BOLD", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Font::ITALIC, "ITALIC", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Font::BOLD_ITALIC, "BOLD_ITALIC", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Font::TEXTURED, "TEXTURED", scopePath);
     }
 
     // Register enumeration Game::ClearFlags.
@@ -647,6 +663,7 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerEnumValue(Layout::LAYOUT_FLOW, "LAYOUT_FLOW", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Layout::LAYOUT_VERTICAL, "LAYOUT_VERTICAL", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Layout::LAYOUT_ABSOLUTE, "LAYOUT_ABSOLUTE", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Layout::LAYOUT_HORIZONTAL, "LAYOUT_HORIZONTAL", scopePath);
     }
 
     // Register enumeration Light::Type.
@@ -759,6 +776,14 @@ void luaRegister_lua_Global()
         scopePath.push_back("Listener");
         gameplay::ScriptUtil::registerEnumValue(PhysicsController::Listener::ACTIVATED, "ACTIVATED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(PhysicsController::Listener::DEACTIVATED, "DEACTIVATED", scopePath);
+    }
+
+    // Register enumeration ProgressBar::OrientationType.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("ProgressBar");
+        gameplay::ScriptUtil::registerEnumValue(ProgressBar::ORIENTATION_HORIZONTAL, "ORIENTATION_HORIZONTAL", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(ProgressBar::ORIENTATION_VERTICAL, "ORIENTATION_VERTICAL", scopePath);
     }
 
     // Register enumeration Properties::Type.
@@ -877,6 +902,47 @@ void luaRegister_lua_Global()
         scopePath.push_back("Script");
         gameplay::ScriptUtil::registerEnumValue(Script::GLOBAL, "GLOBAL", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Script::PROTECTED, "PROTECTED", scopePath);
+    }
+
+    // Register enumeration Sprite::BlendMode.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Sprite");
+        gameplay::ScriptUtil::registerEnumValue(Sprite::BLEND_NONE, "BLEND_NONE", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::BLEND_ALPHA, "BLEND_ALPHA", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::BLEND_ADDITIVE, "BLEND_ADDITIVE", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::BLEND_MULTIPLIED, "BLEND_MULTIPLIED", scopePath);
+    }
+
+    // Register enumeration Sprite::FlipFlags.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Sprite");
+        gameplay::ScriptUtil::registerEnumValue(Sprite::FLIP_NONE, "FLIP_NONE", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::FLIP_VERTICAL, "FLIP_VERTICAL", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::FLIP_HORIZONTAL, "FLIP_HORIZONTAL", scopePath);
+    }
+
+    // Register enumeration Sprite::Offset.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Sprite");
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_LEFT, "OFFSET_LEFT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_HCENTER, "OFFSET_HCENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_RIGHT, "OFFSET_RIGHT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_TOP, "OFFSET_TOP", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_VCENTER, "OFFSET_VCENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_BOTTOM, "OFFSET_BOTTOM", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_ANCHOR, "OFFSET_ANCHOR", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_TOP_LEFT, "OFFSET_TOP_LEFT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_VCENTER_LEFT, "OFFSET_VCENTER_LEFT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_BOTTOM_LEFT, "OFFSET_BOTTOM_LEFT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_TOP_HCENTER, "OFFSET_TOP_HCENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_VCENTER_HCENTER, "OFFSET_VCENTER_HCENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_BOTTOM_HCENTER, "OFFSET_BOTTOM_HCENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_TOP_RIGHT, "OFFSET_TOP_RIGHT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_VCENTER_RIGHT, "OFFSET_VCENTER_RIGHT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Sprite::OFFSET_BOTTOM_RIGHT, "OFFSET_BOTTOM_RIGHT", scopePath);
     }
 
     // Register enumeration Terrain::Flags.

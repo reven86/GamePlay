@@ -78,6 +78,7 @@ int lua_TextBox_release(lua_State* state);
 int lua_TextBox_removeListener(lua_State* state);
 int lua_TextBox_removeScript(lua_State* state);
 int lua_TextBox_removeScriptCallback(lua_State* state);
+int lua_TextBox_resetAlignment(lua_State* state);
 int lua_TextBox_setAlignment(lua_State* state);
 int lua_TextBox_setAnimationPropertyValue(lua_State* state);
 int lua_TextBox_setAutoSize(lua_State* state);

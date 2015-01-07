@@ -70,14 +70,14 @@ void luaRegister_Matrix()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("Matrix", lua_members, lua_Matrix__init, lua_Matrix__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("Matrix", lua_members, lua_Matrix__init, lua_Matrix__gc, lua_statics, scopePath);
 }
 
 static Matrix* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Matrix");
     luaL_argcheck(state, userdata != NULL, 1, "'Matrix' expected.");
-    return (Matrix*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (Matrix*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_Matrix__gc(lua_State* state)
@@ -94,7 +94,7 @@ int lua_Matrix__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "Matrix");
                 luaL_argcheck(state, userdata != NULL, 1, "'Matrix' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     Matrix* instance = (Matrix*)object->instance;
@@ -131,7 +131,7 @@ int lua_Matrix__init(lua_State* state)
             void* returnPtr = ((void*)new Matrix());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "Matrix");
@@ -152,12 +152,12 @@ int lua_Matrix__init(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TTABLE || lua_type(state, 1) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(1);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(1);
 
                     void* returnPtr = ((void*)new Matrix(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Matrix");
@@ -178,14 +178,14 @@ int lua_Matrix__init(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)new Matrix(*param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Matrix");
@@ -276,7 +276,7 @@ int lua_Matrix__init(lua_State* state)
                     void* returnPtr = ((void*)new Matrix(param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param16));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "Matrix");
@@ -337,7 +337,7 @@ int lua_Matrix_add(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -365,7 +365,7 @@ int lua_Matrix_add(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -407,7 +407,7 @@ int lua_Matrix_decompose(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -416,7 +416,7 @@ int lua_Matrix_decompose(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Quaternion> param2 = ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param2 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(3, "Quaternion", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Quaternion'.");
@@ -425,7 +425,7 @@ int lua_Matrix_decompose(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Vector3'.");
@@ -505,7 +505,7 @@ int lua_Matrix_getBackVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -547,7 +547,7 @@ int lua_Matrix_getDownVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -589,7 +589,7 @@ int lua_Matrix_getForwardVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -631,7 +631,7 @@ int lua_Matrix_getLeftVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -673,7 +673,7 @@ int lua_Matrix_getRightVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -715,7 +715,7 @@ int lua_Matrix_getRotation(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Quaternion'.");
@@ -760,7 +760,7 @@ int lua_Matrix_getScale(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -802,7 +802,7 @@ int lua_Matrix_getTranslation(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -844,7 +844,7 @@ int lua_Matrix_getUpVector(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
@@ -908,7 +908,7 @@ int lua_Matrix_invert(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -984,7 +984,7 @@ int lua_Matrix_m(lua_State* state)
     if (lua_gettop(state) == 2)
     {
         // Get parameter 2 off the stack.
-        ScriptUtil::LuaArray<float> param2 = ScriptUtil::getFloatPointer(2);
+        gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(2);
 
         memcpy(instance->m, param2, sizeof(float) * 16);
         return 0;
@@ -1031,7 +1031,7 @@ int lua_Matrix_multiply(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1059,7 +1059,7 @@ int lua_Matrix_multiply(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1118,7 +1118,7 @@ int lua_Matrix_negate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1160,7 +1160,7 @@ int lua_Matrix_rotate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1185,13 +1185,13 @@ int lua_Matrix_rotate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(2, "Quaternion", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1210,7 +1210,7 @@ int lua_Matrix_rotate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1239,7 +1239,7 @@ int lua_Matrix_rotate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1248,7 +1248,7 @@ int lua_Matrix_rotate(lua_State* state)
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -1315,7 +1315,7 @@ int lua_Matrix_rotateX(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1382,7 +1382,7 @@ int lua_Matrix_rotateY(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1449,7 +1449,7 @@ int lua_Matrix_rotateZ(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1506,7 +1506,7 @@ int lua_Matrix_scale(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1534,7 +1534,7 @@ int lua_Matrix_scale(lua_State* state)
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1553,13 +1553,13 @@ int lua_Matrix_scale(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1624,7 +1624,7 @@ int lua_Matrix_scale(lua_State* state)
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -1665,7 +1665,7 @@ int lua_Matrix_set(lua_State* state)
                     (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA))
                 {
                     // Get parameter 1 off the stack.
-                    ScriptUtil::LuaArray<float> param1 = ScriptUtil::getFloatPointer(2);
+                    gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
 
                     Matrix* instance = getInstance(state);
                     instance->set(param1);
@@ -1681,7 +1681,7 @@ int lua_Matrix_set(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -1867,7 +1867,7 @@ int lua_Matrix_static_add(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -1876,7 +1876,7 @@ int lua_Matrix_static_add(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -1885,7 +1885,7 @@ int lua_Matrix_static_add(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Matrix'.");
@@ -1930,25 +1930,25 @@ int lua_Matrix_static_createBillboard(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -1974,31 +1974,31 @@ int lua_Matrix_static_createBillboard(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Vector3> param4 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param4 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param4Valid);
                     if (!param4Valid)
                         break;
 
                     // Get parameter 5 off the stack.
                     bool param5Valid;
-                    ScriptUtil::LuaArray<Matrix> param5 = ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param5 = gameplay::ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
                     if (!param5Valid)
                         break;
 
@@ -2041,25 +2041,25 @@ int lua_Matrix_static_createLookAt(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -2117,7 +2117,7 @@ int lua_Matrix_static_createLookAt(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Matrix> param10 = ScriptUtil::getObjectPointer<Matrix>(10, "Matrix", false, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param10 = gameplay::ScriptUtil::getObjectPointer<Matrix>(10, "Matrix", false, &param10Valid);
                     if (!param10Valid)
                         break;
 
@@ -2171,7 +2171,7 @@ int lua_Matrix_static_createOrthographic(lua_State* state)
 
                 // Get parameter 5 off the stack.
                 bool param5Valid;
-                ScriptUtil::LuaArray<Matrix> param5 = ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param5 = gameplay::ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
                 if (!param5Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 5 to type 'Matrix'.");
@@ -2235,7 +2235,7 @@ int lua_Matrix_static_createOrthographicOffCenter(lua_State* state)
 
                 // Get parameter 7 off the stack.
                 bool param7Valid;
-                ScriptUtil::LuaArray<Matrix> param7 = ScriptUtil::getObjectPointer<Matrix>(7, "Matrix", false, &param7Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param7 = gameplay::ScriptUtil::getObjectPointer<Matrix>(7, "Matrix", false, &param7Valid);
                 if (!param7Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 7 to type 'Matrix'.");
@@ -2291,7 +2291,7 @@ int lua_Matrix_static_createPerspective(lua_State* state)
 
                 // Get parameter 5 off the stack.
                 bool param5Valid;
-                ScriptUtil::LuaArray<Matrix> param5 = ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param5 = gameplay::ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param5Valid);
                 if (!param5Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 5 to type 'Matrix'.");
@@ -2332,7 +2332,7 @@ int lua_Matrix_static_createReflection(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Plane> param1 = ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Plane> param1 = gameplay::ScriptUtil::getObjectPointer<Plane>(1, "Plane", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Plane'.");
@@ -2341,7 +2341,7 @@ int lua_Matrix_static_createReflection(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -2384,13 +2384,13 @@ int lua_Matrix_static_createRotation(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Quaternion> param1 = ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Quaternion> param1 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(1, "Quaternion", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -2414,7 +2414,7 @@ int lua_Matrix_static_createRotation(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -2423,7 +2423,7 @@ int lua_Matrix_static_createRotation(lua_State* state)
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -2465,7 +2465,7 @@ int lua_Matrix_static_createRotationX(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -2509,7 +2509,7 @@ int lua_Matrix_static_createRotationY(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -2553,7 +2553,7 @@ int lua_Matrix_static_createRotationZ(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -2596,13 +2596,13 @@ int lua_Matrix_static_createScale(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -2636,7 +2636,7 @@ int lua_Matrix_static_createScale(lua_State* state)
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -2677,13 +2677,13 @@ int lua_Matrix_static_createTranslation(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(1, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -2717,7 +2717,7 @@ int lua_Matrix_static_createTranslation(lua_State* state)
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -2754,7 +2754,7 @@ int lua_Matrix_static_identity(lua_State* state)
             void* returnPtr = (void*)&(Matrix::identity());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Matrix");
@@ -2796,7 +2796,7 @@ int lua_Matrix_static_multiply(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -2805,7 +2805,7 @@ int lua_Matrix_static_multiply(lua_State* state)
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -2823,19 +2823,19 @@ int lua_Matrix_static_multiply(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -2875,7 +2875,7 @@ int lua_Matrix_static_subtract(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(1, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -2884,7 +2884,7 @@ int lua_Matrix_static_subtract(lua_State* state)
 
                 // Get parameter 2 off the stack.
                 bool param2Valid;
-                ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param2Valid);
                 if (!param2Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 2 to type 'Matrix'.");
@@ -2893,7 +2893,7 @@ int lua_Matrix_static_subtract(lua_State* state)
 
                 // Get parameter 3 off the stack.
                 bool param3Valid;
-                ScriptUtil::LuaArray<Matrix> param3 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param3 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param3Valid);
                 if (!param3Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 3 to type 'Matrix'.");
@@ -2932,7 +2932,7 @@ int lua_Matrix_static_zero(lua_State* state)
             void* returnPtr = (void*)&(Matrix::zero());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = false;
                 luaL_getmetatable(state, "Matrix");
@@ -2971,7 +2971,7 @@ int lua_Matrix_subtract(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -3015,7 +3015,7 @@ int lua_Matrix_transformPoint(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -3040,13 +3040,13 @@ int lua_Matrix_transformPoint(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -3088,7 +3088,7 @@ int lua_Matrix_transformVector(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -3106,7 +3106,7 @@ int lua_Matrix_transformVector(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -3131,13 +3131,13 @@ int lua_Matrix_transformVector(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -3156,13 +3156,13 @@ int lua_Matrix_transformVector(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector4> param1 = ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector4> param2 = ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param2 = gameplay::ScriptUtil::getObjectPointer<Vector4>(3, "Vector4", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -3202,7 +3202,7 @@ int lua_Matrix_transformVector(lua_State* state)
 
                     // Get parameter 5 off the stack.
                     bool param5Valid;
-                    ScriptUtil::LuaArray<Vector3> param5 = ScriptUtil::getObjectPointer<Vector3>(6, "Vector3", false, &param5Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param5 = gameplay::ScriptUtil::getObjectPointer<Vector3>(6, "Vector3", false, &param5Valid);
                     if (!param5Valid)
                         break;
 
@@ -3244,7 +3244,7 @@ int lua_Matrix_translate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -3269,13 +3269,13 @@ int lua_Matrix_translate(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Matrix> param2 = ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param2 = gameplay::ScriptUtil::getObjectPointer<Matrix>(3, "Matrix", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -3340,7 +3340,7 @@ int lua_Matrix_translate(lua_State* state)
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Matrix> param4 = ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(5, "Matrix", false, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -3399,7 +3399,7 @@ int lua_Matrix_transpose(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", false, &param1Valid);
                     if (!param1Valid)
                         break;
 

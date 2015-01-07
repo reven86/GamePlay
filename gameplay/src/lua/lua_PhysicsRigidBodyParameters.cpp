@@ -43,14 +43,14 @@ void luaRegister_PhysicsRigidBodyParameters()
     std::vector<std::string> scopePath;
     scopePath.push_back("PhysicsRigidBody");
 
-    ScriptUtil::registerClass("PhysicsRigidBodyParameters", lua_members, lua_PhysicsRigidBodyParameters__init, lua_PhysicsRigidBodyParameters__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("PhysicsRigidBodyParameters", lua_members, lua_PhysicsRigidBodyParameters__init, lua_PhysicsRigidBodyParameters__gc, lua_statics, scopePath);
 }
 
 static PhysicsRigidBody::Parameters* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "PhysicsRigidBodyParameters");
     luaL_argcheck(state, userdata != NULL, 1, "'PhysicsRigidBodyParameters' expected.");
-    return (PhysicsRigidBody::Parameters*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (PhysicsRigidBody::Parameters*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_PhysicsRigidBodyParameters__gc(lua_State* state)
@@ -67,7 +67,7 @@ int lua_PhysicsRigidBodyParameters__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "PhysicsRigidBodyParameters");
                 luaL_argcheck(state, userdata != NULL, 1, "'PhysicsRigidBodyParameters' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     PhysicsRigidBody::Parameters* instance = (PhysicsRigidBody::Parameters*)object->instance;
@@ -104,7 +104,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
             void* returnPtr = ((void*)new PhysicsRigidBody::Parameters());
             if (returnPtr)
             {
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                 object->instance = returnPtr;
                 object->owns = true;
                 luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -130,7 +130,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -165,7 +165,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -204,7 +204,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -247,7 +247,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -294,7 +294,7 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4, param5));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -340,12 +340,12 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    bool param6 = ScriptUtil::luaCheckBool(state, 6);
+                    bool param6 = gameplay::ScriptUtil::luaCheckBool(state, 6);
 
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4, param5, param6));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -392,18 +392,18 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    bool param6 = ScriptUtil::luaCheckBool(state, 6);
+                    bool param6 = gameplay::ScriptUtil::luaCheckBool(state, 6);
 
                     // Get parameter 7 off the stack.
                     bool param7Valid;
-                    ScriptUtil::LuaArray<Vector3> param7 = ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param7 = gameplay::ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
                     if (!param7Valid)
                         break;
 
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4, param5, param6, *param7));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -451,24 +451,24 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    bool param6 = ScriptUtil::luaCheckBool(state, 6);
+                    bool param6 = gameplay::ScriptUtil::luaCheckBool(state, 6);
 
                     // Get parameter 7 off the stack.
                     bool param7Valid;
-                    ScriptUtil::LuaArray<Vector3> param7 = ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param7 = gameplay::ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
                     if (!param7Valid)
                         break;
 
                     // Get parameter 8 off the stack.
                     bool param8Valid;
-                    ScriptUtil::LuaArray<Vector3> param8 = ScriptUtil::getObjectPointer<Vector3>(8, "Vector3", true, &param8Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param8 = gameplay::ScriptUtil::getObjectPointer<Vector3>(8, "Vector3", true, &param8Valid);
                     if (!param8Valid)
                         break;
 
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4, param5, param6, *param7, *param8));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -517,30 +517,30 @@ int lua_PhysicsRigidBodyParameters__init(lua_State* state)
                     float param5 = (float)luaL_checknumber(state, 5);
 
                     // Get parameter 6 off the stack.
-                    bool param6 = ScriptUtil::luaCheckBool(state, 6);
+                    bool param6 = gameplay::ScriptUtil::luaCheckBool(state, 6);
 
                     // Get parameter 7 off the stack.
                     bool param7Valid;
-                    ScriptUtil::LuaArray<Vector3> param7 = ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param7 = gameplay::ScriptUtil::getObjectPointer<Vector3>(7, "Vector3", true, &param7Valid);
                     if (!param7Valid)
                         break;
 
                     // Get parameter 8 off the stack.
                     bool param8Valid;
-                    ScriptUtil::LuaArray<Vector3> param8 = ScriptUtil::getObjectPointer<Vector3>(8, "Vector3", true, &param8Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param8 = gameplay::ScriptUtil::getObjectPointer<Vector3>(8, "Vector3", true, &param8Valid);
                     if (!param8Valid)
                         break;
 
                     // Get parameter 9 off the stack.
                     bool param9Valid;
-                    ScriptUtil::LuaArray<Vector3> param9 = ScriptUtil::getObjectPointer<Vector3>(9, "Vector3", true, &param9Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param9 = gameplay::ScriptUtil::getObjectPointer<Vector3>(9, "Vector3", true, &param9Valid);
                     if (!param9Valid)
                         break;
 
                     void* returnPtr = ((void*)new PhysicsRigidBody::Parameters(param1, param2, param3, param4, param5, param6, *param7, *param8, *param9));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "PhysicsRigidBodyParameters");
@@ -612,7 +612,7 @@ int lua_PhysicsRigidBodyParameters_angularFactor(lua_State* state)
     {
         // Get parameter 2 off the stack.
         bool param2Valid;
-        ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+        gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
         if (!param2Valid)
         {
             lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -627,7 +627,7 @@ int lua_PhysicsRigidBodyParameters_angularFactor(lua_State* state)
         void* returnPtr = (void*)new Vector3(instance->angularFactor);
         if (returnPtr)
         {
-            ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+            gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
             object->instance = returnPtr;
             object->owns = true;
             luaL_getmetatable(state, "Vector3");
@@ -656,7 +656,7 @@ int lua_PhysicsRigidBodyParameters_anisotropicFriction(lua_State* state)
     {
         // Get parameter 2 off the stack.
         bool param2Valid;
-        ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+        gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
         if (!param2Valid)
         {
             lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -671,7 +671,7 @@ int lua_PhysicsRigidBodyParameters_anisotropicFriction(lua_State* state)
         void* returnPtr = (void*)new Vector3(instance->anisotropicFriction);
         if (returnPtr)
         {
-            ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+            gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
             object->instance = returnPtr;
             object->owns = true;
             luaL_getmetatable(state, "Vector3");
@@ -728,7 +728,7 @@ int lua_PhysicsRigidBodyParameters_kinematic(lua_State* state)
     if (lua_gettop(state) == 2)
     {
         // Get parameter 2 off the stack.
-        bool param2 = ScriptUtil::luaCheckBool(state, 2);
+        bool param2 = gameplay::ScriptUtil::luaCheckBool(state, 2);
 
         instance->kinematic = param2;
         return 0;
@@ -787,7 +787,7 @@ int lua_PhysicsRigidBodyParameters_linearFactor(lua_State* state)
     {
         // Get parameter 2 off the stack.
         bool param2Valid;
-        ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
+        gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param2Valid);
         if (!param2Valid)
         {
             lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
@@ -802,7 +802,7 @@ int lua_PhysicsRigidBodyParameters_linearFactor(lua_State* state)
         void* returnPtr = (void*)new Vector3(instance->linearFactor);
         if (returnPtr)
         {
-            ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+            gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
             object->instance = returnPtr;
             object->owns = true;
             luaL_getmetatable(state, "Vector3");

@@ -98,6 +98,7 @@
     <ClCompile Include="src\lua\lua_FileSystem.cpp" />
     <ClCompile Include="src\lua\lua_FlowLayout.cpp" />
     <ClCompile Include="src\lua\lua_Font.cpp" />
+    <ClCompile Include="src\lua\lua_FontGlyph.cpp" />
     <ClCompile Include="src\lua\lua_Form.cpp" />
     <ClCompile Include="src\lua\lua_FrameBuffer.cpp" />
     <ClCompile Include="src\lua\lua_Frustum.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="src\lua\lua_Mouse.cpp" />
     <ClCompile Include="src\lua\lua_Node.cpp" />
     <ClCompile Include="src\lua\lua_NodeCloneContext.cpp" />
+    <ClCompile Include="src\lua\lua_Package.cpp" />
     <ClCompile Include="src\lua\lua_ParticleEmitter.cpp" />
     <ClCompile Include="src\lua\lua_Pass.cpp" />
     <ClCompile Include="src\lua\lua_PhysicsCharacter.cpp" />
@@ -155,7 +157,6 @@
     <ClCompile Include="src\lua\lua_Plane.cpp" />
     <ClCompile Include="src\lua\lua_Platform.cpp" />
     <ClCompile Include="src\lua\lua_ProgressBar.cpp" />
-    <ClCompile Include="src\lua\lua_ProgressBarOrientationType.cpp" />
     <ClCompile Include="src\lua\lua_Properties.cpp" />
     <ClCompile Include="src\lua\lua_Quaternion.cpp" />
     <ClCompile Include="src\lua\lua_RadioButton.cpp" />
@@ -173,10 +174,13 @@
     <ClCompile Include="src\lua\lua_ScriptTargetEvent.cpp" />
     <ClCompile Include="src\lua\lua_ScriptTargetEventRegistry.cpp" />
     <ClCompile Include="src\lua\lua_Slider.cpp" />
+    <ClCompile Include="src\lua\lua_Sprite.cpp" />
     <ClCompile Include="src\lua\lua_SpriteBatch.cpp" />
+    <ClCompile Include="src\lua\lua_SpriteBatchSpriteVertex.cpp" />
     <ClCompile Include="src\lua\lua_Technique.cpp" />
     <ClCompile Include="src\lua\lua_Terrain.cpp" />
     <ClCompile Include="src\lua\lua_TerrainPatch.cpp" />
+    <ClCompile Include="src\lua\lua_Text.cpp" />
     <ClCompile Include="src\lua\lua_TextBox.cpp" />
     <ClCompile Include="src\lua\lua_Texture.cpp" />
     <ClCompile Include="src\lua\lua_TextureSampler.cpp" />
@@ -185,6 +189,7 @@
     <ClCompile Include="src\lua\lua_ThemeStyle.cpp" />
     <ClCompile Include="src\lua\lua_ThemeThemeImage.cpp" />
     <ClCompile Include="src\lua\lua_ThemeUVs.cpp" />
+    <ClCompile Include="src\lua\lua_TileSet.cpp" />
     <ClCompile Include="src\lua\lua_Touch.cpp" />
     <ClCompile Include="src\lua\lua_Transform.cpp" />
     <ClCompile Include="src\lua\lua_TransformListener.cpp" />
@@ -361,6 +366,7 @@
     <ClInclude Include="src\lua\lua_FileSystem.h" />
     <ClInclude Include="src\lua\lua_FlowLayout.h" />
     <ClInclude Include="src\lua\lua_Font.h" />
+    <ClInclude Include="src\lua\lua_FontGlyph.h" />
     <ClInclude Include="src\lua\lua_Form.h" />
     <ClInclude Include="src\lua\lua_FrameBuffer.h" />
     <ClInclude Include="src\lua\lua_Frustum.h" />
@@ -392,6 +398,7 @@
     <ClInclude Include="src\lua\lua_Mouse.h" />
     <ClInclude Include="src\lua\lua_Node.h" />
     <ClInclude Include="src\lua\lua_NodeCloneContext.h" />
+    <ClInclude Include="src\lua\lua_Package.h" />
     <ClInclude Include="src\lua\lua_ParticleEmitter.h" />
     <ClInclude Include="src\lua\lua_Pass.h" />
     <ClInclude Include="src\lua\lua_PhysicsCharacter.h" />
@@ -418,7 +425,6 @@
     <ClInclude Include="src\lua\lua_Plane.h" />
     <ClInclude Include="src\lua\lua_Platform.h" />
     <ClInclude Include="src\lua\lua_ProgressBar.h" />
-    <ClInclude Include="src\lua\lua_ProgressBarOrientationType.h" />
     <ClInclude Include="src\lua\lua_Properties.h" />
     <ClInclude Include="src\lua\lua_Quaternion.h" />
     <ClInclude Include="src\lua\lua_RadioButton.h" />
@@ -436,10 +442,13 @@
     <ClInclude Include="src\lua\lua_ScriptTargetEvent.h" />
     <ClInclude Include="src\lua\lua_ScriptTargetEventRegistry.h" />
     <ClInclude Include="src\lua\lua_Slider.h" />
+    <ClInclude Include="src\lua\lua_Sprite.h" />
     <ClInclude Include="src\lua\lua_SpriteBatch.h" />
+    <ClInclude Include="src\lua\lua_SpriteBatchSpriteVertex.h" />
     <ClInclude Include="src\lua\lua_Technique.h" />
     <ClInclude Include="src\lua\lua_Terrain.h" />
     <ClInclude Include="src\lua\lua_TerrainPatch.h" />
+    <ClInclude Include="src\lua\lua_Text.h" />
     <ClInclude Include="src\lua\lua_TextBox.h" />
     <ClInclude Include="src\lua\lua_Texture.h" />
     <ClInclude Include="src\lua\lua_TextureSampler.h" />
@@ -448,6 +457,7 @@
     <ClInclude Include="src\lua\lua_ThemeStyle.h" />
     <ClInclude Include="src\lua\lua_ThemeThemeImage.h" />
     <ClInclude Include="src\lua\lua_ThemeUVs.h" />
+    <ClInclude Include="src\lua\lua_TileSet.h" />
     <ClInclude Include="src\lua\lua_Touch.h" />
     <ClInclude Include="src\lua\lua_Transform.h" />
     <ClInclude Include="src\lua\lua_TransformListener.h" />

@@ -83,8 +83,11 @@ void luaRegister_Node()
         {"getScaleZ", lua_Node_getScaleZ},
         {"getScene", lua_Node_getScene},
         {"getScriptEvent", lua_Node_getScriptEvent},
+        {"getSprite", lua_Node_getSprite},
         {"getTag", lua_Node_getTag},
         {"getTerrain", lua_Node_getTerrain},
+        {"getText", lua_Node_getText},
+        {"getTileSet", lua_Node_getTileSet},
         {"getTranslation", lua_Node_getTranslation},
         {"getTranslationView", lua_Node_getTranslationView},
         {"getTranslationWorld", lua_Node_getTranslationWorld},
@@ -137,8 +140,11 @@ void luaRegister_Node()
         {"setScaleX", lua_Node_setScaleX},
         {"setScaleY", lua_Node_setScaleY},
         {"setScaleZ", lua_Node_setScaleZ},
+        {"setSprite", lua_Node_setSprite},
         {"setTag", lua_Node_setTag},
         {"setTerrain", lua_Node_setTerrain},
+        {"setText", lua_Node_setText},
+        {"setTileSet", lua_Node_setTileSet},
         {"setTranslation", lua_Node_setTranslation},
         {"setTranslationX", lua_Node_setTranslationX},
         {"setTranslationY", lua_Node_setTranslationY},
@@ -3148,6 +3154,50 @@ int lua_Node_getScriptEvent(lua_State* state)
     return 0;
 }
 
+int lua_Node_getSprite(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Node* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getSprite());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Sprite");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Node_getSprite - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Node_getTag(lua_State* state)
 {
     // Get the number of parameters.
@@ -3218,6 +3268,94 @@ int lua_Node_getTerrain(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Node_getTerrain - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_getText(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Node* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getText());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Text");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Node_getText - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_getTileSet(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Node* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getTileSet());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "TileSet");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Node_getTileSet - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -6009,6 +6147,48 @@ int lua_Node_setScaleZ(lua_State* state)
     return 0;
 }
 
+int lua_Node_setSprite(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Sprite> param1 = gameplay::ScriptUtil::getObjectPointer<Sprite>(2, "Sprite", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Sprite'.");
+                    lua_error(state);
+                }
+
+                Node* instance = getInstance(state);
+                instance->setSprite(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Node_setSprite - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Node_setTag(lua_State* state)
 {
     // Get the number of parameters.
@@ -6096,6 +6276,90 @@ int lua_Node_setTerrain(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Node_setTerrain - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_setText(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Text> param1 = gameplay::ScriptUtil::getObjectPointer<Text>(2, "Text", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Text'.");
+                    lua_error(state);
+                }
+
+                Node* instance = getInstance(state);
+                instance->setText(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Node_setText - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Node_setTileSet(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<TileSet> param1 = gameplay::ScriptUtil::getObjectPointer<TileSet>(2, "TileSet", false, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'TileSet'.");
+                    lua_error(state);
+                }
+
+                Node* instance = getInstance(state);
+                instance->setTileSet(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Node_setTileSet - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

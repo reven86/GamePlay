@@ -28,14 +28,14 @@ void luaRegister_TerrainPatch()
     const luaL_Reg* lua_statics = NULL;
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("TerrainPatch", lua_members, NULL, NULL, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("TerrainPatch", lua_members, NULL, NULL, lua_statics, scopePath);
 }
 
 static TerrainPatch* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "TerrainPatch");
     luaL_argcheck(state, userdata != NULL, 1, "'TerrainPatch' expected.");
-    return (TerrainPatch*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (TerrainPatch*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_TerrainPatch_cameraChanged(lua_State* state)
@@ -53,7 +53,7 @@ int lua_TerrainPatch_cameraChanged(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Camera> param1 = ScriptUtil::getObjectPointer<Camera>(2, "Camera", false, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Camera> param1 = gameplay::ScriptUtil::getObjectPointer<Camera>(2, "Camera", false, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Camera'.");
@@ -94,13 +94,13 @@ int lua_TerrainPatch_getBoundingBox(lua_State* state)
                 lua_type(state, 2) == LUA_TBOOLEAN)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = ScriptUtil::luaCheckBool(state, 2);
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
 
                 TerrainPatch* instance = getInstance(state);
                 void* returnPtr = (void*)&(instance->getBoundingBox(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "BoundingBox");
@@ -144,7 +144,7 @@ int lua_TerrainPatch_getMaterial(lua_State* state)
                 void* returnPtr = ((void*)instance->getMaterial());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Material");
@@ -174,7 +174,7 @@ int lua_TerrainPatch_getMaterial(lua_State* state)
                 void* returnPtr = ((void*)instance->getMaterial(param1));
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Material");

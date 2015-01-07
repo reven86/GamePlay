@@ -41,6 +41,7 @@ void lua_RegisterAllBindings()
     luaRegister_FileSystem();
     luaRegister_FlowLayout();
     luaRegister_Font();
+    luaRegister_FontGlyph();
     luaRegister_Form();
     luaRegister_FrameBuffer();
     luaRegister_Frustum();
@@ -48,6 +49,7 @@ void lua_RegisterAllBindings()
     luaRegister_Gamepad();
     luaRegister_Gesture();
     luaRegister_HeightField();
+    luaRegister_HorizontalLayout();
     luaRegister_Image();
     luaRegister_ImageControl();
     luaRegister_Joint();
@@ -61,6 +63,7 @@ void lua_RegisterAllBindings()
     luaRegister_MaterialParameter();
     luaRegister_MathUtil();
     luaRegister_Matrix();
+    luaRegister_Matrix3();
     luaRegister_Mesh();
     luaRegister_MeshBatch();
     luaRegister_MeshPart();
@@ -69,6 +72,7 @@ void lua_RegisterAllBindings()
     luaRegister_Mouse();
     luaRegister_Node();
     luaRegister_NodeCloneContext();
+    luaRegister_Package();
     luaRegister_ParticleEmitter();
     luaRegister_Pass();
     luaRegister_PhysicsCharacter();
@@ -94,6 +98,7 @@ void lua_RegisterAllBindings()
     luaRegister_PhysicsVehicleWheel();
     luaRegister_Plane();
     luaRegister_Platform();
+    luaRegister_ProgressBar();
     luaRegister_Properties();
     luaRegister_Quaternion();
     luaRegister_RadioButton();
@@ -111,10 +116,13 @@ void lua_RegisterAllBindings()
     luaRegister_ScriptTargetEvent();
     luaRegister_ScriptTargetEventRegistry();
     luaRegister_Slider();
+    luaRegister_Sprite();
     luaRegister_SpriteBatch();
+    luaRegister_SpriteBatchSpriteVertex();
     luaRegister_Technique();
     luaRegister_Terrain();
     luaRegister_TerrainPatch();
+    luaRegister_Text();
     luaRegister_TextBox();
     luaRegister_Texture();
     luaRegister_TextureSampler();
@@ -123,6 +131,7 @@ void lua_RegisterAllBindings()
     luaRegister_ThemeStyle();
     luaRegister_ThemeThemeImage();
     luaRegister_ThemeUVs();
+    luaRegister_TileSet();
     luaRegister_Touch();
     luaRegister_Transform();
     luaRegister_TransformListener();

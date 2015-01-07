@@ -95,6 +95,7 @@ void luaRegister_JoystickControl()
         {"removeListener", lua_JoystickControl_removeListener},
         {"removeScript", lua_JoystickControl_removeScript},
         {"removeScriptCallback", lua_JoystickControl_removeScriptCallback},
+        {"resetAlignment", lua_JoystickControl_resetAlignment},
         {"setAlignment", lua_JoystickControl_setAlignment},
         {"setAnimationPropertyValue", lua_JoystickControl_setAnimationPropertyValue},
         {"setAutoSize", lua_JoystickControl_setAutoSize},
@@ -1604,10 +1605,10 @@ int lua_JoystickControl_getFontSize(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 JoystickControl* instance = getInstance(state);
-                unsigned int result = instance->getFontSize();
+                float result = instance->getFontSize();
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -1625,10 +1626,10 @@ int lua_JoystickControl_getFontSize(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 JoystickControl* instance = getInstance(state);
-                unsigned int result = instance->getFontSize(param1);
+                float result = instance->getFontSize(param1);
 
                 // Push the return value onto the stack.
-                lua_pushunsigned(state, result);
+                lua_pushnumber(state, result);
 
                 return 1;
             }
@@ -3639,6 +3640,38 @@ int lua_JoystickControl_removeScriptCallback(lua_State* state)
     return 0;
 }
 
+int lua_JoystickControl_resetAlignment(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                JoystickControl* instance = getInstance(state);
+                instance->resetAlignment();
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_JoystickControl_resetAlignment - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_JoystickControl_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
@@ -4268,7 +4301,7 @@ int lua_JoystickControl_setFontSize(lua_State* state)
                 lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 JoystickControl* instance = getInstance(state);
                 instance->setFontSize(param1);
@@ -4287,7 +4320,7 @@ int lua_JoystickControl_setFontSize(lua_State* state)
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+                float param1 = (float)luaL_checknumber(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);

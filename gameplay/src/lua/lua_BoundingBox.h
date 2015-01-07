@@ -8,6 +8,7 @@ namespace gameplay
 // Lua bindings for BoundingBox.
 int lua_BoundingBox__gc(lua_State* state);
 int lua_BoundingBox__init(lua_State* state);
+int lua_BoundingBox_enlarge(lua_State* state);
 int lua_BoundingBox_getCenter(lua_State* state);
 int lua_BoundingBox_getCorners(lua_State* state);
 int lua_BoundingBox_intersects(lua_State* state);

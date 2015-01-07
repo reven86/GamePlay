@@ -32,14 +32,14 @@ void luaRegister_SpriteBatch()
     };
     std::vector<std::string> scopePath;
 
-    ScriptUtil::registerClass("SpriteBatch", lua_members, NULL, lua_SpriteBatch__gc, lua_statics, scopePath);
+    gameplay::ScriptUtil::registerClass("SpriteBatch", lua_members, NULL, lua_SpriteBatch__gc, lua_statics, scopePath);
 }
 
 static SpriteBatch* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "SpriteBatch");
     luaL_argcheck(state, userdata != NULL, 1, "'SpriteBatch' expected.");
-    return (SpriteBatch*)((ScriptUtil::LuaObject*)userdata)->instance;
+    return (SpriteBatch*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
 int lua_SpriteBatch__gc(lua_State* state)
@@ -56,7 +56,7 @@ int lua_SpriteBatch__gc(lua_State* state)
             {
                 void* userdata = luaL_checkudata(state, 1, "SpriteBatch");
                 luaL_argcheck(state, userdata != NULL, 1, "'SpriteBatch' expected.");
-                ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)userdata;
+                gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)userdata;
                 if (object->owns)
                 {
                     SpriteBatch* instance = (SpriteBatch*)object->instance;
@@ -98,18 +98,40 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     SpriteBatch* instance = getInstance(state);
                     instance->draw(*param1, *param2);
+                    
+                    return 0;
+                }
+            } while (0);
+
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                    (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL) &&
+                    lua_type(state, 3) == LUA_TNUMBER)
+                {
+                    // Get parameter 1 off the stack.
+                    bool param1Valid;
+                    gameplay::ScriptUtil::LuaArray<SpriteBatch::SpriteVertex> param1 = gameplay::ScriptUtil::getObjectPointer<SpriteBatch::SpriteVertex>(2, "SpriteBatchSpriteVertex", false, &param1Valid);
+                    if (!param1Valid)
+                        break;
+
+                    // Get parameter 2 off the stack.
+                    unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 3);
+
+                    SpriteBatch* instance = getInstance(state);
+                    instance->draw(param1, param2);
                     
                     return 0;
                 }
@@ -130,19 +152,19 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Rectangle> param1 = ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param1 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(2, "Rectangle", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector4> param3 = ScriptUtil::getObjectPointer<Vector4>(4, "Vector4", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param3 = gameplay::ScriptUtil::getObjectPointer<Vector4>(4, "Vector4", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -162,19 +184,19 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector2> param3 = ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param3 = gameplay::ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -201,25 +223,25 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector2> param3 = ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param3 = gameplay::ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Vector4> param4 = ScriptUtil::getObjectPointer<Vector4>(5, "Vector4", true, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param4 = gameplay::ScriptUtil::getObjectPointer<Vector4>(5, "Vector4", true, &param4Valid);
                     if (!param4Valid)
                         break;
 
@@ -248,31 +270,31 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Rectangle> param2 = ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param2 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(3, "Rectangle", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector2> param3 = ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param3 = gameplay::ScriptUtil::getObjectPointer<Vector2>(4, "Vector2", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
                     // Get parameter 4 off the stack.
                     bool param4Valid;
-                    ScriptUtil::LuaArray<Vector4> param4 = ScriptUtil::getObjectPointer<Vector4>(5, "Vector4", true, &param4Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param4 = gameplay::ScriptUtil::getObjectPointer<Vector4>(5, "Vector4", true, &param4Valid);
                     if (!param4Valid)
                         break;
 
                     // Get parameter 5 off the stack.
                     bool param5Valid;
-                    ScriptUtil::LuaArray<Vector2> param5 = ScriptUtil::getObjectPointer<Vector2>(6, "Vector2", true, &param5Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param5 = gameplay::ScriptUtil::getObjectPointer<Vector2>(6, "Vector2", true, &param5Valid);
                     if (!param5Valid)
                         break;
 
@@ -331,7 +353,7 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 9 off the stack.
                     bool param9Valid;
-                    ScriptUtil::LuaArray<Vector4> param9 = ScriptUtil::getObjectPointer<Vector4>(10, "Vector4", true, &param9Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param9 = gameplay::ScriptUtil::getObjectPointer<Vector4>(10, "Vector4", true, &param9Valid);
                     if (!param9Valid)
                         break;
 
@@ -364,7 +386,7 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -388,13 +410,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 8 off the stack.
                     bool param8Valid;
-                    ScriptUtil::LuaArray<Vector4> param8 = ScriptUtil::getObjectPointer<Vector4>(9, "Vector4", true, &param8Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param8 = gameplay::ScriptUtil::getObjectPointer<Vector4>(9, "Vector4", true, &param8Valid);
                     if (!param8Valid)
                         break;
 
                     // Get parameter 9 off the stack.
                     bool param9Valid;
-                    ScriptUtil::LuaArray<Vector2> param9 = ScriptUtil::getObjectPointer<Vector2>(10, "Vector2", true, &param9Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param9 = gameplay::ScriptUtil::getObjectPointer<Vector2>(10, "Vector2", true, &param9Valid);
                     if (!param9Valid)
                         break;
 
@@ -448,13 +470,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 9 off the stack.
                     bool param9Valid;
-                    ScriptUtil::LuaArray<Vector4> param9 = ScriptUtil::getObjectPointer<Vector4>(10, "Vector4", true, &param9Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param9 = gameplay::ScriptUtil::getObjectPointer<Vector4>(10, "Vector4", true, &param9Valid);
                     if (!param9Valid)
                         break;
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Rectangle> param10 = ScriptUtil::getObjectPointer<Rectangle>(11, "Rectangle", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param10 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(11, "Rectangle", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
@@ -508,7 +530,7 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
@@ -542,7 +564,7 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
@@ -566,13 +588,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 8 off the stack.
                     bool param8Valid;
-                    ScriptUtil::LuaArray<Vector4> param8 = ScriptUtil::getObjectPointer<Vector4>(9, "Vector4", true, &param8Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param8 = gameplay::ScriptUtil::getObjectPointer<Vector4>(9, "Vector4", true, &param8Valid);
                     if (!param8Valid)
                         break;
 
                     // Get parameter 9 off the stack.
                     bool param9Valid;
-                    ScriptUtil::LuaArray<Vector2> param9 = ScriptUtil::getObjectPointer<Vector2>(10, "Vector2", true, &param9Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param9 = gameplay::ScriptUtil::getObjectPointer<Vector2>(10, "Vector2", true, &param9Valid);
                     if (!param9Valid)
                         break;
 
@@ -580,7 +602,7 @@ int lua_SpriteBatch_draw(lua_State* state)
                     float param10 = (float)luaL_checknumber(state, 11);
 
                     // Get parameter 11 off the stack.
-                    bool param11 = ScriptUtil::luaCheckBool(state, 12);
+                    bool param11 = gameplay::ScriptUtil::luaCheckBool(state, 12);
 
                     SpriteBatch* instance = getInstance(state);
                     instance->draw(*param1, param2, param3, param4, param5, param6, param7, *param8, *param9, param10, param11);
@@ -633,13 +655,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
                     // Get parameter 11 off the stack.
                     bool param11Valid;
-                    ScriptUtil::LuaArray<Rectangle> param11 = ScriptUtil::getObjectPointer<Rectangle>(12, "Rectangle", true, &param11Valid);
+                    gameplay::ScriptUtil::LuaArray<Rectangle> param11 = gameplay::ScriptUtil::getObjectPointer<Rectangle>(12, "Rectangle", true, &param11Valid);
                     if (!param11Valid)
                         break;
 
@@ -694,12 +716,12 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
                     // Get parameter 11 off the stack.
-                    bool param11 = ScriptUtil::luaCheckBool(state, 12);
+                    bool param11 = gameplay::ScriptUtil::luaCheckBool(state, 12);
 
                     SpriteBatch* instance = getInstance(state);
                     instance->draw(param1, param2, param3, param4, param5, param6, param7, param8, param9, *param10, param11);
@@ -759,13 +781,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
                     // Get parameter 11 off the stack.
                     bool param11Valid;
-                    ScriptUtil::LuaArray<Vector2> param11 = ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param11 = gameplay::ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
                     if (!param11Valid)
                         break;
 
@@ -797,19 +819,19 @@ int lua_SpriteBatch_draw(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Vector3> param1 = ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Vector3> param2 = ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", true, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     // Get parameter 3 off the stack.
                     bool param3Valid;
-                    ScriptUtil::LuaArray<Vector3> param3 = ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param3Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector3> param3 = gameplay::ScriptUtil::getObjectPointer<Vector3>(4, "Vector3", true, &param3Valid);
                     if (!param3Valid)
                         break;
 
@@ -833,13 +855,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
                     // Get parameter 11 off the stack.
                     bool param11Valid;
-                    ScriptUtil::LuaArray<Vector2> param11 = ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param11 = gameplay::ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
                     if (!param11Valid)
                         break;
 
@@ -905,13 +927,13 @@ int lua_SpriteBatch_draw(lua_State* state)
 
                     // Get parameter 10 off the stack.
                     bool param10Valid;
-                    ScriptUtil::LuaArray<Vector4> param10 = ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector4> param10 = gameplay::ScriptUtil::getObjectPointer<Vector4>(11, "Vector4", true, &param10Valid);
                     if (!param10Valid)
                         break;
 
                     // Get parameter 11 off the stack.
                     bool param11Valid;
-                    ScriptUtil::LuaArray<Vector2> param11 = ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
+                    gameplay::ScriptUtil::LuaArray<Vector2> param11 = gameplay::ScriptUtil::getObjectPointer<Vector2>(12, "Vector2", true, &param11Valid);
                     if (!param11Valid)
                         break;
 
@@ -919,7 +941,7 @@ int lua_SpriteBatch_draw(lua_State* state)
                     float param12 = (float)luaL_checknumber(state, 13);
 
                     // Get parameter 13 off the stack.
-                    bool param13 = ScriptUtil::luaCheckBool(state, 14);
+                    bool param13 = gameplay::ScriptUtil::luaCheckBool(state, 14);
 
                     SpriteBatch* instance = getInstance(state);
                     instance->draw(param1, param2, param3, param4, param5, param6, param7, param8, param9, *param10, *param11, param12, param13);
@@ -990,7 +1012,7 @@ int lua_SpriteBatch_getMaterial(lua_State* state)
                 void* returnPtr = ((void*)instance->getMaterial());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Material");
@@ -1034,7 +1056,7 @@ int lua_SpriteBatch_getProjectionMatrix(lua_State* state)
                 void* returnPtr = (void*)&(instance->getProjectionMatrix());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "Matrix");
@@ -1078,7 +1100,7 @@ int lua_SpriteBatch_getSampler(lua_State* state)
                 void* returnPtr = ((void*)instance->getSampler());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "TextureSampler");
@@ -1122,7 +1144,7 @@ int lua_SpriteBatch_getStateBlock(lua_State* state)
                 void* returnPtr = ((void*)instance->getStateBlock());
                 if (returnPtr)
                 {
-                    ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                     object->instance = returnPtr;
                     object->owns = false;
                     luaL_getmetatable(state, "RenderStateStateBlock");
@@ -1200,7 +1222,7 @@ int lua_SpriteBatch_setProjectionMatrix(lua_State* state)
             {
                 // Get parameter 1 off the stack.
                 bool param1Valid;
-                ScriptUtil::LuaArray<Matrix> param1 = ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
+                gameplay::ScriptUtil::LuaArray<Matrix> param1 = gameplay::ScriptUtil::getObjectPointer<Matrix>(2, "Matrix", true, &param1Valid);
                 if (!param1Valid)
                 {
                     lua_pushstring(state, "Failed to convert parameter 1 to type 'Matrix'.");
@@ -1274,12 +1296,12 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(1, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                     void* returnPtr = ((void*)SpriteBatch::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1300,14 +1322,14 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Texture> param1 = ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Texture> param1 = gameplay::ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     void* returnPtr = ((void*)SpriteBatch::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1328,14 +1350,14 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Material> param1 = ScriptUtil::getObjectPointer<Material>(1, "Material", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Material> param1 = gameplay::ScriptUtil::getObjectPointer<Material>(1, "Material", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
-                    void* returnPtr = (void*)SpriteBatch::create(param1);
+                    void* returnPtr = ((void*)SpriteBatch::create(param1));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1362,18 +1384,18 @@ int lua_SpriteBatch_static_create(lua_State* state)
                     (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(1, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Effect> param2 = ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Effect> param2 = gameplay::ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     void* returnPtr = ((void*)SpriteBatch::create(param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1395,20 +1417,20 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Texture> param1 = ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Texture> param1 = gameplay::ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Effect> param2 = ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Effect> param2 = gameplay::ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
                     void* returnPtr = ((void*)SpriteBatch::create(param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1430,17 +1452,17 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Material> param1 = ScriptUtil::getObjectPointer<Material>(1, "Material", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Material> param1 = gameplay::ScriptUtil::getObjectPointer<Material>(1, "Material", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 2);
 
-                    void* returnPtr = (void*)SpriteBatch::create(param1, param2);
+                    void* returnPtr = ((void*)SpriteBatch::create(param1, param2));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1468,11 +1490,11 @@ int lua_SpriteBatch_static_create(lua_State* state)
                     lua_type(state, 3) == LUA_TNUMBER)
                 {
                     // Get parameter 1 off the stack.
-                    const char* param1 = ScriptUtil::getString(1, false);
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Effect> param2 = ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Effect> param2 = gameplay::ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1482,7 +1504,7 @@ int lua_SpriteBatch_static_create(lua_State* state)
                     void* returnPtr = ((void*)SpriteBatch::create(param1, param2, param3));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
@@ -1505,13 +1527,13 @@ int lua_SpriteBatch_static_create(lua_State* state)
                 {
                     // Get parameter 1 off the stack.
                     bool param1Valid;
-                    ScriptUtil::LuaArray<Texture> param1 = ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
+                    gameplay::ScriptUtil::LuaArray<Texture> param1 = gameplay::ScriptUtil::getObjectPointer<Texture>(1, "Texture", false, &param1Valid);
                     if (!param1Valid)
                         break;
 
                     // Get parameter 2 off the stack.
                     bool param2Valid;
-                    ScriptUtil::LuaArray<Effect> param2 = ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
+                    gameplay::ScriptUtil::LuaArray<Effect> param2 = gameplay::ScriptUtil::getObjectPointer<Effect>(2, "Effect", false, &param2Valid);
                     if (!param2Valid)
                         break;
 
@@ -1521,7 +1543,7 @@ int lua_SpriteBatch_static_create(lua_State* state)
                     void* returnPtr = ((void*)SpriteBatch::create(param1, param2, param3));
                     if (returnPtr)
                     {
-                        ScriptUtil::LuaObject* object = (ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(ScriptUtil::LuaObject));
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
                         object->instance = returnPtr;
                         object->owns = true;
                         luaL_getmetatable(state, "SpriteBatch");
