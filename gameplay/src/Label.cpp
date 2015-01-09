@@ -110,6 +110,16 @@ void Label::updateBounds()
         }
         if (_autoSize & AUTO_SIZE_HEIGHT)
         {
+            // recalculate height due to word wrapping
+            if (_textBounds.width > 0.0f && (_autoSize & AUTO_SIZE_WIDTH) == 0)
+            {
+                gameplay::Rectangle clipBounds(_textBounds.width, FLT_MAX);
+                gameplay::Rectangle out;
+                _font->measureText(_text.c_str(), clipBounds, getFontSize(NORMAL), &out);
+
+                h = out.height;
+            }
+
             setHeightInternal(ceilf(h + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom));
         }
     }
