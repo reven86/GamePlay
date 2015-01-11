@@ -43,6 +43,7 @@ public class GamePlayNativeActivity extends NativeActivity {
     // IAB
     public native void setIABEnabled();
     public native int isItemConsumable(String sku);
+    public native void itemRestored(String sku, long purchaseTime, String orderId);
     public native void itemPurchased(String sku, long purchaseTime, String orderId);
     public native void itemPurchaseFailed(String sku, int error, String message);
     public native void getProductsFailed(int error, String message);
