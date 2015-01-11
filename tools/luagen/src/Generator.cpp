@@ -1139,6 +1139,8 @@ void Generator::resolveMembers(const ClassBinding& c)
             b.type = iter->second[0].type;
             b.name = iter->second[0].name;
 
+            string funcName = b.getFunctionName();
+
             map<string, vector<FunctionBinding> >::iterator findIter = cb->bindings.find(b.getFunctionName());
             map<string, vector<FunctionBinding> >::iterator hiddenIter = cb->hidden.find(b.getFunctionName());
             if (findIter == cb->bindings.end() && hiddenIter == cb->hidden.end())
@@ -1199,7 +1201,7 @@ void Generator::resolveMembers(const ClassBinding& c)
                     {
                         FunctionBinding b = iter->second[i];
                         b.name = name;
-                        b.functionName = findIter->first;
+                        b.functionName = funcName;
                         b.classname = cb->classname;
                         b.uniquename = getUniqueName(cb->classname);
 
