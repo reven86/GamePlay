@@ -122,6 +122,8 @@ double Game::getAbsoluteTime()
 
 double Game::getGameTime()
 {
+    if (__gameInstance && __gameInstance->_state == PAUSED)
+        return _pausedTimeLast - _pausedTimeTotal;
     return Platform::getAbsoluteTime() - _pausedTimeTotal;
 }
 
@@ -372,7 +374,9 @@ void Game::exit()
 
 void Game::frame()
 {
-    if (!_initialized)
+    if (_state == UNINITIALIZED)
+        GP_WARN("Game::frame is called when _state == UNINITIALIZED, possible crash");
+    if (_state != UNINITIALIZED && !_initialized)
     {
         // Perform lazy first time initialization
         initialize();
