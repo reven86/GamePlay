@@ -18,7 +18,10 @@ namespace gameplay
 static gameplay::GoogleStoreFront * __instance = NULL;
 static std::vector< gameplay::StoreProduct > __products;
 static bool __iabEnabled = false;
-static jclass __mainActivityClass;
+static jmethodID __midQueueSKURequest;
+static jmethodID __midFlushSkuDetailsQueue;
+static jmethodID __midPurchaseItem;
+static jmethodID __midRestorePurchases;
 
 extern "C"
 {
@@ -28,7 +31,11 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
     JNIEnv* env = NULL;
     vm->GetEnv((void **)&env, JNI_VERSION_1_6);
 
-    __mainActivityClass = env->FindClass(androidMainActivityClassName);
+    jclass __mainActivityClass = env->FindClass(androidMainActivityClassName);
+    __midQueueSKURequest = env->GetMethodID(__mainActivityClass, "queueSkuDetailsRequest", "(Ljava/lang/String;)V");
+    __midFlushSkuDetailsQueue = env->GetMethodID(__mainActivityClass, "flushSkuDetailsQueue", "()V");
+    __midPurchaseItem = env->GetMethodID(__mainActivityClass, "purchaseItem", "(Ljava/lang/String;)V");
+    __midRestorePurchases = env->GetMethodID(__mainActivityClass, "restorePurchases", "()V");
 
     return JNI_VERSION_1_6;
 }
@@ -152,17 +159,13 @@ void GoogleStoreFront::getProducts(const char ** productIDs) const
     JavaVM* vm = app->activity->vm;
     vm->AttachCurrentThread(&env, NULL);
 
-    jmethodID midQueueSKURequest = env->GetMethodID(__mainActivityClass, "queueSkuDetailsRequest", "(Ljava/lang/String;)V");
-
     while (*productIDs)
     {
         jstring paramString = env->NewStringUTF(*productIDs++);
-        env->CallObjectMethod(app->activity->clazz, midQueueSKURequest, paramString);
+        env->CallVoidMethod(app->activity->clazz, __midQueueSKURequest, paramString);
     }
 
-    jmethodID midFlushSkuDetailsQueue = env->GetMethodID(__mainActivityClass, "flushSkuDetailsQueue", "()V");
-
-    env->CallObjectMethod(app->activity->clazz, midFlushSkuDetailsQueue);
+    env->CallVoidMethod(app->activity->clazz, __midFlushSkuDetailsQueue);
 
     vm->DetachCurrentThread();
 }
@@ -174,11 +177,10 @@ void GoogleStoreFront::makePayment(const char * productID, int quantity, const c
     JavaVM* vm = app->activity->vm;
     vm->AttachCurrentThread(&env, NULL);
 
-    jmethodID midPurchaseItem = env->GetMethodID(__mainActivityClass, "purchaseItem", "(Ljava/lang/String;)V");
     jstring paramString = env->NewStringUTF(productID);
 
     while (quantity-- > 0)
-        env->CallObjectMethod(app->activity->clazz, midPurchaseItem, paramString);
+        env->CallVoidMethod(app->activity->clazz, __midPurchaseItem, paramString);
 
     vm->DetachCurrentThread();
 
@@ -197,8 +199,7 @@ void GoogleStoreFront::restoreTransactions(const char * usernameHash)
     JavaVM* vm = app->activity->vm;
     vm->AttachCurrentThread(&env, NULL);
 
-    jmethodID midRestorePurchases = env->GetMethodID(__mainActivityClass, "restorePurchases", "()V");
-    env->CallObjectMethod(app->activity->clazz, midRestorePurchases);
+    env->CallVoidMethod(app->activity->clazz, __midRestorePurchases);
 
     vm->DetachCurrentThread();
 }
