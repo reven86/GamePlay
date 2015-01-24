@@ -148,6 +148,7 @@ void Node::addChild(Node* child)
     if (_notifyHierarchyChanged)
     {
         hierarchyChanged();
+        child->transformChanged();
     }
 }
 
