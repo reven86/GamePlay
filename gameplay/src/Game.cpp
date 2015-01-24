@@ -374,8 +374,6 @@ void Game::exit()
 
 void Game::frame()
 {
-    if (_state == UNINITIALIZED)
-        GP_WARN("Game::frame is called when _state == UNINITIALIZED, possible crash");
     if (_state != UNINITIALIZED && !_initialized)
     {
         // Perform lazy first time initialization

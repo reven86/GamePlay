@@ -804,7 +804,6 @@
     <ClCompile Include="src\Package.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\lua_Matrix3.cpp" />
     <ClCompile Include="src\lua\lua_FontGlyph.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
@@ -821,6 +820,9 @@
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_TileSet.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_Matrix3.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1623,7 +1625,6 @@
     <ClInclude Include="src\storefront\StoreListener.h">
       <Filter>src\storefront</Filter>
     </ClInclude>
-    <ClInclude Include="src\lua\lua_Matrix3.h" />
     <ClInclude Include="src\lua\lua_FontGlyph.h">
       <Filter>src\lua</Filter>
     </ClInclude>
@@ -1640,6 +1641,9 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_TileSet.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_Matrix3.h">
       <Filter>src\lua</Filter>
     </ClInclude>
   </ItemGroup>
