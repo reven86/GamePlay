@@ -315,6 +315,11 @@ static bool initEGL()
     eglQuerySurface(__eglDisplay, __eglSurface, EGL_HEIGHT, &__height);
 
     __orientationAngle = getRotation() * 90;
+
+    // dirty hack to fix 'portrait' ui in landscape mode bug
+#pragma message ("Remove this when orientation change event is implemented.")
+    if (__width < __height)
+        std::swap(__width, __height);
     
     // Set vsync.
     eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
