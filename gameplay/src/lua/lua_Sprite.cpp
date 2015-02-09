@@ -5,7 +5,9 @@
 #include "Animation.h"
 #include "AnimationTarget.h"
 #include "Base.h"
+#include "Drawable.h"
 #include "Game.h"
+#include "MaterialParameter.h"
 #include "Node.h"
 #include "Ref.h"
 #include "Scene.h"
@@ -631,9 +633,30 @@ int lua_Sprite_draw(lua_State* state)
             lua_error(state);
             break;
         }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Sprite* instance = getInstance(state);
+                unsigned int result = instance->draw(param1);
+
+                // Push the return value onto the stack.
+                lua_pushunsigned(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Sprite_draw - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
             lua_error(state);
             break;
         }

@@ -12,7 +12,6 @@ static const unsigned int MOVE_LEFT = 4;
 static const unsigned int MOVE_RIGHT = 8;
 static const unsigned int MOVE_UP = 16;
 static const unsigned int MOVE_DOWN = 32;
-
 static const float MOVE_SPEED = 15.0f;
 static const float UP_DOWN_SPEED = 10.0f;
 
@@ -35,7 +34,7 @@ void Audio3DSample::initialize()
 
     // Initialize box model
     Node* boxNode = _scene->findNode("box");
-    Model* boxModel = boxNode->getModel();
+    Model* boxModel = dynamic_cast<Model*>(boxNode->getDrawable());
     Material* boxMaterial = boxModel->setMaterial("res/common/box.material#lambert1");
 
     boxMaterial->getParameter("u_directionalLightColor[0]")->setValue(light->getColor());
@@ -159,12 +158,9 @@ void Audio3DSample::render(float elapsedTime)
 
 bool Audio3DSample::drawScene(Node* node)
 {
-    // If the node visited contains a model, draw it
-    Model* model = node->getModel(); 
-    if (model)
-    {
-        model->draw();
-    }
+    Drawable* drawable = node->getDrawable(); 
+    if (drawable)
+        drawable->draw();
     return true;
 }
 
@@ -341,8 +337,8 @@ void Audio3DSample::loadGrid(Scene* scene)
     assert(gridModel);
     gridModel->setMaterial("res/common/grid.material");
     Node* node = scene->addNode("grid");
-    node->setModel(gridModel);
-    gridModel->release();
+    node->setDrawable(gridModel);
+    SAFE_RELEASE(gridModel);
 }
 
 void Audio3DSample::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad)

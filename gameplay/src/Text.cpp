@@ -7,16 +7,17 @@ namespace gameplay
 {
   
 Text::Text() :
-    _font(NULL), _text(L""), _size(0), _width(0), _height(0), _wrap(true), _rightToLeft(false),
+    _font(NULL), _drawFont(NULL), _text(L""), _size(0), _width(0), _height(0), _wrap(true), _rightToLeft(false),
     _align(Font::ALIGN_TOP_LEFT), _clip(Rectangle(0, 0, 0, 0)),
-    _opacity(1.0f), _color(Vector4::one()), _node(NULL)
+    _opacity(1.0f), _color(Vector4::one())
 {
 }
 
 Text::~Text()
 {
-    if (_font)
-        SAFE_RELEASE(_font);
+    // _drawFont is a child of _font, so it should never be released
+    SAFE_RELEASE(_font);
+    _drawFont = NULL;
 }
     
 Text& Text::operator=(const Text& text)
@@ -30,21 +31,24 @@ Text* Text::create(const char* fontPath, const wchar_t* str, const Vector4& colo
     GP_ASSERT(str);
 
     Font* font = Font::create(fontPath);
+    Font* drawFont;
     
     if (size == 0)
     {
         size = font->_size;
+        drawFont = font;
     }
     else
     {
         // Delegate to closest sized font
-        font = const_cast<Font *>(font->findClosestSize(size));
-        size = font->_size;
+        drawFont = const_cast<Font *>(font->findClosestSize(size));
+        size = drawFont->_size;
     }
     float widthOut, heightOut;
     font->measureText(str, size, &widthOut, &heightOut);
     Text* text = new Text();
     text->_font = font;
+    text->_drawFont = drawFont;
     text->_text = str;
     text->_size = size;
     text->_width = widthOut;
@@ -56,18 +60,71 @@ Text* Text::create(const char* fontPath, const wchar_t* str, const Vector4& colo
     
 Text* Text::create(Properties* properties)
 {
-    // TODO Load from properties from .scene files
-    /*
-    text level
+    // Check if the Properties is valid and has a valid namespace.
+    if (!properties || strcmp(properties->getNamespace(), "text") != 0)
     {
-        font = res/arial.gpb
-        size = 18
-        text = Player 1
-     }
-     */
-    return NULL;
+        GP_ERROR("Properties object must be non-null and have namespace equal to 'text'.");
+        return NULL;
+    }
+
+    // Get font path.
+    const char* fontPath = properties->getString("font");
+    if (fontPath == NULL || strlen(fontPath) == 0)
+    {
+        GP_ERROR("Text is missing required font file path.");
+        return NULL;
+    }
+
+    //// Get text
+    //const char* text = properties->getString("text");
+    //if (text == NULL || strlen(text) == 0)
+    //{
+    //    GP_ERROR("Text is missing required 'text' value.");
+    //    return NULL;
+    //}
+
+    // Get size
+    int size = properties->getInt("size"); // Default return is 0 if a value doesn't exist
+    if (size < 0)
+    {
+        GP_WARN("Text size must be a positive value, with zero being default font size. Using default font size.");
+        size = 0;
+    }
+
+    // Get text color
+    Vector4 color = Vector4::one();
+    if (properties->exists("color"))
+    {
+        switch (properties->getType("color"))
+        {
+            case Properties::VECTOR3:
+                color.w = 1.0f;
+                properties->getVector3("color", (Vector3*)&color);
+                break;
+            case Properties::VECTOR4:
+                properties->getVector4("color", &color);
+                break;
+            case Properties::STRING:
+            default:
+                properties->getColor("color", &color);
+                break;
+        }
+    }
+
+    // Create
+    return Text::create(fontPath, L"", color, size);
 }
     
+void Text::setText(const wchar_t* str)
+{
+    _text = str;
+}
+
+const wchar_t* Text::getText() const
+{
+    return _text.c_str();
+}
+
 unsigned int Text::getSize() const
 {
     return _size;
@@ -153,7 +210,26 @@ const Vector4& Text::getColor() const
     return _color;
 }
     
-unsigned int Text::draw()
+Drawable* Text::clone(NodeCloneContext& context)
+{
+    Text* textClone = new Text();
+    textClone->_font = _font;
+    _font->addRef();
+    textClone->_drawFont = _drawFont;
+    textClone->_text = _text;
+    textClone->_size = _size;
+    textClone->_width = _width;
+    textClone->_height = _height;
+    textClone->_wrap = _wrap;
+    textClone->_rightToLeft = _rightToLeft;
+    textClone->_align = _align;
+    textClone->_clip = _clip;
+    textClone->_opacity = _opacity;
+    textClone->_color = _color;
+    return textClone;
+}
+
+unsigned int Text::draw(bool wireframe)
 {
     // Apply scene camera projection and translation offsets
     Rectangle viewport = Game::getInstance()->getViewport();
@@ -188,22 +264,31 @@ unsigned int Text::draw()
             clipViewport.y += position.y;
         }
     }
-    _font->start();
-    _font->drawText(_text.c_str(), Rectangle(position.x, position.y, _width, _height),
+    _drawFont->start();
+    _drawFont->drawText(_text.c_str(), Rectangle(position.x, position.y, _width, _height),
                     Vector4(_color.x, _color.y, _color.z, _color.w * _opacity), _size,
                     _align, _wrap, _rightToLeft, clipViewport);
-    _font->finish();
+    _drawFont->finish();
     return 1;
 }
     
-Node* Text::getNode() const
+int Text::getPropertyId(TargetType type, const char* propertyIdStr)
 {
-    return _node;
-}
+    GP_ASSERT(propertyIdStr);
 
-void Text::setNode(Node* node)
-{
-    _node = node;
+    if (type == AnimationTarget::TRANSFORM)
+    {
+        if (strcmp(propertyIdStr, "ANIMATE_OPACITY") == 0)
+        {
+            return Text::ANIMATE_OPACITY;
+        }
+        else if (strcmp(propertyIdStr, "ANIMATE_COLOR") == 0)
+        {
+            return Text::ANIMATE_COLOR;
+        }
+    }
+
+    return AnimationTarget::getPropertyId(type, propertyIdStr);
 }
     
 unsigned int Text::getAnimationPropertyComponentCount(int propertyId) const
@@ -257,33 +342,6 @@ void Text::setAnimationPropertyValue(int propertyId, AnimationValue* value, floa
         default:
             break;
     }
-}
-
-Text* Text::clone(NodeCloneContext &context)
-{
-    Text* copy = new Text();
-    cloneInto(copy, context);
-    return copy;
-}
-
-void Text::cloneInto(Text* text, NodeCloneContext &context) const
-{
-    GP_ASSERT(text);
-    
-    // Clone properties
-    text->_font = _font;
-    _font->addRef();
-    text->_text = _text;
-    text->_size = _size;
-    text->_width = _width;
-    text->_height = _height;
-    text->_wrap = _wrap;
-    text->_rightToLeft = _rightToLeft;
-    text->_align = _align;
-    text->_clip = _clip;
-    text->_opacity = _opacity;
-    text->_color = _color;
-    text->_node = _node;
 }
 
 }

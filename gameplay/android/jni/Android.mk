@@ -50,6 +50,7 @@ LOCAL_SRC_FILES := \
     Curve.cpp \
     DebugNew.cpp \
     DepthStencilTarget.cpp \
+    Drawable.cpp \
     Effect.cpp \
     FileSystem.cpp \
     FlowLayout.cpp \
@@ -171,6 +172,7 @@ LOCAL_SRC_FILES := \
     lua/lua_ControlListener.cpp \
     lua/lua_Curve.cpp \
     lua/lua_DepthStencilTarget.cpp \
+    lua/lua_Drawable.cpp \
     lua/lua_Effect.cpp \
     lua/lua_FileSystem.cpp \
     lua/lua_FlowLayout.cpp \
@@ -267,6 +269,7 @@ LOCAL_SRC_FILES := \
     lua/lua_ThemeStyle.cpp \
     lua/lua_ThemeThemeImage.cpp \
     lua/lua_ThemeUVs.cpp \
+    lua/lua_TileSet.cpp \
     lua/lua_Touch.cpp \
     lua/lua_Transform.cpp \
     lua/lua_TransformListener.cpp \
@@ -284,7 +287,7 @@ LOCAL_SRC_FILES := \
     storefront/StoreController.cpp \
     storefront/NullStoreFront.cpp \
 
-LOCAL_CPPFLAGS += -std=c++11 -Wno-switch-enum -Wno-switch
+LOCAL_CPPFLAGS += -std=c++11 -frtti -Wno-switch-enum -Wno-switch
 LOCAL_ARM_MODE := arm
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"

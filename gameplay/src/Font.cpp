@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "FileSystem.h"
 #include "Bundle.h"
+#include "Material.h"
 
 // Default font shaders
 #define FONT_VSH "res/shaders/font.vert"
@@ -19,7 +20,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _batch(NULL), _cutoffParam(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -34,6 +35,7 @@ Font::~Font()
 
     SAFE_DELETE(_batch);
     SAFE_DELETE_ARRAY(_glyphs);
+    SAFE_RELEASE(_texture);
 
     // Free child fonts
     for (size_t i = 0, count = _sizes.size(); i < count; ++i)
@@ -149,6 +151,7 @@ Font* Font::create(const char* family, Style style, unsigned int size, Glyph* gl
     font->_family = family;
     font->_style = style;
     font->_size = size;
+    font->_texture = texture;
     font->_batch = batch;
 
     // Copy the glyphs array.

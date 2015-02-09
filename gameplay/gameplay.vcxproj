@@ -41,6 +41,7 @@
     <ClCompile Include="src\Curve.cpp" />
     <ClCompile Include="src\DebugNew.cpp" />
     <ClCompile Include="src\DepthStencilTarget.cpp" />
+    <ClCompile Include="src\Drawable.cpp" />
     <ClCompile Include="src\Effect.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
     <ClCompile Include="src\FlowLayout.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="src\lua\lua_ControlListener.cpp" />
     <ClCompile Include="src\lua\lua_Curve.cpp" />
     <ClCompile Include="src\lua\lua_DepthStencilTarget.cpp" />
+    <ClCompile Include="src\lua\lua_Drawable.cpp" />
     <ClCompile Include="src\lua\lua_Effect.cpp" />
     <ClCompile Include="src\lua\lua_FileSystem.cpp" />
     <ClCompile Include="src\lua\lua_FlowLayout.cpp" />
@@ -309,6 +311,7 @@
     <ClInclude Include="src\Curve.h" />
     <ClInclude Include="src\DebugNew.h" />
     <ClInclude Include="src\DepthStencilTarget.h" />
+    <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\Effect.h" />
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\FlowLayout.h" />
@@ -362,6 +365,7 @@
     <ClInclude Include="src\lua\lua_ControlListener.h" />
     <ClInclude Include="src\lua\lua_Curve.h" />
     <ClInclude Include="src\lua\lua_DepthStencilTarget.h" />
+    <ClInclude Include="src\lua\lua_Drawable.h" />
     <ClInclude Include="src\lua\lua_Effect.h" />
     <ClInclude Include="src\lua\lua_FileSystem.h" />
     <ClInclude Include="src\lua\lua_FlowLayout.h" />
@@ -639,22 +643,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>windows\x64\$(Configuration)\</OutDir>
+    <IntDir>windows\$(PlatformName)\$(Configuration)\</IntDir>
+    <OutDir>windows\$(PlatformName)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMem|x64'">
-    <OutDir>windows\x64\$(Configuration)\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>windows\x64\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMem|x64'">
-    <IntDir>windows\x64\$(Configuration)\</IntDir>
+    <OutDir>windows\$(PlatformName)\$(Configuration)\</OutDir>
+    <IntDir>windows\$(PlatformName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>windows\x64\$(Configuration)\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>windows\x64\$(Configuration)\</IntDir>
+    <IntDir>windows\$(PlatformName)\$(Configuration)\</IntDir>
+    <OutDir>windows\$(PlatformName)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -662,8 +660,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;_DEBUG;_LIB;GP_USE_GAMEPAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;$(MSBuildProgramFiles32)\Microsoft DirectX SDK (June 2010)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>
       </RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -684,8 +682,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;_DEBUG;_LIB;GP_USE_MEM_LEAK_DETECTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;_DEBUG;_LIB;GP_USE_GAMEPAD;GP_USE_MEM_LEAK_DETECTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;$(MSBuildProgramFiles32)\Microsoft DirectX SDK (June 2010)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -708,8 +706,8 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>YAML_DECLARE_STATIC;FORCE_CLEAN_SHUTDOWN;WIN32;NDEBUG;_LIB;GP_USE_GAMEPAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\include;$(MSBuildProgramFiles32)\Microsoft DirectX SDK (June 2010)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

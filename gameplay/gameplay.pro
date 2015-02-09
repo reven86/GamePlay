@@ -3,12 +3,14 @@
 # Project created by QtCreator
 #
 #-------------------------------------------------
-
 QT -= core gui
-
 TARGET = gameplay
 TEMPLATE = lib
 CONFIG += staticlib
+CONFIG += c++11
+CONFIG -= qt
+
+#DEFINES += GP_NO_PLATFORM
 
 SOURCES += src/AbsoluteLayout.cpp \
     src/AIAgent.cpp \
@@ -38,6 +40,7 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/ControlFactory.cpp \
     src/Curve.cpp \
     src/DepthStencilTarget.cpp \
+    src/Drawable.cpp \
     src/Effect.cpp \
     src/FileSystem.cpp \
     src/FlowLayout.cpp \
@@ -166,6 +169,7 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/lua/lua_ControlListener.cpp \
     src/lua/lua_Curve.cpp \
     src/lua/lua_DepthStencilTarget.cpp \
+    src/lua/lua_Drawable.cpp \
     src/lua/lua_Effect.cpp \
     src/lua/lua_FileSystem.cpp \
     src/lua/lua_FlowLayout.cpp \
@@ -241,10 +245,13 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/lua/lua_ScriptTargetEvent.cpp \
     src/lua/lua_ScriptTargetEventRegistry.cpp \
     src/lua/lua_Slider.cpp \
+    src/lua/lua_Sprite.cpp \
     src/lua/lua_SpriteBatch.cpp \
+    src/lua/lua_SpriteBatchSpriteVertex.cpp \
     src/lua/lua_Technique.cpp \
     src/lua/lua_Terrain.cpp \
     src/lua/lua_TerrainPatch.cpp \
+    src/lua/lua_Text.cpp \
     src/lua/lua_TextBox.cpp \
     src/lua/lua_Texture.cpp \
     src/lua/lua_TextureSampler.cpp \
@@ -253,6 +260,7 @@ SOURCES += src/AbsoluteLayout.cpp \
     src/lua/lua_ThemeStyle.cpp \
     src/lua/lua_ThemeThemeImage.cpp \
     src/lua/lua_ThemeUVs.cpp \
+    src/lua/lua_TileSet.cpp \
     src/lua/lua_Touch.cpp \
     src/lua/lua_Transform.cpp \
     src/lua/lua_TransformListener.cpp \
@@ -292,6 +300,7 @@ HEADERS += src/AbsoluteLayout.h \
     src/ControlFactory.h \
     src/Curve.h \
     src/DepthStencilTarget.h \
+    src/Drawable.h \
     src/Effect.h \
     src/FileSystem.h \
     src/FlowLayout.h \
@@ -357,15 +366,18 @@ HEADERS += src/AbsoluteLayout.h \
     src/ScriptController.h \
     src/ScriptTarget.h \
     src/Slider.h \
+    src/Sprite.h \
     src/SpriteBatch.h \
     src/Stream.h \
     src/Technique.h \
     src/Terrain.h \
     src/TerrainPatch.h \
+    src/Text.h \
     src/TextBox.h \
     src/Texture.h \
     src/Theme.h \
     src/ThemeStyle.h \
+    src/TileSet.h \
     src/TimeListener.h \
     src/Touch.h \
     src/Transform.h \
@@ -406,6 +418,7 @@ HEADERS += src/AbsoluteLayout.h \
     src/lua/lua_ControlListener.h \
     src/lua/lua_Curve.h \
     src/lua/lua_DepthStencilTarget.h \
+    src/lua/lua_Drawable.h \
     src/lua/lua_Effect.h \
     src/lua/lua_FileSystem.h \
     src/lua/lua_FlowLayout.h \
@@ -482,10 +495,13 @@ HEADERS += src/AbsoluteLayout.h \
     src/lua/lua_ScriptTargetEvent.h \
     src/lua/lua_ScriptTargetEventRegistry.h \
     src/lua/lua_Slider.h \
+    src/lua/lua_Sprite.h \
     src/lua/lua_SpriteBatch.h \
+    src/lua/lua_SpriteBatchSpriteVertex.h \
     src/lua/lua_Technique.h \
     src/lua/lua_Terrain.h \
     src/lua/lua_TerrainPatch.h \
+    src/lua/lua_Text.h \
     src/lua/lua_TextBox.h \
     src/lua/lua_Texture.h \
     src/lua/lua_TextureSampler.h \
@@ -494,6 +510,7 @@ HEADERS += src/AbsoluteLayout.h \
     src/lua/lua_ThemeStyle.h \
     src/lua/lua_ThemeThemeImage.h \
     src/lua/lua_ThemeUVs.h \
+    src/lua/lua_TileSet.h \
     src/lua/lua_Touch.h \
     src/lua/lua_TouchTouchEvent.h \
     src/lua/lua_Transform.h \
@@ -507,16 +524,13 @@ HEADERS += src/AbsoluteLayout.h \
     src/lua/lua_VertexFormatElement.h \
     src/lua/lua_VerticalLayout.h
 
-CONFIG += c++11
-
 INCLUDEPATH += $$PWD/../gameplay/src
 INCLUDEPATH += $$PWD/../external-deps/include
+DEFINES += GP_USE_GAMEPAD
 
-# linux
 linux: SOURCES += src/PlatformLinux.cpp
 linux: SOURCES += src/gameplay-main-linux.cpp
 linux: QMAKE_CXXFLAGS += -lstdc++ -pthread -w
-linux: DEFINES += GP_USE_GAMEPAD
 linux: DEFINES += __linux__
 linux: INCLUDEPATH += /usr/include/gtk-2.0
 linux: INCLUDEPATH += /usr/lib/x86_64-linux-gnu/gtk-2.0/include
@@ -532,16 +546,20 @@ linux: INCLUDEPATH += /usr/include/pixman-1
 linux: INCLUDEPATH += /usr/include/libpng12
 linux: INCLUDEPATH += /usr/include/harfbuzz
 
-# macosx
 macx: OBJECTIVE_SOURCES += src/PlatformMacOSX.mm
 macx: OBJECTIVE_SOURCES += src/gameplay-main-macosx.mm
 macx: QMAKE_CXXFLAGS += -x c++ -stdlib=libc++ -w -arch x86_64
 macx: QMAKE_OBJECTIVE_CFLAGS += -x objective-c++ -stdlib=libc++ -w -arch x86_64
-macx: DEFINES += GP_USE_GAMEPAD
-macx: LIBS += -L$$PWD/../../external-deps/lib/macosx/x86_64/ -lgameplay-deps
 macx: LIBS += -F/System/Library/Frameworks -framework GameKit
 macx: LIBS += -F/System/Library/Frameworks -framework IOKit
 macx: LIBS += -F/System/Library/Frameworks -framework QuartzCore
 macx: LIBS += -F/System/Library/Frameworks -framework OpenAL
 macx: LIBS += -F/System/Library/Frameworks -framework OpenGL
 macx: LIBS += -F/System/Library/Frameworks -framework Cocoa
+
+win32: SOURCES += src/PlatformWindows.cpp
+win32: SOURCES += src/gameplay-main-windows.cpp
+win32: DEFINES += WIN32 _UNICODE UNICODE
+win32: INCLUDEPATH += "$(ProgramFiles(x86))/Microsoft DirectX SDK (June 2010)/Include"
+win32: QMAKE_CXXFLAGS_WARN_ON -= -w34100
+win32: QMAKE_CXXFLAGS_WARN_ON -= -w34189

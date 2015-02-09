@@ -8,7 +8,7 @@
 #include "Vector2.h"
 #include "Vector4.h"
 #include "Effect.h"
-#include "Node.h"
+#include "Drawable.h"
 
 namespace gameplay
 {
@@ -18,7 +18,7 @@ namespace gameplay
  *
  * Text can be attached to a node.
  */
-class Text : public Ref, public AnimationTarget
+class Text : public Ref, public Drawable, public AnimationTarget
 {
     friend class Node;
     
@@ -136,6 +136,7 @@ public:
      * Sets if the text is rendered right-to-left.
      *
      * Default is false (left-to-right)
+     *
      * @return rightToLeft true if the text is rendered right-to-left, false if left-to-right.
      */
     bool getRightToLeft() const;
@@ -170,7 +171,7 @@ public:
      *
      * Default is Rectangle(0, 0, 0, 0) which means no clipping region is applied.
      *
-     * @param clip The clipping region for this text.
+     * @return clip The clipping region for this text.
      */
     const Rectangle& getClip() const;
     
@@ -188,7 +189,7 @@ public:
      *
      * The range is from full transparent to opaque [0.0,1.0].
      *
-     * @preturn The opacity for the sprite.
+     * @return The opacity for the sprite.
      */
     float getOpacity() const;
     
@@ -205,20 +206,14 @@ public:
      * @return The color(RGBA) for the sprite.
      */
     const Vector4& getColor() const;
-    
+
     /**
-     * Gets the node that this sprite is attached to.
-     *
-     * @return The node that this sprite is attached to.
+     * @see Drawable::draw
      */
-    Node* getNode() const;
-   
-    /**
-     * Draws the text.
-     */
-    unsigned int draw();
+    unsigned int draw(bool wireframe = false);
     
 protected:
+
     /**
      * Constructor
      */
@@ -235,9 +230,14 @@ protected:
     Text& operator=(const Text& text);
     
     /**
-     * Sets the node this sprite is attached to.
+     * @see Drawable::clone
      */
-    void setNode(Node* node);
+    Drawable* clone(NodeCloneContext &context);
+
+    /**
+     * @see AnimationTarget::getPropertyId
+     */
+    int getPropertyId(TargetType type, const char* propertyIdStr);
     
     /**
      * @see AnimationTarget::getAnimationPropertyComponentCount
@@ -254,11 +254,10 @@ protected:
      */
     void setAnimationPropertyValue(int propertyId, AnimationValue* value, float blendWeight = 1.0f);
     
-    Text* clone(NodeCloneContext &context);
-    
-    void cloneInto(Text* text, NodeCloneContext &context) const;
+private:
 
     Font* _font;
+    Font* _drawFont;
     std::wstring _text;
     unsigned int _size;
     float _width;
@@ -269,7 +268,6 @@ protected:
     Rectangle _clip;
     float _opacity;
     Vector4 _color;
-    Node* _node;
 };
     
 }

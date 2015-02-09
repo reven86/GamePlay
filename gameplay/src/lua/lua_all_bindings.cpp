@@ -37,6 +37,7 @@ void lua_RegisterAllBindings()
     luaRegister_ControlListener();
     luaRegister_Curve();
     luaRegister_DepthStencilTarget();
+    luaRegister_Drawable();
     luaRegister_Effect();
     luaRegister_FileSystem();
     luaRegister_FlowLayout();

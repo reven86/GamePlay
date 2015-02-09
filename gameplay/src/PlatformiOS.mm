@@ -1,3 +1,4 @@
+#ifndef GP_NO_PLATFORM
 #ifdef __APPLE__
 
 #include "Base.h"
@@ -1808,4 +1809,5 @@ const char * Platform::getUserAgentString( )
 
 }
 
+#endif
 #endif

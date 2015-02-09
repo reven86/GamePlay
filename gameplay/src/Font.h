@@ -356,6 +356,7 @@ private:
     float _spacing;
     Glyph* _glyphs;
     unsigned int _glyphCount;
+    Texture* _texture;
     SpriteBatch* _batch;
     Rectangle _viewport;
     mutable MaterialParameter* _cutoffParam;    // cached value, updated on draw.

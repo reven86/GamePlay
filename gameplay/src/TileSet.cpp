@@ -6,19 +6,17 @@
 namespace gameplay
 {
   
-TileSet::TileSet()
-    : _tiles(NULL), _tileWidth(0), _tileHeight(0),
-      _rowCount(0), _columnCount(0), _width(0), _height(0),
-      _opacity(1.0f), _color(Vector4::one()), _batch(NULL), _node(NULL)
+TileSet::TileSet() : Drawable(),
+    _tiles(NULL), _tileWidth(0), _tileHeight(0),
+    _rowCount(0), _columnCount(0), _width(0), _height(0),
+    _opacity(1.0f), _color(Vector4::one()), _batch(NULL)
 {
 }
 
 TileSet::~TileSet()
 {
-    if (_tiles)
-        SAFE_DELETE_ARRAY(_tiles);
-    if (_batch)
-        SAFE_DELETE(_batch);
+    SAFE_DELETE_ARRAY(_tiles);
+    SAFE_DELETE(_batch);
 }
     
 TileSet& TileSet::operator=(const TileSet& set)
@@ -55,25 +53,97 @@ TileSet* TileSet::create(const char* imagePath,
     
 TileSet* TileSet::create(Properties* properties)
 {
-    // TODO Load from properties
-    /*
-    tileset level
+    // Check if the Properties is valid and has a valid namespace.
+    if (!properties || strcmp(properties->getNamespace(), "tileset") != 0)
     {
-        path = res/foo/level.png
-        tileWidth = 72
-        tileHeight = 72
-        tile
+        GP_ERROR("Properties object must be non-null and have namespace equal to 'tileset'.");
+        return NULL;
+    }
+
+    // Get image path.
+    const char* imagePath = properties->getString("path");
+    if (imagePath == NULL || strlen(imagePath) == 0)
+    {
+        GP_ERROR("TileSet is missing required image file path.");
+        return NULL;
+    }
+
+    // Get set size
+    int rows = properties->getInt("rows");
+    if (rows <= 0)
+    {
+        GP_ERROR("TileSet row count must be greater then zero.");
+        return NULL;
+    }
+    int columns = properties->getInt("columns");
+    if (columns <= 0)
+    {
+        GP_ERROR("TileSet column count must be greater then zero.");
+        return NULL;
+    }
+
+    // Get tile size
+    float tileWidth = properties->getFloat("tileWidth");
+    if (tileWidth <= 0)
+    {
+        GP_ERROR("TileSet tile width must be greater then zero.");
+        return NULL;
+    }
+    float tileHeight = properties->getFloat("tileHeight");
+    if (tileHeight <= 0)
+    {
+        GP_ERROR("TileSet tile height must be greater then zero.");
+        return NULL;
+    }
+
+    // Create tile set
+    TileSet* set = TileSet::create(imagePath, tileWidth, tileHeight, rows, columns);
+
+    // Get color
+    if (properties->exists("color"))
+    {
+        Vector4 color;
+        switch (properties->getType("color"))
         {
-            cell = col, row
-            source = x, y
+        case Properties::VECTOR3:
+            color.w = 1.0f;
+            properties->getVector3("color", (Vector3*)&color);
+            break;
+        case Properties::VECTOR4:
+            properties->getVector4("color", &color);
+            break;
+        case Properties::STRING:
+        default:
+            properties->getColor("color", &color);
+            break;
         }
-        tile
+        set->setColor(color);
+    }
+
+    // Get opacity
+    if (properties->exists("opacity"))
+    {
+        set->setOpacity(properties->getFloat("opacity"));
+    }
+
+    // Get tile sources
+    properties->rewind();
+    Properties* tileProperties = NULL;
+    while ((tileProperties = properties->getNextNamespace()))
+    {
+        if (strcmp(tileProperties->getNamespace(), "tile") == 0)
         {
-            ...
+            Vector2 cell;
+            Vector2 source;
+            if (tileProperties->getVector2("cell", &cell) && tileProperties->getVector2("source", &source) &&
+                (cell.x >= 0 && cell.y >= 0 && cell.x < set->_columnCount && cell.y < set->_rowCount))
+            {
+                set->_tiles[(int)cell.y * set->_columnCount + (int)cell.x] = source;
+            }
         }
-     }
-     */
-    return NULL;
+    }
+
+    return set;
 }
 
 void TileSet::setTileSource(unsigned int column, unsigned int row, const Vector2& source)
@@ -143,8 +213,8 @@ const Vector4& TileSet::getColor() const
 {
     return _color;
 }
-    
-unsigned int TileSet::draw()
+
+unsigned int TileSet::draw(bool wireframe)
 {
     // Apply scene camera projection and translation offsets
     Vector3 position = Vector3::zero();
@@ -201,41 +271,26 @@ unsigned int TileSet::draw()
     _batch->finish();
     return 1;
 }
-    
-Node* TileSet::getNode() const
-{
-    return _node;
-}
 
-void TileSet::setNode(Node* node)
+Drawable* TileSet::clone(NodeCloneContext& context)
 {
-    _node = node;
-}
+    TileSet* tilesetClone = new TileSet();
 
-TileSet* TileSet::clone(NodeCloneContext &context)
-{
-    TileSet* copy = new TileSet();
-    cloneInto(copy, context);
-    return copy;
-}
-
-void TileSet::cloneInto(TileSet* tileset, NodeCloneContext &context) const
-{
-    GP_ASSERT(tileset);
-    
     // Clone properties
-    tileset->_tiles = new Vector2[tileset->_rowCount * tileset->_columnCount];
-    memset(tileset->_tiles, -1, sizeof(float) * tileset->_rowCount * tileset->_columnCount * 2);
-    memcpy(tileset->_tiles, _tiles, sizeof(Vector2) * tileset->_rowCount * tileset->_columnCount);
-    tileset->_tileWidth = _tileWidth;
-    tileset->_tileHeight = _tileHeight;
-    tileset->_rowCount = _rowCount;
-    tileset->_columnCount = _columnCount;
-    tileset->_width = _tileWidth * _columnCount;
-    tileset->_height = _tileHeight * _rowCount;
-    tileset->_opacity = _opacity;
-    tileset->_color = _color;
-    tileset->_batch = _batch;
+    tilesetClone->_tiles = new Vector2[tilesetClone->_rowCount * tilesetClone->_columnCount];
+    memset(tilesetClone->_tiles, -1, sizeof(float) * tilesetClone->_rowCount * tilesetClone->_columnCount * 2);
+    memcpy(tilesetClone->_tiles, _tiles, sizeof(Vector2) * tilesetClone->_rowCount * tilesetClone->_columnCount);
+    tilesetClone->_tileWidth = _tileWidth;
+    tilesetClone->_tileHeight = _tileHeight;
+    tilesetClone->_rowCount = _rowCount;
+    tilesetClone->_columnCount = _columnCount;
+    tilesetClone->_width = _tileWidth * _columnCount;
+    tilesetClone->_height = _tileHeight * _rowCount;
+    tilesetClone->_opacity = _opacity;
+    tilesetClone->_color = _color;
+    tilesetClone->_batch = _batch;
+
+    return tilesetClone;
 }
 
 }

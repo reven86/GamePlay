@@ -76,6 +76,13 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "RadioButton");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "Slider");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Control", "TextBox");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "Form");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "Model");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "ParticleEmitter");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "Sprite");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "Terrain");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "Text");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("Drawable", "TileSet");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Label", "Button");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Label", "CheckBox");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Label", "RadioButton");

@@ -1,3 +1,4 @@
+#ifndef GP_NO_PLATFORM
 #ifdef WIN32
 
 #include "Base.h"
@@ -1499,4 +1500,5 @@ const char * Platform::getUserAgentString( )
 
 }
 
+#endif
 #endif

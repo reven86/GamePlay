@@ -32,6 +32,7 @@
 #include "lua_ControlListener.h"
 #include "lua_Curve.h"
 #include "lua_DepthStencilTarget.h"
+#include "lua_Drawable.h"
 #include "lua_Effect.h"
 #include "lua_FileSystem.h"
 #include "lua_FlowLayout.h"

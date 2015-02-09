@@ -4,39 +4,8 @@
 #include "Form.h"
 #include "Theme.h"
 
-#define BOUNDS_X_PERCENTAGE_BIT 1
-#define BOUNDS_Y_PERCENTAGE_BIT 2
-#define BOUNDS_WIDTH_PERCENTAGE_BIT 4
-#define BOUNDS_HEIGHT_PERCENTAGE_BIT 8
-
 namespace gameplay
 {
-
-static float parseCoord(const char* s, bool* isPercentage)
-{
-    const char* p;
-    if ((p = strchr(s, '%')) != NULL)
-    {
-        std::string value(s, (std::string::size_type)(p - s));
-        *isPercentage = true;
-        return (float)(atof(value.c_str()) * 0.01);
-    }
-    *isPercentage = false;
-    return (float)atof(s);
-}
-
-static bool parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percentage, bool* v2Percentage)
-{
-    size_t len = strlen(s);
-    const char* s2 = strchr(s, ',');
-    if (s2 == NULL)
-        return false;
-    std::string v1Str(s, (std::string::size_type)(s2 - s));
-    std::string v2Str(s2 + 1);
-    *v1 = parseCoord(v1Str.c_str(), v1Percentage);
-    *v2 = parseCoord(v2Str.c_str(), v2Percentage);
-    return true;
-}
 
 Control::Control()
     : _id(""), _boundsBits(0), _dirtyBits(DIRTY_BOUNDS | DIRTY_STATE), _consumeInputEvents(true), _alignment(ALIGN_TOP_LEFT),
@@ -76,14 +45,12 @@ Control::AutoSize Control::parseAutoSize(const char* str)
 {
     if (str == NULL)
         return _autoSize;
-
     if (strcmpnocase(str, "AUTO_SIZE_WIDTH") == 0 )
         return AUTO_SIZE_WIDTH;
     if (strcmpnocase(str, "AUTO_SIZE_HEIGHT") == 0)
         return AUTO_SIZE_HEIGHT;
     if (strcmpnocase(str, "AUTO_SIZE_BOTH") == 0)
         return AUTO_SIZE_BOTH;
-
     return _autoSize;
 }
 
@@ -100,7 +67,6 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
             // The passed in style is our parent control's style : attempt to load our style from it.
             _style = style->getTheme()->getStyle(styleName);
         }
-
         if (!_style)
         {
             // Use an empty style from our parent's theme
@@ -117,17 +83,14 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
     {
         // Search for a style from the default theme that matches this control's name
         _style = Theme::getDefault()->getStyle(typeName);
-
         if (!_style)
         {
             // No style was found, use an empty style
             _style = style ? style->getTheme()->getEmptyStyle() : Theme::getDefault()->getEmptyStyle();
         }
     }
-
     // Increase the reference count of the style's theme while we hold the style
     _style->getTheme()->addRef();
-
     if (properties)
     {
         const char* id = properties->getId();
@@ -136,12 +99,9 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 
 		// Properties not defined by the style.
 		const char* alignmentString = properties->getString("alignment");
-
         _isAlignmentSet = alignmentString != NULL;
 		_alignment = getAlignment(alignmentString);
-
 		_consumeInputEvents = properties->getBool("consumeInputEvents", true);
-
 		_visible = properties->getBool("visible", true);
 
 		if (properties->exists("zIndex"))
@@ -152,10 +112,8 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 		{
 			_zIndex = -1;
 		}
-
 		if (properties->exists("canFocus"))
 			_canFocus = properties->getBool("canFocus", false);
-
 		if (properties->exists("focusIndex"))
 		{
 			_focusIndex = properties->getInt("focusIndex");
@@ -164,7 +122,6 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 		{
 			_focusIndex = -1;
 		}
-
 		float bounds[2];
 		bool boundsBits[2];
         const char* position = properties->getString("position");
@@ -186,7 +143,6 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
                 setY(bounds[1], boundsBits[1]);
             }
 		}
-
         // If there is an explicitly specified size, width or height, unset the corresponding autoSize bit
         const char* size = properties->getString("size");
         if (size && parseCoordPair(size, &bounds[0], &bounds[1], &boundsBits[0], &boundsBits[1]))
@@ -209,7 +165,6 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
                 setHeight(bounds[1], boundsBits[1]);
             }
 		}
-
         // Backwards Compatibility: Support deprecated autoWidth and autoHeight properties,
         // which resolve to width=100% and height=100%.
         if (properties->getBool("autoWidth"))
@@ -280,7 +235,6 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 				setPadding(innerSpace->getFloat("top"), innerSpace->getFloat("bottom"),
 					innerSpace->getFloat("left"), innerSpace->getFloat("right"));
 			}
-
 			innerSpace = properties->getNextNamespace();
 		}
 	}
@@ -604,10 +558,10 @@ void Control::setEnabled(bool enabled)
     if (enabled != isEnabled())
     {
         if (!enabled)
+        {
             Form::controlDisabled(this);
-
+        }
         _state = enabled ? NORMAL : DISABLED;
-
         setDirty(DIRTY_STATE);
     }
 }
@@ -621,7 +575,6 @@ bool Control::isEnabledInHierarchy() const
 {
     if (!isEnabled())
         return false;
-
     if (_parent)
         return _parent->isEnabledInHierarchy();
 
@@ -639,7 +592,6 @@ void Control::setBorder(float top, float bottom, float left, float right, unsign
         if (overlays[i])
             overlays[i]->setBorder(top, bottom, left, right);
     }
-
     setDirty(DIRTY_BOUNDS);
 }
 
@@ -1778,7 +1730,6 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
     {
         setTextRightToLeft(properties->getBool("rightToLeft"), states);
     }
-
     if (properties->exists("opacity"))
     {
         setOpacity(properties->getFloat("opacity"), states);
@@ -1796,7 +1747,6 @@ void Control::setImageList(Theme::ImageList* imageList, unsigned char states)
         if( overlays[i] )
             overlays[i]->setImageList(imageList);
     }
-
     if (_autoSize != AUTO_SIZE_NONE)
         setDirty(DIRTY_BOUNDS);
 }
@@ -1825,7 +1775,6 @@ void Control::setSkin(Theme::Skin* skin, unsigned char states)
         if( overlays[i] )
             overlays[i]->setSkin(skin);
     }
-
     if (_autoSize != AUTO_SIZE_NONE)
         setDirty(DIRTY_BOUNDS);
 }
@@ -1908,9 +1857,33 @@ Control::Alignment Control::getAlignment(const char* alignment)
     {
         GP_ERROR("Failed to get corresponding control alignment for unsupported value '%s'.", alignment);
     }
-
-    // Default.
     return Control::ALIGN_TOP_LEFT;
+}
+
+float Control::parseCoord(const char* s, bool* isPercentage)
+{
+    const char* p;
+    if ((p = strchr(s, '%')) != NULL)
+    {
+        std::string value(s, (std::string::size_type)(p - s));
+        *isPercentage = true;
+        return (float)(atof(value.c_str()) * 0.01);
+    }
+    *isPercentage = false;
+    return (float)atof(s);
+}
+
+bool Control::parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percentage, bool* v2Percentage)
+{
+    size_t len = strlen(s);
+    const char* s2 = strchr(s, ',');
+    if (s2 == NULL)
+        return false;
+    std::string v1Str(s, (std::string::size_type)(s2 - s));
+    std::string v2Str(s2 + 1);
+    *v1 = parseCoord(v1Str.c_str(), v1Percentage);
+    *v2 = parseCoord(v2Str.c_str(), v2Percentage);
+    return true;
 }
 
 }

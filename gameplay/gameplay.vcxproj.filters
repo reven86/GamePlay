@@ -345,6 +345,24 @@
     <ClCompile Include="src\ControlFactory.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\JoystickControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Script.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sprite.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Text.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileSet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Drawable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\lua\lua_AbsoluteLayout.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
@@ -417,6 +435,9 @@
     <ClCompile Include="src\lua\lua_Camera.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\lua\lua_CameraListener.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
     <ClCompile Include="src\lua\lua_CheckBox.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
@@ -433,6 +454,9 @@
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_DepthStencilTarget.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_Drawable.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Effect.cpp">
@@ -478,6 +502,9 @@
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Joint.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_JoystickControl.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Keyboard.cpp">
@@ -639,22 +666,43 @@
     <ClCompile Include="src\lua\lua_ScreenDisplayer.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\lua\lua_Script.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
     <ClCompile Include="src\lua\lua_ScriptController.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_ScriptTarget.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\lua\lua_ScriptTargetEvent.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_ScriptTargetEventRegistry.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
     <ClCompile Include="src\lua\lua_Slider.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\lua\lua_Sprite.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
     <ClCompile Include="src\lua\lua_SpriteBatch.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_SpriteBatchSpriteVertex.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Technique.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Terrain.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_TerrainPatch.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_Text.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_TextBox.cpp">
@@ -679,6 +727,9 @@
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_ThemeUVs.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_TileSet.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_Touch.cpp">
@@ -723,12 +774,6 @@
     <ClCompile Include="src\lua\lua_VerticalLayout.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\lua_TerrainPatch.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lua_CameraListener.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
     <ClCompile Include="src\SocialAchievement.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -750,35 +795,11 @@
     <ClCompile Include="src\SocialSessionListener.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\lua_JoystickControl.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Script.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lua_Script.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
     <ClCompile Include="src\HorizontalLayout.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_HorizontalLayout.cpp">
       <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lua_ScriptTargetEvent.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lua_ScriptTargetEventRegistry.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sprite.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Text.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TileSet.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\lua\lua_ProgressBar.cpp">
       <Filter>src\lua</Filter>
@@ -1154,6 +1175,24 @@
     <ClInclude Include="src\ControlFactory.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\JoystickControl.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Script.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sprite.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Text.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Drawable.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\lua\lua_AbsoluteLayout.h">
       <Filter>src\lua</Filter>
     </ClInclude>
@@ -1226,6 +1265,9 @@
     <ClInclude Include="src\lua\lua_Camera.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\lua\lua_CameraListener.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
     <ClInclude Include="src\lua\lua_CheckBox.h">
       <Filter>src\lua</Filter>
     </ClInclude>
@@ -1242,6 +1284,9 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_DepthStencilTarget.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_Drawable.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Effect.h">
@@ -1287,6 +1332,9 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Joint.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_JoystickControl.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Keyboard.h">
@@ -1448,22 +1496,43 @@
     <ClInclude Include="src\lua\lua_ScreenDisplayer.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\lua\lua_Script.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
     <ClInclude Include="src\lua\lua_ScriptController.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_ScriptTarget.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\lua\lua_ScriptTargetEvent.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_ScriptTargetEventRegistry.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
     <ClInclude Include="src\lua\lua_Slider.h">
       <Filter>src\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\lua\lua_Sprite.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
     <ClInclude Include="src\lua\lua_SpriteBatch.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_SpriteBatchSpriteVertex.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Technique.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Terrain.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_TerrainPatch.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_Text.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_TextBox.h">
@@ -1488,6 +1557,9 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_ThemeUVs.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_TileSet.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_Touch.h">
@@ -1526,18 +1598,6 @@
     <ClInclude Include="src\Matrix3.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Logger.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_TerrainPatch.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_CameraListener.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\JoystickControl.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Social.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1559,44 +1619,17 @@
     <ClInclude Include="src\SocialSession.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\lua\lua_HeightField.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProgressBar.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\SocialSessionListener.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\lua\lua_JoystickControl.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Script.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_Script.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
     <ClInclude Include="src\HorizontalLayout.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_HorizontalLayout.h">
       <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_ScriptTargetEvent.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua_ScriptTargetEventRegistry.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sprite.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Text.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TileSet.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_ProgressBar.h">
       <Filter>src\lua</Filter>

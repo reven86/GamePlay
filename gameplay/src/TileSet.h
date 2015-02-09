@@ -2,11 +2,12 @@
 #define TILESET_H__
 
 #include "Ref.h"
+#include "Drawable.h"
 #include "Properties.h"
 #include "Vector2.h"
 #include "Vector4.h"
+#include "SpriteBatch.h"
 #include "Effect.h"
-#include "Node.h"
 
 namespace gameplay
 {
@@ -26,10 +27,10 @@ namespace gameplay
  *
  * The tile set does not support rotation or scaling.
  */
-class TileSet : public Ref
+class TileSet : public Ref, public Drawable
 {
     friend class Node;
-    
+
 public:
 
     /**
@@ -40,6 +41,7 @@ public:
      * @param tileHeight The height of each tile in the tile set.
      * @param rowCount The number of tile rows.
      * @param columnCount The number of tile columns.
+     *
      * @return The tile set created.
      */
     static TileSet* create(const char* imagePath, float tileWidth, float tileHeight,
@@ -128,7 +130,7 @@ public:
      *
      * The range is from full transparent to opaque [0.0,1.0].
      *
-     * @preturn The opacity for the sprite.
+     * @return The opacity for the sprite.
      */
     float getOpacity() const;
     
@@ -145,20 +147,11 @@ public:
      * @return The color(RGBA) for the sprite.
      */
     const Vector4& getColor() const;
-    
-    /**
-     * Gets the node that this sprite is attached to.
-     *
-     * @return The node that this sprite is attached to.
-     */
-    Node* getNode() const;
    
     /**
-     * Draws the TileSet.
-     *
-     * @return The number of draw calls made.
+     * @see Drawable::draw
      */
-    unsigned int draw();
+    unsigned int draw(bool wireframe = false);
     
 protected:
     /**
@@ -177,13 +170,11 @@ protected:
     TileSet& operator=(const TileSet& set);
     
     /**
-     * Sets the node this sprite is attached to.
+     * @see Drawable::clone
      */
-    void setNode(Node* node);
-    
-    TileSet* clone(NodeCloneContext &context);
-    
-    void cloneInto(TileSet* tileset, NodeCloneContext &context) const;
+    Drawable* clone(NodeCloneContext &context);
+
+private:
 
     Vector2* _tiles;
     float _tileWidth;
@@ -195,7 +186,6 @@ protected:
     SpriteBatch* _batch;
     float _opacity;
     Vector4 _color;
-    Node* _node;
 };
     
 }

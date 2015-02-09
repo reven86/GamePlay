@@ -2,13 +2,13 @@
 #define SPRITE_H_
 
 #include "Ref.h"
+#include "Drawable.h"
 #include "AnimationTarget.h"
 #include "Properties.h"
 #include "Rectangle.h"
 #include "Vector4.h"
 #include "SpriteBatch.h"
 #include "Effect.h"
-#include "Node.h"
 
 namespace gameplay
 {
@@ -26,7 +26,7 @@ namespace gameplay
  * Sprites can be animated using the animation system.
  * Sprites can have physics applied to them via their node binding.
  */
-class Sprite : public Ref, public AnimationTarget
+class Sprite : public Ref, public Drawable, public AnimationTarget
 {
     friend class Node;
     
@@ -124,6 +124,7 @@ public:
     /**
      * Creates a sprite from properties.
      *
+     * @param properties The properties object to create from.
      * @return The new Sprite.
      */
     static Sprite* create(Properties* properties);
@@ -193,13 +194,15 @@ public:
     /**
      * Sets the source region from the source image.
      *
-     * @param sourceClip The source clip region from the source image.
+     * @param frameIndex The frame index to specify the source region for.
+     * @param source The source clip region from the source image.
      */
     void setFrameSource(unsigned int frameIndex, const Rectangle& source);
     
     /**
      * Gets the source region from the source image.
      *
+     * @param frameIndex The frame index to get the source region from.
      * @return The source clip region from the source image.
      */
     const Rectangle& getFrameSource(unsigned int frameIndex) const;
@@ -244,7 +247,7 @@ public:
      *
      * @param index The current frame index to be rendered.
      */
-    void setFrameIndex(unsigned int frameIndex);
+    void setFrameIndex(unsigned int index);
     
     /**
      * Gets the current frame index to be rendered.
@@ -267,7 +270,7 @@ public:
      *
      * The range is from full transparent to opaque [0.0,1.0].
      *
-     * @preturn The opacity for the sprite.
+     * @return The opacity for the sprite.
      */
     float getOpacity() const;
     
@@ -302,11 +305,11 @@ public:
     BlendMode getBlendMode() const;
     
     /**
-     * Gets the texture sampler.
-     *
-     * This return texture sampler is used when sampling the texture in the
-     * effect. This can be modified for controlling sampler setting such as
+     * Gets the texture sampler used when sampling the texture.
+     * This can be modified for controlling sampler setting such as
      * filtering modes.
+     *
+     * @return The texture sampler used when sampling the texture.
      */
     Texture::Sampler* getSampler() const;
     
@@ -322,25 +325,16 @@ public:
     RenderState::StateBlock* getStateBlock() const;
     
     /**
-     * Gets the material used by this batch.
+     * Gets the material used by sprite batch.
      *
-     * @return The material.
+     * @return The material used by the sprite batch.
      */
     Material* getMaterial() const;
 
     /**
-     * Gets the node that this sprite is attached to.
-     *
-     * @return The node that this sprite is attached to.
+     * @see Drawable::draw
      */
-    Node* getNode() const;
-
-    /**
-     * Draw the sprite.
-     *
-     * @return The number of draw calls.
-     */
-    unsigned int draw();
+    unsigned int draw(bool wireframe = false);
 
 protected:
     
@@ -360,10 +354,15 @@ protected:
     Sprite& operator=(const Sprite& sprite);
 
     /**
-     * Sets the node this sprite is attached to.
+     * @see Drawable::clone
      */
-    void setNode(Node* node);
+    Drawable* clone(NodeCloneContext& context);
     
+    /**
+     * @see AnimationTarget::getPropertyId
+     */
+    int getPropertyId(TargetType type, const char* propertyIdStr);
+
     /**
      * @see AnimationTarget::getAnimationPropertyComponentCount
      */
@@ -378,11 +377,9 @@ protected:
      * @see AnimationTarget::setAnimationProperty
      */
     void setAnimationPropertyValue(int propertyId, AnimationValue* value, float blendWeight = 1.0f);
-    
-    Sprite* clone(NodeCloneContext &context);
-    
-    void cloneInto(Sprite* sprite, NodeCloneContext &context) const;
-    
+
+private:
+
     float _width;
     float _height;
     Offset _offset;
@@ -397,7 +394,6 @@ protected:
     float _opacity;
     Vector4 _color;
     BlendMode _blendMode;
-    Node* _node;
 };
 
 }

@@ -11,6 +11,7 @@
 #include "Container.h"
 #include "Control.h"
 #include "ControlFactory.h"
+#include "Drawable.h"
 #include "FlowLayout.h"
 #include "Form.h"
 #include "Game.h"
@@ -19,6 +20,7 @@
 #include "JoystickControl.h"
 #include "Label.h"
 #include "Layout.h"
+#include "MaterialParameter.h"
 #include "Node.h"
 #include "RadioButton.h"
 #include "Ref.h"
@@ -76,6 +78,7 @@ void luaRegister_Form()
         {"getImageUVs", lua_Form_getImageUVs},
         {"getLayout", lua_Form_getLayout},
         {"getMargin", lua_Form_getMargin},
+        {"getNode", lua_Form_getNode},
         {"getOpacity", lua_Form_getOpacity},
         {"getPadding", lua_Form_getPadding},
         {"getParent", lua_Form_getParent},
@@ -146,7 +149,6 @@ void luaRegister_Form()
         {"setImageRegion", lua_Form_setImageRegion},
         {"setLayout", lua_Form_setLayout},
         {"setMargin", lua_Form_setMargin},
-        {"setNode", lua_Form_setNode},
         {"setOpacity", lua_Form_setOpacity},
         {"setPadding", lua_Form_setPadding},
         {"setPosition", lua_Form_setPosition},
@@ -937,9 +939,30 @@ int lua_Form_draw(lua_State* state)
             lua_error(state);
             break;
         }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Form* instance = getInstance(state);
+                unsigned int result = instance->draw(param1);
+
+                // Push the return value onto the stack.
+                lua_pushunsigned(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Form_draw - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
             lua_error(state);
             break;
         }
@@ -2228,6 +2251,50 @@ int lua_Form_getMargin(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Form_getMargin - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Form_getNode(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Form* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getNode());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Node");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Form_getNode - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -5352,48 +5419,6 @@ int lua_Form_setMargin(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 5).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Form_setNode(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
-            {
-                // Get parameter 1 off the stack.
-                bool param1Valid;
-                gameplay::ScriptUtil::LuaArray<Node> param1 = gameplay::ScriptUtil::getObjectPointer<Node>(2, "Node", false, &param1Valid);
-                if (!param1Valid)
-                {
-                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Node'.");
-                    lua_error(state);
-                }
-
-                Form* instance = getInstance(state);
-                instance->setNode(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_Form_setNode - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
             lua_error(state);
             break;
         }
