@@ -47,8 +47,6 @@ AudioBuffer::AudioBuffer(const char* path, ALuint* buffer, bool streamed)
 AudioBuffer::~AudioBuffer()
 {
     // Remove the buffer from the cache.
-    unsigned int bufferCount = (unsigned int)__buffers.size();
-
     if (!_streamed)
     {
         unsigned int bufferCount = (unsigned int)__buffers.size();

@@ -73,7 +73,6 @@ unsigned ProgressBar::drawImages(Form* form, const Rectangle& clip)
     if(!_trackImage)
         return 0;
 
-    const Rectangle& trackRegion = _trackImage->getRegion();
     const Theme::UVs& track = _trackImage->getUVs();
     Vector4 trackColor = _trackImage->getColor();
 

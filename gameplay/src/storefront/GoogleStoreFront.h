@@ -1,7 +1,7 @@
 #ifndef GOOGLESTOREFRONT_H_
 #define GOOGLESTOREFRONT_H_
 
-#include "storefront/Storefront.h"
+#include "Storefront.h"
 
 
 namespace gameplay

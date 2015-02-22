@@ -9,8 +9,6 @@
 #include "StoreListener.h"
 
 #import "AppleStoreFront.h"
-#import <Foundation/Foundation.h>
-#import <StoreKit/StoreKit.h>
 
 
 
@@ -19,6 +17,7 @@
     @public gameplay::AppleStoreFront * _storeFront;
     NSArray * products;
     @public bool _observerAdded;
+    @public SKPaymentTransaction * _currentTransactionObject;
 }
 @property (strong, nonatomic) NSArray * products;
 @end
@@ -89,6 +88,7 @@
 {
     for (SKPaymentTransaction *transaction in transactions)
     {
+        _currentTransactionObject = transaction;
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
@@ -112,6 +112,7 @@
                 _storeFront->getListener()->paymentTransactionInProcessEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity);
                 break;
         }
+        _currentTransactionObject = nil;
     }
 }
 
@@ -205,9 +206,19 @@ float AppleStoreFront::getShippingCost( const gameplay::StoreProduct& product, i
 void AppleStoreFront::restoreTransactions(const char * usernameHash)
 {
     if( usernameHash )
-        [[SKPaymentQueue defaultQueue] restoreCompletedTransactionsWithApplicationUsername:[NSString stringWithUTF8String:usernameHash]];
-    else
-        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+    {
+        if ([[SKPaymentQueue defaultQueue] respondsToSelector:@selector(restoreCompletedTransactionsWithApplicationUsername)])
+        {
+            [[SKPaymentQueue defaultQueue] restoreCompletedTransactionsWithApplicationUsername:[NSString stringWithUTF8String:usernameHash]];
+            return;
+        }
+    }
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+    
+SKPaymentTransaction * AppleStoreFront::getCurrentTransactionObject()
+{
+    return gStoreKitController ? gStoreKitController->_currentTransactionObject : nil;
 }
     
 }
