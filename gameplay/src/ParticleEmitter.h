@@ -712,7 +712,7 @@ public:
      *
      * Draws the particles currently being emitted.
      */
-    unsigned int draw(bool wireframe = false);
+    unsigned int draw(bool wireframe = false) const;
 
 private:
 

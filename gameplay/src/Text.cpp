@@ -229,7 +229,7 @@ Drawable* Text::clone(NodeCloneContext& context)
     return textClone;
 }
 
-unsigned int Text::draw(bool wireframe)
+unsigned int Text::draw(bool wireframe) const
 {
     // Apply scene camera projection and translation offsets
     Rectangle viewport = Game::getInstance()->getViewport();

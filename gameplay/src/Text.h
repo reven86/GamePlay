@@ -210,7 +210,7 @@ public:
     /**
      * @see Drawable::draw
      */
-    unsigned int draw(bool wireframe = false);
+    unsigned int draw(bool wireframe = false) const;
     
 protected:
 

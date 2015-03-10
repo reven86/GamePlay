@@ -529,17 +529,17 @@ void Game::clear(ClearFlags flags, const Vector4& clearColor, float clearDepth, 
 
     if (flags & CLEAR_DEPTH)
     {
-        if (clearDepth != _clearDepth)
-        {
-            glClearDepth(clearDepth);
-            _clearDepth = clearDepth;
-        }
-        bits |= GL_DEPTH_BUFFER_BIT;
-
         // We need to explicitly call the static enableDepthWrite() method on StateBlock
         // to ensure depth writing is enabled before clearing the depth buffer (and to
         // update the global StateBlock render state to reflect this).
         RenderState::StateBlock::enableDepthWrite();
+
+        if (clearDepth != _clearDepth)
+        {
+            glClearDepthf(clearDepth);
+            _clearDepth = clearDepth;
+        }
+        bits |= GL_DEPTH_BUFFER_BIT;
     }
 
     if (flags & CLEAR_STENCIL)
@@ -551,7 +551,7 @@ void Game::clear(ClearFlags flags, const Vector4& clearColor, float clearDepth, 
         }
         bits |= GL_STENCIL_BUFFER_BIT;
     }
-    glClear(bits);
+    GL_ASSERT(glClear(bits));
 }
 
 void Game::clear(ClearFlags flags, float red, float green, float blue, float alpha, float clearDepth, int clearStencil)

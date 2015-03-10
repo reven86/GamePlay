@@ -33,7 +33,7 @@ public:
      * @return The number of graphics draw calls required to draw the object.
      */
 
-    virtual unsigned int draw(bool wireframe = false) = 0;
+    virtual unsigned int draw(bool wireframe = false) const = 0;
 
     /**
      * Gets the node this drawable is attached to.

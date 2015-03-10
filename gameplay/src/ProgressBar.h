@@ -118,7 +118,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * @see Control::updateState
@@ -138,7 +138,7 @@ protected:
     /**
      * The image for the progress bar track image.
      */
-    Theme::ThemeImage* _trackImage;
+    const Theme::ThemeImage* _trackImage;
     
 private:
 

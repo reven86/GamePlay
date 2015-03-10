@@ -149,7 +149,7 @@ void CheckBox::updateAbsoluteBounds(const Vector2& offset)
     _textBounds.x += _bounds.height + _textSpace;
 }
 
-unsigned int CheckBox::drawImages(Form* form, const Rectangle& clip)
+unsigned int CheckBox::drawImages(Form* form, const Rectangle& clip) const
 {
     if (!_image)
         return 0;

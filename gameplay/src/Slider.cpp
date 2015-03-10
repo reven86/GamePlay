@@ -360,7 +360,7 @@ void Slider::updateBounds()
     }
 }
 
-unsigned int Slider::drawImages(Form* form, const Rectangle& clip)
+unsigned int Slider::drawImages(Form* form, const Rectangle& clip) const
 {
     if (!(_minImage && _maxImage && _markerImage && _trackImage))
         return 0;
@@ -475,7 +475,7 @@ unsigned int Slider::drawImages(Form* form, const Rectangle& clip)
     return 4;
 }
 
-unsigned int Slider::drawText(Form* form, const Rectangle& clip)
+unsigned int Slider::drawText(Form* form, const Rectangle& clip) const
 {
     unsigned int drawCalls = Label::drawText(form, clip);
 

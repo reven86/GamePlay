@@ -390,7 +390,7 @@ protected:
     /**
      * @see Control::draw
      */
-    virtual unsigned int draw(Form* form, const Rectangle& clip);
+    virtual unsigned int draw(Form* form, const Rectangle& clip) const;
 
     /**
      * Update scroll position and velocity.
@@ -456,27 +456,27 @@ protected:
     /**
      * Scrollbar top cap image.
      */
-    Theme::ThemeImage* _scrollBarTopCap;
+    const Theme::ThemeImage* _scrollBarTopCap;
     /**
      * Scrollbar vertical track image.
      */
-    Theme::ThemeImage* _scrollBarVertical;
+    const Theme::ThemeImage* _scrollBarVertical;
     /**
      * Scrollbar bottom cap image.
      */
-    Theme::ThemeImage* _scrollBarBottomCap;
+    const Theme::ThemeImage* _scrollBarBottomCap;
     /**
      * Scrollbar left cap image.
      */
-    Theme::ThemeImage* _scrollBarLeftCap;
+    const Theme::ThemeImage* _scrollBarLeftCap;
     /**
      * Scrollbar horizontal track image.
      */
-    Theme::ThemeImage* _scrollBarHorizontal;
+    const Theme::ThemeImage* _scrollBarHorizontal;
     /**
      * Scrollbar horizontal image.
      */
-    Theme::ThemeImage* _scrollBarRightCap;
+    const Theme::ThemeImage* _scrollBarRightCap;
     /** 
      * Flag representing whether scrolling is enabled, and in which directions.
      */

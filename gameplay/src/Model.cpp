@@ -79,6 +79,31 @@ Material* Model::getMaterial(int partIndex)
     return m;
 }
 
+const Material* Model::getMaterial(int partIndex) const
+{
+    GP_ASSERT(partIndex == -1 || partIndex >= 0);
+
+    Material* m = NULL;
+
+    if (partIndex < 0)
+        return _material;
+    if (partIndex >= (int)_partCount)
+        return NULL;
+
+    // Look up explicitly specified part material.
+    if (_partMaterials)
+    {
+        m = _partMaterials[partIndex];
+    }
+    if (m == NULL)
+    {
+        // Return the shared material.
+         m = _material;
+    }
+
+    return m;
+}
+
 void Model::setMaterial(Material* material, int partIndex)
 {
     GP_ASSERT(partIndex == -1 || (partIndex >= 0 && partIndex < (int)getMeshPartCount()));
@@ -326,7 +351,7 @@ static bool drawWireframe(MeshPart* part)
     }
 }
 
-unsigned int Model::draw(bool wireframe)
+unsigned int Model::draw(bool wireframe) const
 {
     GP_ASSERT(_mesh);
 
@@ -361,7 +386,7 @@ unsigned int Model::draw(bool wireframe)
             GP_ASSERT(part);
 
             // Get the material for this mesh part.
-            Material* material = getMaterial(i);
+            const Material* material = getMaterial(i);
             if (material)
             {
                 Technique* technique = material->getTechnique();

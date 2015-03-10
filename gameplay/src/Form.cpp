@@ -234,7 +234,7 @@ const Matrix& Form::getProjectionMatrix() const
     return  _projectionMatrix;
 }
 
-unsigned int Form::draw(bool wireframe)
+unsigned int Form::draw(bool wireframe) const
 {
     if (!_visible || _absoluteClipBounds.width == 0 || _absoluteClipBounds.height == 0)
         return 0;
@@ -263,7 +263,7 @@ unsigned int Form::draw(bool wireframe)
     }
 
     // Draw the form
-    unsigned int drawCalls = Container::draw(this, _absoluteClipBounds);
+    unsigned int drawCalls = Container::draw(const_cast<Form *>(this), _absoluteClipBounds);
 
     // Flush all batches that were queued during drawing and then empty the batch list
     if (_batched)

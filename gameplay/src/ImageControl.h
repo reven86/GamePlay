@@ -127,7 +127,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * @see Control::updateBounds

@@ -59,6 +59,7 @@ public:
      * @return The requested Material, or NULL if no Material is set.
      */
     Material* getMaterial(int partIndex = -1);
+    const Material* getMaterial(int partIndex = -1) const;
 
     /**
      * Sets a material to be used for drawing this Model.
@@ -139,7 +140,7 @@ public:
      * rendering states, shader state, and so on, should be set
      * up before calling this method.
      */
-    unsigned int draw(bool wireframe = false);
+    unsigned int draw(bool wireframe = false) const;
 
 private:
 

@@ -199,7 +199,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
 private:
 
@@ -213,7 +213,7 @@ private:
 
     Vector2 getPixelSize(const Theme::ThemeImage* image) const;
 
-    Theme::ThemeImage * getNonEmptyImage(const char* id, Control::State state);
+    const Theme::ThemeImage * getNonEmptyImage(const char* id, Control::State state);
 
     void updateAbsoluteSizes();
 
@@ -227,7 +227,7 @@ private:
     float _radiusPixels;
     Vector2* _innerSizePixels;
     Vector2* _outerSizePixels;
-    Rectangle _screenRegionPixels;
+    mutable Rectangle _screenRegionPixels;
     bool _relative;
     Vector2 _value;
     Vector2 _displacement;

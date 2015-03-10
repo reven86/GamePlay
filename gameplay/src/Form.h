@@ -119,7 +119,7 @@ public:
      *
      * @return The nubmer of draw calls issued to draw the form.
      */
-    unsigned int draw(bool wireframe = false);
+    unsigned int draw(bool wireframe = false) const;
 
     /**
      * Determines whether batching is enabled for this form.
@@ -276,8 +276,8 @@ private:
 
     static bool pollGamepad(Gamepad* gamepad);
 
-    Matrix _projectionMatrix;           // Projection matrix to be set on SpriteBatch objects when rendering the form
-    std::vector<SpriteBatch*> _batches;
+    mutable Matrix _projectionMatrix;           // Projection matrix to be set on SpriteBatch objects when rendering the form
+    mutable std::vector<SpriteBatch*> _batches;
     bool _batched;
 };
 

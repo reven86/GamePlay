@@ -217,12 +217,12 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * @see Control::drawText
      */
-    unsigned int drawText(Form* form, const Rectangle& clip);
+    unsigned int drawText(Form* form, const Rectangle& clip) const;
 
     /**
      * @see Control::update
@@ -267,22 +267,22 @@ protected:
     /**
      * The image for the minimum slider value.
      */
-    Theme::ThemeImage* _minImage;
+    const Theme::ThemeImage* _minImage;
     
     /**
      * The image for the maximum slider value.
      */
-    Theme::ThemeImage* _maxImage;
+    const Theme::ThemeImage* _maxImage;
     
     /**
      * The image for the slider track.
      */
-    Theme::ThemeImage* _trackImage;
+    const Theme::ThemeImage* _trackImage;
     
     /**
      * The image for the slider marker.
      */
-    Theme::ThemeImage* _markerImage;
+    const Theme::ThemeImage* _markerImage;
 
     /**
      * Whether to display this slider's value.

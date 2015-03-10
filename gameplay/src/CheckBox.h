@@ -128,7 +128,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * Whether this checkbox is currently checked.
@@ -138,7 +138,7 @@ protected:
     /**
      * The Theme::ThemeImage to display for the checkbox.
      */
-    Theme::ThemeImage* _image;
+    const Theme::ThemeImage* _image;
 
     /**
      * The space between icon and text. Default is 5.

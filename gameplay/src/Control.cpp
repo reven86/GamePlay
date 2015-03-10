@@ -1289,17 +1289,17 @@ void Control::updateAbsoluteBounds(const Vector2& offset)
     Rectangle::intersect(_viewportBounds, parentAbsoluteClip, &_viewportClipBounds);
 }
 
-void Control::startBatch(Form* form, SpriteBatch* batch)
+void Control::startBatch(Form* form, SpriteBatch* batch) const
 {
     form->startBatch(batch);
 }
 
-void Control::finishBatch(Form* form, SpriteBatch* batch)
+void Control::finishBatch(Form* form, SpriteBatch* batch) const
 {
     form->finishBatch(batch);
 }
 
-unsigned int Control::draw(Form* form, const Rectangle& clip)
+unsigned int Control::draw(Form* form, const Rectangle& clip) const
 {
     if (!_visible)
         return 0;
@@ -1310,7 +1310,7 @@ unsigned int Control::draw(Form* form, const Rectangle& clip)
     return drawCalls;
 }
 
-unsigned int Control::drawBorder(Form* form, const Rectangle& clip)
+unsigned int Control::drawBorder(Form* form, const Rectangle& clip) const
 {
     if (!form || !_skin || _absoluteBounds.width <= 0 || _absoluteBounds.height <= 0)
         return 0;
@@ -1406,12 +1406,12 @@ unsigned int Control::drawBorder(Form* form, const Rectangle& clip)
     return drawCalls;
 }
 
-unsigned int Control::drawImages(Form* form, const Rectangle& position)
+unsigned int Control::drawImages(Form* form, const Rectangle& position) const
 {
     return 0;
 }
 
-unsigned int Control::drawText(Form* form, const Rectangle& position)
+unsigned int Control::drawText(Form* form, const Rectangle& position) const
 {
     return 0;
 }
@@ -1452,7 +1452,7 @@ Control::State Control::getState(const char* state)
     return NORMAL;
 }
 
-Theme::ThemeImage* Control::getImage(const char* id, State state)
+const Theme::ThemeImage* Control::getImage(const char* id, State state) const
 {
     Theme::ThemeImage* image = NULL;
 

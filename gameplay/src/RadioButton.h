@@ -140,7 +140,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * Clear the _selected flag of all radio buttons in the given group.
@@ -162,7 +162,7 @@ protected:
     /**
      * The theme image for the radio button.
      */
-    Theme::ThemeImage* _image;
+    const Theme::ThemeImage* _image;
 
     /**
     * The scale of icon. 1 means icon height of unchecked image is

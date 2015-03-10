@@ -68,7 +68,7 @@ void ProgressBar::updateState(State state)
     _trackImage = getImage("track", _state);
 }
 
-unsigned ProgressBar::drawImages(Form* form, const Rectangle& clip)
+unsigned ProgressBar::drawImages(Form* form, const Rectangle& clip) const
 {
     if(!_trackImage)
         return 0;

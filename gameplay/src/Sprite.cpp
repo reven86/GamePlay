@@ -561,7 +561,7 @@ Material* Sprite::getMaterial() const
     return _batch->getMaterial();
 }
 
-unsigned int Sprite::draw(bool wireframe)
+unsigned int Sprite::draw(bool wireframe) const
 {
     // Apply scene camera projection and translation offsets
     Vector3 position = Vector3::zero();

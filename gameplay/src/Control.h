@@ -1210,7 +1210,7 @@ protected:
      * @param form The form beign drawn.
      * @param batch The sprite batch to be drawn into.
      */
-    void startBatch(Form* form, SpriteBatch* batch);
+    void startBatch(Form* form, SpriteBatch* batch) const;
 
     /**
      * Called after a batch has been drawn into and before any other batch is used.
@@ -1218,7 +1218,7 @@ protected:
      * @param form The form being drawn.
      * @param batch The batch that was previously started (via Control::startBatch).
      */
-    void finishBatch(Form* form, SpriteBatch* batch);
+    void finishBatch(Form* form, SpriteBatch* batch) const;
 
     /**
      * Draws the control.
@@ -1233,7 +1233,7 @@ protected:
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int draw(Form* form, const Rectangle& clip);
+    virtual unsigned int draw(Form* form, const Rectangle& clip) const;
 
     /**
      * Draws the themed border and background of a control.
@@ -1248,7 +1248,7 @@ protected:
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawBorder(Form* form, const Rectangle& clip);
+    virtual unsigned int drawBorder(Form* form, const Rectangle& clip) const;
 
     /**
      * Draw the images associated with this control.
@@ -1263,7 +1263,7 @@ protected:
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawImages(Form* form, const Rectangle& clip);
+    virtual unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * Draw this control's text.
@@ -1278,7 +1278,7 @@ protected:
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawText(Form* form, const Rectangle& clip);
+    virtual unsigned int drawText(Form* form, const Rectangle& clip) const;
 
     /**
      * Initializes the control.
@@ -1306,7 +1306,7 @@ protected:
      *
      * @return The requested Theme::ThemeImage, or an empty image from the controls theme if none was found.
      */
-    Theme::ThemeImage* getImage(const char* id, State state);
+    const Theme::ThemeImage* getImage(const char* id, State state) const;
 
     /**
      * Notify this control's listeners of a specific event.

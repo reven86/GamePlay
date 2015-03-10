@@ -192,7 +192,7 @@ void RadioButton::updateAbsoluteBounds(const Vector2& offset)
     _textBounds.x += _bounds.height + 5;
 }
 
-unsigned int RadioButton::drawImages(Form* form, const Rectangle& clip)
+unsigned int RadioButton::drawImages(Form* form, const Rectangle& clip) const
 {
     if (!_image)
         return 0;

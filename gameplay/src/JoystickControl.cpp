@@ -242,9 +242,9 @@ Vector2 JoystickControl::getPixelSize(const Theme::ThemeImage* image) const
     return Vector2(rect.width, rect.height);
 }
 
-Theme::ThemeImage * JoystickControl::getNonEmptyImage(const char* id, Control::State state)
+const Theme::ThemeImage * JoystickControl::getNonEmptyImage(const char* id, Control::State state)
 {
-    Theme::ThemeImage* image = getImage(id, state);
+    const Theme::ThemeImage* image = getImage(id, state);
     return strcmp(image->getId(), id) == 0 ? image : NULL;
 }
 
@@ -252,7 +252,7 @@ void JoystickControl::updateAbsoluteSizes()
 {
     const Control::State state = getState();
 
-    Theme::ThemeImage* innerImage = getNonEmptyImage("inner", state);
+    const Theme::ThemeImage* innerImage = getNonEmptyImage("inner", state);
     const bool innerRegionDefined = _innerRegionCoord || innerImage;
 
     if(innerRegionDefined)
@@ -267,7 +267,7 @@ void JoystickControl::updateAbsoluteSizes()
         _screenRegionPixels.height = _innerSizePixels->y;
     }
 
-    Theme::ThemeImage* outerImage = getNonEmptyImage("outer", state);
+    const Theme::ThemeImage* outerImage = getNonEmptyImage("outer", state);
     const bool outerRegionDefined = _outerRegionCoord || outerImage;
 
     if (outerRegionDefined)
@@ -416,7 +416,7 @@ bool JoystickControl::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned i
     return Control::touchEvent(evt, x, y, contactIndex);
 }
 
-unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip)
+unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip) const
 {
     const Control::State state = getState();
 
@@ -437,7 +437,7 @@ unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip)
         // Draw the outer image.
         if (_outerSizePixels)
         {
-            Theme::ThemeImage* outer = getImage("outer", state);
+            const Theme::ThemeImage* outer = getImage("outer", state);
             const Theme::UVs& uvs = outer->getUVs();
             const Vector4& color = outer->getColor();
 
@@ -459,7 +459,7 @@ unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip)
         // Draw the inner image.
         if (_innerSizePixels)
         {
-            Theme::ThemeImage* inner = getImage("inner", state);
+            const Theme::ThemeImage* inner = getImage("inner", state);
             Vector2 position(_screenRegionPixels.x, _screenRegionPixels.y);
 
             // Adjust position to reflect displacement.

@@ -121,7 +121,7 @@ protected:
     /**
      * @see Control::drawText
      */
-    virtual unsigned int drawText(Form* form, const Rectangle& clip);
+    virtual unsigned int drawText(Form* form, const Rectangle& clip) const;
 
     /**
      * The text displayed by this label.

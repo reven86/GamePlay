@@ -653,7 +653,7 @@ bool Container::updateChildBounds()
     return result;
 }
 
-unsigned int Container::draw(Form* form, const Rectangle& clip)
+unsigned int Container::draw(Form* form, const Rectangle& clip) const
 {
     if (!_visible)
         return 0;

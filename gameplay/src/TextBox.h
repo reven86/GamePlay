@@ -181,12 +181,12 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip);
+    unsigned int drawImages(Form* form, const Rectangle& clip) const;
 
     /**
      * @see Control::drawText
      */
-    unsigned int drawText(Form* form, const Rectangle& clip);
+    unsigned int drawText(Form* form, const Rectangle& clip) const;
 
     /**
      * Gets an InputMode by string.
@@ -227,7 +227,7 @@ protected:
     /**
      * The Theme::Image for the TextBox's caret.
      */
-    Theme::ThemeImage* _caretImage;
+    const Theme::ThemeImage* _caretImage;
 
     /**
      * The character displayed in password mode.

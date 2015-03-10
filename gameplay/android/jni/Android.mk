@@ -269,7 +269,6 @@ LOCAL_SRC_FILES := \
     lua/lua_ThemeStyle.cpp \
     lua/lua_ThemeThemeImage.cpp \
     lua/lua_ThemeUVs.cpp \
-    lua/lua_TileSet.cpp \
     lua/lua_Touch.cpp \
     lua/lua_Transform.cpp \
     lua/lua_TransformListener.cpp \
