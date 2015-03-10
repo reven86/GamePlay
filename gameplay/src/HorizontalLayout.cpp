@@ -46,10 +46,6 @@ void HorizontalLayout::update(const Container* container)
 {
     GP_ASSERT(container);
 
-    // Need border, padding.
-    Theme::Border border = container->getBorder(container->getState());
-    Theme::Padding padding = container->getPadding();
-
     float xPosition = 0;
 
     const std::vector<Control*>& controls = container->getControls();

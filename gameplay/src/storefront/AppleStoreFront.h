@@ -4,6 +4,8 @@
 #define APPLESTOREFRONT_H_
 
 #include "StoreFront.h"
+#import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
 
 
 namespace gameplay
@@ -62,6 +64,11 @@ public:
      * Restore completed transactions.
      */
     virtual void restoreTransactions( const char * usernameHash );
+    
+    /**
+     * Get SKPaymentTransaction which is being processed or nil.
+     */
+    SKPaymentTransaction * getCurrentTransactionObject();
     
 protected:
     

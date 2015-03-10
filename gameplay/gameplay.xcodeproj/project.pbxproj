@@ -526,6 +526,12 @@
 		EB16DDD218CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB16DDD318CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB3D1D79173FB4D30008EC01 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3D1D78173FB4D30008EC01 /* WebKit.framework */; };
+		EB42A4991A8B72820012761A /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A4971A8B72820012761A /* Drawable.cpp */; };
+		EB42A49A1A8B72820012761A /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A4971A8B72820012761A /* Drawable.cpp */; };
+		EB42A49B1A8B72820012761A /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = EB42A4981A8B72820012761A /* Drawable.h */; };
+		EB42A49E1A8B72970012761A /* lua_Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A49C1A8B72970012761A /* lua_Drawable.cpp */; };
+		EB42A49F1A8B72970012761A /* lua_Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A49C1A8B72970012761A /* lua_Drawable.cpp */; };
+		EB42A4A01A8B72970012761A /* lua_Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = EB42A49D1A8B72970012761A /* lua_Drawable.h */; };
 		EB66F8631A6433AE00E4F819 /* lua_Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85D1A6433AE00E4F819 /* lua_Script.cpp */; };
 		EB66F8641A6433AE00E4F819 /* lua_Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85D1A6433AE00E4F819 /* lua_Script.cpp */; };
 		EB66F8651A6433AE00E4F819 /* lua_Script.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F85E1A6433AE00E4F819 /* lua_Script.h */; };
@@ -1389,6 +1395,10 @@
 		EB16DDCF18CEE79700458A01 /* GameCenterSocialSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCenterSocialSession.h; path = src/social/GameCenterSocialSession.h; sourceTree = SOURCE_ROOT; };
 		EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GameCenterSocialSession.mm; path = src/social/GameCenterSocialSession.mm; sourceTree = SOURCE_ROOT; };
 		EB3D1D78173FB4D30008EC01 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EB42A4971A8B72820012761A /* Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Drawable.cpp; path = src/Drawable.cpp; sourceTree = SOURCE_ROOT; };
+		EB42A4981A8B72820012761A /* Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Drawable.h; path = src/Drawable.h; sourceTree = SOURCE_ROOT; };
+		EB42A49C1A8B72970012761A /* lua_Drawable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Drawable.cpp; sourceTree = "<group>"; };
+		EB42A49D1A8B72970012761A /* lua_Drawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Drawable.h; sourceTree = "<group>"; };
 		EB66F85D1A6433AE00E4F819 /* lua_Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Script.cpp; sourceTree = "<group>"; };
 		EB66F85E1A6433AE00E4F819 /* lua_Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Script.h; sourceTree = "<group>"; };
 		EB66F85F1A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_ScriptTargetEvent.cpp; sourceTree = "<group>"; };
@@ -1428,7 +1438,7 @@
 		EBF7F629163415EF00F350CE /* Matrix3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix3.cpp; path = src/Matrix3.cpp; sourceTree = SOURCE_ROOT; };
 		EBF7F62A163415EF00F350CE /* Matrix3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix3.h; path = src/Matrix3.h; sourceTree = SOURCE_ROOT; };
 		EBF7F62B163415EF00F350CE /* Matrix3.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Matrix3.inl; path = src/Matrix3.inl; sourceTree = SOURCE_ROOT; };
-		EBF8AC59193F732000C0EE93 /* StoreController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StoreController.cpp; path = src/storefront/StoreController.cpp; sourceTree = SOURCE_ROOT; };
+		EBF8AC59193F732000C0EE93 /* StoreController.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = StoreController.cpp; path = src/storefront/StoreController.cpp; sourceTree = SOURCE_ROOT; };
 		EBF8AC5A193F732000C0EE93 /* StoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreController.h; path = src/storefront/StoreController.h; sourceTree = SOURCE_ROOT; };
 		EBF8AC5B193F732000C0EE93 /* Storefront.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Storefront.h; path = src/storefront/Storefront.h; sourceTree = SOURCE_ROOT; };
 		EBF8AC5C193F732000C0EE93 /* StoreProduct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StoreProduct.cpp; path = src/storefront/StoreProduct.cpp; sourceTree = SOURCE_ROOT; };
@@ -1490,6 +1500,8 @@
 		4234D9A314686C52003031B3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				EB42A4971A8B72820012761A /* Drawable.cpp */,
+				EB42A4981A8B72820012761A /* Drawable.h */,
 				EB66F86C1A6433E100E4F819 /* Script.cpp */,
 				EB66F86D1A6433E100E4F819 /* Script.h */,
 				EB66F86E1A6433E100E4F819 /* Sprite.cpp */,
@@ -1778,6 +1790,8 @@
 		42BCD31E15EFD0F300C0E076 /* lua */ = {
 			isa = PBXGroup;
 			children = (
+				EB42A49C1A8B72970012761A /* lua_Drawable.cpp */,
+				EB42A49D1A8B72970012761A /* lua_Drawable.h */,
 				EB66F8881A6451C900E4F819 /* lua_Package.cpp */,
 				EB66F8891A6451C900E4F819 /* lua_Package.h */,
 				EB66F88A1A6451C900E4F819 /* lua_Sprite.cpp */,
@@ -2229,6 +2243,7 @@
 				42CD0EC8147D8FF60000361E /* VertexAttributeBinding.h in Headers */,
 				EB16DDC918CE943800458A01 /* SocialSessionListener.h in Headers */,
 				42CD0ECA147D8FF60000361E /* VertexFormat.h in Headers */,
+				EB42A49B1A8B72820012761A /* Drawable.h in Headers */,
 				4283909A1489D6E800E2B2F5 /* SceneLoader.h in Headers */,
 				4208DEEA14A4079F00D3C511 /* Image.h in Headers */,
 				4208DEEC14A407B900D3C511 /* Keyboard.h in Headers */,
@@ -2354,6 +2369,7 @@
 				42BCD5DA15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.h in Headers */,
 				EB16DDC018CE943800458A01 /* SocialChallenge.h in Headers */,
 				42BCD5E215EFD0F300C0E076 /* lua_PhysicsConstraint.h in Headers */,
+				EB42A4A01A8B72970012761A /* lua_Drawable.h in Headers */,
 				42BCD5E615EFD0F300C0E076 /* lua_PhysicsController.h in Headers */,
 				42BCD5EA15EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.h in Headers */,
 				42BCD5EE15EFD0F300C0E076 /* lua_PhysicsControllerHitResult.h in Headers */,
@@ -2552,6 +2568,7 @@
 				42CD0E52147D8FF60000361E /* AudioController.cpp in Sources */,
 				42CD0E54147D8FF60000361E /* AudioListener.cpp in Sources */,
 				42CD0E56147D8FF60000361E /* AudioSource.cpp in Sources */,
+				EB42A49E1A8B72970012761A /* lua_Drawable.cpp in Sources */,
 				42CD0E59147D8FF60000361E /* BoundingBox.cpp in Sources */,
 				42CD0E5B147D8FF60000361E /* BoundingSphere.cpp in Sources */,
 				EB66F89E1A6451C900E4F819 /* lua_TileSet.cpp in Sources */,
@@ -2677,6 +2694,7 @@
 				42BCD50015EFD0F300C0E076 /* lua_FileSystem.cpp in Sources */,
 				42BCD50415EFD0F300C0E076 /* lua_FlowLayout.cpp in Sources */,
 				42BCD50815EFD0F300C0E076 /* lua_Font.cpp in Sources */,
+				EB42A4991A8B72820012761A /* Drawable.cpp in Sources */,
 				42BCD51815EFD0F300C0E076 /* lua_Form.cpp in Sources */,
 				42BCD51C15EFD0F300C0E076 /* lua_FrameBuffer.cpp in Sources */,
 				42BCD52015EFD0F300C0E076 /* lua_Frustum.cpp in Sources */,
@@ -3024,6 +3042,7 @@
 				EB9BF70517CBF02200D636A0 /* PhysicsCharacter.cpp in Sources */,
 				EB9BF70717CBF02200D636A0 /* PhysicsCollisionObject.cpp in Sources */,
 				EB9BF70917CBF02200D636A0 /* PhysicsCollisionShape.cpp in Sources */,
+				EB42A49F1A8B72970012761A /* lua_Drawable.cpp in Sources */,
 				EBE308FE18D0A17A0015FC66 /* lua_CameraListener.cpp in Sources */,
 				EB9BF70B17CBF02200D636A0 /* PhysicsConstraint.cpp in Sources */,
 				EB9BF70E17CBF02200D636A0 /* PhysicsController.cpp in Sources */,
@@ -3049,6 +3068,7 @@
 				EB9BF73817CBF02200D636A0 /* RenderState.cpp in Sources */,
 				EB9BF73A17CBF02200D636A0 /* RenderTarget.cpp in Sources */,
 				EB9BF73C17CBF02200D636A0 /* Scene.cpp in Sources */,
+				EB42A49A1A8B72820012761A /* Drawable.cpp in Sources */,
 				EB9BF73E17CBF02200D636A0 /* SceneLoader.cpp in Sources */,
 				EB9BF74017CBF02200D636A0 /* ScreenDisplayer.cpp in Sources */,
 				EB9BF74217CBF02200D636A0 /* ScriptController.cpp in Sources */,
@@ -3096,10 +3116,9 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				VALID_ARCHS = "armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -3119,9 +3138,8 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				VALID_ARCHS = "armv7 armv7s i386 x86_64";
 			};
 			name = Release;
 		};
@@ -3192,7 +3210,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -3213,6 +3231,7 @@
 				PRODUCT_NAME = gameplay;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -3220,7 +3239,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -3235,6 +3254,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
