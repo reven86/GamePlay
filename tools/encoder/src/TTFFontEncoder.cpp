@@ -173,7 +173,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
 
         FontData* font = new FontData();
         font->fontSize = fontSize;
-        font->glyphArray = reinterpret_cast< Glyph * >( malloc( wcslen( characterSet ) * sizeof( Glyph ) ) );
+        font->glyphArray = reinterpret_cast< TTFGlyph * >( malloc( wcslen( characterSet ) * sizeof( TTFGlyph ) ) );
         if( !font->glyphArray )
         {
             LOG( 1, "Not enough memory to allocate glyphs." );
@@ -307,7 +307,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                 // Move Y back to the top of the row.
                 penY = row * rowSize;
 
-                if (ascii == (END_INDEX - 1))
+                if (*(ascii+1) == L'\0')
                 {
                     textureSizeFound = true;
                 }

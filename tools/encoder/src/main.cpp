@@ -148,13 +148,13 @@ int main(int argc, const char** argv)
         if( !arguments.getCharacterSet( ).empty( ) )
         {
             //create font from png texture.
-            unsigned int fontSize = arguments.getFontSize();
-            if (fontSize == 0)
+            std::vector<unsigned int> fontSizes = arguments.getFontSizes();
+            if (fontSizes.size() == 0)
             {
-                fontSize = promptUserFontSize();
+                fontSizes = promptUserFontSize();
             }
             std::string id = getBaseName(arguments.getFilePath());
-            writeFontFromImage(arguments.getFilePath().c_str(), arguments.getOutputFilePath().c_str(), fontSize, id.c_str(), arguments.getCharacterSet().c_str( ));
+            writeFontFromImage(arguments.getFilePath().c_str(), arguments.getOutputFilePath().c_str(), fontSizes[0], id.c_str(), arguments.getCharacterSet().c_str( ));
             break;
         }
         // no break
