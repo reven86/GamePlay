@@ -1467,8 +1467,8 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
 
     if (destIndex == (int)charIndex ||
         (destIndex == -1 &&
-         inLocation.x >= xPos && inLocation.x < xPos + spacing &&
-         inLocation.y >= yPos && inLocation.y < yPos + size))
+         inLocation.x >= xPos && inLocation.x <= ceilf(xPos + spacing) &&
+         inLocation.y >= yPos && inLocation.y <= ceilf(yPos + size)))
     {
         outLocation->x = xPos;
         outLocation->y = yPos;
