@@ -176,4 +176,9 @@ void ImageControl::updateBounds()
     Control::updateBounds();
 }
 
+const SpriteBatch * ImageControl::getSpriteBatch() const
+{
+    return _batch;
+}
+
 }

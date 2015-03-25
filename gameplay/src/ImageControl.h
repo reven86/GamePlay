@@ -104,6 +104,13 @@ public:
      */
     const Rectangle& getRegionDst() const;
 
+    /**
+     * Get the SpriteBatch for this ImageControl.
+     *
+     * @return SpriteBatch instance.
+     */
+    const SpriteBatch * getSpriteBatch() const;
+
 protected:
 
     ImageControl();
