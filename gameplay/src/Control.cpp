@@ -1220,7 +1220,7 @@ void Control::updateBounds()
         }
         else if ((_alignment & Control::ALIGN_VCENTER) == Control::ALIGN_VCENTER)
         {
-            _bounds.y = clipHeight * 0.5f - _bounds.height * 0.5f;
+            _bounds.y = clipHeight * 0.5f - _bounds.height * 0.5f + (margin.top - margin.bottom) * 0.5f;
         }
         else if ((_alignment & Control::ALIGN_TOP) == Control::ALIGN_TOP)
         {
@@ -1234,7 +1234,7 @@ void Control::updateBounds()
         }
         else if ((_alignment & Control::ALIGN_HCENTER) == Control::ALIGN_HCENTER)
         {
-            _bounds.x = clipWidth * 0.5f - _bounds.width * 0.5f;
+            _bounds.x = clipWidth * 0.5f - _bounds.width * 0.5f + (margin.left - margin.right) * 0.5f;
         }
         else if ((_alignment & Control::ALIGN_LEFT) == Control::ALIGN_LEFT)
         {
