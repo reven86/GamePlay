@@ -961,30 +961,16 @@ void Control::addListener(Control::Listener* listener, int eventFlags)
 {
     GP_ASSERT(listener);
 
-    if ((eventFlags & Control::Listener::PRESS) == Control::Listener::PRESS)
-    {
-        addSpecificListener(listener, Control::Listener::PRESS);
-    }
+    Control::Listener::EventType events[] = { Control::Listener::PRESS, Control::Listener::RELEASE,
+        Control::Listener::CLICK, Control::Listener::VALUE_CHANGED, Control::Listener::TEXT_CHANGED,
+        Control::Listener::FOCUS_GAINED, Control::Listener::FOCUS_LOST
+    };
 
-    if ((eventFlags & Control::Listener::RELEASE) == Control::Listener::RELEASE)
-    {
-        addSpecificListener(listener, Control::Listener::RELEASE);
-    }
-
-    if ((eventFlags & Control::Listener::CLICK) == Control::Listener::CLICK)
-    {
-        addSpecificListener(listener, Control::Listener::CLICK);
-    }
-
-    if ((eventFlags & Control::Listener::VALUE_CHANGED) == Control::Listener::VALUE_CHANGED)
-    {
-        addSpecificListener(listener, Control::Listener::VALUE_CHANGED);
-    }
-
-    if ((eventFlags & Control::Listener::TEXT_CHANGED) == Control::Listener::TEXT_CHANGED)
-    {
-        addSpecificListener(listener, Control::Listener::TEXT_CHANGED);
-    }
+    for (int i = 0; i < sizeof(events) / sizeof(events[0]); i++)
+        if ((eventFlags & events[i]) == events[i])
+        {
+            addSpecificListener(listener, events[i]);
+        }
 }
 
 void Control::removeListener(Control::Listener* listener)
