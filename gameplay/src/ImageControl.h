@@ -111,6 +111,22 @@ public:
      */
     const SpriteBatch * getSpriteBatch() const;
 
+    /**
+     * Get image color.
+     *
+     * @return Color which is used when image's sprite batch is rendered,
+     *         before applying Control's opacity.
+     */
+    const Vector4& getColor() const;
+
+    /**
+     * Set image color.
+     *
+     * @param color Color which is used when image's sprite batch is rendered,
+     *              before applying Control's opacity.
+     */
+    void setColor(const Vector4& color);
+
 protected:
 
     ImageControl();
@@ -150,6 +166,7 @@ private:
     // Destination region.
     Rectangle _dstRegion;
     SpriteBatch* _batch;
+    Vector4 _color;
 
     // One over texture width and height, for use when calculating UVs from a new source region.
     float _tw;

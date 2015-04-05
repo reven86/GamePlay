@@ -7,7 +7,7 @@ namespace gameplay
 
 ImageControl::ImageControl() :
     _srcRegion(Rectangle::empty()), _dstRegion(Rectangle::empty()), _batch(NULL),
-    _tw(0.0f), _th(0.0f), _uvs(Theme::UVs::full())
+    _tw(0.0f), _th(0.0f), _uvs(Theme::UVs::full()), _color(Vector4::one())
 {
 }
 
@@ -138,7 +138,7 @@ unsigned int ImageControl::drawImages(Form* form, const Rectangle& clip) const
 
     startBatch(form, _batch);
 
-    Vector4 color = Vector4::one();
+    Vector4 color = _color;
     color.w *= _opacity;
 
     if (_dstRegion.isEmpty())
@@ -179,6 +179,16 @@ void ImageControl::updateBounds()
 const SpriteBatch * ImageControl::getSpriteBatch() const
 {
     return _batch;
+}
+
+const Vector4& ImageControl::getColor() const
+{
+    return _color;
+}
+
+void ImageControl::setColor(const Vector4& color)
+{
+    _color = color;
 }
 
 }
