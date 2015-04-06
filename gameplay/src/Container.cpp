@@ -561,7 +561,7 @@ void Container::updateBounds()
                 Control* ctrl = _controls[i];
                 if (ctrl->isVisible() && !ctrl->isXPercentage() && !ctrl->isWidthPercentage())
                 {
-                    float w = ctrl->getX() + ctrl->getWidth();
+                    float w = ctrl->getX() + ctrl->getWidth() + ctrl->getMargin().right;
                     if (width < w)
                         width = w;
                 }
@@ -579,7 +579,7 @@ void Container::updateBounds()
                 Control* ctrl = _controls[i];
                 if (ctrl->isVisible() && !ctrl->isYPercentage() && !ctrl->isHeightPercentage())
                 {
-                    float h = ctrl->getY() + ctrl->getHeight();
+                    float h = ctrl->getY() + ctrl->getHeight() + ctrl->getMargin().bottom;
                     if (height < h)
                         height = h;
                 }
