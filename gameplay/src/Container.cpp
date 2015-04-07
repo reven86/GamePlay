@@ -481,11 +481,13 @@ bool Container::setFocus()
     }
 
     // Try to set focus to one of our children
-    for (size_t i = 0, count = _controls.size(); i < count; ++i)
-    {
-        if (_controls[i]->setFocus())
-            return true;
-    }
+    //for (size_t i = 0, count = _controls.size(); i < count; ++i)
+    //{
+    //    if (_controls[i]->setFocus())
+    //        return true;
+    //}
+
+    // ^^^ commented out just to prevent focusing textboxes by clicking on their parents
 
     // Lastly, try to set focus to ourself if none of our children will accept it
     return Control::setFocus();
