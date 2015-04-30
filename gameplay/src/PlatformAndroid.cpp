@@ -44,7 +44,6 @@ static int __orientationAngle = 90;
 static bool __multiSampling = false;
 static bool __multiTouch = false;
 static int __primaryTouchId = -1;
-static bool __displayKeyboard = false;
 
 // OpenGL VAO functions.
 static const char* __glExtensions;
@@ -1375,9 +1374,6 @@ int Platform::enterMessagePump()
                 }
             }
         }
-            
-        // Display the keyboard.
-        gameplay::displayKeyboard(__state, __displayKeyboard);
     }
     return 0;
 }
@@ -1579,10 +1575,7 @@ bool Platform::isCursorVisible()
 
 void Platform::displayKeyboard(bool display)
 {
-    if (display)
-        __displayKeyboard = true;
-    else
-        __displayKeyboard = false;
+    gameplay::displayKeyboard(__state, display);
 }
 
 void Platform::shutdownInternal()
