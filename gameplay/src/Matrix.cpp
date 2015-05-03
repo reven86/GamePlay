@@ -222,9 +222,9 @@ void Matrix::createReflection(const Plane& plane, Matrix* dst)
     dst->m[2] = dst->m[8] = -2.0f * normal.x * normal.z;
     dst->m[6] = dst->m[9] = -2.0f * normal.y * normal.z;
     
-    dst->m[3] = k * normal.x;
-    dst->m[7] = k * normal.y;
-    dst->m[11] = k * normal.z;
+    dst->m[12] = k * normal.x;
+    dst->m[13] = k * normal.y;
+    dst->m[14] = k * normal.z;
 }
 
 void Matrix::createScale(const Vector3& scale, Matrix* dst)
