@@ -89,7 +89,7 @@ Material* TerrainPatch::getMaterial(int index) const
     {
         Scene* scene = _terrain->_node ? _terrain->_node->getScene() : NULL;
         Camera* camera = scene ? scene->getActiveCamera() : NULL;
-        if (!camera)
+        if (camera)
         {
             _level = const_cast<TerrainPatch*>(this)->computeLOD(camera, getBoundingBox(true));
         }
