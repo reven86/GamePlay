@@ -26,7 +26,7 @@ void MaterialParameter::clearValue()
             const_cast<Texture::Sampler*>(_value.samplerValue)->release();
         break;
     case MaterialParameter::SAMPLER_ARRAY:
-        if (_value.samplerArrayValue)
+        if (_value.samplerArrayValue && _dynamic)
         {
             for (unsigned int i = 0; i < _count; ++i)
             {
@@ -238,10 +238,6 @@ void MaterialParameter::setValue(const Texture::Sampler** samplers, unsigned int
     GP_ASSERT(samplers);
     clearValue();
 
-    for (unsigned int i = 0; i < count; ++i)
-    {
-        const_cast<Texture::Sampler*>(samplers[i])->addRef();
-    }
     _value.samplerArrayValue = samplers;
     _count = count;
     _type = MaterialParameter::SAMPLER_ARRAY;
@@ -431,15 +427,15 @@ void MaterialParameter::setSamplerArray(const Texture::Sampler** values, unsigne
         _value.samplerArrayValue = new const Texture::Sampler*[count];
         memcpy(_value.samplerArrayValue, values, sizeof(Texture::Sampler*) * count);
         _dynamic = true;
+
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            const_cast<Texture::Sampler*>(_value.samplerArrayValue[i])->addRef();
+        }
     }
     else
     {
         _value.samplerArrayValue = values;
-    }
-
-    for (unsigned int i = 0; i < count; ++i)
-    {
-        const_cast<Texture::Sampler*>(_value.samplerArrayValue[i])->addRef();
     }
 
     _count = count;
