@@ -48,6 +48,10 @@ TerrainPatch::~TerrainPatch()
     {
         deleteLayer(*_layers.begin());
     }
+
+    if (_camera)
+        _camera->removeListener(this);
+
     SAFE_RELEASE(_camera);
 }
 
