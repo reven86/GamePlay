@@ -28,7 +28,7 @@ static int __height;
 static struct timespec __timespec;
 static double __timeStart;
 static double __timeAbsolute;
-static bool __vsync = false;// WINDOW_VSYNC;
+static bool __vsync = WINDOW_VSYNC;
 static ASensorManager* __sensorManager;
 static ASensorEventQueue* __sensorEventQueue;
 static ASensorEvent __sensorEvent;
@@ -420,7 +420,7 @@ static void displayKeyboard(android_app* state, bool show)
     {
         // Runs lInputMethodManager.showSoftInput(...).
         jmethodID MethodShowSoftInput = env->GetMethodID( ClassInputMethodManager, "showSoftInput", "(Landroid/view/View;I)Z");
-        jboolean result = env->CallBooleanMethod(lInputMethodManager, MethodShowSoftInput, lDecorView, flags); 
+        jboolean result = env->CallBooleanMethod(lInputMethodManager, MethodShowSoftInput, lDecorView, 0);
     } 
     else 
     { 
@@ -1262,7 +1262,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd)
 static void process_input( struct android_app* app, struct android_poll_source* source)
 {
     AInputEvent* event = NULL;
-    if (AInputQueue_getEvent(app->inputQueue, &event) >= 0)
+
+    while(AInputQueue_getEvent(app->inputQueue, &event) >= 0)
     {
         int type = AInputEvent_getType(event);
         LOGV("New input event: type=%d\n", AInputEvent_getType(event));
@@ -1279,8 +1280,6 @@ static void process_input( struct android_app* app, struct android_poll_source* 
         if (app->onInputEvent != NULL)
             handled = app->onInputEvent(app, event);
         AInputQueue_finishEvent(app->inputQueue, event, handled);
-    } else {
-        LOGE("Failure reading next input event: %s\n", strerror(errno));
     }
 }
 
