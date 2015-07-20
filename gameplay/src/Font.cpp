@@ -484,12 +484,12 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         // Wrap if necessary.
         if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
-            yPos += size;
             currentLineLength = tokenLength;
 
             if (xPositionsIt != xPositions.end())
             {
                 xPos = *xPositionsIt++;
+                yPos += size;
             }
             else
             {
@@ -1346,12 +1346,12 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         // Wrap if necessary.
         if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
-            yPos += size;
             currentLineLength = tokenLength;
 
             if (xPositionsIt != xPositions.end())
             {
                 xPos = *xPositionsIt++;
+                yPos += size;
             }
             else
             {
