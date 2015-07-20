@@ -802,7 +802,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
             float tokenWidth = getTokenWidth(token, tokenLength, size, scale);
 
             // Wrap if necessary.
-            if (lineWidth + tokenWidth + delimWidth > clip.width)
+            if (int(lineWidth + tokenWidth + delimWidth) > int(clip.width))
             {
                 // Add line-height to vertical cursor.
                 yPos += size;
@@ -1122,7 +1122,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                 tokenWidth += getTokenWidth(token, tokenLength, size, scale);
 
                 // Wrap if necessary.
-                if (lineWidth + tokenWidth + delimWidth > area.width)
+                if (int(lineWidth + tokenWidth + delimWidth) > int(area.width))
                 {
                     *yPosition += size;
 
