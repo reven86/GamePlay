@@ -170,14 +170,9 @@ public:
             RIGHT_CLICK     = 0x40,
 
             /**
-             * Event triggered when a mouse cursor enters a control.
+             * Event triggered when a control is activated in another manner (such as pressing enter in text control)
              */
-            ENTER           = 0x80,
-
-            /**
-             * Event triggered when a mouse cursor leaves a control.
-             */
-            LEAVE           = 0x100,
+            ACTIVATED       = 0x80,
 
             /**
              * Event triggered when a control gains focus.
@@ -187,7 +182,17 @@ public:
             /**
              * Event triggered when a control loses focus.
              */
-            FOCUS_LOST      = 0x400
+            FOCUS_LOST      = 0x400,
+
+            /**
+             * Event triggered when a mouse cursor enters a control.
+             */
+            ENTER           = 0x800,
+
+            /**
+             * Event triggered when a mouse cursor leaves a control.
+             */
+            LEAVE           = 0x1000
         };
 
         /*

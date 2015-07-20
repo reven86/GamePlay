@@ -48,7 +48,7 @@ public:
      * @param text The text to display.
      * @script{ignore}
      */
-    void setText(const wchar_t* text);
+    virtual void setText(const wchar_t* text);
 
     /**
      * Get the text displayed by this label.

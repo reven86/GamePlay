@@ -32,6 +32,7 @@ Ref::~Ref()
 
 void Ref::addRef()
 {
+    GP_ASSERT(_refCount > 0 && _refCount < 1000000);
     ++_refCount;
 }
 

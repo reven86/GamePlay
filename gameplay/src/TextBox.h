@@ -115,6 +115,11 @@ public:
 
     virtual void addListener(Control::Listener* listener, int eventFlags);
 
+    /**
+     * Update the text being edited.
+     */
+    void setText(wchar_t const *text) override;
+
 protected:
 
     /**

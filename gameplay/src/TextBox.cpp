@@ -259,6 +259,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
             {
                 case Keyboard::KEY_RETURN:
                     // TODO: Support multi-line
+                    notifyListeners(Control::Listener::ACTIVATED);
                     break;
                 case Keyboard::KEY_ESCAPE:
                     break;
@@ -415,6 +416,16 @@ unsigned int TextBox::drawText(Form* form, const Rectangle& clip) const
     return 0;
 }
 
+void TextBox::setText(wchar_t const *text)
+{
+    Label::setText(text);
+    if (_caretLocation > _text.length())
+    {
+        _caretLocation = _text.length();
+    }
+    notifyListeners(Control::Listener::TEXT_CHANGED);
+}
+
 void TextBox::setCaretLocation(int x, int y)
 {
     Control::State state = getState();
@@ -471,7 +482,13 @@ void TextBox::setCaretLocation(int x, int y)
     }
 
     if (index != -1)
+    {
         _caretLocation = index;
+    }
+    else
+    {
+        _caretLocation = _text.length();
+    }
 }
 
 void TextBox::getCaretLocation(Vector2* p)
