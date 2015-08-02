@@ -452,6 +452,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         iteration = -1;
     }
 
+    bool firstToken = true;
     while (token[0] != 0)
     {
         // Handle delimiters until next token.
@@ -485,7 +486,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             currentLineLength = tokenLength;
-            if (xPos > area.x)
+            if (!firstToken)    // do not wrap first token
                 yPos += size;
 
             if (xPositionsIt != xPositions.end())
@@ -497,6 +498,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                 xPos = area.x;
             }
         }
+
+        firstToken = false;
 
         bool draw = true;
         if (ceilf(yPos) < area.y - size)
@@ -1290,6 +1293,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         iteration = -1;
     }
 
+    bool firstToken = true;
     while (token[0] != 0)
     {
         // Handle delimiters until next token.
@@ -1348,7 +1352,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || (rightToLeft && currentLineLength > lineLength)))
         {
             currentLineLength = tokenLength;
-            if (xPos > area.x)
+            if (!firstToken) // do not wrap first token
                 yPos += size;
 
             if (xPositionsIt != xPositions.end())
@@ -1360,6 +1364,8 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
                 xPos = area.x;
             }
         }
+
+        firstToken = false;
 
         if (floorf(yPos) > area.y + areaHeight)
         {
