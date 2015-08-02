@@ -1121,8 +1121,8 @@ void Container::updateScroll()
         }
     }
 
-    float vWidth = getImageRegion("verticalScrollBar", state).width;
-    float hHeight = getImageRegion("horizontalScrollBar", state).height;
+    float vWidth = (_scroll & SCROLL_VERTICAL) == SCROLL_VERTICAL ? getImageRegion("verticalScrollBar", state).width : 0.0f;
+    float hHeight = (_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL ? getImageRegion("horizontalScrollBar", state).height : 0.0f;
     float clipWidth = _absoluteBounds.width - containerBorder.left - containerBorder.right - containerPadding.left - containerPadding.right - vWidth;
     float clipHeight = _absoluteBounds.height - containerBorder.top - containerBorder.bottom - containerPadding.top - containerPadding.bottom - hHeight;
 
