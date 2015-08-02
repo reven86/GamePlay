@@ -416,7 +416,7 @@ protected:
      *
      * @see Touch::TouchEvent
      */
-    bool touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+    virtual bool touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
 
     /**
      * Mouse scroll event callback.
@@ -430,7 +430,7 @@ protected:
      *
      * @see Mouse::MouseEvent
      */
-    bool mouseEventScroll(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    virtual bool mouseEventScroll(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
     /**
      * Get a Scroll enum from a matching string.
