@@ -217,12 +217,12 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip) const;
+    unsigned int drawImages(Form* form) const;
 
     /**
      * @see Control::drawText
      */
-    unsigned int drawText(Form* form, const Rectangle& clip) const;
+    unsigned int drawText(Form* form) const;
 
     /**
      * @see Control::update

@@ -359,7 +359,7 @@ void TextBox::updateState(State state)
     _caretImage = getImage("textCaret", state);
 }
 
-unsigned int TextBox::drawImages(Form* form, const Rectangle& clip) const
+unsigned int TextBox::drawImages(Form* form) const
 {
     Control::State state = getState();
 
@@ -393,9 +393,9 @@ unsigned int TextBox::drawImages(Form* form, const Rectangle& clip) const
     return 0;
 }
 
-unsigned int TextBox::drawText(Form* form, const Rectangle& clip) const
+unsigned int TextBox::drawText(Form* form) const
 {
-    if (_text.size() <= 0)
+    if (_text.size() <= 0 || _viewportClipBounds.width <= 0 || _viewportClipBounds.height <= 0)
         return 0;
 
     // Draw the text.

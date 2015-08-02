@@ -1234,11 +1234,10 @@ protected:
      * and finishing the batch when neccessary.
      *
      * @param form The top level form being drawn.
-     * @param clip The clipping rectangle.
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int draw(Form* form, const Rectangle& clip) const;
+    virtual unsigned int draw(Form* form) const;
 
     /**
      * Draws the themed border and background of a control.
@@ -1249,11 +1248,10 @@ protected:
      * and finishing the batch when neccessary.
      *
      * @param form The top level form being drawn.
-     * @param clip The clipping rectangle of this control's parent container.
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawBorder(Form* form, const Rectangle& clip) const;
+    virtual unsigned int drawBorder(Form* form) const;
 
     /**
      * Draw the images associated with this control.
@@ -1264,11 +1262,10 @@ protected:
      * and finishing the batch when neccessary.
      *
      * @param form The top level form being drawn.
-     * @param clip The clipping rectangle of this control's parent container.
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawImages(Form* form, const Rectangle& clip) const;
+    virtual unsigned int drawImages(Form* form) const;
 
     /**
      * Draw this control's text.
@@ -1279,11 +1276,10 @@ protected:
      * and finishing the batch when neccessary.
      *
      * @param form The top level form being drawn.
-     * @param clip The clipping rectangle of this control's parent container.
      *
      * @return The number of draw calls issued.
      */
-    virtual unsigned int drawText(Form* form, const Rectangle& clip) const;
+    virtual unsigned int drawText(Form* form) const;
 
     /**
      * Initializes the control.

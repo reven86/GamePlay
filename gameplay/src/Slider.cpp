@@ -360,7 +360,7 @@ void Slider::updateBounds()
     }
 }
 
-unsigned int Slider::drawImages(Form* form, const Rectangle& clip) const
+unsigned int Slider::drawImages(Form* form) const
 {
     if (!(_minImage && _maxImage && _markerImage && _trackImage))
         return 0;
@@ -475,9 +475,12 @@ unsigned int Slider::drawImages(Form* form, const Rectangle& clip) const
     return 4;
 }
 
-unsigned int Slider::drawText(Form* form, const Rectangle& clip) const
+unsigned int Slider::drawText(Form* form) const
 {
-    unsigned int drawCalls = Label::drawText(form, clip);
+    if (_viewportClipBounds.width <= 0 || _viewportClipBounds.height <= 0)
+        return 0;
+
+    unsigned int drawCalls = Label::drawText(form);
 
     if (_valueTextVisible && _font)
     {

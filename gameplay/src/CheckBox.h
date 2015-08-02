@@ -128,7 +128,7 @@ protected:
     /**
      * @see Control::drawImages
      */
-    unsigned int drawImages(Form* form, const Rectangle& clip) const;
+    unsigned int drawImages(Form* form) const;
 
     /**
      * Whether this checkbox is currently checked.

@@ -1285,20 +1285,20 @@ void Control::finishBatch(Form* form, SpriteBatch* batch) const
     form->finishBatch(batch);
 }
 
-unsigned int Control::draw(Form* form, const Rectangle& clip) const
+unsigned int Control::draw(Form* form) const
 {
-    if (!_visible)
+    if (!_visible || _absoluteClipBounds.width <= 0 || _absoluteClipBounds.height <= 0)
         return 0;
 
-    unsigned int drawCalls = drawBorder(form, clip);
-    drawCalls += drawImages(form, clip);
-    drawCalls += drawText(form, clip);
+    unsigned int drawCalls = drawBorder(form);
+    drawCalls += drawImages(form);
+    drawCalls += drawText(form);
     return drawCalls;
 }
 
-unsigned int Control::drawBorder(Form* form, const Rectangle& clip) const
+unsigned int Control::drawBorder(Form* form) const
 {
-    if (!form || !_skin || _absoluteBounds.width <= 0 || _absoluteBounds.height <= 0)
+    if (!form || !_skin)
         return 0;
 
     unsigned int drawCalls = 0;
@@ -1334,55 +1334,55 @@ unsigned int Control::drawBorder(Form* form, const Rectangle& clip) const
     if (!border.left && !border.right && !border.top && !border.bottom)
     {
         // No border, just draw the image.
-        batch->draw(_absoluteBounds.x, _absoluteBounds.y, _absoluteBounds.width, _absoluteBounds.height, center.u1, center.v1, center.u2, center.v2, skinColor, clip);
+        batch->draw(_absoluteBounds.x, _absoluteBounds.y, _absoluteBounds.width, _absoluteBounds.height, center.u1, center.v1, center.u2, center.v2, skinColor, _absoluteClipBounds);
         ++drawCalls;
     }
     else
     {
         if (border.left && border.top)
         {
-            batch->draw(_absoluteBounds.x, _absoluteBounds.y, border.left, border.top, topLeft.u1, topLeft.v1, topLeft.u2, topLeft.v2, skinColor, clip);
+            batch->draw(_absoluteBounds.x, _absoluteBounds.y, border.left, border.top, topLeft.u1, topLeft.v1, topLeft.u2, topLeft.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.top)
         {
-            batch->draw(_absoluteBounds.x + border.left, _absoluteBounds.y, midWidth, border.top, top.u1, top.v1, top.u2, top.v2, skinColor, clip);
+            batch->draw(_absoluteBounds.x + border.left, _absoluteBounds.y, midWidth, border.top, top.u1, top.v1, top.u2, top.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.right && border.top)
         {
-            batch->draw(rightX, _absoluteBounds.y, border.right, border.top, topRight.u1, topRight.v1, topRight.u2, topRight.v2, skinColor, clip);
+            batch->draw(rightX, _absoluteBounds.y, border.right, border.top, topRight.u1, topRight.v1, topRight.u2, topRight.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.left)
         {
-            batch->draw(_absoluteBounds.x, midY, border.left, midHeight, left.u1, left.v1, left.u2, left.v2, skinColor, clip);
+            batch->draw(_absoluteBounds.x, midY, border.left, midHeight, left.u1, left.v1, left.u2, left.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
 
         // Always draw the background.
         batch->draw(_absoluteBounds.x + border.left, _absoluteBounds.y + border.top, _absoluteBounds.width - border.left - border.right, _absoluteBounds.height - border.top - border.bottom,
-            center.u1, center.v1, center.u2, center.v2, skinColor, clip);
+            center.u1, center.v1, center.u2, center.v2, skinColor, _absoluteClipBounds);
         ++drawCalls;
 
         if (border.right)
         {
-            batch->draw(rightX, midY, border.right, midHeight, right.u1, right.v1, right.u2, right.v2, skinColor, clip);
+            batch->draw(rightX, midY, border.right, midHeight, right.u1, right.v1, right.u2, right.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.bottom && border.left)
         {
-            batch->draw(_absoluteBounds.x, bottomY, border.left, border.bottom, bottomLeft.u1, bottomLeft.v1, bottomLeft.u2, bottomLeft.v2, skinColor, clip);
+            batch->draw(_absoluteBounds.x, bottomY, border.left, border.bottom, bottomLeft.u1, bottomLeft.v1, bottomLeft.u2, bottomLeft.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.bottom)
         {
-            batch->draw(midX, bottomY, midWidth, border.bottom, bottom.u1, bottom.v1, bottom.u2, bottom.v2, skinColor, clip);
+            batch->draw(midX, bottomY, midWidth, border.bottom, bottom.u1, bottom.v1, bottom.u2, bottom.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
         if (border.bottom && border.right)
         {
-            batch->draw(rightX, bottomY, border.right, border.bottom, bottomRight.u1, bottomRight.v1, bottomRight.u2, bottomRight.v2, skinColor, clip);
+            batch->draw(rightX, bottomY, border.right, border.bottom, bottomRight.u1, bottomRight.v1, bottomRight.u2, bottomRight.v2, skinColor, _absoluteClipBounds);
             ++drawCalls;
         }
     }
@@ -1392,12 +1392,12 @@ unsigned int Control::drawBorder(Form* form, const Rectangle& clip) const
     return drawCalls;
 }
 
-unsigned int Control::drawImages(Form* form, const Rectangle& position) const
+unsigned int Control::drawImages(Form* form) const
 {
     return 0;
 }
 
-unsigned int Control::drawText(Form* form, const Rectangle& position) const
+unsigned int Control::drawText(Form* form) const
 {
     return 0;
 }

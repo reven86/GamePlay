@@ -263,7 +263,7 @@ unsigned int Form::draw(bool wireframe) const
     }
 
     // Draw the form
-    unsigned int drawCalls = Container::draw(const_cast<Form *>(this), _absoluteClipBounds);
+    unsigned int drawCalls = Container::draw(const_cast<Form *>(this));
 
     // Flush all batches that were queued during drawing and then empty the batch list
     if (_batched)

@@ -660,13 +660,13 @@ bool Container::updateChildBounds()
     return result;
 }
 
-unsigned int Container::draw(Form* form, const Rectangle& clip) const
+unsigned int Container::draw(Form* form) const
 {
     if (!_visible)
         return 0;
 
     // Draw container skin
-    unsigned int drawCalls = Control::draw(form, clip);
+    unsigned int drawCalls = Control::draw(form);
 
     // Draw child controls
     for (size_t i = 0, count = _controls.size(); i < count; ++i)
@@ -674,7 +674,7 @@ unsigned int Container::draw(Form* form, const Rectangle& clip) const
         Control* control = _controls[i];
         if (control && control->_absoluteClipBounds.intersects(_absoluteClipBounds))
         {
-            drawCalls += control->draw(form, _viewportClipBounds);
+            drawCalls += control->draw(form);
         }
     }
 

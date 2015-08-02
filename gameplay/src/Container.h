@@ -390,7 +390,7 @@ protected:
     /**
      * @see Control::draw
      */
-    virtual unsigned int draw(Form* form, const Rectangle& clip) const;
+    virtual unsigned int draw(Form* form) const;
 
     /**
      * Update scroll position and velocity.

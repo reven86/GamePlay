@@ -416,7 +416,7 @@ bool JoystickControl::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned i
     return Control::touchEvent(evt, x, y, contactIndex);
 }
 
-unsigned int JoystickControl::drawImages(Form* form, const Rectangle& clip) const
+unsigned int JoystickControl::drawImages(Form* form) const
 {
     const Control::State state = getState();
 

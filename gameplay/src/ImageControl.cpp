@@ -131,7 +131,7 @@ const Rectangle& ImageControl::getRegionDst() const
     return _dstRegion;
 }
 
-unsigned int ImageControl::drawImages(Form* form, const Rectangle& clip) const
+unsigned int ImageControl::drawImages(Form* form) const
 {
     if (!_batch)
         return 0;
