@@ -419,6 +419,14 @@ public:
      */
     static float lerp(float t, float from, float to);
 
+    /**
+     * Gets the InterpolationType value for the given string ID
+     *
+     * @param interpolationId The string representation of the InterpolationType
+     * @return the InterpolationType value; -1 if the string does not represent an InterpolationType.
+     */
+    static int getInterpolationType(const char* interpolationId);
+
 private:
 
     /**
@@ -532,14 +540,6 @@ private:
      * @param index The index of the Quaternion rotation data.
      */
     void setQuaternionOffset(unsigned int index);
-
-    /**
-     * Gets the InterpolationType value for the given string ID
-     *
-     * @param interpolationId The string representation of the InterpolationType
-     * @return the InterpolationType value; -1 if the string does not represent an InterpolationType.
-     */
-    static int getInterpolationType(const char* interpolationId);
 
     unsigned int _pointCount;           // Number of points on the curve.
     unsigned int _componentCount;       // Number of components on the curve.
