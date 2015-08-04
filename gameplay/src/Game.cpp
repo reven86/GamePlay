@@ -20,6 +20,7 @@ namespace gameplay
 static Game* __gameInstance = NULL;
 double Game::_pausedTimeLast = 0.0;
 double Game::_pausedTimeTotal = 0.0;
+double Game::_absoluteTime = 0.0;
 
 /**
 * @script{ignore}
@@ -66,7 +67,7 @@ Game::Game()
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
       _timeEvents(NULL), _scriptController(NULL), _scriptTarget(NULL),
-      _clearColor( 0.0f, 0.0f, 0.0f, 0.0f ), _storeController(NULL)
+      _clearColor(0.0f, 0.0f, 0.0f, 0.0f), _storeController(NULL)
 {
     GP_ASSERT(__gameInstance == NULL);
 
@@ -118,7 +119,7 @@ void Game::render(float elapsedTime)
 
 double Game::getAbsoluteTime()
 {
-    return Platform::getAbsoluteTime();
+    return _absoluteTime;
 }
 
 double Game::getGameTime()
@@ -392,7 +393,8 @@ void Game::frame()
         Platform::resizeEventInternal(_width, _height);
     }
 
-	static double lastFrameTime = Game::getGameTime();
+    _absoluteTime = Platform::getAbsoluteTime();
+    static double lastFrameTime = Game::getGameTime();
 	double frameTime = getGameTime();
 
     // Fire time events to scheduled TimeListeners
@@ -493,6 +495,7 @@ void Game::updateOnce()
     GP_ASSERT(_aiController);
 
     // Update Time.
+    _absoluteTime = Platform::getAbsoluteTime();
     static double lastFrameTime = getGameTime();
     double frameTime = getGameTime();
     float elapsedTime = (frameTime - lastFrameTime);
