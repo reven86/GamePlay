@@ -541,7 +541,7 @@ void Game::clear(ClearFlags flags, const Vector4& clearColor, float clearDepth, 
 
         if (clearDepth != _clearDepth)
         {
-            glClearDepthf(clearDepth);
+            glClearDepth(clearDepth);
             _clearDepth = clearDepth;
         }
         bits |= GL_DEPTH_BUFFER_BIT;
