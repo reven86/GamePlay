@@ -1092,6 +1092,13 @@ void Container::updateScroll()
     float elapsedTime = (float)(frameTime - _lastFrameTime);
     _lastFrameTime = frameTime;
 
+    if (elapsedTime <= 0.0f)
+    {
+        if (!_scrollingVelocity.isZero())
+            setDirty(DIRTY_BOUNDS);
+        return;
+    }
+
     const Theme::Border& containerBorder = getBorder(state);
     const Theme::Padding& containerPadding = getPadding();
 
@@ -1309,8 +1316,6 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
                 _scrollingStartTimeY = gameTime;
 
             _scrollingLastTime = gameTime;
-            setDirty(DIRTY_BOUNDS);
-            setChildrenDirty(DIRTY_BOUNDS, true);
             updateScroll();
             return false;
         }
