@@ -1317,6 +1317,8 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
 
             _scrollingLastTime = gameTime;
             updateScroll();
+            setDirty(DIRTY_BOUNDS);
+            setChildrenDirty(DIRTY_BOUNDS, true);
             return false;
         }
         break;
