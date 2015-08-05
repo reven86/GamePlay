@@ -77,6 +77,11 @@ public:
     static Material* create(Properties* materialProperties);
 
     /**
+     * Creates a new material with optional pass callback function.
+     */
+    static Material* create(Properties* materialProperties, PassCallback callback, void* cookie);
+
+    /**
      * Creates a material from the specified effect.
      *
      * The returned material has a single technique and a single pass for the
@@ -174,11 +179,6 @@ private:
      * @script{create}
      */
     Material* clone(NodeCloneContext &context) const;
-
-    /**
-     * Creates a new material with optional pass callback function.
-     */
-    static Material* create(Properties* materialProperties, PassCallback callback, void* cookie);
 
     /**
      * Loads a technique from the given properties object into the specified material.
