@@ -93,7 +93,7 @@ public:
      *
      * @return The index assigned to the new Control.
      */
-    unsigned int addControl(Control* control);
+    virtual unsigned int addControl(Control* control);
 
     /**
      * Inserts a control at a specific index.
@@ -101,14 +101,14 @@ public:
      * @param control The control to insert.
      * @param index The index at which to insert the control.
      */
-    void insertControl(Control* control, unsigned int index);
+    virtual void insertControl(Control* control, unsigned int index);
 
     /**
      * Remove a control at a specific index.
      *
      * @param index The index from which to remove the control.
      */
-    void removeControl(unsigned int index);
+    virtual void removeControl(unsigned int index);
 
     /**
      * Remove a control with the given ID.
