@@ -126,7 +126,7 @@ double Game::getGameTime()
 {
     if (__gameInstance && __gameInstance->_state == PAUSED)
         return _pausedTimeLast - _pausedTimeTotal;
-    return Platform::getAbsoluteTime() - _pausedTimeTotal;
+    return getAbsoluteTime() - _pausedTimeTotal;
 }
 
 void Game::setVsync(bool enable)
