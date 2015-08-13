@@ -1314,7 +1314,7 @@ protected:
      *
      * @param eventType The event to trigger.
      */
-    void notifyListeners(Control::Listener::EventType eventType);
+    virtual void notifyListeners(Control::Listener::EventType eventType);
 
     /**
      * Called when a control event is fired for this control, before external

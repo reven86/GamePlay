@@ -961,16 +961,14 @@ void Control::addListener(Control::Listener* listener, int eventFlags)
 {
     GP_ASSERT(listener);
 
-    Control::Listener::EventType events[] = { Control::Listener::PRESS, Control::Listener::RELEASE,
-        Control::Listener::CLICK, Control::Listener::VALUE_CHANGED, Control::Listener::TEXT_CHANGED,
-        Control::Listener::FOCUS_GAINED, Control::Listener::FOCUS_LOST, Control::Listener::ACTIVATED
-    };
+    int type = 1;
+    while (type <= eventFlags)
+    {
+        if ((eventFlags & type) != 0)
+            addSpecificListener(listener, static_cast<Control::Listener::EventType>(type));
 
-    for (int i = 0; i < sizeof(events) / sizeof(events[0]); i++)
-        if ((eventFlags & events[i]) == events[i])
-        {
-            addSpecificListener(listener, events[i]);
-        }
+        type <<= 1;
+    }
 }
 
 void Control::removeListener(Control::Listener* listener)
