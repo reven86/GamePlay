@@ -51,6 +51,7 @@ void luaRegister_Matrix()
     {
         {"add", lua_Matrix_static_add},
         {"createBillboard", lua_Matrix_static_createBillboard},
+        {"createFromEuler", lua_Matrix_static_createFromEuler},
         {"createLookAt", lua_Matrix_static_createLookAt},
         {"createOrthographic", lua_Matrix_static_createOrthographic},
         {"createOrthographicOffCenter", lua_Matrix_static_createOrthographicOffCenter},
@@ -2015,6 +2016,58 @@ int lua_Matrix_static_createBillboard(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 4 or 5).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Matrix_static_createFromEuler(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 4:
+        {
+            if (lua_type(state, 1) == LUA_TNUMBER &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER &&
+                (lua_type(state, 4) == LUA_TUSERDATA || lua_type(state, 4) == LUA_TTABLE || lua_type(state, 4) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 1);
+
+                // Get parameter 2 off the stack.
+                float param2 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 3 off the stack.
+                float param3 = (float)luaL_checknumber(state, 3);
+
+                // Get parameter 4 off the stack.
+                bool param4Valid;
+                gameplay::ScriptUtil::LuaArray<Matrix> param4 = gameplay::ScriptUtil::getObjectPointer<Matrix>(4, "Matrix", false, &param4Valid);
+                if (!param4Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 4 to type 'Matrix'.");
+                    lua_error(state);
+                }
+
+                Matrix::createFromEuler(param1, param2, param3, param4);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Matrix_static_createFromEuler - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 4).");
             lua_error(state);
             break;
         }

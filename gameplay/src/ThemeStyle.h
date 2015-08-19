@@ -112,9 +112,9 @@ private:
 
         void setTextAlignment(Font::Justify alignment);
             
-        bool getTextRightToLeft() const;
+        Font::DrawFlags getTextDrawingFlags() const;
 
-        void setTextRightToLeft(bool rightToLeft);
+        void setTextDrawingFlags(Font::DrawFlags flags);
 
         const Vector4& getTextColor() const;
 
@@ -173,7 +173,7 @@ private:
         Font* _font;
         float _fontSize;
         Font::Justify _alignment;
-        bool _textRightToLeft;
+        Font::DrawFlags _textFlags;
         Vector4 _textColor;
         float _opacity;
     };

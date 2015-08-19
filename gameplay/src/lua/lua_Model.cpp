@@ -186,25 +186,51 @@ int lua_Model_getMaterial(lua_State* state)
     {
         case 1:
         {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            do
             {
-                Model* instance = getInstance(state);
-                void* returnPtr = ((void*)instance->getMaterial());
-                if (returnPtr)
+                if ((lua_type(state, 1) == LUA_TUSERDATA))
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = false;
-                    luaL_getmetatable(state, "Material");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
+                    Model* instance = getInstance(state);
+                    void* returnPtr = ((void*)instance->getMaterial());
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Material");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
 
-                return 1;
-            }
+                    return 1;
+                }
+            } while (0);
+
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TUSERDATA))
+                {
+                    Model* instance = getInstance(state);
+                    void* returnPtr = ((void*)instance->getMaterial());
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Material");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
 
             lua_pushstring(state, "lua_Model_getMaterial - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
@@ -212,29 +238,59 @@ int lua_Model_getMaterial(lua_State* state)
         }
         case 2:
         {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TNUMBER)
+            do
             {
-                // Get parameter 1 off the stack.
-                int param1 = (int)luaL_checkint(state, 2);
-
-                Model* instance = getInstance(state);
-                void* returnPtr = ((void*)instance->getMaterial(param1));
-                if (returnPtr)
+                if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                    lua_type(state, 2) == LUA_TNUMBER)
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = false;
-                    luaL_getmetatable(state, "Material");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
+                    // Get parameter 1 off the stack.
+                    int param1 = (int)luaL_checkint(state, 2);
 
-                return 1;
-            }
+                    Model* instance = getInstance(state);
+                    void* returnPtr = ((void*)instance->getMaterial(param1));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Material");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
+
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                    lua_type(state, 2) == LUA_TNUMBER)
+                {
+                    // Get parameter 1 off the stack.
+                    int param1 = (int)luaL_checkint(state, 2);
+
+                    Model* instance = getInstance(state);
+                    void* returnPtr = ((void*)instance->getMaterial(param1));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Material");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
 
             lua_pushstring(state, "lua_Model_getMaterial - Failed to match the given parameters to a valid function signature.");
             lua_error(state);

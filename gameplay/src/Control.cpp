@@ -850,7 +850,7 @@ Font::Justify Control::getTextAlignment(State state) const
     return overlay->getTextAlignment();
 }
 
-void Control::setTextRightToLeft(bool rightToLeft, unsigned char states)
+void Control::setTextDrawingFlags(Font::DrawFlags flags, unsigned char states)
 {
     overrideStyle();
     Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
@@ -859,15 +859,15 @@ void Control::setTextRightToLeft(bool rightToLeft, unsigned char states)
     for (int i = 0; i < Theme::Style::OVERLAY_MAX; ++i)
     {
         if( overlays[i] )
-            overlays[i]->setTextRightToLeft(rightToLeft);
+            overlays[i]->setTextDrawingFlags(flags);
     }
 }
 
-bool Control::getTextRightToLeft(State state) const
+Font::DrawFlags Control::getTextDrawingFlags(State state) const
 {
     Theme::Style::Overlay* overlay = getOverlay(state);
     GP_ASSERT(overlay);
-    return overlay->getTextRightToLeft();
+    return overlay->getTextDrawingFlags();
 }
 
 Theme::Style* Control::getStyle() const
@@ -1712,7 +1712,8 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
 
     if (properties->exists("rightToLeft"))
     {
-        setTextRightToLeft(properties->getBool("rightToLeft"), states);
+        if (properties->getBool("rightToLeft"))
+            setTextDrawingFlags(Font::RIGHT_TO_LEFT, states);
     }
     if (properties->exists("opacity"))
     {

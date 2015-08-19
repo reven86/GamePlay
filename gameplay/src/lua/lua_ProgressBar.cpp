@@ -8,6 +8,7 @@
 #include "Control.h"
 #include "Form.h"
 #include "Game.h"
+#include "MaterialParameter.h"
 #include "Node.h"
 #include "ProgressBar.h"
 #include "Ref.h"
@@ -67,10 +68,9 @@ void luaRegister_ProgressBar()
         {"getStyle", lua_ProgressBar_getStyle},
         {"getTextAlignment", lua_ProgressBar_getTextAlignment},
         {"getTextColor", lua_ProgressBar_getTextColor},
-        {"getTextRightToLeft", lua_ProgressBar_getTextRightToLeft},
+        {"getTextDrawingFlags", lua_ProgressBar_getTextDrawingFlags},
         {"getTheme", lua_ProgressBar_getTheme},
         {"getTopLevelForm", lua_ProgressBar_getTopLevelForm},
-        {"getType", lua_ProgressBar_getType},
         {"getTypeName", lua_ProgressBar_getTypeName},
         {"getValue", lua_ProgressBar_getValue},
         {"getWidth", lua_ProgressBar_getWidth},
@@ -123,7 +123,7 @@ void luaRegister_ProgressBar()
         {"setStyle", lua_ProgressBar_setStyle},
         {"setTextAlignment", lua_ProgressBar_setTextAlignment},
         {"setTextColor", lua_ProgressBar_setTextColor},
-        {"setTextRightToLeft", lua_ProgressBar_setTextRightToLeft},
+        {"setTextDrawingFlags", lua_ProgressBar_setTextDrawingFlags},
         {"setValue", lua_ProgressBar_setValue},
         {"setVisible", lua_ProgressBar_setVisible},
         {"setWidth", lua_ProgressBar_setWidth},
@@ -2534,7 +2534,7 @@ int lua_ProgressBar_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTextRightToLeft(lua_State* state)
+int lua_ProgressBar_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2547,15 +2547,15 @@ int lua_ProgressBar_getTextRightToLeft(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 ProgressBar* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft();
+                Font::DrawFlags result = instance->getTextDrawingFlags();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2568,15 +2568,15 @@ int lua_ProgressBar_getTextRightToLeft(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 ProgressBar* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft(param1);
+                Font::DrawFlags result = instance->getTextDrawingFlags(param1);
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2665,41 +2665,6 @@ int lua_ProgressBar_getTopLevelForm(lua_State* state)
             }
 
             lua_pushstring(state, "lua_ProgressBar_getTopLevelForm - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_ProgressBar_getType(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                ProgressBar* instance = getInstance(state);
-                const char* result = instance->getTypeName();
-
-                // Push the return value onto the stack.
-                lua_pushstring(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_ProgressBar_getType - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -5075,7 +5040,7 @@ int lua_ProgressBar_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setTextRightToLeft(lua_State* state)
+int lua_ProgressBar_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5086,40 +5051,40 @@ int lua_ProgressBar_setTextRightToLeft(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 ProgressBar* instance = getInstance(state);
-                instance->setTextRightToLeft(param1);
+                instance->setTextDrawingFlags(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
         case 3:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN &&
+                lua_type(state, 2) == LUA_TNUMBER &&
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
 
                 ProgressBar* instance = getInstance(state);
-                instance->setTextRightToLeft(param1, param2);
+                instance->setTextDrawingFlags(param1, param2);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_ProgressBar_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ProgressBar_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

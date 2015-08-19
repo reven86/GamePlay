@@ -379,7 +379,7 @@ unsigned int TextBox::drawImages(Form* form) const
             unsigned int fontSize = getFontSize(state);
             Vector2 point;
             font->getLocationAtIndex(getDisplayedText().c_str(), _textBounds, fontSize, &point, _caretLocation, 
-                 getTextAlignment(state), true, getTextRightToLeft(state));
+                getTextAlignment(state), true, getTextDrawingFlags(state));
 
             SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
             startBatch(form, batch);
@@ -407,7 +407,7 @@ unsigned int TextBox::drawText(Form* form) const
 
         SpriteBatch* batch = _font->getSpriteBatch(fontSize);
         startBatch(form, batch);
-        _font->drawText(displayedText.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextRightToLeft(state), _viewportClipBounds);
+        _font->drawText(displayedText.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextDrawingFlags(state), _viewportClipBounds);
         finishBatch(form, batch);
 
         return 1;
@@ -436,11 +436,11 @@ void TextBox::setCaretLocation(int x, int y)
     Font* font = getFont(state);
     unsigned int fontSize = getFontSize(state);
     Font::Justify textAlignment = getTextAlignment(state);
-    bool rightToLeft = getTextRightToLeft(state);
+    Font::DrawFlags flags = getTextDrawingFlags(state);
     const std::wstring displayedText = getDisplayedText();
 
     int index = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, point, &point,
-            textAlignment, true, rightToLeft);
+        textAlignment, true, flags);
 
     if (index == -1)
     {
@@ -452,7 +452,7 @@ void TextBox::setCaretLocation(int x, int y)
             point.y > textBounds.y + textBounds.height)
         {
             font->getLocationAtIndex(displayedText.c_str(), _textBounds, fontSize, &point, (unsigned int)_text.length(),
-                textAlignment, true, rightToLeft);
+                textAlignment, true, flags);
             return;
         }
 
@@ -478,7 +478,7 @@ void TextBox::setCaretLocation(int x, int y)
         }
 
         index = font->getIndexAtLocation(displayedText.c_str(), _textBounds, fontSize, point, &point,
-            textAlignment, true, rightToLeft);
+            textAlignment, true, flags);
     }
 
     if (index != -1)
@@ -496,7 +496,7 @@ void TextBox::getCaretLocation(Vector2* p)
     GP_ASSERT(p);
 
     State state = getState();
-    getFont(state)->getLocationAtIndex(getDisplayedText().c_str(), _textBounds, getFontSize(state), p, _caretLocation, getTextAlignment(state), true, getTextRightToLeft(state));
+    getFont(state)->getLocationAtIndex(getDisplayedText().c_str(), _textBounds, getFontSize(state), p, _caretLocation, getTextAlignment(state), true, getTextDrawingFlags(state));
 }
 
 void TextBox::setPasswordChar(wchar_t character)

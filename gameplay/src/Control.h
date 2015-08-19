@@ -743,22 +743,22 @@ public:
     Font::Justify getTextAlignment(State state = NORMAL) const;
 
     /**
-     * Set whether text is drawn from right to left within this control.
+     * Set text drawing flags (whether text is drawn from right to left within this control).
      *
-     * @param rightToLeft Whether text is drawn from right to left within this control.
+     * @param flags Draw flags.
      * @param states The states to set this property on.
      *               One or more members of the Control::State enum, ORed together.
      */
-    void setTextRightToLeft(bool rightToLeft, unsigned char states = STATE_ALL);
+    void setTextDrawingFlags(Font::DrawFlags flags, unsigned char states = STATE_ALL);
 
     /**
-     * Get whether text is drawn from right to left within this control, for a given state.
+     * Get text drawing flags (whether text is drawn from right to left within this control, for a given state).
      *
      * @param state The state to get this property from.
      *
-     * @return Whether text is drawn from right to left within this control, for the given state.
+     * @return Drawing flag.
      */
-    bool getTextRightToLeft(State state = NORMAL) const;
+    Font::DrawFlags getTextDrawingFlags(State state = NORMAL) const;
 
     /**
      * Sets the visibility of a control.

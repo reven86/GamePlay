@@ -117,6 +117,7 @@ public:
 
     /**
      * Update the text being edited.
+     * @script{ignore}
      */
     void setText(wchar_t const *text) override;
 

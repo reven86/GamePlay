@@ -33,6 +33,7 @@ void luaRegister_Curve()
     const luaL_Reg lua_statics[] = 
     {
         {"create", lua_Curve_static_create},
+        {"getInterpolationType", lua_Curve_static_getInterpolationType},
         {"lerp", lua_Curve_static_lerp},
         {NULL, NULL}
     };
@@ -714,6 +715,43 @@ int lua_Curve_static_create(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Curve_static_getInterpolationType(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                const char* param1 = gameplay::ScriptUtil::getString(1, false);
+
+                int result = Curve::getInterpolationType(param1);
+
+                // Push the return value onto the stack.
+                lua_pushinteger(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Curve_static_getInterpolationType - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
             lua_error(state);
             break;
         }

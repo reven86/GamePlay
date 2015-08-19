@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "ImageControl.h"
 #include "Material.h"
+#include "MaterialParameter.h"
 #include "Node.h"
 #include "Ref.h"
 #include "ScriptController.h"
@@ -43,6 +44,7 @@ void luaRegister_ImageControl()
         {"getBounds", lua_ImageControl_getBounds},
         {"getClip", lua_ImageControl_getClip},
         {"getClipBounds", lua_ImageControl_getClipBounds},
+        {"getColor", lua_ImageControl_getColor},
         {"getConsumeInputEvents", lua_ImageControl_getConsumeInputEvents},
         {"getCursorColor", lua_ImageControl_getCursorColor},
         {"getCursorRegion", lua_ImageControl_getCursorRegion},
@@ -65,11 +67,12 @@ void luaRegister_ImageControl()
         {"getScriptEvent", lua_ImageControl_getScriptEvent},
         {"getSkinColor", lua_ImageControl_getSkinColor},
         {"getSkinRegion", lua_ImageControl_getSkinRegion},
+        {"getSpriteBatch", lua_ImageControl_getSpriteBatch},
         {"getState", lua_ImageControl_getState},
         {"getStyle", lua_ImageControl_getStyle},
         {"getTextAlignment", lua_ImageControl_getTextAlignment},
         {"getTextColor", lua_ImageControl_getTextColor},
-        {"getTextRightToLeft", lua_ImageControl_getTextRightToLeft},
+        {"getTextDrawingFlags", lua_ImageControl_getTextDrawingFlags},
         {"getTheme", lua_ImageControl_getTheme},
         {"getTopLevelForm", lua_ImageControl_getTopLevelForm},
         {"getTypeName", lua_ImageControl_getTypeName},
@@ -100,6 +103,7 @@ void luaRegister_ImageControl()
         {"setBorder", lua_ImageControl_setBorder},
         {"setBounds", lua_ImageControl_setBounds},
         {"setCanFocus", lua_ImageControl_setCanFocus},
+        {"setColor", lua_ImageControl_setColor},
         {"setConsumeInputEvents", lua_ImageControl_setConsumeInputEvents},
         {"setCursorColor", lua_ImageControl_setCursorColor},
         {"setCursorRegion", lua_ImageControl_setCursorRegion},
@@ -125,7 +129,7 @@ void luaRegister_ImageControl()
         {"setStyle", lua_ImageControl_setStyle},
         {"setTextAlignment", lua_ImageControl_setTextAlignment},
         {"setTextColor", lua_ImageControl_setTextColor},
-        {"setTextRightToLeft", lua_ImageControl_setTextRightToLeft},
+        {"setTextDrawingFlags", lua_ImageControl_setTextDrawingFlags},
         {"setVisible", lua_ImageControl_setVisible},
         {"setWidth", lua_ImageControl_setWidth},
         {"setX", lua_ImageControl_setX},
@@ -1302,6 +1306,50 @@ int lua_ImageControl_getClipBounds(lua_State* state)
     return 0;
 }
 
+int lua_ImageControl_getColor(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ImageControl* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getColor());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Vector4");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ImageControl_getColor - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ImageControl_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
@@ -2379,6 +2427,50 @@ int lua_ImageControl_getSkinRegion(lua_State* state)
     return 0;
 }
 
+int lua_ImageControl_getSpriteBatch(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ImageControl* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->getSpriteBatch());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "SpriteBatch");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ImageControl_getSpriteBatch - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_ImageControl_getState(lua_State* state)
 {
     // Get the number of parameters.
@@ -2588,7 +2680,7 @@ int lua_ImageControl_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ImageControl_getTextRightToLeft(lua_State* state)
+int lua_ImageControl_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2601,15 +2693,15 @@ int lua_ImageControl_getTextRightToLeft(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 ImageControl* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft();
+                Font::DrawFlags result = instance->getTextDrawingFlags();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_ImageControl_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ImageControl_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2622,15 +2714,15 @@ int lua_ImageControl_getTextRightToLeft(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 ImageControl* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft(param1);
+                Font::DrawFlags result = instance->getTextDrawingFlags(param1);
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_ImageControl_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ImageControl_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -3853,6 +3945,48 @@ int lua_ImageControl_setCanFocus(lua_State* state)
             }
 
             lua_pushstring(state, "lua_ImageControl_setCanFocus - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_ImageControl_setColor(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Vector4> param1 = gameplay::ScriptUtil::getObjectPointer<Vector4>(2, "Vector4", true, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector4'.");
+                    lua_error(state);
+                }
+
+                ImageControl* instance = getInstance(state);
+                instance->setColor(*param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ImageControl_setColor - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -5209,7 +5343,7 @@ int lua_ImageControl_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ImageControl_setTextRightToLeft(lua_State* state)
+int lua_ImageControl_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5220,40 +5354,40 @@ int lua_ImageControl_setTextRightToLeft(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 ImageControl* instance = getInstance(state);
-                instance->setTextRightToLeft(param1);
+                instance->setTextDrawingFlags(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_ImageControl_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ImageControl_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
         case 3:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN &&
+                lua_type(state, 2) == LUA_TNUMBER &&
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
 
                 ImageControl* instance = getInstance(state);
-                instance->setTextRightToLeft(param1, param2);
+                instance->setTextDrawingFlags(param1, param2);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_ImageControl_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_ImageControl_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

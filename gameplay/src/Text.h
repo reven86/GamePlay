@@ -126,20 +126,20 @@ public:
     bool getWrap() const;
     
     /**
-     * Sets if the text is rendered right-to-left.
+     * Sets drawing flags.
      *
-     * @param rightToLeft true if the text is rendered right-to-left, false if left-to-right.
+     * @param flags Drawing flags.
      */
-    void setRightToLeft(bool rightToLeft);
+    void setFlags(Font::DrawFlags flags);
     
     /**
-     * Sets if the text is rendered right-to-left.
+     * Gets drawing flags.
      *
-     * Default is false (left-to-right)
+     * Default is LEFT_TO_RIGHT
      *
-     * @return rightToLeft true if the text is rendered right-to-left, false if left-to-right.
+     * @return flags Drawing flags.
      */
-    bool getRightToLeft() const;
+    Font::DrawFlags getFlags() const;
     
     /**
      * Sets the justification to align the text within the text bounds.
@@ -263,7 +263,7 @@ private:
     float _width;
     float _height;
     bool _wrap;
-    bool _rightToLeft;
+    Font::DrawFlags _flags;
     Font::Justify _align;
     Rectangle _clip;
     float _opacity;

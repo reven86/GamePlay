@@ -78,6 +78,7 @@ public:
 
     /**
      * Creates a new material with optional pass callback function.
+     * @script{ignore}
      */
     static Material* create(Properties* materialProperties, PassCallback callback, void* cookie);
 

@@ -69,7 +69,7 @@ void luaRegister_Button()
         {"getStyle", lua_Button_getStyle},
         {"getTextAlignment", lua_Button_getTextAlignment},
         {"getTextColor", lua_Button_getTextColor},
-        {"getTextRightToLeft", lua_Button_getTextRightToLeft},
+        {"getTextDrawingFlags", lua_Button_getTextDrawingFlags},
         {"getTheme", lua_Button_getTheme},
         {"getTopLevelForm", lua_Button_getTopLevelForm},
         {"getWidth", lua_Button_getWidth},
@@ -121,7 +121,7 @@ void luaRegister_Button()
         {"setStyle", lua_Button_setStyle},
         {"setTextAlignment", lua_Button_setTextAlignment},
         {"setTextColor", lua_Button_setTextColor},
-        {"setTextRightToLeft", lua_Button_setTextRightToLeft},
+        {"setTextDrawingFlags", lua_Button_setTextDrawingFlags},
         {"setVisible", lua_Button_setVisible},
         {"setWidth", lua_Button_setWidth},
         {"setX", lua_Button_setX},
@@ -2496,7 +2496,7 @@ int lua_Button_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTextRightToLeft(lua_State* state)
+int lua_Button_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2509,15 +2509,15 @@ int lua_Button_getTextRightToLeft(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Button* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft();
+                Font::DrawFlags result = instance->getTextDrawingFlags();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Button_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Button_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2530,15 +2530,15 @@ int lua_Button_getTextRightToLeft(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Button* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft(param1);
+                Font::DrawFlags result = instance->getTextDrawingFlags(param1);
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Button_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Button_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -4896,7 +4896,7 @@ int lua_Button_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_setTextRightToLeft(lua_State* state)
+int lua_Button_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4907,40 +4907,40 @@ int lua_Button_setTextRightToLeft(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 Button* instance = getInstance(state);
-                instance->setTextRightToLeft(param1);
+                instance->setTextDrawingFlags(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Button_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Button_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
         case 3:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN &&
+                lua_type(state, 2) == LUA_TNUMBER &&
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
 
                 Button* instance = getInstance(state);
-                instance->setTextRightToLeft(param1, param2);
+                instance->setTextDrawingFlags(param1, param2);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Button_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Button_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

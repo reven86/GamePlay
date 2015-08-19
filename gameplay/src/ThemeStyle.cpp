@@ -98,7 +98,7 @@ Theme::Style::Overlay* Theme::Style::Overlay::create()
 
 Theme::Style::Overlay::Overlay()
     : _skin(NULL), _cursor(NULL), _imageList(NULL), _font(NULL),
-    _fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textRightToLeft(false), _textColor(Vector4::one()), _opacity(1.0f)
+    _fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textFlags(Font::LEFT_TO_RIGHT), _textColor(Vector4::one()), _opacity(1.0f)
 {
 }
 
@@ -120,7 +120,7 @@ Theme::Style::Overlay::Overlay(const Overlay& copy) : _skin(NULL), _cursor(NULL)
     _font = copy._font;
     _fontSize = copy._fontSize;
     _alignment = copy._alignment;
-    _textRightToLeft = copy._textRightToLeft;
+    _textFlags = copy._textFlags;
     _textColor = Vector4(copy._textColor);
     _opacity = copy._opacity;
 
@@ -255,14 +255,14 @@ void Theme::Style::Overlay::setTextAlignment(Font::Justify alignment)
     _alignment = alignment;
 }
 
-bool Theme::Style::Overlay::getTextRightToLeft() const
+Font::DrawFlags Theme::Style::Overlay::getTextDrawingFlags() const
 {
-    return _textRightToLeft;
+    return _textFlags;
 }
 
-void Theme::Style::Overlay::setTextRightToLeft(bool rightToLeft)
+void Theme::Style::Overlay::setTextDrawingFlags(Font::DrawFlags flags)
 {
-    _textRightToLeft = rightToLeft;
+    _textFlags = flags;
 }
 
 const Vector4& Theme::Style::Overlay::getTextColor() const

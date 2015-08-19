@@ -281,7 +281,8 @@ Theme* Theme::create(const char* url)
                     normal->setFont(font);
                     normal->setFontSize(fontSize);
                     normal->setTextAlignment(textAlignment);
-                    normal->setTextRightToLeft(rightToLeft);
+                    if (rightToLeft)
+                        normal->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
                     normal->setOpacity(opacity);
 
                     if (font)
@@ -373,7 +374,7 @@ Theme* Theme::create(const char* url)
                     }
                     else
                     {
-                        rightToLeft = normal->getTextRightToLeft();
+                        rightToLeft = (normal->getTextDrawingFlags() & Font::RIGHT_TO_LEFT) != 0;
                     }
 
                     float opacity;
@@ -417,7 +418,8 @@ Theme* Theme::create(const char* url)
                         focus->setFont(font);
                         focus->setFontSize(fontSize);
                         focus->setTextAlignment(textAlignment);
-                        focus->setTextRightToLeft(rightToLeft);
+                        if (rightToLeft)
+                            focus->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
                         focus->setOpacity(opacity);
 
                         if (font)
@@ -437,7 +439,8 @@ Theme* Theme::create(const char* url)
                         active->setFont(font);
                         active->setFontSize(fontSize);
                         active->setTextAlignment(textAlignment);
-                        active->setTextRightToLeft(rightToLeft);
+                        if (rightToLeft)
+                            active->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
                         active->setOpacity(opacity);
 
                         if (font)
@@ -457,7 +460,8 @@ Theme* Theme::create(const char* url)
                         disabled->setFont(font);
                         disabled->setFontSize(fontSize);
                         disabled->setTextAlignment(textAlignment);
-                        disabled->setTextRightToLeft(rightToLeft);
+                        if (rightToLeft)
+                            disabled->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
                         disabled->setOpacity(opacity);
 
                         if (font)
@@ -477,7 +481,8 @@ Theme* Theme::create(const char* url)
                         hover->setFont(font);
                         hover->setFontSize(fontSize);
                         hover->setTextAlignment(textAlignment);
-                        hover->setTextRightToLeft(rightToLeft);
+                        if (rightToLeft)
+                            hover->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
                         hover->setOpacity(opacity);
 
                         if (font)

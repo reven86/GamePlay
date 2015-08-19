@@ -35,6 +35,7 @@ int lua_Matrix_setIdentity(lua_State* state);
 int lua_Matrix_setZero(lua_State* state);
 int lua_Matrix_static_add(lua_State* state);
 int lua_Matrix_static_createBillboard(lua_State* state);
+int lua_Matrix_static_createFromEuler(lua_State* state);
 int lua_Matrix_static_createLookAt(lua_State* state);
 int lua_Matrix_static_createOrthographic(lua_State* state);
 int lua_Matrix_static_createOrthographicOffCenter(lua_State* state);

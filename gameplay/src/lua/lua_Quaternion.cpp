@@ -12,12 +12,14 @@ void luaRegister_Quaternion()
 {
     const luaL_Reg lua_members[] = 
     {
+        {"computeEuler", lua_Quaternion_computeEuler},
         {"conjugate", lua_Quaternion_conjugate},
         {"inverse", lua_Quaternion_inverse},
         {"isIdentity", lua_Quaternion_isIdentity},
         {"isZero", lua_Quaternion_isZero},
         {"multiply", lua_Quaternion_multiply},
         {"normalize", lua_Quaternion_normalize},
+        {"rotatePoint", lua_Quaternion_rotatePoint},
         {"set", lua_Quaternion_set},
         {"setIdentity", lua_Quaternion_setIdentity},
         {"toAxisAngle", lua_Quaternion_toAxisAngle},
@@ -30,6 +32,7 @@ void luaRegister_Quaternion()
     const luaL_Reg lua_statics[] = 
     {
         {"createFromAxisAngle", lua_Quaternion_static_createFromAxisAngle},
+        {"createFromEuler", lua_Quaternion_static_createFromEuler},
         {"createFromRotationMatrix", lua_Quaternion_static_createFromRotationMatrix},
         {"identity", lua_Quaternion_static_identity},
         {"lerp", lua_Quaternion_static_lerp},
@@ -287,6 +290,50 @@ int lua_Quaternion__init(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 0, 1, 2 or 4).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Quaternion_computeEuler(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 4:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TLIGHTUSERDATA) &&
+                (lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TLIGHTUSERDATA) &&
+                (lua_type(state, 4) == LUA_TTABLE || lua_type(state, 4) == LUA_TLIGHTUSERDATA))
+            {
+                // Get parameter 1 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param1 = gameplay::ScriptUtil::getFloatPointer(2);
+
+                // Get parameter 2 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param2 = gameplay::ScriptUtil::getFloatPointer(3);
+
+                // Get parameter 3 off the stack.
+                gameplay::ScriptUtil::LuaArray<float> param3 = gameplay::ScriptUtil::getFloatPointer(4);
+
+                Quaternion* instance = getInstance(state);
+                instance->computeEuler(param1, param2, param3);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Quaternion_computeEuler - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 4).");
             lua_error(state);
             break;
         }
@@ -589,6 +636,58 @@ int lua_Quaternion_normalize(lua_State* state)
     return 0;
 }
 
+int lua_Quaternion_rotatePoint(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TNIL) &&
+                (lua_type(state, 3) == LUA_TUSERDATA || lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                bool param1Valid;
+                gameplay::ScriptUtil::LuaArray<Vector3> param1 = gameplay::ScriptUtil::getObjectPointer<Vector3>(2, "Vector3", true, &param1Valid);
+                if (!param1Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 1 to type 'Vector3'.");
+                    lua_error(state);
+                }
+
+                // Get parameter 2 off the stack.
+                bool param2Valid;
+                gameplay::ScriptUtil::LuaArray<Vector3> param2 = gameplay::ScriptUtil::getObjectPointer<Vector3>(3, "Vector3", false, &param2Valid);
+                if (!param2Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 2 to type 'Vector3'.");
+                    lua_error(state);
+                }
+
+                Quaternion* instance = getInstance(state);
+                instance->rotatePoint(*param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Quaternion_rotatePoint - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Quaternion_set(lua_State* state)
 {
     // Get the number of parameters.
@@ -804,6 +903,58 @@ int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Quaternion_static_createFromEuler(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 4:
+        {
+            if (lua_type(state, 1) == LUA_TNUMBER &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER &&
+                (lua_type(state, 4) == LUA_TUSERDATA || lua_type(state, 4) == LUA_TTABLE || lua_type(state, 4) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 1);
+
+                // Get parameter 2 off the stack.
+                float param2 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 3 off the stack.
+                float param3 = (float)luaL_checknumber(state, 3);
+
+                // Get parameter 4 off the stack.
+                bool param4Valid;
+                gameplay::ScriptUtil::LuaArray<Quaternion> param4 = gameplay::ScriptUtil::getObjectPointer<Quaternion>(4, "Quaternion", false, &param4Valid);
+                if (!param4Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 4 to type 'Quaternion'.");
+                    lua_error(state);
+                }
+
+                Quaternion::createFromEuler(param1, param2, param3, param4);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Quaternion_static_createFromEuler - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 4).");
             lua_error(state);
             break;
         }

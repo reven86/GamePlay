@@ -7,7 +7,7 @@ namespace gameplay
 {
   
 Text::Text() :
-    _font(NULL), _drawFont(NULL), _text(L""), _size(0), _width(0), _height(0), _wrap(true), _rightToLeft(false),
+    _font(NULL), _drawFont(NULL), _text(L""), _size(0), _width(0), _height(0), _wrap(true), _flags(Font::LEFT_TO_RIGHT),
     _align(Font::ALIGN_TOP_LEFT), _clip(Rectangle(0, 0, 0, 0)),
     _opacity(1.0f), _color(Vector4::one())
 {
@@ -160,14 +160,14 @@ bool Text::getWrap() const
     return _wrap;
 }
     
-void Text::setRightToLeft(bool rightToLeft)
+void Text::setFlags(Font::DrawFlags flags)
 {
-    _rightToLeft = rightToLeft;
+    _flags = flags;
 }
 
-bool Text::getRightToLeft() const
+Font::DrawFlags Text::getFlags() const
 {
-    return _rightToLeft;
+    return _flags;
 }
 
 void Text::setJustify(Font::Justify align)
@@ -221,7 +221,7 @@ Drawable* Text::clone(NodeCloneContext& context)
     textClone->_width = _width;
     textClone->_height = _height;
     textClone->_wrap = _wrap;
-    textClone->_rightToLeft = _rightToLeft;
+    textClone->_flags = _flags;
     textClone->_align = _align;
     textClone->_clip = _clip;
     textClone->_opacity = _opacity;
@@ -267,7 +267,7 @@ unsigned int Text::draw(bool wireframe) const
     _drawFont->start();
     _drawFont->drawText(_text.c_str(), Rectangle(position.x, position.y, _width, _height),
                     Vector4(_color.x, _color.y, _color.z, _color.w * _opacity), _size,
-                    _align, _wrap, _rightToLeft, clipViewport);
+                    _align, _wrap, _flags, clipViewport);
     _drawFont->finish();
     return 1;
 }

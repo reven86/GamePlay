@@ -72,7 +72,7 @@ void luaRegister_Slider()
         {"getStyle", lua_Slider_getStyle},
         {"getTextAlignment", lua_Slider_getTextAlignment},
         {"getTextColor", lua_Slider_getTextColor},
-        {"getTextRightToLeft", lua_Slider_getTextRightToLeft},
+        {"getTextDrawingFlags", lua_Slider_getTextDrawingFlags},
         {"getTheme", lua_Slider_getTheme},
         {"getTopLevelForm", lua_Slider_getTopLevelForm},
         {"getTypeName", lua_Slider_getTypeName},
@@ -133,7 +133,7 @@ void luaRegister_Slider()
         {"setStyle", lua_Slider_setStyle},
         {"setTextAlignment", lua_Slider_setTextAlignment},
         {"setTextColor", lua_Slider_setTextColor},
-        {"setTextRightToLeft", lua_Slider_setTextRightToLeft},
+        {"setTextDrawingFlags", lua_Slider_setTextDrawingFlags},
         {"setValue", lua_Slider_setValue},
         {"setValueTextAlignment", lua_Slider_setValueTextAlignment},
         {"setValueTextPrecision", lua_Slider_setValueTextPrecision},
@@ -2652,7 +2652,7 @@ int lua_Slider_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Slider_getTextRightToLeft(lua_State* state)
+int lua_Slider_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2665,15 +2665,15 @@ int lua_Slider_getTextRightToLeft(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Slider* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft();
+                Font::DrawFlags result = instance->getTextDrawingFlags();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Slider_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Slider_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2686,15 +2686,15 @@ int lua_Slider_getTextRightToLeft(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Slider* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft(param1);
+                Font::DrawFlags result = instance->getTextDrawingFlags(param1);
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Slider_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Slider_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -5371,7 +5371,7 @@ int lua_Slider_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Slider_setTextRightToLeft(lua_State* state)
+int lua_Slider_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5382,40 +5382,40 @@ int lua_Slider_setTextRightToLeft(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 Slider* instance = getInstance(state);
-                instance->setTextRightToLeft(param1);
+                instance->setTextDrawingFlags(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Slider_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Slider_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
         case 3:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN &&
+                lua_type(state, 2) == LUA_TNUMBER &&
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
 
                 Slider* instance = getInstance(state);
-                instance->setTextRightToLeft(param1, param2);
+                instance->setTextDrawingFlags(param1, param2);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Slider_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Slider_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

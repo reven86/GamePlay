@@ -5,7 +5,9 @@
 #include "Animation.h"
 #include "AnimationTarget.h"
 #include "Base.h"
+#include "Drawable.h"
 #include "Game.h"
+#include "MaterialParameter.h"
 #include "Matrix.h"
 #include "Node.h"
 #include "Ref.h"
@@ -28,22 +30,22 @@ void luaRegister_Text()
         {"getAnimation", lua_Text_getAnimation},
         {"getClip", lua_Text_getClip},
         {"getColor", lua_Text_getColor},
+        {"getFlags", lua_Text_getFlags},
         {"getHeight", lua_Text_getHeight},
         {"getJustify", lua_Text_getJustify},
         {"getNode", lua_Text_getNode},
         {"getOpacity", lua_Text_getOpacity},
         {"getRefCount", lua_Text_getRefCount},
-        {"getRightToLeft", lua_Text_getRightToLeft},
         {"getSize", lua_Text_getSize},
         {"getWidth", lua_Text_getWidth},
         {"getWrap", lua_Text_getWrap},
         {"release", lua_Text_release},
         {"setClip", lua_Text_setClip},
         {"setColor", lua_Text_setColor},
+        {"setFlags", lua_Text_setFlags},
         {"setHeight", lua_Text_setHeight},
         {"setJustify", lua_Text_setJustify},
         {"setOpacity", lua_Text_setOpacity},
-        {"setRightToLeft", lua_Text_setRightToLeft},
         {"setWidth", lua_Text_setWidth},
         {"setWrap", lua_Text_setWrap},
         {NULL, NULL}
@@ -551,9 +553,30 @@ int lua_Text_draw(lua_State* state)
             lua_error(state);
             break;
         }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Text* instance = getInstance(state);
+                unsigned int result = instance->draw(param1);
+
+                // Push the return value onto the stack.
+                lua_pushunsigned(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Text_draw - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
             lua_error(state);
             break;
         }
@@ -710,6 +733,41 @@ int lua_Text_getColor(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Text_getColor - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Text_getFlags(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Text* instance = getInstance(state);
+                Font::DrawFlags result = instance->getFlags();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, (int)result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Text_getFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -894,41 +952,6 @@ int lua_Text_getRefCount(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Text_getRefCount - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Text_getRightToLeft(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                Text* instance = getInstance(state);
-                bool result = instance->getRightToLeft();
-
-                // Push the return value onto the stack.
-                lua_pushboolean(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_Text_getRightToLeft - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -1163,6 +1186,42 @@ int lua_Text_setColor(lua_State* state)
     return 0;
 }
 
+int lua_Text_setFlags(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
+
+                Text* instance = getInstance(state);
+                instance->setFlags(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Text_setFlags - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
 int lua_Text_setHeight(lua_State* state)
 {
     // Get the number of parameters.
@@ -1258,42 +1317,6 @@ int lua_Text_setOpacity(lua_State* state)
             }
 
             lua_pushstring(state, "lua_Text_setOpacity - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-int lua_Text_setRightToLeft(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
-            {
-                // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
-
-                Text* instance = getInstance(state);
-                instance->setRightToLeft(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_Text_setRightToLeft - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

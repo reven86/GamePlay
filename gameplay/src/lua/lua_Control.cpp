@@ -66,7 +66,7 @@ void luaRegister_Control()
         {"getStyle", lua_Control_getStyle},
         {"getTextAlignment", lua_Control_getTextAlignment},
         {"getTextColor", lua_Control_getTextColor},
-        {"getTextRightToLeft", lua_Control_getTextRightToLeft},
+        {"getTextDrawingFlags", lua_Control_getTextDrawingFlags},
         {"getTheme", lua_Control_getTheme},
         {"getTopLevelForm", lua_Control_getTopLevelForm},
         {"getTypeName", lua_Control_getTypeName},
@@ -119,7 +119,7 @@ void luaRegister_Control()
         {"setStyle", lua_Control_setStyle},
         {"setTextAlignment", lua_Control_setTextAlignment},
         {"setTextColor", lua_Control_setTextColor},
-        {"setTextRightToLeft", lua_Control_setTextRightToLeft},
+        {"setTextDrawingFlags", lua_Control_setTextDrawingFlags},
         {"setVisible", lua_Control_setVisible},
         {"setWidth", lua_Control_setWidth},
         {"setX", lua_Control_setX},
@@ -2493,7 +2493,7 @@ int lua_Control_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTextRightToLeft(lua_State* state)
+int lua_Control_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2506,15 +2506,15 @@ int lua_Control_getTextRightToLeft(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Control* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft();
+                Font::DrawFlags result = instance->getTextDrawingFlags();
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Control_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Control_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -2527,15 +2527,15 @@ int lua_Control_getTextRightToLeft(lua_State* state)
                 Control::State param1 = (Control::State)luaL_checkint(state, 2);
 
                 Control* instance = getInstance(state);
-                bool result = instance->getTextRightToLeft(param1);
+                Font::DrawFlags result = instance->getTextDrawingFlags(param1);
 
                 // Push the return value onto the stack.
-                lua_pushboolean(state, result);
+                lua_pushnumber(state, (int)result);
 
                 return 1;
             }
 
-            lua_pushstring(state, "lua_Control_getTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Control_getTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
@@ -4928,7 +4928,7 @@ int lua_Control_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_setTextRightToLeft(lua_State* state)
+int lua_Control_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4939,40 +4939,40 @@ int lua_Control_setTextRightToLeft(lua_State* state)
         case 2:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN)
+                lua_type(state, 2) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 Control* instance = getInstance(state);
-                instance->setTextRightToLeft(param1);
+                instance->setTextDrawingFlags(param1);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Control_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Control_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }
         case 3:
         {
             if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TBOOLEAN &&
+                lua_type(state, 2) == LUA_TNUMBER &&
                 lua_type(state, 3) == LUA_TNUMBER)
             {
                 // Get parameter 1 off the stack.
-                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+                Font::DrawFlags param1 = (Font::DrawFlags)luaL_checkint(state, 2);
 
                 // Get parameter 2 off the stack.
                 unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
 
                 Control* instance = getInstance(state);
-                instance->setTextRightToLeft(param1, param2);
+                instance->setTextDrawingFlags(param1, param2);
                 
                 return 0;
             }
 
-            lua_pushstring(state, "lua_Control_setTextRightToLeft - Failed to match the given parameters to a valid function signature.");
+            lua_pushstring(state, "lua_Control_setTextDrawingFlags - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

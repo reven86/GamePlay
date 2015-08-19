@@ -52,6 +52,16 @@ public:
     };
 
     /**
+     * Defines flags to render text.
+     */
+    enum DrawFlags
+    {
+        LEFT_TO_RIGHT = 0x00,       //@< Default drawing behavior, text is rendered left to right
+        RIGHT_TO_LEFT = 0x01,       //@< Whether to draw text from right to left.
+        DRAW_VERTICAL_CCW = 0x02,   //@< Text is rotated 90 degrees counter clockwise.
+    };
+
+    /**
      * Defines the format of the font.
      */
     enum Format
@@ -120,10 +130,10 @@ public:
      * @param y The viewport y position to draw text at.
      * @param color The color of text.
      * @param size The size to draw text (0 for default size).
-     * @param rightToLeft Whether to draw text from right to left.
+     * @param flags Drawing flags.
      * @script{ignore}
      */
-    void drawText(const wchar_t* text, float x, float y, const Vector4& color, float size = 0, bool rightToLeft = false) const;
+    void drawText(const wchar_t* text, float x, float y, const Vector4& color, float size = 0, DrawFlags flags = LEFT_TO_RIGHT) const;
 
     /**
      * Draws the specified text in a solid color, with a scaling factor.
@@ -136,10 +146,10 @@ public:
      * @param blue The blue channel of the text color.
      * @param alpha The alpha channel of the text color.
      * @param size The size to draw text (0 for default size).
-     * @param rightToLeft Whether to draw text from right to left.
+     * @param flags Drawing flags.
      * @script{ignore}
      */
-    void drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, bool rightToLeft = false) const;
+    void drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, DrawFlags flags = LEFT_TO_RIGHT) const;
 
     /**
      * Draws the specified text within a rectangular area, with a specified alignment and scale.
@@ -151,12 +161,12 @@ public:
      * @param size The size to draw text (0 for default size).
      * @param justify Justification of text within the viewport.
      * @param wrap Wraps text to fit within the width of the viewport if true.
-     * @param rightToLeft Whether to draw text from right to left.
+     * @param flags Drawing flags.
      * @param clip A region to clip text within after applying justification to the viewport area.
      * @script{ignore}
      */
     void drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size = 0, 
-                  Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false, const Rectangle& clip = Rectangle(0, 0, 0, 0)) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT, const Rectangle& clip = Rectangle(0, 0, 0, 0)) const;
 
     /**
      * Finishes text batching for this font and renders all drawn text.
@@ -216,14 +226,14 @@ public:
      * @script{ignore}
      */
     int getIndexAtLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
-                           Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
 
     /**
      * Get the location of the character at the given index.
      * @script{ignore}
      */
     void getLocationAtIndex(const wchar_t* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
-                            Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
 
     /**
      * Gets the sprite batch used to draw this Font.
@@ -322,11 +332,11 @@ private:
      */
     static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture, Font::Format format);
 
-    void getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, bool rightToLeft,
+    void getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, DrawFlags flags,
                             std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const;
 
     int getIndexOrLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
-                           const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool rightToLeft = false) const;
+        const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
 
     float getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale) const;
 
@@ -337,7 +347,7 @@ private:
                          const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1) const;
 
     void addLineInfo(const Rectangle& area, float lineWidth, int lineLength, Justify hAlign,
-                     std::vector<float>* xPositions, std::vector<unsigned int>* lineLengths, bool rightToLeft) const;
+        std::vector<float>* xPositions, std::vector<unsigned int>* lineLengths, DrawFlags flags) const;
 
     //! Returns glyph index by character code or -1.
     int getGlyphIndexByCode( int characterCode ) const;

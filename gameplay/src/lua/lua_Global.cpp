@@ -300,10 +300,11 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::TEXT_CHANGED, "TEXT_CHANGED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::MIDDLE_CLICK, "MIDDLE_CLICK", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::RIGHT_CLICK, "RIGHT_CLICK", scopePath);
-        gameplay::ScriptUtil::registerEnumValue(Control::Listener::ENTER, "ENTER", scopePath);
-        gameplay::ScriptUtil::registerEnumValue(Control::Listener::LEAVE, "LEAVE", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Control::Listener::ACTIVATED, "ACTIVATED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::FOCUS_GAINED, "FOCUS_GAINED", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Control::Listener::FOCUS_LOST, "FOCUS_LOST", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Control::Listener::ENTER, "ENTER", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Control::Listener::LEAVE, "LEAVE", scopePath);
     }
 
     // Register enumeration Control::State.
@@ -376,6 +377,15 @@ void luaRegister_lua_Global()
         scopePath.push_back("DepthStencilTarget");
         gameplay::ScriptUtil::registerEnumValue(DepthStencilTarget::DEPTH, "DEPTH", scopePath);
         gameplay::ScriptUtil::registerEnumValue(DepthStencilTarget::DEPTH_STENCIL, "DEPTH_STENCIL", scopePath);
+    }
+
+    // Register enumeration Font::DrawFlags.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("Font");
+        gameplay::ScriptUtil::registerEnumValue(Font::LEFT_TO_RIGHT, "LEFT_TO_RIGHT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Font::RIGHT_TO_LEFT, "RIGHT_TO_LEFT", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Font::DRAW_VERTICAL_CCW, "DRAW_VERTICAL_CCW", scopePath);
     }
 
     // Register enumeration Font::Format.
@@ -999,8 +1009,14 @@ void luaRegister_lua_Global()
         scopePath.push_back("Texture");
         gameplay::ScriptUtil::registerEnumValue(Texture::UNKNOWN, "UNKNOWN", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Texture::RGB, "RGB", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::RGB888, "RGB888", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::RGB565, "RGB565", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Texture::RGBA, "RGBA", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::RGBA8888, "RGBA8888", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::RGBA4444, "RGBA4444", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::RGBA5551, "RGBA5551", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Texture::ALPHA, "ALPHA", scopePath);
+        gameplay::ScriptUtil::registerEnumValue(Texture::DEPTH, "DEPTH", scopePath);
     }
 
     // Register enumeration Texture::Type.

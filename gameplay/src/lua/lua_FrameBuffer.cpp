@@ -156,9 +156,40 @@ int lua_FrameBuffer_bind(lua_State* state)
             lua_error(state);
             break;
         }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNONE)
+            {
+                // Get parameter 1 off the stack.
+                GP_WARN("Attempting to get parameter 1 with unrecognized type GLenum as an unsigned integer.");
+                GLenum param1 = (GLenum)luaL_checkunsigned(state, 2);
+
+                FrameBuffer* instance = getInstance(state);
+                void* returnPtr = ((void*)instance->bind(param1));
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "FrameBuffer");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_FrameBuffer_bind - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
             lua_error(state);
             break;
         }
@@ -719,9 +750,38 @@ int lua_FrameBuffer_static_bindDefault(lua_State* state)
             return 1;
             break;
         }
+        case 1:
+        {
+            if (lua_type(state, 1) == LUA_TNONE)
+            {
+                // Get parameter 1 off the stack.
+                GP_WARN("Attempting to get parameter 1 with unrecognized type GLenum as an unsigned integer.");
+                GLenum param1 = (GLenum)luaL_checkunsigned(state, 1);
+
+                void* returnPtr = ((void*)FrameBuffer::bindDefault(param1));
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "FrameBuffer");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_FrameBuffer_static_bindDefault - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 0).");
+            lua_pushstring(state, "Invalid number of parameters (expected 0 or 1).");
             lua_error(state);
             break;
         }
@@ -807,9 +867,52 @@ int lua_FrameBuffer_static_create(lua_State* state)
             lua_error(state);
             break;
         }
+        case 4:
+        {
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
+                    lua_type(state, 2) == LUA_TNUMBER &&
+                    lua_type(state, 3) == LUA_TNUMBER &&
+                    lua_type(state, 4) == LUA_TNUMBER)
+                {
+                    // Get parameter 1 off the stack.
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
+
+                    // Get parameter 2 off the stack.
+                    unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                    // Get parameter 3 off the stack.
+                    unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 3);
+
+                    // Get parameter 4 off the stack.
+                    Texture::Format param4 = (Texture::Format)luaL_checkint(state, 4);
+
+                    void* returnPtr = ((void*)FrameBuffer::create(param1, param2, param3, param4));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = true;
+                        luaL_getmetatable(state, "FrameBuffer");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
+
+            lua_pushstring(state, "lua_FrameBuffer_static_create - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
         default:
         {
-            lua_pushstring(state, "Invalid number of parameters (expected 1 or 3).");
+            lua_pushstring(state, "Invalid number of parameters (expected 1, 3 or 4).");
             lua_error(state);
             break;
         }
