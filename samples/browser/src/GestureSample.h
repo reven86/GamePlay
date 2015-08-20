@@ -42,7 +42,7 @@ protected:
 private:
 
     Font* _font;
-    std::list<std::string> _eventLog;
+    std::list<std::wstring> _eventLog;
 };
 
 #endif

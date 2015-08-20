@@ -33,7 +33,7 @@ private:
     bool _wrap;
     bool _ignoreClip;
     bool _useViewport;
-    bool _rightToLeft;
+    Font::DrawFlags _textFlags;
     bool _simple;
     Font::Justify _alignment;
     std::vector<Font*> _fonts;

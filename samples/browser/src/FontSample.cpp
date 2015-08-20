@@ -26,7 +26,7 @@ std::string _fontFiles[] =
 };
 
 FontSample::FontSample()
-    : _form(NULL), _stateBlock(NULL), _size(18), _wrap(true), _ignoreClip(false), _useViewport(true), _rightToLeft(false), _simple(false), _alignment(Font::ALIGN_LEFT),
+    : _form(NULL), _stateBlock(NULL), _size(18), _wrap(true), _ignoreClip(false), _useViewport(true), _textFlags(Font::LEFT_TO_RIGHT), _simple(false), _alignment(Font::ALIGN_LEFT),
       _fontsCount(FONT_COUNT), _fontIndex(0), _font(NULL), _viewport(250, 100, 512, 200)
 {
 }
@@ -116,7 +116,7 @@ void FontSample::render(float elapsedTime)
         // Sample simple versions of measureText, drawText.
         float w, h;
         _font->measureText(_sampleString.c_str(), _size, &w, &h);
-        _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), _size, _rightToLeft);
+        _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), _size, _textFlags);
 
         _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
         _font->drawText(L".", _viewport.x, _viewport.y + h, Vector4::fromColor(0x00ff00ff), _size);
@@ -128,7 +128,7 @@ void FontSample::render(float elapsedTime)
         // Sample viewport versions.
         gameplay::Rectangle area;
         _font->measureText(_sampleString.c_str(), _viewport, _size, &area, _alignment, _wrap, _ignoreClip);
-        _font->drawText(_sampleString.c_str(), _useViewport? _viewport : area, Vector4::fromColor(0xffffffff), _size, _alignment, _wrap, _rightToLeft);
+        _font->drawText(_sampleString.c_str(), _useViewport ? _viewport : area, Vector4::fromColor(0xffffffff), _size, _alignment, _wrap, _textFlags);
     
         _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
         _font->drawText(L".", _viewport.x, _viewport.y + _viewport.height, Vector4::fromColor(0x00ff00ff), _size);
@@ -191,12 +191,17 @@ void FontSample::controlEvent(Control* control, EventType evt)
     }
     else if (strcmp(id, "reverseButton") == 0)
     {
-        _rightToLeft = !_rightToLeft;
         Button* reverseButton = static_cast<Button*>(control);
-        if (_rightToLeft)
+        if ((_textFlags & Font::RIGHT_TO_LEFT) != 0)
+        {
+            _textFlags = Font::LEFT_TO_RIGHT;
             reverseButton->setText(L"Reverse Text (On)");
+        }
         else
+        {
+            _textFlags = Font::RIGHT_TO_LEFT;
             reverseButton->setText(L"Reverse Text (Off)");
+        }
     }
     else if (strcmp(id, "switchClipRegionButton") == 0)
     {

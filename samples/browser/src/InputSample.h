@@ -53,9 +53,9 @@ private:
     std::set<int> _downKeys;
     Vector2 _mousePoint;
     Vector2 _mouseWheelPoint;
-    std::string _keyboardString;
-    std::string _symbolsString;
-    std::string _mouseString;
+    std::wstring _keyboardString;
+    std::wstring _symbolsString;
+    std::wstring _mouseString;
     Font* _font;
     Form* _inputSampleControls;
     int _mouseWheel;

@@ -8,10 +8,10 @@
 /**
  * Returns the string representation of the given key.
  */
-static const char* keyString(int key);
+static const wchar_t* keyString(int key);
 
 InputSample::InputSample()
-    :  _mouseString("No Mouse"), _font(NULL), _inputSampleControls(NULL), _mouseWheel(0), _crosshair(NULL),
+    :  _mouseString(L"No Mouse"), _font(NULL), _inputSampleControls(NULL), _mouseWheel(0), _crosshair(NULL),
        _scene(NULL), _formNode(NULL), _formNodeParent(NULL)
 {
 }
@@ -63,7 +63,7 @@ void InputSample::initialize()
     Label* label = Label::create("sensorLabel", theme->getStyle("iconNoBorder"));
     label->setPosition(25, 15);
     label->setSize(175, 50);
-    label->setText("Raw sensor response (accel/gyro)");
+    label->setText(L"Raw sensor response (accel/gyro)");
     form->addControl(label);
     label->release();
     _formNode->setScale(0.0015f, 0.0015f, 1.0f);
@@ -129,10 +129,10 @@ void InputSample::render(float elapsedTime)
     _inputSampleControls->draw();
 
     // Draw text
-    unsigned int fontSize = 18;
+    float fontSize = 18;
     Vector4 fontColor(1.0f, 1.0f, 1.0f, 1.0f);
-    unsigned int width, height;
-    char buffer[50];
+    float width, height;
+    wchar_t buffer[50];
 
     _font->start();
     
@@ -147,18 +147,18 @@ void InputSample::render(float elapsedTime)
     {
         for (std::list<TouchPoint>::const_iterator it = _touchPoints.begin(); it != _touchPoints.end(); ++it)
         {
-            sprintf(buffer, "T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
+            swprintf(buffer, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
             _font->measureText(buffer, fontSize, &width, &height);
-            int x = it->_coord.x - (int)(width>>1);
-            int y = it->_coord.y - (int)(height>>1);
+            int x = it->_coord.x - (int)(width * 0.5f);
+            int y = it->_coord.y - (int)(height * 0.5f);
             _font->drawText(buffer, x, y, fontColor, fontSize);
         }
 
         // Mouse
-        sprintf(buffer, "M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
+        swprintf(buffer, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
         _font->measureText(buffer, fontSize, &width, &height);
-        int x = _mousePoint.x - (int)(width>>1);
-        int y = _mousePoint.y - (int)(height>>1);
+        int x = _mousePoint.x - (int)(width * 0.5f);
+        int y = _mousePoint.y - (int)(height * 0.5f);
         _font->drawText(buffer, x, y, fontColor, fontSize);
         if (!_keyboardState && _mouseString.length() > 0)
         {
@@ -167,9 +167,9 @@ void InputSample::render(float elapsedTime)
         }
         if (_mouseWheel)
         {
-            sprintf(buffer, "%d", _mouseWheel);
+            swprintf(buffer, L"%d", _mouseWheel);
             _font->measureText(buffer, fontSize, &width, &height);
-            int x = _mouseWheelPoint.x - (int)(width>>1);
+            int x = _mouseWheelPoint.x - (int)(width * 0.5f);
             int y = _mouseWheelPoint.y + 4;
             _font->drawText(buffer, x, y, fontColor, fontSize);
         }
@@ -190,15 +190,15 @@ void InputSample::render(float elapsedTime)
     // Held keys
     if (!_downKeys.empty())
     {
-        std::string displayKeys;
+        std::wstring displayKeys;
         for (std::set<int>::const_iterator i = _downKeys.begin(); i != _downKeys.end(); ++i)
         {
-            const char* str = keyString(*i);
+            const wchar_t* str = keyString(*i);
             displayKeys.append(str);
         }
         if (!displayKeys.empty())
         {
-            _font->measureText(displayKeys.c_str(), 18, &width, &height);
+            _font->measureText(displayKeys.c_str(), 18.0f, &width, &height);
             int x = Game::getInstance()->getWidth() - width;
             int y = 0;
             _font->drawText(displayKeys.c_str(), x, y, fontColor, fontSize);
@@ -218,7 +218,7 @@ void InputSample::render(float elapsedTime)
     {
         _formNode->getDrawable()->draw();
 
-        sprintf(buffer, "Pitch: %f   Roll: %f", pitch, roll);
+        swprintf(buffer, L"Pitch: %f   Roll: %f", pitch, roll);
         _font->measureText(buffer, 18, &width, &height);
         _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, fontSize);
     }
@@ -300,25 +300,25 @@ bool InputSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta
     switch (evt)
     {
     case Mouse::MOUSE_PRESS_LEFT_BUTTON:
-        _mouseString.append("MOUSE_PRESS_LEFT_BUTTON");
+        _mouseString.append(L"MOUSE_PRESS_LEFT_BUTTON");
         break;
     case Mouse::MOUSE_RELEASE_LEFT_BUTTON:
-        _mouseString.append("MOUSE_RELEASE_LEFT_BUTTON");
+        _mouseString.append(L"MOUSE_RELEASE_LEFT_BUTTON");
         break;
     case Mouse::MOUSE_PRESS_MIDDLE_BUTTON:
-        _mouseString.append("MOUSE_PRESS_MIDDLE_BUTTON");
+        _mouseString.append(L"MOUSE_PRESS_MIDDLE_BUTTON");
         break;
     case Mouse::MOUSE_RELEASE_MIDDLE_BUTTON:
-        _mouseString.append("MOUSE_RELEASE_MIDDLE_BUTTON");
+        _mouseString.append(L"MOUSE_RELEASE_MIDDLE_BUTTON");
         break;
     case Mouse::MOUSE_PRESS_RIGHT_BUTTON:
-        _mouseString.append("MOUSE_PRESS_RIGHT_BUTTON");
+        _mouseString.append(L"MOUSE_PRESS_RIGHT_BUTTON");
         break;
     case Mouse::MOUSE_RELEASE_RIGHT_BUTTON:
-        _mouseString.append("MOUSE_RELEASE_RIGHT_BUTTON");
+        _mouseString.append(L"MOUSE_RELEASE_RIGHT_BUTTON");
         break;
     case Mouse::MOUSE_MOVE:
-        _mouseString.append("MOUSE_MOVE");
+        _mouseString.append(L"MOUSE_MOVE");
         if (isMouseCaptured())
         {
             // Control crosshair from captured mouse
@@ -331,7 +331,7 @@ bool InputSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta
         }
         break;
     case Mouse::MOUSE_WHEEL:
-        _mouseString.append("MOUSE_WHEEL");
+        _mouseString.append(L"MOUSE_WHEEL");
         _mouseWheelPoint.x = x;
         _mouseWheelPoint.y = y;
         _mouseWheel = wheelDelta;
@@ -347,7 +347,7 @@ void InputSample::keyEvent(Keyboard::KeyEvent evt, int key)
     case Keyboard::KEY_PRESS:
         _keyboardString.clear();
         _keyboardString.append(keyString(key));
-        _keyboardString.append(" pressed");
+        _keyboardString.append(L" pressed");
         _downKeys.insert(key);
 
         if (key == Keyboard::KEY_ESCAPE)
@@ -363,7 +363,7 @@ void InputSample::keyEvent(Keyboard::KeyEvent evt, int key)
     case Keyboard::KEY_RELEASE:
         _keyboardString.clear();
         _keyboardString.append(keyString(key));
-        _keyboardString.append(" released");
+        _keyboardString.append(L" released");
         _downKeys.erase(key);
         break;
     case Keyboard::KEY_CHAR:
@@ -386,7 +386,7 @@ void InputSample::controlEvent(Control* control, EventType evt)
     {
         _keyboardState = !_keyboardState;
         displayKeyboard(_keyboardState);
-        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? "Hide virtual keyboard" : "Show virtual keyboard");
+        static_cast<Button*>(_inputSampleControls->getControl("showKeyboardButton"))->setText(_keyboardState ? L"Hide virtual keyboard" : L"Show virtual keyboard");
     }
     else if (strcmp(control->getId(), "captureMouseButton") == 0 && hasMouse())
     {
@@ -412,325 +412,325 @@ void InputSample::setCaptured(bool captured)
             (float)getHeight()/2.0f + _crosshairLowerLimit.y);
     }
 }
-const char* keyString(int key)
+const wchar_t* keyString(int key)
 {
     // This function is helpful for finding collisions in the Keyboard::Key enum.
     switch (key)
     {
     case Keyboard::KEY_NONE:
-        return "NONE";
+        return L"NONE";
     case Keyboard::KEY_PAUSE:
-        return "PAUSE";
+        return L"PAUSE";
     case Keyboard::KEY_SCROLL_LOCK:
-        return "SCROLL_LOCK";
+        return L"SCROLL_LOCK";
     case Keyboard::KEY_PRINT:
-        return "PRINT";
+        return L"PRINT";
     case Keyboard::KEY_SYSREQ:
-        return "SYSREQ";
+        return L"SYSREQ";
     case Keyboard::KEY_BREAK:
-        return "BREAK";
+        return L"BREAK";
     case Keyboard::KEY_ESCAPE:
-        return "ESCAPE";
+        return L"ESCAPE";
     case Keyboard::KEY_BACKSPACE:
-        return "BACKSPACE";
+        return L"BACKSPACE";
     case Keyboard::KEY_TAB:
-        return "TAB";
+        return L"TAB";
     case Keyboard::KEY_BACK_TAB:
-        return "BACK_TAB";
+        return L"BACK_TAB";
     case Keyboard::KEY_RETURN:
-        return "RETURN";
+        return L"RETURN";
     case Keyboard::KEY_CAPS_LOCK:
-        return "CAPS_LOCK";
+        return L"CAPS_LOCK";
     case Keyboard::KEY_SHIFT:
-        return "SHIFT";
+        return L"SHIFT";
     case Keyboard::KEY_CTRL:
-        return "CTRL";
+        return L"CTRL";
     case Keyboard::KEY_ALT:
-        return "ALT";
+        return L"ALT";
     case Keyboard::KEY_MENU:
-        return "MENU";
+        return L"MENU";
     case Keyboard::KEY_HYPER:
-        return "HYPER";
+        return L"HYPER";
     case Keyboard::KEY_INSERT:
-        return "INSERT";
+        return L"INSERT";
     case Keyboard::KEY_HOME:
-        return "HOME";
+        return L"HOME";
     case Keyboard::KEY_PG_UP:
-        return "PG_UP";
+        return L"PG_UP";
     case Keyboard::KEY_DELETE:
-        return "DELETE";
+        return L"DELETE";
     case Keyboard::KEY_END:
-        return "END";
+        return L"END";
     case Keyboard::KEY_PG_DOWN:
-        return "PG_DOWN";
+        return L"PG_DOWN";
     case Keyboard::KEY_LEFT_ARROW:
-        return "LEFT_ARROW";
+        return L"LEFT_ARROW";
     case Keyboard::KEY_RIGHT_ARROW:
-        return "RIGHT_ARROW";
+        return L"RIGHT_ARROW";
     case Keyboard::KEY_UP_ARROW:
-        return "UP_ARROW";
+        return L"UP_ARROW";
     case Keyboard::KEY_DOWN_ARROW:
-        return "DOWN_ARROW";
+        return L"DOWN_ARROW";
     case Keyboard::KEY_NUM_LOCK:
-        return "NUM_LOCK";
+        return L"NUM_LOCK";
     case Keyboard::KEY_KP_PLUS:
-        return "KP_PLUS";
+        return L"KP_PLUS";
     case Keyboard::KEY_KP_MINUS:
-        return "KP_MINUS";
+        return L"KP_MINUS";
     case Keyboard::KEY_KP_MULTIPLY:
-        return "KP_MULTIPLY";
+        return L"KP_MULTIPLY";
     case Keyboard::KEY_KP_DIVIDE:
-        return "KP_DIVIDE";
+        return L"KP_DIVIDE";
     case Keyboard::KEY_KP_ENTER:
-        return "KP_ENTER";
+        return L"KP_ENTER";
     case Keyboard::KEY_KP_HOME:
-        return "KP_HOME";
+        return L"KP_HOME";
     case Keyboard::KEY_KP_UP:
-        return "KP_UP";
+        return L"KP_UP";
     case Keyboard::KEY_KP_PG_UP:
-        return "KP_PG_UP";
+        return L"KP_PG_UP";
     case Keyboard::KEY_KP_LEFT:
-        return "KP_LEFT";
+        return L"KP_LEFT";
     case Keyboard::KEY_KP_FIVE:
-        return "KP_FIVE";
+        return L"KP_FIVE";
     case Keyboard::KEY_KP_RIGHT:
-        return "KP_RIGHT";
+        return L"KP_RIGHT";
     case Keyboard::KEY_KP_END:
-        return "KP_END";
+        return L"KP_END";
     case Keyboard::KEY_KP_DOWN:
-        return "KP_DOWN";
+        return L"KP_DOWN";
     case Keyboard::KEY_KP_PG_DOWN:
-        return "KP_PG_DOWN";
+        return L"KP_PG_DOWN";
     case Keyboard::KEY_KP_INSERT:
-        return "KP_INSERT";
+        return L"KP_INSERT";
     case Keyboard::KEY_KP_DELETE:
-        return "KP_DELETE";
+        return L"KP_DELETE";
     case Keyboard::KEY_F1:
-        return "F1";
+        return L"F1";
     case Keyboard::KEY_F2:
-        return "F2";
+        return L"F2";
     case Keyboard::KEY_F3:
-        return "F3";
+        return L"F3";
     case Keyboard::KEY_F4:
-        return "F4";
+        return L"F4";
     case Keyboard::KEY_F5:
-        return "F5";
+        return L"F5";
     case Keyboard::KEY_F6:
-        return "F6";
+        return L"F6";
     case Keyboard::KEY_F7:
-        return "F7";
+        return L"F7";
     case Keyboard::KEY_F8:
-        return "F8";
+        return L"F8";
     case Keyboard::KEY_F9:
-        return "F9";
+        return L"F9";
     case Keyboard::KEY_F10:
-        return "F10";
+        return L"F10";
     case Keyboard::KEY_F11:
-        return "F11";
+        return L"F11";
     case Keyboard::KEY_F12:
-        return "F12";
+        return L"F12";
     case Keyboard::KEY_SPACE:
-        return "SPACE";
+        return L"SPACE";
     case Keyboard::KEY_EXCLAM:
-        return "!";
+        return L"!";
     case Keyboard::KEY_QUOTE:
-        return "\"";
+        return L"\"";
     case Keyboard::KEY_NUMBER:
-        return "#";
+        return L"#";
     case Keyboard::KEY_DOLLAR:
-        return "$";
+        return L"$";
     case Keyboard::KEY_PERCENT:
-        return "%";
+        return L"%";
     case Keyboard::KEY_CIRCUMFLEX:
-        return "^";
+        return L"^";
     case Keyboard::KEY_AMPERSAND:
-        return "&";
+        return L"&";
     case Keyboard::KEY_APOSTROPHE:
-        return "'";
+        return L"'";
     case Keyboard::KEY_LEFT_PARENTHESIS:
-        return "(";
+        return L"(";
     case Keyboard::KEY_RIGHT_PARENTHESIS:
-        return ")";
+        return L")";
     case Keyboard::KEY_ASTERISK:
-        return "*";
+        return L"*";
     case Keyboard::KEY_PLUS:
-        return "+";
+        return L"+";
     case Keyboard::KEY_COMMA:
-        return ",";
+        return L",";
     case Keyboard::KEY_MINUS:
-        return "-";
+        return L"-";
     case Keyboard::KEY_PERIOD:
-        return ".";
+        return L".";
     case Keyboard::KEY_SLASH:
-        return "/";
+        return L"/";
     case Keyboard::KEY_ZERO:
-        return "0";
+        return L"0";
     case Keyboard::KEY_ONE:
-        return "1";
+        return L"1";
     case Keyboard::KEY_TWO:
-        return "2";
+        return L"2";
     case Keyboard::KEY_THREE:
-        return "3";
+        return L"3";
     case Keyboard::KEY_FOUR:
-        return "4";
+        return L"4";
     case Keyboard::KEY_FIVE:
-        return "5";
+        return L"5";
     case Keyboard::KEY_SIX:
-        return "6";
+        return L"6";
     case Keyboard::KEY_SEVEN:
-        return "7";
+        return L"7";
     case Keyboard::KEY_EIGHT:
-        return "8";
+        return L"8";
     case Keyboard::KEY_NINE:
-        return "9";
+        return L"9";
     case Keyboard::KEY_COLON:
-        return ":";
+        return L":";
     case Keyboard::KEY_SEMICOLON:
-        return ";";
+        return L";";
     case Keyboard::KEY_LESS_THAN:
-        return "<";
+        return L"<";
     case Keyboard::KEY_EQUAL:
-        return "=";
+        return L"=";
     case Keyboard::KEY_GREATER_THAN:
-        return ">";
+        return L">";
     case Keyboard::KEY_QUESTION:
-        return "?";
+        return L"?";
     case Keyboard::KEY_AT:
-        return "@";
+        return L"@";
     case Keyboard::KEY_CAPITAL_A:
-        return "A";
+        return L"A";
     case Keyboard::KEY_CAPITAL_B:
-        return "B";
+        return L"B";
     case Keyboard::KEY_CAPITAL_C:
-        return "C";
+        return L"C";
     case Keyboard::KEY_CAPITAL_D:
-        return "D";
+        return L"D";
     case Keyboard::KEY_CAPITAL_E:
-        return "E";
+        return L"E";
     case Keyboard::KEY_CAPITAL_F:
-        return "F";
+        return L"F";
     case Keyboard::KEY_CAPITAL_G:
-        return "G";
+        return L"G";
     case Keyboard::KEY_CAPITAL_H:
-        return "H";
+        return L"H";
     case Keyboard::KEY_CAPITAL_I:
-        return "I";
+        return L"I";
     case Keyboard::KEY_CAPITAL_J:
-        return "J";
+        return L"J";
     case Keyboard::KEY_CAPITAL_K:
-        return "K";
+        return L"K";
     case Keyboard::KEY_CAPITAL_L:
-        return "L";
+        return L"L";
     case Keyboard::KEY_CAPITAL_M:
-        return "M";
+        return L"M";
     case Keyboard::KEY_CAPITAL_N:
-        return "N";
+        return L"N";
     case Keyboard::KEY_CAPITAL_O:
-        return "O";
+        return L"O";
     case Keyboard::KEY_CAPITAL_P:
-        return "P";
+        return L"P";
     case Keyboard::KEY_CAPITAL_Q:
-        return "Q";
+        return L"Q";
     case Keyboard::KEY_CAPITAL_R:
-        return "R";
+        return L"R";
     case Keyboard::KEY_CAPITAL_S:
-        return "S";
+        return L"S";
     case Keyboard::KEY_CAPITAL_T:
-        return "T";
+        return L"T";
     case Keyboard::KEY_CAPITAL_U:
-        return "U";
+        return L"U";
     case Keyboard::KEY_CAPITAL_V:
-        return "V";
+        return L"V";
     case Keyboard::KEY_CAPITAL_W:
-        return "W";
+        return L"W";
     case Keyboard::KEY_CAPITAL_X:
-        return "X";
+        return L"X";
     case Keyboard::KEY_CAPITAL_Y:
-        return "Y";
+        return L"Y";
     case Keyboard::KEY_CAPITAL_Z:
-        return "Z";
+        return L"Z";
     case Keyboard::KEY_LEFT_BRACKET:
-        return "[";
+        return L"[";
     case Keyboard::KEY_BACK_SLASH:
-        return "\\";
+        return L"\\";
     case Keyboard::KEY_RIGHT_BRACKET:
-        return "]";
+        return L"]";
     case Keyboard::KEY_UNDERSCORE:
-        return "_";
+        return L"_";
     case Keyboard::KEY_GRAVE:
-        return "`";
+        return L"`";
     case Keyboard::KEY_A:
-        return "a";
+        return L"a";
     case Keyboard::KEY_B:
-        return "b";
+        return L"b";
     case Keyboard::KEY_C:
-        return "c";
+        return L"c";
     case Keyboard::KEY_D:
-        return "d";
+        return L"d";
     case Keyboard::KEY_E:
-        return "e";
+        return L"e";
     case Keyboard::KEY_F:
-        return "f";
+        return L"f";
     case Keyboard::KEY_G:
-        return "g";
+        return L"g";
     case Keyboard::KEY_H:
-        return "h";
+        return L"h";
     case Keyboard::KEY_I:
-        return "i";
+        return L"i";
     case Keyboard::KEY_J:
-        return "j";
+        return L"j";
     case Keyboard::KEY_K:
-        return "k";
+        return L"k";
     case Keyboard::KEY_L:
-        return "l";
+        return L"l";
     case Keyboard::KEY_M:
-        return "m";
+        return L"m";
     case Keyboard::KEY_N:
-        return "n";
+        return L"n";
     case Keyboard::KEY_O:
-        return "o";
+        return L"o";
     case Keyboard::KEY_P:
-        return "p";
+        return L"p";
     case Keyboard::KEY_Q:
-        return "q";
+        return L"q";
     case Keyboard::KEY_R:
-        return "r";
+        return L"r";
     case Keyboard::KEY_S:
-        return "s";
+        return L"s";
     case Keyboard::KEY_T:
-        return "t";
+        return L"t";
     case Keyboard::KEY_U:
-        return "u";
+        return L"u";
     case Keyboard::KEY_V:
-        return "v";
+        return L"v";
     case Keyboard::KEY_W:
-        return "w";
+        return L"w";
     case Keyboard::KEY_X:
-        return "x";
+        return L"x";
     case Keyboard::KEY_Y:
-        return "y";
+        return L"y";
     case Keyboard::KEY_Z:
-        return "z";
+        return L"z";
     case Keyboard::KEY_LEFT_BRACE:
-        return "{";
+        return L"{";
     case Keyboard::KEY_BAR:
-        return "|";
+        return L"|";
     case Keyboard::KEY_RIGHT_BRACE:
-        return "}";
+        return L"}";
     case Keyboard::KEY_TILDE:
-        return "~";
+        return L"~";
     case Keyboard::KEY_EURO:
-        return "EURO";
+        return L"EURO";
     case Keyboard::KEY_POUND:
-        return "POUND";
+        return L"POUND";
     case Keyboard::KEY_YEN:
-        return "YEN";
+        return L"YEN";
     case Keyboard::KEY_MIDDLE_DOT:
-        return "MIDDLE DOT";
+        return L"MIDDLE DOT";
     case Keyboard::KEY_SEARCH:
-        return "SEARCH";
+        return L"SEARCH";
     default:
-        return "";
+        return L"";
     };
-    return "";
+    return L"";
 }

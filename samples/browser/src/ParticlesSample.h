@@ -87,15 +87,15 @@ private:
     
     std::string toString(bool b);
     
-    std::string toString(int i);
+    std::wstring toString(int i);
     
-    std::string toString(unsigned int i);
+    std::wstring toString(unsigned int i);
     
     std::string toString(const Vector3& v);
     
     std::string toString(const Vector4& v);
     
-    std::string toString(const Quaternion& q);
+    std::wstring toString(const Quaternion& q);
     
     std::string toString(ParticleEmitter::BlendMode blendMode);
 
