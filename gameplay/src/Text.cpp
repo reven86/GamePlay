@@ -45,7 +45,7 @@ Text* Text::create(const char* fontPath, const wchar_t* str, const Vector4& colo
         size = drawFont->_size;
     }
     float widthOut, heightOut;
-    font->measureText(str, size, &widthOut, &heightOut);
+    font->measureText(str, size, Font::LEFT_TO_RIGHT, &widthOut, &heightOut);
     Text* text = new Text();
     text->_font = font;
     text->_drawFont = drawFont;

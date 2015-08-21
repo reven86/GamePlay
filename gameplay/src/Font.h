@@ -59,6 +59,7 @@ public:
         LEFT_TO_RIGHT = 0x00,       //@< Default drawing behavior, text is rendered left to right
         RIGHT_TO_LEFT = 0x01,       //@< Whether to draw text from right to left.
         DRAW_VERTICAL_CCW = 0x02,   //@< Text is rotated 90 degrees counter clockwise.
+        DRAW_VERTICAL_CW = 0x04     //@< Text is rotated 90 degrees clockwise.
     };
 
     /**
@@ -178,11 +179,12 @@ public:
      *
      * @param text The text to measure.
      * @param size The font height to scale to.
+     * @param flags Text's flags.
      * @param widthOut Destination for the text's width.
      * @param heightOut Destination for the text's height.
      * @script{ignore}
      */
-    void measureText(const wchar_t* text, float size, float* widthOut, float* heightOut) const;
+    void measureText(const wchar_t* text, float size, DrawFlags flags, float* widthOut, float* heightOut) const;
 
     /**
      * Measures a string's bounding box after alignment, wrapping and clipping within a viewport.
@@ -190,6 +192,7 @@ public:
      * @param text The text to measure.
      * @param clip The clip rectangle.
      * @param size The font height to scale to.
+     * @param flags Text's flags.
      * @param out Destination rectangle to store the bounds in.
      * @param justify Justification of text within the viewport.
      * @param wrap Whether to measure text with wrapping applied.
@@ -197,7 +200,7 @@ public:
      *                within the given viewport; true for bounds that are guaranteed to fit the entire string of text.
      * @script{ignore}
      */
-    void measureText(const wchar_t* text, const Rectangle& clip, float size, Rectangle* out,
+    void measureText(const wchar_t* text, const Rectangle& clip, float size, DrawFlags flags, Rectangle* out,
                      Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool ignoreClip = false) const;
 
     /**

@@ -115,9 +115,8 @@ void FontSample::render(float elapsedTime)
     {
         // Sample simple versions of measureText, drawText.
         float w, h;
-        _font->measureText(_sampleString.c_str(), _size, &w, &h);
+        _font->measureText(_sampleString.c_str(), _size, _textFlags, &w, &h);
         _font->drawText(_sampleString.c_str(), _viewport.x, _viewport.y, Vector4::fromColor(0xff0000ff), _size, _textFlags);
-
         _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
         _font->drawText(L".", _viewport.x, _viewport.y + h, Vector4::fromColor(0x00ff00ff), _size);
         _font->drawText(L"'", _viewport.x + w, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
@@ -127,7 +126,8 @@ void FontSample::render(float elapsedTime)
     {
         // Sample viewport versions.
         gameplay::Rectangle area;
-        _font->measureText(_sampleString.c_str(), _viewport, _size, &area, _alignment, _wrap, _ignoreClip);
+        _font->measureText(_sampleString.c_str(), _viewport, _size, _textFlags, &area, _alignment, _wrap, _ignoreClip);
+
         _font->drawText(_sampleString.c_str(), _useViewport ? _viewport : area, Vector4::fromColor(0xffffffff), _size, _alignment, _wrap, _textFlags);
     
         _font->drawText(L"'", _viewport.x, _viewport.y, Vector4::fromColor(0x00ff00ff), _size);
@@ -192,15 +192,26 @@ void FontSample::controlEvent(Control* control, EventType evt)
     else if (strcmp(id, "reverseButton") == 0)
     {
         Button* reverseButton = static_cast<Button*>(control);
-        if ((_textFlags & Font::RIGHT_TO_LEFT) != 0)
+        switch (_textFlags)
         {
-            _textFlags = Font::LEFT_TO_RIGHT;
-            reverseButton->setText(L"Reverse Text (On)");
-        }
-        else
-        {
+        case Font::LEFT_TO_RIGHT:
             _textFlags = Font::RIGHT_TO_LEFT;
+            reverseButton->setText(L"Reverse Text (On)");
+            break;
+        case Font::RIGHT_TO_LEFT:
+            _textFlags = Font::DRAW_VERTICAL_CCW;
+            reverseButton->setText(L"Draw vertical CCW");
+            break;
+        case Font::DRAW_VERTICAL_CCW:
+            _textFlags = Font::DRAW_VERTICAL_CW;
+            reverseButton->setText(L"Draw vertical CW");
+            break;
+        case Font::DRAW_VERTICAL_CW:
+            _textFlags = Font::LEFT_TO_RIGHT;
             reverseButton->setText(L"Reverse Text (Off)");
+            break;
+        default:
+            break;
         }
     }
     else if (strcmp(id, "switchClipRegionButton") == 0)

@@ -103,7 +103,7 @@ void Label::updateBounds()
         // This is a trade-off for functionality vs performance, but changing the size of UI controls on hover/focus/etc
         // is a pretty bad practice so we'll prioritize performance here.
         float w, h;
-        _font->measureText(_text.c_str(), getFontSize(NORMAL), &w, &h);
+        _font->measureText(_text.c_str(), getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &w, &h);
         if (_autoSize & AUTO_SIZE_WIDTH)
         {
             setWidthInternal(ceilf(w + getBorder(NORMAL).left + getBorder(NORMAL).right + getPadding().left + getPadding().right));
@@ -115,7 +115,7 @@ void Label::updateBounds()
             {
                 gameplay::Rectangle clipBounds(_textBounds.width, FLT_MAX);
                 gameplay::Rectangle out;
-                _font->measureText(_text.c_str(), clipBounds, getFontSize(NORMAL), &out);
+                _font->measureText(_text.c_str(), clipBounds, getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &out);
 
                 h = out.height;
             }

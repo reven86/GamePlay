@@ -276,6 +276,24 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
         cursor = text;
     }
 
+    if ((flags & (DRAW_VERTICAL_CW | DRAW_VERTICAL_CCW)) != 0)
+    {
+        float w, h;
+        measureText(text, size, flags, &w, &h);
+
+        if ((flags & DRAW_VERTICAL_CW) != 0)
+        {
+            // vertical text, rotated clockwise, is drawn from right to left (xPos is decreased).
+            x += w;
+        }
+        else
+        {
+            // vertical text, rotated counter clockwise, is drawn from botom to top (yPos is decreased).
+            GP_ASSERT((flags & DRAW_VERTICAL_CCW) != 0);
+            y += h;
+        }
+    }
+
     float xPos = x, yPos = y;
     bool done = false;
 
@@ -374,7 +392,22 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                         // TODO: Fix me so that smaller font are much smoother
                         _cutoffParam->setVector2(Vector2(1.0, 1.0));
                     }
-                    _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                    if ((flags & DRAW_VERTICAL_CW) != 0)
+                    {
+                        float dx = xPos - x;
+                        float dy = yPos - y;
+                        _batch->draw(x - dy, y + dx + g.bearingX * scale, 0.0f, g.width * scale, size, g.uvs[0], g.uvs[3], g.uvs[2], g.uvs[1], color, gameplay::Vector2::zero(), MATH_PIOVER2);
+                    }
+                    else if ((flags & DRAW_VERTICAL_CCW) != 0)
+                    {
+                        float dx = xPos - x;
+                        float dy = yPos - y;
+                        _batch->draw(x + dy, y - dx - g.bearingX * scale, 0.0f, g.width * scale, size, g.uvs[0], g.uvs[3], g.uvs[2], g.uvs[1], color, gameplay::Vector2::zero(), -MATH_PIOVER2);
+                    }
+                    else
+                    {
+                        _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                    }
                     xPos += g.advance * scale + spacing;
                     break;
                 }
@@ -398,7 +431,7 @@ void Font::drawText(const wchar_t* text, float x, float y, float red, float gree
     drawText(text, x, y, Vector4(red, green, blue, alpha), size, flags);
 }
 
-void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size, Justify justify, bool wrap, DrawFlags flags, const Rectangle& clip) const
+void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4& color, float size, Justify justify, bool wrap, DrawFlags flags, const Rectangle& clip) const
 {
     GP_ASSERT(text);
     GP_ASSERT(_size);
@@ -413,19 +446,65 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->drawText(text, area, color, size, justify, wrap, flags, clip);
+            f->drawText(text, areaIn, color, size, justify, wrap, flags, clip);
             return;
         }
     }
 
     lazyStart();
 
+    Rectangle area(areaIn);
+
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float yPos = area.y;
-    const float areaHeight = area.height - size;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
+    bool clipText = clip != Rectangle(0, 0, 0, 0);
+
+    // For vertically drawn font assume we calculate positions of the glyphs still horizontally
+    // but rotate them at the moment of actual batch drawing. We also need to remap text's justify
+    // and swap width/height when do wrapping
+    if ((flags & DRAW_VERTICAL_CW) != 0)
+    {
+        int newJustify = 0;
+        if ((justify & ALIGN_TOP) != 0)
+            newJustify |= ALIGN_LEFT;
+        if ((justify & ALIGN_LEFT) != 0)
+            newJustify |= ALIGN_BOTTOM;
+        if ((justify & ALIGN_RIGHT) != 0)
+            newJustify |= ALIGN_TOP;
+        if ((justify & ALIGN_BOTTOM) != 0)
+            newJustify |= ALIGN_RIGHT;
+        if ((justify & ALIGN_HCENTER) != 0)
+            newJustify |= ALIGN_VCENTER;
+        if ((justify & ALIGN_VCENTER) != 0)
+            newJustify |= ALIGN_HCENTER;
+
+        justify = (Justify)newJustify;
+        std::swap(area.width, area.height);
+    }
+    else if ((flags & DRAW_VERTICAL_CCW) != 0)
+    {
+        int newJustify = 0;
+        if ((justify & ALIGN_TOP) != 0)
+            newJustify |= ALIGN_RIGHT;
+        if ((justify & ALIGN_LEFT) != 0)
+            newJustify |= ALIGN_TOP;
+        if ((justify & ALIGN_RIGHT) != 0)
+            newJustify |= ALIGN_BOTTOM;
+        if ((justify & ALIGN_BOTTOM) != 0)
+            newJustify |= ALIGN_LEFT;
+        if ((justify & ALIGN_HCENTER) != 0)
+            newJustify |= ALIGN_VCENTER;
+        if ((justify & ALIGN_VCENTER) != 0)
+            newJustify |= ALIGN_HCENTER;
+
+        justify = (Justify)newJustify;
+        std::swap(area.width, area.height);
+    }
+
+    float areaHeight = area.height - size;
 
     getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths);
 
@@ -502,7 +581,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
         firstToken = false;
 
         bool draw = true;
-        if (ceilf(yPos) < area.y - size)
+        if (ceilf(yPos) < area.y)
         {
             // Skip drawing until line break or wrap.
             draw = false;
@@ -542,13 +621,26 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
                             // TODO: Fix me so that smaller font are much smoother
                             _cutoffParam->setVector2(Vector2(1.0, 1.0));
                         }
-                        if (clip != Rectangle(0, 0, 0, 0))
+
+                        // TODO: Clipping is unsupported for vertically drawn text
+                        if ((flags & DRAW_VERTICAL_CW) != 0)
                         {
-                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, clip);
+                            float dx = xPos - area.x;
+                            float dy = yPos - area.y;
+                            _batch->draw(area.x + area.height - dy, area.y + dx + g.bearingX * scale, 0.0f, g.width * scale, size, g.uvs[0], g.uvs[3], g.uvs[2], g.uvs[1], color, gameplay::Vector2::zero(), MATH_PIOVER2);
+                        }
+                        else if ((flags & DRAW_VERTICAL_CCW) != 0)
+                        {
+                            float dx = xPos - area.x;
+                            float dy = yPos - area.y;
+                            _batch->draw(area.x + dy, area.y + area.width - dx - g.bearingX * scale, 0.0f, g.width * scale, size, g.uvs[0], g.uvs[3], g.uvs[2], g.uvs[1], color, gameplay::Vector2::zero(), -MATH_PIOVER2);
                         }
                         else
                         {
-                            _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
+                            if (clipText)
+                                _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color, clip);
+                            else
+                                _batch->draw(xPos + g.bearingX * scale, yPos, g.width * scale, size, g.uvs[0], g.uvs[1], g.uvs[2], g.uvs[3], color);
                         }
                     }
                 }
@@ -620,7 +712,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& area, const Vector4& c
     }
 }
 
-void Font::measureText(const wchar_t* text, float size, float* width, float* height) const
+void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* width, float* height) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -637,7 +729,7 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->measureText(text, size, width, height);
+            f->measureText(text, size, flags, width, height);
             return;
         }
     }
@@ -674,9 +766,12 @@ void Font::measureText(const wchar_t* text, float size, float* width, float* hei
 
         token += tokenLength;
     }
+
+    if ((flags & (DRAW_VERTICAL_CCW | DRAW_VERTICAL_CW)) != 0)
+        std::swap(*width, *height);
 }
 
-void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
+void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size, DrawFlags flags, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -692,7 +787,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->measureText(text, clip, size, out, justify, wrap, ignoreClip);
+            f->measureText(text, clipIn, size, flags, out, justify, wrap, ignoreClip);
             return;
         }
     }
@@ -701,6 +796,50 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
     {
         out->set(0, 0, 0, 0);
         return;
+    }
+
+    Rectangle clip(clipIn);
+
+    // For vertically drawn font assume we calculate positions of the glyphs still horizontally
+    // but rotate them at the moment of actual batch drawing. We also need to remap text's justify
+    // and swap width/height when do wrapping
+    if ((flags & DRAW_VERTICAL_CW) != 0)
+    {
+        int newJustify = 0;
+        if ((justify & ALIGN_TOP) != 0)
+            newJustify |= ALIGN_LEFT;
+        if ((justify & ALIGN_LEFT) != 0)
+            newJustify |= ALIGN_BOTTOM;
+        if ((justify & ALIGN_RIGHT) != 0)
+            newJustify |= ALIGN_TOP;
+        if ((justify & ALIGN_BOTTOM) != 0)
+            newJustify |= ALIGN_RIGHT;
+        if ((justify & ALIGN_HCENTER) != 0)
+            newJustify |= ALIGN_VCENTER;
+        if ((justify & ALIGN_VCENTER) != 0)
+            newJustify |= ALIGN_HCENTER;
+
+        justify = (Justify)newJustify;
+        std::swap(clip.width, clip.height);
+    }
+    else if ((flags & DRAW_VERTICAL_CCW) != 0)
+    {
+        int newJustify = 0;
+        if ((justify & ALIGN_TOP) != 0)
+            newJustify |= ALIGN_RIGHT;
+        if ((justify & ALIGN_LEFT) != 0)
+            newJustify |= ALIGN_TOP;
+        if ((justify & ALIGN_RIGHT) != 0)
+            newJustify |= ALIGN_BOTTOM;
+        if ((justify & ALIGN_BOTTOM) != 0)
+            newJustify |= ALIGN_LEFT;
+        if ((justify & ALIGN_HCENTER) != 0)
+            newJustify |= ALIGN_VCENTER;
+        if ((justify & ALIGN_VCENTER) != 0)
+            newJustify |= ALIGN_HCENTER;
+
+        justify = (Justify)newJustify;
+        std::swap(clip.width, clip.height);
     }
 
     float scale = (float)size / _size;
@@ -1022,6 +1161,25 @@ void Font::measureText(const wchar_t* text, const Rectangle& clip, float size, R
         out->y = y;
         out->width = width;
         out->height = height;
+    }
+
+    if ((flags & DRAW_VERTICAL_CW) != 0)
+    {
+        float dx = x - clip.x;
+        float dy = y - clip.y;
+
+        out->x = clip.x - dy + clip.height - out->height;
+        out->y = clip.y + dx;
+        std::swap(out->width, out->height);
+    }
+    else if ((flags & DRAW_VERTICAL_CCW) != 0)
+    {
+        float dx = x - clip.x;
+        float dy = y - clip.y;
+
+        out->x = clip.x + dy;
+        out->y = clip.y - dx + clip.width - out->width;
+        std::swap(out->width, out->height);
     }
 }
 

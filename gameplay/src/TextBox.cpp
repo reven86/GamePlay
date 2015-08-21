@@ -293,7 +293,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                                 Font::Justify textAlignment = getTextAlignment(state);
 
                                 Rectangle textBounds;
-                                font->measureText(getDisplayedText().c_str(), _bounds, fontSize, &textBounds, textAlignment, true, true);
+                                font->measureText(getDisplayedText().c_str(), _bounds, fontSize, getTextDrawingFlags(state), &textBounds, textAlignment, true, true);
 
                                 if (textBounds.width > _bounds.width || textBounds.height > _bounds.height)
                                 {
@@ -446,7 +446,7 @@ void TextBox::setCaretLocation(int x, int y)
     {
         // Attempt to find the nearest valid caret location.
         Rectangle textBounds;
-        font->measureText(displayedText.c_str(), _textBounds, fontSize, &textBounds, textAlignment, true, true);
+        font->measureText(displayedText.c_str(), _textBounds, fontSize, flags, &textBounds, textAlignment, true, true);
 
         if (point.x > textBounds.x + textBounds.width &&
             point.y > textBounds.y + textBounds.height)

@@ -148,7 +148,7 @@ void InputSample::render(float elapsedTime)
         for (std::list<TouchPoint>::const_iterator it = _touchPoints.begin(); it != _touchPoints.end(); ++it)
         {
             swprintf(buffer, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
-            _font->measureText(buffer, fontSize, &width, &height);
+            _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
             int x = it->_coord.x - (int)(width * 0.5f);
             int y = it->_coord.y - (int)(height * 0.5f);
             _font->drawText(buffer, x, y, fontColor, fontSize);
@@ -156,7 +156,7 @@ void InputSample::render(float elapsedTime)
 
         // Mouse
         swprintf(buffer, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
-        _font->measureText(buffer, fontSize, &width, &height);
+        _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
         int x = _mousePoint.x - (int)(width * 0.5f);
         int y = _mousePoint.y - (int)(height * 0.5f);
         _font->drawText(buffer, x, y, fontColor, fontSize);
@@ -168,7 +168,7 @@ void InputSample::render(float elapsedTime)
         if (_mouseWheel)
         {
             swprintf(buffer, L"%d", _mouseWheel);
-            _font->measureText(buffer, fontSize, &width, &height);
+            _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
             int x = _mouseWheelPoint.x - (int)(width * 0.5f);
             int y = _mouseWheelPoint.y + 4;
             _font->drawText(buffer, x, y, fontColor, fontSize);
@@ -198,7 +198,7 @@ void InputSample::render(float elapsedTime)
         }
         if (!displayKeys.empty())
         {
-            _font->measureText(displayKeys.c_str(), 18.0f, &width, &height);
+            _font->measureText(displayKeys.c_str(), 18.0f, Font::LEFT_TO_RIGHT, &width, &height);
             int x = Game::getInstance()->getWidth() - width;
             int y = 0;
             _font->drawText(displayKeys.c_str(), x, y, fontColor, fontSize);
@@ -219,7 +219,7 @@ void InputSample::render(float elapsedTime)
         _formNode->getDrawable()->draw();
 
         swprintf(buffer, L"Pitch: %f   Roll: %f", pitch, roll);
-        _font->measureText(buffer, 18, &width, &height);
+        _font->measureText(buffer, 18, Font::LEFT_TO_RIGHT, &width, &height);
         _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, fontSize);
     }
     _font->finish();
