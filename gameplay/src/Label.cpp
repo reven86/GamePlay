@@ -129,7 +129,7 @@ void Label::updateAbsoluteBounds(const Vector2& offset)
 {
     Control::updateAbsoluteBounds(offset);
 
-    _textBounds.set(floorf(_viewportBounds.x), floorf(_viewportBounds.y), _viewportBounds.width, _viewportBounds.height);
+    _textBounds.set(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height);
 }
 
 unsigned int Label::drawText(Form* form) const
