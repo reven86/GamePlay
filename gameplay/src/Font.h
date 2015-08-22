@@ -257,6 +257,16 @@ public:
      */
     static Justify getJustify(const char* justify);
 
+    /**
+     * Gets the DrawFlags value from the given string.
+     * Returns LEFT_TO_RIGHT if the string is unrecognized.
+     *
+     * @param flags The string such as "RIGHT_TO_LEFT" or "DRAW_VERTICAL_CW".
+     *
+     * @return The DrawFlags value.
+     */
+    static DrawFlags getDrawFlags(const char* flags);
+
 public:
 
     /**

@@ -261,6 +261,13 @@ Theme* Theme::create(const char* url)
                     }
                     bool rightToLeft = innerSpace->getBool("rightToLeft");
 
+                    const char * textFlagsString = innerSpace->getString("textFlags");
+                    Font::DrawFlags textFlags = rightToLeft ? Font::RIGHT_TO_LEFT : Font::LEFT_TO_RIGHT;
+                    if (textFlagsString)
+                    {
+                        textFlags = Font::getDrawFlags(textFlagsString);
+                    }
+
                     float opacity = 1.0f;
                     if (innerSpace->exists("opacity"))
                     {
@@ -281,8 +288,7 @@ Theme* Theme::create(const char* url)
                     normal->setFont(font);
                     normal->setFontSize(fontSize);
                     normal->setTextAlignment(textAlignment);
-                    if (rightToLeft)
-                        normal->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
+                    normal->setTextDrawingFlags(textFlags);
                     normal->setOpacity(opacity);
 
                     if (font)
@@ -367,14 +373,17 @@ Theme* Theme::create(const char* url)
                         textAlignment = normal->getTextAlignment();
                     }
 
-                    bool rightToLeft;
-                    if (innerSpace->exists("rightToLeft"))
+                    bool rightToLeft = innerSpace->getBool("rightToLeft", false);
+
+                    const char * textFlagsString = innerSpace->getString("textFlags");
+                    Font::DrawFlags textFlags = rightToLeft ? Font::RIGHT_TO_LEFT : Font::LEFT_TO_RIGHT;
+                    if (textFlagsString)
                     {
-                        rightToLeft = innerSpace->getBool("rightToLeft");
+                        textFlags = Font::getDrawFlags(textFlagsString);
                     }
                     else
                     {
-                        rightToLeft = (normal->getTextDrawingFlags() & Font::RIGHT_TO_LEFT) != 0;
+                        textFlags = normal->getTextDrawingFlags();
                     }
 
                     float opacity;
@@ -418,8 +427,7 @@ Theme* Theme::create(const char* url)
                         focus->setFont(font);
                         focus->setFontSize(fontSize);
                         focus->setTextAlignment(textAlignment);
-                        if (rightToLeft)
-                            focus->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
+                        focus->setTextDrawingFlags(textFlags);
                         focus->setOpacity(opacity);
 
                         if (font)
@@ -439,8 +447,7 @@ Theme* Theme::create(const char* url)
                         active->setFont(font);
                         active->setFontSize(fontSize);
                         active->setTextAlignment(textAlignment);
-                        if (rightToLeft)
-                            active->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
+                        active->setTextDrawingFlags(textFlags);
                         active->setOpacity(opacity);
 
                         if (font)
@@ -460,8 +467,7 @@ Theme* Theme::create(const char* url)
                         disabled->setFont(font);
                         disabled->setFontSize(fontSize);
                         disabled->setTextAlignment(textAlignment);
-                        if (rightToLeft)
-                            disabled->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
+                        disabled->setTextDrawingFlags(textFlags);
                         disabled->setOpacity(opacity);
 
                         if (font)
@@ -481,8 +487,7 @@ Theme* Theme::create(const char* url)
                         hover->setFont(font);
                         hover->setFontSize(fontSize);
                         hover->setTextAlignment(textAlignment);
-                        if (rightToLeft)
-                            hover->setTextDrawingFlags(Font::RIGHT_TO_LEFT);
+                        hover->setTextDrawingFlags(textFlags);
                         hover->setOpacity(opacity);
 
                         if (font)

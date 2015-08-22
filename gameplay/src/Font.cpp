@@ -1902,8 +1902,36 @@ Font::Justify Font::getJustify(const char* justify)
     return Font::ALIGN_TOP_LEFT;
 }
 
+Font::DrawFlags Font::getDrawFlags(const char* flags)
+{
+    if (!flags)
+    {
+        return Font::LEFT_TO_RIGHT;
+    }
 
-int Font::getGlyphIndexByCode( int characterCode ) const
+    if (strcmpnocase(flags, "RIGHT_TO_LEFT") == 0)
+    {
+        return Font::RIGHT_TO_LEFT;
+    }
+    else if (strcmpnocase(flags, "DRAW_VERTICAL_CCW") == 0)
+    {
+        return Font::DRAW_VERTICAL_CCW;
+    }
+    else if (strcmpnocase(flags, "DRAW_VERTICAL_CW") == 0)
+    {
+        return Font::DRAW_VERTICAL_CW;
+    }
+    else
+    {
+        GP_WARN("Invalid flags string: '%s'. Defaulting to LEFT_TO_RIGHT.", flags);
+    }
+
+    // Default.
+    return Font::LEFT_TO_RIGHT;
+}
+
+
+int Font::getGlyphIndexByCode(int characterCode) const
 {
     for( unsigned i = 0; i < _glyphCount; i++ )
     {

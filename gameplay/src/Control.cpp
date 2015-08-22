@@ -1710,11 +1710,18 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
         setTextAlignment(Font::getJustify(properties->getString("textAlignment")), states);
     }
 
+    // backward compatibility
     if (properties->exists("rightToLeft"))
     {
         if (properties->getBool("rightToLeft"))
             setTextDrawingFlags(Font::RIGHT_TO_LEFT, states);
     }
+
+    if (properties->exists("textFlags"))
+    {
+        setTextDrawingFlags(Font::getDrawFlags(properties->getString("textFlags")), states);
+    }
+
     if (properties->exists("opacity"))
     {
         setOpacity(properties->getFloat("opacity"), states);
