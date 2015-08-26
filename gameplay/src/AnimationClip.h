@@ -125,6 +125,14 @@ public:
     float getElapsedTime() const;
 
     /**
+     * Sets the AnimationClip's elapsed time. This method is helpful
+     * when you need to rewind animation to some point.
+     *
+     * @param time Elapsed time to be set.
+     */
+    void setElapsedTime(float time);
+
+    /**
      * Sets the AnimationClip's repeat count. Overrides repeat duration.
      *
      * Use REPEAT_INDEFINITE to play the AnimationClip indefinitely.

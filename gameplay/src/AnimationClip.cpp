@@ -98,6 +98,13 @@ float AnimationClip::getElapsedTime() const
     return _elapsedTime;
 }
 
+void AnimationClip::setElapsedTime(float time)
+{
+    float deltaTime = time - _elapsedTime;
+    _elapsedTime = time;
+    _timeStarted -= deltaTime;
+}
+
 void AnimationClip::setRepeatCount(float repeatCount)
 {
     GP_ASSERT(repeatCount == REPEAT_INDEFINITE || repeatCount > 0.0f);
