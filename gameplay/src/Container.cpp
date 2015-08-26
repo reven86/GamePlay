@@ -522,6 +522,16 @@ void Container::setChildrenDirty(int bits, bool recursive)
     }
 }
 
+void Container::setParentsDirty(int bits)
+{
+    Control* parent = this;
+    while (parent && (parent->_autoSize != AUTO_SIZE_NONE || static_cast<Container *>(parent)->getLayout()->getType() != Layout::LAYOUT_ABSOLUTE))
+    {
+        parent->setDirty(DIRTY_BOUNDS);
+        parent = parent->_parent;
+    }
+}
+
 void Container::update(float elapsedTime)
 {
     Control::update(elapsedTime);
@@ -640,21 +650,15 @@ bool Container::updateChildBounds()
         if (ctrl->isVisible())
         {
             bool changed = ctrl->updateBoundsInternal(_scrollPosition);
-
-            // If the child bounds have changed, dirty our bounds and all of our
-            // parent bounds so that our layout and/or bounds are recomputed.
-            if (changed)
-            {
-                Control* parent = this;
-                while (parent && (parent->_autoSize != AUTO_SIZE_NONE || static_cast<Container *>(parent)->getLayout()->getType() != Layout::LAYOUT_ABSOLUTE))
-                {
-                    parent->setDirty(DIRTY_BOUNDS);
-                    parent = parent->_parent;
-                }
-            }
-
             result = result || changed;
         }
+    }
+
+    // If the child bounds have changed, dirty our bounds and all of our
+    // parent bounds so that our layout and/or bounds are recomputed.
+    if (result)
+    {
+        setParentsDirty(DIRTY_BOUNDS);
     }
 
     return result;

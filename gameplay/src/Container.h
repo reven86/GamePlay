@@ -365,6 +365,13 @@ protected:
     void setChildrenDirty(int bits, bool recursive);
 
     /**
+     * Sets the specified dirty bits for all parent which size or layout depends on children.
+     *
+     * @param bits The bits to set.
+     */
+    void setParentsDirty(int bits);
+
+    /**
      * Gets a Layout::Type enum from a matching string.
      *
      * @param layoutString The layout string to parse
