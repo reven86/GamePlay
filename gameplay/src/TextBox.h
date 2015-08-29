@@ -211,6 +211,11 @@ protected:
     std::wstring getDisplayedText() const;
 
     /**
+     * @see Control::updateBounds
+     */
+    void updateBounds();
+
+    /**
      * The current location of the TextBox's caret.
      */
     unsigned int _caretLocation;

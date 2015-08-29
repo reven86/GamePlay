@@ -560,4 +560,21 @@ std::wstring TextBox::getDisplayedText() const
     return displayedText;
 }
 
+void TextBox::updateBounds()
+{
+    if (_text.empty() && _autoSize != AUTO_SIZE_NONE && _font)
+    {
+        Control::updateBounds();
+
+        if (_autoSize & AUTO_SIZE_WIDTH)
+            setWidthInternal(ceilf(getBorder(NORMAL).left + getBorder(NORMAL).right + getPadding().left + getPadding().right));
+        if (_autoSize & AUTO_SIZE_HEIGHT)
+            setHeightInternal(ceilf(getFontSize(NORMAL) + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom));
+    }
+    else
+    {
+        Label::updateBounds();
+    }
+}
+
 }
