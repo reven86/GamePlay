@@ -454,6 +454,13 @@ public:
     const Rectangle& getClip() const;
 
     /**
+     * Get the content area of this control, in screen coordinates, before clipping.
+     *
+     * @return The content area of this control.
+     */
+    const Rectangle& getContentBounds() const;
+
+    /**
      * Returns the auto sizing mode for this control.
      *
      * @return The auto size mode for this control.

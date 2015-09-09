@@ -431,6 +431,11 @@ const Rectangle& Control::getClip() const
     return _viewportClipBounds;
 }
 
+const Rectangle& Control::getContentBounds() const
+{
+    return _viewportBounds;
+}
+
 void Control::setAlignment(Alignment alignment)
 {
     if (_alignment != alignment)
