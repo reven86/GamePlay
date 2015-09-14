@@ -182,11 +182,8 @@ void RenderState::setParameterAutoBinding(const char* name, const char* autoBind
         _autoBindings[name] = autoBinding;
     }
 
-    // If we already have a node binding set, pass it to our handler now
-    if (_nodeBinding)
-    {
-        applyAutoBinding(name, autoBinding);
-    }
+    // Pass it to our handler now
+    applyAutoBinding(name, autoBinding);
 }
 
 void RenderState::setStateBlock(StateBlock* state)
@@ -235,8 +232,6 @@ void RenderState::setNodeBinding(Node* node)
 
 void RenderState::applyAutoBinding(const char* uniformName, const char* autoBinding)
 {
-    GP_ASSERT(_nodeBinding);
-
     MaterialParameter* param = getParameter(uniformName);
     GP_ASSERT(param);
 
