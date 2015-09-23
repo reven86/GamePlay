@@ -562,6 +562,10 @@ void Container::updateState(State state)
 
 void Container::updateBounds()
 {
+    // Update layout to position children correctly within us
+    GP_ASSERT(_layout);
+    _layout->update(this);
+
     // Handle automatically sizing based on our children
     if (_autoSize != AUTO_SIZE_NONE)
     {
@@ -608,10 +612,6 @@ void Container::updateBounds()
 
     // Compute total bounds of container
     Control::updateBounds();
-
-    // Update layout to position children correctly within us
-    GP_ASSERT(_layout);
-    _layout->update(this);
 }
 
 void Container::updateAbsoluteBounds(const Vector2& offset)
