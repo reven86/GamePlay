@@ -246,7 +246,24 @@ unsigned int Container::addControl(Control* control)
 	// Remove the control from its current parent
 	if( control->_parent )
 	{
-		control->_parent->removeControl( control );
+        // do not call removeControl on parent, because may clear focus and active control state
+        // and we want only to reassign control to new parent leaving all its states as they are
+        for (size_t i = 0, size = control->_parent->_controls.size(); i < size; ++i)
+        {
+            Control* c = control->_parent->_controls[i];
+            if (c == control)
+            {
+                std::vector<Control*>::iterator it = control->_parent->_controls.begin() + i;
+                control->_parent->_controls.erase(it);
+                control->_parent->setDirty(Control::DIRTY_BOUNDS);
+
+                if (control->_parent->_activeControl == control)
+                    control->_parent->_activeControl = NULL;
+
+                control->release();
+                break;
+            }
+        }
 	}
 
 	control->_parent = this;
