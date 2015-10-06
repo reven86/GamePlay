@@ -572,7 +572,7 @@ void Form::verifyRemovedControlState(Control* control)
 {
     if (__focusControl == control)
     {
-        __focusControl = NULL;
+        setFocusControl(NULL);
     }
 
     if (control->_state == ACTIVE || control->_state == HOVER)
