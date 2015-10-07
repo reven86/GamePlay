@@ -4,6 +4,7 @@
 *.layout
 *.depend
 *.pro.user
+*.bc
 .DS_Store*
 ehthumbs.db
 Icon?

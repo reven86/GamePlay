@@ -120,6 +120,7 @@ void AudioController::update(float elapsedTime)
 
 void AudioController::addPlayingSource(AudioSource* source)
 {
+#if !defined(EMSCRIPTEN)
     if (_playingSources.find(source) == _playingSources.end())
     {
         _playingSources.insert(source);
@@ -136,6 +137,7 @@ void AudioController::addPlayingSource(AudioSource* source)
                 _streamingThread.reset(new std::thread(&streamingThreadProc, this));
         }
     }
+#endif
 }
 
 void AudioController::removePlayingSource(AudioSource* source)
