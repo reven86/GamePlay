@@ -22,7 +22,7 @@ endif()
 add_subdirectory(gameplay)
 
 # gameplay samples
-add_subdirectory(samples)
+#add_subdirectory(samples)
 
 # gameplay encoder
 # A pre-compiled executable can be found in 'gameplay/bin'. Uncomment to build yourself.

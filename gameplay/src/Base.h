@@ -272,7 +272,14 @@ using std::va_list;
     #include <EGL/egl.h>
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
-    #define USE_VAO //for IE11
+    #define GP_USE_VAO //for IE11
+    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray;
+    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays;
+    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays;
+    extern PFNGLISVERTEXARRAYOESPROC glIsVertexArray;
+    #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
+    #define glClearDepth glClearDepthf
+    #define OPENGL_ES
 #endif
 
 // Graphics (GLSL)
@@ -335,6 +342,8 @@ typedef unsigned long GamepadHandle;
 #elif defined(__ANDROID__)
 	#include <android_native_app_glue.h>
     typedef AInputEvent PlatformEvent;
+#elif defined(__EMSCRIPTEN__)
+    typedef int PlatformEvent;
 #else
     typedef XEvent PlatformEvent;
 #endif
