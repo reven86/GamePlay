@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "MeshBatch.h"
 #include "Material.h"
+#include "Model.h"
 
 namespace gameplay
 {
@@ -9,11 +10,18 @@ MeshBatch::MeshBatch(const VertexFormat& vertexFormat, Mesh::PrimitiveType primi
     : _vertexFormat(vertexFormat), _primitiveType(primitiveType), _material(material), _indexed(indexed), _capacity(0), _growSize(growSize),
     _vertexCapacity(0), _indexCapacity(0), _vertexCount(0), _indexCount(0), _vertices(NULL), _verticesPtr(NULL), _indices(NULL), _indicesPtr(NULL), _started(false)
 {
+#ifdef EMSCRIPTEN
+    _model = Model::create(Mesh::createMesh(vertexFormat, initialCapacity, true));
+    _model->getMesh()->release();
+#endif
     resize(initialCapacity);
 }
 
 MeshBatch::~MeshBatch()
 {
+#ifdef EMSCRIPTEN
+    SAFE_RELEASE(_model);
+#endif
     SAFE_RELEASE(_material);
     SAFE_DELETE_ARRAY(_vertices);
     SAFE_DELETE_ARRAY(_indices);
@@ -37,6 +45,9 @@ MeshBatch* MeshBatch::create(const VertexFormat& vertexFormat, Mesh::PrimitiveTy
     GP_ASSERT(material);
 
     MeshBatch* batch = new MeshBatch(vertexFormat, primitiveType, material, indexed, initialCapacity, growSize);
+#ifdef EMSCRIPTEN
+    batch->_model->setMaterial(material);
+#endif
 
     material->addRef();
 
@@ -116,7 +127,11 @@ void MeshBatch::updateVertexAttributeBinding()
         {
             Pass* p = t->getPassByIndex(j);
             GP_ASSERT(p);
+#ifdef EMSCRIPTEN
+            VertexAttributeBinding* b = VertexAttributeBinding::create(_model->getMesh(), p->getEffect());
+#else
             VertexAttributeBinding* b = VertexAttributeBinding::create(_vertexFormat, _vertices, p->getEffect());
+#endif
             p->setVertexAttributeBinding(b);
             SAFE_RELEASE(b);
         }
@@ -238,6 +253,9 @@ bool MeshBatch::isStarted() const
 
 void MeshBatch::finish()
 {
+#ifdef EMSCRIPTEN
+    _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
+#endif
     _started = false;
 }
 
@@ -249,6 +267,14 @@ void MeshBatch::draw()
     // Not using VBOs, so unbind the element array buffer.
     // ARRAY_BUFFER will be unbound automatically during pass->bind().
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
+
+#ifdef EMSCRIPTEN
+    if (!_indexed)
+    {
+        _model->draw();
+        return;
+    }
+#endif
 
     GP_ASSERT(_material);
     if (_indexed)
