@@ -70,9 +70,20 @@ source_group(res FILES ${GAME_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS} ${GAM
 source_group(src FILES ${GAME_SRC})
 
 COPY_RES( ${GAME_NAME} )
-COPY_RES_EXTRA( ${GAME_NAME} ${CMAKE_SOURCE_DIR}/gameplay
-    res/logo_powered_white.png 
-    res/shaders/*
-    res/ui/*
-)
+#COPY_RES_EXTRA( ${GAME_NAME} ${CMAKE_SOURCE_DIR}/gameplay
+#    res/logo_powered_white.png 
+#    res/shaders/*
+#    res/ui/*
+#)
 
+#get_target_property(props ${GAME_NAME} LINK_FLAGS)
+#if(NOT props)
+#    set(props "")
+#endif()
+#set(props "${props} —-preload-file game.config")
+#set_target_properties(${GAME_NAME} PROPERTIES LINK_FLAGS "${props}")
+
+em_link_pre_js(${GAME_NAME} "filesystem.js")
+set(CMAKE_EXE_LINKER_FLAGS "-s TOTAL_MEMORY=256000000")
+
+SET(CMAKE_EXECUTABLE_SUFFIX ".html")

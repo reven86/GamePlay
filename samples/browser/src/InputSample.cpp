@@ -147,7 +147,7 @@ void InputSample::render(float elapsedTime)
     {
         for (std::list<TouchPoint>::const_iterator it = _touchPoints.begin(); it != _touchPoints.end(); ++it)
         {
-            swprintf(buffer, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
+            swprintf(buffer, 50, L"T_%u(%d,%d)", it->_id, (int)it->_coord.x, (int)it->_coord.y);
             _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
             int x = it->_coord.x - (int)(width * 0.5f);
             int y = it->_coord.y - (int)(height * 0.5f);
@@ -155,7 +155,7 @@ void InputSample::render(float elapsedTime)
         }
 
         // Mouse
-        swprintf(buffer, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
+        swprintf(buffer, 50, L"M(%d,%d)", (int)_mousePoint.x, (int)_mousePoint.y);
         _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
         int x = _mousePoint.x - (int)(width * 0.5f);
         int y = _mousePoint.y - (int)(height * 0.5f);
@@ -167,7 +167,7 @@ void InputSample::render(float elapsedTime)
         }
         if (_mouseWheel)
         {
-            swprintf(buffer, L"%d", _mouseWheel);
+            swprintf(buffer, 50, L"%d", _mouseWheel);
             _font->measureText(buffer, fontSize, Font::LEFT_TO_RIGHT, &width, &height);
             int x = _mouseWheelPoint.x - (int)(width * 0.5f);
             int y = _mouseWheelPoint.y + 4;
@@ -218,7 +218,7 @@ void InputSample::render(float elapsedTime)
     {
         _formNode->getDrawable()->draw();
 
-        swprintf(buffer, L"Pitch: %f   Roll: %f", pitch, roll);
+        swprintf(buffer, 50, L"Pitch: %f   Roll: %f", pitch, roll);
         _font->measureText(buffer, 18, Font::LEFT_TO_RIGHT, &width, &height);
         _font->drawText(buffer, getWidth() - width, getHeight() - height, fontColor, fontSize);
     }

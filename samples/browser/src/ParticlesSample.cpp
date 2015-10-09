@@ -285,14 +285,14 @@ std::string ParticlesSample::toString(bool b)
 std::wstring ParticlesSample::toString(int i)
 {
     wchar_t buf[1024];
-    swprintf(buf, L"%d", i);
+    swprintf(buf, 1024, L"%d", i);
     return buf;
 }
 
 std::wstring ParticlesSample::toString(unsigned int i)
 {
     wchar_t buf[1024];
-    swprintf(buf, L"%d", i);
+    swprintf(buf, 1024, L"%d", i);
     return buf;
 }
 
@@ -1137,7 +1137,7 @@ void ParticlesSample::emitterChanged()
 void ParticlesSample::drawFrameRate(Font* font, const Vector4& color, unsigned int x, unsigned int y, unsigned int fps)
 {
     wchar_t buffer[30];
-    swprintf(buffer, L"FPS: %u\nParticles: %u", fps,dynamic_cast<ParticleEmitter*>(_particleEmitterNode->getDrawable())->getParticlesCount());
+    swprintf(buffer, 30, L"FPS: %u\nParticles: %u", fps,dynamic_cast<ParticleEmitter*>(_particleEmitterNode->getDrawable())->getParticlesCount());
     font->start();
     font->drawText(buffer, x, y, color, 22);
     font->finish();

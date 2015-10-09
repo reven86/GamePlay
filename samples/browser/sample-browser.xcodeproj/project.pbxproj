@@ -38,7 +38,6 @@
 		421090EA18299EBA00761E40 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 421090E918299EBA00761E40 /* GameKit.framework */; };
 		422FE594169690830062D1FE /* PostProcessSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 422FE592169690830062D1FE /* PostProcessSample.cpp */; };
 		422FE595169690830062D1FE /* PostProcessSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 422FE592169690830062D1FE /* PostProcessSample.cpp */; };
-		424566581A5B9BE800A9E659 /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424566571A5B9BE800A9E659 /* libgameplay.a */; };
 		424CC030161F8E3000577827 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 424CC02F161F8E3000577827 /* IOKit.framework */; };
 		4258369D1A0F2AF400AFDFEB /* WaterSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4258369B1A0F2AF400AFDFEB /* WaterSample.cpp */; };
 		4258369E1A0F2AF400AFDFEB /* WaterSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4258369B1A0F2AF400AFDFEB /* WaterSample.cpp */; };
@@ -79,6 +78,10 @@
 		9F4C6D00162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		9F4C6D01162735020076E137 /* GestureSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4C6CFE162735020076E137 /* GestureSample.cpp */; };
 		B616B282161119EF00CB514C /* game.config in Resources */ = {isa = PBXBuildFile; fileRef = 428F7BDD15CB131A009ED24C /* game.config */; };
+		EB3656821BC6FF5600021C40 /* libgameplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3656811BC6FF5500021C40 /* libgameplay.a */; };
+		EB8C04A31BC803730096407C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8C04A21BC803730096407C /* StoreKit.framework */; };
+		EB8C04A51BC803790096407C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8C04A41BC803790096407C /* WebKit.framework */; };
+		EB8C04A71BC803AA0096407C /* libyaml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8C04A61BC803AA0096407C /* libyaml.a */; };
 		F10DEAB716726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F10DEAB816726157006FFFDC /* BillboardSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F10DEAB516726157006FFFDC /* BillboardSample.cpp */; };
 		F1E4B3FA1671372E007516A7 /* FormsSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1E4B3F81671372E007516A7 /* FormsSample.cpp */; };
@@ -117,7 +120,6 @@
 		421090E918299EBA00761E40 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
 		422FE592169690830062D1FE /* PostProcessSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PostProcessSample.cpp; sourceTree = "<group>"; };
 		422FE593169690830062D1FE /* PostProcessSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostProcessSample.h; sourceTree = "<group>"; };
-		424566571A5B9BE800A9E659 /* libgameplay.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgameplay.a; path = "../../gameplay/Build/Products/Debug-iphoneos/libgameplay.a"; sourceTree = "<group>"; };
 		424CC02F161F8E3000577827 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		4258369B1A0F2AF400AFDFEB /* WaterSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterSample.cpp; sourceTree = "<group>"; };
 		4258369C1A0F2AF400AFDFEB /* WaterSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterSample.h; sourceTree = "<group>"; };
@@ -159,6 +161,10 @@
 		6212DAB71829DA1D006213DD /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		9F4C6CFE162735020076E137 /* GestureSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureSample.cpp; sourceTree = "<group>"; };
 		9F4C6CFF162735020076E137 /* GestureSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureSample.h; sourceTree = "<group>"; };
+		EB3656811BC6FF5500021C40 /* libgameplay.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgameplay.a; path = ../../gameplay/build/Release/libgameplay.a; sourceTree = "<group>"; };
+		EB8C04A21BC803730096407C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		EB8C04A41BC803790096407C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		EB8C04A61BC803AA0096407C /* libyaml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyaml.a; path = "../../../libyaml-multiplatform/_xcode/Build/Products/Release/libyaml.a"; sourceTree = "<group>"; };
 		F10DEAB516726157006FFFDC /* BillboardSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardSample.cpp; sourceTree = "<group>"; };
 		F10DEAB616726157006FFFDC /* BillboardSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardSample.h; sourceTree = "<group>"; };
 		F1E4B3F81671372E007516A7 /* FormsSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FormsSample.cpp; sourceTree = "<group>"; };
@@ -170,6 +176,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB8C04A71BC803AA0096407C /* libyaml.a in Frameworks */,
+				EB8C04A51BC803790096407C /* WebKit.framework in Frameworks */,
+				EB8C04A31BC803730096407C /* StoreKit.framework in Frameworks */,
 				435FC40D1A534AB4003D4E9C /* libgameplay.a in Frameworks */,
 				435FC4091A53449B003D4E9C /* libgameplay-deps.a in Frameworks */,
 				6212DAB81829DA1D006213DD /* GameKit.framework in Frameworks */,
@@ -185,7 +194,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				424566581A5B9BE800A9E659 /* libgameplay.a in Frameworks */,
+				EB3656821BC6FF5600021C40 /* libgameplay.a in Frameworks */,
 				435FC40F1A538315003D4E9C /* libgameplay-deps.a in Frameworks */,
 				42DFAABC16AD89670000F342 /* CoreMotion.framework in Frameworks */,
 				42DFAAD416AD8A8C0000F342 /* Foundation.framework in Frameworks */,
@@ -242,6 +251,9 @@
 		42C932BF1491A0DB0098216A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB8C04A61BC803AA0096407C /* libyaml.a */,
+				EB8C04A41BC803790096407C /* WebKit.framework */,
+				EB8C04A21BC803730096407C /* StoreKit.framework */,
 				5B61613914CCC3560073B857 /* iOS */,
 				5B61613A14CCC3590073B857 /* MacOSX */,
 			);
@@ -303,7 +315,7 @@
 		5B61613914CCC3560073B857 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				424566571A5B9BE800A9E659 /* libgameplay.a */,
+				EB3656811BC6FF5500021C40 /* libgameplay.a */,
 				435FC40E1A538315003D4E9C /* libgameplay-deps.a */,
 				421090E918299EBA00761E40 /* GameKit.framework */,
 				42DFAABB16AD89670000F342 /* CoreMotion.framework */,
@@ -611,6 +623,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"../../external-deps/lib/macosx/x86_64",
+					"../../gameplay/build/$(CONFIGURATION)",
+					"../../../libyaml-multiplatform/_xcode/Build/Products/Release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -637,6 +651,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"../../external-deps/lib/macosx/x86_64",
+					"../../gameplay/build/$(CONFIGURATION)",
+					"../../../libyaml-multiplatform/_xcode/Build/Products/Release",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -662,7 +678,7 @@
 				);
 				INFOPLIST_FILE = "sample-browser-ios.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "../../gameplay/build/$(CONFIGURATION_NAME)";
 				"OTHER_LDFLAGS[sdk=iphoneos*]" = "-L../../external-deps/lib/ios/arm";
 				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = "-L../../external-deps/lib/ios/x86";
 				PROVISIONING_PROFILE = "";
@@ -690,10 +706,7 @@
 				);
 				INFOPLIST_FILE = "sample-browser-ios.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/gameplay-exiunaubxxjndaapmcqkaoeboiob/Build/Products/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "../../gameplay/build/$(CONFIGURATION_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

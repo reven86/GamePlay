@@ -74,7 +74,7 @@ void MeshBatchSample::render(float elapsedTime)
     drawFrameRate(_font, Vector4(0, 0.5f, 1, 1), 5, 1, getFrameRate());
     _font->start();
     wchar_t text[1024];
-    swprintf(text, L"Touch to add triangles (%d)", (int)(_vertices.size() / 3));
+    swprintf(text, 1024, L"Touch to add triangles (%d)", (int)(_vertices.size() / 3));
     _font->drawText(text, 10, getHeight() - _font->getSize() - 10, Vector4::one(), 18);
     _font->finish();
 }
