@@ -81,9 +81,12 @@ set(GAMEPLAY_SRC
     src/gameplay-main-android.cpp
     src/gameplay-main-linux.cpp
     src/gameplay-main-windows.cpp
+    src/gameplay-main-emscripten.cpp
     src/Gesture.h
     src/HeightField.cpp
     src/HeightField.h
+    src/HorizontalLayout.cpp
+    src/HorizontalLayout.h
     src/Image.cpp
     src/Image.h
     src/Image.inl
@@ -93,6 +96,7 @@ set(GAMEPLAY_SRC
     src/Joint.h
     src/JoystickControl.cpp
     src/JoystickControl.h
+    src/Keyboard.h
     src/Label.cpp
     src/Label.h
     src/Layout.cpp
@@ -126,8 +130,11 @@ set(GAMEPLAY_SRC
     src/MeshSkin.h
     src/Model.cpp
     src/Model.h
+    src/Mouse.h
     src/Node.cpp
     src/Node.h
+    src/Package.cpp
+    src/Package.h
     src/ParticleEmitter.cpp
     src/ParticleEmitter.h
     src/Pass.cpp
@@ -168,6 +175,9 @@ set(GAMEPLAY_SRC
     src/PlatformAndroid.cpp
     src/PlatformLinux.cpp
     src/PlatformWindows.cpp
+    src/PlatformEmscripten.cpp
+    src/ProgressBar.cpp
+    src/ProgressBar.h
     src/Properties.cpp
     src/Properties.h
     src/Quaternion.cpp
@@ -253,6 +263,14 @@ set(GAMEPLAY_SRC
     src/VertexFormat.h
     src/VerticalLayout.cpp
     src/VerticalLayout.h
+    src/storefront/NullStoreFront.cpp
+    src/storefront/NullStoreFront.h
+    src/storefront/StoreController.cpp
+    src/storefront/StoreController.h
+    src/storefront/Storefront.h
+    src/storefront/StoreListener.h
+    src/storefront/StoreProduct.cpp
+    src/storefront/StoreProduct.h
 )
 
 set(GAMEPLAY_LUA
@@ -328,6 +346,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_FlowLayout.h
     src/lua/lua_Font.cpp
     src/lua/lua_Font.h
+    src/lua/lua_FontGlyph.cpp
+    src/lua/lua_FontGlyph.h
     src/lua/lua_Form.cpp
     src/lua/lua_Form.h
     src/lua/lua_FrameBuffer.cpp
@@ -342,6 +362,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_Gesture.h
     src/lua/lua_Global.cpp
     src/lua/lua_Global.h
+    src/lua/lua_HorizontalLayout.cpp
+    src/lua/lua_HorizontalLayout.h
     src/lua/lua_HeightField.cpp
     src/lua/lua_HeightField.h
     src/lua/lua_Image.cpp
@@ -370,6 +392,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_MathUtil.h
     src/lua/lua_Matrix.cpp
     src/lua/lua_Matrix.h
+    src/lua/lua_Matrix3.cpp
+    src/lua/lua_Matrix3.h
     src/lua/lua_Mesh.cpp
     src/lua/lua_Mesh.h
     src/lua/lua_MeshBatch.cpp
@@ -386,6 +410,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_Node.h
     src/lua/lua_NodeCloneContext.cpp
     src/lua/lua_NodeCloneContext.h
+    src/lua/lua_Package.cpp
+    src/lua/lua_Package.h
     src/lua/lua_ParticleEmitter.cpp
     src/lua/lua_ParticleEmitter.h
     src/lua/lua_Pass.cpp
@@ -436,6 +462,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_Plane.h
     src/lua/lua_Platform.cpp
     src/lua/lua_Platform.h
+    src/lua/lua_ProgressBar.cpp
+    src/lua/lua_ProgressBar.h
     src/lua/lua_Properties.cpp
     src/lua/lua_Properties.h
     src/lua/lua_Quaternion.cpp
