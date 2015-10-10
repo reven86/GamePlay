@@ -8,6 +8,10 @@
 #define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
 #endif
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
+
 namespace gameplay
 {
 
@@ -43,7 +47,10 @@ DepthStencilTarget* DepthStencilTarget::create(const char* id, Format format, un
     GL_ASSERT( glGenRenderbuffers(1, &depthStencilTarget->_depthBuffer) );
     GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, depthStencilTarget->_depthBuffer) );
 
-    // First try to add storage for the most common standard GL_DEPTH24_STENCIL8 
+    // First try to add storage for the most common standard GL_DEPTH24_STENCIL8
+#ifdef EMSCRIPTEN
+    EM_ASM_({GLctx.renderbufferStorage(GLctx.RENDERBUFFER, GLctx.DEPTH_STENCIL, $0, $1);}, width, height);
+#else
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 
     // Fall back to less common GLES2 extension combination for seperate depth24 + stencil8 or depth16 + stencil8
@@ -76,6 +83,7 @@ DepthStencilTarget* DepthStencilTarget::create(const char* id, Format format, un
         }
     }
     else
+#endif
     {
         // Packed format GL_DEPTH24_STENCIL8 is used mark format as packed.
         depthStencilTarget->_packed = true;

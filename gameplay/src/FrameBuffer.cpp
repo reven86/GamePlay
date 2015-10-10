@@ -2,6 +2,10 @@
 #include "FrameBuffer.h"
 #include "Game.h"
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
+
 #define FRAMEBUFFER_ID_DEFAULT "org.gameplay3d.framebuffer.default"
 
 namespace gameplay
@@ -257,6 +261,9 @@ void FrameBuffer::setDepthStencilTarget(DepthStencilTarget* target)
         // Now set this target as the color attachment corresponding to index.
         GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, _handle) );
 
+#ifdef EMSCRIPTEN
+        EM_ASM_({GLctx.framebufferRenderbuffer(GLctx.FRAMEBUFFER, GLctx.DEPTH_STENCIL_ATTACHMENT, GLctx.RENDERBUFFER, GL.renderbuffers[$0]);}, _depthStencilTarget->_depthBuffer);
+#else
         // Attach the render buffer to the framebuffer
         GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _depthStencilTarget->_depthBuffer) );
         if (target->isPacked())
@@ -267,6 +274,7 @@ void FrameBuffer::setDepthStencilTarget(DepthStencilTarget* target)
         {
             GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _depthStencilTarget->_stencilBuffer) );
         }
+#endif
 
         // Check the framebuffer is good to go.
         GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
