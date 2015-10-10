@@ -268,7 +268,6 @@ using std::va_list;
         #error "Unsupported Apple Device"
     #endif
 #elif EMSCRIPTEN
-    #define GLEW_STATIC
     #include <EGL/egl.h>
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
