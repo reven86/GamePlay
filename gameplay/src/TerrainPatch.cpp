@@ -714,6 +714,9 @@ bool TerrainPatch::LayerCompare::operator() (const Layer* lhs, const Layer* rhs)
 
 bool TerrainAutoBindingResolver::resolveAutoBinding(const char* autoBinding, Node* node, MaterialParameter* parameter)
 {
+    if (!node)
+        return false;
+    
     // Local helper functions
     struct HelperFunctions
     {
