@@ -757,15 +757,11 @@ Platform* Platform::create(Game* game)
         return NULL;
     }
 
-    // Set vsync.
-    eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
-
     // Initialize OpenGL ES extensions.
     __glExtensions = (const char*)glGetString(GL_EXTENSIONS);
 
     if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
     {
-        // Disable VAO extension for now.
         glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
         glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
         glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
@@ -827,10 +823,10 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
     {
         if (!gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_MOVE, x, y, 0))
         {
-            // if (evt.xmotion.state & Button1Mask)
-            // {
-            //      gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, 0, true);
-            // }
+            if ((e->buttons & (1<<0)) != 0)
+            {
+                gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, 0, true);
+            }
         }
     }
 
@@ -972,7 +968,7 @@ void Platform::setMultiTouch(bool enabled)
 
 bool Platform::isMultiTouch()
 {
-    false;
+    return false;
 }
 
 bool Platform::hasAccelerometer()
@@ -1105,6 +1101,26 @@ bool Platform::launchURL(const char* url)
 }
 
 std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
+{
+    return "";
+}
+
+const char * Platform::getTemporaryFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getUserAgentString( )
 {
     return "";
 }
