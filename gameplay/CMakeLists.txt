@@ -602,10 +602,17 @@ ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 add_definitions(-std=c++11)
 add_definitions(-lstdc++)
 
+if(EMSCRIPTEN)
+add_library(gameplay SHARED
+    ${GAMEPLAY_SRC}
+    ${GAMEPLAY_LUA}
+)
+else()
 add_library(gameplay STATIC
     ${GAMEPLAY_SRC}
     ${GAMEPLAY_LUA}
 )
+endif(EMSCRIPTEN)
 
 set_target_properties(gameplay PROPERTIES
     OUTPUT_NAME "gameplay"
