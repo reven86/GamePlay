@@ -91,6 +91,9 @@ private:
      */
     Image& operator=(const Image&);
 
+    static Image * createPNG(class Stream * stream, const char * path);
+    static Image * createJPEG(class Stream * stream, const char * path);
+
     unsigned char* _data;
     Format _format;
     unsigned int _width;

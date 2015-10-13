@@ -109,7 +109,8 @@ Texture* Texture::create(const char* path, bool generateMipmaps)
         switch (strlen(ext))
         {
         case 4:
-            if (tolower(ext[1]) == 'p' && tolower(ext[2]) == 'n' && tolower(ext[3]) == 'g')
+            if (tolower(ext[1]) == 'p' && tolower(ext[2]) == 'n' && tolower(ext[3]) == 'g'
+                || tolower(ext[1]) == 'j' && tolower(ext[2]) == 'p' && tolower(ext[3]) == 'g')
             {
                 Image* image = Image::create(path);
                 if (image)

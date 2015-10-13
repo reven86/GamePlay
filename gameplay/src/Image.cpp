@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "FileSystem.h"
 #include "Image.h"
+#include <jpeg/jpeglib.h>
 
 namespace gameplay
 {
@@ -28,12 +29,15 @@ Image* Image::create(const char* path)
 
     // Verify PNG signature.
     unsigned char sig[8];
-    if (stream->read(sig, 1, 8) != 8 || png_sig_cmp(sig, 0, 8) != 0)
-    {
-        GP_ERROR("Failed to load file '%s'; not a valid PNG.", path);
-        return NULL;
-    }
+    if (stream->read(sig, 1, 8) == 8 && png_sig_cmp(sig, 0, 8) == 0)
+        return createPNG(stream.get(), path);
 
+    stream->rewind();
+    return createJPEG(stream.get(), path);
+}
+
+Image * Image::createPNG(Stream * stream, const char * path)
+{
     // Initialize png read struct (last three parameters use stderr+longjump if NULL).
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (png == NULL)
@@ -60,7 +64,7 @@ Image* Image::create(const char* path)
     }
 
     // Initialize file io.
-    png_set_read_fn(png, stream.get(), readStream);
+    png_set_read_fn(png, stream, readStream);
 
     // Indicate that we already read the first 8 bytes (signature).
     png_set_sig_bytes(png, 8);
@@ -98,11 +102,69 @@ Image* Image::create(const char* path)
     png_bytepp rows = png_get_rows(png, info);
     for (unsigned int i = 0; i < image->_height; ++i)
     {
-        memcpy(image->_data+(stride * (image->_height-1-i)), rows[i], stride);
+        memcpy(image->_data+(stride * i), rows[i], stride);
     }
 
     // Clean up.
     png_destroy_read_struct(&png, &info, NULL);
+
+    return image;
+}
+
+Image * Image::createJPEG(Stream * stream, const char * path)
+{
+    struct jpeg_decompress_struct info; //for our jpeg info
+    struct jpeg_error_mgr err;          //the error handler
+
+    // read entire file into memory
+    std::unique_ptr<unsigned char[]> buffer(new unsigned char[stream->length()]);
+    if (stream->read(buffer.get(), stream->length(), 1) != 1)
+    {
+        GP_ERROR("Failed to read file '%s'.", path);
+        return NULL;
+    }
+
+    info.err = jpeg_std_error(&err);
+    jpeg_create_decompress(&info);   //fills info structure
+
+    jpeg_mem_src(&info, buffer.get(), stream->length());
+    jpeg_read_header(&info, TRUE);   // read jpeg file header
+
+    jpeg_start_decompress(&info);    // decompress the file
+
+    if (info.num_components != 3)
+    {
+        jpeg_finish_decompress(&info);   //finish decompressing
+        jpeg_destroy_decompress(&info);
+        GP_ERROR("JPEG loader only supports images with 3 channels: '%s'.", path);
+        return NULL;
+    }
+
+    Image* image = new Image();
+    image->_width = info.output_width;
+    image->_height = info.output_height;
+    image->_format = Image::RGB;
+
+    int dataSize = image->_width * image->_height * 3;
+
+    //--------------------------------------------
+    // read scanlines one at a time & put bytes 
+    //    in jdata[] array. Assumes an RGB image
+    //--------------------------------------------
+    // Allocate image data.
+    image->_data = new unsigned char[image->_width * image->_height * 3];
+
+    unsigned char * rowptr[1];
+    while (info.output_scanline < info.output_height) // loop
+    {
+        // Enable jpeg_read_scanlines() to fill our jdata array
+        rowptr[0] = (unsigned char *)image->_data + 3 * info.output_width * info.output_scanline;
+        jpeg_read_scanlines(&info, rowptr, 1);
+    }
+    //---------------------------------------------------
+
+    jpeg_finish_decompress(&info);   //finish decompressing
+    jpeg_destroy_decompress(&info);
 
     return image;
 }
