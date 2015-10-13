@@ -22,14 +22,8 @@ set(GAMEPLAY_SRC
     src/AnimationTarget.h
     src/AnimationValue.cpp
     src/AnimationValue.h
-    src/AudioBuffer.cpp
-    src/AudioBuffer.h
-    src/AudioController.cpp
-    src/AudioController.h
     src/AudioListener.cpp
     src/AudioListener.h
-    src/AudioSource.cpp
-    src/AudioSource.h
     src/Base.h
     src/BoundingBox.cpp
     src/BoundingBox.h
@@ -92,8 +86,6 @@ set(GAMEPLAY_SRC
     src/Image.inl
     src/ImageControl.cpp
     src/ImageControl.h
-    src/Joint.cpp
-    src/Joint.h
     src/JoystickControl.cpp
     src/JoystickControl.h
     src/Keyboard.h
@@ -139,34 +131,6 @@ set(GAMEPLAY_SRC
     src/ParticleEmitter.h
     src/Pass.cpp
     src/Pass.h
-    src/PhysicsCharacter.cpp
-    src/PhysicsCharacter.h
-    src/PhysicsCollisionObject.cpp
-    src/PhysicsCollisionObject.h
-    src/PhysicsCollisionShape.cpp
-    src/PhysicsCollisionShape.h
-    src/PhysicsConstraint.cpp
-    src/PhysicsConstraint.h
-    src/PhysicsController.cpp
-    src/PhysicsController.h
-    src/PhysicsFixedConstraint.cpp
-    src/PhysicsFixedConstraint.h
-    src/PhysicsGenericConstraint.cpp
-    src/PhysicsGenericConstraint.h
-    src/PhysicsGhostObject.cpp
-    src/PhysicsGhostObject.h
-    src/PhysicsHingeConstraint.cpp
-    src/PhysicsHingeConstraint.h
-    src/PhysicsRigidBody.cpp
-    src/PhysicsRigidBody.h
-    src/PhysicsSocketConstraint.cpp
-    src/PhysicsSocketConstraint.h
-    src/PhysicsSpringConstraint.cpp
-    src/PhysicsSpringConstraint.h
-    src/PhysicsVehicle.cpp
-    src/PhysicsVehicle.h
-    src/PhysicsVehicleWheel.cpp
-    src/PhysicsVehicle.h
     src/Plane.cpp
     src/Plane.h
     src/Plane.inl
@@ -202,11 +166,6 @@ set(GAMEPLAY_SRC
     src/SceneLoader.h
     src/ScreenDisplayer.cpp
     src/ScreenDisplayer.h
-    src/Script.cpp
-    src/Script.h
-    src/ScriptController.cpp
-    src/ScriptController.h
-    src/ScriptController.inl
     src/ScriptTarget.cpp
     src/ScriptTarget.h
     src/Slider.cpp
@@ -273,7 +232,54 @@ set(GAMEPLAY_SRC
     src/storefront/StoreProduct.h
 )
 
+set(GAMEPLAY_AUDIO
+    src/AudioBuffer.cpp
+    src/AudioBuffer.h
+    src/AudioController.cpp
+    src/AudioController.h
+    src/AudioSource.cpp
+    src/AudioSource.h
+)
+
+set(GAMEPLAY_PHYSICS
+    src/Joint.cpp
+    src/Joint.h
+    src/PhysicsCharacter.cpp
+    src/PhysicsCharacter.h
+    src/PhysicsCollisionObject.cpp
+    src/PhysicsCollisionObject.h
+    src/PhysicsCollisionShape.cpp
+    src/PhysicsCollisionShape.h
+    src/PhysicsConstraint.cpp
+    src/PhysicsConstraint.h
+    src/PhysicsController.cpp
+    src/PhysicsController.h
+    src/PhysicsFixedConstraint.cpp
+    src/PhysicsFixedConstraint.h
+    src/PhysicsGenericConstraint.cpp
+    src/PhysicsGenericConstraint.h
+    src/PhysicsGhostObject.cpp
+    src/PhysicsGhostObject.h
+    src/PhysicsHingeConstraint.cpp
+    src/PhysicsHingeConstraint.h
+    src/PhysicsRigidBody.cpp
+    src/PhysicsRigidBody.h
+    src/PhysicsSocketConstraint.cpp
+    src/PhysicsSocketConstraint.h
+    src/PhysicsSpringConstraint.cpp
+    src/PhysicsSpringConstraint.h
+    src/PhysicsVehicle.cpp
+    src/PhysicsVehicle.h
+    src/PhysicsVehicleWheel.cpp
+    src/PhysicsVehicle.h
+)
+
 set(GAMEPLAY_LUA
+    src/Script.cpp
+    src/Script.h
+    src/ScriptController.cpp
+    src/ScriptController.h
+    src/ScriptController.inl
     src/lua/lua_all_bindings.cpp
     src/lua/lua_all_bindings.h
     src/lua/lua_AbsoluteLayout.cpp
@@ -602,16 +608,16 @@ ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 add_definitions(-std=c++11)
 add_definitions(-lstdc++)
 
+if(NOT EMSCRIPTEN)
+list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})
+list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PHYSICS})
+list(APPEND GAMEPLAY_SRC ${GAMEPLAY_LUA})
+endif(NOT EMSCRIPTEN)
+
 if(EMSCRIPTEN)
-add_library(gameplay SHARED
-    ${GAMEPLAY_SRC}
-    ${GAMEPLAY_LUA}
-)
+add_library(gameplay SHARED ${GAMEPLAY_SRC})
 else()
-add_library(gameplay STATIC
-    ${GAMEPLAY_SRC}
-    ${GAMEPLAY_LUA}
-)
+add_library(gameplay STATIC ${GAMEPLAY_SRC})
 endif(EMSCRIPTEN)
 
 set_target_properties(gameplay PROPERTIES
