@@ -677,9 +677,9 @@ void ParticleEmitter::setSpriteFrameCoords(unsigned int frameCount, Rectangle* f
     for (unsigned int i = 0; i < frameCount; i++)
     {
         _spriteTextureCoords[i*4] = _spriteTextureWidthRatio * frameCoords[i].x;
-        _spriteTextureCoords[i*4 + 1] = 1.0f - _spriteTextureHeightRatio * frameCoords[i].y;
+        _spriteTextureCoords[i*4 + 1] = _spriteTextureHeightRatio * frameCoords[i].y;
         _spriteTextureCoords[i*4 + 2] = _spriteTextureCoords[i*4] + _spriteTextureWidthRatio * frameCoords[i].width;
-        _spriteTextureCoords[i*4 + 3] = _spriteTextureCoords[i*4 + 1] - _spriteTextureHeightRatio * frameCoords[i].height;
+        _spriteTextureCoords[i*4 + 3] = _spriteTextureCoords[i*4 + 1] + _spriteTextureHeightRatio * frameCoords[i].height;
     }
 }
 

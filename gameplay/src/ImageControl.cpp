@@ -102,8 +102,8 @@ void ImageControl::setRegionSrc(float x, float y, float width, float height)
 
     _uvs.u1 = x * _tw;
     _uvs.u2 = (x + width) * _tw;
-    _uvs.v1 = 1.0f - (y * _th);
-    _uvs.v2 = 1.0f - ((y + height) * _th);
+    _uvs.v1 = y * _th;
+    _uvs.v2 = (y + height) * _th;
 }
 
 void ImageControl::setRegionSrc(const Rectangle& region)

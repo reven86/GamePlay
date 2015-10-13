@@ -598,7 +598,7 @@ const Theme::UVs& Theme::UVs::empty()
 
 const Theme::UVs& Theme::UVs::full()
 {
-    static UVs full(0, 1, 1, 0);
+    static UVs full(0, 0, 1, 1);
     return full;
 }
 
@@ -802,10 +802,10 @@ void Theme::Skin::setRegion(const Rectangle& region, float tw, float th)
     float leftBorder = (region.x + _border.left) * tw;
     float rightBorder = (region.x + region.width - _border.right) * tw;
 
-    float topEdge = 1.0f - (region.y * th);
-    float bottomEdge = 1.0f - ((region.y + region.height) * th);
-    float topBorder = 1.0f - ((region.y + _border.top) * th);
-    float bottomBorder = 1.0f - ((region.y + region.height - _border.bottom) * th);
+    float topEdge = region.y * th;
+    float bottomEdge = (region.y + region.height) * th;
+    float topBorder = (region.y + _border.top) * th;
+    float bottomBorder = (region.y + region.height - _border.bottom) * th;
 
     // There are 9 sets of UVs to set.
     _uvs[TOP_LEFT].u1 = leftEdge;
@@ -872,8 +872,8 @@ void Theme::generateUVs(float tw, float th, float x, float y, float width, float
     GP_ASSERT(uvs);
     uvs->u1 = x * tw;
     uvs->u2 = (x + width) * tw;
-    uvs->v1 = 1.0f - (y * th);
-    uvs->v2 = 1.0f - ((y + height) * th);
+    uvs->v1 = y * th;
+    uvs->v2 = (y + height) * th;
 }
 
 void Theme::lookUpSprites(const Properties* overlaySpace, ImageList** imageList, ThemeImage** cursor, Skin** skin)

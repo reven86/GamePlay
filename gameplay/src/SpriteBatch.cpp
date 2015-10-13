@@ -190,9 +190,9 @@ void SpriteBatch::draw(const Rectangle& dst, const Rectangle& src, const Vector4
 {
     // Calculate uvs.
     float u1 = _textureWidthRatio * src.x;
-    float v1 = 1.0f - _textureHeightRatio * src.y;
+    float v1 = _textureHeightRatio * src.y;
     float u2 = u1 + _textureWidthRatio * src.width;
-    float v2 = v1 - _textureHeightRatio * src.height;
+    float v2 = v1 + _textureHeightRatio * src.height;
 
     draw(dst.x, dst.y, dst.width, dst.height, u1, v1, u2, v2, color);
 }
@@ -201,9 +201,9 @@ void SpriteBatch::draw(const Vector3& dst, const Rectangle& src, const Vector2& 
 {
     // Calculate uvs.
     float u1 = _textureWidthRatio * src.x;
-    float v1 = 1.0f - _textureHeightRatio * src.y;
+    float v1 = _textureHeightRatio * src.y;
     float u2 = u1 + _textureWidthRatio * src.width;
-    float v2 = v1 - _textureHeightRatio * src.height;
+    float v2 = v1 + _textureHeightRatio * src.height;
 
     draw(dst.x, dst.y, dst.z, scale.x, scale.y, u1, v1, u2, v2, color);
 }
@@ -213,9 +213,9 @@ void SpriteBatch::draw(const Vector3& dst, const Rectangle& src, const Vector2& 
 {
     // Calculate uvs.
     float u1 = _textureWidthRatio * src.x;
-    float v1 = 1.0f - _textureHeightRatio * src.y;
+    float v1 = _textureHeightRatio * src.y;
     float u2 = u1 + _textureWidthRatio * src.width;
-    float v2 = v1 - _textureHeightRatio * src.height;
+    float v2 = v1 + _textureHeightRatio * src.height;
 
     draw(dst, scale.x, scale.y, u1, v1, u2, v2, color, rotationPoint, rotationAngle);
 }
