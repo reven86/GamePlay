@@ -177,14 +177,20 @@ bool Game::startup()
         _audioController->initialize();
     }
 
-    _physicsController = new PhysicsController();
-    _physicsController->initialize();
+    if (!_properties || _properties->getBool("physicsControllerEnable", true))
+    {
+        _physicsController = new PhysicsController();
+        _physicsController->initialize();
+    }
 
     _aiController = new AIController();
     _aiController->initialize();
 
-    _scriptController = new ScriptController();
-    _scriptController->initialize();
+    if (!_properties || _properties->getBool("scriptControllerEnable", true))
+    {
+        _scriptController = new ScriptController();
+        _scriptController->initialize();
+    }
 
     _socialController = new SocialController();
     _socialController->initialize();
@@ -246,7 +252,6 @@ void Game::shutdown()
     if (_state != UNINITIALIZED)
     {
         GP_ASSERT(_animationController);
-        GP_ASSERT(_physicsController);
         GP_ASSERT(_aiController);
 
         Platform::signalShutdown();
@@ -262,7 +267,8 @@ void Game::shutdown()
         SAFE_DELETE(_scriptTarget);
 
 		// Shutdown scripting system first so that any objects allocated in script are released before our subsystems are released
-		_scriptController->finalize();
+        if (_scriptController)
+		    _scriptController->finalize();
 
         unsigned int gamepadCount = Gamepad::getGamepadCount();
         for (unsigned int i = 0; i < gamepadCount; i++)
@@ -280,8 +286,12 @@ void Game::shutdown()
             SAFE_DELETE(_audioController);
         }
 
-        _physicsController->finalize();
-        SAFE_DELETE(_physicsController);
+        if (_physicsController)
+        {
+            _physicsController->finalize();
+            SAFE_DELETE(_physicsController);
+        }
+
         _aiController->finalize();
         SAFE_DELETE(_aiController);
 
@@ -314,14 +324,14 @@ void Game::pause()
     if (_state == RUNNING)
     {
         GP_ASSERT(_animationController);
-        GP_ASSERT(_physicsController);
         GP_ASSERT(_aiController);
         _state = PAUSED;
         _pausedTimeLast = Platform::getAbsoluteTime();
         _animationController->pause();
         if (_audioController)
             _audioController->pause();
-        _physicsController->pause();
+        if (_physicsController)
+            _physicsController->pause();
         _aiController->pause();
         _socialController->pause();
         _storeController->pause();
@@ -339,14 +349,14 @@ void Game::resume()
         if (_pausedCount == 0)
         {
             GP_ASSERT(_animationController);
-            GP_ASSERT(_physicsController);
             GP_ASSERT(_aiController);
             _state = RUNNING;
             _pausedTimeTotal += Platform::getAbsoluteTime() - _pausedTimeLast;
             _animationController->resume();
             if (_audioController)
                 _audioController->resume();
-            _physicsController->resume();
+            if (_physicsController)
+                _physicsController->resume();
             _aiController->resume();
             _socialController->resume();
             _storeController->resume();
@@ -403,7 +413,6 @@ void Game::frame()
     if (_state == Game::RUNNING)
     {
         GP_ASSERT(_animationController);
-        GP_ASSERT(_physicsController);
         GP_ASSERT(_aiController);
 
         // Update Time.
@@ -414,7 +423,8 @@ void Game::frame()
         _animationController->update(elapsedTime);
 
         // Update the physics.
-        _physicsController->update(elapsedTime);
+        if (_physicsController)
+            _physicsController->update(elapsedTime);
 
         // Update AI.
         _aiController->update(elapsedTime);
@@ -484,14 +494,14 @@ void Game::frame()
 
 void Game::renderOnce(const char* function)
 {
-    _scriptController->executeFunction<void>(function, NULL);
+    if (_scriptController)
+        _scriptController->executeFunction<void>(function, NULL);
     Platform::swapBuffers();
 }
 
 void Game::updateOnce()
 {
     GP_ASSERT(_animationController);
-    GP_ASSERT(_physicsController);
     GP_ASSERT(_aiController);
 
     // Update Time.
@@ -503,7 +513,8 @@ void Game::updateOnce()
 
     // Update the internal controllers.
     _animationController->update(elapsedTime);
-    _physicsController->update(elapsedTime);
+    if (_physicsController)
+        _physicsController->update(elapsedTime);
     _aiController->update(elapsedTime);
     if (_audioController)
         _audioController->update(elapsedTime);
