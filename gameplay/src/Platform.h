@@ -345,7 +345,7 @@ public:
      *
      * @script{ignore}
      */
-    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     /**
      * Internal method used only from static code in various platform implementation.

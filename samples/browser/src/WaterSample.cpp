@@ -283,7 +283,7 @@ void WaterSample::keyEvent(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool WaterSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool WaterSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

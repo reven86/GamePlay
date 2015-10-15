@@ -146,7 +146,7 @@ void Sample::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contac
 {
 }
 
-bool Sample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Sample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     return false;
 }

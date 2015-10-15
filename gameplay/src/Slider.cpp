@@ -230,7 +230,7 @@ static bool isScrollable(Container* container)
     return parent ? isScrollable(parent) : false;
 }
 
-bool Slider::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Slider::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

@@ -484,7 +484,7 @@ void RacerGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int con
     };
 }
 
-bool RacerGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool RacerGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     bool consumed = false;
 

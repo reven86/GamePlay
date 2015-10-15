@@ -29,7 +29,7 @@ void Platform::keyEventInternal(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     bool eventConsumed = Form::mouseEventInternal(evt, x, y, wheelDelta);
 

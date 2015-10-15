@@ -53,7 +53,7 @@ public:
     void displayKeyboard(bool display);
     virtual void keyEvent(Keyboard::KeyEvent evt, int key);
     virtual void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
-    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
     bool hasMouse();
     bool isMouseCaptured();
     void setMouseCaptured(bool captured);

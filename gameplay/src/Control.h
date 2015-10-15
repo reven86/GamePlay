@@ -1152,7 +1152,7 @@ protected:
      *
      * @see Mouse::MouseEvent
      */
-    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     /**
      * Gamepad callback on gamepad button changes.

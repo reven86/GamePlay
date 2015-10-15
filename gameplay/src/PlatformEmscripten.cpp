@@ -872,7 +872,7 @@ EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void *userD
     
     if (eventType == EMSCRIPTEN_EVENT_WHEEL)
     {
-        gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_WHEEL, __mouseCapturePointX, __mouseCapturePointY, e->deltaY);
+        gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_WHEEL, __mouseCapturePointX, __mouseCapturePointY, -e->deltaY * 0.1);
     }
     
     return 1;

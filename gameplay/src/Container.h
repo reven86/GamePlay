@@ -437,7 +437,7 @@ protected:
      *
      * @see Mouse::MouseEvent
      */
-    virtual bool mouseEventScroll(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    virtual bool mouseEventScroll(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     /**
      * Get a Scroll enum from a matching string.

@@ -851,7 +851,7 @@ bool ParticlesSample::drawScene(Node* node, void* cookie)
     return true;
 }
 
-bool ParticlesSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool ParticlesSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

@@ -200,7 +200,7 @@ private:
      *
      * @see Mouse::MouseEvent
      */
-    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     /**
      * Propagate gamepad button events to enabled forms.
@@ -254,7 +254,7 @@ private:
 
     const Matrix& getProjectionMatrix() const;
 
-    static bool pointerEventInternal(bool mouse, int evt, int x, int y, int param);
+    static bool pointerEventInternal(bool mouse, int evt, int x, int y, float param);
 
     static Control* findInputControl(int* x, int* y, bool focus, unsigned int contactIndex);
 

@@ -496,7 +496,7 @@ void CharacterGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int
     }
 }
 
-bool CharacterGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool CharacterGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     if (evt == Mouse::MOUSE_PRESS_RIGHT_BUTTON)
     {
