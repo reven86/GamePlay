@@ -600,8 +600,13 @@ Platform* Platform::create(Game* game)
 
     // Get the window configuration values
     const char *title = NULL;
-    int __x = 0, __y = 0, __width = 1280, __height = 800, __samples = 0;
+    int __width = 0, __height = 0, __samples = 0;
     bool fullscreen = false;
+    
+    // default window sizes come from canvas
+    int tmpFullscreen = 0;
+    emscripten_get_canvas_size(&__width, &__height, &tmpFullscreen);
+    
     if (game->getConfig())
     {
         Properties* config = game->getConfig()->getNamespace("window", true);
@@ -611,21 +616,17 @@ Platform* Platform::create(Game* game)
             title = config->getString("title");
 
             // Read window rect.
-            int x = config->getInt("x");
-            int y = config->getInt("y");
             int width = config->getInt("width");
             int height = config->getInt("height");
             int samples = config->getInt("samples");
             fullscreen = config->getBool("fullscreen");
 
-            if (x != 0) __x = x;
-            if (y != 0) __y = y;
             if (width != 0) __width = width;
             if (height != 0) __height = height;
             if (samples != 0) __samples = samples;
         }
     }
-
+    
     __windowSize[0] = __width;
     __windowSize[1] = __height;
     emscripten_set_canvas_size(__width, __height);
