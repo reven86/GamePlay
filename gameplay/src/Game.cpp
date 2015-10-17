@@ -597,7 +597,7 @@ void Game::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactI
     // stub
 }
 
-bool Game::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Game::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     // stub
     return false;
@@ -682,7 +682,7 @@ void Game::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int 
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, touchEvent), evt, x, y, contactIndex);
 }
 
-bool Game::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Game::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     if (mouseEvent(evt, x, y, wheelDelta))
         return true;

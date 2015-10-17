@@ -20,7 +20,7 @@ public:
     
     void keyEvent(Keyboard::KeyEvent evt, int key);
    
-    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     void gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad);
 

@@ -292,7 +292,7 @@ void InputSample::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int c
     };
 }
 
-bool InputSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool InputSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     _mousePoint.set(x, y);
     _mouseString.clear();

@@ -340,7 +340,7 @@ public:
      *
      * @see Mouse::MouseEvent
      */
-    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
     
     /**
      * Called when the game window has been resized.
@@ -802,7 +802,7 @@ private:
 
     void keyEventInternal(Keyboard::KeyEvent evt, int key);
     void touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
-    bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
     void resizeEventInternal(unsigned int width, unsigned int height);
     void gestureSwipeEventInternal(int x, int y, int direction);
     void gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches);

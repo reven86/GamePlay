@@ -263,7 +263,7 @@ void Audio3DSample::keyEvent(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool Audio3DSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Audio3DSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

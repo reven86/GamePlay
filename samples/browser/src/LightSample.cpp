@@ -253,7 +253,7 @@ void LightSample::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int c
 	};
 }
 
-bool LightSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool LightSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     if (evt == Mouse::MOUSE_WHEEL && wheelDelta != 0)
     {

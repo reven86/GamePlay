@@ -19,7 +19,7 @@ public:
 
     void keyEvent(Keyboard::KeyEvent evt, int key);
 
-    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
     
     void controlEvent(Control* control, EventType evt);
 

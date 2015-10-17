@@ -263,7 +263,7 @@ void BillboardSample::keyEvent(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool BillboardSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool BillboardSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

@@ -30,7 +30,7 @@ public:
     /**
      * @see Game::mouseEvent
      */
-    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     /** 
      * @see Game::gamepadEvent

@@ -1031,7 +1031,7 @@ bool Control::keyEvent(Keyboard::KeyEvent evt, int key)
     return false;
 }
 
-bool Control::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Control::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     // Return false instead of _consumeInputEvents to allow handling to be
     // routed to touchEvent before consuming.

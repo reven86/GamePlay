@@ -165,7 +165,7 @@ void SamplesGame::keyEvent(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool SamplesGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool SamplesGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     if (_activeSample)
     {

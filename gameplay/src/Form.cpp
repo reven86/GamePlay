@@ -594,7 +594,7 @@ void Form::verifyRemovedControlState(Control* control)
 //   evt - Mouse::MouseEvent or Touch::TouchEvent
 //   x, y - Point of event
 //   param - wheelData for mouse events, contactIndex for touch events
-bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, int param)
+bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
 {
     // Do not process mouse input when mouse is captured
     if (mouse && Game::getInstance()->isMouseCaptured())
@@ -606,7 +606,7 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, int param)
     Control* ctrl = NULL;
     int formX = x;
     int formY = y;
-    unsigned int contactIndex = mouse ? 0 : param;
+    unsigned int contactIndex = mouse ? 0 : (unsigned int)param;
 
     // Note: TOUCH_PRESS and TOUCH_RELEASE have same values as MOUSE_PRESS_LEFT_BUTTON and MOUSE_RELEASE_LEFT_BUTTON
     if (evt == Touch::TOUCH_PRESS)
@@ -728,7 +728,7 @@ bool Form::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int 
     return pointerEventInternal(false, evt, x, y, (int)contactIndex);
 }
 
-bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Form::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     return pointerEventInternal(true, evt, x, y, wheelDelta);
 }

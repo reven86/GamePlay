@@ -19,7 +19,7 @@ public:
 
     void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
 
-    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
+    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
 
     void keyEvent(Keyboard::KeyEvent evt, int key);
 

@@ -1400,7 +1400,7 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
     return false;
 }
 
-bool Container::mouseEventScroll(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool Container::mouseEventScroll(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     switch (evt)
     {

@@ -276,7 +276,7 @@ void TerrainSample::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int
     }
 }
 
-bool TerrainSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, int wheelDelta)
+bool TerrainSample::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     return false;
 }
