@@ -638,6 +638,8 @@ void Control::setSkinColor(const Vector4& color, unsigned char states)
         if( overlays[i] )
             overlays[i]->setSkinColor(color);
     }
+
+    setDirty(DIRTY_STATE);
 }
 
 const Vector4& Control::getSkinColor(State state) const
@@ -1712,6 +1714,13 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
         Vector4 textColor(0, 0, 0, 1);
         properties->getColor("textColor", &textColor);
         setTextColor(textColor, states);
+    }
+
+    if (properties->exists("skinColor"))
+    {
+        Vector4 skinColor(0, 0, 0, 1);
+        properties->getColor("skinColor", &skinColor);
+        setSkinColor(skinColor, states);
     }
 
     if (properties->exists("textAlignment"))
