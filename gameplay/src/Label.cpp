@@ -95,8 +95,6 @@ void Label::updateState(State state)
 
 void Label::updateBounds()
 {
-    Control::updateBounds();
-
     if (_autoSize != AUTO_SIZE_NONE && _font)
     {
         // Measure bounds based only on normal state so that bounds updates are not always required on state changes.
@@ -123,6 +121,8 @@ void Label::updateBounds()
             setHeightInternal(ceilf(h + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom));
         }
     }
+
+    Control::updateBounds();
 }
 
 void Label::updateAbsoluteBounds(const Vector2& offset)
