@@ -1128,21 +1128,8 @@ void Platform::pollGamepadState(Gamepad* gamepad)
 
 bool Platform::launchURL(const char* url)
 {
-#if 1
-    return false;
-#else
-    if (url == NULL || *url == '\0')
-        return false;
-
-    int len = strlen(url);
-
-    char* cmd = new char[11 + len];
-    sprintf(cmd, "xdg-open %s", url);
-    int r = system(cmd);
-    SAFE_DELETE_ARRAY(cmd);
-
-    return (r == 0);
-#endif
+    EM_ASM_({window.open(Module.Pointer_stringify($0),'_blank');}, url);
+    return true;
 }
 
 std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
