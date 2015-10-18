@@ -1296,7 +1296,7 @@ void Control::finishBatch(Form* form, SpriteBatch* batch) const
 
 unsigned int Control::draw(Form* form) const
 {
-    if (!_visible || _absoluteClipBounds.width <= 0 || _absoluteClipBounds.height <= 0)
+    if (!_visible || _absoluteClipBounds.width <= 0 || _absoluteClipBounds.height <= 0 || _opacity <= 0)
         return 0;
 
     unsigned int drawCalls = drawBorder(form);

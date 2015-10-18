@@ -683,7 +683,7 @@ bool Container::updateChildBounds()
 
 unsigned int Container::draw(Form* form) const
 {
-    if (!_visible)
+    if (!_visible || _absoluteClipBounds.width <= 0 || _absoluteClipBounds.height <= 0 || _opacity <= 0)
         return 0;
 
     // Draw container skin
