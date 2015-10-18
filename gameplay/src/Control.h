@@ -251,6 +251,11 @@ public:
     static const int ANIMATE_OPACITY = 7;
 
     /**
+     * Skin color property.  Data = skinColor
+     */
+    static const int ANIMATE_SKIN_COLOR = 8;
+
+    /**
      * Extends ScriptTarget::getTypeName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.

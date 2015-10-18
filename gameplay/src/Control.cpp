@@ -1514,6 +1514,9 @@ unsigned int Control::getAnimationPropertyComponentCount(int propertyId) const
     case ANIMATE_OPACITY:
         return 1;
 
+    case ANIMATE_SKIN_COLOR:
+        return 4;
+
     default:
         return -1;
     }
@@ -1548,6 +1551,12 @@ void Control::getAnimationPropertyValue(int propertyId, AnimationValue* value)
     case ANIMATE_OPACITY:
         value->setFloat(0, _opacity);
         break;
+    case ANIMATE_SKIN_COLOR:
+        {
+            const gameplay::Vector4& color = getSkinColor();
+            value->setFloats(0, &color.x, 4);
+        }
+        break;
     default:
         break;
     }
@@ -1581,6 +1590,13 @@ void Control::setAnimationPropertyValue(int propertyId, AnimationValue* value, f
         break;
     case ANIMATE_OPACITY:
         setOpacity(Curve::lerp(blendWeight, _opacity, value->getFloat(0)));
+        break;
+    case ANIMATE_SKIN_COLOR:
+        {
+            gameplay::Vector4 color;
+            value->getFloats(0, &color.x, 4);
+            setSkinColor(color * blendWeight);
+        }
         break;
     }
 }

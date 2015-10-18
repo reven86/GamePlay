@@ -63,7 +63,7 @@ void AnimationValue::getFloats(unsigned int index, float* values, unsigned int c
     memcpy(values, &_value[index], count * sizeof(float));
 }
 
-void AnimationValue::setFloats(unsigned int index, float* values, unsigned int count)
+void AnimationValue::setFloats(unsigned int index, const float* values, unsigned int count)
 {
     GP_ASSERT(_value && values && index < _componentCount && (index + count) <= _componentCount);
 

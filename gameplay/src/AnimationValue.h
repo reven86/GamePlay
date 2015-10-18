@@ -48,7 +48,7 @@ public:
      * @param values Array of values to copy into the AnimationValue.
      * @param count Number of values to in the array to copy in.
      */
-    void setFloats(unsigned int index, float* values, unsigned int count);
+    void setFloats(unsigned int index, const float* values, unsigned int count);
 
 private:
 
