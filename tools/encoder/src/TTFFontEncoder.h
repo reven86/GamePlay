@@ -4,7 +4,7 @@
 
 #define START_INDEX     32
 #define END_INDEX       127
-#define GLYPH_PADDING   4
+#define GLYPH_PADDING   2
 
 namespace gameplay
 {

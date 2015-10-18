@@ -4,6 +4,11 @@
 #include "StringUtil.h"
 #include "Image.h"
 
+#ifdef WIN32
+#include <windows.h>
+#include <wingdi.h>
+#endif
+
 namespace gameplay
 {
 
@@ -108,6 +113,13 @@ unsigned char* createDistanceFields(unsigned char* img, unsigned int width, unsi
     return out;
 }
 
+struct KerningPair
+{
+    wchar_t left;
+    wchar_t right;
+    int kerning;
+};
+
 // Stores a single genreated font size to be written into the GPB
 struct FontData
 {
@@ -123,6 +135,9 @@ struct FontData
     unsigned char* imageBuffer;
     unsigned int imageWidth;
     unsigned int imageHeight;
+
+    // Kerning pairs
+    std::vector<KerningPair> kerningPairs;
 
     FontData() : fontSize(0), glyphSize(0), imageBuffer(NULL), imageWidth(0), imageHeight(0)
     {
@@ -167,16 +182,38 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         characterSet = defaultSet;
     }
 
+    // retrieve kerning pairs
+    // freetype has no API to access kerning pairs table,
+    // use brute-force attempt to retrieve all pair for current characters set
+    std::vector<std::pair<wchar_t, wchar_t> > kerningPairs;
+
+    // freetype has limited support processing kerning table for OTF fonts, it
+    // retrieve data from the outdated 'kern' table instead of GPOS table.
+    // Use MSDN functions to retrieve full kerning pairs and offsets
+#if 0//def WIN32
+    AddFontResourceExA(inFilePath, FR_PRIVATE, 0);
+#else
+    for (const wchar_t * ascii1 = characterSet; *ascii1; ++ascii1)
+    {
+        for (const wchar_t * ascii2 = characterSet; *ascii2; ++ascii2)
+        {
+            FT_Vector out;
+            if (FT_Get_Kerning(face, *ascii1, *ascii2, FT_KERNING_UNSCALED, &out) == 0 && out.x != 0)
+                kerningPairs.push_back(std::make_pair(*ascii1, *ascii2));
+        }
+    }
+#endif
+
     for (size_t fontIndex = 0, count = fontSizes.size(); fontIndex < count; ++fontIndex)
     {
         unsigned int fontSize = fontSizes[fontIndex];
 
         FontData* font = new FontData();
         font->fontSize = fontSize;
-        font->glyphArray = reinterpret_cast< TTFGlyph * >( malloc( wcslen( characterSet ) * sizeof( TTFGlyph ) ) );
-        if( !font->glyphArray )
+        font->glyphArray = reinterpret_cast<TTFGlyph *>(malloc(wcslen(characterSet) * sizeof(TTFGlyph)));
+        if (!font->glyphArray)
         {
-            LOG( 1, "Not enough memory to allocate glyphs." );
+            LOG(1, "Not enough memory to allocate glyphs.");
             return -1;
         }
 
@@ -187,7 +224,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         int actualfontHeight = 0;
 
         FT_GlyphSlot slot = NULL;
-        FT_Int32 loadFlags = FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT;
+        FT_Int32 loadFlags = FT_LOAD_RENDER;
 
         // We want to generate fonts that fit exactly the requested pixels size.
         // Since free type (due to modern fonts) does not directly correlate requested
@@ -196,7 +233,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         for (unsigned int requestedSize = fontSize; requestedSize > 0; --requestedSize)
         {
             // Set the pixel size.
-            error = FT_Set_Char_Size( face, 0, requestedSize * 64, 0, 0 );
+            error = FT_Set_Char_Size(face, 0, requestedSize * 64, 0, 0);
             if (error)
             {
                 LOG(1, "FT_Set_Pixel_Sizes error: %d \n", error);
@@ -263,7 +300,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
 
         while (textureSizeFound == false)
         {
-            imageWidth =  (unsigned int)pow(2.0, powerOf2);
+            imageWidth = (unsigned int)pow(2.0, powerOf2);
             imageHeight = (unsigned int)pow(2.0, powerOf2);
             penX = 0;
             penY = 0;
@@ -284,7 +321,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                 int glyphWidth = slot->bitmap.pitch;
                 int glyphHeight = slot->bitmap.rows;
 
-                advance = glyphWidth + GLYPH_PADDING; 
+                advance = glyphWidth + GLYPH_PADDING;
 
                 // If we reach the end of the image wrap aroud to the next row.
                 if ((penX + advance) > (int)imageWidth)
@@ -307,7 +344,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                 // Move Y back to the top of the row.
                 penY = row * rowSize;
 
-                if (*(ascii+1) == L'\0')
+                if (*(ascii + 1) == L'\0')
                 {
                     textureSizeFound = true;
                 }
@@ -347,7 +384,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
             }
 
             // Glyph image.
-            unsigned char* glyphBuffer =  slot->bitmap.buffer;
+            unsigned char* glyphBuffer = slot->bitmap.buffer;
             int glyphWidth = slot->bitmap.pitch;
             int glyphHeight = slot->bitmap.rows;
 
@@ -396,8 +433,51 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         font->imageBuffer = imageBuffer;
         font->imageWidth = imageWidth;
         font->imageHeight = imageHeight;
+
+        // get kerning pairs for font of specific size
+#if 0//def WIN32
+        HDC hDC = GetDC(NULL); //CreateDCA("DISPLAY", NULL, NULL, NULL);
+
+        LOGFONTA fontStruct;
+        memset(&fontStruct, 0, sizeof(fontStruct));
+        fontStruct.lfHeight = -(int)fontSize;// -MulDiv(actualfontHeight, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+        fontStruct.lfWeight = FW_DONTCARE;
+        fontStruct.lfOutPrecision = OUT_OUTLINE_PRECIS;
+        fontStruct.lfCharSet = DEFAULT_CHARSET;
+        strcpy_s(fontStruct.lfFaceName, face->family_name);
+
+        HFONT fnt = CreateFontIndirectA(&fontStruct);
+
+        SelectObject(hDC, fnt);
+        GetTextFaceA(hDC, 32, fontStruct.lfFaceName);
+
+        DWORD numberOfKerningPairs = GetKerningPairs(hDC, INT_MAX, NULL);
+        KERNINGPAIR * pairs = new KERNINGPAIR[numberOfKerningPairs];
+        GetKerningPairs(hDC, numberOfKerningPairs, pairs);
+        for (unsigned int i = 0; i < numberOfKerningPairs; i++)
+        {
+            if (pairs[i].iKernAmount != 0 && wcschr(characterSet, pairs[i].wFirst) != NULL && wcschr(characterSet, pairs[i].wSecond) != NULL)
+                font->kerningPairs.push_back(KerningPair{ pairs[i].wFirst, pairs[i].wSecond, pairs[i].iKernAmount });
+        }
+        delete[] pairs;
+
+        DeleteObject(fnt);
+        //DeleteDC(hDC);
+#else
+        for (const std::pair<wchar_t, wchar_t>& kernPair : kerningPairs)
+        {
+            FT_Vector kerning;
+            if (FT_Get_Kerning(face, kernPair.first, kernPair.second, FT_KERNING_DEFAULT, &kerning) == 0 && (kerning.x >> 6) != 0)
+                font->kerningPairs.push_back(KerningPair{ kernPair.first, kernPair.second, kerning.x >> 6 });
+        }
+#endif
+
         fonts.push_back(font);
     }
+
+#if 0//def WIN32
+    RemoveFontResourceExA(inFilePath, FR_PRIVATE, 0);
+#endif
 
     // File header and version.
     FILE *gpbFp = fopen(outFilePath, "wb");    
