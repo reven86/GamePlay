@@ -129,7 +129,14 @@ void Label::updateAbsoluteBounds(const Vector2& offset)
 {
     Control::updateAbsoluteBounds(offset);
 
+    float oldTextWidth = _textBounds.width;
     _textBounds.set(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height);
+
+    if ((_autoSize & AUTO_SIZE_HEIGHT) != 0 && (_autoSize & AUTO_SIZE_WIDTH) == 0 && oldTextWidth != _textBounds.width)
+    {
+        // text bounds have been changed and word wrapping is applied, need to recalculate control's height
+        setDirty(DIRTY_BOUNDS);
+    }
 }
 
 unsigned int Label::drawText(Form* form) const

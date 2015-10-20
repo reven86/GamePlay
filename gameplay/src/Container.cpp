@@ -1113,13 +1113,6 @@ void Container::updateScroll()
     float elapsedTime = (float)(frameTime - _lastFrameTime);
     _lastFrameTime = frameTime;
 
-    if (elapsedTime <= 0.0f)
-    {
-        if (!_scrollingVelocity.isZero())
-            setDirty(DIRTY_BOUNDS);
-        return;
-    }
-
     const Theme::Border& containerBorder = getBorder(state);
     const Theme::Padding& containerPadding = getPadding();
 
@@ -1153,6 +1146,25 @@ void Container::updateScroll()
     float hHeight = (_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL ? getImageRegion("horizontalScrollBar", state).height : 0.0f;
     float clipWidth = _absoluteBounds.width - containerBorder.left - containerBorder.right - containerPadding.left - containerPadding.right - vWidth;
     float clipHeight = _absoluteBounds.height - containerBorder.top - containerBorder.bottom - containerPadding.top - containerPadding.bottom - hHeight;
+
+    float scrollWidth = 0;
+    if (clipWidth < _totalWidth)
+        scrollWidth = (clipWidth / _totalWidth) * clipWidth;
+
+    float scrollHeight = 0;
+    if (clipHeight < _totalHeight)
+        scrollHeight = (clipHeight / _totalHeight) * clipHeight;
+
+    if (elapsedTime <= 0.0f)
+    {
+        _scrollBarBounds.set(((-_scrollPosition.x) / _totalWidth) * clipWidth,
+            ((-_scrollPosition.y) / _totalHeight) * clipHeight,
+            scrollWidth, scrollHeight);
+
+        if (!_scrollingVelocity.isZero())
+            setDirty(DIRTY_BOUNDS);
+        return;
+    }
 
     bool dirty = false;
 
@@ -1209,14 +1221,6 @@ void Container::updateScroll()
 
     if (_scrollPosition != lastScrollPosition)
         dirty = true;
-
-    float scrollWidth = 0;
-    if (clipWidth < _totalWidth)
-        scrollWidth = (clipWidth / _totalWidth) * clipWidth;
-
-    float scrollHeight = 0;
-    if (clipHeight < _totalHeight)
-        scrollHeight = (clipHeight / _totalHeight) * clipHeight;
 
     _scrollBarBounds.set(((-_scrollPosition.x) / _totalWidth) * clipWidth,
                          ((-_scrollPosition.y) / _totalHeight) * clipHeight,
