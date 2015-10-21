@@ -22,12 +22,7 @@ import android.view.View;
  * android user-interface, life-cycle events for saving game state and custom plug-ins/extensions.
  */
 public class GamePlayNativeActivity extends NativeActivity {
-    
-    static {
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("gameplay");
-    }
-    
+        
     private static final String TAG = "GamePlayNativeActivity";
     
     @Override

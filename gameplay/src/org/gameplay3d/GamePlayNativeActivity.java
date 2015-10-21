@@ -27,11 +27,6 @@ import android.view.OrientationEventListener;
  */
 public class GamePlayNativeActivity extends NativeActivity {
     
-    static {
-        System.loadLibrary("gnustl_shared");
-        System.loadLibrary("gameplay");
-    }
-
     private class GamePlayInputDeviceListener
         implements InputManager.InputDeviceListener {
         @Override

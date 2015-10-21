@@ -2,20 +2,12 @@ GAMEPLAY_PATH := $(call my-dir)/../../src
 
 # external-deps
 GAMEPLAY_DEPS := ../../external-deps/lib/android/$(TARGET_ARCH_ABI)
-LIBYAML_PATH := ../../external-deps/lib/android/$(TARGET_ARCH_ABI)
 
 # libgameplay-deps
 LOCAL_PATH := $(GAMEPLAY_DEPS)
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libgameplay-deps 
 LOCAL_SRC_FILES := libgameplay-deps.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# libyaml
-LOCAL_PATH := $(LIBYAML_PATH)
-include $(CLEAR_VARS)
-LOCAL_MODULE    := libyaml
-LOCAL_SRC_FILES := libyaml.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 # libgameplay
@@ -288,11 +280,11 @@ LOCAL_SRC_FILES := \
 
 LOCAL_CPPFLAGS += -std=c++11 -frtti -Wno-switch-enum -Wno-switch
 LOCAL_ARM_MODE := arm
-LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
+#LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"
-LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
-LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps libyaml
-include $(BUILD_SHARED_LIBRARY)
+#LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
+LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps
+include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,android/native_app_glue)
 
