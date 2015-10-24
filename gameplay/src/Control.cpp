@@ -886,8 +886,16 @@ void Control::setStyle(Theme::Style* style)
 {
     if (style != _style)
     {
+        if (_style)
+            _style->getTheme()->release();
+        if (_styleOverridden)
+            SAFE_DELETE(_style);
+        _styleOverridden = false;
         _style = style;
+        if (_style)
+            _style->getTheme()->addRef();
         setDirty(DIRTY_BOUNDS);
+        setDirty(DIRTY_STATE);
     }
 }
 
