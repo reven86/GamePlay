@@ -1148,17 +1148,17 @@ void Container::updateScroll()
     float clipHeight = _absoluteBounds.height - containerBorder.top - containerBorder.bottom - containerPadding.top - containerPadding.bottom - hHeight;
 
     float scrollWidth = 0;
-    if (clipWidth < _totalWidth)
+    if (clipWidth < _totalWidth && _totalWidth > 0.0f)
         scrollWidth = (clipWidth / _totalWidth) * clipWidth;
 
     float scrollHeight = 0;
-    if (clipHeight < _totalHeight)
+    if (clipHeight < _totalHeight && _totalHeight > 0.0f)
         scrollHeight = (clipHeight / _totalHeight) * clipHeight;
 
     if (elapsedTime <= 0.0f)
     {
-        _scrollBarBounds.set(((-_scrollPosition.x) / _totalWidth) * clipWidth,
-            ((-_scrollPosition.y) / _totalHeight) * clipHeight,
+        _scrollBarBounds.set(_totalWidth > 0.0f ? - _scrollPosition.x / _totalWidth * clipWidth : 0.0f,
+            _totalHeight > 0.0f ? - _scrollPosition.y / _totalHeight * clipHeight : 0.0f,
             scrollWidth, scrollHeight);
 
         if (!_scrollingVelocity.isZero())
@@ -1222,9 +1222,9 @@ void Container::updateScroll()
     if (_scrollPosition != lastScrollPosition)
         dirty = true;
 
-    _scrollBarBounds.set(((-_scrollPosition.x) / _totalWidth) * clipWidth,
-                         ((-_scrollPosition.y) / _totalHeight) * clipHeight,
-                         scrollWidth, scrollHeight);
+    _scrollBarBounds.set(_totalWidth > 0.0f ? -_scrollPosition.x / _totalWidth * clipWidth : 0.0f,
+        _totalHeight > 0.0f ? -_scrollPosition.y / _totalHeight * clipHeight : 0.0f,
+        scrollWidth, scrollHeight);
 
     // If scroll velocity is 0 and scrollbars are not always visible, trigger fade-out animation.
     if (!_scrolling && _scrollingVelocity.isZero() && _scrollBarsAutoHide && _scrollBarOpacity == 1.0f)

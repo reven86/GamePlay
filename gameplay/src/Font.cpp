@@ -1072,8 +1072,8 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
         if (y >= clip.y)
         {
             // Text goes off the bottom of the clip.
-            clippedBottom = static_cast< int >( (height - viewportHeight) / size ) + 1;
-            if (clippedBottom > 0 && viewportHeight < FLT_MAX)
+            clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight) / size) + 1 : 0;
+            if (clippedBottom > 0)
             {
                 // Also need to crop empty lines above non-empty lines that have been clipped.
                 size_t emptyIndex = emptyLines.size() - clippedBottom;

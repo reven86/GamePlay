@@ -154,7 +154,7 @@ void RadioButton::updateBounds()
     const Rectangle& unselectedRegion = getImageRegion("unselected", NORMAL);
     unselectedSize.set(unselectedRegion.width, unselectedRegion.height);
 
-    float scaleFactor = getFontSize(NORMAL) * _iconScale / unselectedSize.y;
+    float scaleFactor = unselectedSize.y > 0.0f ? getFontSize(NORMAL) * _iconScale / unselectedSize.y : 1.0f;
 
     Vector2 size;
     if (_selected)
@@ -178,7 +178,7 @@ void RadioButton::updateBounds()
         setHeightInternal(size.y + border.top + border.bottom + padding.top + padding.bottom);
     }
 
-    if (_autoSize & AUTO_SIZE_WIDTH)
+    if ((_autoSize & AUTO_SIZE_WIDTH) != 0 && _font)
     {
         // Text-only width was already measured in Label::update - append image
         setWidthInternal(_bounds.height + 5 + _bounds.width);
