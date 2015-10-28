@@ -450,6 +450,13 @@ void Container::setScrollPosition(const Vector2& scrollPosition)
     _scrollPosition = scrollPosition;
     setDirty(DIRTY_BOUNDS);
     setChildrenDirty(DIRTY_BOUNDS, true);
+
+    _scrollBarOpacity = 1.0f;
+    if (_scrollBarOpacityClip && _scrollBarOpacityClip->isPlaying())
+    {
+        _scrollBarOpacityClip->stop();
+        _scrollBarOpacityClip = NULL;
+    }
 }
 
 Animation* Container::getAnimation(const char* id) const
@@ -541,8 +548,8 @@ void Container::setChildrenDirty(int bits, bool recursive)
 
 void Container::setParentsDirty(int bits)
 {
-    Control* parent = this;
-    while (parent && (parent->_autoSize != AUTO_SIZE_NONE || static_cast<Container *>(parent)->getLayout()->getType() != Layout::LAYOUT_ABSOLUTE))
+    Container * parent = this;
+    while (parent && (parent->_autoSize != AUTO_SIZE_NONE || parent->getLayout()->getType() != Layout::LAYOUT_ABSOLUTE || parent->_scroll != SCROLL_NONE))
     {
         parent->setDirty(DIRTY_BOUNDS);
         parent = parent->_parent;
@@ -693,7 +700,7 @@ unsigned int Container::draw(Form* form) const
     for (size_t i = 0, count = _controls.size(); i < count; ++i)
     {
         Control* control = _controls[i];
-        if (control && control->_absoluteClipBounds.intersects(_absoluteClipBounds))
+        if (control)
         {
             drawCalls += control->draw(form);
         }
