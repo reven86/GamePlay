@@ -50,6 +50,16 @@ public:
 	 */
     void unregisterCustomControl(const char* typeName);
 
+    /**
+     * Creates a controls from the set of core and custom controls registered.
+     *
+     * @param typeName The type of the control to create.
+     * @param style The style to apply to the control.
+     * @param properties A Properties object describing the control (optional).
+     *  @return The new control.
+     */
+    Control* createControl(const char* typeName, Theme::Style *style, Properties *properties = NULL);
+
 private:
 
 	/**
@@ -76,16 +86,6 @@ private:
 	 * Assignment operator
 	 */
 	ControlFactory &operator=(const ControlFactory&);
-
-	/**
-	* Creates a controls from the set of core and custom controls registered.
-	*
-	* @param typeName The type of the control to create.
-	* @param style The style to apply to the control.
-	* @param properties A Properties object describing the control (optional).
-	* @return The new control.
-	*/
-    Control* createControl(const char* typeName, Theme::Style *style, Properties *properties = NULL);
 
     /**
 	 * Registers the standard (built-in) controls

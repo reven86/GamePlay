@@ -392,7 +392,7 @@ protected:
      *
      * @param properties The properties to use.
      */
-    void addControls(Properties* properties);
+    virtual void addControls(Properties* properties);
 
     /**
      * @see Control::draw
