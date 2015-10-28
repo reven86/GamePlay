@@ -111,7 +111,7 @@ void CheckBox::updateBounds()
     const Rectangle& unselectedRegion = getImageRegion("unchecked", NORMAL);
     uncheckedSize.set(unselectedRegion.width, unselectedRegion.height);
 
-    float scaleFactor = getFontSize(NORMAL) * _iconScale / uncheckedSize.y;
+    float scaleFactor = uncheckedSize.y > 0.0f ? getFontSize(NORMAL) * _iconScale / uncheckedSize.y : 1.0f;
 
     Vector2 size;
     if (_checked)
