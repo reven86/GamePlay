@@ -212,13 +212,18 @@ unsigned int Container::addControl(Control* control)
 	if( control->_parent == this )
 	{
 		// Control is already in this container.
-		// Do nothing but determine and return control's index.
+        // Push it to the end of a list.
 		const size_t size = _controls.size();
-		for( size_t i = 0; i < size; ++i ) {
+		for( size_t i = 0; i < size; ++i )
+        {
 			Control* c = _controls[ i ];
-			if( c == control ) {
-				return (unsigned int)i;
-			}
+			if( c == control )
+            {
+                std::vector<Control*>::iterator it = _controls.begin() + i;
+                std::rotate(it, it + 1, _controls.end());
+                setDirty(Control::DIRTY_BOUNDS);
+                return (unsigned int)(_controls.size() - 1);
+            }
 		}
 
 		// Should never reach this.
@@ -290,6 +295,32 @@ void Container::insertControl(Control* control, unsigned int index)
         control->addRef();
         control->_parent = this;
         setDirty(Control::DIRTY_BOUNDS);
+    }
+    else
+    {
+        // move control to a new position in the list
+        const size_t size = _controls.size();
+        for (size_t i = 0; i < size; ++i)
+        {
+            Control* c = _controls[i];
+            if (c == control)
+            {
+                if (i == index)
+                    return;
+
+                std::vector<Control*>::iterator newIt = _controls.begin() + index;
+                _controls.insert(newIt, control);
+
+                if (index < i)
+                    i++;
+
+                std::vector<Control*>::iterator currentIt = _controls.begin() + i;
+                GP_ASSERT(*currentIt == control);
+                _controls.erase(currentIt);
+
+                return;
+            }
+        }
     }
 }
 
@@ -1125,7 +1156,7 @@ void Container::updateScroll()
 
     // Calculate total width and height.
     _totalWidth = _totalHeight = 0.0f;
-    std::vector<Control*> controls = getControls();
+    const std::vector<Control*>& controls = getControls();
     for (size_t i = 0, count = controls.size(); i < count; ++i)
     {
         Control* control = _controls[i];
