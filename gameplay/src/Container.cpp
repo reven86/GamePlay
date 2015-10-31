@@ -1073,6 +1073,7 @@ void Container::startScrolling(float x, float y, bool resetTime)
 
 void Container::stopScrolling()
 {
+    _contactIndex = INVALID_CONTACT_INDEX;
     _scrollingVelocity.set(0, 0);
     _scrolling = false;
     setDirty(DIRTY_BOUNDS);
