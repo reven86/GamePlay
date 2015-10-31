@@ -587,17 +587,17 @@ AudioListener* Game::getAudioListener()
     return _audioListener;
 }
 
-void Game::keyEvent(Keyboard::KeyEvent evt, int key)
+void Game::keyEvent(Keyboard::KeyEvent evt, int key, bool processed)
 {
     // stub
 }
 
-void Game::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
+void Game::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed)
 {
     // stub
 }
 
-bool Game::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
+bool Game::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed)
 {
     // stub
     return false;
@@ -668,23 +668,23 @@ void Game::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad)
     // stub
 }
 
-void Game::keyEventInternal(Keyboard::KeyEvent evt, int key)
+void Game::keyEventInternal(Keyboard::KeyEvent evt, int key, bool processed)
 {
-    keyEvent(evt, key);
+    keyEvent(evt, key, processed);
     if (_scriptTarget)
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, keyEvent), evt, key);
 }
 
-void Game::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
+void Game::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed)
 {
-    touchEvent(evt, x, y, contactIndex);
+    touchEvent(evt, x, y, contactIndex, processed);
     if (_scriptTarget)
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, touchEvent), evt, x, y, contactIndex);
 }
 
-bool Game::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
+bool Game::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed)
 {
-    if (mouseEvent(evt, x, y, wheelDelta))
+    if (mouseEvent(evt, x, y, wheelDelta, processed))
         return true;
 
     if (_scriptTarget)

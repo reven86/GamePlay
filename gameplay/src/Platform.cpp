@@ -11,32 +11,21 @@ namespace gameplay
 void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool actuallyMouse)
 {
     bool eventNotProcessed = actuallyMouse || !Form::touchEventInternal(evt, x, y, contactIndex);
-    
-    if (!eventNotProcessed && evt == Touch::TOUCH_PRESS)
-        evt = Touch::TOUCH_MOVE;    // little hack to make sure app updates touch cursor on first press event
-    
-    if (eventNotProcessed)// || evt == Touch::TOUCH_MOVE)
-    {
-        Game::getInstance()->touchEventInternal(evt, x, y, contactIndex);
-    }
+    Game::getInstance()->touchEventInternal(evt, x, y, contactIndex, !eventNotProcessed);
 }
 
 void Platform::keyEventInternal(Keyboard::KeyEvent evt, int key)
 {
-    if (!Form::keyEventInternal(evt, key))
-    {
-        Game::getInstance()->keyEventInternal(evt, key);
-    }
+    bool processed = Form::keyEventInternal(evt, key);
+    Game::getInstance()->keyEventInternal(evt, key, processed);
 }
 
 bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
     bool eventConsumed = Form::mouseEventInternal(evt, x, y, wheelDelta);
 
-    // send mouse move event even if it is consumed by form
-    if( !eventConsumed || evt == Mouse::MOUSE_MOVE )
-        if (Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta))
-            return true;
+    if (Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta, eventConsumed))
+        return true;
 
     return eventConsumed;
 }

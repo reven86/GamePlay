@@ -309,11 +309,12 @@ public:
      * @param evt The key event that occurred.
      * @param key If evt is KEY_PRESS or KEY_RELEASE then key is the key code from Keyboard::Key.
      *            If evt is KEY_CHAR then key is the unicode value of the character.
+     * @param processed The key was already processed by Form.
      * 
      * @see Keyboard::KeyEvent
      * @see Keyboard::Key
      */
-    virtual void keyEvent(Keyboard::KeyEvent evt, int key);
+    virtual void keyEvent(Keyboard::KeyEvent evt, int key, bool processed);
 
     /**
      * Touch callback on touch events.
@@ -322,10 +323,11 @@ public:
      * @param x The x position of the touch in pixels. Left edge is zero.
      * @param y The y position of the touch in pixels. Top edge is zero.
      * @param contactIndex The order of occurrence for multiple touch contacts starting at zero.
+     * @param processed The event was already processed by Form.
      *
      * @see Touch::TouchEvent
      */
-    virtual void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+    virtual void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed);
 
     /**
      * Mouse callback on mouse events. If the game does not consume the mouse move event or left mouse click event
@@ -335,12 +337,13 @@ public:
      * @param x The x position of the mouse in pixels. Left edge is zero.
      * @param y The y position of the mouse in pixels. Top edge is zero.
      * @param wheelDelta The number of mouse wheel ticks. Positive is up (forward), negative is down (backward).
+     * @param processed The event was already processed by Form.
      *
      * @return True if the mouse event is consumed or false if it is not consumed.
      *
      * @see Mouse::MouseEvent
      */
-    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
+    virtual bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed);
     
     /**
      * Called when the game window has been resized.
@@ -800,9 +803,9 @@ private:
      */
     void loadGamepads();
 
-    void keyEventInternal(Keyboard::KeyEvent evt, int key);
-    void touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
-    bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
+    void keyEventInternal(Keyboard::KeyEvent evt, int key, bool processed);
+    void touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed);
+    bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed);
     void resizeEventInternal(unsigned int width, unsigned int height);
     void gestureSwipeEventInternal(int x, int y, int direction);
     void gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches);

@@ -1970,7 +1970,7 @@ int lua_Game_keyEvent(lua_State* state)
                 int param2 = (int)luaL_checkint(state, 3);
 
                 Game* instance = getInstance(state);
-                instance->keyEvent(param1, param2);
+                instance->keyEvent(param1, param2, false);
                 
                 return 0;
             }
@@ -2057,7 +2057,7 @@ int lua_Game_mouseEvent(lua_State* state)
                 int param4 = (int)luaL_checkint(state, 5);
 
                 Game* instance = getInstance(state);
-                bool result = instance->mouseEvent(param1, param2, param3, param4);
+                bool result = instance->mouseEvent(param1, param2, param3, param4, false);
 
                 // Push the return value onto the stack.
                 lua_pushboolean(state, result);
@@ -2704,7 +2704,7 @@ int lua_Game_touchEvent(lua_State* state)
                 unsigned int param4 = (unsigned int)luaL_checkunsigned(state, 5);
 
                 Game* instance = getInstance(state);
-                instance->touchEvent(param1, param2, param3, param4);
+                instance->touchEvent(param1, param2, param3, param4, false);
                 
                 return 0;
             }
