@@ -897,7 +897,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
                             float xPos = clip.x;
                             if (hAlign == ALIGN_HCENTER)
                             {
-                                xPos += hWhitespace * 0.5f;
+                                xPos += ceilf(hWhitespace * 0.5f);
                             }
                             else if (hAlign == ALIGN_RIGHT)
                             {
@@ -955,7 +955,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
                 float xPos = clip.x;
                 if (hAlign == ALIGN_HCENTER)
                 {
-                    xPos += hWhitespace * 0.5f;
+                    xPos += ceilf(hWhitespace * 0.5f);
                 }
                 else if (hAlign == ALIGN_RIGHT)
                 {
@@ -1015,7 +1015,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             float hWhitespace = clip.width - lineWidth;
             if (hAlign == ALIGN_HCENTER)
             {
-                xPos += hWhitespace * 0.5f;
+                xPos += ceilf(hWhitespace * 0.5f);
             }
             else if (hAlign == ALIGN_RIGHT)
             {
@@ -1038,7 +1038,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
         float xPos = clip.x;
         if (hAlign == ALIGN_HCENTER)
         {
-            xPos += hWhitespace * 0.5f;
+            xPos += ceilf(hWhitespace * 0.5f);
         }
         else if (hAlign == ALIGN_RIGHT)
         {
@@ -1057,7 +1057,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     float vWhitespace = viewportHeight - height;
     if (vAlign == ALIGN_VCENTER)
     {
-        y += vWhitespace * 0.5f;
+        y += ceilf(vWhitespace * 0.5f);
     }
     else if (vAlign == ALIGN_BOTTOM)
     {
@@ -1111,7 +1111,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             if (vAlign == ALIGN_VCENTER)
             {
                 // In this case lines may be clipped off the bottom as well.
-                clippedBottom = static_cast< int >( (height - viewportHeight + vWhitespace/2 + 0.01) / size ) + 1;
+                clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight + vWhitespace / 2 + 0.01) / size) + 1 : 0;
                 if (clippedBottom > 0)
                 {
                     emptyIndex = emptyLines.size() - clippedBottom;
@@ -1319,7 +1319,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
             float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + vWhiteSpace * 0.5f;
+                *yPosition = area.y + ceilf(vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
@@ -1358,7 +1358,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
             float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + vWhiteSpace * 0.5f;
+                *yPosition = area.y + ceilf(vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
@@ -1802,7 +1802,7 @@ void Font::addLineInfo(const Rectangle& area, float lineWidth, int lineLength, J
     if (hAlign == ALIGN_HCENTER)
     {
         GP_ASSERT(xPositions);
-        (*xPositions).push_back(area.x + hWhitespace / 2);
+        (*xPositions).push_back(area.x + ceilf(hWhitespace / 2));
     }
     else if (hAlign == ALIGN_RIGHT)
     {
