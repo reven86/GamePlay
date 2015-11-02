@@ -25,23 +25,75 @@ public:
      */
     virtual ~StoreListener() {};
     
+    /**
+     * Get called when information about submitted products is received from store.
+     *
+     * @param products List of valid products.
+     * @param invalidProducts IDs of invalid products. These products can't purchased and should not be displayed to user.
+     *
+     * @see StoreFront::getProducts
+     */
     virtual void getProductsEvent( const std::vector<StoreProduct>& products, const std::vector<std::string>& invalidProducts ) {};
     
-    virtual void getProductsFailedEvent( int errorCode, const char * error ) {};
+    /**
+     * Get called in case of error in obtaining products' information.
+     *
+     * @param errorCode Error code.
+     * @param error UTF-8 error string.
+     */
+    virtual void getProductsFailedEvent( int errorCode, const char * errorUTF8 ) {};
     
+    /**
+     * Transaction is being processed event.
+     *
+     * @param productID Product for which transaction is being processed.
+     * @param quantity Product's quantity.
+     *
+     * @see StoreFront::makePayment.
+     */
     virtual void paymentTransactionInProcessEvent( const char * productID, int quantity ) {};
 
     /**
-     * Return true for this event to complete the transaction.
+     * Transaction is succeeded.
+     * You must manually call StoreFront::finishTransaction to remove transaction from the queue,
+     * when you've done processing and validating it.
+     *
+     * @param productID Product for which transaction is being processed.
+     * @param quantity Product's quantity.
+     * @param timestamp UNIX timestamp for a transaction.
+     * @param transactionID Transaction ID.
+     * @param transactionObject Transaction object.
+     *
+     * @see StoreFront::makePayment.
      */
-    virtual bool paymentTransactionSucceededEvent( const char * productID, int quantity, double timestamp, const char * transactionID ) { return true; };
+    virtual void paymentTransactionSucceededEvent(const char * productID, int quantity, double timestamp, const char * transactionID, void * transactionObject) {};
     
+    /**
+     * Transaction is failed.
+     *
+     * @param productID Product's ID.
+     * @param quantity Product's quantity.
+     * @param errorCode Error code.
+     * @param error UTF-8 error string.
+     *
+     * @see StoreFront::makePayment.
+     */
     virtual void paymentTransactionFailedEvent( const char * productID, int quantity, int errorCode, const char * error ) {};
     
     /**
-     * Return true for this event to complete the transaction.
+     * Previous transaction is restored.
+     * You must manually call StoreFront::finishTransaction to remove transaction from the queue,
+     * when you've done processing and validating it.
+     *
+     * @param productID Product's ID.
+     * @param quantity Product's quantity.
+     * @param timestamp Original transaction's UNIX timestamp.
+     * @param transactionID Original transaction's ID.
+     * @param transactionObject Transaction object.
+     *
+     * @see StoreFront::makePayment.
      */
-    virtual bool paymentTransactionRestoredEvent( const char * productID, int quantity, double timestamp, const char * transactionID ) { return true; };
+    virtual void paymentTransactionRestoredEvent( const char * productID, int quantity, double timestamp ) {};
 
     /**
      * Return true if the item should be consumed.

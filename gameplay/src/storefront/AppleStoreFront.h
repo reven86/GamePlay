@@ -66,6 +66,11 @@ public:
     virtual void restoreTransactions( const char * usernameHash );
     
     /**
+     * Finish transaction and remove it from the queue.
+     */
+    virtual void finishTransaction(void * transactionObject);
+
+    /**
      * Get SKPaymentTransaction which is being processed or nil.
      */
     SKPaymentTransaction * getCurrentTransactionObject();

@@ -64,6 +64,11 @@ public:
      */
     virtual void restoreTransactions( const char * usernameHash ) {};
     
+    /**
+     * Finish transaction and remove it from the queue.
+     */
+    virtual void finishTransaction(void * transactionObject) {};
+
 protected:
 
     /**

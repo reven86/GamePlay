@@ -60,7 +60,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobjec
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
 
-    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID);
+    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID, NULL);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
@@ -71,7 +71,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobje
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
 
-    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID);
+    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID, NULL);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
@@ -207,6 +207,11 @@ void GoogleStoreFront::restoreTransactions(const char * usernameHash)
 float GoogleStoreFront::getShippingCost(const StoreProduct& product, int quantity) const
 {
     return product.price * quantity * 0.3f;
+}
+
+void GoogleStoreFront::finishTransaction(void * transactionObject)
+{
+    // do nothing
 }
 
 }

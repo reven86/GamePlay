@@ -34,7 +34,7 @@ struct StoreProduct
     float price;
 
     /**
-     * The product's localized price in local currency.
+     * The product's localized price string in local currency (UTF-8).
      */
     std::string localizedPrice;
     

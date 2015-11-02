@@ -92,20 +92,14 @@
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
-                if( _storeFront->getListener()->paymentTransactionSucceededEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity, [transaction.transactionDate timeIntervalSince1970], [transaction.transactionIdentifier UTF8String]) )
-                {
-                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                }
+                _storeFront->getListener()->paymentTransactionSucceededEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity, [transaction.transactionDate timeIntervalSince1970], [transaction.transactionIdentifier UTF8String], transaction);
                 break;
             case SKPaymentTransactionStateFailed:
                 _storeFront->getListener()->paymentTransactionFailedEvent([transaction.payment.productIdentifier UTF8String], transaction.payment.quantity, transaction.error.code, [transaction.error.localizedDescription UTF8String]);
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             case SKPaymentTransactionStateRestored:
-                if( _storeFront->getListener()->paymentTransactionRestoredEvent([transaction.originalTransaction.payment.productIdentifier UTF8String], transaction.originalTransaction.payment.quantity, [transaction.originalTransaction.transactionDate timeIntervalSince1970], [transaction.originalTransaction.transactionIdentifier UTF8String]) )
-                {
-                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                }
+                _storeFront->getListener()->paymentTransactionRestoredEvent([transaction.originalTransaction.payment.productIdentifier UTF8String], transaction.originalTransaction.payment.quantity, [transaction.originalTransaction.transactionDate timeIntervalSince1970], [transaction.originalTransaction.transactionIdentifier UTF8String], transaction);
                 break;
             default:
                 GP_ASSERT( transaction.transactionState == SKPaymentTransactionStatePurchasing );
@@ -119,7 +113,7 @@
 @end
 
 
-static AppleStoreKitController * gStoreKitController = nil;
+static AppleStoreKitController * __storeKitController = nil;
 
 
 namespace gameplay {
@@ -128,25 +122,25 @@ namespace gameplay {
 AppleStoreFront::AppleStoreFront()
     : _listener( NULL )
 {
-    if( gStoreKitController == nil )
+    if( __storeKitController == nil )
     {
-        gStoreKitController = [[AppleStoreKitController alloc] init];
-        gStoreKitController->_storeFront = this;
-        gStoreKitController->_observerAdded = false;
+        __storeKitController = [[AppleStoreKitController alloc] init];
+        __storeKitController->_storeFront = this;
+        __storeKitController->_observerAdded = false;
     }
 }
 
 AppleStoreFront::~AppleStoreFront()
 {
-    if( gStoreKitController != nil )
+    if( __storeKitController != nil )
     {
-        if( gStoreKitController->_observerAdded )
+        if( __storeKitController->_observerAdded )
         {
-            [[SKPaymentQueue defaultQueue] removeTransactionObserver:gStoreKitController];
-            gStoreKitController->_observerAdded = false;
+            [[SKPaymentQueue defaultQueue] removeTransactionObserver:__storeKitController];
+            __storeKitController->_observerAdded = false;
         }
-        [gStoreKitController release];
-        gStoreKitController = nil;
+        [__storeKitController release];
+        __storeKitController = nil;
     }
 }
     
@@ -175,7 +169,7 @@ void AppleStoreFront::getProducts(const char ** productIDs) const
     }
     
     SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productsArray]];
-    productsRequest.delegate = gStoreKitController;
+    productsRequest.delegate = __storeKitController;
     [productsRequest start];
     
     [productsArray release];
@@ -184,7 +178,7 @@ void AppleStoreFront::getProducts(const char ** productIDs) const
 void AppleStoreFront::makePayment(const char * productID, int quantity, const char * usernameHash)
 {
     NSString * productIdentifier = [NSString stringWithUTF8String:productID];
-    for (SKProduct * product in gStoreKitController.products)
+    for (SKProduct * product in __storeKitController.products)
         if( [product.productIdentifier compare:productIdentifier] == NSOrderedSame )
         {
             SKMutablePayment * payment = [SKMutablePayment paymentWithProduct:product];
@@ -218,7 +212,12 @@ void AppleStoreFront::restoreTransactions(const char * usernameHash)
     
 SKPaymentTransaction * AppleStoreFront::getCurrentTransactionObject()
 {
-    return gStoreKitController ? gStoreKitController->_currentTransactionObject : nil;
+    return __storeKitController ? __storeKitController->_currentTransactionObject : nil;
+}
+
+void AppleStoreFont::finishTransaction(void * transactionObject)
+{
+    [[SKPaymentQueue defaultQueue] finishTransaction:(SKPaymentTransaction *)(transactionObject)];
 }
     
 }
