@@ -198,6 +198,15 @@ public:
     bool isScrolling() const;
 
     /**
+     * Starts scrolling at the given horizontal and vertical speeds.
+     *
+     * @param x Horizontal speed.
+     * @param y Vertical speed.
+     * @param resetTime Reset scrolling timer.
+     */
+    void startScrolling(float x, float y, bool resetTime = true);
+
+    /**
      * Stops this container from scrolling if it is currently being scrolled.
      */
     void stopScrolling();
@@ -584,9 +593,6 @@ private:
 
 	bool moveFocusNextPrevious(Direction direction);
 	bool moveFocusDirectional(Direction direction);
-
-    // Starts scrolling at the given horizontal and vertical speeds.
-    void startScrolling(float x, float y, bool resetTime = true);
 
     void clearContacts();
     bool inContact();
