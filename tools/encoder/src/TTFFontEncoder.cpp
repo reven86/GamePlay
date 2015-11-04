@@ -222,6 +222,8 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         int rowSize = 0;
         int glyphSize = 0;
         int actualfontHeight = 0;
+        int maxTopY = 0;
+        int minBottomY = 0;
 
         FT_GlyphSlot slot = NULL;
         FT_Int32 loadFlags = FT_LOAD_RENDER;
@@ -246,6 +248,8 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
             rowSize = 0;
             glyphSize = 0;
             actualfontHeight = 0;
+            maxTopY = 0;
+            minBottomY = 0;
 
             // Find the width of the image.
             for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
@@ -260,12 +264,15 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                 int bitmapRows = slot->bitmap.rows;
                 actualfontHeight = (actualfontHeight < bitmapRows) ? bitmapRows : actualfontHeight;
 
-                if (slot->bitmap.rows > slot->bitmap_top)
-                {
-                    bitmapRows += (slot->bitmap.rows - slot->bitmap_top);
-                }
-                rowSize = (rowSize < bitmapRows) ? bitmapRows : rowSize;
+                int topY = slot->bitmap_top;
+                int bottomY = topY - bitmapRows;
+                if (topY > maxTopY)
+                    maxTopY = topY;
+                if (bottomY < minBottomY)
+                    minBottomY = bottomY;
             }
+
+            rowSize = maxTopY - minBottomY;
 
             // Have we found a pixel size that fits?
             if (rowSize <= (int)fontSize)
@@ -336,9 +343,6 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                     }
                 }
 
-                // penY should include the glyph offsets.
-                penY += (actualfontHeight - glyphHeight) + (glyphHeight - slot->bitmap_top);
-
                 // Set the pen position for the next glyph
                 penX += advance; // Move X to next glyph position
                 // Move Y back to the top of the row.
@@ -404,8 +408,11 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
                 }
             }
 
-            // penY should include the glyph offsets.
-            penY += (actualfontHeight - glyphHeight) + (glyphHeight - slot->bitmap_top);
+            // move pen to baseline
+            penY += maxTopY;
+            
+            // set pen now to the appropriate height of the drawn glyph
+            penY -= slot->bitmap_top;
 
             // Draw the glyph to the bitmap with a one pixel padding.
             drawBitmap(imageBuffer, penX, penY, imageWidth, glyphBuffer, glyphWidth, glyphHeight);
