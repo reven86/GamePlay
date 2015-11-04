@@ -232,7 +232,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         // Since free type (due to modern fonts) does not directly correlate requested
         // size to glyph size, we'll brute-force attempt to set the largest font size
         // possible that will fit within the requested pixel size.
-        for (unsigned int requestedSize = fontSize; requestedSize > 0; --requestedSize)
+        for (unsigned int requestedSize = (unsigned)(fontSize * 1.3f); requestedSize > 0; --requestedSize)
         {
             // Set the pixel size.
             error = FT_Set_Char_Size(face, 0, requestedSize * 64, 0, 0);
