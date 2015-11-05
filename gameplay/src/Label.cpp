@@ -68,7 +68,11 @@ void Label::setText(const wchar_t* text)
     {
         _text = text ? text : L"";
         if (_autoSize != AUTO_SIZE_NONE)
+        {
+            // keep our bounds up-to-date even when control is hidden
+            updateBounds();
             setDirty(DIRTY_BOUNDS);
+        }
     }
 }
 
