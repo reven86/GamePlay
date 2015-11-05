@@ -339,17 +339,21 @@ void Slider::updateState(State state)
     _maxImage = getImage("maxCap", state);
     _markerImage = getImage("marker", state);
     _trackImage = getImage("track", state);
+
+    // Compute height of track (max of track, min/max and marker
+    _trackHeight = 0.0f;
+    if (_minImage && _maxImage && _markerImage && _trackImage)
+    {
+        _trackHeight = _minImage->getRegion().height;
+        _trackHeight = std::max(_trackHeight, _maxImage->getRegion().height);
+        _trackHeight = std::max(_trackHeight, _markerImage->getRegion().height);
+        _trackHeight = std::max(_trackHeight, _trackImage->getRegion().height);
+    }
 }
 
 void Slider::updateBounds()
 {
     Label::updateBounds();
-
-    // Compute height of track (max of track, min/max and marker
-    _trackHeight = _minImage->getRegion().height;
-    _trackHeight = std::max(_trackHeight, _maxImage->getRegion().height);
-    _trackHeight = std::max(_trackHeight, _markerImage->getRegion().height);
-    _trackHeight = std::max(_trackHeight, _trackImage->getRegion().height);
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {

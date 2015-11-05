@@ -215,7 +215,7 @@ SKPaymentTransaction * AppleStoreFront::getCurrentTransactionObject()
     return __storeKitController ? __storeKitController->_currentTransactionObject : nil;
 }
 
-void AppleStoreFont::finishTransaction(void * transactionObject)
+void AppleStoreFront::finishTransaction(void * transactionObject)
 {
     [[SKPaymentQueue defaultQueue] finishTransaction:(SKPaymentTransaction *)(transactionObject)];
 }

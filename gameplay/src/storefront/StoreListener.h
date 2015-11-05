@@ -93,7 +93,7 @@ public:
      *
      * @see StoreFront::makePayment.
      */
-    virtual void paymentTransactionRestoredEvent( const char * productID, int quantity, double timestamp ) {};
+    virtual void paymentTransactionRestoredEvent( const char * productID, int quantity, double timestamp, const char * transactionID, void * transactionObject ) {};
 
     /**
      * Return true if the item should be consumed.
