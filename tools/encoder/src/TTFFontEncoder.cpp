@@ -150,7 +150,7 @@ struct FontData
     }
 };
  
-int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsigned int>& fontSizes, const char* id, bool fontpreview = false, Font::FontFormat fontFormat = Font::BITMAP, const wchar_t * characterSet = NULL)
+int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePath, std::vector<unsigned int>& fontSizes, const char* id, bool fontpreview = false, Font::FontFormat fontFormat = Font::BITMAP, const wchar_t * characterSet = NULL)
 {
     // Initialize freetype library.
     FT_Library library;
@@ -162,12 +162,19 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
     }
 
     // Initialize font face.
-    FT_Face face;
-    error = FT_New_Face(library, inFilePath, 0, &face);
-    if (error)
+    std::vector<FT_Face> faces;
+
+    for (const char * filename : inFilePath)
     {
-        LOG(1, "FT_New_Face error: %d \n", error);
-        return -1;
+        FT_Face face;
+        error = FT_New_Face(library, filename, 0, &face);
+        if (error)
+        {
+            LOG(1, "FT_New_Face error: %d \n", error);
+            return -1;
+        }
+
+        faces.push_back(face);
     }
 
     std::vector<FontData*> fonts;
@@ -192,7 +199,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
     // Use MSDN functions to retrieve full kerning pairs and offsets
 #if 0//def WIN32
     AddFontResourceExA(inFilePath, FR_PRIVATE, 0);
-#else
+//#else
     for (const wchar_t * ascii1 = characterSet; *ascii1; ++ascii1)
     {
         for (const wchar_t * ascii2 = characterSet; *ascii2; ++ascii2)
@@ -235,15 +242,15 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         for (unsigned int requestedSize = (unsigned)(fontSize * 1.3f); requestedSize > 0; --requestedSize)
         {
             // Set the pixel size.
-            error = FT_Set_Char_Size(face, 0, requestedSize * 64, 0, 0);
-            if (error)
+            for (FT_Face& face : faces)
             {
-                LOG(1, "FT_Set_Pixel_Sizes error: %d \n", error);
-                return -1;
+                error = FT_Set_Char_Size(face, 0, requestedSize * 64, 0, 0);
+                if (error)
+                {
+                    LOG(1, "FT_Set_Pixel_Sizes error: %d \n", error);
+                    return -1;
+                }
             }
-
-            // Save glyph information (slot contains the actual glyph bitmap).
-            slot = face->glyph;
 
             rowSize = 0;
             glyphSize = 0;
@@ -254,11 +261,23 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
             // Find the width of the image.
             for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
             {
+                // Save glyph information (slot contains the actual glyph bitmap).
+                slot = faces[0]->glyph;
+
                 // Load glyph image into the slot (erase previous one)
-                error = FT_Load_Char(face, *ascii, loadFlags);
-                if (error)
+                for (FT_Face& face : faces)
                 {
-                    LOG(1, "FT_Load_Char error : %d \n", error);
+                    FT_UInt charIndex = FT_Get_Char_Index(face, *ascii);
+                    if (charIndex == 0)
+                        continue;
+
+                    error = FT_Load_Glyph(face, charIndex, loadFlags);
+                    if (error)
+                    {
+                        LOG(1, "FT_Load_Char error : %d \n", error);
+                    }
+                    slot = face->glyph;
+                    break;
                 }
 
                 int bitmapRows = slot->bitmap.rows;
@@ -318,12 +337,25 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
             // Find the width of the image.
             for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
             {
-                // Load glyph image into the slot (erase the previous one).
-                error = FT_Load_Char(face, *ascii, loadFlags);
-                if (error)
+                // Save glyph information (slot contains the actual glyph bitmap).
+                slot = faces[0]->glyph;
+
+                // Load glyph image into the slot (erase previous one)
+                for (FT_Face& face : faces)
                 {
-                    LOG(1, "FT_Load_Char error : %d \n", error);
+                    FT_UInt charIndex = FT_Get_Char_Index(face, *ascii);
+                    if (charIndex == 0)
+                        continue;
+
+                    error = FT_Load_Glyph(face, charIndex, loadFlags);
+                    if (error)
+                    {
+                        LOG(1, "FT_Load_Char error : %d \n", error);
+                    }
+                    slot = face->glyph;
+                    break;
                 }
+
                 // Glyph image.
                 int glyphWidth = slot->bitmap.pitch;
                 int glyphHeight = slot->bitmap.rows;
@@ -380,11 +412,23 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         i = 0;
         for (const wchar_t * ascii = characterSet; *ascii; ++ascii)
         {
-            // Load glyph image into the slot (erase the previous one).
-            error = FT_Load_Char(face, *ascii, loadFlags);
-            if (error)
+            // Save glyph information (slot contains the actual glyph bitmap).
+            slot = faces[0]->glyph;
+
+            // Load glyph image into the slot (erase previous one)
+            for (FT_Face& face : faces)
             {
-                LOG(1, "FT_Load_Char error : %d \n", error);
+                FT_UInt charIndex = FT_Get_Char_Index(face, *ascii);
+                if (charIndex == 0)
+                    continue;
+
+                error = FT_Load_Glyph(face, charIndex, loadFlags);
+                if (error)
+                {
+                    LOG(1, "FT_Load_Char error : %d \n", error);
+                }
+                slot = face->glyph;
+                break;
             }
 
             // Glyph image.
@@ -470,7 +514,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
 
         DeleteObject(fnt);
         //DeleteDC(hDC);
-#else
+//#else
         for (const std::pair<wchar_t, wchar_t>& kernPair : kerningPairs)
         {
             FT_Vector kerning;
@@ -499,7 +543,7 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
     writeUint(gpbFp, ftell(gpbFp) + 4); // Ref offset (current pos + 4 bytes)
 
     // Family name.
-    writeString(gpbFp, face->family_name);
+    writeString(gpbFp, faces[0]->family_name);
 
     // Style.
     // TODO: Switch based on TTF style name and write appropriate font style unsigned int for now just hardcoding to 0 = PLAIN.
@@ -593,7 +637,8 @@ int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsig
         delete fonts[i];
     }
 
-    FT_Done_Face(face);
+    for (FT_Face& face : faces)
+        FT_Done_Face(face);
     FT_Done_FreeType(library);
     return 0;
 }

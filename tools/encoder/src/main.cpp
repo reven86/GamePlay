@@ -135,7 +135,11 @@ int main(int argc, const char** argv)
                 }
             }
             std::string id = getBaseName(arguments.getFilePath());
-            writeFont(arguments.getFilePath().c_str(), arguments.getOutputFilePath().c_str(), fontSizes, id.c_str(), arguments.fontPreviewEnabled(), fontFormat, arguments.getCharacterSet().c_str( ));
+            std::vector<const char *> fontFiles;
+            fontFiles.push_back(arguments.getFilePath().c_str());
+            for (const std::string& fallback : arguments.getFallbackFiles())
+                fontFiles.push_back(fallback.c_str());
+            writeFont(fontFiles, arguments.getOutputFilePath().c_str(), fontSizes, id.c_str(), arguments.fontPreviewEnabled(), fontFormat, arguments.getCharacterSet().c_str( ));
             break;
         }
     case EncoderArguments::FILEFORMAT_GPB:

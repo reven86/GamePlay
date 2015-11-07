@@ -82,6 +82,11 @@ const std::string& EncoderArguments::getFilePath() const
     return _filePath;
 }
 
+const std::vector<std::string>& EncoderArguments::getFallbackFiles() const
+{
+    return _fallbackFiles;
+}
+
 const std::string EncoderArguments::getFileDirPath() const
 {
     int pos = _filePath.find_last_of('/');
@@ -751,7 +756,32 @@ void EncoderArguments::readOption(const std::vector<std::string>& options, size_
 
 void EncoderArguments::setInputfilePath(const std::string& inputPath)
 {
-    _filePath.assign(getRealPath(inputPath));
+    // Parse comma-separated list of input files (the first one is main, the others are fallbacks)
+    char* ptr = const_cast<char*>(inputPath.c_str());
+    std::string sizeStr;
+    int i = 0;
+    _fallbackFiles.clear();
+    while (ptr)
+    {
+        char* end = strchr(ptr, ',');
+        if (end)
+        {
+            sizeStr = std::string(ptr, end - ptr);
+            ptr = end + 1;
+        }
+        else
+        {
+            sizeStr = ptr;
+            ptr = NULL;
+        }
+        if (sizeStr.length() > 0)
+        {
+            if (i++ == 0)
+                _filePath.assign(getRealPath(sizeStr.c_str()));
+            else
+                _fallbackFiles.push_back(getRealPath(sizeStr.c_str()));
+        }
+    }
 }
 
 void EncoderArguments::setOutputfilePath(const std::string& outputPath)

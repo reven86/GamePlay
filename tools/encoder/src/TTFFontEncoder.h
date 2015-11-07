@@ -23,7 +23,7 @@ public:
 /**
  * Writes the font gpb file.
  * 
- * @param inFilePath Input file path to the tiff file.
+ * @param inFilePath List of input file paths to the font files. If the glyph is not found in the first font in the list the next is used and so on.
  * @param outFilePath Output file path to write the gpb to.
  * @param fontSizes List of sizes to generate for the font.
  * @param id ID string of the font in the ref table.
@@ -32,7 +32,7 @@ public:
  * 
  * @return 0 if successful, -1 if error.
  */
-int writeFont(const char* inFilePath, const char* outFilePath, std::vector<unsigned int>& fontSize, const char* id, bool fontpreview, Font::FontFormat fontFormat, const wchar_t * characterSet);
+int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePath, std::vector<unsigned int>& fontSize, const char* id, bool fontpreview, Font::FontFormat fontFormat, const wchar_t * characterSet);
 
 
 /**

@@ -76,6 +76,11 @@ public:
     const std::string& getFilePath() const;
 
     /**
+     * Returns list of fallback files.
+     */
+    const std::vector<std::string>& getFallbackFiles() const;
+
+    /**
      * Returns the path/folder.
      * Example: "C:/dir"
      */
@@ -217,6 +222,8 @@ private:
     std::string _filePath;
     std::string _fileOutputPath;
     std::string _nodeId;
+
+    std::vector<std::string> _fallbackFiles;
 
     std::wstring _characterSet;
 
