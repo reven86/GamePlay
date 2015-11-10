@@ -263,6 +263,7 @@ int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePat
             {
                 // Save glyph information (slot contains the actual glyph bitmap).
                 slot = faces[0]->glyph;
+                error = FT_Load_Glyph(faces[0], 0, loadFlags);
 
                 // Load glyph image into the slot (erase previous one)
                 for (FT_Face& face : faces)
@@ -298,6 +299,8 @@ int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePat
             {
                 glyphSize = rowSize;
                 rowSize = fontSize;
+
+                LOG(1, "Font's size is %d.\n", requestedSize);
                 break;
             }
         }
