@@ -699,12 +699,10 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             }
             else
             {
-                // Skip the rest of this line.
-                size_t tokenLength = wcscspn (token, L"\n");
-
+                // Skip the rest of this token.
                 if (tokenLength > 0)
                 {
-                    // Get first token of next line.
+                    // Get the next token.
                     token += tokenLength;
                 }
             }
@@ -1619,12 +1617,10 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             }
             else
             {
-                // Skip the rest of this line.
-                unsigned int tokenLength = (unsigned int)wcscspn(token, L"\n");
-
+                // Skip the rest of this token.
                 if (tokenLength > 0)
                 {
-                    // Get first token of next line.
+                    // Get next token.
                     token += tokenLength;
                     charIndex += tokenLength;
                 }
