@@ -222,6 +222,7 @@ unsigned int Container::addControl(Control* control)
                 std::vector<Control*>::iterator it = _controls.begin() + i;
                 std::rotate(it, it + 1, _controls.end());
                 setDirty(Control::DIRTY_BOUNDS);
+                setChildrenDirty(DIRTY_BOUNDS, true);
                 return (unsigned int)(_controls.size() - 1);
             }
 		}
@@ -275,6 +276,7 @@ unsigned int Container::addControl(Control* control)
 
 	sortControls();
     setDirty(Control::DIRTY_BOUNDS);
+    setChildrenDirty(DIRTY_BOUNDS, true);
 
 	return (unsigned int)( _controls.size() - 1 );
 }
