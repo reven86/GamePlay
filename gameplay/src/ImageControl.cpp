@@ -77,19 +77,19 @@ void ImageControl::setImage(const char* path)
     {
         Material* material = Material::create(path);
         _batch = SpriteBatch::create(material);
-        _tw = 1.0f / (std::max(2U, _batch->getSampler()->getTexture()->getWidth()) - 1);
-        _th = 1.0f / (std::max(2U, _batch->getSampler()->getTexture()->getHeight()) - 1);
+        _tw = 1.0f / _batch->getSampler()->getTexture()->getWidth();
+        _th = 1.0f / _batch->getSampler()->getTexture()->getHeight();
         SAFE_RELEASE(material);
     }
     else
     {
         Texture* texture = Texture::create(path);
         _batch = SpriteBatch::create(texture);
-        _tw = 1.0f / (std::max(2U, texture->getWidth()) - 1);
-        _th = 1.0f / (std::max(2U, texture->getHeight()) - 1);
+        _tw = 1.0f / texture->getWidth();
+        _th = 1.0f / texture->getHeight();
         texture->release();
     }
-    _batch->getSampler( )->setWrapMode(Texture::CLAMP, Texture::CLAMP);
+    _batch->getSampler( )->setWrapMode( Texture::CLAMP, Texture::CLAMP );
 
 
     if (_autoSize != AUTO_SIZE_NONE)
