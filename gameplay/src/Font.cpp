@@ -699,11 +699,25 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             }
             else
             {
-                // Skip the rest of this token.
-                if (tokenLength > 0)
+                if (wrap)
                 {
-                    // Get the next token.
-                    token += tokenLength;
+                    // Skip the rest of this token.
+                    if (tokenLength > 0)
+                    {
+                        // Get the next token.
+                        token += tokenLength;
+                    }
+                }
+                else
+                {
+                    // Skip the rest of this line.
+                    size_t tokenLength = wcscspn(token, L"\n");
+
+                    if (tokenLength > 0)
+                    {
+                        // Get first token of next line.
+                        token += tokenLength;
+                    }
                 }
             }
         }
@@ -1617,12 +1631,26 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             }
             else
             {
-                // Skip the rest of this token.
-                if (tokenLength > 0)
+                if (wrap)
                 {
-                    // Get next token.
-                    token += tokenLength;
-                    charIndex += tokenLength;
+                    // Skip the rest of this token.
+                    if (tokenLength > 0)
+                    {
+                        // Get next token.
+                        token += tokenLength;
+                        charIndex += tokenLength;
+                    }
+                }
+                else
+                {
+                    // Skip the rest of this line.
+                    size_t tokenLength = wcscspn(token, L"\n");
+
+                    if (tokenLength > 0)
+                    {
+                        // Get first token of next line.
+                        token += tokenLength;
+                    }
                 }
             }
         }
