@@ -225,6 +225,27 @@ public:
     void setCharacterSpacing(float spacing);
 
     /**
+     * Returns current line spacing for this font in percentage of fonts size.
+     *
+     * @see setLineSpacing(float)
+     */
+    float getLineSpacing() const;
+
+    /**
+     * Sets the additional line spacing for this font.
+     *
+     * Line spacing is the additional amount of space that is inserted between lines of character. Line spacing is defined
+     * as a floating point value that is interpreted as a percentage of size used to draw the font. For example,
+     * a value of 0.1 would cause a spacing of 10% of the font size to be inserted between adjacent lines.
+     * For a font size of 20, this would equate to 2 pixels of extra space between lines.
+     *
+     * The default additional line spacing for fonts is 0.0.
+     *
+     * @param spacing New fixed line spacing, expressed as a percentage of font size.
+     */
+    void setLineSpacing(float spacing);
+
+    /**
      * Get an character index into a string corresponding to the character nearest the given location within the clip region.
      * @script{ignore}
      */
@@ -377,6 +398,7 @@ private:
     unsigned int _size;
     std::vector<Font*> _sizes; // stores additional font sizes of the same family
     float _spacing;
+    float _lineSpacing;
     Glyph* _glyphs;
     unsigned int _glyphCount;
     Texture* _texture;

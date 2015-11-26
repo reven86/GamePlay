@@ -20,7 +20,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _lineSpacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -269,6 +269,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
 
     float scale = (float)size / _size;
     float spacing = size * _spacing;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
     const wchar_t* cursor = NULL;
 
     if ((flags & RIGHT_TO_LEFT) != 0)
@@ -294,7 +295,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
         }
     }
 
-    float xPos = x, yPos = y;
+    float xPos = x, yPos = y - size + verticalAdvance;
     bool done = false;
 
     int spaceIndex = getGlyphIndexByCode(' ');
@@ -322,7 +323,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                     break;
                 case L'\r':
                 case L'\n':
-                    yPos += size;
+                    yPos += verticalAdvance;
                     xPos = x;
                     break;
                 case L'\t':
@@ -373,7 +374,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 break;
             case L'\r':
             case L'\n':
-                yPos += size;
+                yPos += verticalAdvance;
                 xPos = x;
                 break;
             case L'\t':
@@ -385,7 +386,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
                 {
                     Glyph& g = _glyphs[index];
 
-                    if (getFormat() == DISTANCE_FIELD )
+                    if (getFormat() == DISTANCE_FIELD)
                     {
                         if (_cutoffParam == NULL)
                             _cutoffParam = _batch->getMaterial()->getParameter("u_cutoff");
@@ -457,7 +458,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
 
     float scale = (float)size / _size;
     float spacing = size * _spacing;
-    float yPos = area.y;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float yPos = area.y - size + verticalAdvance;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
     bool clipText = clip != Rectangle(0, 0, 0, 0);
@@ -504,7 +506,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         std::swap(area.width, area.height);
     }
 
-    float areaHeight = area.height - size;
+    float areaHeight = area.height - verticalAdvance;
 
     getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths);
 
@@ -566,7 +568,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         {
             currentLineLength = tokenLength;
             if (!firstToken)    // do not wrap first token
-                yPos += size;
+                yPos += verticalAdvance;
 
             if (xPositionsIt != xPositions.end())
             {
@@ -581,7 +583,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         firstToken = false;
 
         bool draw = true;
-        if (ceilf(yPos) < area.y)
+        if (ceilf(yPos) < area.y - size)
         {
             // Skip drawing until line break or wrap.
             draw = false;
@@ -756,16 +758,17 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
 
     float scale = (float)size / _size;
     const wchar_t* token = text;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
 
     *width = 0;
-    *height = size;
+    *height = verticalAdvance;
 
     // Measure a line at a time.
     while (token[0] != 0)
     {
         while (token[0] == L'\n')
         {
-            *height += size;
+            *height += verticalAdvance;
             ++token;
         }
 
@@ -855,6 +858,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     }
 
     float scale = (float)size / _size;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
     Justify vAlign = static_cast<Justify>(justify & 0xF0);
     if (vAlign == 0)
     {
@@ -872,7 +876,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     std::vector<Vector2> lines;
 
     float lineWidth = 0;
-    float yPos = clip.y + size;
+    float yPos = clip.y + verticalAdvance;
     const float viewportHeight = clip.height;
 
     int spaceIndex = getGlyphIndexByCode(' ');
@@ -900,7 +904,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
                     case L'\r':
                     case L'\n':
                         // Add line-height to vertical cursor.
-                        yPos += size;
+                        yPos += verticalAdvance;
 
                         if (lineWidth > 0)
                         {
@@ -960,7 +964,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             if (int(lineWidth + tokenWidth + delimWidth) > int(clip.width))
             {
                 // Add line-height to vertical cursor.
-                yPos += size;
+                yPos += verticalAdvance;
 
                 // Determine horizontal position and width.
                 float hWhitespace = clip.width - lineWidth;
@@ -1002,7 +1006,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
                 if (nextLine)
                 {
                     // Add line-height to vertical cursor.
-                    yPos += size * (emptyLinesCount+1);
+                    yPos += verticalAdvance * (emptyLinesCount+1);
                     nextLine = false;
                     emptyLinesCount = 0;
                     emptyLines.push_back(false);
@@ -1040,7 +1044,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             token += tokenLength;
         }
 
-        yPos += size;
+        yPos += verticalAdvance;
     }
 
     if (wrap)
@@ -1061,12 +1065,13 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     }
 
     float x = FLT_MAX;
-    float y = clip.y;
+    float yTop = clip.y - size + verticalAdvance;
+    float y = yTop;
     float width = 0;
     float height = yPos - clip.y;
 
     // Calculate top of text without clipping.
-    float vWhitespace = viewportHeight - height;
+    float vWhitespace = viewportHeight - height - size + verticalAdvance;
     if (vAlign == ALIGN_VCENTER)
     {
         y += floorf(vWhitespace * 0.5f);
@@ -1081,21 +1086,21 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     if (!ignoreClip)
     {
         // Trim rect to fit text that would actually be drawn within the given clip.
-        if (y >= clip.y)
+        if (y >= yTop)
         {
             // Text goes off the bottom of the clip.
-            clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight) / size) + 1 : 0;
+            clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight) / verticalAdvance) + 1 : 0;
             if (clippedBottom > 0)
             {
                 // Also need to crop empty lines above non-empty lines that have been clipped.
                 size_t emptyIndex = emptyLines.size() - clippedBottom;
                 while (emptyIndex < emptyLines.size() && emptyLines[emptyIndex] == true)
                 {
-                    height -= size;
+                    height -= verticalAdvance;
                     emptyIndex++;
                 }
 
-                height -= size * clippedBottom;
+                height -= verticalAdvance * clippedBottom;
             }
             else
             {
@@ -1105,7 +1110,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
         else
         {
             // Text goes above the top of the clip.
-            clippedTop = static_cast< int >( (clip.y - y) / size ) + 1;
+            clippedTop = static_cast< int >((clip.y - y) / verticalAdvance);
             if (clippedTop < 0)
             {
                 clippedTop = 0;
@@ -1115,25 +1120,25 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             size_t emptyIndex = clippedTop;
             while (emptyIndex < emptyLines.size() && emptyLines[emptyIndex] == true)
             {
-                y += size;
-                height -= size;
+                y += verticalAdvance;
+                height -= verticalAdvance;
                 emptyIndex++;
             }
 
             if (vAlign == ALIGN_VCENTER)
             {
                 // In this case lines may be clipped off the bottom as well.
-                clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight + vWhitespace / 2 + 0.01) / size) + 1 : 0;
+                clippedBottom = viewportHeight < FLT_MAX ? static_cast< int >((height - viewportHeight + vWhitespace / 2 + 0.01f) / verticalAdvance) + 1 : 0;
                 if (clippedBottom > 0)
                 {
                     emptyIndex = emptyLines.size() - clippedBottom;
                     while (emptyIndex < emptyLines.size() && emptyLines[emptyIndex] == true)
                     {
-                        height -= size;
+                        height -= verticalAdvance;
                         emptyIndex++;
                     }
 
-                    height -= size * clippedBottom;
+                    height -= verticalAdvance * clippedBottom;
                 }
                 else
                 {
@@ -1141,8 +1146,8 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
                 }
             }
 
-            y = y + size * clippedTop;
-            height = height - size * clippedTop;
+            y = y + verticalAdvance * clippedTop;
+            height = height - verticalAdvance * clippedTop;
         }
     }
 
@@ -1206,6 +1211,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
         size = _size;
 
     float scale = (float)size / _size;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
 
     Justify vAlign = static_cast<Justify>(justify & 0xF0);
     if (vAlign == 0)
@@ -1220,7 +1226,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
     }
 
     const wchar_t* token = text;
-    const float areaHeight = area.height - size;
+    const float areaHeight = area.height - verticalAdvance;
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
@@ -1258,7 +1264,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                             break;
                         case L'\r':
                         case L'\n':
-                            *yPosition += size;
+                            *yPosition += verticalAdvance;
 
                             if (lineWidth > 0)
                             {
@@ -1298,7 +1304,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                 // Wrap if necessary.
                 if (int(lineWidth + tokenWidth + delimWidth) > int(area.width))
                 {
-                    *yPosition += size;
+                    *yPosition += verticalAdvance;
 
                     // Push position of current line.
                     if (lineLength)
@@ -1328,14 +1334,14 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
 
             // Final calculation of vertical position.
             float textHeight = *yPosition - area.y;
-            float vWhiteSpace = areaHeight - textHeight;
+            float vWhiteSpace = areaHeight - textHeight - size + verticalAdvance;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + floorf(vWhiteSpace * 0.5f);
+                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
-                *yPosition = area.y + vWhiteSpace;
+                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace);
             }
 
             // Calculation of final horizontal position.
@@ -1349,7 +1355,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                 wchar_t delimiter = token[0];
                 while (delimiter == L'\n')
                 {
-                    *yPosition += size;
+                    *yPosition += verticalAdvance;
                     ++token;
                     delimiter = token[0];
                 }
@@ -1367,20 +1373,20 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
             }
 
             float textHeight = *yPosition - area.y;
-            float vWhiteSpace = areaHeight - textHeight;
+            float vWhiteSpace = areaHeight - textHeight - size + verticalAdvance;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + floorf(vWhiteSpace * 0.5f);
+                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
-                *yPosition = area.y + vWhiteSpace;
+                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace);
             }
         }
 
         if (vAlign == ALIGN_TOP)
         {
-            *yPosition = area.y;
+            *yPosition = area.y - size + verticalAdvance;
         }
     }
 }
@@ -1393,6 +1399,26 @@ float Font::getCharacterSpacing() const
 void Font::setCharacterSpacing(float spacing)
 {
     _spacing = spacing;
+    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
+    {
+        Font* f = _sizes[i];
+        f->_spacing = spacing;
+    }
+}
+
+float Font::getLineSpacing() const
+{
+    return _lineSpacing;
+}
+
+void Font::setLineSpacing(float spacing)
+{
+    _lineSpacing = spacing;
+    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
+    {
+        Font* f = _sizes[i];
+        f->_lineSpacing = spacing;
+    }
 }
 
 int Font::getIndexAtLocation(const wchar_t* text, const Rectangle& area, float size, const Vector2& inLocation, Vector2* outLocation,
@@ -1433,8 +1459,9 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
     // Essentially need to measure text until we reach inLocation.
     float scale = (float)size / _size;
     float spacing = size * _spacing;
-    float yPos = area.y;
-    const float areaHeight = area.height - size;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float yPos = area.y - size + verticalAdvance;
+    const float areaHeight = area.height - verticalAdvance;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
@@ -1523,7 +1550,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         {
             currentLineLength = tokenLength;
             if (!firstToken) // do not wrap first token
-                yPos += size;
+                yPos += verticalAdvance;
 
             if (xPositionsIt != xPositions.end())
             {
@@ -1746,6 +1773,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, float scale,
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
 
     wchar_t delimiter = *token[0];
     bool nextLine = true;
@@ -1776,7 +1804,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, float scale,
                 break;
             case L'\r':
             case L'\n':
-                *yPos += size;
+                *yPos += verticalAdvance;
 
                 // Only use next xPos for first newline character (in case of multiple consecutive newlines).
                 if (nextLine)
