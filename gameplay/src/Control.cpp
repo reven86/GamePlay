@@ -1318,6 +1318,11 @@ unsigned int Control::drawBorder(Form* form) const
     if (!form || !_skin)
         return 0;
 
+    Vector4 skinColor = _skin->getColor();
+    skinColor.w *= _opacity;
+    if (skinColor.w <= 0.0f)
+        return 0;
+
     unsigned int drawCalls = 0;
 
     SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
@@ -1337,8 +1342,6 @@ unsigned int Control::drawBorder(Form* form) const
     // Calculate screen-space positions.
     const Theme::Border& border = getBorder(getState());
     const Theme::Padding& padding = getPadding();
-    Vector4 skinColor = _skin->getColor();
-    skinColor.w *= _opacity;
 
     float midWidth = _absoluteBounds.width - border.left - border.right;
     float midHeight = _absoluteBounds.height - border.top - border.bottom;
