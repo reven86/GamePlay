@@ -129,8 +129,8 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     batch->_sampler = sampler;
     batch->_customEffect = customEffect;
     batch->_batch = meshBatch;
-    batch->_textureWidthRatio = 1.0f / (float)texture->getWidth();
-    batch->_textureHeightRatio = 1.0f / (float)texture->getHeight();
+    batch->_textureWidthRatio = texture ? 1.0f / (float)texture->getWidth() : 1.0f;
+    batch->_textureHeightRatio = texture ? 1.0f / (float)texture->getHeight() : 1.0f;
 
 	// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
 	Game* game = Game::getInstance();
@@ -158,16 +158,36 @@ SpriteBatch* SpriteBatch::create(Material* material, unsigned int initialCapacit
     // Create the mesh batch
     MeshBatch* meshBatch = MeshBatch::create(vertexFormat, Mesh::TRIANGLES, material, false, initialCapacity > 0 ? initialCapacity : SPRITE_BATCH_DEFAULT_SIZE);
 
-    Texture::Sampler * sampler = material->getParameter( "u_texture" )->getSampler( );
-    sampler->addRef( );
+    // Search for the first sampler uniform in the effect.
+    Uniform* samplerUniform = NULL;
+    for (unsigned technique = 0; technique < material->getTechniqueCount() && samplerUniform == NULL; technique++)
+    {
+        for (unsigned pass = 0; pass < material->getTechniqueByIndex(technique)->getPassCount() && samplerUniform == NULL; pass++)
+        {
+            Effect * effect = material->getTechniqueByIndex(technique)->getPassByIndex(pass)->getEffect();
+            for (unsigned int i = 0, count = effect->getUniformCount(); i < count; ++i)
+            {
+                Uniform* uniform = effect->getUniform(i);
+                if (uniform && uniform->getType() == GL_SAMPLER_2D)
+                {
+                    samplerUniform = uniform;
+                    break;
+                }
+            }
+        }
+    }
+
+    Texture::Sampler * sampler = samplerUniform ? material->getParameter(samplerUniform->getName())->getSampler() : NULL;
+    if (sampler)
+        sampler->addRef( );
 
     // Create the batch
     SpriteBatch* batch = new SpriteBatch();
     batch->_sampler = sampler;
     batch->_customEffect = customEffect;
     batch->_batch = meshBatch;
-    batch->_textureWidthRatio = 1.0f / (float)sampler->getTexture( )->getWidth();
-    batch->_textureHeightRatio = 1.0f / (float)sampler->getTexture( )->getHeight();
+    batch->_textureWidthRatio = sampler ? 1.0f / (float)sampler->getTexture()->getWidth() : 1.0f;
+    batch->_textureHeightRatio = sampler ? 1.0f / (float)sampler->getTexture()->getHeight() : 1.0f;
 
     // Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
     Game* game = Game::getInstance();
