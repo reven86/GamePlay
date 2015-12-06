@@ -58,7 +58,8 @@ Container::Container()
       _scrollingMouseVertically(false), _scrollingMouseHorizontally(false),
       _scrollBarOpacityClip(NULL), _zIndexDefault(0),
       _selectButtonDown(false), _lastFrameTime(0), _totalWidth(0), _totalHeight(0),
-      _initializedWithScroll(false), _scrollWheelRequiresFocus(false)
+      _initializedWithScroll(false), _scrollWheelRequiresFocus(false),
+      _scrollScale(1.0f)
 {
 	clearContacts();
 }
@@ -285,16 +286,13 @@ void Container::insertControl(Control* control, unsigned int index)
 {
     GP_ASSERT(control);
 
-    if (control->_parent && control->_parent != this)
-    {
-        control->_parent->removeControl(control);
-    }
-
     if (control->_parent != this)
     {
         std::vector<Control*>::iterator it = _controls.begin() + index;
         _controls.insert(it, control);
         control->addRef();
+        if (control->_parent)
+            control->_parent->removeControl(control);
         control->_parent = this;
         setDirty(Control::DIRTY_BOUNDS);
     }
@@ -679,15 +677,15 @@ void Container::updateAbsoluteBounds(const Vector2& offset)
     if ((_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL)
     {
         GP_ASSERT(_scrollBarLeftCap && _scrollBarHorizontal && _scrollBarRightCap);
-        _viewportBounds.height -= _scrollBarHorizontal->getRegion().height;
-        _viewportClipBounds.height -= _scrollBarHorizontal->getRegion().height;
+        _viewportBounds.height -= _scrollBarHorizontal->getRegion().height * _scrollScale;
+        _viewportClipBounds.height -= _scrollBarHorizontal->getRegion().height * _scrollScale;
     }
 
     if ((_scroll & SCROLL_VERTICAL) == SCROLL_VERTICAL)
     {
         GP_ASSERT(_scrollBarTopCap && _scrollBarVertical && _scrollBarBottomCap);
-        _viewportBounds.width -= _scrollBarVertical->getRegion().width;
-        _viewportClipBounds.width -= _scrollBarVertical->getRegion().width;
+        _viewportBounds.width -= _scrollBarVertical->getRegion().width * _scrollScale;
+        _viewportClipBounds.width -= _scrollBarVertical->getRegion().width * _scrollScale;
     }
 
     // Update scroll position and scrollbars after updating absolute bounds since
@@ -748,7 +746,7 @@ unsigned int Container::draw(Form* form) const
         SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
         startBatch(form, batch);
 
-        if (_scrollBarBounds.height > 0 && ((_scroll & SCROLL_VERTICAL) == SCROLL_VERTICAL))
+        if (_scrollBarBounds.height > 0 && ((_scroll & SCROLL_VERTICAL) == SCROLL_VERTICAL) && _scrollScale > 0.0f)
         {
             const Rectangle& topRegion = _scrollBarTopCap->getRegion();
             const Theme::UVs& topUVs = _scrollBarTopCap->getUVs();
@@ -765,23 +763,23 @@ unsigned int Container::draw(Form* form) const
             Vector4 bottomColor = _scrollBarBottomCap->getColor();
             bottomColor.w *= _scrollBarOpacity * _opacity;
 
-            clipRegion.width += verticalRegion.width;
+            clipRegion.width += verticalRegion.width * _scrollScale;
 
-            Rectangle bounds(_viewportBounds.right() + (_absoluteBounds.right() - _viewportBounds.right())*0.5f - topRegion.width*0.5f, _viewportBounds.y + _scrollBarBounds.y, topRegion.width, topRegion.height);
+            Rectangle bounds(_viewportBounds.right() + (_absoluteBounds.right() - _viewportBounds.right())*0.5f - topRegion.width*0.5f*_scrollScale, _viewportBounds.y + _scrollBarBounds.y, topRegion.width * _scrollScale, topRegion.height * _scrollScale);
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, topUVs.u1, topUVs.v1, topUVs.u2, topUVs.v2, topColor, clipRegion);
 
-            bounds.y += topRegion.height;
-            bounds.height = _scrollBarBounds.height - topRegion.height - bottomRegion.height;
+            bounds.y += topRegion.height * _scrollScale;
+            bounds.height = _scrollBarBounds.height - (topRegion.height - bottomRegion.height) * _scrollScale;
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, verticalUVs.u1, verticalUVs.v1, verticalUVs.u2, verticalUVs.v2, verticalColor, clipRegion);
 
             bounds.y += bounds.height;
-            bounds.height = bottomRegion.height;
+            bounds.height = bottomRegion.height * _scrollScale;
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, bottomUVs.u1, bottomUVs.v1, bottomUVs.u2, bottomUVs.v2, bottomColor, clipRegion);
 
             drawCalls += 3;
         }
 
-        if (_scrollBarBounds.width > 0 && ((_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL))
+        if (_scrollBarBounds.width > 0 && ((_scroll & SCROLL_HORIZONTAL) == SCROLL_HORIZONTAL) && _scrollScale > 0.0f)
         {
             const Rectangle& leftRegion = _scrollBarLeftCap->getRegion();
             const Theme::UVs& leftUVs = _scrollBarLeftCap->getUVs();
@@ -798,17 +796,17 @@ unsigned int Container::draw(Form* form) const
             Vector4 rightColor = _scrollBarRightCap->getColor();
             rightColor.w *= _scrollBarOpacity * _opacity;
 
-            clipRegion.height += horizontalRegion.height;
-        
-            Rectangle bounds(_viewportBounds.x + _scrollBarBounds.x, _viewportBounds.bottom() + (_absoluteBounds.bottom() - _viewportBounds.bottom())*0.5f - leftRegion.height*0.5f, leftRegion.width, leftRegion.height);
+            clipRegion.height += horizontalRegion.height * _scrollScale;
+
+            Rectangle bounds(_viewportBounds.x + _scrollBarBounds.x, _viewportBounds.bottom() + (_absoluteBounds.bottom() - _viewportBounds.bottom())*0.5f - leftRegion.height*0.5f*_scrollScale, leftRegion.width * _scrollScale, leftRegion.height * _scrollScale);
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, leftUVs.u1, leftUVs.v1, leftUVs.u2, leftUVs.v2, leftColor, clipRegion);
 
-            bounds.x += leftRegion.width;
-            bounds.width = _scrollBarBounds.width - leftRegion.width - rightRegion.width;
+            bounds.x += leftRegion.width * _scrollScale;
+            bounds.width = _scrollBarBounds.width - (leftRegion.width - rightRegion.width) * _scrollScale;
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, horizontalUVs.u1, horizontalUVs.v1, horizontalUVs.u2, horizontalUVs.v2, horizontalColor, clipRegion);
 
             bounds.x += bounds.width;
-            bounds.width = rightRegion.width;
+            bounds.width = rightRegion.width * _scrollScale;
             batch->draw(bounds.x, bounds.y, bounds.width, bounds.height, rightUVs.u1, rightUVs.v1, rightUVs.u2, rightUVs.v2, rightColor, clipRegion);
 
             drawCalls += 3;
@@ -1454,7 +1452,7 @@ bool Container::mouseEventScroll(Mouse::MouseEvent evt, int x, int y, float whee
             bool dirty = false;
             if (_scrollBarVertical)
             {
-                float vWidth = _scrollBarVertical->getRegion().width;
+                float vWidth = _scrollBarVertical->getRegion().width * _scrollScale;
                 float rightPadding = _absoluteBounds.right() - _viewportBounds.right();
                 float topPadding = _viewportBounds.y - _absoluteBounds.y;
                 float localVpRight = _bounds.width - rightPadding;
@@ -1486,7 +1484,7 @@ bool Container::mouseEventScroll(Mouse::MouseEvent evt, int x, int y, float whee
 
             if (_scrollBarHorizontal)
             {
-                float hHeight = _scrollBarHorizontal->getRegion().height;
+                float hHeight = _scrollBarHorizontal->getRegion().height * _scrollScale;
                 float bottomPadding = _absoluteBounds.bottom() - _viewportBounds.bottom();
                 float leftPadding = _viewportBounds.x - _absoluteBounds.x;
                 float localVpBottom = _bounds.height - bottomPadding;
@@ -1660,6 +1658,19 @@ void Container::setAnimationPropertyValue(int propertyId, AnimationValue* value,
         Control::setAnimationPropertyValue(propertyId, value, blendWeight);
         break;
     }
+}
+
+void Container::setScrollScale(float factor)
+{
+    _scrollScale = factor;
+
+    if (_scroll != SCROLL_NONE)
+        setDirty(DIRTY_BOUNDS);
+}
+
+float Container::getScrollScale() const
+{
+    return _scrollScale;
 }
 
 }

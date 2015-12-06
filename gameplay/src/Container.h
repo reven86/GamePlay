@@ -268,6 +268,19 @@ public:
     void setScrollWheelRequiresFocus(bool required);
 
     /**
+     * Set scale factor for width of vertical scroll bar and height of horizontal scroll.
+     * By default scale factor is 1.0.
+     *
+     * @param factor Scale factor.
+     */
+    void setScrollScale(float factor);
+
+    /**
+     * Get scale factor of scrolls.
+     */
+    float getScrollScale() const;
+
+    /**
      * @see Control::setFocus
      */
     bool setFocus();
@@ -607,6 +620,8 @@ private:
     bool _contactIndices[MAX_CONTACT_INDICES];
     bool _initializedWithScroll;
     bool _scrollWheelRequiresFocus;
+
+    float _scrollScale;
 };
 
 }
