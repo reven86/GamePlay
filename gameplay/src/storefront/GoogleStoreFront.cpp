@@ -17,6 +17,7 @@ namespace gameplay
 
 static gameplay::GoogleStoreFront * __instance = NULL;
 static std::vector< gameplay::StoreProduct > __products;
+static std::set<std::string> __requestedProducts;
 static bool __iabEnabled = false;
 static jmethodID __midQueueSKURequest;
 static jmethodID __midFlushSkuDetailsQueue;
@@ -117,7 +118,14 @@ void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jo
 
 void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidation(JNIEnv* env, jobject thiz)
 {
-    __instance->getListener()->getProductsEvent(__products, std::vector< std::string >());
+    std::vector<std::string> invalidProducts;
+    for (const std::string &product : __requestedProducts)
+    {
+        if (std::find_if(__products.begin(), __products.end(), [&](const gameplay::StoreProduct& p){return p.id == product; }) == __products.end())
+            invalidProducts.push_back(product);
+    }
+
+    __instance->getListener()->getProductsEvent(__products, invalidProducts);
 }
 
 }
@@ -153,6 +161,7 @@ StoreListener * GoogleStoreFront::getListener()
 void GoogleStoreFront::getProducts(const char ** productIDs) const
 {
     __products.clear();
+    __requestedProducts.clear();
 
     android_app* app = __state;
     JNIEnv* env = app->activity->env;
@@ -161,6 +170,8 @@ void GoogleStoreFront::getProducts(const char ** productIDs) const
 
     while (*productIDs)
     {
+        __requestedProducts.insert(*productIDs);
+
         jstring paramString = env->NewStringUTF(*productIDs++);
         env->CallVoidMethod(app->activity->clazz, __midQueueSKURequest, paramString);
     }
