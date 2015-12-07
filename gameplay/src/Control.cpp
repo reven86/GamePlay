@@ -1526,6 +1526,7 @@ unsigned int Control::getAnimationPropertyComponentCount(int propertyId) const
         return 1;
 
     case ANIMATE_SKIN_COLOR:
+    case ANIMATE_TEXT_COLOR:
         return 4;
 
     default:
@@ -1568,6 +1569,12 @@ void Control::getAnimationPropertyValue(int propertyId, AnimationValue* value)
             value->setFloats(0, &color.x, 4);
         }
         break;
+    case ANIMATE_TEXT_COLOR:
+        {
+            const gameplay::Vector4& color = getTextColor();
+            value->setFloats(0, &color.x, 4);
+        }
+        break;
     default:
         break;
     }
@@ -1607,6 +1614,13 @@ void Control::setAnimationPropertyValue(int propertyId, AnimationValue* value, f
             gameplay::Vector4 color;
             value->getFloats(0, &color.x, 4);
             setSkinColor(color * blendWeight);
+        }
+        break;
+    case ANIMATE_TEXT_COLOR:
+        {
+            gameplay::Vector4 color;
+            value->getFloats(0, &color.x, 4);
+            setTextColor(color * blendWeight);
         }
         break;
     }

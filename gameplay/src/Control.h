@@ -256,6 +256,11 @@ public:
     static const int ANIMATE_SKIN_COLOR = 8;
 
     /**
+     * Text color property.  Data = textColor
+     */
+    static const int ANIMATE_TEXT_COLOR = 9;
+
+    /**
      * Extends ScriptTarget::getTypeName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.

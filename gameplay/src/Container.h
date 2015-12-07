@@ -24,7 +24,7 @@ public:
     /**
      * Constant used to auto-hide scrollbars.
      */
-    static const int ANIMATE_SCROLLBAR_OPACITY = 9;
+    static const int ANIMATE_SCROLLBAR_OPACITY = 10;
 
     /**
      * The definition for container scrolling.
