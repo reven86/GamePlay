@@ -583,12 +583,12 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         firstToken = false;
 
         bool draw = true;
-        if (ceilf(yPos) < area.y - size)
+        if (yPos + size < area.y)
         {
             // Skip drawing until line break or wrap.
             draw = false;
         }
-        else if (floorf(yPos) > area.y + areaHeight)
+        else if (yPos > area.y + areaHeight)
         {
             // Truncate below area's vertical limit.
             break;
@@ -605,13 +605,13 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (floorf(xPos + g.advance*scale) > area.x + area.width)
+                if (xPos > area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
                     break;
                 }
-                else if (ceilf(xPos) >= area.x)
+                else if (xPos + g.advance*scale >= area.x)
                 {
                     // Draw this character.
                     if (draw)
@@ -881,6 +881,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+    bool firstToken = true;
 
     if (wrap)
     {
@@ -964,7 +965,8 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             if (int(lineWidth + tokenWidth + delimWidth) > int(clip.width))
             {
                 // Add line-height to vertical cursor.
-                yPos += verticalAdvance;
+                if (!firstToken)
+                    yPos += verticalAdvance;
 
                 // Determine horizontal position and width.
                 float hWhitespace = clip.width - lineWidth;
@@ -987,6 +989,8 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             {
                 lineWidth += delimWidth;
             }
+
+            firstToken = false;
 
             delimWidth = 0;
             lineWidth += tokenWidth;
@@ -1230,6 +1234,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
+    bool firstToken = true;
 
     // For alignments other than top-left, need to calculate the y position to begin drawing from
     // and the starting x position of each line.  For right-to-left text, need to determine
@@ -1304,7 +1309,8 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                 // Wrap if necessary.
                 if (int(lineWidth + tokenWidth + delimWidth) > int(area.width))
                 {
-                    *yPosition += verticalAdvance;
+                    if (!firstToken)
+                        *yPosition += verticalAdvance;
 
                     // Push position of current line.
                     if (lineLength)
@@ -1326,6 +1332,8 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                     lineWidth += delimWidth;
                     delimWidth = 0;
                 }
+
+                firstToken = false;
 
                 lineWidth += tokenWidth;
                 lineLength += tokenLength;
@@ -1580,7 +1588,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             {
                 Glyph& g = _glyphs[glyphIndex];
 
-                if (floorf(xPos + g.advance*scale) > area.x + area.width)
+                if (xPos> area.x + area.width)
                 {
                     // Truncate this line and go on to the next one.
                     truncated = true;
