@@ -10,7 +10,8 @@ namespace gameplay
 Control::Control()
     : _id(""), _boundsBits(0), _dirtyBits(DIRTY_BOUNDS | DIRTY_STATE), _consumeInputEvents(true), _alignment(ALIGN_TOP_LEFT),
     _autoSize(AUTO_SIZE_BOTH), _style(NULL), _listeners(NULL), _visible(true), _zIndex(-1), _isAlignmentSet(false), _opacity (0.0f),
-    _contactIndex(INVALID_CONTACT_INDEX), _focusIndex(-1), _canFocus(false), _state(NORMAL), _parent(NULL), _styleOverridden(false), _skin(NULL)
+    _contactIndex(INVALID_CONTACT_INDEX), _focusIndex(-1), _canFocus(false), _state(NORMAL), _parent(NULL), _styleOverridden(false), _skin(NULL),
+    _receiveInputEvents(false)
 {
     GP_REGISTER_SCRIPT_EVENTS();
 }
@@ -102,6 +103,7 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
         _isAlignmentSet = alignmentString != NULL;
 		_alignment = getAlignment(alignmentString);
 		_consumeInputEvents = properties->getBool("consumeInputEvents", true);
+        _receiveInputEvents = properties->getBool("receiveInputEvents", false);
 		_visible = properties->getBool("visible", true);
 
 		if (properties->exists("zIndex"))
@@ -942,6 +944,16 @@ void Control::setConsumeInputEvents(bool consume)
 bool Control::getConsumeInputEvents()
 {
     return _consumeInputEvents;
+}
+
+void Control::setReceiveInputEvents(bool receive)
+{
+    _receiveInputEvents = receive;
+}
+
+bool Control::getReceiveInputEvents()
+{
+    return _receiveInputEvents;
 }
 
 int Control::getZIndex() const

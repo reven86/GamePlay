@@ -374,7 +374,7 @@ Control* Form::findInputControl(Control* control, int x, int y, bool focus, unsi
 
     // Does the passed in control's bounds intersect the specified coordinates - and 
     // does the control support the specified input state?
-    if (control->_consumeInputEvents && (!focus || control->canFocus()))
+    if ((control->_consumeInputEvents || control->_receiveInputEvents) && (!focus || control->canFocus()))
     {
         if (control->_absoluteClipBounds.contains(x, y))
             result = control;

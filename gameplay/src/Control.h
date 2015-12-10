@@ -863,6 +863,21 @@ public:
     bool getConsumeInputEvents();
 
     /**
+     * Set whether this control can receive input events.
+     * This doesn't automatically prevent them from being passed to the game.
+     *
+     * @param receive Whether this control receives input events.
+     */
+    void setReceiveInputEvents(bool receive);
+
+    /**
+     * Get whether this control receives touch events.
+     *
+     * @return Whether this control receives touch events.
+     */
+    bool getReceiveInputEvents();
+
+    /**
      * Get this control's style.
      *
      * @return This control's style.
@@ -1442,6 +1457,11 @@ protected:
      * Flag for whether the Control consumes input events.
      */
     bool _consumeInputEvents;
+    
+    /**
+     * Flag for whether the Control receives input events.
+     */
+    bool _receiveInputEvents;
     
     /**
      * The Control's Alignment
