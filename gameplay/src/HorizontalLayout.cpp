@@ -76,7 +76,7 @@ void HorizontalLayout::update(const Container* container)
 
             xPosition += margin.left;
 
-            control->setPosition(xPosition, margin.top);
+            control->setPosition(xPosition, control->getY());
 
             xPosition += bounds.width + margin.right + _spacing;
         }
