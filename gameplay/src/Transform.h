@@ -896,7 +896,7 @@ private:
 
     static int _suspendTransformChanged;
     static std::vector<Transform*> _transformsChanged;
-    static std::mutex _transformsChangedMutex;
+    static std::recursive_mutex _transformsChangedMutex;
 
 };
 

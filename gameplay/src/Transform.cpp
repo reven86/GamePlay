@@ -8,7 +8,7 @@ namespace gameplay
 
 int Transform::_suspendTransformChanged(0);
 std::vector<Transform*> Transform::_transformsChanged;
-std::mutex Transform::_transformsChangedMutex;
+std::recursive_mutex Transform::_transformsChangedMutex;
 
 Transform::Transform()
     : _matrixDirtyBits(0), _listeners(NULL), _translation( 0.0f, 0.0f, 0.0f )
@@ -63,7 +63,7 @@ void Transform::resumeTransformChanged()
     
     if (_suspendTransformChanged == 1)
     {
-        std::unique_lock<std::mutex> lock(_transformsChangedMutex);
+        std::unique_lock<std::recursive_mutex> lock(_transformsChangedMutex);
 
         // Call transformChanged() on all transforms in the list
         size_t transformCount = _transformsChanged.size();
@@ -941,7 +941,7 @@ bool Transform::isDirty(char matrixDirtyBits) const
 
 void Transform::suspendTransformChange(Transform* transform)
 {
-    std::unique_lock<std::mutex> lock(_transformsChangedMutex);
+    std::unique_lock<std::recursive_mutex> lock(_transformsChangedMutex);
 
     GP_ASSERT(transform);
     transform->_matrixDirtyBits |= DIRTY_NOTIFY;
