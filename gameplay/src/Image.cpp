@@ -15,6 +15,16 @@ static void readStream(png_structp png, png_bytep data, png_size_t length)
     }
 }
 
+// Callback for writing a png image using Stream
+static void writeStream(png_structp png, png_bytep data, png_size_t length)
+{
+    Stream* stream = reinterpret_cast<Stream*>(png_get_io_ptr(png));
+    if (stream->write(data, 1, length) != length)
+    {
+        png_error(png, "Error writing PNG.");
+    }
+}
+
 Image* Image::create(const char* path)
 {
     GP_ASSERT(path);
@@ -206,6 +216,64 @@ Image::Image() : _data(NULL), _format(RGB), _width(0), _height(0)
 Image::~Image()
 {
     SAFE_DELETE_ARRAY(_data);
+}
+
+bool Image::writePNG(gameplay::Stream * stream)
+{
+    if (stream == NULL || !stream->canWrite())
+    {
+        GP_WARN("Stream doesn't support writing operations.");
+        return false;
+    }
+
+    /* initialize stuff */
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if (!png_ptr)
+        return false;
+
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+    if (!info_ptr)
+    {
+        png_destroy_write_struct(&png_ptr, NULL);
+        return false;
+    }
+
+    /* Set up error handling. */
+    if (setjmp(png_jmpbuf(png_ptr))) {
+        png_destroy_write_struct(&png_ptr, &info_ptr);
+        return false;
+    }
+
+    /* Set image attributes. */
+    png_set_IHDR(png_ptr,
+        info_ptr,
+        _width,
+        _height,
+        8,
+        _format == RGB ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA,
+        PNG_INTERLACE_NONE,
+        PNG_COMPRESSION_TYPE_DEFAULT,
+        PNG_FILTER_TYPE_DEFAULT);
+
+    /* Initialize rows of PNG. */
+    unsigned y;
+    uint32_t bpp = _format == RGB ? 3 : 4;
+    png_byte **row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, _height * sizeof(png_byte *)));
+    for (y = 0; y < _height; ++y) 
+        row_pointers[_height - 1 - y] = (png_byte *)(_data + y * _width * bpp);
+
+    /* Actually write the image data. */
+    png_set_write_fn(png_ptr, stream, writeStream, NULL);
+    png_set_rows(png_ptr, info_ptr, row_pointers);
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
+
+    /* Cleanup. */
+    png_free(png_ptr, row_pointers);
+
+    /* Finish writing. */
+    png_destroy_write_struct(&png_ptr, &info_ptr);
+
+    return true;
 }
 
 }

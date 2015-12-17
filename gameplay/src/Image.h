@@ -74,6 +74,13 @@ public:
      */
     inline unsigned int getWidth() const;
 
+    /**
+     * Write Image as PNG to stream.
+     *
+     * @return true if image has been written successfully
+     */
+    bool writePNG(class Stream * stream);
+
 private:
 
     /**
