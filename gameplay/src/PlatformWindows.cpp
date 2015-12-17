@@ -89,6 +89,7 @@ static gameplay::Keyboard::Key getKey(WPARAM win32KeyCode, bool shiftDown)
     case VK_SCROLL:
         return gameplay::Keyboard::KEY_SCROLL_LOCK;
     case VK_PRINT:
+    case VK_SNAPSHOT:   // print-screen key
         return gameplay::Keyboard::KEY_PRINT;
     case VK_ESCAPE:
         return gameplay::Keyboard::KEY_ESCAPE;
