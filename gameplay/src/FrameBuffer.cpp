@@ -141,7 +141,7 @@ unsigned int FrameBuffer::getWidth() const
     if (_renderTargetCount > 0 && _renderTargets != NULL && _renderTargets[0] != NULL)
         return _renderTargets[0]->getWidth();
 
-    return 0;
+    return Game::getInstance()->getWidth();
 }
 
 unsigned int FrameBuffer::getHeight() const
@@ -149,7 +149,7 @@ unsigned int FrameBuffer::getHeight() const
     if (_renderTargetCount > 0 && _renderTargets != NULL && _renderTargets[0] != NULL)
         return _renderTargets[0]->getHeight();
 
-    return 0;
+    return Game::getInstance()->getHeight();
 }
 
 unsigned int FrameBuffer::getMaxRenderTargets()
