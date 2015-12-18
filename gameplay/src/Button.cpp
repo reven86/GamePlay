@@ -60,4 +60,9 @@ void Button::setDataBinding(unsigned int dataBinding)
     _dataBinding = dataBinding;
 }
 
+bool Button::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
+{
+    return evt != Touch::TOUCH_MOVE;
+}
+
 }

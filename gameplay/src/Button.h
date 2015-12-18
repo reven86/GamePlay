@@ -85,6 +85,13 @@ protected:
      */
     void setDataBinding(unsigned int dataBinding);
 
+    /**
+     * Make sure Button consumes press and release events.
+     *
+     * @see Control::touchEvent
+     */
+    virtual bool touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+
 private:
 
     /**
