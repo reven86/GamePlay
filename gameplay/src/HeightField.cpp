@@ -83,7 +83,7 @@ HeightField* HeightField::create(const char* path, unsigned int width, unsigned 
         float* heights = heightfield->getArray();
         unsigned char* data = image->getData();
         int idx;
-        for (int y = image->getHeight()-1, i = 0; y >= 0; --y)
+        for (unsigned int y = 0, i = 0; y < image->getHeight(); ++y)
         {
             for (unsigned int x = 0, w = image->getWidth(); x < w; ++x)
             {
@@ -128,7 +128,7 @@ HeightField* HeightField::create(const char* path, unsigned int width, unsigned 
         {
             // 16-bit (0-65535)
             int idx;
-            for (int y = height - 1, i = 0; y >= 0; --y)
+            for (unsigned int y = 0, i = 0; y < height; ++y)
             {
                 for (unsigned int x = 0; x < width; ++x, ++i)
                 {
@@ -140,7 +140,7 @@ HeightField* HeightField::create(const char* path, unsigned int width, unsigned 
         else
         {
             // 8-bit (0-255)
-            for (int y = height - 1, i = 0; y >= 0; --y)
+            for (unsigned int y = 0, i = 0; y < height; ++y)
             {
                 for (unsigned int x = 0; x < width; ++x, ++i)
                 {
