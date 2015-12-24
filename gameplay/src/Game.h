@@ -94,14 +94,14 @@ public:
     static void setVsync(bool enable);
 
     /**
-     * Gets the total absolute running time (in milliseconds) since Game::run().
+     * Gets the total absolute running time (in milliseconds) since Game::run(). Updated once per frame.
      * 
      * @return The total absolute running time (in milliseconds).
      */
     static double getAbsoluteTime();
 
     /**
-     * Gets the total game time (in milliseconds). This is the total accumulated game time (unpaused).
+     * Gets the total game time (in milliseconds). This is the total accumulated game time (unpaused). Updated once per frame.
      *
      * You would typically use things in your game that you want to stop when the game is paused.
      * This includes things such as game physics and animation.
@@ -109,6 +109,17 @@ public:
      * @return The total game time (in milliseconds).
      */
     static double getGameTime();
+
+    /**
+     * Gets the total absolute running time (in milliseconds) since Game::run().
+     * 
+     * This return time from the same timer as getAbsoluteTime, but up-to-date.
+     * Method getAbsoluteTime is updated only once per frame.
+     *
+     * @see getAbosluteTime
+     * @return The total absolute running time (in milliseconds).
+     */
+    static double getPlatformTime();
 
     /**
      * Gets the game state.

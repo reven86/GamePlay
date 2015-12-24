@@ -122,6 +122,11 @@ double Game::getAbsoluteTime()
     return _absoluteTime;
 }
 
+double Game::getPlatformTime()
+{
+    return Platform::getAbsoluteTime();
+}
+
 double Game::getGameTime()
 {
     if (__gameInstance && __gameInstance->_state == PAUSED)
