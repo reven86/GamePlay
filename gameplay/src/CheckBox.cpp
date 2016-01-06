@@ -146,7 +146,7 @@ void CheckBox::updateAbsoluteBounds(const Vector2& offset)
 {
     Label::updateAbsoluteBounds(offset);
 
-    _textBounds.x += _bounds.height + _textSpace;
+    _textBounds.x += _viewportBounds.height + _textSpace;
 }
 
 unsigned int CheckBox::drawImages(Form* form) const
