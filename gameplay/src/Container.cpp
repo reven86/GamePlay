@@ -286,6 +286,10 @@ void Container::insertControl(Control* control, unsigned int index)
 {
     GP_ASSERT(control);
 
+    const size_t size = _controls.size();
+    if (index > size)
+        index = size;
+
     if (control->_parent != this)
     {
         std::vector<Control*>::iterator it = _controls.begin() + index;
@@ -299,7 +303,6 @@ void Container::insertControl(Control* control, unsigned int index)
     else
     {
         // move control to a new position in the list
-        const size_t size = _controls.size();
         for (size_t i = 0; i < size; ++i)
         {
             Control* c = _controls[i];
