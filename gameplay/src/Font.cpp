@@ -295,7 +295,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
         }
     }
 
-    float xPos = x, yPos = y - size + verticalAdvance;
+    float xPos = x, yPos = y;
     bool done = false;
 
     int spaceIndex = getGlyphIndexByCode(' ');
@@ -459,7 +459,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
-    float yPos = area.y - size + verticalAdvance;
+    float yPos = area.y;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
     bool clipText = clip != Rectangle(0, 0, 0, 0);
@@ -506,7 +506,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         std::swap(area.width, area.height);
     }
 
-    float areaHeight = area.height - verticalAdvance;
+    float areaHeight = area.height - size;
 
     getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths);
 
@@ -588,7 +588,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             // Skip drawing until line break or wrap.
             draw = false;
         }
-        else if (yPos > area.y + areaHeight)
+        else if (yPos > area.y + areaHeight + size)
         {
             // Truncate below area's vertical limit.
             break;
@@ -761,7 +761,7 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
     float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
 
     *width = 0;
-    *height = verticalAdvance;
+    *height = size;
 
     // Measure a line at a time.
     while (token[0] != 0)
@@ -876,7 +876,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     std::vector<Vector2> lines;
 
     float lineWidth = 0;
-    float yPos = clip.y + verticalAdvance;
+    float yPos = clip.y + size;
     const float viewportHeight = clip.height;
 
     int spaceIndex = getGlyphIndexByCode(' ');
@@ -1069,13 +1069,13 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     }
 
     float x = FLT_MAX;
-    float yTop = clip.y - size + verticalAdvance;
+    float yTop = clip.y;
     float y = yTop;
     float width = 0;
     float height = yPos - clip.y;
 
     // Calculate top of text without clipping.
-    float vWhitespace = viewportHeight - height - size + verticalAdvance;
+    float vWhitespace = viewportHeight - height;
     if (vAlign == ALIGN_VCENTER)
     {
         y += floorf(vWhitespace * 0.5f);
@@ -1230,7 +1230,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
     }
 
     const wchar_t* token = text;
-    const float areaHeight = area.height - verticalAdvance;
+    const float areaHeight = area.height - size;
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
@@ -1342,14 +1342,14 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
 
             // Final calculation of vertical position.
             float textHeight = *yPosition - area.y;
-            float vWhiteSpace = areaHeight - textHeight - size + verticalAdvance;
+            float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace * 0.5f);
+                *yPosition = area.y + floorf(vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
-                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace);
+                *yPosition = area.y + floorf(vWhiteSpace);
             }
 
             // Calculation of final horizontal position.
@@ -1381,20 +1381,20 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
             }
 
             float textHeight = *yPosition - area.y;
-            float vWhiteSpace = areaHeight - textHeight - size + verticalAdvance;
+            float vWhiteSpace = areaHeight - textHeight;
             if (vAlign == ALIGN_VCENTER)
             {
-                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace * 0.5f);
+                *yPosition = area.y + floorf(vWhiteSpace * 0.5f);
             }
             else if (vAlign == ALIGN_BOTTOM)
             {
-                *yPosition = area.y + floorf(-size + verticalAdvance + vWhiteSpace);
+                *yPosition = area.y + floorf(vWhiteSpace);
             }
         }
 
         if (vAlign == ALIGN_TOP)
         {
-            *yPosition = area.y - size + verticalAdvance;
+            *yPosition = area.y;
         }
     }
 }
@@ -1468,8 +1468,8 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
     float scale = (float)size / _size;
     float spacing = size * _spacing;
     float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
-    float yPos = area.y - size + verticalAdvance;
-    const float areaHeight = area.height - verticalAdvance;
+    float yPos = area.y;
+    const float areaHeight = area.height - size;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
@@ -1572,7 +1572,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
 
         firstToken = false;
 
-        if (floorf(yPos) > area.y + areaHeight)
+        if (yPos > area.y + areaHeight + size)
         {
             // Truncate below area's vertical limit.
             break;
