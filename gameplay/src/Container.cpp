@@ -1386,6 +1386,7 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
             updateScroll();
             setDirty(DIRTY_BOUNDS);
             setChildrenDirty(DIRTY_BOUNDS, true);
+            updateScroll();
             return false;
         }
         break;
