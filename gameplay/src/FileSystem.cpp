@@ -594,6 +594,11 @@ void FileSystem::registerPackage(Package * package)
     __packages.push_back(package);
 }
 
+void FileSystem::unregisterPackage(Package * package)
+{
+    __packages.erase(std::remove(__packages.begin(), __packages.end(), package));
+}
+
 //////////////////
 
 FileStream::FileStream(FILE* file)

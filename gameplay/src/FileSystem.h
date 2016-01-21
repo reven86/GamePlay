@@ -260,6 +260,11 @@ public:
      */
     static void registerPackage(class Package * package);
 
+    /**
+     * Unregisters the package.
+     */
+    static void unregisterPackage(class Package * package);
+
 private:
 
     /**
