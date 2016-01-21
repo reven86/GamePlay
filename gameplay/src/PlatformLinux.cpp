@@ -1702,8 +1702,7 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
     std::string extStr;
     while (std::getline(f, s, ';'))
     {
-        extStr = "*.";
-        extStr += s;
+        extStr = s;
         gtk_file_filter_add_pattern(filter, extStr.c_str());
     }
     gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);

@@ -102,7 +102,7 @@ public:
      * @param dialogMode The mode of the dialog. (Ex. OPEN or SAVE)
      * @param title The title of the dialog. (Ex. Select File or Save File)
      * @param filterDescription The file filter description. (Ex. All Files or Image Files)
-     * @param filterExtensions The extensions to filter on. (Ex. png;bmp)
+     * @param filterExtensions The extensions to filter on. (Ex. *.png;*.bmp)
      * @param initialDirectory The initial directory to start. NULL runs from the executable directory.
      * @return The file that is opened or saved, or an empty string if canceled.
      *

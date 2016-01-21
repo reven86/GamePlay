@@ -1428,7 +1428,6 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
     {
         if (count > 0)
             extStr += ";";
-        extStr += "*.";
         extStr += s;
         count++;
     }
