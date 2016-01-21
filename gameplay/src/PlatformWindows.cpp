@@ -1450,12 +1450,12 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
 
     if (mode == FileSystem::OPEN)
     {
-        ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
+        ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
         GetOpenFileNameA(&ofn);
     }
     else
     {
-        ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+        ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
         GetSaveFileNameA(&ofn);
     }
 
