@@ -448,7 +448,7 @@ void TextBox::setCaretLocation(int x, int y)
     {
         // Attempt to find the nearest valid caret location.
         Rectangle textBounds;
-        font->measureText(displayedText.c_str(), _textBounds, fontSize, flags, &textBounds, textAlignment, true, true);
+        font->measureText(displayedText.c_str(), _textBounds, fontSize, flags, &textBounds, textAlignment, true, true, getCharacterSpacing(state), getLineSpacing(state));
 
         if (point.x > textBounds.x + textBounds.width &&
             point.y > textBounds.y + textBounds.height)

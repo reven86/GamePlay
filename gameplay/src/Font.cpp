@@ -748,7 +748,7 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->measureText(text, size, flags, width, height);
+            f->measureText(text, size, flags, width, height, characterSpacing, lineSpacing);
             return;
         }
     }
@@ -808,7 +808,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->measureText(text, clipIn, size, flags, out, justify, wrap, ignoreClip);
+            f->measureText(text, clipIn, size, flags, out, justify, wrap, ignoreClip, characterSpacing, lineSpacing);
             return;
         }
     }
