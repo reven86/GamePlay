@@ -819,6 +819,52 @@ float Control::getFontSize(State state) const
     return overlay->getFontSize();
 }
 
+void Control::setCharacterSpacing(float spacing, unsigned char states)
+{
+    overrideStyle();
+    Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
+    getOverlays(states, overlays);
+
+    for (int i = 0; i < Theme::Style::OVERLAY_MAX; ++i)
+    {
+        if (overlays[i])
+            overlays[i]->setCharacterSpacing(spacing);
+    }
+
+    if (_autoSize != AUTO_SIZE_NONE)
+        setDirty(DIRTY_BOUNDS);
+}
+
+float Control::getCharacterSpacing(State state) const
+{
+    Theme::Style::Overlay* overlay = getOverlay(state);
+    GP_ASSERT(overlay);
+    return overlay->getCharacterSpacing();
+}
+
+void Control::setLineSpacing(float spacing, unsigned char states)
+{
+    overrideStyle();
+    Theme::Style::Overlay* overlays[Theme::Style::OVERLAY_MAX] = { 0 };
+    getOverlays(states, overlays);
+
+    for (int i = 0; i < Theme::Style::OVERLAY_MAX; ++i)
+    {
+        if (overlays[i])
+            overlays[i]->setLineSpacing(spacing);
+    }
+
+    if (_autoSize != AUTO_SIZE_NONE)
+        setDirty(DIRTY_BOUNDS);
+}
+
+float Control::getLineSpacing(State state) const
+{
+    Theme::Style::Overlay* overlay = getOverlay(state);
+    GP_ASSERT(overlay);
+    return overlay->getLineSpacing();
+}
+
 void Control::setTextColor(const Vector4& color, unsigned char states)
 {
     overrideStyle();

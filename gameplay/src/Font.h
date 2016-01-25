@@ -132,9 +132,11 @@ public:
      * @param color The color of text.
      * @param size The size to draw text (0 for default size).
      * @param flags Drawing flags.
+     * @param characterSpacing Additional spacing between characters, in pixels.
+     * @param lineSpacing Additional spacing between lines, in pixels.
      * @script{ignore}
      */
-    void drawText(const wchar_t* text, float x, float y, const Vector4& color, float size = 0, DrawFlags flags = LEFT_TO_RIGHT) const;
+    void drawText(const wchar_t* text, float x, float y, const Vector4& color, float size = 0, DrawFlags flags = LEFT_TO_RIGHT, float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Draws the specified text in a solid color, with a scaling factor.
@@ -148,9 +150,12 @@ public:
      * @param alpha The alpha channel of the text color.
      * @param size The size to draw text (0 for default size).
      * @param flags Drawing flags.
+     * @param characterSpacing Additional spacing between characters, in pixels.
+     * @param lineSpacing Additional spacing between lines, in pixels.
      * @script{ignore}
      */
-    void drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, DrawFlags flags = LEFT_TO_RIGHT) const;
+    void drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size = 0, 
+        DrawFlags flags = LEFT_TO_RIGHT, float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Draws the specified text within a rectangular area, with a specified alignment and scale.
@@ -164,10 +169,13 @@ public:
      * @param wrap Wraps text to fit within the width of the viewport if true.
      * @param flags Drawing flags.
      * @param clip A region to clip text within after applying justification to the viewport area.
+     * @param characterSpacing Additional spacing between characters, in pixels.
+     * @param lineSpacing Additional spacing between lines, in pixels.
      * @script{ignore}
      */
     void drawText(const wchar_t* text, const Rectangle& area, const Vector4& color, float size = 0, 
-        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT, const Rectangle& clip = Rectangle(0, 0, 0, 0)) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT, const Rectangle& clip = Rectangle(0, 0, 0, 0),
+        float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Finishes text batching for this font and renders all drawn text.
@@ -182,9 +190,12 @@ public:
      * @param flags Text's flags.
      * @param widthOut Destination for the text's width.
      * @param heightOut Destination for the text's height.
+     * @param characterSpacing Additional spacing between characters, in pixels.
+     * @param lineSpacing Additional spacing between lines, in pixels.
      * @script{ignore}
      */
-    void measureText(const wchar_t* text, float size, DrawFlags flags, float* widthOut, float* heightOut) const;
+    void measureText(const wchar_t* text, float size, DrawFlags flags, float* widthOut, float* heightOut,
+        float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Measures a string's bounding box after alignment, wrapping and clipping within a viewport.
@@ -198,66 +209,29 @@ public:
      * @param wrap Whether to measure text with wrapping applied.
      * @param ignoreClip Whether to clip 'out' to the viewport.  Set false for the bounds of what would actually be drawn
      *                within the given viewport; true for bounds that are guaranteed to fit the entire string of text.
+     * @param characterSpacing Additional spacing between characters, in pixels.
+     * @param lineSpacing Additional spacing between lines, in pixels.
      * @script{ignore}
      */
     void measureText(const wchar_t* text, const Rectangle& clip, float size, DrawFlags flags, Rectangle* out,
-                     Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool ignoreClip = false) const;
-
-    /**
-     * Returns current character spacing for this font in percentage of fonts size.
-     *
-     * @see setCharacterSpacing(float)
-     */
-    float getCharacterSpacing() const;
-
-    /**
-     * Sets the additional character spacing for this font.
-     *
-     * Character spacing is the additional amount of space that is inserted between characters. Character spacing is defined
-     * as a floating point value that is interpreted as a percentage of size used to draw the font. For example,
-     * a value of 0.1 would cause a spacing of 10% of the font size to be inserted between adjacent characters.
-     * For a font size of 20, this would equate to 2 pixels of extra space between characters.
-     *
-     * The default additional character spacing for fonts is 0.0.
-     *
-     * @param spacing New fixed character spacing, expressed as a percentage of font size.
-     */
-    void setCharacterSpacing(float spacing);
-
-    /**
-     * Returns current line spacing for this font in percentage of fonts size.
-     *
-     * @see setLineSpacing(float)
-     */
-    float getLineSpacing() const;
-
-    /**
-     * Sets the additional line spacing for this font.
-     *
-     * Line spacing is the additional amount of space that is inserted between lines of character. Line spacing is defined
-     * as a floating point value that is interpreted as a percentage of size used to draw the font. For example,
-     * a value of 0.1 would cause a spacing of 10% of the font size to be inserted between adjacent lines.
-     * For a font size of 20, this would equate to 2 pixels of extra space between lines.
-     *
-     * The default additional line spacing for fonts is 0.0.
-     *
-     * @param spacing New fixed line spacing, expressed as a percentage of font size.
-     */
-    void setLineSpacing(float spacing);
+                     Justify justify = ALIGN_TOP_LEFT, bool wrap = true, bool ignoreClip = false,
+                     float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Get an character index into a string corresponding to the character nearest the given location within the clip region.
      * @script{ignore}
      */
     int getIndexAtLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
-        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT,
+        float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Get the location of the character at the given index.
      * @script{ignore}
      */
     void getLocationAtIndex(const wchar_t* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
-        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
+        Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT,
+        float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     /**
      * Gets the sprite batch used to draw this Font.
@@ -367,18 +341,21 @@ private:
     static Font* create(const char* family, Style style, unsigned int size, Glyph* glyphs, int glyphCount, Texture* texture, Font::Format format);
 
     void getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, DrawFlags flags,
-                            std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const;
+                            std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths,
+                            float characterSpacing, float lineSpacing) const;
 
     int getIndexOrLocation(const wchar_t* text, const Rectangle& clip, float size, const Vector2& inLocation, Vector2* outLocation,
-        const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT) const;
+        const int destIndex = -1, Justify justify = ALIGN_TOP_LEFT, bool wrap = true, DrawFlags flags = LEFT_TO_RIGHT,
+        float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
-    float getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale) const;
+    float getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale, float characterSpacing) const;
 
     unsigned int getReversedTokenLength(const wchar_t* token, const wchar_t* bufStart) const;
 
     int handleDelimiters(const wchar_t** token, const float size, float scale, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
                          std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex = NULL,
-                         const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1) const;
+                         const Vector2* stopAtPosition = NULL, const int currentIndex = -1, const int destIndex = -1, 
+                         float characterSpacing = 0.0f, float lineSpacing = 0.0f) const;
 
     void addLineInfo(const Rectangle& area, float lineWidth, int lineLength, Justify hAlign,
         std::vector<float>* xPositions, std::vector<unsigned int>* lineLengths, DrawFlags flags) const;
@@ -397,8 +374,6 @@ private:
     Style _style;
     unsigned int _size;
     std::vector<Font*> _sizes; // stores additional font sizes of the same family
-    float _spacing;
-    float _lineSpacing;
     Glyph* _glyphs;
     unsigned int _glyphCount;
     Texture* _texture;

@@ -274,6 +274,9 @@ Theme* Theme::create(const char* url)
                         opacity = innerSpace->getFloat("opacity");
                     }
 
+                    float characterSpacing = innerSpace->getFloat("characterSpacing");
+                    float lineSpacing = innerSpace->getFloat("lineSpacing");
+
                     ImageList* imageList = NULL;
                     ThemeImage* cursor = NULL;
                     Skin* skin = NULL;
@@ -290,6 +293,8 @@ Theme* Theme::create(const char* url)
                     normal->setTextAlignment(textAlignment);
                     normal->setTextDrawingFlags(textFlags);
                     normal->setOpacity(opacity);
+                    normal->setCharacterSpacing(characterSpacing);
+                    normal->setLineSpacing(lineSpacing);
 
                     if (font)
                     {
@@ -352,15 +357,9 @@ Theme* Theme::create(const char* url)
                             font->addRef();
                     }
 
-                    float fontSize;
-                    if (innerSpace->exists("fontSize"))
-                    {
-                        fontSize = innerSpace->getFloat("fontSize");
-                    }
-                    else
-                    {
-                        fontSize = normal->getFontSize();
-                    }
+                    float fontSize = innerSpace->exists("fontSize") ? innerSpace->getFloat("fontSize") : normal->getFontSize();
+                    float characterSpacing = innerSpace->exists("characterSpacing") ? innerSpace->getFloat("characterSpacing") : normal->getCharacterSpacing();
+                    float lineSpacing = innerSpace->exists("lineSpacing") ? innerSpace->getFloat("lineSpacing") : normal->getLineSpacing();
 
                     const char* textAlignmentString = innerSpace->getString("textAlignment");
                     Font::Justify textAlignment;
@@ -429,6 +428,8 @@ Theme* Theme::create(const char* url)
                         focus->setTextAlignment(textAlignment);
                         focus->setTextDrawingFlags(textFlags);
                         focus->setOpacity(opacity);
+                        focus->setCharacterSpacing(characterSpacing);
+                        focus->setLineSpacing(lineSpacing);
 
                         if (font)
                         {
@@ -449,6 +450,8 @@ Theme* Theme::create(const char* url)
                         active->setTextAlignment(textAlignment);
                         active->setTextDrawingFlags(textFlags);
                         active->setOpacity(opacity);
+                        active->setCharacterSpacing(characterSpacing);
+                        active->setLineSpacing(lineSpacing);
 
                         if (font)
                         {
@@ -469,6 +472,8 @@ Theme* Theme::create(const char* url)
                         disabled->setTextAlignment(textAlignment);
                         disabled->setTextDrawingFlags(textFlags);
                         disabled->setOpacity(opacity);
+                        disabled->setCharacterSpacing(characterSpacing);
+                        disabled->setLineSpacing(lineSpacing);
 
                         if (font)
                         {
@@ -489,6 +494,8 @@ Theme* Theme::create(const char* url)
                         hover->setTextAlignment(textAlignment);
                         hover->setTextDrawingFlags(textFlags);
                         hover->setOpacity(opacity);
+                        hover->setCharacterSpacing(characterSpacing);
+                        hover->setLineSpacing(lineSpacing);
 
                         if (font)
                         {

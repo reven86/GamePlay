@@ -104,20 +104,26 @@ void Label::updateBounds()
         // Measure bounds based only on normal state so that bounds updates are not always required on state changes.
         // This is a trade-off for functionality vs performance, but changing the size of UI controls on hover/focus/etc
         // is a pretty bad practice so we'll prioritize performance here.
-        float w, h;
-        _font->measureText(_text.c_str(), getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &w, &h);
         if (_autoSize & AUTO_SIZE_WIDTH)
         {
+            float w, h;
+            _font->measureText(_text.c_str(), getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &w, &h, getCharacterSpacing(NORMAL), getLineSpacing(NORMAL));
             setWidthInternal(ceilf(w + getBorder(NORMAL).left + getBorder(NORMAL).right + getPadding().left + getPadding().right));
+            if (_autoSize & AUTO_SIZE_HEIGHT)
+                setHeightInternal(ceilf(h + getBorder(NORMAL).top + getBorder(NORMAL).bottom + getPadding().top + getPadding().bottom));
         }
-        if (_autoSize & AUTO_SIZE_HEIGHT)
+        else // _autoSize & AUTO_SIZE_HEIGHT
         {
+            GP_ASSERT(_autoSize & AUTO_SIZE_HEIGHT);
+
             // recalculate height due to word wrapping
-            if (_textBounds.width > 0.0f && (_autoSize & AUTO_SIZE_WIDTH) == 0)
+            float h = getFontSize(NORMAL);
+            if (_textBounds.width > 0.0f)
             {
                 gameplay::Rectangle clipBounds(_textBounds.width, FLT_MAX);
                 gameplay::Rectangle out;
-                _font->measureText(_text.c_str(), clipBounds, getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &out);
+                _font->measureText(_text.c_str(), clipBounds, getFontSize(NORMAL), getTextDrawingFlags(NORMAL), &out, getTextAlignment(NORMAL), 
+                    true, true, getCharacterSpacing(NORMAL), getLineSpacing(NORMAL));
 
                 h = out.height;
             }
@@ -156,7 +162,8 @@ unsigned int Label::drawText(Form* form) const
 
         SpriteBatch* batch = _font->getSpriteBatch(fontSize);
         startBatch(form, batch);
-        _font->drawText(_text.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextDrawingFlags(state), _viewportClipBounds);
+        _font->drawText(_text.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextDrawingFlags(state), _viewportClipBounds,
+            getCharacterSpacing(state), getLineSpacing(state));
         finishBatch(form, batch);
 
         return 1;

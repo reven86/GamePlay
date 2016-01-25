@@ -293,7 +293,8 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                                 Font::Justify textAlignment = getTextAlignment(state);
 
                                 Rectangle textBounds;
-                                font->measureText(getDisplayedText().c_str(), _bounds, fontSize, getTextDrawingFlags(state), &textBounds, textAlignment, true, true);
+                                font->measureText(getDisplayedText().c_str(), _bounds, fontSize, getTextDrawingFlags(state), &textBounds, textAlignment, true, true,
+                                    getCharacterSpacing(state), getLineSpacing(state));
 
                                 if (textBounds.width > _bounds.width || textBounds.height > _bounds.height)
                                 {
@@ -407,7 +408,8 @@ unsigned int TextBox::drawText(Form* form) const
 
         SpriteBatch* batch = _font->getSpriteBatch(fontSize);
         startBatch(form, batch);
-        _font->drawText(displayedText.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextDrawingFlags(state), _viewportClipBounds);
+        _font->drawText(displayedText.c_str(), _textBounds, _textColor, fontSize, getTextAlignment(state), true, getTextDrawingFlags(state), _viewportClipBounds,
+            getCharacterSpacing(state), getLineSpacing(state));
         finishBatch(form, batch);
 
         return 1;

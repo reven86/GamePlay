@@ -20,7 +20,7 @@ static Effect* __fontEffect = NULL;
 static Effect* __fontEffectAlpha = NULL;
 
 Font::Font() :
-    _format(BITMAP), _style(PLAIN), _size(0), _spacing(0.0f), _lineSpacing(0.0f), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
+    _format(BITMAP), _style(PLAIN), _size(0), _glyphs(NULL), _glyphCount(0), _texture(NULL), _batch(NULL), _cutoffParam(NULL)
 {
 }
 
@@ -245,7 +245,7 @@ const Font* Font::findClosestSize(int size) const
     return closest;
 }
 
-void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color, float size, DrawFlags flags) const
+void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color, float size, DrawFlags flags, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -260,7 +260,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->drawText(text, x, y, color, size, flags);
+            f->drawText(text, x, y, color, size, flags, characterSpacing, lineSpacing);
             return;
         }
     }
@@ -268,8 +268,8 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
     lazyStart();
 
     float scale = (float)size / _size;
-    float spacing = size * _spacing;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float spacing = characterSpacing;
+    float verticalAdvance = size + lineSpacing;
     const wchar_t* cursor = NULL;
 
     if ((flags & RIGHT_TO_LEFT) != 0)
@@ -280,7 +280,7 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
     if ((flags & (DRAW_VERTICAL_CW | DRAW_VERTICAL_CCW)) != 0)
     {
         float w, h;
-        measureText(text, size, flags, &w, &h);
+        measureText(text, size, flags, &w, &h, characterSpacing, lineSpacing);
 
         if ((flags & DRAW_VERTICAL_CW) != 0)
         {
@@ -427,12 +427,14 @@ void Font::drawText(const wchar_t* text, float x, float y, const Vector4& color,
     }
 }
 
-void Font::drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size, DrawFlags flags) const
+void Font::drawText(const wchar_t* text, float x, float y, float red, float green, float blue, float alpha, float size, 
+    DrawFlags flags, float characterSpacing, float lineSpacing) const
 {
-    drawText(text, x, y, Vector4(red, green, blue, alpha), size, flags);
+    drawText(text, x, y, Vector4(red, green, blue, alpha), size, flags, characterSpacing, lineSpacing);
 }
 
-void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4& color, float size, Justify justify, bool wrap, DrawFlags flags, const Rectangle& clip) const
+void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4& color, float size, Justify justify, bool wrap, 
+    DrawFlags flags, const Rectangle& clip, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(text);
     GP_ASSERT(_size);
@@ -447,7 +449,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         const Font* f = findClosestSize(size);
         if (f != this)
         {
-            f->drawText(text, areaIn, color, size, justify, wrap, flags, clip);
+            f->drawText(text, areaIn, color, size, justify, wrap, flags, clip, characterSpacing, lineSpacing);
             return;
         }
     }
@@ -457,8 +459,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
     Rectangle area(areaIn);
 
     float scale = (float)size / _size;
-    float spacing = size * _spacing;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float spacing = characterSpacing;
+    float verticalAdvance = size + lineSpacing;
     float yPos = area.y;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
@@ -508,7 +510,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
 
     float areaHeight = area.height - size;
 
-    getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths);
+    getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths, characterSpacing, lineSpacing);
 
     // Now we have the info we need in order to render.
     float xPos = area.x;
@@ -537,7 +539,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
     while (token[0] != 0)
     {
         // Handle delimiters until next token.
-        if (!handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+        if (!handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end(), 
+            NULL, NULL, -1, -1, characterSpacing, lineSpacing))
         {
             break;
         }
@@ -551,14 +554,14 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             tokenLength = getReversedTokenLength(token, text);
             currentLineLength += tokenLength;
             token -= (tokenLength - 1);
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = -1;
             startIndex = tokenLength - 1;
         }
         else
         {
             tokenLength = (unsigned int)wcscspn (token, L" \r\n\t");
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = 1;
             startIndex = 0;
         }
@@ -659,7 +662,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
                     token += lineLength;
 
                     // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end(),
+                        NULL, NULL, -1, -1, characterSpacing, lineSpacing))
                     {
                         break;
                     }
@@ -687,7 +691,8 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
             {
                 token = lineStart + lineLength;
 
-                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end(),
+                    NULL, NULL, -1, -1, characterSpacing, lineSpacing))
                 {
                     break;
                 }
@@ -726,7 +731,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
     }
 }
 
-void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* width, float* height) const
+void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* width, float* height, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -758,7 +763,7 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
 
     float scale = (float)size / _size;
     const wchar_t* token = text;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float verticalAdvance = size + lineSpacing;
 
     *width = 0;
     *height = size;
@@ -773,7 +778,7 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
         }
 
         unsigned int tokenLength = (unsigned int)wcscspn(token, L"\n");
-        float tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+        float tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
         if (tokenWidth > *width)
         {
             *width = tokenWidth;
@@ -786,7 +791,8 @@ void Font::measureText(const wchar_t* text, float size, DrawFlags flags, float* 
         std::swap(*width, *height);
 }
 
-void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size, DrawFlags flags, Rectangle* out, Justify justify, bool wrap, bool ignoreClip) const
+void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size, DrawFlags flags, Rectangle* out, Justify justify, bool wrap, bool ignoreClip,
+    float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -858,7 +864,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
     }
 
     float scale = (float)size / _size;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float verticalAdvance = size + lineSpacing;
     Justify vAlign = static_cast<Justify>(justify & 0xF0);
     if (vAlign == 0)
     {
@@ -959,7 +965,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
 
             // Measure the next token.
             unsigned int tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
-            float tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            float tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
 
             // Wrap if necessary.
             if (int(lineWidth + tokenWidth + delimWidth) > int(clip.width))
@@ -1028,7 +1034,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
 
             // Measure the next line.
             unsigned int tokenLength = (unsigned int)wcscspn(token, L"\n");
-            lineWidth = getTokenWidth(token, tokenLength, size, scale);
+            lineWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
 
             // Determine horizontal position and width.
             float xPos = clip.x;
@@ -1205,7 +1211,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
 }
 
 void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float size, Justify justify, bool wrap, DrawFlags flags,
-        std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths) const 
+    std::vector<float>* xPositions, float* yPosition, std::vector<unsigned int>* lineLengths, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -1215,7 +1221,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
         size = _size;
 
     float scale = (float)size / _size;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float verticalAdvance = size + lineSpacing;
 
     Justify vAlign = static_cast<Justify>(justify & 0xF0);
     if (vAlign == 0)
@@ -1304,7 +1310,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                 }
 
                 unsigned int tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
-                tokenWidth += getTokenWidth(token, tokenLength, size, scale);
+                tokenWidth += getTokenWidth(token, tokenLength, size, scale, characterSpacing);
 
                 // Wrap if necessary.
                 if (int(lineWidth + tokenWidth + delimWidth) > int(area.width))
@@ -1374,7 +1380,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                     tokenLength = (unsigned int)wcslen(token);
                 }
 
-                float lineWidth = getTokenWidth(token, tokenLength, size, scale);
+                float lineWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
                 addLineInfo(area, lineWidth, tokenLength, hAlign, xPositions, lineLengths, flags);
 
                 token += tokenLength;
@@ -1399,50 +1405,20 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
     }
 }
 
-float Font::getCharacterSpacing() const
-{
-    return _spacing;
-}
-
-void Font::setCharacterSpacing(float spacing)
-{
-    _spacing = spacing;
-    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
-    {
-        Font* f = _sizes[i];
-        f->_spacing = spacing;
-    }
-}
-
-float Font::getLineSpacing() const
-{
-    return _lineSpacing;
-}
-
-void Font::setLineSpacing(float spacing)
-{
-    _lineSpacing = spacing;
-    for (size_t i = 0, count = _sizes.size(); i < count; ++i)
-    {
-        Font* f = _sizes[i];
-        f->_lineSpacing = spacing;
-    }
-}
-
 int Font::getIndexAtLocation(const wchar_t* text, const Rectangle& area, float size, const Vector2& inLocation, Vector2* outLocation,
-    Justify justify, bool wrap, DrawFlags flags) const
+    Justify justify, bool wrap, DrawFlags flags, float characterSpacing, float lineSpacing) const
 {
-    return getIndexOrLocation(text, area, size, inLocation, outLocation, -1, justify, wrap, flags);
+    return getIndexOrLocation(text, area, size, inLocation, outLocation, -1, justify, wrap, flags, characterSpacing, lineSpacing);
 }
 
 void Font::getLocationAtIndex(const wchar_t* text, const Rectangle& clip, float size, Vector2* outLocation, const unsigned int destIndex,
-    Justify justify, bool wrap, DrawFlags flags) const
+    Justify justify, bool wrap, DrawFlags flags, float characterSpacing, float lineSpacing) const
 {
-    getIndexOrLocation(text, clip, size, *outLocation, outLocation, (const int)destIndex, justify, wrap, flags);
+    getIndexOrLocation(text, clip, size, *outLocation, outLocation, (const int)destIndex, justify, wrap, flags, characterSpacing, lineSpacing);
 }
 
 int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float size, const Vector2& inLocation, Vector2* outLocation,
-    const int destIndex, Justify justify, bool wrap, DrawFlags flags) const
+    const int destIndex, Justify justify, bool wrap, DrawFlags flags, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(_size);
     GP_ASSERT(text);
@@ -1466,14 +1442,14 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
 
     // Essentially need to measure text until we reach inLocation.
     float scale = (float)size / _size;
-    float spacing = size * _spacing;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float spacing = characterSpacing;
+    float verticalAdvance = size + lineSpacing;
     float yPos = area.y;
     const float areaHeight = area.height - size;
     std::vector<float> xPositions;
     std::vector<unsigned int> lineLengths;
 
-    getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths);
+    getMeasurementInfo(text, area, size, justify, wrap, flags, &xPositions, &yPos, &lineLengths, characterSpacing, lineSpacing);
 
     float xPos = area.x;
     std::vector<float>::const_iterator xPositionsIt = xPositions.begin();
@@ -1506,11 +1482,13 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         int result;
         if (destIndex == -1)
         {
-            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, &inLocation);
+            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, &inLocation, 
+                -1, -1, characterSpacing, lineSpacing);
         }
         else
         {
-            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, NULL, charIndex, destIndex);
+            result = handleDelimiters(&token, size, scale, iteration, area.x, &xPos, &yPos, &delimLength, &xPositionsIt, xPositions.end(), &charIndex, NULL, 
+                charIndex, destIndex, characterSpacing, lineSpacing);
         }
 
         currentLineLength += delimLength;
@@ -1541,14 +1519,14 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             currentLineLength += tokenLength;
             charIndex += tokenLength;
             token -= (tokenLength - 1);
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = -1;
             startIndex = tokenLength - 1;
         }
         else
         {
             tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
-            tokenWidth = getTokenWidth(token, tokenLength, size, scale);
+            tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = 1;
             startIndex = 0;
         }
@@ -1622,7 +1600,8 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
                     token += lineLength;
 
                     // Now handle delimiters going forwards.
-                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                    if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end(),
+                        NULL, NULL, -1, -1, characterSpacing, lineSpacing))
                     {
                         break;
                     }
@@ -1652,7 +1631,8 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
             {
                 token = lineStart + lineLength;
 
-                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end()))
+                if (!handleDelimiters(&token, size, scale, 1, area.x, &xPos, &yPos, &currentLineLength, &xPositionsIt, xPositions.end(),
+                    NULL, NULL, characterSpacing, lineSpacing))
                 {
                     break;
                 }
@@ -1705,14 +1685,14 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
     return -1;
 }
 
-float Font::getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale) const
+float Font::getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale, float characterSpacing) const
 {
     GP_ASSERT(token);
     GP_ASSERT(_glyphs);
 
     if (size == 0)
         size = _size;
-    float spacing = size * _spacing;
+    float spacing = characterSpacing;
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
@@ -1770,7 +1750,7 @@ unsigned int Font::getReversedTokenLength(const wchar_t* token, const wchar_t* b
 
 int Font::handleDelimiters(const wchar_t** token, const float size, float scale, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,
                           std::vector<float>::const_iterator* xPositionsIt, std::vector<float>::const_iterator xPositionsEnd, unsigned int* charIndex,
-                          const Vector2* stopAtPosition, const int currentIndex, const int destIndex) const
+                          const Vector2* stopAtPosition, const int currentIndex, const int destIndex, float characterSpacing, float lineSpacing) const
 {
     GP_ASSERT(token);
     GP_ASSERT(*token);
@@ -1781,7 +1761,7 @@ int Font::handleDelimiters(const wchar_t** token, const float size, float scale,
 
     int spaceIndex = getGlyphIndexByCode(' ');
     float spaceAdvance = spaceIndex >= 0 && spaceIndex < (int)_glyphCount ? _glyphs[spaceIndex].advance * scale : size * 0.5f;
-    float verticalAdvance = floorf(size * (1.0f + _lineSpacing));
+    float verticalAdvance = size + lineSpacing;
 
     wchar_t delimiter = *token[0];
     bool nextLine = true;
@@ -2002,7 +1982,7 @@ int Font::getGlyphIndexByCode(int characterCode) const
     return -1;
 }
 
-const Font::Glyph * Font::getGlyphByCode( int characterCode ) const
+const Font::Glyph * Font::getGlyphByCode(int characterCode) const
 {
     for( unsigned i = 0; i < _glyphCount; i++ )
     {

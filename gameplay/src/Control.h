@@ -724,6 +724,42 @@ public:
     float getFontSize(State state = NORMAL) const;
 
     /**
+     * Set this control's spacing between characters.
+     *
+     * @param spacing Spacing between characters, in pixels.
+     * @param states The states to set this property on.
+     *               One or more members of the Control::State enum, ORed together.
+     */
+    void setCharacterSpacing(float spacing, unsigned char states = STATE_ALL);
+
+    /**
+     * Get this control's spacing between characters.
+     *
+     * @param state The state to get this property from.
+     *
+     * @return This control's characters spacing.
+     */
+    float getCharacterSpacing(State state = NORMAL) const;
+
+    /**
+     * Set this control's spacing between lines.
+     *
+     * @param spacing Spacing between lines, in pixels.
+     * @param states The states to set this property on.
+     *               One or more members of the Control::State enum, ORed together.
+     */
+    void setLineSpacing(float spacing, unsigned char states = STATE_ALL);
+
+    /**
+     * Get this control's spacing between lines.
+     *
+     * @param state The state to get this property from.
+     *
+     * @return This control's line spacing.
+     */
+    float getLineSpacing(State state = NORMAL) const;
+
+    /**
      * Set this control's text color.
      *
      * @param color The new text color.

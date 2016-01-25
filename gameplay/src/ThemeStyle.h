@@ -140,6 +140,14 @@ private:
 
         const Theme::UVs& getCursorUVs() const;
 
+        void setCharacterSpacing(float spacing);
+
+        float getCharacterSpacing() const;
+
+        void setLineSpacing(float spacing);
+
+        float getLineSpacing() const;
+
         /**
          * @see AnimationTarget::getAnimationPropertyComponentCount
          */
@@ -176,6 +184,8 @@ private:
         Font::DrawFlags _textFlags;
         Vector4 _textColor;
         float _opacity;
+        float _characterSpacing;
+        float _lineSpacing;
     };
 
     /**

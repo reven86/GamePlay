@@ -98,7 +98,8 @@ Theme::Style::Overlay* Theme::Style::Overlay::create()
 
 Theme::Style::Overlay::Overlay()
     : _skin(NULL), _cursor(NULL), _imageList(NULL), _font(NULL),
-    _fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textFlags(Font::LEFT_TO_RIGHT), _textColor(Vector4::one()), _opacity(1.0f)
+    _fontSize(0), _alignment(Font::ALIGN_TOP_LEFT), _textFlags(Font::LEFT_TO_RIGHT), _textColor(Vector4::one()), _opacity(1.0f),
+    _characterSpacing(0.0f), _lineSpacing(0.0f)
 {
 }
 
@@ -123,6 +124,8 @@ Theme::Style::Overlay::Overlay(const Overlay& copy) : _skin(NULL), _cursor(NULL)
     _textFlags = copy._textFlags;
     _textColor = Vector4(copy._textColor);
     _opacity = copy._opacity;
+    _characterSpacing = copy._characterSpacing;
+    _lineSpacing = copy._lineSpacing;
 
     if (_font)
     {
@@ -243,6 +246,26 @@ float Theme::Style::Overlay::getFontSize() const
 void Theme::Style::Overlay::setFontSize(float fontSize)
 {
     _fontSize = fontSize;
+}
+
+float Theme::Style::Overlay::getCharacterSpacing() const
+{
+    return _characterSpacing;
+}
+
+void Theme::Style::Overlay::setCharacterSpacing(float spacing)
+{
+    _characterSpacing = spacing;
+}
+
+float Theme::Style::Overlay::getLineSpacing() const
+{
+    return _lineSpacing;
+}
+
+void Theme::Style::Overlay::setLineSpacing(float spacing)
+{
+    _lineSpacing = spacing;
 }
 
 Font::Justify Theme::Style::Overlay::getTextAlignment() const
