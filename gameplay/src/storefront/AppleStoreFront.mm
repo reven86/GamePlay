@@ -113,7 +113,42 @@
 @end
 
 
+
+@interface RefreshReceiptDelegate : NSObject <SKRequestDelegate>
+{
+    @public gameplay::AppleStoreFront * _storeFront;
+}
+@end
+
+@implementation RefreshReceiptDelegate
+
+- (void)requestDidFinish:(SKRequest *)request
+{
+    GP_ASSERT( _storeFront->getListener( ) );
+    
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+
+    _storeFront->getListener()->receiptRequested(receipt, 0, "");
+    
+    [request release];
+}
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error
+{
+    GP_ASSERT( _storeFront->getListener( ) );
+    //NSLog( @"Refresh receipt failed %@", error );
+    
+    _storeFront->getListener()->receiptRequested(NULL, error.code, [error.localizedDescription UTF8String]);
+    
+    [request release];
+}
+
+@end
+
+
 static AppleStoreKitController * __storeKitController = nil;
+static RefreshReceiptDelegate * __refreshReceiptDelegate = nil;
 
 
 namespace gameplay {
@@ -128,6 +163,12 @@ AppleStoreFront::AppleStoreFront()
         __storeKitController->_storeFront = this;
         __storeKitController->_observerAdded = false;
     }
+
+    if (__refreshReceiptDelegate == nil)
+    {
+        __refreshReceiptDelegate = [[RefreshReceiptDelegate alloc] init];
+        __refreshReceiptDelegate->_storeFront = this;
+    }
 }
 
 AppleStoreFront::~AppleStoreFront()
@@ -141,6 +182,12 @@ AppleStoreFront::~AppleStoreFront()
         }
         [__storeKitController release];
         __storeKitController = nil;
+    }
+
+    if (__refreshReceiptDelegate != nil)
+    {
+        [__refreshReceiptDelegate release];
+        __refreshReceiptDelegate = nil;
     }
 }
     
@@ -218,6 +265,13 @@ SKPaymentTransaction * AppleStoreFront::getCurrentTransactionObject()
 void AppleStoreFront::finishTransaction(void * transactionObject)
 {
     [[SKPaymentQueue defaultQueue] finishTransaction:(SKPaymentTransaction *)(transactionObject)];
+}
+
+void AppleStoreFront::requestReceipt()
+{
+    SKReceiptRefreshRequest *refresh = [[SKReceiptRefreshRequest alloc] initWithReceiptProperties:nil];
+    refresh.delegate = __refreshReceiptDelegate;
+    [refresh start];
 }
     
 }

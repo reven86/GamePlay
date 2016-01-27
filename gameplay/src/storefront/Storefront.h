@@ -64,6 +64,16 @@ public:
      */
     virtual void finishTransaction(void * transactionObject) = 0;
 
+    /**
+     * Request up-to-date receipt file. Receipt is a platform specific
+     * container, that stores all information about purchases made by
+     * user. Receipt can be used to restore previous purchases of non-consumable
+     * items or to be sent to server to validate purchases as it is 
+     * digitally signed by Store's certificate. The internal format of 
+     * receipt file is dependent on platform, where it is used.
+     */
+    virtual void requestReceipt() = 0;
+
 protected:
 
     /**
