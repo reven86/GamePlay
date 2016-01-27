@@ -71,6 +71,11 @@ public:
     virtual void finishTransaction(void * transactionObject);
 
     /**
+     * @see StoreFront::requestReceipt
+     */
+    virtual void requestReceipt();
+
+    /**
      * Get SKPaymentTransaction which is being processed or nil.
      */
     SKPaymentTransaction * getCurrentTransactionObject();

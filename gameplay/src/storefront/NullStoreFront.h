@@ -69,6 +69,11 @@ public:
      */
     virtual void finishTransaction(void * transactionObject) {};
 
+    /**
+     * @see StoreFront::requestReceipt
+     */
+    virtual void requestReceipt() {};
+
 protected:
 
     /**

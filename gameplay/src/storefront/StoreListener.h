@@ -39,7 +39,7 @@ public:
      * Get called in case of error in obtaining products' information.
      *
      * @param errorCode Error code.
-     * @param error UTF-8 error string.
+     * @param errorUTF8 UTF-8 error string.
      */
     virtual void getProductsFailedEvent( int errorCode, const char * errorUTF8 ) {};
     
@@ -100,6 +100,15 @@ public:
      * Note: this method is not called for App Store market.
      */
     virtual bool isProductConsumable(const char * productID) { return true; };
+
+    /**
+     * Up-to-date receipt file has been returned.
+     *
+     * @param receiptFile Contents of receipt when receipt file was successfully requested.
+     * @param errorCode Error code in case of any error or 0.
+     * @param errorUTF8 Error string in UTF8 coding or empty string.
+     */
+    virtual void receiptRequested(void * receiptFile, int errorCode, const char * errorUTF8) {};
 };
 
 }

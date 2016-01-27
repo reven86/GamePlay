@@ -225,4 +225,9 @@ void GoogleStoreFront::finishTransaction(void * transactionObject)
     // do nothing
 }
 
+void GoogleStoreFront::requestReceipt()
+{
+    GP_ASSERT(!"Not implemented.")
+}
+
 }
