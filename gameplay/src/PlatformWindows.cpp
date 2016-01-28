@@ -582,7 +582,7 @@ bool createWindow(WindowCreationParams* params, HWND* hwnd, HDC* hdc)
     AdjustWindowRectEx(&rect, style, FALSE, styleEx);
 
     // Create the native Windows window.
-    *hwnd = CreateWindowEx(styleEx, L"gameplay", windowName.c_str(), style, 0, 0, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, __hinstance, NULL);
+    *hwnd = CreateWindowExW(styleEx, L"gameplay", windowName.c_str(), style, 0, 0, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, __hinstance, NULL);
     if (*hwnd == NULL)
     {
         GP_ERROR("Failed to create window.");
@@ -928,7 +928,7 @@ Platform* Platform::create(Game* game)
     wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground  = NULL;  // No brush - we are going to paint our own background
     wc.lpszMenuName   = NULL;  // No default menu
-    wc.lpszClassName  = L"gameplay";
+    wc.lpszClassName  = TEXT("gameplay");
 
     if (!::RegisterClassEx(&wc))
     {
@@ -1392,7 +1392,7 @@ bool Platform::launchURL(const char* url)
     int len = MultiByteToWideChar(CP_ACP, 0, url, -1, NULL, 0);
     wchar_t* wurl = new wchar_t[len];
     MultiByteToWideChar(CP_ACP, 0, url, -1, wurl, len);
-    int r = (int)ShellExecute(NULL, NULL, wurl, NULL, NULL, SW_SHOWNORMAL);
+    int r = (int)ShellExecuteW(NULL, NULL, wurl, NULL, NULL, SW_SHOWNORMAL);
     SAFE_DELETE_ARRAY(wurl);
     return (r > 32);
 }

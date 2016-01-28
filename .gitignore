@@ -25,6 +25,8 @@ Makefile.Debug
 Makefile.Release
 gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 
+/build_*
+
 /gameplay/Debug
 /gameplay/DebugMem
 /gameplay/Release
