@@ -1136,8 +1136,9 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
         std::map<Control::Listener::EventType, std::list<Control::Listener*>*>::const_iterator itr = _listeners->find(eventType);
         if (itr != _listeners->end())
         {
-            std::list<Control::Listener*>* listenerList = itr->second;
-            for (std::list<Control::Listener*>::iterator listenerItr = listenerList->begin(); listenerItr != listenerList->end(); ++listenerItr)
+            // copy list of listeners because they list can be changed during processing.
+            std::list<Control::Listener*> listenerList = *(itr->second);
+            for (std::list<Control::Listener*>::iterator listenerItr = listenerList.begin(); listenerItr != listenerList.end(); ++listenerItr)
             {
                 GP_ASSERT(*listenerItr);
                 (*listenerItr)->controlEvent(this, eventType);
