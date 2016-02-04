@@ -156,6 +156,16 @@ public:
     static Properties* create(const char* url);
 
     /**
+     * Creates a Properties runtime settings by using Stream.
+     *
+     * @param stream The Stream to create the properties from.
+     * 
+     * @return The created Properties or NULL if there was an error.
+     * @script{create}
+     */
+    static Properties* create(gameplay::Stream * stream);
+
+    /**
      * Destructor.
      */
     ~Properties();

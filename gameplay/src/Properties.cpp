@@ -92,8 +92,7 @@ Properties* Properties::create(const char* url)
         return NULL;
     }
 
-    Properties* properties = new Properties(stream.get());
-    properties->resolveInheritance();
+    Properties* properties = Properties::create(stream.get());
     stream->close();
 
     // Get the specified properties object.
@@ -115,6 +114,14 @@ Properties* Properties::create(const char* url)
     }
     p->setDirectoryPath(FileSystem::getDirectoryName(fileString.c_str()));
     return p;
+}
+
+Properties * Properties::create(gameplay::Stream * stream)
+{
+    Properties* properties = new Properties(stream);
+    properties->resolveInheritance();
+
+    return properties;
 }
 
 static bool isVariable(const char* str, char* outName, size_t outSize)
