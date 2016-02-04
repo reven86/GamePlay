@@ -63,6 +63,16 @@ public:
     static Container* create(const char* id, Theme::Style* style = NULL, Layout::Type layout = Layout::LAYOUT_ABSOLUTE);
 
     /**
+     * Create a container with a given style and properties, including a list of controls.
+     *
+     * @param style The style to apply to this container.
+     * @param properties A properties object containing a definition of the container and its nested controls (optional).
+     *
+     * @return The new container.
+     */
+    static Control* create(Theme::Style* style, Properties* properties = NULL);
+
+    /**
      * Extends ScriptTarget::getTypeName() to return the type name of this class.
      *
      * Child controls should override this function to return the correct type name.
@@ -337,16 +347,6 @@ protected:
      * Destructor.
      */
     virtual ~Container();
-
-    /**
-     * Create a container with a given style and properties, including a list of controls.
-     *
-     * @param style The style to apply to this container.
-     * @param properties A properties object containing a definition of the container and its nested controls (optional).
-     *
-     * @return The new container.
-     */
-    static Control* create(Theme::Style* style, Properties* properties = NULL);
 
     /**
      * @see Control::initialize
