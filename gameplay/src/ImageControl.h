@@ -50,7 +50,7 @@ public:
      *
      * @param path The path to the image.
      */
-    void setImage(const char* path);
+    virtual void setImage(const char* path);
 
     /**
      * Set the source region of this ImageControl.  This is the region of the file,
@@ -160,6 +160,8 @@ protected:
 private:
 
     ImageControl(const ImageControl& copy);
+
+protected:
 
     // Source region.
     Rectangle _srcRegion;
