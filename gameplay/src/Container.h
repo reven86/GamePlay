@@ -376,7 +376,7 @@ protected:
     /**
      * Updates the bounds for this container's child controls.
      */
-    bool updateChildBounds();
+    virtual bool updateChildBounds();
 
     /**
      * Sets the specified dirty bits for all children within this container.
