@@ -1753,18 +1753,8 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
 
 const char * Platform::getTemporaryFolderPath( )
 {
-    NSFileManager* sharedFM = [NSFileManager defaultManager];
-    NSArray* possibleURLs = [sharedFM URLsForDirectory:NSCachesDirectory
-                                             inDomains:NSUserDomainMask];
-    NSURL* dir = nil;
-    
-    if ([possibleURLs count] >= 1) {
-        // Use the first directory (if multiple are returned)
-        dir = [possibleURLs objectAtIndex:0];
-    }
-    
     static std::string result;
-    result = [dir.path cStringUsingEncoding:NSASCIIStringEncoding];
+    result = [NSTemporaryDirectory() cStringUsingEncoding:NSASCIIStringEncoding];
     return result.c_str( );
 }
 
