@@ -371,8 +371,6 @@ unsigned int TextBox::drawImages(Form* form) const
         if (!region.isEmpty())
         {
             const Theme::UVs& uvs = _caretImage->getUVs();
-            Vector4 color = _caretImage->getColor();
-            color.w *= _opacity;
 
             float caretWidth = region.width * _fontSize / region.height;
 
@@ -384,7 +382,7 @@ unsigned int TextBox::drawImages(Form* form) const
 
             SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
             startBatch(form, batch);
-            batch->draw(point.x - caretWidth * 0.5f, point.y, caretWidth, fontSize, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
+            batch->draw(point.x - caretWidth * 0.5f, point.y, caretWidth, fontSize, uvs.u1, uvs.v1, uvs.u2, uvs.v2, _textColor, _viewportClipBounds);
             finishBatch(form, batch);
 
             return 1;
