@@ -1800,6 +1800,7 @@ const char * Platform::getTemporaryFolderPath( )
         const char* app_dir = env->GetStringUTFChars(jpath, NULL);
 
         result = app_dir;
+        result += "/";
 
         env->ReleaseStringUTFChars(jpath, app_dir);
 
@@ -1822,7 +1823,7 @@ const char * Platform::getDocumentsFolderPath( )
 
         jclass classActivity = env->GetObjectClass(app->activity->clazz);
 
-        jmethodID getExternalFilesDir = env->GetMethodID(classActivity, "getExternalFilesDir", "()Ljava/io/File;");
+        jmethodID getExternalFilesDir = env->GetMethodID(classActivity, "getExternalFilesDir", "(Ljava/lang/String;)Ljava/io/File;");
         jobject file = env->CallObjectMethod(app->activity->clazz, getExternalFilesDir, NULL);
         jclass fileClass = env->FindClass("java/io/File");
         jmethodID getAbsolutePath = env->GetMethodID(fileClass, "getAbsolutePath", "()Ljava/lang/String;");
