@@ -82,6 +82,18 @@ public:
      */
     const char* getGroupId() const;
 
+    /**
+     * Get scale factor of icon.
+     */
+    float getIconScale() const { return _iconScale; };
+
+    /**
+     * Set scale factor for icon.
+     *
+     * @param scale Scale factor for icon.
+     */
+    void setIconScale(float scale);
+
 protected:
 
     /**

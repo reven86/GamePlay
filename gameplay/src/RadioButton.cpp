@@ -150,46 +150,45 @@ void RadioButton::updateBounds()
 {
     Label::updateBounds();
 
-    Vector2 unselectedSize;
-    const Rectangle& unselectedRegion = getImageRegion("unselected", NORMAL);
-    unselectedSize.set(unselectedRegion.width, unselectedRegion.height);
+    const Rectangle& region = _image ? _image->getRegion() : Rectangle(0, 0);
+    Vector2 size(region.width, region.height);
 
-    float scaleFactor = unselectedSize.y > 0.0f ? getFontSize(NORMAL) * _iconScale / unselectedSize.y : 1.0f;
-
-    Vector2 size;
-    if (_selected)
-    {
-        const Rectangle& selectedRegion = getImageRegion("selected", NORMAL);
-        size.set(selectedRegion.width, selectedRegion.height);
-    }
-    else
-    {
-        size = unselectedSize;
-    }
-
-    // make image size related to text height
-    size *= scaleFactor;
+    size *= _iconScale;
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {
         // Text-only width was already measured in Label::update - append image
         const Theme::Border& border = getBorder(NORMAL);
         const Theme::Border& padding = getPadding();
-        setHeightInternal(size.y + border.top + border.bottom + padding.top + padding.bottom);
+        setHeightInternal(std::max(size.y, _bounds.height) + border.top + border.bottom + padding.top + padding.bottom);
     }
 
     if ((_autoSize & AUTO_SIZE_WIDTH) != 0 && _font)
     {
         // Text-only width was already measured in Label::update - append image
-        setWidthInternal(_bounds.height + 5 + _bounds.width);
+        setWidthInternal(size.x + 5 + _bounds.width);
     }
 }
 
 void RadioButton::updateAbsoluteBounds(const Vector2& offset)
 {
-    Label::updateAbsoluteBounds(offset);
+    Control::updateAbsoluteBounds(offset);
 
-    _textBounds.x += _bounds.height + 5;
+    float oldTextWidth = _textBounds.width;
+    _textBounds.set(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height);
+
+    if (_image)
+    {
+        float delta = _image->getRegion().width * _iconScale + 5;
+        _textBounds.x += delta;
+        _textBounds.width -= delta;
+
+        if ((_autoSize & AUTO_SIZE_HEIGHT) != 0 && (_autoSize & AUTO_SIZE_WIDTH) == 0 && oldTextWidth != _textBounds.width)
+        {
+            // text bounds have been changed and word wrapping is applied, need to recalculate control's height
+            setDirty(DIRTY_BOUNDS);
+        }
+    }
 }
 
 unsigned int RadioButton::drawImages(Form* form) const
@@ -208,7 +207,7 @@ unsigned int RadioButton::drawImages(Form* form) const
 
     SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
     startBatch(form, batch);
-    batch->draw(pos.x, pos.y, _viewportBounds.height, _viewportBounds.height, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
+    batch->draw(pos.x, pos.y, region.width * _iconScale, region.height * _iconScale, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
     finishBatch(form, batch);
 
     return 1;
@@ -222,6 +221,11 @@ void RadioButton::setGroupId(const char* groupId)
 const char* RadioButton::getGroupId() const
 {
     return _groupId.c_str();
+}
+
+void RadioButton::setIconScale(float scale)
+{
+    _iconScale = scale;
 }
 
 }

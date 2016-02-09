@@ -70,6 +70,18 @@ public:
      */
     virtual void addListener(Control::Listener* listener, int eventFlags);
 
+    /**
+     * Get scale factor of icon.
+     */
+    float getIconScale() const { return _iconScale; };
+
+    /**
+     * Set scale factor for icon.
+     *
+     * @param scale Scale factor for icon.
+     */
+    void setIconScale(float scale);
+
 protected:
 
     /**

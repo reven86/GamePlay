@@ -107,46 +107,45 @@ void CheckBox::updateBounds()
 {
     Label::updateBounds();
 
-    Vector2 uncheckedSize;
-    const Rectangle& unselectedRegion = getImageRegion("unchecked", NORMAL);
-    uncheckedSize.set(unselectedRegion.width, unselectedRegion.height);
+    const Rectangle& region = _image ? _image->getRegion() : Rectangle(0, 0);
+    Vector2 size(region.width, region.height);
 
-    float scaleFactor = uncheckedSize.y > 0.0f ? getFontSize(NORMAL) * _iconScale / uncheckedSize.y : 1.0f;
-
-    Vector2 size;
-    if (_checked)
-    {
-        const Rectangle& selectedRegion = getImageRegion("checked", NORMAL);
-        size.set(selectedRegion.width, selectedRegion.height);
-    }
-    else
-    {
-        size = uncheckedSize;
-    }
-
-    // make image size related to text height
-    size *= scaleFactor;
+    size *= _iconScale;
 
     if (_autoSize & AUTO_SIZE_HEIGHT)
     {
         // Text-only width was already measured in Label::update - append image
         const Theme::Border& border = getBorder(NORMAL);
         const Theme::Border& padding = getPadding();
-        setHeightInternal(size.y + border.top + border.bottom + padding.top + padding.bottom);
+        setHeightInternal(std::max(size.y, _bounds.height) + border.top + border.bottom + padding.top + padding.bottom);
     }
 
-    if (_autoSize & AUTO_SIZE_WIDTH)
+    if ((_autoSize & AUTO_SIZE_WIDTH) != 0 && _font)
     {
         // Text-only width was already measured in Label::update - append image
-        setWidthInternal(_bounds.height + _textSpace + _bounds.width);
+        setWidthInternal(size.x + 5 + _bounds.width);
     }
 }
 
 void CheckBox::updateAbsoluteBounds(const Vector2& offset)
 {
-    Label::updateAbsoluteBounds(offset);
+    Control::updateAbsoluteBounds(offset);
 
-    _textBounds.x += _viewportBounds.height + _textSpace;
+    float oldTextWidth = _textBounds.width;
+    _textBounds.set(_viewportBounds.x, _viewportBounds.y, _viewportBounds.width, _viewportBounds.height);
+
+    if (_image)
+    {
+        float delta = _image->getRegion().width * _iconScale + 5;
+        _textBounds.x += delta;
+        _textBounds.width -= delta;
+
+        if ((_autoSize & AUTO_SIZE_HEIGHT) != 0 && (_autoSize & AUTO_SIZE_WIDTH) == 0 && oldTextWidth != _textBounds.width)
+        {
+            // text bounds have been changed and word wrapping is applied, need to recalculate control's height
+            setDirty(DIRTY_BOUNDS);
+        }
+    }
 }
 
 unsigned int CheckBox::drawImages(Form* form) const
@@ -166,10 +165,15 @@ unsigned int CheckBox::drawImages(Form* form) const
 
     SpriteBatch* batch = _style->getTheme()->getSpriteBatch();
     startBatch(form, batch);
-    batch->draw(pos.x, pos.y, _viewportBounds.height, _viewportBounds.height, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
+    batch->draw(pos.x, pos.y, region.width * _iconScale, region.height * _iconScale, uvs.u1, uvs.v1, uvs.u2, uvs.v2, color, _viewportClipBounds);
     finishBatch(form, batch);
 
     return 1;
+}
+
+void CheckBox::setIconScale(float scale)
+{
+    _iconScale = scale;
 }
 
 }
