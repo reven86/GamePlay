@@ -8,19 +8,6 @@
 namespace gameplay
 {
 
-void luaRegister_Package()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"fileExists", lua_Package_fileExists},
-        {NULL, NULL}
-    };
-    const luaL_Reg* lua_statics = NULL;
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Package", lua_members, NULL, lua_Package__gc, lua_statics, scopePath);
-}
-
 static Package* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Package");
@@ -28,7 +15,7 @@ static Package* getInstance(lua_State* state)
     return (Package*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Package__gc(lua_State* state)
+static int lua_Package__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -66,7 +53,7 @@ int lua_Package__gc(lua_State* state)
     return 0;
 }
 
-int lua_Package_fileExists(lua_State* state)
+static int lua_Package_fileExists(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -103,6 +90,20 @@ int lua_Package_fileExists(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_Package()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"fileExists", lua_Package_fileExists},
+        {NULL, NULL}
+    };
+    const luaL_Reg* lua_statics = NULL;
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Package", lua_members, NULL, lua_Package__gc, lua_statics, scopePath);
+
 }
 
 }

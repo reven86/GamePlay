@@ -8,45 +8,6 @@
 namespace gameplay
 {
 
-void luaRegister_Quaternion()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"computeEuler", lua_Quaternion_computeEuler},
-        {"conjugate", lua_Quaternion_conjugate},
-        {"inverse", lua_Quaternion_inverse},
-        {"isIdentity", lua_Quaternion_isIdentity},
-        {"isZero", lua_Quaternion_isZero},
-        {"multiply", lua_Quaternion_multiply},
-        {"normalize", lua_Quaternion_normalize},
-        {"rotatePoint", lua_Quaternion_rotatePoint},
-        {"set", lua_Quaternion_set},
-        {"setIdentity", lua_Quaternion_setIdentity},
-        {"toAxisAngle", lua_Quaternion_toAxisAngle},
-        {"w", lua_Quaternion_w},
-        {"x", lua_Quaternion_x},
-        {"y", lua_Quaternion_y},
-        {"z", lua_Quaternion_z},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"createFromAxisAngle", lua_Quaternion_static_createFromAxisAngle},
-        {"createFromEuler", lua_Quaternion_static_createFromEuler},
-        {"createFromRotationMatrix", lua_Quaternion_static_createFromRotationMatrix},
-        {"identity", lua_Quaternion_static_identity},
-        {"lerp", lua_Quaternion_static_lerp},
-        {"multiply", lua_Quaternion_static_multiply},
-        {"slerp", lua_Quaternion_static_slerp},
-        {"squad", lua_Quaternion_static_squad},
-        {"zero", lua_Quaternion_static_zero},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Quaternion", lua_members, lua_Quaternion__init, lua_Quaternion__gc, lua_statics, scopePath);
-}
-
 static Quaternion* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Quaternion");
@@ -54,7 +15,7 @@ static Quaternion* getInstance(lua_State* state)
     return (Quaternion*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Quaternion__gc(lua_State* state)
+static int lua_Quaternion__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -92,7 +53,7 @@ int lua_Quaternion__gc(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion__init(lua_State* state)
+static int lua_Quaternion__init(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -297,7 +258,7 @@ int lua_Quaternion__init(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_computeEuler(lua_State* state)
+static int lua_Quaternion_computeEuler(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -341,7 +302,7 @@ int lua_Quaternion_computeEuler(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_conjugate(lua_State* state)
+static int lua_Quaternion_conjugate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -400,7 +361,7 @@ int lua_Quaternion_conjugate(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_inverse(lua_State* state)
+static int lua_Quaternion_inverse(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -465,7 +426,7 @@ int lua_Quaternion_inverse(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_isIdentity(lua_State* state)
+static int lua_Quaternion_isIdentity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -500,7 +461,7 @@ int lua_Quaternion_isIdentity(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_isZero(lua_State* state)
+static int lua_Quaternion_isZero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -535,7 +496,7 @@ int lua_Quaternion_isZero(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_multiply(lua_State* state)
+static int lua_Quaternion_multiply(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -577,7 +538,7 @@ int lua_Quaternion_multiply(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_normalize(lua_State* state)
+static int lua_Quaternion_normalize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -636,7 +597,7 @@ int lua_Quaternion_normalize(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_rotatePoint(lua_State* state)
+static int lua_Quaternion_rotatePoint(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -688,7 +649,7 @@ int lua_Quaternion_rotatePoint(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_set(lua_State* state)
+static int lua_Quaternion_set(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -824,7 +785,7 @@ int lua_Quaternion_set(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_setIdentity(lua_State* state)
+static int lua_Quaternion_setIdentity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -856,7 +817,7 @@ int lua_Quaternion_setIdentity(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
+static int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -910,7 +871,7 @@ int lua_Quaternion_static_createFromAxisAngle(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_createFromEuler(lua_State* state)
+static int lua_Quaternion_static_createFromEuler(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -962,7 +923,7 @@ int lua_Quaternion_static_createFromEuler(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_createFromRotationMatrix(lua_State* state)
+static int lua_Quaternion_static_createFromRotationMatrix(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1012,7 +973,7 @@ int lua_Quaternion_static_createFromRotationMatrix(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_identity(lua_State* state)
+static int lua_Quaternion_static_identity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1049,7 +1010,7 @@ int lua_Quaternion_static_identity(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_lerp(lua_State* state)
+static int lua_Quaternion_static_lerp(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1113,7 +1074,7 @@ int lua_Quaternion_static_lerp(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_multiply(lua_State* state)
+static int lua_Quaternion_static_multiply(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1173,7 +1134,7 @@ int lua_Quaternion_static_multiply(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_slerp(lua_State* state)
+static int lua_Quaternion_static_slerp(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1237,7 +1198,7 @@ int lua_Quaternion_static_slerp(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_squad(lua_State* state)
+static int lua_Quaternion_static_squad(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1321,7 +1282,7 @@ int lua_Quaternion_static_squad(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_static_zero(lua_State* state)
+static int lua_Quaternion_static_zero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1358,7 +1319,7 @@ int lua_Quaternion_static_zero(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_toAxisAngle(lua_State* state)
+static int lua_Quaternion_toAxisAngle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1403,7 +1364,7 @@ int lua_Quaternion_toAxisAngle(lua_State* state)
     return 0;
 }
 
-int lua_Quaternion_w(lua_State* state)
+static int lua_Quaternion_w(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1432,7 +1393,7 @@ int lua_Quaternion_w(lua_State* state)
     }
 }
 
-int lua_Quaternion_x(lua_State* state)
+static int lua_Quaternion_x(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1461,7 +1422,7 @@ int lua_Quaternion_x(lua_State* state)
     }
 }
 
-int lua_Quaternion_y(lua_State* state)
+static int lua_Quaternion_y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1490,7 +1451,7 @@ int lua_Quaternion_y(lua_State* state)
     }
 }
 
-int lua_Quaternion_z(lua_State* state)
+static int lua_Quaternion_z(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1517,6 +1478,46 @@ int lua_Quaternion_z(lua_State* state)
 
         return 1;
     }
+}
+
+void luaRegister_Quaternion()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"computeEuler", lua_Quaternion_computeEuler},
+        {"conjugate", lua_Quaternion_conjugate},
+        {"inverse", lua_Quaternion_inverse},
+        {"isIdentity", lua_Quaternion_isIdentity},
+        {"isZero", lua_Quaternion_isZero},
+        {"multiply", lua_Quaternion_multiply},
+        {"normalize", lua_Quaternion_normalize},
+        {"rotatePoint", lua_Quaternion_rotatePoint},
+        {"set", lua_Quaternion_set},
+        {"setIdentity", lua_Quaternion_setIdentity},
+        {"toAxisAngle", lua_Quaternion_toAxisAngle},
+        {"w", lua_Quaternion_w},
+        {"x", lua_Quaternion_x},
+        {"y", lua_Quaternion_y},
+        {"z", lua_Quaternion_z},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"createFromAxisAngle", lua_Quaternion_static_createFromAxisAngle},
+        {"createFromEuler", lua_Quaternion_static_createFromEuler},
+        {"createFromRotationMatrix", lua_Quaternion_static_createFromRotationMatrix},
+        {"identity", lua_Quaternion_static_identity},
+        {"lerp", lua_Quaternion_static_lerp},
+        {"multiply", lua_Quaternion_static_multiply},
+        {"slerp", lua_Quaternion_static_slerp},
+        {"squad", lua_Quaternion_static_squad},
+        {"zero", lua_Quaternion_static_zero},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Quaternion", lua_members, lua_Quaternion__init, lua_Quaternion__gc, lua_statics, scopePath);
+
 }
 
 }

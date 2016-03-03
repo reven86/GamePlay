@@ -161,7 +161,7 @@ public:
      * @param stream The Stream to create the properties from.
      * 
      * @return The created Properties or NULL if there was an error.
-     * @script{create}
+     * @script{ignore}
      */
     static Properties* create(gameplay::Stream * stream);
 
@@ -534,11 +534,13 @@ private:
     Properties();
 
     /**
-     * Constructs the Properties class from a file.
-     *
-     * @param stream The stream used for reading the properties from file.
+     * Constructor.
      */
     Properties(Stream* stream);
+
+    /**
+     * Constructor.
+     */
     Properties(const Properties& copy);
 
     /**
@@ -546,24 +548,23 @@ private:
      */
     Properties(Stream* stream, const char* name, const char* id, const char* parentID, Properties* parent);
 
-   bool readPropertiesYAML(Stream * stream);
+    bool readPropertiesYAML(Stream * stream);
     void readProperties(Stream* stream);
+
+    void setDirectoryPath(const std::string* path);
+
+    void setDirectoryPath(const std::string& path);
 
     void skipWhiteSpace(Stream* stream);
 
     char* trimWhiteSpace(char* str);
 
-    // Called after create(); copies info from parents into derived namespaces.
-    void resolveInheritance(const char* id = NULL);
-
-    // Called by resolveInheritance().
-    void mergeWith(Properties* overrides);
-
-    // Clones the Properties object.
     Properties* clone();
 
-    void setDirectoryPath(const std::string* path);
-    void setDirectoryPath(const std::string& path);
+    void mergeWith(Properties* overrides);
+
+    // Called after create(); copies info from parents into derived namespaces.
+    void resolveInheritance(const char* id = NULL);
 
     std::string _namespace;
     std::string _id;

@@ -29,161 +29,13 @@
 #include "TextBox.h"
 #include "Theme.h"
 #include "VerticalLayout.h"
+#include "Control.h"
+#include "Form.h"
 
 namespace gameplay
 {
 
-void luaRegister_Container()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"addControl", lua_Container_addControl},
-        {"addListener", lua_Container_addListener},
-        {"addRef", lua_Container_addRef},
-        {"addScript", lua_Container_addScript},
-        {"addScriptCallback", lua_Container_addScriptCallback},
-        {"canFocus", lua_Container_canFocus},
-        {"clearScripts", lua_Container_clearScripts},
-        {"createAnimation", lua_Container_createAnimation},
-        {"createAnimationFromBy", lua_Container_createAnimationFromBy},
-        {"createAnimationFromTo", lua_Container_createAnimationFromTo},
-        {"destroyAnimation", lua_Container_destroyAnimation},
-        {"getAbsoluteBounds", lua_Container_getAbsoluteBounds},
-        {"getActiveControl", lua_Container_getActiveControl},
-        {"getAlignment", lua_Container_getAlignment},
-        {"getAnimation", lua_Container_getAnimation},
-        {"getAnimationPropertyComponentCount", lua_Container_getAnimationPropertyComponentCount},
-        {"getAnimationPropertyValue", lua_Container_getAnimationPropertyValue},
-        {"getAutoSize", lua_Container_getAutoSize},
-        {"getBorder", lua_Container_getBorder},
-        {"getBounds", lua_Container_getBounds},
-        {"getClip", lua_Container_getClip},
-        {"getClipBounds", lua_Container_getClipBounds},
-        {"getConsumeInputEvents", lua_Container_getConsumeInputEvents},
-        {"getControl", lua_Container_getControl},
-        {"getControlCount", lua_Container_getControlCount},
-        {"getCursorColor", lua_Container_getCursorColor},
-        {"getCursorRegion", lua_Container_getCursorRegion},
-        {"getCursorUVs", lua_Container_getCursorUVs},
-        {"getFocusIndex", lua_Container_getFocusIndex},
-        {"getFont", lua_Container_getFont},
-        {"getFontSize", lua_Container_getFontSize},
-        {"getHeight", lua_Container_getHeight},
-        {"getId", lua_Container_getId},
-        {"getImageColor", lua_Container_getImageColor},
-        {"getImageRegion", lua_Container_getImageRegion},
-        {"getImageUVs", lua_Container_getImageUVs},
-        {"getLayout", lua_Container_getLayout},
-        {"getMargin", lua_Container_getMargin},
-        {"getOpacity", lua_Container_getOpacity},
-        {"getPadding", lua_Container_getPadding},
-        {"getParent", lua_Container_getParent},
-        {"getRefCount", lua_Container_getRefCount},
-        {"getScriptEvent", lua_Container_getScriptEvent},
-        {"getScroll", lua_Container_getScroll},
-        {"getScrollPosition", lua_Container_getScrollPosition},
-        {"getScrollWheelRequiresFocus", lua_Container_getScrollWheelRequiresFocus},
-        {"getScrollWheelSpeed", lua_Container_getScrollWheelSpeed},
-        {"getScrollingFriction", lua_Container_getScrollingFriction},
-        {"getSkinColor", lua_Container_getSkinColor},
-        {"getSkinRegion", lua_Container_getSkinRegion},
-        {"getState", lua_Container_getState},
-        {"getStyle", lua_Container_getStyle},
-        {"getTextAlignment", lua_Container_getTextAlignment},
-        {"getTextColor", lua_Container_getTextColor},
-        {"getTextDrawingFlags", lua_Container_getTextDrawingFlags},
-        {"getTheme", lua_Container_getTheme},
-        {"getTopLevelForm", lua_Container_getTopLevelForm},
-        {"getTypeName", lua_Container_getTypeName},
-        {"getWidth", lua_Container_getWidth},
-        {"getX", lua_Container_getX},
-        {"getY", lua_Container_getY},
-        {"getZIndex", lua_Container_getZIndex},
-        {"hasFocus", lua_Container_hasFocus},
-        {"hasScriptListener", lua_Container_hasScriptListener},
-        {"insertControl", lua_Container_insertControl},
-        {"isChild", lua_Container_isChild},
-        {"isContainer", lua_Container_isContainer},
-        {"isEnabled", lua_Container_isEnabled},
-        {"isEnabledInHierarchy", lua_Container_isEnabledInHierarchy},
-        {"isForm", lua_Container_isForm},
-        {"isHeightPercentage", lua_Container_isHeightPercentage},
-        {"isScrollBarsAutoHide", lua_Container_isScrollBarsAutoHide},
-        {"isScrolling", lua_Container_isScrolling},
-        {"isVisible", lua_Container_isVisible},
-        {"isVisibleInHierarchy", lua_Container_isVisibleInHierarchy},
-        {"isWidthPercentage", lua_Container_isWidthPercentage},
-        {"isXPercentage", lua_Container_isXPercentage},
-        {"isYPercentage", lua_Container_isYPercentage},
-        {"moveFocus", lua_Container_moveFocus},
-        {"release", lua_Container_release},
-        {"removeControl", lua_Container_removeControl},
-        {"removeListener", lua_Container_removeListener},
-        {"removeScript", lua_Container_removeScript},
-        {"removeScriptCallback", lua_Container_removeScriptCallback},
-        {"resetAlignment", lua_Container_resetAlignment},
-        {"setActiveControl", lua_Container_setActiveControl},
-        {"setAlignment", lua_Container_setAlignment},
-        {"setAnimationPropertyValue", lua_Container_setAnimationPropertyValue},
-        {"setAutoSize", lua_Container_setAutoSize},
-        {"setBorder", lua_Container_setBorder},
-        {"setBounds", lua_Container_setBounds},
-        {"setCanFocus", lua_Container_setCanFocus},
-        {"setConsumeInputEvents", lua_Container_setConsumeInputEvents},
-        {"setCursorColor", lua_Container_setCursorColor},
-        {"setCursorRegion", lua_Container_setCursorRegion},
-        {"setEnabled", lua_Container_setEnabled},
-        {"setFocus", lua_Container_setFocus},
-        {"setFocusIndex", lua_Container_setFocusIndex},
-        {"setFont", lua_Container_setFont},
-        {"setFontSize", lua_Container_setFontSize},
-        {"setHeight", lua_Container_setHeight},
-        {"setId", lua_Container_setId},
-        {"setImageColor", lua_Container_setImageColor},
-        {"setImageRegion", lua_Container_setImageRegion},
-        {"setLayout", lua_Container_setLayout},
-        {"setMargin", lua_Container_setMargin},
-        {"setOpacity", lua_Container_setOpacity},
-        {"setPadding", lua_Container_setPadding},
-        {"setPosition", lua_Container_setPosition},
-        {"setScroll", lua_Container_setScroll},
-        {"setScrollBarsAutoHide", lua_Container_setScrollBarsAutoHide},
-        {"setScrollPosition", lua_Container_setScrollPosition},
-        {"setScrollWheelRequiresFocus", lua_Container_setScrollWheelRequiresFocus},
-        {"setScrollWheelSpeed", lua_Container_setScrollWheelSpeed},
-        {"setScrollingFriction", lua_Container_setScrollingFriction},
-        {"setSize", lua_Container_setSize},
-        {"setSkinColor", lua_Container_setSkinColor},
-        {"setSkinRegion", lua_Container_setSkinRegion},
-        {"setStyle", lua_Container_setStyle},
-        {"setTextAlignment", lua_Container_setTextAlignment},
-        {"setTextColor", lua_Container_setTextColor},
-        {"setTextDrawingFlags", lua_Container_setTextDrawingFlags},
-        {"setVisible", lua_Container_setVisible},
-        {"setWidth", lua_Container_setWidth},
-        {"setX", lua_Container_setX},
-        {"setY", lua_Container_setY},
-        {"setZIndex", lua_Container_setZIndex},
-        {"stopScrolling", lua_Container_stopScrolling},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"ANIMATE_OPACITY", lua_Container_static_ANIMATE_OPACITY},
-        {"ANIMATE_POSITION", lua_Container_static_ANIMATE_POSITION},
-        {"ANIMATE_POSITION_X", lua_Container_static_ANIMATE_POSITION_X},
-        {"ANIMATE_POSITION_Y", lua_Container_static_ANIMATE_POSITION_Y},
-        {"ANIMATE_SCROLLBAR_OPACITY", lua_Container_static_ANIMATE_SCROLLBAR_OPACITY},
-        {"ANIMATE_SIZE", lua_Container_static_ANIMATE_SIZE},
-        {"ANIMATE_SIZE_HEIGHT", lua_Container_static_ANIMATE_SIZE_HEIGHT},
-        {"ANIMATE_SIZE_WIDTH", lua_Container_static_ANIMATE_SIZE_WIDTH},
-        {"create", lua_Container_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Container", lua_members, NULL, lua_Container__gc, lua_statics, scopePath);
-}
+extern void luaGlobal_Register_Conversion_Function(const char* className, void*(*func)(void*, const char*));
 
 static Container* getInstance(lua_State* state)
 {
@@ -192,7 +44,7 @@ static Container* getInstance(lua_State* state)
     return (Container*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Container__gc(lua_State* state)
+static int lua_Container__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -230,7 +82,7 @@ int lua_Container__gc(lua_State* state)
     return 0;
 }
 
-int lua_Container_addControl(lua_State* state)
+static int lua_Container_addControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -275,7 +127,7 @@ int lua_Container_addControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_addListener(lua_State* state)
+static int lua_Container_addListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -321,7 +173,7 @@ int lua_Container_addListener(lua_State* state)
     return 0;
 }
 
-int lua_Container_addRef(lua_State* state)
+static int lua_Container_addRef(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -353,7 +205,7 @@ int lua_Container_addRef(lua_State* state)
     return 0;
 }
 
-int lua_Container_addScript(lua_State* state)
+static int lua_Container_addScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -401,7 +253,7 @@ int lua_Container_addScript(lua_State* state)
     return 0;
 }
 
-int lua_Container_addScriptCallback(lua_State* state)
+static int lua_Container_addScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -447,7 +299,7 @@ int lua_Container_addScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Container_canFocus(lua_State* state)
+static int lua_Container_canFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -482,7 +334,7 @@ int lua_Container_canFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_clearScripts(lua_State* state)
+static int lua_Container_clearScripts(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -514,7 +366,7 @@ int lua_Container_clearScripts(lua_State* state)
     return 0;
 }
 
-int lua_Container_createAnimation(lua_State* state)
+static int lua_Container_createAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -717,7 +569,7 @@ int lua_Container_createAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Container_createAnimationFromBy(lua_State* state)
+static int lua_Container_createAnimationFromBy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -785,7 +637,7 @@ int lua_Container_createAnimationFromBy(lua_State* state)
     return 0;
 }
 
-int lua_Container_createAnimationFromTo(lua_State* state)
+static int lua_Container_createAnimationFromTo(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -853,7 +705,7 @@ int lua_Container_createAnimationFromTo(lua_State* state)
     return 0;
 }
 
-int lua_Container_destroyAnimation(lua_State* state)
+static int lua_Container_destroyAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -903,7 +755,7 @@ int lua_Container_destroyAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAbsoluteBounds(lua_State* state)
+static int lua_Container_getAbsoluteBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -947,7 +799,7 @@ int lua_Container_getAbsoluteBounds(lua_State* state)
     return 0;
 }
 
-int lua_Container_getActiveControl(lua_State* state)
+static int lua_Container_getActiveControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -991,7 +843,7 @@ int lua_Container_getActiveControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAlignment(lua_State* state)
+static int lua_Container_getAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1026,7 +878,7 @@ int lua_Container_getAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAnimation(lua_State* state)
+static int lua_Container_getAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1100,7 +952,7 @@ int lua_Container_getAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAnimationPropertyComponentCount(lua_State* state)
+static int lua_Container_getAnimationPropertyComponentCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1139,7 +991,7 @@ int lua_Container_getAnimationPropertyComponentCount(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAnimationPropertyValue(lua_State* state)
+static int lua_Container_getAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1185,7 +1037,7 @@ int lua_Container_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Container_getAutoSize(lua_State* state)
+static int lua_Container_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1220,7 +1072,7 @@ int lua_Container_getAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Container_getBorder(lua_State* state)
+static int lua_Container_getBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1294,7 +1146,7 @@ int lua_Container_getBorder(lua_State* state)
     return 0;
 }
 
-int lua_Container_getBounds(lua_State* state)
+static int lua_Container_getBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1338,7 +1190,63 @@ int lua_Container_getBounds(lua_State* state)
     return 0;
 }
 
-int lua_Container_getClip(lua_State* state)
+static int lua_Container_getCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                float result = instance->getCharacterSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Container* instance = getInstance(state);
+                float result = instance->getCharacterSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_getClip(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1382,7 +1290,7 @@ int lua_Container_getClip(lua_State* state)
     return 0;
 }
 
-int lua_Container_getClipBounds(lua_State* state)
+static int lua_Container_getClipBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1426,7 +1334,7 @@ int lua_Container_getClipBounds(lua_State* state)
     return 0;
 }
 
-int lua_Container_getConsumeInputEvents(lua_State* state)
+static int lua_Container_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1461,7 +1369,51 @@ int lua_Container_getConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Container_getControl(lua_State* state)
+static int lua_Container_getContentBounds(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getContentBounds());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Rectangle");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getContentBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_getControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1539,7 +1491,7 @@ int lua_Container_getControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_getControlCount(lua_State* state)
+static int lua_Container_getControlCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1574,7 +1526,7 @@ int lua_Container_getControlCount(lua_State* state)
     return 0;
 }
 
-int lua_Container_getCursorColor(lua_State* state)
+static int lua_Container_getCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1622,7 +1574,7 @@ int lua_Container_getCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_getCursorRegion(lua_State* state)
+static int lua_Container_getCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1670,7 +1622,7 @@ int lua_Container_getCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_getCursorUVs(lua_State* state)
+static int lua_Container_getCursorUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1718,7 +1670,7 @@ int lua_Container_getCursorUVs(lua_State* state)
     return 0;
 }
 
-int lua_Container_getFocusIndex(lua_State* state)
+static int lua_Container_getFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1753,7 +1705,7 @@ int lua_Container_getFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Container_getFont(lua_State* state)
+static int lua_Container_getFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1827,7 +1779,7 @@ int lua_Container_getFont(lua_State* state)
     return 0;
 }
 
-int lua_Container_getFontSize(lua_State* state)
+static int lua_Container_getFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1883,7 +1835,7 @@ int lua_Container_getFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Container_getHeight(lua_State* state)
+static int lua_Container_getHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1918,7 +1870,7 @@ int lua_Container_getHeight(lua_State* state)
     return 0;
 }
 
-int lua_Container_getId(lua_State* state)
+static int lua_Container_getId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1953,7 +1905,7 @@ int lua_Container_getId(lua_State* state)
     return 0;
 }
 
-int lua_Container_getImageColor(lua_State* state)
+static int lua_Container_getImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2005,7 +1957,7 @@ int lua_Container_getImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_getImageRegion(lua_State* state)
+static int lua_Container_getImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2057,7 +2009,7 @@ int lua_Container_getImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_getImageUVs(lua_State* state)
+static int lua_Container_getImageUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2109,7 +2061,7 @@ int lua_Container_getImageUVs(lua_State* state)
     return 0;
 }
 
-int lua_Container_getLayout(lua_State* state)
+static int lua_Container_getLayout(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2153,7 +2105,63 @@ int lua_Container_getLayout(lua_State* state)
     return 0;
 }
 
-int lua_Container_getMargin(lua_State* state)
+static int lua_Container_getLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                float result = instance->getLineSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Container* instance = getInstance(state);
+                float result = instance->getLineSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_getMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2197,7 +2205,7 @@ int lua_Container_getMargin(lua_State* state)
     return 0;
 }
 
-int lua_Container_getOpacity(lua_State* state)
+static int lua_Container_getOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2253,7 +2261,7 @@ int lua_Container_getOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Container_getPadding(lua_State* state)
+static int lua_Container_getPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2297,7 +2305,7 @@ int lua_Container_getPadding(lua_State* state)
     return 0;
 }
 
-int lua_Container_getParent(lua_State* state)
+static int lua_Container_getParent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2341,7 +2349,42 @@ int lua_Container_getParent(lua_State* state)
     return 0;
 }
 
-int lua_Container_getRefCount(lua_State* state)
+static int lua_Container_getReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                bool result = instance->getReceiveInputEvents();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2376,7 +2419,7 @@ int lua_Container_getRefCount(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScriptEvent(lua_State* state)
+static int lua_Container_getScriptEvent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2424,7 +2467,7 @@ int lua_Container_getScriptEvent(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScroll(lua_State* state)
+static int lua_Container_getScroll(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2459,7 +2502,7 @@ int lua_Container_getScroll(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScrollPosition(lua_State* state)
+static int lua_Container_getScrollPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2503,7 +2546,42 @@ int lua_Container_getScrollPosition(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScrollWheelRequiresFocus(lua_State* state)
+static int lua_Container_getScrollScale(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Container* instance = getInstance(state);
+                float result = instance->getScrollScale();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Container_getScrollScale - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_getScrollWheelRequiresFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2538,7 +2616,7 @@ int lua_Container_getScrollWheelRequiresFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScrollWheelSpeed(lua_State* state)
+static int lua_Container_getScrollWheelSpeed(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2573,7 +2651,7 @@ int lua_Container_getScrollWheelSpeed(lua_State* state)
     return 0;
 }
 
-int lua_Container_getScrollingFriction(lua_State* state)
+static int lua_Container_getScrollingFriction(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2608,7 +2686,7 @@ int lua_Container_getScrollingFriction(lua_State* state)
     return 0;
 }
 
-int lua_Container_getSkinColor(lua_State* state)
+static int lua_Container_getSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2682,7 +2760,7 @@ int lua_Container_getSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_getSkinRegion(lua_State* state)
+static int lua_Container_getSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2756,7 +2834,7 @@ int lua_Container_getSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_getState(lua_State* state)
+static int lua_Container_getState(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2791,7 +2869,7 @@ int lua_Container_getState(lua_State* state)
     return 0;
 }
 
-int lua_Container_getStyle(lua_State* state)
+static int lua_Container_getStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2835,7 +2913,7 @@ int lua_Container_getStyle(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTextAlignment(lua_State* state)
+static int lua_Container_getTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2891,7 +2969,7 @@ int lua_Container_getTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTextColor(lua_State* state)
+static int lua_Container_getTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2965,7 +3043,7 @@ int lua_Container_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTextDrawingFlags(lua_State* state)
+static int lua_Container_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3021,7 +3099,7 @@ int lua_Container_getTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTheme(lua_State* state)
+static int lua_Container_getTheme(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3065,7 +3143,7 @@ int lua_Container_getTheme(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTopLevelForm(lua_State* state)
+static int lua_Container_getTopLevelForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3109,7 +3187,7 @@ int lua_Container_getTopLevelForm(lua_State* state)
     return 0;
 }
 
-int lua_Container_getTypeName(lua_State* state)
+static int lua_Container_getTypeName(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3144,7 +3222,7 @@ int lua_Container_getTypeName(lua_State* state)
     return 0;
 }
 
-int lua_Container_getWidth(lua_State* state)
+static int lua_Container_getWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3179,7 +3257,7 @@ int lua_Container_getWidth(lua_State* state)
     return 0;
 }
 
-int lua_Container_getX(lua_State* state)
+static int lua_Container_getX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3214,7 +3292,7 @@ int lua_Container_getX(lua_State* state)
     return 0;
 }
 
-int lua_Container_getY(lua_State* state)
+static int lua_Container_getY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3249,7 +3327,7 @@ int lua_Container_getY(lua_State* state)
     return 0;
 }
 
-int lua_Container_getZIndex(lua_State* state)
+static int lua_Container_getZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3284,7 +3362,7 @@ int lua_Container_getZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Container_hasFocus(lua_State* state)
+static int lua_Container_hasFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3319,7 +3397,7 @@ int lua_Container_hasFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_hasScriptListener(lua_State* state)
+static int lua_Container_hasScriptListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3382,7 +3460,7 @@ int lua_Container_hasScriptListener(lua_State* state)
     return 0;
 }
 
-int lua_Container_insertControl(lua_State* state)
+static int lua_Container_insertControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3428,7 +3506,7 @@ int lua_Container_insertControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_isChild(lua_State* state)
+static int lua_Container_isChild(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3473,7 +3551,7 @@ int lua_Container_isChild(lua_State* state)
     return 0;
 }
 
-int lua_Container_isContainer(lua_State* state)
+static int lua_Container_isContainer(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3508,7 +3586,7 @@ int lua_Container_isContainer(lua_State* state)
     return 0;
 }
 
-int lua_Container_isEnabled(lua_State* state)
+static int lua_Container_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3543,7 +3621,7 @@ int lua_Container_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Container_isEnabledInHierarchy(lua_State* state)
+static int lua_Container_isEnabledInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3578,7 +3656,7 @@ int lua_Container_isEnabledInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Container_isForm(lua_State* state)
+static int lua_Container_isForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3613,7 +3691,7 @@ int lua_Container_isForm(lua_State* state)
     return 0;
 }
 
-int lua_Container_isHeightPercentage(lua_State* state)
+static int lua_Container_isHeightPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3648,7 +3726,7 @@ int lua_Container_isHeightPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Container_isScrollBarsAutoHide(lua_State* state)
+static int lua_Container_isScrollBarsAutoHide(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3683,7 +3761,7 @@ int lua_Container_isScrollBarsAutoHide(lua_State* state)
     return 0;
 }
 
-int lua_Container_isScrolling(lua_State* state)
+static int lua_Container_isScrolling(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3718,7 +3796,7 @@ int lua_Container_isScrolling(lua_State* state)
     return 0;
 }
 
-int lua_Container_isVisible(lua_State* state)
+static int lua_Container_isVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3753,7 +3831,7 @@ int lua_Container_isVisible(lua_State* state)
     return 0;
 }
 
-int lua_Container_isVisibleInHierarchy(lua_State* state)
+static int lua_Container_isVisibleInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3788,7 +3866,7 @@ int lua_Container_isVisibleInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Container_isWidthPercentage(lua_State* state)
+static int lua_Container_isWidthPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3823,7 +3901,7 @@ int lua_Container_isWidthPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Container_isXPercentage(lua_State* state)
+static int lua_Container_isXPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3858,7 +3936,7 @@ int lua_Container_isXPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Container_isYPercentage(lua_State* state)
+static int lua_Container_isYPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3893,7 +3971,7 @@ int lua_Container_isYPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Container_moveFocus(lua_State* state)
+static int lua_Container_moveFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3932,7 +4010,7 @@ int lua_Container_moveFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_release(lua_State* state)
+static int lua_Container_release(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3964,7 +4042,7 @@ int lua_Container_release(lua_State* state)
     return 0;
 }
 
-int lua_Container_removeControl(lua_State* state)
+static int lua_Container_removeControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4036,7 +4114,7 @@ int lua_Container_removeControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_removeListener(lua_State* state)
+static int lua_Container_removeListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4078,7 +4156,7 @@ int lua_Container_removeListener(lua_State* state)
     return 0;
 }
 
-int lua_Container_removeScript(lua_State* state)
+static int lua_Container_removeScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4117,7 +4195,7 @@ int lua_Container_removeScript(lua_State* state)
     return 0;
 }
 
-int lua_Container_removeScriptCallback(lua_State* state)
+static int lua_Container_removeScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4163,7 +4241,7 @@ int lua_Container_removeScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Container_resetAlignment(lua_State* state)
+static int lua_Container_resetAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4195,7 +4273,7 @@ int lua_Container_resetAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Container_setActiveControl(lua_State* state)
+static int lua_Container_setActiveControl(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4237,7 +4315,7 @@ int lua_Container_setActiveControl(lua_State* state)
     return 0;
 }
 
-int lua_Container_setAlignment(lua_State* state)
+static int lua_Container_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4273,7 +4351,7 @@ int lua_Container_setAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Container_setAnimationPropertyValue(lua_State* state)
+static int lua_Container_setAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4351,7 +4429,7 @@ int lua_Container_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Container_setAutoSize(lua_State* state)
+static int lua_Container_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4387,7 +4465,7 @@ int lua_Container_setAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Container_setBorder(lua_State* state)
+static int lua_Container_setBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4469,7 +4547,7 @@ int lua_Container_setBorder(lua_State* state)
     return 0;
 }
 
-int lua_Container_setBounds(lua_State* state)
+static int lua_Container_setBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4511,7 +4589,7 @@ int lua_Container_setBounds(lua_State* state)
     return 0;
 }
 
-int lua_Container_setCanFocus(lua_State* state)
+static int lua_Container_setCanFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4547,7 +4625,65 @@ int lua_Container_setCanFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_setConsumeInputEvents(lua_State* state)
+static int lua_Container_setCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Container* instance = getInstance(state);
+                instance->setCharacterSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Container* instance = getInstance(state);
+                instance->setCharacterSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_setConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4583,7 +4719,7 @@ int lua_Container_setConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Container_setCursorColor(lua_State* state)
+static int lua_Container_setCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4629,7 +4765,7 @@ int lua_Container_setCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_setCursorRegion(lua_State* state)
+static int lua_Container_setCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4675,7 +4811,7 @@ int lua_Container_setCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_setEnabled(lua_State* state)
+static int lua_Container_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4711,7 +4847,7 @@ int lua_Container_setEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Container_setFocus(lua_State* state)
+static int lua_Container_setFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4746,7 +4882,7 @@ int lua_Container_setFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_setFocusIndex(lua_State* state)
+static int lua_Container_setFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4782,7 +4918,7 @@ int lua_Container_setFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Container_setFont(lua_State* state)
+static int lua_Container_setFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4852,7 +4988,7 @@ int lua_Container_setFont(lua_State* state)
     return 0;
 }
 
-int lua_Container_setFontSize(lua_State* state)
+static int lua_Container_setFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4910,7 +5046,7 @@ int lua_Container_setFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Container_setHeight(lua_State* state)
+static int lua_Container_setHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4968,7 +5104,7 @@ int lua_Container_setHeight(lua_State* state)
     return 0;
 }
 
-int lua_Container_setId(lua_State* state)
+static int lua_Container_setId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5004,7 +5140,7 @@ int lua_Container_setId(lua_State* state)
     return 0;
 }
 
-int lua_Container_setImageColor(lua_State* state)
+static int lua_Container_setImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5082,7 +5218,7 @@ int lua_Container_setImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_setImageRegion(lua_State* state)
+static int lua_Container_setImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5160,7 +5296,7 @@ int lua_Container_setImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_setLayout(lua_State* state)
+static int lua_Container_setLayout(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5196,7 +5332,65 @@ int lua_Container_setLayout(lua_State* state)
     return 0;
 }
 
-int lua_Container_setMargin(lua_State* state)
+static int lua_Container_setLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Container* instance = getInstance(state);
+                instance->setLineSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Container* instance = getInstance(state);
+                instance->setLineSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_setMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5244,7 +5438,7 @@ int lua_Container_setMargin(lua_State* state)
     return 0;
 }
 
-int lua_Container_setOpacity(lua_State* state)
+static int lua_Container_setOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5302,7 +5496,7 @@ int lua_Container_setOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Container_setPadding(lua_State* state)
+static int lua_Container_setPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5350,7 +5544,7 @@ int lua_Container_setPadding(lua_State* state)
     return 0;
 }
 
-int lua_Container_setPosition(lua_State* state)
+static int lua_Container_setPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5390,7 +5584,43 @@ int lua_Container_setPosition(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScroll(lua_State* state)
+static int lua_Container_setReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Container* instance = getInstance(state);
+                instance->setReceiveInputEvents(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_setScroll(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5426,7 +5656,7 @@ int lua_Container_setScroll(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScrollBarsAutoHide(lua_State* state)
+static int lua_Container_setScrollBarsAutoHide(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5462,7 +5692,7 @@ int lua_Container_setScrollBarsAutoHide(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScrollPosition(lua_State* state)
+static int lua_Container_setScrollPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5504,7 +5734,43 @@ int lua_Container_setScrollPosition(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScrollWheelRequiresFocus(lua_State* state)
+static int lua_Container_setScrollScale(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Container* instance = getInstance(state);
+                instance->setScrollScale(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_setScrollScale - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_setScrollWheelRequiresFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5540,7 +5806,7 @@ int lua_Container_setScrollWheelRequiresFocus(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScrollWheelSpeed(lua_State* state)
+static int lua_Container_setScrollWheelSpeed(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5576,7 +5842,7 @@ int lua_Container_setScrollWheelSpeed(lua_State* state)
     return 0;
 }
 
-int lua_Container_setScrollingFriction(lua_State* state)
+static int lua_Container_setScrollingFriction(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5612,7 +5878,7 @@ int lua_Container_setScrollingFriction(lua_State* state)
     return 0;
 }
 
-int lua_Container_setSize(lua_State* state)
+static int lua_Container_setSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5652,7 +5918,7 @@ int lua_Container_setSize(lua_State* state)
     return 0;
 }
 
-int lua_Container_setSkinColor(lua_State* state)
+static int lua_Container_setSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5722,7 +5988,7 @@ int lua_Container_setSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_setSkinRegion(lua_State* state)
+static int lua_Container_setSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5792,7 +6058,7 @@ int lua_Container_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Container_setStyle(lua_State* state)
+static int lua_Container_setStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5834,7 +6100,7 @@ int lua_Container_setStyle(lua_State* state)
     return 0;
 }
 
-int lua_Container_setTextAlignment(lua_State* state)
+static int lua_Container_setTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5892,7 +6158,7 @@ int lua_Container_setTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Container_setTextColor(lua_State* state)
+static int lua_Container_setTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5962,7 +6228,7 @@ int lua_Container_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Container_setTextDrawingFlags(lua_State* state)
+static int lua_Container_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6020,7 +6286,7 @@ int lua_Container_setTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Container_setVisible(lua_State* state)
+static int lua_Container_setVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6056,7 +6322,7 @@ int lua_Container_setVisible(lua_State* state)
     return 0;
 }
 
-int lua_Container_setWidth(lua_State* state)
+static int lua_Container_setWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6114,7 +6380,7 @@ int lua_Container_setWidth(lua_State* state)
     return 0;
 }
 
-int lua_Container_setX(lua_State* state)
+static int lua_Container_setX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6172,7 +6438,7 @@ int lua_Container_setX(lua_State* state)
     return 0;
 }
 
-int lua_Container_setY(lua_State* state)
+static int lua_Container_setY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6230,7 +6496,7 @@ int lua_Container_setY(lua_State* state)
     return 0;
 }
 
-int lua_Container_setZIndex(lua_State* state)
+static int lua_Container_setZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6266,7 +6532,73 @@ int lua_Container_setZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Container_static_ANIMATE_OPACITY(lua_State* state)
+static int lua_Container_startScrolling(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                float param2 = (float)luaL_checknumber(state, 3);
+
+                Container* instance = getInstance(state);
+                instance->startScrolling(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_startScrolling - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 4:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER &&
+                lua_type(state, 4) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                float param2 = (float)luaL_checknumber(state, 3);
+
+                // Get parameter 3 off the stack.
+                bool param3 = gameplay::ScriptUtil::luaCheckBool(state, 4);
+
+                Container* instance = getInstance(state);
+                instance->startScrolling(param1, param2, param3);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Container_startScrolling - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 3 or 4).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Container_static_ANIMATE_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6283,7 +6615,7 @@ int lua_Container_static_ANIMATE_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_POSITION(lua_State* state)
+static int lua_Container_static_ANIMATE_POSITION(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6300,7 +6632,7 @@ int lua_Container_static_ANIMATE_POSITION(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_POSITION_X(lua_State* state)
+static int lua_Container_static_ANIMATE_POSITION_X(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6317,7 +6649,7 @@ int lua_Container_static_ANIMATE_POSITION_X(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_POSITION_Y(lua_State* state)
+static int lua_Container_static_ANIMATE_POSITION_Y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6334,7 +6666,7 @@ int lua_Container_static_ANIMATE_POSITION_Y(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_SCROLLBAR_OPACITY(lua_State* state)
+static int lua_Container_static_ANIMATE_SCROLLBAR_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6351,7 +6683,7 @@ int lua_Container_static_ANIMATE_SCROLLBAR_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_SIZE(lua_State* state)
+static int lua_Container_static_ANIMATE_SIZE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6368,7 +6700,7 @@ int lua_Container_static_ANIMATE_SIZE(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
+static int lua_Container_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6385,7 +6717,7 @@ int lua_Container_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_ANIMATE_SIZE_WIDTH(lua_State* state)
+static int lua_Container_static_ANIMATE_SIZE_WIDTH(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -6402,7 +6734,41 @@ int lua_Container_static_ANIMATE_SIZE_WIDTH(lua_State* state)
     return 1;
 }
 
-int lua_Container_static_create(lua_State* state)
+static int lua_Container_static_ANIMATE_SKIN_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Container::ANIMATE_SKIN_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_Container_static_ANIMATE_TEXT_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Container::ANIMATE_TEXT_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_Container_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6412,27 +6778,58 @@ int lua_Container_static_create(lua_State* state)
     {
         case 1:
         {
-            if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
+            do
             {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(1, false);
-
-                void* returnPtr = ((void*)Container::create(param1));
-                if (returnPtr)
+                if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL))
                 {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = true;
-                    luaL_getmetatable(state, "Container");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
+                    // Get parameter 1 off the stack.
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
-                return 1;
-            }
+                    void* returnPtr = ((void*)Container::create(param1));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = true;
+                        luaL_getmetatable(state, "Container");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
+
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TUSERDATA || lua_type(state, 1) == LUA_TTABLE || lua_type(state, 1) == LUA_TNIL))
+                {
+                    // Get parameter 1 off the stack.
+                    bool param1Valid;
+                    gameplay::ScriptUtil::LuaArray<Theme::Style> param1 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(1, "ThemeStyle", false, &param1Valid);
+                    if (!param1Valid)
+                        break;
+
+                    void* returnPtr = ((void*)Container::create(param1));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Control");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
 
             lua_pushstring(state, "lua_Container_static_create - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
@@ -6440,37 +6837,72 @@ int lua_Container_static_create(lua_State* state)
         }
         case 2:
         {
-            if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
-                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+            do
             {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(1, false);
-
-                // Get parameter 2 off the stack.
-                bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<Theme::Style> param2 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(2, "ThemeStyle", false, &param2Valid);
-                if (!param2Valid)
+                if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
+                    (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
                 {
-                    lua_pushstring(state, "Failed to convert parameter 2 to type 'Theme::Style'.");
-                    lua_error(state);
-                }
+                    // Get parameter 1 off the stack.
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
-                void* returnPtr = ((void*)Container::create(param1, param2));
-                if (returnPtr)
-                {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = true;
-                    luaL_getmetatable(state, "Container");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
+                    // Get parameter 2 off the stack.
+                    bool param2Valid;
+                    gameplay::ScriptUtil::LuaArray<Theme::Style> param2 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(2, "ThemeStyle", false, &param2Valid);
+                    if (!param2Valid)
+                        break;
 
-                return 1;
-            }
+                    void* returnPtr = ((void*)Container::create(param1, param2));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = true;
+                        luaL_getmetatable(state, "Container");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
+
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TUSERDATA || lua_type(state, 1) == LUA_TTABLE || lua_type(state, 1) == LUA_TNIL) &&
+                    (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL))
+                {
+                    // Get parameter 1 off the stack.
+                    bool param1Valid;
+                    gameplay::ScriptUtil::LuaArray<Theme::Style> param1 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(1, "ThemeStyle", false, &param1Valid);
+                    if (!param1Valid)
+                        break;
+
+                    // Get parameter 2 off the stack.
+                    bool param2Valid;
+                    gameplay::ScriptUtil::LuaArray<Properties> param2 = gameplay::ScriptUtil::getObjectPointer<Properties>(2, "Properties", false, &param2Valid);
+                    if (!param2Valid)
+                        break;
+
+                    void* returnPtr = ((void*)Container::create(param1, param2));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = false;
+                        luaL_getmetatable(state, "Control");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
 
             lua_pushstring(state, "lua_Container_static_create - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
@@ -6478,41 +6910,41 @@ int lua_Container_static_create(lua_State* state)
         }
         case 3:
         {
-            if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
-                (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL) &&
-                lua_type(state, 3) == LUA_TNUMBER)
+            do
             {
-                // Get parameter 1 off the stack.
-                const char* param1 = gameplay::ScriptUtil::getString(1, false);
-
-                // Get parameter 2 off the stack.
-                bool param2Valid;
-                gameplay::ScriptUtil::LuaArray<Theme::Style> param2 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(2, "ThemeStyle", false, &param2Valid);
-                if (!param2Valid)
+                if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
+                    (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL) &&
+                    lua_type(state, 3) == LUA_TNUMBER)
                 {
-                    lua_pushstring(state, "Failed to convert parameter 2 to type 'Theme::Style'.");
-                    lua_error(state);
-                }
+                    // Get parameter 1 off the stack.
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
 
-                // Get parameter 3 off the stack.
-                Layout::Type param3 = (Layout::Type)luaL_checkint(state, 3);
+                    // Get parameter 2 off the stack.
+                    bool param2Valid;
+                    gameplay::ScriptUtil::LuaArray<Theme::Style> param2 = gameplay::ScriptUtil::getObjectPointer<Theme::Style>(2, "ThemeStyle", false, &param2Valid);
+                    if (!param2Valid)
+                        break;
 
-                void* returnPtr = ((void*)Container::create(param1, param2, param3));
-                if (returnPtr)
-                {
-                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
-                    object->instance = returnPtr;
-                    object->owns = true;
-                    luaL_getmetatable(state, "Container");
-                    lua_setmetatable(state, -2);
-                }
-                else
-                {
-                    lua_pushnil(state);
-                }
+                    // Get parameter 3 off the stack.
+                    Layout::Type param3 = (Layout::Type)luaL_checkint(state, 3);
 
-                return 1;
-            }
+                    void* returnPtr = ((void*)Container::create(param1, param2, param3));
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = true;
+                        luaL_getmetatable(state, "Container");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
 
             lua_pushstring(state, "lua_Container_static_create - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
@@ -6528,7 +6960,7 @@ int lua_Container_static_create(lua_State* state)
     return 0;
 }
 
-int lua_Container_stopScrolling(lua_State* state)
+static int lua_Container_stopScrolling(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -6558,6 +6990,221 @@ int lua_Container_stopScrolling(lua_State* state)
         }
     }
     return 0;
+}
+
+// Provides support for conversion to all known relative types of Container
+static void* __convertTo(void* ptr, const char* typeName)
+{
+    Container* ptrObject = reinterpret_cast<Container*>(ptr);
+
+    if (strcmp(typeName, "Control") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Control*>(ptrObject));
+    }
+    else if (strcmp(typeName, "Form") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Form*>(ptrObject));
+    }
+
+    // No conversion available for 'typeName'
+    return NULL;
+}
+
+static int lua_Container_to(lua_State* state)
+{
+    // There should be only a single parameter (this instance)
+    if (lua_gettop(state) != 2 || lua_type(state, 1) != LUA_TUSERDATA || lua_type(state, 2) != LUA_TSTRING)
+    {
+        lua_pushstring(state, "lua_Container_to - Invalid number of parameters (expected 2).");
+        lua_error(state);
+        return 0;
+    }
+
+    Container* instance = getInstance(state);
+    const char* typeName = gameplay::ScriptUtil::getString(2, false);
+    void* result = __convertTo((void*)instance, typeName);
+
+    if (result)
+    {
+        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+        object->instance = (void*)result;
+        object->owns = false;
+        luaL_getmetatable(state, typeName);
+        lua_setmetatable(state, -2);
+    }
+    else
+    {
+        lua_pushnil(state);
+    }
+
+    return 1;
+}
+
+void luaRegister_Container()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"addControl", lua_Container_addControl},
+        {"addListener", lua_Container_addListener},
+        {"addRef", lua_Container_addRef},
+        {"addScript", lua_Container_addScript},
+        {"addScriptCallback", lua_Container_addScriptCallback},
+        {"canFocus", lua_Container_canFocus},
+        {"clearScripts", lua_Container_clearScripts},
+        {"createAnimation", lua_Container_createAnimation},
+        {"createAnimationFromBy", lua_Container_createAnimationFromBy},
+        {"createAnimationFromTo", lua_Container_createAnimationFromTo},
+        {"destroyAnimation", lua_Container_destroyAnimation},
+        {"getAbsoluteBounds", lua_Container_getAbsoluteBounds},
+        {"getActiveControl", lua_Container_getActiveControl},
+        {"getAlignment", lua_Container_getAlignment},
+        {"getAnimation", lua_Container_getAnimation},
+        {"getAnimationPropertyComponentCount", lua_Container_getAnimationPropertyComponentCount},
+        {"getAnimationPropertyValue", lua_Container_getAnimationPropertyValue},
+        {"getAutoSize", lua_Container_getAutoSize},
+        {"getBorder", lua_Container_getBorder},
+        {"getBounds", lua_Container_getBounds},
+        {"getCharacterSpacing", lua_Container_getCharacterSpacing},
+        {"getClip", lua_Container_getClip},
+        {"getClipBounds", lua_Container_getClipBounds},
+        {"getConsumeInputEvents", lua_Container_getConsumeInputEvents},
+        {"getContentBounds", lua_Container_getContentBounds},
+        {"getControl", lua_Container_getControl},
+        {"getControlCount", lua_Container_getControlCount},
+        {"getCursorColor", lua_Container_getCursorColor},
+        {"getCursorRegion", lua_Container_getCursorRegion},
+        {"getCursorUVs", lua_Container_getCursorUVs},
+        {"getFocusIndex", lua_Container_getFocusIndex},
+        {"getFont", lua_Container_getFont},
+        {"getFontSize", lua_Container_getFontSize},
+        {"getHeight", lua_Container_getHeight},
+        {"getId", lua_Container_getId},
+        {"getImageColor", lua_Container_getImageColor},
+        {"getImageRegion", lua_Container_getImageRegion},
+        {"getImageUVs", lua_Container_getImageUVs},
+        {"getLayout", lua_Container_getLayout},
+        {"getLineSpacing", lua_Container_getLineSpacing},
+        {"getMargin", lua_Container_getMargin},
+        {"getOpacity", lua_Container_getOpacity},
+        {"getPadding", lua_Container_getPadding},
+        {"getParent", lua_Container_getParent},
+        {"getReceiveInputEvents", lua_Container_getReceiveInputEvents},
+        {"getRefCount", lua_Container_getRefCount},
+        {"getScriptEvent", lua_Container_getScriptEvent},
+        {"getScroll", lua_Container_getScroll},
+        {"getScrollPosition", lua_Container_getScrollPosition},
+        {"getScrollScale", lua_Container_getScrollScale},
+        {"getScrollWheelRequiresFocus", lua_Container_getScrollWheelRequiresFocus},
+        {"getScrollWheelSpeed", lua_Container_getScrollWheelSpeed},
+        {"getScrollingFriction", lua_Container_getScrollingFriction},
+        {"getSkinColor", lua_Container_getSkinColor},
+        {"getSkinRegion", lua_Container_getSkinRegion},
+        {"getState", lua_Container_getState},
+        {"getStyle", lua_Container_getStyle},
+        {"getTextAlignment", lua_Container_getTextAlignment},
+        {"getTextColor", lua_Container_getTextColor},
+        {"getTextDrawingFlags", lua_Container_getTextDrawingFlags},
+        {"getTheme", lua_Container_getTheme},
+        {"getTopLevelForm", lua_Container_getTopLevelForm},
+        {"getTypeName", lua_Container_getTypeName},
+        {"getWidth", lua_Container_getWidth},
+        {"getX", lua_Container_getX},
+        {"getY", lua_Container_getY},
+        {"getZIndex", lua_Container_getZIndex},
+        {"hasFocus", lua_Container_hasFocus},
+        {"hasScriptListener", lua_Container_hasScriptListener},
+        {"insertControl", lua_Container_insertControl},
+        {"isChild", lua_Container_isChild},
+        {"isContainer", lua_Container_isContainer},
+        {"isEnabled", lua_Container_isEnabled},
+        {"isEnabledInHierarchy", lua_Container_isEnabledInHierarchy},
+        {"isForm", lua_Container_isForm},
+        {"isHeightPercentage", lua_Container_isHeightPercentage},
+        {"isScrollBarsAutoHide", lua_Container_isScrollBarsAutoHide},
+        {"isScrolling", lua_Container_isScrolling},
+        {"isVisible", lua_Container_isVisible},
+        {"isVisibleInHierarchy", lua_Container_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_Container_isWidthPercentage},
+        {"isXPercentage", lua_Container_isXPercentage},
+        {"isYPercentage", lua_Container_isYPercentage},
+        {"moveFocus", lua_Container_moveFocus},
+        {"release", lua_Container_release},
+        {"removeControl", lua_Container_removeControl},
+        {"removeListener", lua_Container_removeListener},
+        {"removeScript", lua_Container_removeScript},
+        {"removeScriptCallback", lua_Container_removeScriptCallback},
+        {"resetAlignment", lua_Container_resetAlignment},
+        {"setActiveControl", lua_Container_setActiveControl},
+        {"setAlignment", lua_Container_setAlignment},
+        {"setAnimationPropertyValue", lua_Container_setAnimationPropertyValue},
+        {"setAutoSize", lua_Container_setAutoSize},
+        {"setBorder", lua_Container_setBorder},
+        {"setBounds", lua_Container_setBounds},
+        {"setCanFocus", lua_Container_setCanFocus},
+        {"setCharacterSpacing", lua_Container_setCharacterSpacing},
+        {"setConsumeInputEvents", lua_Container_setConsumeInputEvents},
+        {"setCursorColor", lua_Container_setCursorColor},
+        {"setCursorRegion", lua_Container_setCursorRegion},
+        {"setEnabled", lua_Container_setEnabled},
+        {"setFocus", lua_Container_setFocus},
+        {"setFocusIndex", lua_Container_setFocusIndex},
+        {"setFont", lua_Container_setFont},
+        {"setFontSize", lua_Container_setFontSize},
+        {"setHeight", lua_Container_setHeight},
+        {"setId", lua_Container_setId},
+        {"setImageColor", lua_Container_setImageColor},
+        {"setImageRegion", lua_Container_setImageRegion},
+        {"setLayout", lua_Container_setLayout},
+        {"setLineSpacing", lua_Container_setLineSpacing},
+        {"setMargin", lua_Container_setMargin},
+        {"setOpacity", lua_Container_setOpacity},
+        {"setPadding", lua_Container_setPadding},
+        {"setPosition", lua_Container_setPosition},
+        {"setReceiveInputEvents", lua_Container_setReceiveInputEvents},
+        {"setScroll", lua_Container_setScroll},
+        {"setScrollBarsAutoHide", lua_Container_setScrollBarsAutoHide},
+        {"setScrollPosition", lua_Container_setScrollPosition},
+        {"setScrollScale", lua_Container_setScrollScale},
+        {"setScrollWheelRequiresFocus", lua_Container_setScrollWheelRequiresFocus},
+        {"setScrollWheelSpeed", lua_Container_setScrollWheelSpeed},
+        {"setScrollingFriction", lua_Container_setScrollingFriction},
+        {"setSize", lua_Container_setSize},
+        {"setSkinColor", lua_Container_setSkinColor},
+        {"setSkinRegion", lua_Container_setSkinRegion},
+        {"setStyle", lua_Container_setStyle},
+        {"setTextAlignment", lua_Container_setTextAlignment},
+        {"setTextColor", lua_Container_setTextColor},
+        {"setTextDrawingFlags", lua_Container_setTextDrawingFlags},
+        {"setVisible", lua_Container_setVisible},
+        {"setWidth", lua_Container_setWidth},
+        {"setX", lua_Container_setX},
+        {"setY", lua_Container_setY},
+        {"setZIndex", lua_Container_setZIndex},
+        {"startScrolling", lua_Container_startScrolling},
+        {"stopScrolling", lua_Container_stopScrolling},
+        {"to", lua_Container_to},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"ANIMATE_OPACITY", lua_Container_static_ANIMATE_OPACITY},
+        {"ANIMATE_POSITION", lua_Container_static_ANIMATE_POSITION},
+        {"ANIMATE_POSITION_X", lua_Container_static_ANIMATE_POSITION_X},
+        {"ANIMATE_POSITION_Y", lua_Container_static_ANIMATE_POSITION_Y},
+        {"ANIMATE_SCROLLBAR_OPACITY", lua_Container_static_ANIMATE_SCROLLBAR_OPACITY},
+        {"ANIMATE_SIZE", lua_Container_static_ANIMATE_SIZE},
+        {"ANIMATE_SIZE_HEIGHT", lua_Container_static_ANIMATE_SIZE_HEIGHT},
+        {"ANIMATE_SIZE_WIDTH", lua_Container_static_ANIMATE_SIZE_WIDTH},
+        {"ANIMATE_SKIN_COLOR", lua_Container_static_ANIMATE_SKIN_COLOR},
+        {"ANIMATE_TEXT_COLOR", lua_Container_static_ANIMATE_TEXT_COLOR},
+        {"create", lua_Container_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Container", lua_members, NULL, lua_Container__gc, lua_statics, scopePath);
+
+    luaGlobal_Register_Conversion_Function("Container", __convertTo);
 }
 
 }

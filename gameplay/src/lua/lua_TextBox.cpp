@@ -16,140 +16,12 @@
 #include "ScriptTarget.h"
 #include "TextBox.h"
 #include "Theme.h"
+#include "Label.h"
 
 namespace gameplay
 {
 
-void luaRegister_TextBox()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"addListener", lua_TextBox_addListener},
-        {"addRef", lua_TextBox_addRef},
-        {"addScript", lua_TextBox_addScript},
-        {"addScriptCallback", lua_TextBox_addScriptCallback},
-        {"canFocus", lua_TextBox_canFocus},
-        {"clearScripts", lua_TextBox_clearScripts},
-        {"createAnimation", lua_TextBox_createAnimation},
-        {"createAnimationFromBy", lua_TextBox_createAnimationFromBy},
-        {"createAnimationFromTo", lua_TextBox_createAnimationFromTo},
-        {"destroyAnimation", lua_TextBox_destroyAnimation},
-        {"getAbsoluteBounds", lua_TextBox_getAbsoluteBounds},
-        {"getAlignment", lua_TextBox_getAlignment},
-        {"getAnimation", lua_TextBox_getAnimation},
-        {"getAnimationPropertyComponentCount", lua_TextBox_getAnimationPropertyComponentCount},
-        {"getAnimationPropertyValue", lua_TextBox_getAnimationPropertyValue},
-        {"getAutoSize", lua_TextBox_getAutoSize},
-        {"getBorder", lua_TextBox_getBorder},
-        {"getBounds", lua_TextBox_getBounds},
-        {"getCaretLocation", lua_TextBox_getCaretLocation},
-        {"getClip", lua_TextBox_getClip},
-        {"getClipBounds", lua_TextBox_getClipBounds},
-        {"getConsumeInputEvents", lua_TextBox_getConsumeInputEvents},
-        {"getCursorColor", lua_TextBox_getCursorColor},
-        {"getCursorRegion", lua_TextBox_getCursorRegion},
-        {"getCursorUVs", lua_TextBox_getCursorUVs},
-        {"getFocusIndex", lua_TextBox_getFocusIndex},
-        {"getFont", lua_TextBox_getFont},
-        {"getFontSize", lua_TextBox_getFontSize},
-        {"getHeight", lua_TextBox_getHeight},
-        {"getId", lua_TextBox_getId},
-        {"getImageColor", lua_TextBox_getImageColor},
-        {"getImageRegion", lua_TextBox_getImageRegion},
-        {"getImageUVs", lua_TextBox_getImageUVs},
-        {"getInputMode", lua_TextBox_getInputMode},
-        {"getLastKeypress", lua_TextBox_getLastKeypress},
-        {"getMargin", lua_TextBox_getMargin},
-        {"getOpacity", lua_TextBox_getOpacity},
-        {"getPadding", lua_TextBox_getPadding},
-        {"getParent", lua_TextBox_getParent},
-        {"getRefCount", lua_TextBox_getRefCount},
-        {"getScriptEvent", lua_TextBox_getScriptEvent},
-        {"getSkinColor", lua_TextBox_getSkinColor},
-        {"getSkinRegion", lua_TextBox_getSkinRegion},
-        {"getState", lua_TextBox_getState},
-        {"getStyle", lua_TextBox_getStyle},
-        {"getTextAlignment", lua_TextBox_getTextAlignment},
-        {"getTextColor", lua_TextBox_getTextColor},
-        {"getTextDrawingFlags", lua_TextBox_getTextDrawingFlags},
-        {"getTheme", lua_TextBox_getTheme},
-        {"getTopLevelForm", lua_TextBox_getTopLevelForm},
-        {"getTypeName", lua_TextBox_getTypeName},
-        {"getWidth", lua_TextBox_getWidth},
-        {"getX", lua_TextBox_getX},
-        {"getY", lua_TextBox_getY},
-        {"getZIndex", lua_TextBox_getZIndex},
-        {"hasFocus", lua_TextBox_hasFocus},
-        {"hasScriptListener", lua_TextBox_hasScriptListener},
-        {"isChild", lua_TextBox_isChild},
-        {"isContainer", lua_TextBox_isContainer},
-        {"isEnabled", lua_TextBox_isEnabled},
-        {"isEnabledInHierarchy", lua_TextBox_isEnabledInHierarchy},
-        {"isHeightPercentage", lua_TextBox_isHeightPercentage},
-        {"isVisible", lua_TextBox_isVisible},
-        {"isVisibleInHierarchy", lua_TextBox_isVisibleInHierarchy},
-        {"isWidthPercentage", lua_TextBox_isWidthPercentage},
-        {"isXPercentage", lua_TextBox_isXPercentage},
-        {"isYPercentage", lua_TextBox_isYPercentage},
-        {"release", lua_TextBox_release},
-        {"removeListener", lua_TextBox_removeListener},
-        {"removeScript", lua_TextBox_removeScript},
-        {"removeScriptCallback", lua_TextBox_removeScriptCallback},
-        {"resetAlignment", lua_TextBox_resetAlignment},
-        {"setAlignment", lua_TextBox_setAlignment},
-        {"setAnimationPropertyValue", lua_TextBox_setAnimationPropertyValue},
-        {"setAutoSize", lua_TextBox_setAutoSize},
-        {"setBorder", lua_TextBox_setBorder},
-        {"setBounds", lua_TextBox_setBounds},
-        {"setCanFocus", lua_TextBox_setCanFocus},
-        {"setCaretLocation", lua_TextBox_setCaretLocation},
-        {"setConsumeInputEvents", lua_TextBox_setConsumeInputEvents},
-        {"setCursorColor", lua_TextBox_setCursorColor},
-        {"setCursorRegion", lua_TextBox_setCursorRegion},
-        {"setEnabled", lua_TextBox_setEnabled},
-        {"setFocus", lua_TextBox_setFocus},
-        {"setFocusIndex", lua_TextBox_setFocusIndex},
-        {"setFont", lua_TextBox_setFont},
-        {"setFontSize", lua_TextBox_setFontSize},
-        {"setHeight", lua_TextBox_setHeight},
-        {"setId", lua_TextBox_setId},
-        {"setImageColor", lua_TextBox_setImageColor},
-        {"setImageRegion", lua_TextBox_setImageRegion},
-        {"setInputMode", lua_TextBox_setInputMode},
-        {"setMargin", lua_TextBox_setMargin},
-        {"setOpacity", lua_TextBox_setOpacity},
-        {"setPadding", lua_TextBox_setPadding},
-        {"setPosition", lua_TextBox_setPosition},
-        {"setSize", lua_TextBox_setSize},
-        {"setSkinColor", lua_TextBox_setSkinColor},
-        {"setSkinRegion", lua_TextBox_setSkinRegion},
-        {"setStyle", lua_TextBox_setStyle},
-        {"setTextAlignment", lua_TextBox_setTextAlignment},
-        {"setTextColor", lua_TextBox_setTextColor},
-        {"setTextDrawingFlags", lua_TextBox_setTextDrawingFlags},
-        {"setVisible", lua_TextBox_setVisible},
-        {"setWidth", lua_TextBox_setWidth},
-        {"setX", lua_TextBox_setX},
-        {"setY", lua_TextBox_setY},
-        {"setZIndex", lua_TextBox_setZIndex},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"ANIMATE_OPACITY", lua_TextBox_static_ANIMATE_OPACITY},
-        {"ANIMATE_POSITION", lua_TextBox_static_ANIMATE_POSITION},
-        {"ANIMATE_POSITION_X", lua_TextBox_static_ANIMATE_POSITION_X},
-        {"ANIMATE_POSITION_Y", lua_TextBox_static_ANIMATE_POSITION_Y},
-        {"ANIMATE_SIZE", lua_TextBox_static_ANIMATE_SIZE},
-        {"ANIMATE_SIZE_HEIGHT", lua_TextBox_static_ANIMATE_SIZE_HEIGHT},
-        {"ANIMATE_SIZE_WIDTH", lua_TextBox_static_ANIMATE_SIZE_WIDTH},
-        {"create", lua_TextBox_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("TextBox", lua_members, NULL, lua_TextBox__gc, lua_statics, scopePath);
-}
+extern void luaGlobal_Register_Conversion_Function(const char* className, void*(*func)(void*, const char*));
 
 static TextBox* getInstance(lua_State* state)
 {
@@ -158,7 +30,7 @@ static TextBox* getInstance(lua_State* state)
     return (TextBox*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_TextBox__gc(lua_State* state)
+static int lua_TextBox__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -196,7 +68,7 @@ int lua_TextBox__gc(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_addListener(lua_State* state)
+static int lua_TextBox_addListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -242,7 +114,7 @@ int lua_TextBox_addListener(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_addRef(lua_State* state)
+static int lua_TextBox_addRef(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -274,7 +146,7 @@ int lua_TextBox_addRef(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_addScript(lua_State* state)
+static int lua_TextBox_addScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -322,7 +194,7 @@ int lua_TextBox_addScript(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_addScriptCallback(lua_State* state)
+static int lua_TextBox_addScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -368,7 +240,7 @@ int lua_TextBox_addScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_canFocus(lua_State* state)
+static int lua_TextBox_canFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -403,7 +275,7 @@ int lua_TextBox_canFocus(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_clearScripts(lua_State* state)
+static int lua_TextBox_clearScripts(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -435,7 +307,7 @@ int lua_TextBox_clearScripts(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_createAnimation(lua_State* state)
+static int lua_TextBox_createAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -638,7 +510,7 @@ int lua_TextBox_createAnimation(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_createAnimationFromBy(lua_State* state)
+static int lua_TextBox_createAnimationFromBy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -706,7 +578,7 @@ int lua_TextBox_createAnimationFromBy(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_createAnimationFromTo(lua_State* state)
+static int lua_TextBox_createAnimationFromTo(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -774,7 +646,7 @@ int lua_TextBox_createAnimationFromTo(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_destroyAnimation(lua_State* state)
+static int lua_TextBox_destroyAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -824,7 +696,7 @@ int lua_TextBox_destroyAnimation(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAbsoluteBounds(lua_State* state)
+static int lua_TextBox_getAbsoluteBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -868,7 +740,7 @@ int lua_TextBox_getAbsoluteBounds(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAlignment(lua_State* state)
+static int lua_TextBox_getAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -903,7 +775,7 @@ int lua_TextBox_getAlignment(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAnimation(lua_State* state)
+static int lua_TextBox_getAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -977,7 +849,7 @@ int lua_TextBox_getAnimation(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAnimationPropertyComponentCount(lua_State* state)
+static int lua_TextBox_getAnimationPropertyComponentCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1016,7 +888,7 @@ int lua_TextBox_getAnimationPropertyComponentCount(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAnimationPropertyValue(lua_State* state)
+static int lua_TextBox_getAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1062,7 +934,7 @@ int lua_TextBox_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getAutoSize(lua_State* state)
+static int lua_TextBox_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1097,7 +969,7 @@ int lua_TextBox_getAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getBorder(lua_State* state)
+static int lua_TextBox_getBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1171,7 +1043,7 @@ int lua_TextBox_getBorder(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getBounds(lua_State* state)
+static int lua_TextBox_getBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1215,7 +1087,7 @@ int lua_TextBox_getBounds(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getCaretLocation(lua_State* state)
+static int lua_TextBox_getCaretLocation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1250,7 +1122,63 @@ int lua_TextBox_getCaretLocation(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getClip(lua_State* state)
+static int lua_TextBox_getCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                TextBox* instance = getInstance(state);
+                float result = instance->getCharacterSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                TextBox* instance = getInstance(state);
+                float result = instance->getCharacterSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_getClip(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1294,7 +1222,7 @@ int lua_TextBox_getClip(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getClipBounds(lua_State* state)
+static int lua_TextBox_getClipBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1338,7 +1266,7 @@ int lua_TextBox_getClipBounds(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getConsumeInputEvents(lua_State* state)
+static int lua_TextBox_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1373,7 +1301,51 @@ int lua_TextBox_getConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getCursorColor(lua_State* state)
+static int lua_TextBox_getContentBounds(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                TextBox* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getContentBounds());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Rectangle");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getContentBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_getCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1421,7 +1393,7 @@ int lua_TextBox_getCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getCursorRegion(lua_State* state)
+static int lua_TextBox_getCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1469,7 +1441,7 @@ int lua_TextBox_getCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getCursorUVs(lua_State* state)
+static int lua_TextBox_getCursorUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1517,7 +1489,7 @@ int lua_TextBox_getCursorUVs(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getFocusIndex(lua_State* state)
+static int lua_TextBox_getFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1552,7 +1524,7 @@ int lua_TextBox_getFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getFont(lua_State* state)
+static int lua_TextBox_getFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1626,7 +1598,7 @@ int lua_TextBox_getFont(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getFontSize(lua_State* state)
+static int lua_TextBox_getFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1682,7 +1654,7 @@ int lua_TextBox_getFontSize(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getHeight(lua_State* state)
+static int lua_TextBox_getHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1717,7 +1689,7 @@ int lua_TextBox_getHeight(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getId(lua_State* state)
+static int lua_TextBox_getId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1752,7 +1724,7 @@ int lua_TextBox_getId(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getImageColor(lua_State* state)
+static int lua_TextBox_getImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1804,7 +1776,7 @@ int lua_TextBox_getImageColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getImageRegion(lua_State* state)
+static int lua_TextBox_getImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1856,7 +1828,7 @@ int lua_TextBox_getImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getImageUVs(lua_State* state)
+static int lua_TextBox_getImageUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1908,7 +1880,7 @@ int lua_TextBox_getImageUVs(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getInputMode(lua_State* state)
+static int lua_TextBox_getInputMode(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1943,7 +1915,7 @@ int lua_TextBox_getInputMode(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getLastKeypress(lua_State* state)
+static int lua_TextBox_getLastKeypress(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1978,7 +1950,63 @@ int lua_TextBox_getLastKeypress(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getMargin(lua_State* state)
+static int lua_TextBox_getLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                TextBox* instance = getInstance(state);
+                float result = instance->getLineSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                TextBox* instance = getInstance(state);
+                float result = instance->getLineSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_getMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2022,7 +2050,7 @@ int lua_TextBox_getMargin(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getOpacity(lua_State* state)
+static int lua_TextBox_getOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2078,7 +2106,7 @@ int lua_TextBox_getOpacity(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getPadding(lua_State* state)
+static int lua_TextBox_getPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2122,7 +2150,7 @@ int lua_TextBox_getPadding(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getParent(lua_State* state)
+static int lua_TextBox_getParent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2166,7 +2194,42 @@ int lua_TextBox_getParent(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getRefCount(lua_State* state)
+static int lua_TextBox_getReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                TextBox* instance = getInstance(state);
+                bool result = instance->getReceiveInputEvents();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_TextBox_getReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2201,7 +2264,7 @@ int lua_TextBox_getRefCount(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getScriptEvent(lua_State* state)
+static int lua_TextBox_getScriptEvent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2249,7 +2312,7 @@ int lua_TextBox_getScriptEvent(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getSkinColor(lua_State* state)
+static int lua_TextBox_getSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2323,7 +2386,7 @@ int lua_TextBox_getSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getSkinRegion(lua_State* state)
+static int lua_TextBox_getSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2397,7 +2460,7 @@ int lua_TextBox_getSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getState(lua_State* state)
+static int lua_TextBox_getState(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2432,7 +2495,7 @@ int lua_TextBox_getState(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getStyle(lua_State* state)
+static int lua_TextBox_getStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2476,7 +2539,7 @@ int lua_TextBox_getStyle(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTextAlignment(lua_State* state)
+static int lua_TextBox_getTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2532,7 +2595,7 @@ int lua_TextBox_getTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTextColor(lua_State* state)
+static int lua_TextBox_getTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2606,7 +2669,7 @@ int lua_TextBox_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTextDrawingFlags(lua_State* state)
+static int lua_TextBox_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2662,7 +2725,7 @@ int lua_TextBox_getTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTheme(lua_State* state)
+static int lua_TextBox_getTheme(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2706,7 +2769,7 @@ int lua_TextBox_getTheme(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTopLevelForm(lua_State* state)
+static int lua_TextBox_getTopLevelForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2750,7 +2813,7 @@ int lua_TextBox_getTopLevelForm(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getTypeName(lua_State* state)
+static int lua_TextBox_getTypeName(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2785,7 +2848,7 @@ int lua_TextBox_getTypeName(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getWidth(lua_State* state)
+static int lua_TextBox_getWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2820,7 +2883,7 @@ int lua_TextBox_getWidth(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getX(lua_State* state)
+static int lua_TextBox_getX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2855,7 +2918,7 @@ int lua_TextBox_getX(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getY(lua_State* state)
+static int lua_TextBox_getY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2890,7 +2953,7 @@ int lua_TextBox_getY(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_getZIndex(lua_State* state)
+static int lua_TextBox_getZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2925,7 +2988,7 @@ int lua_TextBox_getZIndex(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_hasFocus(lua_State* state)
+static int lua_TextBox_hasFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2960,7 +3023,7 @@ int lua_TextBox_hasFocus(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_hasScriptListener(lua_State* state)
+static int lua_TextBox_hasScriptListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3023,7 +3086,7 @@ int lua_TextBox_hasScriptListener(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isChild(lua_State* state)
+static int lua_TextBox_isChild(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3068,7 +3131,7 @@ int lua_TextBox_isChild(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isContainer(lua_State* state)
+static int lua_TextBox_isContainer(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3103,7 +3166,7 @@ int lua_TextBox_isContainer(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isEnabled(lua_State* state)
+static int lua_TextBox_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3138,7 +3201,7 @@ int lua_TextBox_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isEnabledInHierarchy(lua_State* state)
+static int lua_TextBox_isEnabledInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3173,7 +3236,7 @@ int lua_TextBox_isEnabledInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isHeightPercentage(lua_State* state)
+static int lua_TextBox_isHeightPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3208,7 +3271,7 @@ int lua_TextBox_isHeightPercentage(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isVisible(lua_State* state)
+static int lua_TextBox_isVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3243,7 +3306,7 @@ int lua_TextBox_isVisible(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isVisibleInHierarchy(lua_State* state)
+static int lua_TextBox_isVisibleInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3278,7 +3341,7 @@ int lua_TextBox_isVisibleInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isWidthPercentage(lua_State* state)
+static int lua_TextBox_isWidthPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3313,7 +3376,7 @@ int lua_TextBox_isWidthPercentage(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isXPercentage(lua_State* state)
+static int lua_TextBox_isXPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3348,7 +3411,7 @@ int lua_TextBox_isXPercentage(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_isYPercentage(lua_State* state)
+static int lua_TextBox_isYPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3383,7 +3446,7 @@ int lua_TextBox_isYPercentage(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_release(lua_State* state)
+static int lua_TextBox_release(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3415,7 +3478,7 @@ int lua_TextBox_release(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_removeListener(lua_State* state)
+static int lua_TextBox_removeListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3457,7 +3520,7 @@ int lua_TextBox_removeListener(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_removeScript(lua_State* state)
+static int lua_TextBox_removeScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3496,7 +3559,7 @@ int lua_TextBox_removeScript(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_removeScriptCallback(lua_State* state)
+static int lua_TextBox_removeScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3542,7 +3605,7 @@ int lua_TextBox_removeScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_resetAlignment(lua_State* state)
+static int lua_TextBox_resetAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3574,7 +3637,7 @@ int lua_TextBox_resetAlignment(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setAlignment(lua_State* state)
+static int lua_TextBox_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3610,7 +3673,7 @@ int lua_TextBox_setAlignment(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setAnimationPropertyValue(lua_State* state)
+static int lua_TextBox_setAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3688,7 +3751,7 @@ int lua_TextBox_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setAutoSize(lua_State* state)
+static int lua_TextBox_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3724,7 +3787,7 @@ int lua_TextBox_setAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setBorder(lua_State* state)
+static int lua_TextBox_setBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3806,7 +3869,7 @@ int lua_TextBox_setBorder(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setBounds(lua_State* state)
+static int lua_TextBox_setBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3848,7 +3911,7 @@ int lua_TextBox_setBounds(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setCanFocus(lua_State* state)
+static int lua_TextBox_setCanFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3884,7 +3947,7 @@ int lua_TextBox_setCanFocus(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setCaretLocation(lua_State* state)
+static int lua_TextBox_setCaretLocation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3920,7 +3983,65 @@ int lua_TextBox_setCaretLocation(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setConsumeInputEvents(lua_State* state)
+static int lua_TextBox_setCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                TextBox* instance = getInstance(state);
+                instance->setCharacterSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_TextBox_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                TextBox* instance = getInstance(state);
+                instance->setCharacterSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_TextBox_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_setConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3956,7 +4077,7 @@ int lua_TextBox_setConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setCursorColor(lua_State* state)
+static int lua_TextBox_setCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4002,7 +4123,7 @@ int lua_TextBox_setCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setCursorRegion(lua_State* state)
+static int lua_TextBox_setCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4048,7 +4169,7 @@ int lua_TextBox_setCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setEnabled(lua_State* state)
+static int lua_TextBox_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4084,7 +4205,7 @@ int lua_TextBox_setEnabled(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setFocus(lua_State* state)
+static int lua_TextBox_setFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4119,7 +4240,7 @@ int lua_TextBox_setFocus(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setFocusIndex(lua_State* state)
+static int lua_TextBox_setFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4155,7 +4276,7 @@ int lua_TextBox_setFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setFont(lua_State* state)
+static int lua_TextBox_setFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4225,7 +4346,7 @@ int lua_TextBox_setFont(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setFontSize(lua_State* state)
+static int lua_TextBox_setFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4283,7 +4404,7 @@ int lua_TextBox_setFontSize(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setHeight(lua_State* state)
+static int lua_TextBox_setHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4341,7 +4462,7 @@ int lua_TextBox_setHeight(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setId(lua_State* state)
+static int lua_TextBox_setId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4377,7 +4498,7 @@ int lua_TextBox_setId(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setImageColor(lua_State* state)
+static int lua_TextBox_setImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4455,7 +4576,7 @@ int lua_TextBox_setImageColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setImageRegion(lua_State* state)
+static int lua_TextBox_setImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4533,7 +4654,7 @@ int lua_TextBox_setImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setInputMode(lua_State* state)
+static int lua_TextBox_setInputMode(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4569,7 +4690,65 @@ int lua_TextBox_setInputMode(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setMargin(lua_State* state)
+static int lua_TextBox_setLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                TextBox* instance = getInstance(state);
+                instance->setLineSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_TextBox_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                TextBox* instance = getInstance(state);
+                instance->setLineSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_TextBox_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_setMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4617,7 +4796,7 @@ int lua_TextBox_setMargin(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setOpacity(lua_State* state)
+static int lua_TextBox_setOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4675,7 +4854,7 @@ int lua_TextBox_setOpacity(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setPadding(lua_State* state)
+static int lua_TextBox_setPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4723,7 +4902,7 @@ int lua_TextBox_setPadding(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setPosition(lua_State* state)
+static int lua_TextBox_setPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4763,7 +4942,43 @@ int lua_TextBox_setPosition(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setSize(lua_State* state)
+static int lua_TextBox_setReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                TextBox* instance = getInstance(state);
+                instance->setReceiveInputEvents(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_TextBox_setReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_TextBox_setSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4803,7 +5018,7 @@ int lua_TextBox_setSize(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setSkinColor(lua_State* state)
+static int lua_TextBox_setSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4873,7 +5088,7 @@ int lua_TextBox_setSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setSkinRegion(lua_State* state)
+static int lua_TextBox_setSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4943,7 +5158,7 @@ int lua_TextBox_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setStyle(lua_State* state)
+static int lua_TextBox_setStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4985,7 +5200,7 @@ int lua_TextBox_setStyle(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setTextAlignment(lua_State* state)
+static int lua_TextBox_setTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5043,7 +5258,7 @@ int lua_TextBox_setTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setTextColor(lua_State* state)
+static int lua_TextBox_setTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5113,7 +5328,7 @@ int lua_TextBox_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setTextDrawingFlags(lua_State* state)
+static int lua_TextBox_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5171,7 +5386,7 @@ int lua_TextBox_setTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setVisible(lua_State* state)
+static int lua_TextBox_setVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5207,7 +5422,7 @@ int lua_TextBox_setVisible(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setWidth(lua_State* state)
+static int lua_TextBox_setWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5265,7 +5480,7 @@ int lua_TextBox_setWidth(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setX(lua_State* state)
+static int lua_TextBox_setX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5323,7 +5538,7 @@ int lua_TextBox_setX(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setY(lua_State* state)
+static int lua_TextBox_setY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5381,7 +5596,7 @@ int lua_TextBox_setY(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_setZIndex(lua_State* state)
+static int lua_TextBox_setZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5417,7 +5632,7 @@ int lua_TextBox_setZIndex(lua_State* state)
     return 0;
 }
 
-int lua_TextBox_static_ANIMATE_OPACITY(lua_State* state)
+static int lua_TextBox_static_ANIMATE_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5434,7 +5649,7 @@ int lua_TextBox_static_ANIMATE_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_POSITION(lua_State* state)
+static int lua_TextBox_static_ANIMATE_POSITION(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5451,7 +5666,7 @@ int lua_TextBox_static_ANIMATE_POSITION(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_POSITION_X(lua_State* state)
+static int lua_TextBox_static_ANIMATE_POSITION_X(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5468,7 +5683,7 @@ int lua_TextBox_static_ANIMATE_POSITION_X(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_POSITION_Y(lua_State* state)
+static int lua_TextBox_static_ANIMATE_POSITION_Y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5485,7 +5700,7 @@ int lua_TextBox_static_ANIMATE_POSITION_Y(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_SIZE(lua_State* state)
+static int lua_TextBox_static_ANIMATE_SIZE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5502,7 +5717,7 @@ int lua_TextBox_static_ANIMATE_SIZE(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
+static int lua_TextBox_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5519,7 +5734,7 @@ int lua_TextBox_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_ANIMATE_SIZE_WIDTH(lua_State* state)
+static int lua_TextBox_static_ANIMATE_SIZE_WIDTH(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5536,7 +5751,41 @@ int lua_TextBox_static_ANIMATE_SIZE_WIDTH(lua_State* state)
     return 1;
 }
 
-int lua_TextBox_static_create(lua_State* state)
+static int lua_TextBox_static_ANIMATE_SKIN_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = TextBox::ANIMATE_SKIN_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_TextBox_static_ANIMATE_TEXT_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = TextBox::ANIMATE_TEXT_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_TextBox_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5618,6 +5867,193 @@ int lua_TextBox_static_create(lua_State* state)
         }
     }
     return 0;
+}
+
+// Provides support for conversion to all known relative types of TextBox
+static void* __convertTo(void* ptr, const char* typeName)
+{
+    TextBox* ptrObject = reinterpret_cast<TextBox*>(ptr);
+
+    if (strcmp(typeName, "Label") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Label*>(ptrObject));
+    }
+
+    // No conversion available for 'typeName'
+    return NULL;
+}
+
+static int lua_TextBox_to(lua_State* state)
+{
+    // There should be only a single parameter (this instance)
+    if (lua_gettop(state) != 2 || lua_type(state, 1) != LUA_TUSERDATA || lua_type(state, 2) != LUA_TSTRING)
+    {
+        lua_pushstring(state, "lua_TextBox_to - Invalid number of parameters (expected 2).");
+        lua_error(state);
+        return 0;
+    }
+
+    TextBox* instance = getInstance(state);
+    const char* typeName = gameplay::ScriptUtil::getString(2, false);
+    void* result = __convertTo((void*)instance, typeName);
+
+    if (result)
+    {
+        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+        object->instance = (void*)result;
+        object->owns = false;
+        luaL_getmetatable(state, typeName);
+        lua_setmetatable(state, -2);
+    }
+    else
+    {
+        lua_pushnil(state);
+    }
+
+    return 1;
+}
+
+void luaRegister_TextBox()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"addListener", lua_TextBox_addListener},
+        {"addRef", lua_TextBox_addRef},
+        {"addScript", lua_TextBox_addScript},
+        {"addScriptCallback", lua_TextBox_addScriptCallback},
+        {"canFocus", lua_TextBox_canFocus},
+        {"clearScripts", lua_TextBox_clearScripts},
+        {"createAnimation", lua_TextBox_createAnimation},
+        {"createAnimationFromBy", lua_TextBox_createAnimationFromBy},
+        {"createAnimationFromTo", lua_TextBox_createAnimationFromTo},
+        {"destroyAnimation", lua_TextBox_destroyAnimation},
+        {"getAbsoluteBounds", lua_TextBox_getAbsoluteBounds},
+        {"getAlignment", lua_TextBox_getAlignment},
+        {"getAnimation", lua_TextBox_getAnimation},
+        {"getAnimationPropertyComponentCount", lua_TextBox_getAnimationPropertyComponentCount},
+        {"getAnimationPropertyValue", lua_TextBox_getAnimationPropertyValue},
+        {"getAutoSize", lua_TextBox_getAutoSize},
+        {"getBorder", lua_TextBox_getBorder},
+        {"getBounds", lua_TextBox_getBounds},
+        {"getCaretLocation", lua_TextBox_getCaretLocation},
+        {"getCharacterSpacing", lua_TextBox_getCharacterSpacing},
+        {"getClip", lua_TextBox_getClip},
+        {"getClipBounds", lua_TextBox_getClipBounds},
+        {"getConsumeInputEvents", lua_TextBox_getConsumeInputEvents},
+        {"getContentBounds", lua_TextBox_getContentBounds},
+        {"getCursorColor", lua_TextBox_getCursorColor},
+        {"getCursorRegion", lua_TextBox_getCursorRegion},
+        {"getCursorUVs", lua_TextBox_getCursorUVs},
+        {"getFocusIndex", lua_TextBox_getFocusIndex},
+        {"getFont", lua_TextBox_getFont},
+        {"getFontSize", lua_TextBox_getFontSize},
+        {"getHeight", lua_TextBox_getHeight},
+        {"getId", lua_TextBox_getId},
+        {"getImageColor", lua_TextBox_getImageColor},
+        {"getImageRegion", lua_TextBox_getImageRegion},
+        {"getImageUVs", lua_TextBox_getImageUVs},
+        {"getInputMode", lua_TextBox_getInputMode},
+        {"getLastKeypress", lua_TextBox_getLastKeypress},
+        {"getLineSpacing", lua_TextBox_getLineSpacing},
+        {"getMargin", lua_TextBox_getMargin},
+        {"getOpacity", lua_TextBox_getOpacity},
+        {"getPadding", lua_TextBox_getPadding},
+        {"getParent", lua_TextBox_getParent},
+        {"getReceiveInputEvents", lua_TextBox_getReceiveInputEvents},
+        {"getRefCount", lua_TextBox_getRefCount},
+        {"getScriptEvent", lua_TextBox_getScriptEvent},
+        {"getSkinColor", lua_TextBox_getSkinColor},
+        {"getSkinRegion", lua_TextBox_getSkinRegion},
+        {"getState", lua_TextBox_getState},
+        {"getStyle", lua_TextBox_getStyle},
+        {"getTextAlignment", lua_TextBox_getTextAlignment},
+        {"getTextColor", lua_TextBox_getTextColor},
+        {"getTextDrawingFlags", lua_TextBox_getTextDrawingFlags},
+        {"getTheme", lua_TextBox_getTheme},
+        {"getTopLevelForm", lua_TextBox_getTopLevelForm},
+        {"getTypeName", lua_TextBox_getTypeName},
+        {"getWidth", lua_TextBox_getWidth},
+        {"getX", lua_TextBox_getX},
+        {"getY", lua_TextBox_getY},
+        {"getZIndex", lua_TextBox_getZIndex},
+        {"hasFocus", lua_TextBox_hasFocus},
+        {"hasScriptListener", lua_TextBox_hasScriptListener},
+        {"isChild", lua_TextBox_isChild},
+        {"isContainer", lua_TextBox_isContainer},
+        {"isEnabled", lua_TextBox_isEnabled},
+        {"isEnabledInHierarchy", lua_TextBox_isEnabledInHierarchy},
+        {"isHeightPercentage", lua_TextBox_isHeightPercentage},
+        {"isVisible", lua_TextBox_isVisible},
+        {"isVisibleInHierarchy", lua_TextBox_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_TextBox_isWidthPercentage},
+        {"isXPercentage", lua_TextBox_isXPercentage},
+        {"isYPercentage", lua_TextBox_isYPercentage},
+        {"release", lua_TextBox_release},
+        {"removeListener", lua_TextBox_removeListener},
+        {"removeScript", lua_TextBox_removeScript},
+        {"removeScriptCallback", lua_TextBox_removeScriptCallback},
+        {"resetAlignment", lua_TextBox_resetAlignment},
+        {"setAlignment", lua_TextBox_setAlignment},
+        {"setAnimationPropertyValue", lua_TextBox_setAnimationPropertyValue},
+        {"setAutoSize", lua_TextBox_setAutoSize},
+        {"setBorder", lua_TextBox_setBorder},
+        {"setBounds", lua_TextBox_setBounds},
+        {"setCanFocus", lua_TextBox_setCanFocus},
+        {"setCaretLocation", lua_TextBox_setCaretLocation},
+        {"setCharacterSpacing", lua_TextBox_setCharacterSpacing},
+        {"setConsumeInputEvents", lua_TextBox_setConsumeInputEvents},
+        {"setCursorColor", lua_TextBox_setCursorColor},
+        {"setCursorRegion", lua_TextBox_setCursorRegion},
+        {"setEnabled", lua_TextBox_setEnabled},
+        {"setFocus", lua_TextBox_setFocus},
+        {"setFocusIndex", lua_TextBox_setFocusIndex},
+        {"setFont", lua_TextBox_setFont},
+        {"setFontSize", lua_TextBox_setFontSize},
+        {"setHeight", lua_TextBox_setHeight},
+        {"setId", lua_TextBox_setId},
+        {"setImageColor", lua_TextBox_setImageColor},
+        {"setImageRegion", lua_TextBox_setImageRegion},
+        {"setInputMode", lua_TextBox_setInputMode},
+        {"setLineSpacing", lua_TextBox_setLineSpacing},
+        {"setMargin", lua_TextBox_setMargin},
+        {"setOpacity", lua_TextBox_setOpacity},
+        {"setPadding", lua_TextBox_setPadding},
+        {"setPosition", lua_TextBox_setPosition},
+        {"setReceiveInputEvents", lua_TextBox_setReceiveInputEvents},
+        {"setSize", lua_TextBox_setSize},
+        {"setSkinColor", lua_TextBox_setSkinColor},
+        {"setSkinRegion", lua_TextBox_setSkinRegion},
+        {"setStyle", lua_TextBox_setStyle},
+        {"setTextAlignment", lua_TextBox_setTextAlignment},
+        {"setTextColor", lua_TextBox_setTextColor},
+        {"setTextDrawingFlags", lua_TextBox_setTextDrawingFlags},
+        {"setVisible", lua_TextBox_setVisible},
+        {"setWidth", lua_TextBox_setWidth},
+        {"setX", lua_TextBox_setX},
+        {"setY", lua_TextBox_setY},
+        {"setZIndex", lua_TextBox_setZIndex},
+        {"to", lua_TextBox_to},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"ANIMATE_OPACITY", lua_TextBox_static_ANIMATE_OPACITY},
+        {"ANIMATE_POSITION", lua_TextBox_static_ANIMATE_POSITION},
+        {"ANIMATE_POSITION_X", lua_TextBox_static_ANIMATE_POSITION_X},
+        {"ANIMATE_POSITION_Y", lua_TextBox_static_ANIMATE_POSITION_Y},
+        {"ANIMATE_SIZE", lua_TextBox_static_ANIMATE_SIZE},
+        {"ANIMATE_SIZE_HEIGHT", lua_TextBox_static_ANIMATE_SIZE_HEIGHT},
+        {"ANIMATE_SIZE_WIDTH", lua_TextBox_static_ANIMATE_SIZE_WIDTH},
+        {"ANIMATE_SKIN_COLOR", lua_TextBox_static_ANIMATE_SKIN_COLOR},
+        {"ANIMATE_TEXT_COLOR", lua_TextBox_static_ANIMATE_TEXT_COLOR},
+        {"create", lua_TextBox_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("TextBox", lua_members, NULL, lua_TextBox__gc, lua_statics, scopePath);
+
+    luaGlobal_Register_Conversion_Function("TextBox", __convertTo);
 }
 
 }

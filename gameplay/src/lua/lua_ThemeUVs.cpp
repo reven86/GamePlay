@@ -13,28 +13,6 @@
 namespace gameplay
 {
 
-void luaRegister_ThemeUVs()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"u1", lua_ThemeUVs_u1},
-        {"u2", lua_ThemeUVs_u2},
-        {"v1", lua_ThemeUVs_v1},
-        {"v2", lua_ThemeUVs_v2},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"empty", lua_ThemeUVs_static_empty},
-        {"full", lua_ThemeUVs_static_full},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-    scopePath.push_back("Theme");
-
-    gameplay::ScriptUtil::registerClass("ThemeUVs", lua_members, lua_ThemeUVs__init, lua_ThemeUVs__gc, lua_statics, scopePath);
-}
-
 static Theme::UVs* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "ThemeUVs");
@@ -42,7 +20,7 @@ static Theme::UVs* getInstance(lua_State* state)
     return (Theme::UVs*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_ThemeUVs__gc(lua_State* state)
+static int lua_ThemeUVs__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -80,7 +58,7 @@ int lua_ThemeUVs__gc(lua_State* state)
     return 0;
 }
 
-int lua_ThemeUVs__init(lua_State* state)
+static int lua_ThemeUVs__init(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -160,7 +138,7 @@ int lua_ThemeUVs__init(lua_State* state)
     return 0;
 }
 
-int lua_ThemeUVs_static_empty(lua_State* state)
+static int lua_ThemeUVs_static_empty(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -197,7 +175,7 @@ int lua_ThemeUVs_static_empty(lua_State* state)
     return 0;
 }
 
-int lua_ThemeUVs_static_full(lua_State* state)
+static int lua_ThemeUVs_static_full(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -234,7 +212,7 @@ int lua_ThemeUVs_static_full(lua_State* state)
     return 0;
 }
 
-int lua_ThemeUVs_u1(lua_State* state)
+static int lua_ThemeUVs_u1(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -263,7 +241,7 @@ int lua_ThemeUVs_u1(lua_State* state)
     }
 }
 
-int lua_ThemeUVs_u2(lua_State* state)
+static int lua_ThemeUVs_u2(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -292,7 +270,7 @@ int lua_ThemeUVs_u2(lua_State* state)
     }
 }
 
-int lua_ThemeUVs_v1(lua_State* state)
+static int lua_ThemeUVs_v1(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -321,7 +299,7 @@ int lua_ThemeUVs_v1(lua_State* state)
     }
 }
 
-int lua_ThemeUVs_v2(lua_State* state)
+static int lua_ThemeUVs_v2(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -348,6 +326,29 @@ int lua_ThemeUVs_v2(lua_State* state)
 
         return 1;
     }
+}
+
+void luaRegister_ThemeUVs()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"u1", lua_ThemeUVs_u1},
+        {"u2", lua_ThemeUVs_u2},
+        {"v1", lua_ThemeUVs_v1},
+        {"v2", lua_ThemeUVs_v2},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"empty", lua_ThemeUVs_static_empty},
+        {"full", lua_ThemeUVs_static_full},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+    scopePath.push_back("Theme");
+
+    gameplay::ScriptUtil::registerClass("ThemeUVs", lua_members, lua_ThemeUVs__init, lua_ThemeUVs__gc, lua_statics, scopePath);
+
 }
 
 }

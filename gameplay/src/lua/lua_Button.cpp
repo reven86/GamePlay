@@ -6,6 +6,7 @@
 #include "AnimationTarget.h"
 #include "Base.h"
 #include "Button.h"
+#include "CheckBox.h"
 #include "Control.h"
 #include "Form.h"
 #include "Game.h"
@@ -13,138 +14,19 @@
 #include "Label.h"
 #include "MaterialParameter.h"
 #include "Node.h"
+#include "RadioButton.h"
 #include "Ref.h"
 #include "ScriptController.h"
 #include "ScriptTarget.h"
 #include "Theme.h"
+#include "CheckBox.h"
+#include "Label.h"
+#include "RadioButton.h"
 
 namespace gameplay
 {
 
-void luaRegister_Button()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"addListener", lua_Button_addListener},
-        {"addRef", lua_Button_addRef},
-        {"addScript", lua_Button_addScript},
-        {"addScriptCallback", lua_Button_addScriptCallback},
-        {"canFocus", lua_Button_canFocus},
-        {"clearScripts", lua_Button_clearScripts},
-        {"createAnimation", lua_Button_createAnimation},
-        {"createAnimationFromBy", lua_Button_createAnimationFromBy},
-        {"createAnimationFromTo", lua_Button_createAnimationFromTo},
-        {"destroyAnimation", lua_Button_destroyAnimation},
-        {"getAbsoluteBounds", lua_Button_getAbsoluteBounds},
-        {"getAlignment", lua_Button_getAlignment},
-        {"getAnimation", lua_Button_getAnimation},
-        {"getAnimationPropertyComponentCount", lua_Button_getAnimationPropertyComponentCount},
-        {"getAnimationPropertyValue", lua_Button_getAnimationPropertyValue},
-        {"getAutoSize", lua_Button_getAutoSize},
-        {"getBorder", lua_Button_getBorder},
-        {"getBounds", lua_Button_getBounds},
-        {"getClip", lua_Button_getClip},
-        {"getClipBounds", lua_Button_getClipBounds},
-        {"getConsumeInputEvents", lua_Button_getConsumeInputEvents},
-        {"getCursorColor", lua_Button_getCursorColor},
-        {"getCursorRegion", lua_Button_getCursorRegion},
-        {"getCursorUVs", lua_Button_getCursorUVs},
-        {"getFocusIndex", lua_Button_getFocusIndex},
-        {"getFont", lua_Button_getFont},
-        {"getFontSize", lua_Button_getFontSize},
-        {"getHeight", lua_Button_getHeight},
-        {"getId", lua_Button_getId},
-        {"getImageColor", lua_Button_getImageColor},
-        {"getImageRegion", lua_Button_getImageRegion},
-        {"getImageUVs", lua_Button_getImageUVs},
-        {"getMargin", lua_Button_getMargin},
-        {"getOpacity", lua_Button_getOpacity},
-        {"getPadding", lua_Button_getPadding},
-        {"getParent", lua_Button_getParent},
-        {"getRefCount", lua_Button_getRefCount},
-        {"getScriptEvent", lua_Button_getScriptEvent},
-        {"getSkinColor", lua_Button_getSkinColor},
-        {"getSkinRegion", lua_Button_getSkinRegion},
-        {"getState", lua_Button_getState},
-        {"getStyle", lua_Button_getStyle},
-        {"getTextAlignment", lua_Button_getTextAlignment},
-        {"getTextColor", lua_Button_getTextColor},
-        {"getTextDrawingFlags", lua_Button_getTextDrawingFlags},
-        {"getTheme", lua_Button_getTheme},
-        {"getTopLevelForm", lua_Button_getTopLevelForm},
-        {"getWidth", lua_Button_getWidth},
-        {"getX", lua_Button_getX},
-        {"getY", lua_Button_getY},
-        {"getZIndex", lua_Button_getZIndex},
-        {"hasFocus", lua_Button_hasFocus},
-        {"hasScriptListener", lua_Button_hasScriptListener},
-        {"isChild", lua_Button_isChild},
-        {"isContainer", lua_Button_isContainer},
-        {"isEnabled", lua_Button_isEnabled},
-        {"isEnabledInHierarchy", lua_Button_isEnabledInHierarchy},
-        {"isHeightPercentage", lua_Button_isHeightPercentage},
-        {"isVisible", lua_Button_isVisible},
-        {"isVisibleInHierarchy", lua_Button_isVisibleInHierarchy},
-        {"isWidthPercentage", lua_Button_isWidthPercentage},
-        {"isXPercentage", lua_Button_isXPercentage},
-        {"isYPercentage", lua_Button_isYPercentage},
-        {"release", lua_Button_release},
-        {"removeListener", lua_Button_removeListener},
-        {"removeScript", lua_Button_removeScript},
-        {"removeScriptCallback", lua_Button_removeScriptCallback},
-        {"resetAlignment", lua_Button_resetAlignment},
-        {"setAlignment", lua_Button_setAlignment},
-        {"setAnimationPropertyValue", lua_Button_setAnimationPropertyValue},
-        {"setAutoSize", lua_Button_setAutoSize},
-        {"setBorder", lua_Button_setBorder},
-        {"setBounds", lua_Button_setBounds},
-        {"setCanFocus", lua_Button_setCanFocus},
-        {"setConsumeInputEvents", lua_Button_setConsumeInputEvents},
-        {"setCursorColor", lua_Button_setCursorColor},
-        {"setCursorRegion", lua_Button_setCursorRegion},
-        {"setEnabled", lua_Button_setEnabled},
-        {"setFocus", lua_Button_setFocus},
-        {"setFocusIndex", lua_Button_setFocusIndex},
-        {"setFont", lua_Button_setFont},
-        {"setFontSize", lua_Button_setFontSize},
-        {"setHeight", lua_Button_setHeight},
-        {"setId", lua_Button_setId},
-        {"setImageColor", lua_Button_setImageColor},
-        {"setImageRegion", lua_Button_setImageRegion},
-        {"setMargin", lua_Button_setMargin},
-        {"setOpacity", lua_Button_setOpacity},
-        {"setPadding", lua_Button_setPadding},
-        {"setPosition", lua_Button_setPosition},
-        {"setSize", lua_Button_setSize},
-        {"setSkinColor", lua_Button_setSkinColor},
-        {"setSkinRegion", lua_Button_setSkinRegion},
-        {"setStyle", lua_Button_setStyle},
-        {"setTextAlignment", lua_Button_setTextAlignment},
-        {"setTextColor", lua_Button_setTextColor},
-        {"setTextDrawingFlags", lua_Button_setTextDrawingFlags},
-        {"setVisible", lua_Button_setVisible},
-        {"setWidth", lua_Button_setWidth},
-        {"setX", lua_Button_setX},
-        {"setY", lua_Button_setY},
-        {"setZIndex", lua_Button_setZIndex},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"ANIMATE_OPACITY", lua_Button_static_ANIMATE_OPACITY},
-        {"ANIMATE_POSITION", lua_Button_static_ANIMATE_POSITION},
-        {"ANIMATE_POSITION_X", lua_Button_static_ANIMATE_POSITION_X},
-        {"ANIMATE_POSITION_Y", lua_Button_static_ANIMATE_POSITION_Y},
-        {"ANIMATE_SIZE", lua_Button_static_ANIMATE_SIZE},
-        {"ANIMATE_SIZE_HEIGHT", lua_Button_static_ANIMATE_SIZE_HEIGHT},
-        {"ANIMATE_SIZE_WIDTH", lua_Button_static_ANIMATE_SIZE_WIDTH},
-        {"create", lua_Button_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Button", lua_members, NULL, lua_Button__gc, lua_statics, scopePath);
-}
+extern void luaGlobal_Register_Conversion_Function(const char* className, void*(*func)(void*, const char*));
 
 static Button* getInstance(lua_State* state)
 {
@@ -153,7 +35,7 @@ static Button* getInstance(lua_State* state)
     return (Button*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Button__gc(lua_State* state)
+static int lua_Button__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -191,7 +73,7 @@ int lua_Button__gc(lua_State* state)
     return 0;
 }
 
-int lua_Button_addListener(lua_State* state)
+static int lua_Button_addListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -237,7 +119,7 @@ int lua_Button_addListener(lua_State* state)
     return 0;
 }
 
-int lua_Button_addRef(lua_State* state)
+static int lua_Button_addRef(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -269,7 +151,7 @@ int lua_Button_addRef(lua_State* state)
     return 0;
 }
 
-int lua_Button_addScript(lua_State* state)
+static int lua_Button_addScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -317,7 +199,7 @@ int lua_Button_addScript(lua_State* state)
     return 0;
 }
 
-int lua_Button_addScriptCallback(lua_State* state)
+static int lua_Button_addScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -363,7 +245,7 @@ int lua_Button_addScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Button_canFocus(lua_State* state)
+static int lua_Button_canFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -398,7 +280,7 @@ int lua_Button_canFocus(lua_State* state)
     return 0;
 }
 
-int lua_Button_clearScripts(lua_State* state)
+static int lua_Button_clearScripts(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -430,7 +312,7 @@ int lua_Button_clearScripts(lua_State* state)
     return 0;
 }
 
-int lua_Button_createAnimation(lua_State* state)
+static int lua_Button_createAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -633,7 +515,7 @@ int lua_Button_createAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Button_createAnimationFromBy(lua_State* state)
+static int lua_Button_createAnimationFromBy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -701,7 +583,7 @@ int lua_Button_createAnimationFromBy(lua_State* state)
     return 0;
 }
 
-int lua_Button_createAnimationFromTo(lua_State* state)
+static int lua_Button_createAnimationFromTo(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -769,7 +651,7 @@ int lua_Button_createAnimationFromTo(lua_State* state)
     return 0;
 }
 
-int lua_Button_destroyAnimation(lua_State* state)
+static int lua_Button_destroyAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -819,7 +701,7 @@ int lua_Button_destroyAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAbsoluteBounds(lua_State* state)
+static int lua_Button_getAbsoluteBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -863,7 +745,7 @@ int lua_Button_getAbsoluteBounds(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAlignment(lua_State* state)
+static int lua_Button_getAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -898,7 +780,7 @@ int lua_Button_getAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAnimation(lua_State* state)
+static int lua_Button_getAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -972,7 +854,7 @@ int lua_Button_getAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAnimationPropertyComponentCount(lua_State* state)
+static int lua_Button_getAnimationPropertyComponentCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1011,7 +893,7 @@ int lua_Button_getAnimationPropertyComponentCount(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAnimationPropertyValue(lua_State* state)
+static int lua_Button_getAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1057,7 +939,7 @@ int lua_Button_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Button_getAutoSize(lua_State* state)
+static int lua_Button_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1092,7 +974,7 @@ int lua_Button_getAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Button_getBorder(lua_State* state)
+static int lua_Button_getBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1166,7 +1048,7 @@ int lua_Button_getBorder(lua_State* state)
     return 0;
 }
 
-int lua_Button_getBounds(lua_State* state)
+static int lua_Button_getBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1210,7 +1092,63 @@ int lua_Button_getBounds(lua_State* state)
     return 0;
 }
 
-int lua_Button_getClip(lua_State* state)
+static int lua_Button_getCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Button* instance = getInstance(state);
+                float result = instance->getCharacterSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Button* instance = getInstance(state);
+                float result = instance->getCharacterSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_getClip(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1254,7 +1192,7 @@ int lua_Button_getClip(lua_State* state)
     return 0;
 }
 
-int lua_Button_getClipBounds(lua_State* state)
+static int lua_Button_getClipBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1298,7 +1236,7 @@ int lua_Button_getClipBounds(lua_State* state)
     return 0;
 }
 
-int lua_Button_getConsumeInputEvents(lua_State* state)
+static int lua_Button_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1333,7 +1271,51 @@ int lua_Button_getConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Button_getCursorColor(lua_State* state)
+static int lua_Button_getContentBounds(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Button* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getContentBounds());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Rectangle");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getContentBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_getCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1381,7 +1363,7 @@ int lua_Button_getCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_getCursorRegion(lua_State* state)
+static int lua_Button_getCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1429,7 +1411,7 @@ int lua_Button_getCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_getCursorUVs(lua_State* state)
+static int lua_Button_getCursorUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1477,7 +1459,7 @@ int lua_Button_getCursorUVs(lua_State* state)
     return 0;
 }
 
-int lua_Button_getFocusIndex(lua_State* state)
+static int lua_Button_getFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1512,7 +1494,7 @@ int lua_Button_getFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Button_getFont(lua_State* state)
+static int lua_Button_getFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1586,7 +1568,7 @@ int lua_Button_getFont(lua_State* state)
     return 0;
 }
 
-int lua_Button_getFontSize(lua_State* state)
+static int lua_Button_getFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1642,7 +1624,7 @@ int lua_Button_getFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Button_getHeight(lua_State* state)
+static int lua_Button_getHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1677,7 +1659,7 @@ int lua_Button_getHeight(lua_State* state)
     return 0;
 }
 
-int lua_Button_getId(lua_State* state)
+static int lua_Button_getId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1712,7 +1694,7 @@ int lua_Button_getId(lua_State* state)
     return 0;
 }
 
-int lua_Button_getImageColor(lua_State* state)
+static int lua_Button_getImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1764,7 +1746,7 @@ int lua_Button_getImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_getImageRegion(lua_State* state)
+static int lua_Button_getImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1816,7 +1798,7 @@ int lua_Button_getImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_getImageUVs(lua_State* state)
+static int lua_Button_getImageUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1868,7 +1850,63 @@ int lua_Button_getImageUVs(lua_State* state)
     return 0;
 }
 
-int lua_Button_getMargin(lua_State* state)
+static int lua_Button_getLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Button* instance = getInstance(state);
+                float result = instance->getLineSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Button* instance = getInstance(state);
+                float result = instance->getLineSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_getMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1912,7 +1950,7 @@ int lua_Button_getMargin(lua_State* state)
     return 0;
 }
 
-int lua_Button_getOpacity(lua_State* state)
+static int lua_Button_getOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1968,7 +2006,7 @@ int lua_Button_getOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Button_getPadding(lua_State* state)
+static int lua_Button_getPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2012,7 +2050,7 @@ int lua_Button_getPadding(lua_State* state)
     return 0;
 }
 
-int lua_Button_getParent(lua_State* state)
+static int lua_Button_getParent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2056,7 +2094,42 @@ int lua_Button_getParent(lua_State* state)
     return 0;
 }
 
-int lua_Button_getRefCount(lua_State* state)
+static int lua_Button_getReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Button* instance = getInstance(state);
+                bool result = instance->getReceiveInputEvents();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Button_getReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2091,7 +2164,7 @@ int lua_Button_getRefCount(lua_State* state)
     return 0;
 }
 
-int lua_Button_getScriptEvent(lua_State* state)
+static int lua_Button_getScriptEvent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2139,7 +2212,7 @@ int lua_Button_getScriptEvent(lua_State* state)
     return 0;
 }
 
-int lua_Button_getSkinColor(lua_State* state)
+static int lua_Button_getSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2213,7 +2286,7 @@ int lua_Button_getSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_getSkinRegion(lua_State* state)
+static int lua_Button_getSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2287,7 +2360,7 @@ int lua_Button_getSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_getState(lua_State* state)
+static int lua_Button_getState(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2322,7 +2395,7 @@ int lua_Button_getState(lua_State* state)
     return 0;
 }
 
-int lua_Button_getStyle(lua_State* state)
+static int lua_Button_getStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2366,7 +2439,7 @@ int lua_Button_getStyle(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTextAlignment(lua_State* state)
+static int lua_Button_getTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2422,7 +2495,7 @@ int lua_Button_getTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTextColor(lua_State* state)
+static int lua_Button_getTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2496,7 +2569,7 @@ int lua_Button_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTextDrawingFlags(lua_State* state)
+static int lua_Button_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2552,7 +2625,7 @@ int lua_Button_getTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTheme(lua_State* state)
+static int lua_Button_getTheme(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2596,7 +2669,7 @@ int lua_Button_getTheme(lua_State* state)
     return 0;
 }
 
-int lua_Button_getTopLevelForm(lua_State* state)
+static int lua_Button_getTopLevelForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2640,7 +2713,7 @@ int lua_Button_getTopLevelForm(lua_State* state)
     return 0;
 }
 
-int lua_Button_getWidth(lua_State* state)
+static int lua_Button_getWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2675,7 +2748,7 @@ int lua_Button_getWidth(lua_State* state)
     return 0;
 }
 
-int lua_Button_getX(lua_State* state)
+static int lua_Button_getX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2710,7 +2783,7 @@ int lua_Button_getX(lua_State* state)
     return 0;
 }
 
-int lua_Button_getY(lua_State* state)
+static int lua_Button_getY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2745,7 +2818,7 @@ int lua_Button_getY(lua_State* state)
     return 0;
 }
 
-int lua_Button_getZIndex(lua_State* state)
+static int lua_Button_getZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2780,7 +2853,7 @@ int lua_Button_getZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Button_hasFocus(lua_State* state)
+static int lua_Button_hasFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2815,7 +2888,7 @@ int lua_Button_hasFocus(lua_State* state)
     return 0;
 }
 
-int lua_Button_hasScriptListener(lua_State* state)
+static int lua_Button_hasScriptListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2878,7 +2951,7 @@ int lua_Button_hasScriptListener(lua_State* state)
     return 0;
 }
 
-int lua_Button_isChild(lua_State* state)
+static int lua_Button_isChild(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2923,7 +2996,7 @@ int lua_Button_isChild(lua_State* state)
     return 0;
 }
 
-int lua_Button_isContainer(lua_State* state)
+static int lua_Button_isContainer(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2958,7 +3031,7 @@ int lua_Button_isContainer(lua_State* state)
     return 0;
 }
 
-int lua_Button_isEnabled(lua_State* state)
+static int lua_Button_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2993,7 +3066,7 @@ int lua_Button_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Button_isEnabledInHierarchy(lua_State* state)
+static int lua_Button_isEnabledInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3028,7 +3101,7 @@ int lua_Button_isEnabledInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Button_isHeightPercentage(lua_State* state)
+static int lua_Button_isHeightPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3063,7 +3136,7 @@ int lua_Button_isHeightPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Button_isVisible(lua_State* state)
+static int lua_Button_isVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3098,7 +3171,7 @@ int lua_Button_isVisible(lua_State* state)
     return 0;
 }
 
-int lua_Button_isVisibleInHierarchy(lua_State* state)
+static int lua_Button_isVisibleInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3133,7 +3206,7 @@ int lua_Button_isVisibleInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Button_isWidthPercentage(lua_State* state)
+static int lua_Button_isWidthPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3168,7 +3241,7 @@ int lua_Button_isWidthPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Button_isXPercentage(lua_State* state)
+static int lua_Button_isXPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3203,7 +3276,7 @@ int lua_Button_isXPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Button_isYPercentage(lua_State* state)
+static int lua_Button_isYPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3238,7 +3311,7 @@ int lua_Button_isYPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Button_release(lua_State* state)
+static int lua_Button_release(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3270,7 +3343,7 @@ int lua_Button_release(lua_State* state)
     return 0;
 }
 
-int lua_Button_removeListener(lua_State* state)
+static int lua_Button_removeListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3312,7 +3385,7 @@ int lua_Button_removeListener(lua_State* state)
     return 0;
 }
 
-int lua_Button_removeScript(lua_State* state)
+static int lua_Button_removeScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3351,7 +3424,7 @@ int lua_Button_removeScript(lua_State* state)
     return 0;
 }
 
-int lua_Button_removeScriptCallback(lua_State* state)
+static int lua_Button_removeScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3397,7 +3470,7 @@ int lua_Button_removeScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Button_resetAlignment(lua_State* state)
+static int lua_Button_resetAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3429,7 +3502,7 @@ int lua_Button_resetAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Button_setAlignment(lua_State* state)
+static int lua_Button_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3465,7 +3538,7 @@ int lua_Button_setAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Button_setAnimationPropertyValue(lua_State* state)
+static int lua_Button_setAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3543,7 +3616,7 @@ int lua_Button_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Button_setAutoSize(lua_State* state)
+static int lua_Button_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3579,7 +3652,7 @@ int lua_Button_setAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Button_setBorder(lua_State* state)
+static int lua_Button_setBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3661,7 +3734,7 @@ int lua_Button_setBorder(lua_State* state)
     return 0;
 }
 
-int lua_Button_setBounds(lua_State* state)
+static int lua_Button_setBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3703,7 +3776,7 @@ int lua_Button_setBounds(lua_State* state)
     return 0;
 }
 
-int lua_Button_setCanFocus(lua_State* state)
+static int lua_Button_setCanFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3739,7 +3812,65 @@ int lua_Button_setCanFocus(lua_State* state)
     return 0;
 }
 
-int lua_Button_setConsumeInputEvents(lua_State* state)
+static int lua_Button_setCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Button* instance = getInstance(state);
+                instance->setCharacterSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Button* instance = getInstance(state);
+                instance->setCharacterSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_setConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3775,7 +3906,7 @@ int lua_Button_setConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Button_setCursorColor(lua_State* state)
+static int lua_Button_setCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3821,7 +3952,7 @@ int lua_Button_setCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_setCursorRegion(lua_State* state)
+static int lua_Button_setCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3867,7 +3998,7 @@ int lua_Button_setCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_setEnabled(lua_State* state)
+static int lua_Button_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3903,7 +4034,7 @@ int lua_Button_setEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Button_setFocus(lua_State* state)
+static int lua_Button_setFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3938,7 +4069,7 @@ int lua_Button_setFocus(lua_State* state)
     return 0;
 }
 
-int lua_Button_setFocusIndex(lua_State* state)
+static int lua_Button_setFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3974,7 +4105,7 @@ int lua_Button_setFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Button_setFont(lua_State* state)
+static int lua_Button_setFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4044,7 +4175,7 @@ int lua_Button_setFont(lua_State* state)
     return 0;
 }
 
-int lua_Button_setFontSize(lua_State* state)
+static int lua_Button_setFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4102,7 +4233,7 @@ int lua_Button_setFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Button_setHeight(lua_State* state)
+static int lua_Button_setHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4160,7 +4291,7 @@ int lua_Button_setHeight(lua_State* state)
     return 0;
 }
 
-int lua_Button_setId(lua_State* state)
+static int lua_Button_setId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4196,7 +4327,7 @@ int lua_Button_setId(lua_State* state)
     return 0;
 }
 
-int lua_Button_setImageColor(lua_State* state)
+static int lua_Button_setImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4274,7 +4405,7 @@ int lua_Button_setImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_setImageRegion(lua_State* state)
+static int lua_Button_setImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4352,7 +4483,65 @@ int lua_Button_setImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_setMargin(lua_State* state)
+static int lua_Button_setLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Button* instance = getInstance(state);
+                instance->setLineSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Button* instance = getInstance(state);
+                instance->setLineSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_setMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4400,7 +4589,7 @@ int lua_Button_setMargin(lua_State* state)
     return 0;
 }
 
-int lua_Button_setOpacity(lua_State* state)
+static int lua_Button_setOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4458,7 +4647,7 @@ int lua_Button_setOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Button_setPadding(lua_State* state)
+static int lua_Button_setPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4506,7 +4695,7 @@ int lua_Button_setPadding(lua_State* state)
     return 0;
 }
 
-int lua_Button_setPosition(lua_State* state)
+static int lua_Button_setPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4546,7 +4735,43 @@ int lua_Button_setPosition(lua_State* state)
     return 0;
 }
 
-int lua_Button_setSize(lua_State* state)
+static int lua_Button_setReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Button* instance = getInstance(state);
+                instance->setReceiveInputEvents(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Button_setReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Button_setSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4586,7 +4811,7 @@ int lua_Button_setSize(lua_State* state)
     return 0;
 }
 
-int lua_Button_setSkinColor(lua_State* state)
+static int lua_Button_setSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4656,7 +4881,7 @@ int lua_Button_setSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_setSkinRegion(lua_State* state)
+static int lua_Button_setSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4726,7 +4951,7 @@ int lua_Button_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Button_setStyle(lua_State* state)
+static int lua_Button_setStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4768,7 +4993,7 @@ int lua_Button_setStyle(lua_State* state)
     return 0;
 }
 
-int lua_Button_setTextAlignment(lua_State* state)
+static int lua_Button_setTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4826,7 +5051,7 @@ int lua_Button_setTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Button_setTextColor(lua_State* state)
+static int lua_Button_setTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4896,7 +5121,7 @@ int lua_Button_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Button_setTextDrawingFlags(lua_State* state)
+static int lua_Button_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4954,7 +5179,7 @@ int lua_Button_setTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Button_setVisible(lua_State* state)
+static int lua_Button_setVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4990,7 +5215,7 @@ int lua_Button_setVisible(lua_State* state)
     return 0;
 }
 
-int lua_Button_setWidth(lua_State* state)
+static int lua_Button_setWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5048,7 +5273,7 @@ int lua_Button_setWidth(lua_State* state)
     return 0;
 }
 
-int lua_Button_setX(lua_State* state)
+static int lua_Button_setX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5106,7 +5331,7 @@ int lua_Button_setX(lua_State* state)
     return 0;
 }
 
-int lua_Button_setY(lua_State* state)
+static int lua_Button_setY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5164,7 +5389,7 @@ int lua_Button_setY(lua_State* state)
     return 0;
 }
 
-int lua_Button_setZIndex(lua_State* state)
+static int lua_Button_setZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5200,7 +5425,7 @@ int lua_Button_setZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Button_static_ANIMATE_OPACITY(lua_State* state)
+static int lua_Button_static_ANIMATE_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5217,7 +5442,7 @@ int lua_Button_static_ANIMATE_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_POSITION(lua_State* state)
+static int lua_Button_static_ANIMATE_POSITION(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5234,7 +5459,7 @@ int lua_Button_static_ANIMATE_POSITION(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_POSITION_X(lua_State* state)
+static int lua_Button_static_ANIMATE_POSITION_X(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5251,7 +5476,7 @@ int lua_Button_static_ANIMATE_POSITION_X(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_POSITION_Y(lua_State* state)
+static int lua_Button_static_ANIMATE_POSITION_Y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5268,7 +5493,7 @@ int lua_Button_static_ANIMATE_POSITION_Y(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_SIZE(lua_State* state)
+static int lua_Button_static_ANIMATE_SIZE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5285,7 +5510,7 @@ int lua_Button_static_ANIMATE_SIZE(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
+static int lua_Button_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5302,7 +5527,7 @@ int lua_Button_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_ANIMATE_SIZE_WIDTH(lua_State* state)
+static int lua_Button_static_ANIMATE_SIZE_WIDTH(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5319,7 +5544,41 @@ int lua_Button_static_ANIMATE_SIZE_WIDTH(lua_State* state)
     return 1;
 }
 
-int lua_Button_static_create(lua_State* state)
+static int lua_Button_static_ANIMATE_SKIN_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Button::ANIMATE_SKIN_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_Button_static_ANIMATE_TEXT_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Button::ANIMATE_TEXT_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_Button_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5401,6 +5660,195 @@ int lua_Button_static_create(lua_State* state)
         }
     }
     return 0;
+}
+
+// Provides support for conversion to all known relative types of Button
+static void* __convertTo(void* ptr, const char* typeName)
+{
+    Button* ptrObject = reinterpret_cast<Button*>(ptr);
+
+    if (strcmp(typeName, "CheckBox") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<CheckBox*>(ptrObject));
+    }
+    else if (strcmp(typeName, "Label") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Label*>(ptrObject));
+    }
+    else if (strcmp(typeName, "RadioButton") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<RadioButton*>(ptrObject));
+    }
+
+    // No conversion available for 'typeName'
+    return NULL;
+}
+
+static int lua_Button_to(lua_State* state)
+{
+    // There should be only a single parameter (this instance)
+    if (lua_gettop(state) != 2 || lua_type(state, 1) != LUA_TUSERDATA || lua_type(state, 2) != LUA_TSTRING)
+    {
+        lua_pushstring(state, "lua_Button_to - Invalid number of parameters (expected 2).");
+        lua_error(state);
+        return 0;
+    }
+
+    Button* instance = getInstance(state);
+    const char* typeName = gameplay::ScriptUtil::getString(2, false);
+    void* result = __convertTo((void*)instance, typeName);
+
+    if (result)
+    {
+        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+        object->instance = (void*)result;
+        object->owns = false;
+        luaL_getmetatable(state, typeName);
+        lua_setmetatable(state, -2);
+    }
+    else
+    {
+        lua_pushnil(state);
+    }
+
+    return 1;
+}
+
+void luaRegister_Button()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"addListener", lua_Button_addListener},
+        {"addRef", lua_Button_addRef},
+        {"addScript", lua_Button_addScript},
+        {"addScriptCallback", lua_Button_addScriptCallback},
+        {"canFocus", lua_Button_canFocus},
+        {"clearScripts", lua_Button_clearScripts},
+        {"createAnimation", lua_Button_createAnimation},
+        {"createAnimationFromBy", lua_Button_createAnimationFromBy},
+        {"createAnimationFromTo", lua_Button_createAnimationFromTo},
+        {"destroyAnimation", lua_Button_destroyAnimation},
+        {"getAbsoluteBounds", lua_Button_getAbsoluteBounds},
+        {"getAlignment", lua_Button_getAlignment},
+        {"getAnimation", lua_Button_getAnimation},
+        {"getAnimationPropertyComponentCount", lua_Button_getAnimationPropertyComponentCount},
+        {"getAnimationPropertyValue", lua_Button_getAnimationPropertyValue},
+        {"getAutoSize", lua_Button_getAutoSize},
+        {"getBorder", lua_Button_getBorder},
+        {"getBounds", lua_Button_getBounds},
+        {"getCharacterSpacing", lua_Button_getCharacterSpacing},
+        {"getClip", lua_Button_getClip},
+        {"getClipBounds", lua_Button_getClipBounds},
+        {"getConsumeInputEvents", lua_Button_getConsumeInputEvents},
+        {"getContentBounds", lua_Button_getContentBounds},
+        {"getCursorColor", lua_Button_getCursorColor},
+        {"getCursorRegion", lua_Button_getCursorRegion},
+        {"getCursorUVs", lua_Button_getCursorUVs},
+        {"getFocusIndex", lua_Button_getFocusIndex},
+        {"getFont", lua_Button_getFont},
+        {"getFontSize", lua_Button_getFontSize},
+        {"getHeight", lua_Button_getHeight},
+        {"getId", lua_Button_getId},
+        {"getImageColor", lua_Button_getImageColor},
+        {"getImageRegion", lua_Button_getImageRegion},
+        {"getImageUVs", lua_Button_getImageUVs},
+        {"getLineSpacing", lua_Button_getLineSpacing},
+        {"getMargin", lua_Button_getMargin},
+        {"getOpacity", lua_Button_getOpacity},
+        {"getPadding", lua_Button_getPadding},
+        {"getParent", lua_Button_getParent},
+        {"getReceiveInputEvents", lua_Button_getReceiveInputEvents},
+        {"getRefCount", lua_Button_getRefCount},
+        {"getScriptEvent", lua_Button_getScriptEvent},
+        {"getSkinColor", lua_Button_getSkinColor},
+        {"getSkinRegion", lua_Button_getSkinRegion},
+        {"getState", lua_Button_getState},
+        {"getStyle", lua_Button_getStyle},
+        {"getTextAlignment", lua_Button_getTextAlignment},
+        {"getTextColor", lua_Button_getTextColor},
+        {"getTextDrawingFlags", lua_Button_getTextDrawingFlags},
+        {"getTheme", lua_Button_getTheme},
+        {"getTopLevelForm", lua_Button_getTopLevelForm},
+        {"getWidth", lua_Button_getWidth},
+        {"getX", lua_Button_getX},
+        {"getY", lua_Button_getY},
+        {"getZIndex", lua_Button_getZIndex},
+        {"hasFocus", lua_Button_hasFocus},
+        {"hasScriptListener", lua_Button_hasScriptListener},
+        {"isChild", lua_Button_isChild},
+        {"isContainer", lua_Button_isContainer},
+        {"isEnabled", lua_Button_isEnabled},
+        {"isEnabledInHierarchy", lua_Button_isEnabledInHierarchy},
+        {"isHeightPercentage", lua_Button_isHeightPercentage},
+        {"isVisible", lua_Button_isVisible},
+        {"isVisibleInHierarchy", lua_Button_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_Button_isWidthPercentage},
+        {"isXPercentage", lua_Button_isXPercentage},
+        {"isYPercentage", lua_Button_isYPercentage},
+        {"release", lua_Button_release},
+        {"removeListener", lua_Button_removeListener},
+        {"removeScript", lua_Button_removeScript},
+        {"removeScriptCallback", lua_Button_removeScriptCallback},
+        {"resetAlignment", lua_Button_resetAlignment},
+        {"setAlignment", lua_Button_setAlignment},
+        {"setAnimationPropertyValue", lua_Button_setAnimationPropertyValue},
+        {"setAutoSize", lua_Button_setAutoSize},
+        {"setBorder", lua_Button_setBorder},
+        {"setBounds", lua_Button_setBounds},
+        {"setCanFocus", lua_Button_setCanFocus},
+        {"setCharacterSpacing", lua_Button_setCharacterSpacing},
+        {"setConsumeInputEvents", lua_Button_setConsumeInputEvents},
+        {"setCursorColor", lua_Button_setCursorColor},
+        {"setCursorRegion", lua_Button_setCursorRegion},
+        {"setEnabled", lua_Button_setEnabled},
+        {"setFocus", lua_Button_setFocus},
+        {"setFocusIndex", lua_Button_setFocusIndex},
+        {"setFont", lua_Button_setFont},
+        {"setFontSize", lua_Button_setFontSize},
+        {"setHeight", lua_Button_setHeight},
+        {"setId", lua_Button_setId},
+        {"setImageColor", lua_Button_setImageColor},
+        {"setImageRegion", lua_Button_setImageRegion},
+        {"setLineSpacing", lua_Button_setLineSpacing},
+        {"setMargin", lua_Button_setMargin},
+        {"setOpacity", lua_Button_setOpacity},
+        {"setPadding", lua_Button_setPadding},
+        {"setPosition", lua_Button_setPosition},
+        {"setReceiveInputEvents", lua_Button_setReceiveInputEvents},
+        {"setSize", lua_Button_setSize},
+        {"setSkinColor", lua_Button_setSkinColor},
+        {"setSkinRegion", lua_Button_setSkinRegion},
+        {"setStyle", lua_Button_setStyle},
+        {"setTextAlignment", lua_Button_setTextAlignment},
+        {"setTextColor", lua_Button_setTextColor},
+        {"setTextDrawingFlags", lua_Button_setTextDrawingFlags},
+        {"setVisible", lua_Button_setVisible},
+        {"setWidth", lua_Button_setWidth},
+        {"setX", lua_Button_setX},
+        {"setY", lua_Button_setY},
+        {"setZIndex", lua_Button_setZIndex},
+        {"to", lua_Button_to},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"ANIMATE_OPACITY", lua_Button_static_ANIMATE_OPACITY},
+        {"ANIMATE_POSITION", lua_Button_static_ANIMATE_POSITION},
+        {"ANIMATE_POSITION_X", lua_Button_static_ANIMATE_POSITION_X},
+        {"ANIMATE_POSITION_Y", lua_Button_static_ANIMATE_POSITION_Y},
+        {"ANIMATE_SIZE", lua_Button_static_ANIMATE_SIZE},
+        {"ANIMATE_SIZE_HEIGHT", lua_Button_static_ANIMATE_SIZE_HEIGHT},
+        {"ANIMATE_SIZE_WIDTH", lua_Button_static_ANIMATE_SIZE_WIDTH},
+        {"ANIMATE_SKIN_COLOR", lua_Button_static_ANIMATE_SKIN_COLOR},
+        {"ANIMATE_TEXT_COLOR", lua_Button_static_ANIMATE_TEXT_COLOR},
+        {"create", lua_Button_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Button", lua_members, NULL, lua_Button__gc, lua_statics, scopePath);
+
+    luaGlobal_Register_Conversion_Function("Button", __convertTo);
 }
 
 }

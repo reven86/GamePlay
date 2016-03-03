@@ -15,139 +15,12 @@
 #include "ScriptController.h"
 #include "ScriptTarget.h"
 #include "Theme.h"
+#include "Control.h"
 
 namespace gameplay
 {
 
-void luaRegister_ProgressBar()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"addListener", lua_ProgressBar_addListener},
-        {"addRef", lua_ProgressBar_addRef},
-        {"addScript", lua_ProgressBar_addScript},
-        {"addScriptCallback", lua_ProgressBar_addScriptCallback},
-        {"canFocus", lua_ProgressBar_canFocus},
-        {"clearScripts", lua_ProgressBar_clearScripts},
-        {"createAnimation", lua_ProgressBar_createAnimation},
-        {"createAnimationFromBy", lua_ProgressBar_createAnimationFromBy},
-        {"createAnimationFromTo", lua_ProgressBar_createAnimationFromTo},
-        {"destroyAnimation", lua_ProgressBar_destroyAnimation},
-        {"getAbsoluteBounds", lua_ProgressBar_getAbsoluteBounds},
-        {"getAlignment", lua_ProgressBar_getAlignment},
-        {"getAnimation", lua_ProgressBar_getAnimation},
-        {"getAnimationPropertyComponentCount", lua_ProgressBar_getAnimationPropertyComponentCount},
-        {"getAnimationPropertyValue", lua_ProgressBar_getAnimationPropertyValue},
-        {"getAutoSize", lua_ProgressBar_getAutoSize},
-        {"getBorder", lua_ProgressBar_getBorder},
-        {"getBounds", lua_ProgressBar_getBounds},
-        {"getClip", lua_ProgressBar_getClip},
-        {"getClipBounds", lua_ProgressBar_getClipBounds},
-        {"getConsumeInputEvents", lua_ProgressBar_getConsumeInputEvents},
-        {"getCursorColor", lua_ProgressBar_getCursorColor},
-        {"getCursorRegion", lua_ProgressBar_getCursorRegion},
-        {"getCursorUVs", lua_ProgressBar_getCursorUVs},
-        {"getFocusIndex", lua_ProgressBar_getFocusIndex},
-        {"getFont", lua_ProgressBar_getFont},
-        {"getFontSize", lua_ProgressBar_getFontSize},
-        {"getHeight", lua_ProgressBar_getHeight},
-        {"getId", lua_ProgressBar_getId},
-        {"getImageColor", lua_ProgressBar_getImageColor},
-        {"getImageRegion", lua_ProgressBar_getImageRegion},
-        {"getImageUVs", lua_ProgressBar_getImageUVs},
-        {"getMargin", lua_ProgressBar_getMargin},
-        {"getOpacity", lua_ProgressBar_getOpacity},
-        {"getOrientation", lua_ProgressBar_getOrientation},
-        {"getPadding", lua_ProgressBar_getPadding},
-        {"getParent", lua_ProgressBar_getParent},
-        {"getRefCount", lua_ProgressBar_getRefCount},
-        {"getScriptEvent", lua_ProgressBar_getScriptEvent},
-        {"getSkinColor", lua_ProgressBar_getSkinColor},
-        {"getSkinRegion", lua_ProgressBar_getSkinRegion},
-        {"getState", lua_ProgressBar_getState},
-        {"getStyle", lua_ProgressBar_getStyle},
-        {"getTextAlignment", lua_ProgressBar_getTextAlignment},
-        {"getTextColor", lua_ProgressBar_getTextColor},
-        {"getTextDrawingFlags", lua_ProgressBar_getTextDrawingFlags},
-        {"getTheme", lua_ProgressBar_getTheme},
-        {"getTopLevelForm", lua_ProgressBar_getTopLevelForm},
-        {"getTypeName", lua_ProgressBar_getTypeName},
-        {"getValue", lua_ProgressBar_getValue},
-        {"getWidth", lua_ProgressBar_getWidth},
-        {"getX", lua_ProgressBar_getX},
-        {"getY", lua_ProgressBar_getY},
-        {"getZIndex", lua_ProgressBar_getZIndex},
-        {"hasFocus", lua_ProgressBar_hasFocus},
-        {"hasScriptListener", lua_ProgressBar_hasScriptListener},
-        {"isChild", lua_ProgressBar_isChild},
-        {"isContainer", lua_ProgressBar_isContainer},
-        {"isEnabled", lua_ProgressBar_isEnabled},
-        {"isEnabledInHierarchy", lua_ProgressBar_isEnabledInHierarchy},
-        {"isHeightPercentage", lua_ProgressBar_isHeightPercentage},
-        {"isVisible", lua_ProgressBar_isVisible},
-        {"isVisibleInHierarchy", lua_ProgressBar_isVisibleInHierarchy},
-        {"isWidthPercentage", lua_ProgressBar_isWidthPercentage},
-        {"isXPercentage", lua_ProgressBar_isXPercentage},
-        {"isYPercentage", lua_ProgressBar_isYPercentage},
-        {"release", lua_ProgressBar_release},
-        {"removeListener", lua_ProgressBar_removeListener},
-        {"removeScript", lua_ProgressBar_removeScript},
-        {"removeScriptCallback", lua_ProgressBar_removeScriptCallback},
-        {"resetAlignment", lua_ProgressBar_resetAlignment},
-        {"setAlignment", lua_ProgressBar_setAlignment},
-        {"setAnimationPropertyValue", lua_ProgressBar_setAnimationPropertyValue},
-        {"setAutoSize", lua_ProgressBar_setAutoSize},
-        {"setBorder", lua_ProgressBar_setBorder},
-        {"setBounds", lua_ProgressBar_setBounds},
-        {"setCanFocus", lua_ProgressBar_setCanFocus},
-        {"setConsumeInputEvents", lua_ProgressBar_setConsumeInputEvents},
-        {"setCursorColor", lua_ProgressBar_setCursorColor},
-        {"setCursorRegion", lua_ProgressBar_setCursorRegion},
-        {"setEnabled", lua_ProgressBar_setEnabled},
-        {"setFocus", lua_ProgressBar_setFocus},
-        {"setFocusIndex", lua_ProgressBar_setFocusIndex},
-        {"setFont", lua_ProgressBar_setFont},
-        {"setFontSize", lua_ProgressBar_setFontSize},
-        {"setHeight", lua_ProgressBar_setHeight},
-        {"setId", lua_ProgressBar_setId},
-        {"setImageColor", lua_ProgressBar_setImageColor},
-        {"setImageRegion", lua_ProgressBar_setImageRegion},
-        {"setMargin", lua_ProgressBar_setMargin},
-        {"setOpacity", lua_ProgressBar_setOpacity},
-        {"setOrientation", lua_ProgressBar_setOrientation},
-        {"setPadding", lua_ProgressBar_setPadding},
-        {"setPosition", lua_ProgressBar_setPosition},
-        {"setSize", lua_ProgressBar_setSize},
-        {"setSkinColor", lua_ProgressBar_setSkinColor},
-        {"setSkinRegion", lua_ProgressBar_setSkinRegion},
-        {"setStyle", lua_ProgressBar_setStyle},
-        {"setTextAlignment", lua_ProgressBar_setTextAlignment},
-        {"setTextColor", lua_ProgressBar_setTextColor},
-        {"setTextDrawingFlags", lua_ProgressBar_setTextDrawingFlags},
-        {"setValue", lua_ProgressBar_setValue},
-        {"setVisible", lua_ProgressBar_setVisible},
-        {"setWidth", lua_ProgressBar_setWidth},
-        {"setX", lua_ProgressBar_setX},
-        {"setY", lua_ProgressBar_setY},
-        {"setZIndex", lua_ProgressBar_setZIndex},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"ANIMATE_OPACITY", lua_ProgressBar_static_ANIMATE_OPACITY},
-        {"ANIMATE_POSITION", lua_ProgressBar_static_ANIMATE_POSITION},
-        {"ANIMATE_POSITION_X", lua_ProgressBar_static_ANIMATE_POSITION_X},
-        {"ANIMATE_POSITION_Y", lua_ProgressBar_static_ANIMATE_POSITION_Y},
-        {"ANIMATE_SIZE", lua_ProgressBar_static_ANIMATE_SIZE},
-        {"ANIMATE_SIZE_HEIGHT", lua_ProgressBar_static_ANIMATE_SIZE_HEIGHT},
-        {"ANIMATE_SIZE_WIDTH", lua_ProgressBar_static_ANIMATE_SIZE_WIDTH},
-        {"create", lua_ProgressBar_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("ProgressBar", lua_members, NULL, lua_ProgressBar__gc, lua_statics, scopePath);
-}
+extern void luaGlobal_Register_Conversion_Function(const char* className, void*(*func)(void*, const char*));
 
 static ProgressBar* getInstance(lua_State* state)
 {
@@ -156,7 +29,7 @@ static ProgressBar* getInstance(lua_State* state)
     return (ProgressBar*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_ProgressBar__gc(lua_State* state)
+static int lua_ProgressBar__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -194,7 +67,7 @@ int lua_ProgressBar__gc(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_addListener(lua_State* state)
+static int lua_ProgressBar_addListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -240,7 +113,7 @@ int lua_ProgressBar_addListener(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_addRef(lua_State* state)
+static int lua_ProgressBar_addRef(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -272,7 +145,7 @@ int lua_ProgressBar_addRef(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_addScript(lua_State* state)
+static int lua_ProgressBar_addScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -320,7 +193,7 @@ int lua_ProgressBar_addScript(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_addScriptCallback(lua_State* state)
+static int lua_ProgressBar_addScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -366,7 +239,7 @@ int lua_ProgressBar_addScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_canFocus(lua_State* state)
+static int lua_ProgressBar_canFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -401,7 +274,7 @@ int lua_ProgressBar_canFocus(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_clearScripts(lua_State* state)
+static int lua_ProgressBar_clearScripts(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -433,7 +306,7 @@ int lua_ProgressBar_clearScripts(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_createAnimation(lua_State* state)
+static int lua_ProgressBar_createAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -636,7 +509,7 @@ int lua_ProgressBar_createAnimation(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_createAnimationFromBy(lua_State* state)
+static int lua_ProgressBar_createAnimationFromBy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -704,7 +577,7 @@ int lua_ProgressBar_createAnimationFromBy(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_createAnimationFromTo(lua_State* state)
+static int lua_ProgressBar_createAnimationFromTo(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -772,7 +645,7 @@ int lua_ProgressBar_createAnimationFromTo(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_destroyAnimation(lua_State* state)
+static int lua_ProgressBar_destroyAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -822,7 +695,7 @@ int lua_ProgressBar_destroyAnimation(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAbsoluteBounds(lua_State* state)
+static int lua_ProgressBar_getAbsoluteBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -866,7 +739,7 @@ int lua_ProgressBar_getAbsoluteBounds(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAlignment(lua_State* state)
+static int lua_ProgressBar_getAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -901,7 +774,7 @@ int lua_ProgressBar_getAlignment(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAnimation(lua_State* state)
+static int lua_ProgressBar_getAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -975,7 +848,7 @@ int lua_ProgressBar_getAnimation(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAnimationPropertyComponentCount(lua_State* state)
+static int lua_ProgressBar_getAnimationPropertyComponentCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1014,7 +887,7 @@ int lua_ProgressBar_getAnimationPropertyComponentCount(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAnimationPropertyValue(lua_State* state)
+static int lua_ProgressBar_getAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1060,7 +933,7 @@ int lua_ProgressBar_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getAutoSize(lua_State* state)
+static int lua_ProgressBar_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1095,7 +968,7 @@ int lua_ProgressBar_getAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getBorder(lua_State* state)
+static int lua_ProgressBar_getBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1169,7 +1042,7 @@ int lua_ProgressBar_getBorder(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getBounds(lua_State* state)
+static int lua_ProgressBar_getBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1213,7 +1086,63 @@ int lua_ProgressBar_getBounds(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getClip(lua_State* state)
+static int lua_ProgressBar_getCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                float result = instance->getCharacterSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                float result = instance->getCharacterSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_getClip(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1257,7 +1186,7 @@ int lua_ProgressBar_getClip(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getClipBounds(lua_State* state)
+static int lua_ProgressBar_getClipBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1301,7 +1230,7 @@ int lua_ProgressBar_getClipBounds(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getConsumeInputEvents(lua_State* state)
+static int lua_ProgressBar_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1336,7 +1265,51 @@ int lua_ProgressBar_getConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getCursorColor(lua_State* state)
+static int lua_ProgressBar_getContentBounds(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getContentBounds());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Rectangle");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getContentBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_getCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1384,7 +1357,7 @@ int lua_ProgressBar_getCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getCursorRegion(lua_State* state)
+static int lua_ProgressBar_getCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1432,7 +1405,7 @@ int lua_ProgressBar_getCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getCursorUVs(lua_State* state)
+static int lua_ProgressBar_getCursorUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1480,7 +1453,7 @@ int lua_ProgressBar_getCursorUVs(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getFocusIndex(lua_State* state)
+static int lua_ProgressBar_getFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1515,7 +1488,7 @@ int lua_ProgressBar_getFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getFont(lua_State* state)
+static int lua_ProgressBar_getFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1589,7 +1562,7 @@ int lua_ProgressBar_getFont(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getFontSize(lua_State* state)
+static int lua_ProgressBar_getFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1645,7 +1618,7 @@ int lua_ProgressBar_getFontSize(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getHeight(lua_State* state)
+static int lua_ProgressBar_getHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1680,7 +1653,7 @@ int lua_ProgressBar_getHeight(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getId(lua_State* state)
+static int lua_ProgressBar_getId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1715,7 +1688,7 @@ int lua_ProgressBar_getId(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getImageColor(lua_State* state)
+static int lua_ProgressBar_getImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1767,7 +1740,7 @@ int lua_ProgressBar_getImageColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getImageRegion(lua_State* state)
+static int lua_ProgressBar_getImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1819,7 +1792,7 @@ int lua_ProgressBar_getImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getImageUVs(lua_State* state)
+static int lua_ProgressBar_getImageUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1871,7 +1844,63 @@ int lua_ProgressBar_getImageUVs(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getMargin(lua_State* state)
+static int lua_ProgressBar_getLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                float result = instance->getLineSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                float result = instance->getLineSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_getMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1915,7 +1944,7 @@ int lua_ProgressBar_getMargin(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getOpacity(lua_State* state)
+static int lua_ProgressBar_getOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1971,7 +2000,7 @@ int lua_ProgressBar_getOpacity(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getOrientation(lua_State* state)
+static int lua_ProgressBar_getOrientation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2006,7 +2035,7 @@ int lua_ProgressBar_getOrientation(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getPadding(lua_State* state)
+static int lua_ProgressBar_getPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2050,7 +2079,7 @@ int lua_ProgressBar_getPadding(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getParent(lua_State* state)
+static int lua_ProgressBar_getParent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2094,7 +2123,42 @@ int lua_ProgressBar_getParent(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getRefCount(lua_State* state)
+static int lua_ProgressBar_getReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                ProgressBar* instance = getInstance(state);
+                bool result = instance->getReceiveInputEvents();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_getReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2129,7 +2193,7 @@ int lua_ProgressBar_getRefCount(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getScriptEvent(lua_State* state)
+static int lua_ProgressBar_getScriptEvent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2177,7 +2241,7 @@ int lua_ProgressBar_getScriptEvent(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getSkinColor(lua_State* state)
+static int lua_ProgressBar_getSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2251,7 +2315,7 @@ int lua_ProgressBar_getSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getSkinRegion(lua_State* state)
+static int lua_ProgressBar_getSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2325,7 +2389,7 @@ int lua_ProgressBar_getSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getState(lua_State* state)
+static int lua_ProgressBar_getState(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2360,7 +2424,7 @@ int lua_ProgressBar_getState(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getStyle(lua_State* state)
+static int lua_ProgressBar_getStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2404,7 +2468,7 @@ int lua_ProgressBar_getStyle(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTextAlignment(lua_State* state)
+static int lua_ProgressBar_getTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2460,7 +2524,7 @@ int lua_ProgressBar_getTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTextColor(lua_State* state)
+static int lua_ProgressBar_getTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2534,7 +2598,7 @@ int lua_ProgressBar_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTextDrawingFlags(lua_State* state)
+static int lua_ProgressBar_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2590,7 +2654,7 @@ int lua_ProgressBar_getTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTheme(lua_State* state)
+static int lua_ProgressBar_getTheme(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2634,7 +2698,7 @@ int lua_ProgressBar_getTheme(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTopLevelForm(lua_State* state)
+static int lua_ProgressBar_getTopLevelForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2678,7 +2742,7 @@ int lua_ProgressBar_getTopLevelForm(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getTypeName(lua_State* state)
+static int lua_ProgressBar_getTypeName(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2713,7 +2777,7 @@ int lua_ProgressBar_getTypeName(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getValue(lua_State* state)
+static int lua_ProgressBar_getValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2748,7 +2812,7 @@ int lua_ProgressBar_getValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getWidth(lua_State* state)
+static int lua_ProgressBar_getWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2783,7 +2847,7 @@ int lua_ProgressBar_getWidth(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getX(lua_State* state)
+static int lua_ProgressBar_getX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2818,7 +2882,7 @@ int lua_ProgressBar_getX(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getY(lua_State* state)
+static int lua_ProgressBar_getY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2853,7 +2917,7 @@ int lua_ProgressBar_getY(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_getZIndex(lua_State* state)
+static int lua_ProgressBar_getZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2888,7 +2952,7 @@ int lua_ProgressBar_getZIndex(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_hasFocus(lua_State* state)
+static int lua_ProgressBar_hasFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2923,7 +2987,7 @@ int lua_ProgressBar_hasFocus(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_hasScriptListener(lua_State* state)
+static int lua_ProgressBar_hasScriptListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2986,7 +3050,7 @@ int lua_ProgressBar_hasScriptListener(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isChild(lua_State* state)
+static int lua_ProgressBar_isChild(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3031,7 +3095,7 @@ int lua_ProgressBar_isChild(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isContainer(lua_State* state)
+static int lua_ProgressBar_isContainer(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3066,7 +3130,7 @@ int lua_ProgressBar_isContainer(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isEnabled(lua_State* state)
+static int lua_ProgressBar_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3101,7 +3165,7 @@ int lua_ProgressBar_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isEnabledInHierarchy(lua_State* state)
+static int lua_ProgressBar_isEnabledInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3136,7 +3200,7 @@ int lua_ProgressBar_isEnabledInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isHeightPercentage(lua_State* state)
+static int lua_ProgressBar_isHeightPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3171,7 +3235,7 @@ int lua_ProgressBar_isHeightPercentage(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isVisible(lua_State* state)
+static int lua_ProgressBar_isVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3206,7 +3270,7 @@ int lua_ProgressBar_isVisible(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isVisibleInHierarchy(lua_State* state)
+static int lua_ProgressBar_isVisibleInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3241,7 +3305,7 @@ int lua_ProgressBar_isVisibleInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isWidthPercentage(lua_State* state)
+static int lua_ProgressBar_isWidthPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3276,7 +3340,7 @@ int lua_ProgressBar_isWidthPercentage(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isXPercentage(lua_State* state)
+static int lua_ProgressBar_isXPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3311,7 +3375,7 @@ int lua_ProgressBar_isXPercentage(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_isYPercentage(lua_State* state)
+static int lua_ProgressBar_isYPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3346,7 +3410,7 @@ int lua_ProgressBar_isYPercentage(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_release(lua_State* state)
+static int lua_ProgressBar_release(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3378,7 +3442,7 @@ int lua_ProgressBar_release(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_removeListener(lua_State* state)
+static int lua_ProgressBar_removeListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3420,7 +3484,7 @@ int lua_ProgressBar_removeListener(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_removeScript(lua_State* state)
+static int lua_ProgressBar_removeScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3459,7 +3523,7 @@ int lua_ProgressBar_removeScript(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_removeScriptCallback(lua_State* state)
+static int lua_ProgressBar_removeScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3505,7 +3569,7 @@ int lua_ProgressBar_removeScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_resetAlignment(lua_State* state)
+static int lua_ProgressBar_resetAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3537,7 +3601,7 @@ int lua_ProgressBar_resetAlignment(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setAlignment(lua_State* state)
+static int lua_ProgressBar_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3573,7 +3637,7 @@ int lua_ProgressBar_setAlignment(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setAnimationPropertyValue(lua_State* state)
+static int lua_ProgressBar_setAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3651,7 +3715,7 @@ int lua_ProgressBar_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setAutoSize(lua_State* state)
+static int lua_ProgressBar_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3687,7 +3751,7 @@ int lua_ProgressBar_setAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setBorder(lua_State* state)
+static int lua_ProgressBar_setBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3769,7 +3833,7 @@ int lua_ProgressBar_setBorder(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setBounds(lua_State* state)
+static int lua_ProgressBar_setBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3811,7 +3875,7 @@ int lua_ProgressBar_setBounds(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setCanFocus(lua_State* state)
+static int lua_ProgressBar_setCanFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3847,7 +3911,65 @@ int lua_ProgressBar_setCanFocus(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setConsumeInputEvents(lua_State* state)
+static int lua_ProgressBar_setCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setCharacterSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setCharacterSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_setConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3883,7 +4005,7 @@ int lua_ProgressBar_setConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setCursorColor(lua_State* state)
+static int lua_ProgressBar_setCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3929,7 +4051,7 @@ int lua_ProgressBar_setCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setCursorRegion(lua_State* state)
+static int lua_ProgressBar_setCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3975,7 +4097,7 @@ int lua_ProgressBar_setCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setEnabled(lua_State* state)
+static int lua_ProgressBar_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4011,7 +4133,7 @@ int lua_ProgressBar_setEnabled(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setFocus(lua_State* state)
+static int lua_ProgressBar_setFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4046,7 +4168,7 @@ int lua_ProgressBar_setFocus(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setFocusIndex(lua_State* state)
+static int lua_ProgressBar_setFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4082,7 +4204,7 @@ int lua_ProgressBar_setFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setFont(lua_State* state)
+static int lua_ProgressBar_setFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4152,7 +4274,7 @@ int lua_ProgressBar_setFont(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setFontSize(lua_State* state)
+static int lua_ProgressBar_setFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4210,7 +4332,7 @@ int lua_ProgressBar_setFontSize(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setHeight(lua_State* state)
+static int lua_ProgressBar_setHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4268,7 +4390,7 @@ int lua_ProgressBar_setHeight(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setId(lua_State* state)
+static int lua_ProgressBar_setId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4304,7 +4426,7 @@ int lua_ProgressBar_setId(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setImageColor(lua_State* state)
+static int lua_ProgressBar_setImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4382,7 +4504,7 @@ int lua_ProgressBar_setImageColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setImageRegion(lua_State* state)
+static int lua_ProgressBar_setImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4460,7 +4582,65 @@ int lua_ProgressBar_setImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setMargin(lua_State* state)
+static int lua_ProgressBar_setLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setLineSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setLineSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_setMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4508,7 +4688,7 @@ int lua_ProgressBar_setMargin(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setOpacity(lua_State* state)
+static int lua_ProgressBar_setOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4566,7 +4746,7 @@ int lua_ProgressBar_setOpacity(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setOrientation(lua_State* state)
+static int lua_ProgressBar_setOrientation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4602,7 +4782,7 @@ int lua_ProgressBar_setOrientation(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setPadding(lua_State* state)
+static int lua_ProgressBar_setPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4650,7 +4830,7 @@ int lua_ProgressBar_setPadding(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setPosition(lua_State* state)
+static int lua_ProgressBar_setPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4690,7 +4870,43 @@ int lua_ProgressBar_setPosition(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setSize(lua_State* state)
+static int lua_ProgressBar_setReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                ProgressBar* instance = getInstance(state);
+                instance->setReceiveInputEvents(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_ProgressBar_setReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_ProgressBar_setSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4730,7 +4946,7 @@ int lua_ProgressBar_setSize(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setSkinColor(lua_State* state)
+static int lua_ProgressBar_setSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4800,7 +5016,7 @@ int lua_ProgressBar_setSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setSkinRegion(lua_State* state)
+static int lua_ProgressBar_setSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4870,7 +5086,7 @@ int lua_ProgressBar_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setStyle(lua_State* state)
+static int lua_ProgressBar_setStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4912,7 +5128,7 @@ int lua_ProgressBar_setStyle(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setTextAlignment(lua_State* state)
+static int lua_ProgressBar_setTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4970,7 +5186,7 @@ int lua_ProgressBar_setTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setTextColor(lua_State* state)
+static int lua_ProgressBar_setTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5040,7 +5256,7 @@ int lua_ProgressBar_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setTextDrawingFlags(lua_State* state)
+static int lua_ProgressBar_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5098,7 +5314,7 @@ int lua_ProgressBar_setTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setValue(lua_State* state)
+static int lua_ProgressBar_setValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5134,7 +5350,7 @@ int lua_ProgressBar_setValue(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setVisible(lua_State* state)
+static int lua_ProgressBar_setVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5170,7 +5386,7 @@ int lua_ProgressBar_setVisible(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setWidth(lua_State* state)
+static int lua_ProgressBar_setWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5228,7 +5444,7 @@ int lua_ProgressBar_setWidth(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setX(lua_State* state)
+static int lua_ProgressBar_setX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5286,7 +5502,7 @@ int lua_ProgressBar_setX(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setY(lua_State* state)
+static int lua_ProgressBar_setY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5344,7 +5560,7 @@ int lua_ProgressBar_setY(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_setZIndex(lua_State* state)
+static int lua_ProgressBar_setZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5380,7 +5596,7 @@ int lua_ProgressBar_setZIndex(lua_State* state)
     return 0;
 }
 
-int lua_ProgressBar_static_ANIMATE_OPACITY(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5397,7 +5613,7 @@ int lua_ProgressBar_static_ANIMATE_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_POSITION(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_POSITION(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5414,7 +5630,7 @@ int lua_ProgressBar_static_ANIMATE_POSITION(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_POSITION_X(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_POSITION_X(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5431,7 +5647,7 @@ int lua_ProgressBar_static_ANIMATE_POSITION_X(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_POSITION_Y(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_POSITION_Y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5448,7 +5664,7 @@ int lua_ProgressBar_static_ANIMATE_POSITION_Y(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_SIZE(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_SIZE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5465,7 +5681,7 @@ int lua_ProgressBar_static_ANIMATE_SIZE(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5482,7 +5698,7 @@ int lua_ProgressBar_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_ANIMATE_SIZE_WIDTH(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_SIZE_WIDTH(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5499,7 +5715,41 @@ int lua_ProgressBar_static_ANIMATE_SIZE_WIDTH(lua_State* state)
     return 1;
 }
 
-int lua_ProgressBar_static_create(lua_State* state)
+static int lua_ProgressBar_static_ANIMATE_SKIN_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = ProgressBar::ANIMATE_SKIN_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_ProgressBar_static_ANIMATE_TEXT_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = ProgressBar::ANIMATE_TEXT_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_ProgressBar_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5553,6 +5803,192 @@ int lua_ProgressBar_static_create(lua_State* state)
         }
     }
     return 0;
+}
+
+// Provides support for conversion to all known relative types of ProgressBar
+static void* __convertTo(void* ptr, const char* typeName)
+{
+    ProgressBar* ptrObject = reinterpret_cast<ProgressBar*>(ptr);
+
+    if (strcmp(typeName, "Control") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Control*>(ptrObject));
+    }
+
+    // No conversion available for 'typeName'
+    return NULL;
+}
+
+static int lua_ProgressBar_to(lua_State* state)
+{
+    // There should be only a single parameter (this instance)
+    if (lua_gettop(state) != 2 || lua_type(state, 1) != LUA_TUSERDATA || lua_type(state, 2) != LUA_TSTRING)
+    {
+        lua_pushstring(state, "lua_ProgressBar_to - Invalid number of parameters (expected 2).");
+        lua_error(state);
+        return 0;
+    }
+
+    ProgressBar* instance = getInstance(state);
+    const char* typeName = gameplay::ScriptUtil::getString(2, false);
+    void* result = __convertTo((void*)instance, typeName);
+
+    if (result)
+    {
+        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+        object->instance = (void*)result;
+        object->owns = false;
+        luaL_getmetatable(state, typeName);
+        lua_setmetatable(state, -2);
+    }
+    else
+    {
+        lua_pushnil(state);
+    }
+
+    return 1;
+}
+
+void luaRegister_ProgressBar()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"addListener", lua_ProgressBar_addListener},
+        {"addRef", lua_ProgressBar_addRef},
+        {"addScript", lua_ProgressBar_addScript},
+        {"addScriptCallback", lua_ProgressBar_addScriptCallback},
+        {"canFocus", lua_ProgressBar_canFocus},
+        {"clearScripts", lua_ProgressBar_clearScripts},
+        {"createAnimation", lua_ProgressBar_createAnimation},
+        {"createAnimationFromBy", lua_ProgressBar_createAnimationFromBy},
+        {"createAnimationFromTo", lua_ProgressBar_createAnimationFromTo},
+        {"destroyAnimation", lua_ProgressBar_destroyAnimation},
+        {"getAbsoluteBounds", lua_ProgressBar_getAbsoluteBounds},
+        {"getAlignment", lua_ProgressBar_getAlignment},
+        {"getAnimation", lua_ProgressBar_getAnimation},
+        {"getAnimationPropertyComponentCount", lua_ProgressBar_getAnimationPropertyComponentCount},
+        {"getAnimationPropertyValue", lua_ProgressBar_getAnimationPropertyValue},
+        {"getAutoSize", lua_ProgressBar_getAutoSize},
+        {"getBorder", lua_ProgressBar_getBorder},
+        {"getBounds", lua_ProgressBar_getBounds},
+        {"getCharacterSpacing", lua_ProgressBar_getCharacterSpacing},
+        {"getClip", lua_ProgressBar_getClip},
+        {"getClipBounds", lua_ProgressBar_getClipBounds},
+        {"getConsumeInputEvents", lua_ProgressBar_getConsumeInputEvents},
+        {"getContentBounds", lua_ProgressBar_getContentBounds},
+        {"getCursorColor", lua_ProgressBar_getCursorColor},
+        {"getCursorRegion", lua_ProgressBar_getCursorRegion},
+        {"getCursorUVs", lua_ProgressBar_getCursorUVs},
+        {"getFocusIndex", lua_ProgressBar_getFocusIndex},
+        {"getFont", lua_ProgressBar_getFont},
+        {"getFontSize", lua_ProgressBar_getFontSize},
+        {"getHeight", lua_ProgressBar_getHeight},
+        {"getId", lua_ProgressBar_getId},
+        {"getImageColor", lua_ProgressBar_getImageColor},
+        {"getImageRegion", lua_ProgressBar_getImageRegion},
+        {"getImageUVs", lua_ProgressBar_getImageUVs},
+        {"getLineSpacing", lua_ProgressBar_getLineSpacing},
+        {"getMargin", lua_ProgressBar_getMargin},
+        {"getOpacity", lua_ProgressBar_getOpacity},
+        {"getOrientation", lua_ProgressBar_getOrientation},
+        {"getPadding", lua_ProgressBar_getPadding},
+        {"getParent", lua_ProgressBar_getParent},
+        {"getReceiveInputEvents", lua_ProgressBar_getReceiveInputEvents},
+        {"getRefCount", lua_ProgressBar_getRefCount},
+        {"getScriptEvent", lua_ProgressBar_getScriptEvent},
+        {"getSkinColor", lua_ProgressBar_getSkinColor},
+        {"getSkinRegion", lua_ProgressBar_getSkinRegion},
+        {"getState", lua_ProgressBar_getState},
+        {"getStyle", lua_ProgressBar_getStyle},
+        {"getTextAlignment", lua_ProgressBar_getTextAlignment},
+        {"getTextColor", lua_ProgressBar_getTextColor},
+        {"getTextDrawingFlags", lua_ProgressBar_getTextDrawingFlags},
+        {"getTheme", lua_ProgressBar_getTheme},
+        {"getTopLevelForm", lua_ProgressBar_getTopLevelForm},
+        {"getTypeName", lua_ProgressBar_getTypeName},
+        {"getValue", lua_ProgressBar_getValue},
+        {"getWidth", lua_ProgressBar_getWidth},
+        {"getX", lua_ProgressBar_getX},
+        {"getY", lua_ProgressBar_getY},
+        {"getZIndex", lua_ProgressBar_getZIndex},
+        {"hasFocus", lua_ProgressBar_hasFocus},
+        {"hasScriptListener", lua_ProgressBar_hasScriptListener},
+        {"isChild", lua_ProgressBar_isChild},
+        {"isContainer", lua_ProgressBar_isContainer},
+        {"isEnabled", lua_ProgressBar_isEnabled},
+        {"isEnabledInHierarchy", lua_ProgressBar_isEnabledInHierarchy},
+        {"isHeightPercentage", lua_ProgressBar_isHeightPercentage},
+        {"isVisible", lua_ProgressBar_isVisible},
+        {"isVisibleInHierarchy", lua_ProgressBar_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_ProgressBar_isWidthPercentage},
+        {"isXPercentage", lua_ProgressBar_isXPercentage},
+        {"isYPercentage", lua_ProgressBar_isYPercentage},
+        {"release", lua_ProgressBar_release},
+        {"removeListener", lua_ProgressBar_removeListener},
+        {"removeScript", lua_ProgressBar_removeScript},
+        {"removeScriptCallback", lua_ProgressBar_removeScriptCallback},
+        {"resetAlignment", lua_ProgressBar_resetAlignment},
+        {"setAlignment", lua_ProgressBar_setAlignment},
+        {"setAnimationPropertyValue", lua_ProgressBar_setAnimationPropertyValue},
+        {"setAutoSize", lua_ProgressBar_setAutoSize},
+        {"setBorder", lua_ProgressBar_setBorder},
+        {"setBounds", lua_ProgressBar_setBounds},
+        {"setCanFocus", lua_ProgressBar_setCanFocus},
+        {"setCharacterSpacing", lua_ProgressBar_setCharacterSpacing},
+        {"setConsumeInputEvents", lua_ProgressBar_setConsumeInputEvents},
+        {"setCursorColor", lua_ProgressBar_setCursorColor},
+        {"setCursorRegion", lua_ProgressBar_setCursorRegion},
+        {"setEnabled", lua_ProgressBar_setEnabled},
+        {"setFocus", lua_ProgressBar_setFocus},
+        {"setFocusIndex", lua_ProgressBar_setFocusIndex},
+        {"setFont", lua_ProgressBar_setFont},
+        {"setFontSize", lua_ProgressBar_setFontSize},
+        {"setHeight", lua_ProgressBar_setHeight},
+        {"setId", lua_ProgressBar_setId},
+        {"setImageColor", lua_ProgressBar_setImageColor},
+        {"setImageRegion", lua_ProgressBar_setImageRegion},
+        {"setLineSpacing", lua_ProgressBar_setLineSpacing},
+        {"setMargin", lua_ProgressBar_setMargin},
+        {"setOpacity", lua_ProgressBar_setOpacity},
+        {"setOrientation", lua_ProgressBar_setOrientation},
+        {"setPadding", lua_ProgressBar_setPadding},
+        {"setPosition", lua_ProgressBar_setPosition},
+        {"setReceiveInputEvents", lua_ProgressBar_setReceiveInputEvents},
+        {"setSize", lua_ProgressBar_setSize},
+        {"setSkinColor", lua_ProgressBar_setSkinColor},
+        {"setSkinRegion", lua_ProgressBar_setSkinRegion},
+        {"setStyle", lua_ProgressBar_setStyle},
+        {"setTextAlignment", lua_ProgressBar_setTextAlignment},
+        {"setTextColor", lua_ProgressBar_setTextColor},
+        {"setTextDrawingFlags", lua_ProgressBar_setTextDrawingFlags},
+        {"setValue", lua_ProgressBar_setValue},
+        {"setVisible", lua_ProgressBar_setVisible},
+        {"setWidth", lua_ProgressBar_setWidth},
+        {"setX", lua_ProgressBar_setX},
+        {"setY", lua_ProgressBar_setY},
+        {"setZIndex", lua_ProgressBar_setZIndex},
+        {"to", lua_ProgressBar_to},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"ANIMATE_OPACITY", lua_ProgressBar_static_ANIMATE_OPACITY},
+        {"ANIMATE_POSITION", lua_ProgressBar_static_ANIMATE_POSITION},
+        {"ANIMATE_POSITION_X", lua_ProgressBar_static_ANIMATE_POSITION_X},
+        {"ANIMATE_POSITION_Y", lua_ProgressBar_static_ANIMATE_POSITION_Y},
+        {"ANIMATE_SIZE", lua_ProgressBar_static_ANIMATE_SIZE},
+        {"ANIMATE_SIZE_HEIGHT", lua_ProgressBar_static_ANIMATE_SIZE_HEIGHT},
+        {"ANIMATE_SIZE_WIDTH", lua_ProgressBar_static_ANIMATE_SIZE_WIDTH},
+        {"ANIMATE_SKIN_COLOR", lua_ProgressBar_static_ANIMATE_SKIN_COLOR},
+        {"ANIMATE_TEXT_COLOR", lua_ProgressBar_static_ANIMATE_TEXT_COLOR},
+        {"create", lua_ProgressBar_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("ProgressBar", lua_members, NULL, lua_ProgressBar__gc, lua_statics, scopePath);
+
+    luaGlobal_Register_Conversion_Function("ProgressBar", __convertTo);
 }
 
 }

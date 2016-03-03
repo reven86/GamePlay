@@ -10,23 +10,6 @@
 namespace gameplay
 {
 
-void luaRegister_Logger()
-{
-    const luaL_Reg* lua_members = NULL;
-    const luaL_Reg lua_statics[] = 
-    {
-        {"isEnabled", lua_Logger_static_isEnabled},
-        {"log", lua_Logger_static_log},
-        {"reportError", lua_Logger_static_reportError},
-        {"set", lua_Logger_static_set},
-        {"setEnabled", lua_Logger_static_setEnabled},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Logger", lua_members, NULL, NULL, lua_statics, scopePath);
-}
-
 static Logger* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Logger");
@@ -34,7 +17,7 @@ static Logger* getInstance(lua_State* state)
     return (Logger*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Logger_static_isEnabled(lua_State* state)
+static int lua_Logger_static_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -71,7 +54,7 @@ int lua_Logger_static_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Logger_static_log(lua_State* state)
+static int lua_Logger_static_log(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -109,7 +92,7 @@ int lua_Logger_static_log(lua_State* state)
     return 0;
 }
 
-int lua_Logger_static_reportError(lua_State* state)
+static int lua_Logger_static_reportError(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -155,7 +138,7 @@ int lua_Logger_static_reportError(lua_State* state)
     return 0;
 }
 
-int lua_Logger_static_set(lua_State* state)
+static int lua_Logger_static_set(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -193,7 +176,7 @@ int lua_Logger_static_set(lua_State* state)
     return 0;
 }
 
-int lua_Logger_static_setEnabled(lua_State* state)
+static int lua_Logger_static_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -229,6 +212,24 @@ int lua_Logger_static_setEnabled(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_Logger()
+{
+    const luaL_Reg* lua_members = NULL;
+    const luaL_Reg lua_statics[] = 
+    {
+        {"isEnabled", lua_Logger_static_isEnabled},
+        {"log", lua_Logger_static_log},
+        {"reportError", lua_Logger_static_reportError},
+        {"set", lua_Logger_static_set},
+        {"setEnabled", lua_Logger_static_setEnabled},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Logger", lua_members, NULL, NULL, lua_statics, scopePath);
+
 }
 
 }

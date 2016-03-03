@@ -5,10 +5,6 @@
 namespace gameplay
 {
 
-// Lua bindings for Package.
-int lua_Package__gc(lua_State* state);
-int lua_Package_fileExists(lua_State* state);
-
 void luaRegister_Package();
 
 }

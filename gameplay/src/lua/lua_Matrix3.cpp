@@ -9,54 +9,6 @@
 namespace gameplay
 {
 
-void luaRegister_Matrix3()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"add", lua_Matrix3_add},
-        {"decompose", lua_Matrix3_decompose},
-        {"determinant", lua_Matrix3_determinant},
-        {"getDownVector", lua_Matrix3_getDownVector},
-        {"getLeftVector", lua_Matrix3_getLeftVector},
-        {"getRightVector", lua_Matrix3_getRightVector},
-        {"getRotation", lua_Matrix3_getRotation},
-        {"getScale", lua_Matrix3_getScale},
-        {"getTranslation", lua_Matrix3_getTranslation},
-        {"getUpVector", lua_Matrix3_getUpVector},
-        {"invert", lua_Matrix3_invert},
-        {"isIdentity", lua_Matrix3_isIdentity},
-        {"m", lua_Matrix3_m},
-        {"multiply", lua_Matrix3_multiply},
-        {"negate", lua_Matrix3_negate},
-        {"rotate", lua_Matrix3_rotate},
-        {"scale", lua_Matrix3_scale},
-        {"set", lua_Matrix3_set},
-        {"setIdentity", lua_Matrix3_setIdentity},
-        {"setZero", lua_Matrix3_setZero},
-        {"subtract", lua_Matrix3_subtract},
-        {"transformPoint", lua_Matrix3_transformPoint},
-        {"transformVector", lua_Matrix3_transformVector},
-        {"translate", lua_Matrix3_translate},
-        {"transpose", lua_Matrix3_transpose},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"add", lua_Matrix3_static_add},
-        {"createRotation", lua_Matrix3_static_createRotation},
-        {"createScale", lua_Matrix3_static_createScale},
-        {"createTranslation", lua_Matrix3_static_createTranslation},
-        {"identity", lua_Matrix3_static_identity},
-        {"multiply", lua_Matrix3_static_multiply},
-        {"subtract", lua_Matrix3_static_subtract},
-        {"zero", lua_Matrix3_static_zero},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Matrix3", lua_members, lua_Matrix3__init, lua_Matrix3__gc, lua_statics, scopePath);
-}
-
 static Matrix3* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Matrix3");
@@ -64,7 +16,7 @@ static Matrix3* getInstance(lua_State* state)
     return (Matrix3*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Matrix3__gc(lua_State* state)
+static int lua_Matrix3__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -102,7 +54,7 @@ int lua_Matrix3__gc(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3__init(lua_State* state)
+static int lua_Matrix3__init(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -261,7 +213,7 @@ int lua_Matrix3__init(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_add(lua_State* state)
+static int lua_Matrix3_add(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -346,7 +298,7 @@ int lua_Matrix3_add(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_decompose(lua_State* state)
+static int lua_Matrix3_decompose(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -405,7 +357,7 @@ int lua_Matrix3_decompose(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_determinant(lua_State* state)
+static int lua_Matrix3_determinant(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -440,7 +392,7 @@ int lua_Matrix3_determinant(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getDownVector(lua_State* state)
+static int lua_Matrix3_getDownVector(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -482,7 +434,7 @@ int lua_Matrix3_getDownVector(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getLeftVector(lua_State* state)
+static int lua_Matrix3_getLeftVector(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -524,7 +476,7 @@ int lua_Matrix3_getLeftVector(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getRightVector(lua_State* state)
+static int lua_Matrix3_getRightVector(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -566,7 +518,7 @@ int lua_Matrix3_getRightVector(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getRotation(lua_State* state)
+static int lua_Matrix3_getRotation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -605,7 +557,7 @@ int lua_Matrix3_getRotation(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getScale(lua_State* state)
+static int lua_Matrix3_getScale(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -647,7 +599,7 @@ int lua_Matrix3_getScale(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getTranslation(lua_State* state)
+static int lua_Matrix3_getTranslation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -689,7 +641,7 @@ int lua_Matrix3_getTranslation(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_getUpVector(lua_State* state)
+static int lua_Matrix3_getUpVector(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -731,7 +683,7 @@ int lua_Matrix3_getUpVector(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_invert(lua_State* state)
+static int lua_Matrix3_invert(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -796,7 +748,7 @@ int lua_Matrix3_invert(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_isIdentity(lua_State* state)
+static int lua_Matrix3_isIdentity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -831,7 +783,7 @@ int lua_Matrix3_isIdentity(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_m(lua_State* state)
+static int lua_Matrix3_m(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -859,7 +811,7 @@ int lua_Matrix3_m(lua_State* state)
     }
 }
 
-int lua_Matrix3_multiply(lua_State* state)
+static int lua_Matrix3_multiply(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -944,7 +896,7 @@ int lua_Matrix3_multiply(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_negate(lua_State* state)
+static int lua_Matrix3_negate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1003,7 +955,7 @@ int lua_Matrix3_negate(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_rotate(lua_State* state)
+static int lua_Matrix3_rotate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1070,7 +1022,7 @@ int lua_Matrix3_rotate(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_scale(lua_State* state)
+static int lua_Matrix3_scale(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1231,7 +1183,7 @@ int lua_Matrix3_scale(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_set(lua_State* state)
+static int lua_Matrix3_set(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1341,7 +1293,7 @@ int lua_Matrix3_set(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_setIdentity(lua_State* state)
+static int lua_Matrix3_setIdentity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1373,7 +1325,7 @@ int lua_Matrix3_setIdentity(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_setZero(lua_State* state)
+static int lua_Matrix3_setZero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1405,7 +1357,7 @@ int lua_Matrix3_setZero(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_add(lua_State* state)
+static int lua_Matrix3_static_add(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1465,7 +1417,7 @@ int lua_Matrix3_static_add(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_createRotation(lua_State* state)
+static int lua_Matrix3_static_createRotation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1509,7 +1461,7 @@ int lua_Matrix3_static_createRotation(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_createScale(lua_State* state)
+static int lua_Matrix3_static_createScale(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1586,7 +1538,7 @@ int lua_Matrix3_static_createScale(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_createTranslation(lua_State* state)
+static int lua_Matrix3_static_createTranslation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1663,7 +1615,7 @@ int lua_Matrix3_static_createTranslation(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_identity(lua_State* state)
+static int lua_Matrix3_static_identity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1700,7 +1652,7 @@ int lua_Matrix3_static_identity(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_multiply(lua_State* state)
+static int lua_Matrix3_static_multiply(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1781,7 +1733,7 @@ int lua_Matrix3_static_multiply(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_subtract(lua_State* state)
+static int lua_Matrix3_static_subtract(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1841,7 +1793,7 @@ int lua_Matrix3_static_subtract(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_static_zero(lua_State* state)
+static int lua_Matrix3_static_zero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1878,7 +1830,7 @@ int lua_Matrix3_static_zero(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_subtract(lua_State* state)
+static int lua_Matrix3_subtract(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1920,7 +1872,7 @@ int lua_Matrix3_subtract(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_transformPoint(lua_State* state)
+static int lua_Matrix3_transformPoint(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1993,7 +1945,7 @@ int lua_Matrix3_transformPoint(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_transformVector(lua_State* state)
+static int lua_Matrix3_transformVector(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2145,7 +2097,7 @@ int lua_Matrix3_transformVector(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_translate(lua_State* state)
+static int lua_Matrix3_translate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2269,7 +2221,7 @@ int lua_Matrix3_translate(lua_State* state)
     return 0;
 }
 
-int lua_Matrix3_transpose(lua_State* state)
+static int lua_Matrix3_transpose(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2326,6 +2278,55 @@ int lua_Matrix3_transpose(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_Matrix3()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"add", lua_Matrix3_add},
+        {"decompose", lua_Matrix3_decompose},
+        {"determinant", lua_Matrix3_determinant},
+        {"getDownVector", lua_Matrix3_getDownVector},
+        {"getLeftVector", lua_Matrix3_getLeftVector},
+        {"getRightVector", lua_Matrix3_getRightVector},
+        {"getRotation", lua_Matrix3_getRotation},
+        {"getScale", lua_Matrix3_getScale},
+        {"getTranslation", lua_Matrix3_getTranslation},
+        {"getUpVector", lua_Matrix3_getUpVector},
+        {"invert", lua_Matrix3_invert},
+        {"isIdentity", lua_Matrix3_isIdentity},
+        {"m", lua_Matrix3_m},
+        {"multiply", lua_Matrix3_multiply},
+        {"negate", lua_Matrix3_negate},
+        {"rotate", lua_Matrix3_rotate},
+        {"scale", lua_Matrix3_scale},
+        {"set", lua_Matrix3_set},
+        {"setIdentity", lua_Matrix3_setIdentity},
+        {"setZero", lua_Matrix3_setZero},
+        {"subtract", lua_Matrix3_subtract},
+        {"transformPoint", lua_Matrix3_transformPoint},
+        {"transformVector", lua_Matrix3_transformVector},
+        {"translate", lua_Matrix3_translate},
+        {"transpose", lua_Matrix3_transpose},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"add", lua_Matrix3_static_add},
+        {"createRotation", lua_Matrix3_static_createRotation},
+        {"createScale", lua_Matrix3_static_createScale},
+        {"createTranslation", lua_Matrix3_static_createTranslation},
+        {"identity", lua_Matrix3_static_identity},
+        {"multiply", lua_Matrix3_static_multiply},
+        {"subtract", lua_Matrix3_static_subtract},
+        {"zero", lua_Matrix3_static_zero},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Matrix3", lua_members, lua_Matrix3__init, lua_Matrix3__gc, lua_statics, scopePath);
+
 }
 
 }

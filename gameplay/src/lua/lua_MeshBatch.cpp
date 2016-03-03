@@ -5,33 +5,10 @@
 #include "Base.h"
 #include "Material.h"
 #include "MeshBatch.h"
+#include "Model.h"
 
 namespace gameplay
 {
-
-void luaRegister_MeshBatch()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"add", lua_MeshBatch_add},
-        {"draw", lua_MeshBatch_draw},
-        {"finish", lua_MeshBatch_finish},
-        {"getCapacity", lua_MeshBatch_getCapacity},
-        {"getMaterial", lua_MeshBatch_getMaterial},
-        {"isStarted", lua_MeshBatch_isStarted},
-        {"setCapacity", lua_MeshBatch_setCapacity},
-        {"start", lua_MeshBatch_start},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"create", lua_MeshBatch_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("MeshBatch", lua_members, NULL, lua_MeshBatch__gc, lua_statics, scopePath);
-}
 
 static MeshBatch* getInstance(lua_State* state)
 {
@@ -40,7 +17,7 @@ static MeshBatch* getInstance(lua_State* state)
     return (MeshBatch*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_MeshBatch__gc(lua_State* state)
+static int lua_MeshBatch__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -78,7 +55,7 @@ int lua_MeshBatch__gc(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_add(lua_State* state)
+static int lua_MeshBatch_add(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -174,7 +151,7 @@ int lua_MeshBatch_add(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_draw(lua_State* state)
+static int lua_MeshBatch_draw(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -206,7 +183,7 @@ int lua_MeshBatch_draw(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_finish(lua_State* state)
+static int lua_MeshBatch_finish(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -238,7 +215,7 @@ int lua_MeshBatch_finish(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_getCapacity(lua_State* state)
+static int lua_MeshBatch_getCapacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -273,7 +250,7 @@ int lua_MeshBatch_getCapacity(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_getMaterial(lua_State* state)
+static int lua_MeshBatch_getMaterial(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -317,7 +294,7 @@ int lua_MeshBatch_getMaterial(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_isStarted(lua_State* state)
+static int lua_MeshBatch_isStarted(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -352,7 +329,7 @@ int lua_MeshBatch_isStarted(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_setCapacity(lua_State* state)
+static int lua_MeshBatch_setCapacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -388,7 +365,7 @@ int lua_MeshBatch_setCapacity(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_start(lua_State* state)
+static int lua_MeshBatch_start(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -420,7 +397,7 @@ int lua_MeshBatch_start(lua_State* state)
     return 0;
 }
 
-int lua_MeshBatch_static_create(lua_State* state)
+static int lua_MeshBatch_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -727,6 +704,31 @@ int lua_MeshBatch_static_create(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_MeshBatch()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"add", lua_MeshBatch_add},
+        {"draw", lua_MeshBatch_draw},
+        {"finish", lua_MeshBatch_finish},
+        {"getCapacity", lua_MeshBatch_getCapacity},
+        {"getMaterial", lua_MeshBatch_getMaterial},
+        {"isStarted", lua_MeshBatch_isStarted},
+        {"setCapacity", lua_MeshBatch_setCapacity},
+        {"start", lua_MeshBatch_start},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"create", lua_MeshBatch_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("MeshBatch", lua_members, NULL, lua_MeshBatch__gc, lua_statics, scopePath);
+
 }
 
 }

@@ -26,12 +26,13 @@ using gameplay::print;
 #define DEFAULT_DEPTH_BUFFER_SIZE 24
 #define DEFAULT_STENCIL_BUFFER_SIZE 8
 
+HWND __hwnd = 0;    // make sure we can access HWND from game's code
+
 static double __timeTicksPerMillis;
 static double __timeStart;
 static double __timeAbsolute;
 static bool __vsync = WINDOW_VSYNC;
 static HINSTANCE __hinstance = 0;
-static HWND __hwnd = 0;
 static HDC __hdc = 0;
 static HGLRC __hrc = 0;
 static bool __mouseCaptured = false;
@@ -492,6 +493,14 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 return 0;
         }
         break;
+
+    case WM_GETMINMAXINFO:
+        // allow the window to be resized greater than the screen
+        DefWindowProc(__hwnd, msg, wParam, lParam);
+        MINMAXINFO* pmmi = (MINMAXINFO*)lParam;
+        pmmi->ptMaxTrackSize.x = 3000;
+        pmmi->ptMaxTrackSize.y = 3000;
+        return 0;
     }
 
     return DefWindowProc(hwnd, msg, wParam, lParam); 

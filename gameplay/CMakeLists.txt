@@ -1,3 +1,11 @@
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(GAMEPLAY_PLATFORM_SRC
+            src/PlatformMacOSX.mm
+            src/gameplay-main-macosx.mm
+            )
+else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(GAMEPLAY_PLATFORM_SRC )
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 set(GAMEPLAY_SRC
     src/AbsoluteLayout.cpp
@@ -605,8 +613,13 @@ add_definitions(${GTK2_CFLAGS_OTHER})
 add_definitions(-D__linux__)
 ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-add_definitions(-std=c++11)
-add_definitions(-lstdc++)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # using Clang
+    add_definitions(-std=c++11 -stdlib=libc++)
+else()
+    add_definitions(-std=c++11)
+    add_definitions(-lstdc++)
+endif()
 
 if(NOT EMSCRIPTEN)
 list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})

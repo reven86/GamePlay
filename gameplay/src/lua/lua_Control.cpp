@@ -5,143 +5,38 @@
 #include "Animation.h"
 #include "AnimationTarget.h"
 #include "Base.h"
+#include "Button.h"
+#include "CheckBox.h"
+#include "Container.h"
 #include "Control.h"
 #include "Form.h"
 #include "Game.h"
+#include "ImageControl.h"
+#include "JoystickControl.h"
+#include "Label.h"
 #include "MaterialParameter.h"
 #include "Node.h"
+#include "ProgressBar.h"
+#include "RadioButton.h"
 #include "Ref.h"
 #include "ScriptController.h"
 #include "ScriptTarget.h"
+#include "Slider.h"
+#include "TextBox.h"
 #include "Theme.h"
+#include "AnimationTarget.h"
+#include "Container.h"
+#include "ImageControl.h"
+#include "JoystickControl.h"
+#include "Label.h"
+#include "ProgressBar.h"
+#include "Ref.h"
+#include "ScriptTarget.h"
 
 namespace gameplay
 {
 
-void luaRegister_Control()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"addListener", lua_Control_addListener},
-        {"addRef", lua_Control_addRef},
-        {"addScript", lua_Control_addScript},
-        {"addScriptCallback", lua_Control_addScriptCallback},
-        {"canFocus", lua_Control_canFocus},
-        {"clearScripts", lua_Control_clearScripts},
-        {"createAnimation", lua_Control_createAnimation},
-        {"createAnimationFromBy", lua_Control_createAnimationFromBy},
-        {"createAnimationFromTo", lua_Control_createAnimationFromTo},
-        {"destroyAnimation", lua_Control_destroyAnimation},
-        {"getAbsoluteBounds", lua_Control_getAbsoluteBounds},
-        {"getAlignment", lua_Control_getAlignment},
-        {"getAnimation", lua_Control_getAnimation},
-        {"getAnimationPropertyComponentCount", lua_Control_getAnimationPropertyComponentCount},
-        {"getAnimationPropertyValue", lua_Control_getAnimationPropertyValue},
-        {"getAutoSize", lua_Control_getAutoSize},
-        {"getBorder", lua_Control_getBorder},
-        {"getBounds", lua_Control_getBounds},
-        {"getClip", lua_Control_getClip},
-        {"getClipBounds", lua_Control_getClipBounds},
-        {"getConsumeInputEvents", lua_Control_getConsumeInputEvents},
-        {"getCursorColor", lua_Control_getCursorColor},
-        {"getCursorRegion", lua_Control_getCursorRegion},
-        {"getCursorUVs", lua_Control_getCursorUVs},
-        {"getFocusIndex", lua_Control_getFocusIndex},
-        {"getFont", lua_Control_getFont},
-        {"getFontSize", lua_Control_getFontSize},
-        {"getHeight", lua_Control_getHeight},
-        {"getId", lua_Control_getId},
-        {"getImageColor", lua_Control_getImageColor},
-        {"getImageRegion", lua_Control_getImageRegion},
-        {"getImageUVs", lua_Control_getImageUVs},
-        {"getMargin", lua_Control_getMargin},
-        {"getOpacity", lua_Control_getOpacity},
-        {"getPadding", lua_Control_getPadding},
-        {"getParent", lua_Control_getParent},
-        {"getRefCount", lua_Control_getRefCount},
-        {"getScriptEvent", lua_Control_getScriptEvent},
-        {"getSkinColor", lua_Control_getSkinColor},
-        {"getSkinRegion", lua_Control_getSkinRegion},
-        {"getState", lua_Control_getState},
-        {"getStyle", lua_Control_getStyle},
-        {"getTextAlignment", lua_Control_getTextAlignment},
-        {"getTextColor", lua_Control_getTextColor},
-        {"getTextDrawingFlags", lua_Control_getTextDrawingFlags},
-        {"getTheme", lua_Control_getTheme},
-        {"getTopLevelForm", lua_Control_getTopLevelForm},
-        {"getTypeName", lua_Control_getTypeName},
-        {"getWidth", lua_Control_getWidth},
-        {"getX", lua_Control_getX},
-        {"getY", lua_Control_getY},
-        {"getZIndex", lua_Control_getZIndex},
-        {"hasFocus", lua_Control_hasFocus},
-        {"hasScriptListener", lua_Control_hasScriptListener},
-        {"isChild", lua_Control_isChild},
-        {"isContainer", lua_Control_isContainer},
-        {"isEnabled", lua_Control_isEnabled},
-        {"isEnabledInHierarchy", lua_Control_isEnabledInHierarchy},
-        {"isHeightPercentage", lua_Control_isHeightPercentage},
-        {"isVisible", lua_Control_isVisible},
-        {"isVisibleInHierarchy", lua_Control_isVisibleInHierarchy},
-        {"isWidthPercentage", lua_Control_isWidthPercentage},
-        {"isXPercentage", lua_Control_isXPercentage},
-        {"isYPercentage", lua_Control_isYPercentage},
-        {"release", lua_Control_release},
-        {"removeListener", lua_Control_removeListener},
-        {"removeScript", lua_Control_removeScript},
-        {"removeScriptCallback", lua_Control_removeScriptCallback},
-        {"resetAlignment", lua_Control_resetAlignment},
-        {"setAlignment", lua_Control_setAlignment},
-        {"setAnimationPropertyValue", lua_Control_setAnimationPropertyValue},
-        {"setAutoSize", lua_Control_setAutoSize},
-        {"setBorder", lua_Control_setBorder},
-        {"setBounds", lua_Control_setBounds},
-        {"setCanFocus", lua_Control_setCanFocus},
-        {"setConsumeInputEvents", lua_Control_setConsumeInputEvents},
-        {"setCursorColor", lua_Control_setCursorColor},
-        {"setCursorRegion", lua_Control_setCursorRegion},
-        {"setEnabled", lua_Control_setEnabled},
-        {"setFocus", lua_Control_setFocus},
-        {"setFocusIndex", lua_Control_setFocusIndex},
-        {"setFont", lua_Control_setFont},
-        {"setFontSize", lua_Control_setFontSize},
-        {"setHeight", lua_Control_setHeight},
-        {"setId", lua_Control_setId},
-        {"setImageColor", lua_Control_setImageColor},
-        {"setImageRegion", lua_Control_setImageRegion},
-        {"setMargin", lua_Control_setMargin},
-        {"setOpacity", lua_Control_setOpacity},
-        {"setPadding", lua_Control_setPadding},
-        {"setPosition", lua_Control_setPosition},
-        {"setSize", lua_Control_setSize},
-        {"setSkinColor", lua_Control_setSkinColor},
-        {"setSkinRegion", lua_Control_setSkinRegion},
-        {"setStyle", lua_Control_setStyle},
-        {"setTextAlignment", lua_Control_setTextAlignment},
-        {"setTextColor", lua_Control_setTextColor},
-        {"setTextDrawingFlags", lua_Control_setTextDrawingFlags},
-        {"setVisible", lua_Control_setVisible},
-        {"setWidth", lua_Control_setWidth},
-        {"setX", lua_Control_setX},
-        {"setY", lua_Control_setY},
-        {"setZIndex", lua_Control_setZIndex},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"ANIMATE_OPACITY", lua_Control_static_ANIMATE_OPACITY},
-        {"ANIMATE_POSITION", lua_Control_static_ANIMATE_POSITION},
-        {"ANIMATE_POSITION_X", lua_Control_static_ANIMATE_POSITION_X},
-        {"ANIMATE_POSITION_Y", lua_Control_static_ANIMATE_POSITION_Y},
-        {"ANIMATE_SIZE", lua_Control_static_ANIMATE_SIZE},
-        {"ANIMATE_SIZE_HEIGHT", lua_Control_static_ANIMATE_SIZE_HEIGHT},
-        {"ANIMATE_SIZE_WIDTH", lua_Control_static_ANIMATE_SIZE_WIDTH},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Control", lua_members, NULL, lua_Control__gc, lua_statics, scopePath);
-}
+extern void luaGlobal_Register_Conversion_Function(const char* className, void*(*func)(void*, const char*));
 
 static Control* getInstance(lua_State* state)
 {
@@ -150,7 +45,7 @@ static Control* getInstance(lua_State* state)
     return (Control*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Control__gc(lua_State* state)
+static int lua_Control__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -188,7 +83,7 @@ int lua_Control__gc(lua_State* state)
     return 0;
 }
 
-int lua_Control_addListener(lua_State* state)
+static int lua_Control_addListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -234,7 +129,7 @@ int lua_Control_addListener(lua_State* state)
     return 0;
 }
 
-int lua_Control_addRef(lua_State* state)
+static int lua_Control_addRef(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -266,7 +161,7 @@ int lua_Control_addRef(lua_State* state)
     return 0;
 }
 
-int lua_Control_addScript(lua_State* state)
+static int lua_Control_addScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -314,7 +209,7 @@ int lua_Control_addScript(lua_State* state)
     return 0;
 }
 
-int lua_Control_addScriptCallback(lua_State* state)
+static int lua_Control_addScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -360,7 +255,7 @@ int lua_Control_addScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Control_canFocus(lua_State* state)
+static int lua_Control_canFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -395,7 +290,7 @@ int lua_Control_canFocus(lua_State* state)
     return 0;
 }
 
-int lua_Control_clearScripts(lua_State* state)
+static int lua_Control_clearScripts(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -427,7 +322,7 @@ int lua_Control_clearScripts(lua_State* state)
     return 0;
 }
 
-int lua_Control_createAnimation(lua_State* state)
+static int lua_Control_createAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -630,7 +525,7 @@ int lua_Control_createAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Control_createAnimationFromBy(lua_State* state)
+static int lua_Control_createAnimationFromBy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -698,7 +593,7 @@ int lua_Control_createAnimationFromBy(lua_State* state)
     return 0;
 }
 
-int lua_Control_createAnimationFromTo(lua_State* state)
+static int lua_Control_createAnimationFromTo(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -766,7 +661,7 @@ int lua_Control_createAnimationFromTo(lua_State* state)
     return 0;
 }
 
-int lua_Control_destroyAnimation(lua_State* state)
+static int lua_Control_destroyAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -816,7 +711,7 @@ int lua_Control_destroyAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAbsoluteBounds(lua_State* state)
+static int lua_Control_getAbsoluteBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -860,7 +755,7 @@ int lua_Control_getAbsoluteBounds(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAlignment(lua_State* state)
+static int lua_Control_getAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -895,7 +790,7 @@ int lua_Control_getAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAnimation(lua_State* state)
+static int lua_Control_getAnimation(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -969,7 +864,7 @@ int lua_Control_getAnimation(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAnimationPropertyComponentCount(lua_State* state)
+static int lua_Control_getAnimationPropertyComponentCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1008,7 +903,7 @@ int lua_Control_getAnimationPropertyComponentCount(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAnimationPropertyValue(lua_State* state)
+static int lua_Control_getAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1054,7 +949,7 @@ int lua_Control_getAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Control_getAutoSize(lua_State* state)
+static int lua_Control_getAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1089,7 +984,7 @@ int lua_Control_getAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Control_getBorder(lua_State* state)
+static int lua_Control_getBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1163,7 +1058,7 @@ int lua_Control_getBorder(lua_State* state)
     return 0;
 }
 
-int lua_Control_getBounds(lua_State* state)
+static int lua_Control_getBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1207,7 +1102,63 @@ int lua_Control_getBounds(lua_State* state)
     return 0;
 }
 
-int lua_Control_getClip(lua_State* state)
+static int lua_Control_getCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Control* instance = getInstance(state);
+                float result = instance->getCharacterSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Control* instance = getInstance(state);
+                float result = instance->getCharacterSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_getClip(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1251,7 +1202,7 @@ int lua_Control_getClip(lua_State* state)
     return 0;
 }
 
-int lua_Control_getClipBounds(lua_State* state)
+static int lua_Control_getClipBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1295,7 +1246,7 @@ int lua_Control_getClipBounds(lua_State* state)
     return 0;
 }
 
-int lua_Control_getConsumeInputEvents(lua_State* state)
+static int lua_Control_getConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1330,7 +1281,51 @@ int lua_Control_getConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Control_getCursorColor(lua_State* state)
+static int lua_Control_getContentBounds(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Control* instance = getInstance(state);
+                void* returnPtr = (void*)&(instance->getContentBounds());
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "Rectangle");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getContentBounds - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_getCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1378,7 +1373,7 @@ int lua_Control_getCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_getCursorRegion(lua_State* state)
+static int lua_Control_getCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1426,7 +1421,7 @@ int lua_Control_getCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_getCursorUVs(lua_State* state)
+static int lua_Control_getCursorUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1474,7 +1469,7 @@ int lua_Control_getCursorUVs(lua_State* state)
     return 0;
 }
 
-int lua_Control_getFocusIndex(lua_State* state)
+static int lua_Control_getFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1509,7 +1504,7 @@ int lua_Control_getFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Control_getFont(lua_State* state)
+static int lua_Control_getFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1583,7 +1578,7 @@ int lua_Control_getFont(lua_State* state)
     return 0;
 }
 
-int lua_Control_getFontSize(lua_State* state)
+static int lua_Control_getFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1639,7 +1634,7 @@ int lua_Control_getFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Control_getHeight(lua_State* state)
+static int lua_Control_getHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1674,7 +1669,7 @@ int lua_Control_getHeight(lua_State* state)
     return 0;
 }
 
-int lua_Control_getId(lua_State* state)
+static int lua_Control_getId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1709,7 +1704,7 @@ int lua_Control_getId(lua_State* state)
     return 0;
 }
 
-int lua_Control_getImageColor(lua_State* state)
+static int lua_Control_getImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1761,7 +1756,7 @@ int lua_Control_getImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_getImageRegion(lua_State* state)
+static int lua_Control_getImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1813,7 +1808,7 @@ int lua_Control_getImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_getImageUVs(lua_State* state)
+static int lua_Control_getImageUVs(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1865,7 +1860,63 @@ int lua_Control_getImageUVs(lua_State* state)
     return 0;
 }
 
-int lua_Control_getMargin(lua_State* state)
+static int lua_Control_getLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Control* instance = getInstance(state);
+                float result = instance->getLineSpacing();
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                Control::State param1 = (Control::State)luaL_checkint(state, 2);
+
+                Control* instance = getInstance(state);
+                float result = instance->getLineSpacing(param1);
+
+                // Push the return value onto the stack.
+                lua_pushnumber(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_getMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1909,7 +1960,7 @@ int lua_Control_getMargin(lua_State* state)
     return 0;
 }
 
-int lua_Control_getOpacity(lua_State* state)
+static int lua_Control_getOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1965,7 +2016,7 @@ int lua_Control_getOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Control_getPadding(lua_State* state)
+static int lua_Control_getPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2009,7 +2060,7 @@ int lua_Control_getPadding(lua_State* state)
     return 0;
 }
 
-int lua_Control_getParent(lua_State* state)
+static int lua_Control_getParent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2053,7 +2104,42 @@ int lua_Control_getParent(lua_State* state)
     return 0;
 }
 
-int lua_Control_getRefCount(lua_State* state)
+static int lua_Control_getReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Control* instance = getInstance(state);
+                bool result = instance->getReceiveInputEvents();
+
+                // Push the return value onto the stack.
+                lua_pushboolean(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Control_getReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_getRefCount(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2088,7 +2174,7 @@ int lua_Control_getRefCount(lua_State* state)
     return 0;
 }
 
-int lua_Control_getScriptEvent(lua_State* state)
+static int lua_Control_getScriptEvent(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2136,7 +2222,7 @@ int lua_Control_getScriptEvent(lua_State* state)
     return 0;
 }
 
-int lua_Control_getSkinColor(lua_State* state)
+static int lua_Control_getSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2210,7 +2296,7 @@ int lua_Control_getSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_getSkinRegion(lua_State* state)
+static int lua_Control_getSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2284,7 +2370,7 @@ int lua_Control_getSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_getState(lua_State* state)
+static int lua_Control_getState(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2319,7 +2405,7 @@ int lua_Control_getState(lua_State* state)
     return 0;
 }
 
-int lua_Control_getStyle(lua_State* state)
+static int lua_Control_getStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2363,7 +2449,7 @@ int lua_Control_getStyle(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTextAlignment(lua_State* state)
+static int lua_Control_getTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2419,7 +2505,7 @@ int lua_Control_getTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTextColor(lua_State* state)
+static int lua_Control_getTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2493,7 +2579,7 @@ int lua_Control_getTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTextDrawingFlags(lua_State* state)
+static int lua_Control_getTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2549,7 +2635,7 @@ int lua_Control_getTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTheme(lua_State* state)
+static int lua_Control_getTheme(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2593,7 +2679,7 @@ int lua_Control_getTheme(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTopLevelForm(lua_State* state)
+static int lua_Control_getTopLevelForm(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2637,7 +2723,7 @@ int lua_Control_getTopLevelForm(lua_State* state)
     return 0;
 }
 
-int lua_Control_getTypeName(lua_State* state)
+static int lua_Control_getTypeName(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2672,7 +2758,7 @@ int lua_Control_getTypeName(lua_State* state)
     return 0;
 }
 
-int lua_Control_getWidth(lua_State* state)
+static int lua_Control_getWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2707,7 +2793,7 @@ int lua_Control_getWidth(lua_State* state)
     return 0;
 }
 
-int lua_Control_getX(lua_State* state)
+static int lua_Control_getX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2742,7 +2828,7 @@ int lua_Control_getX(lua_State* state)
     return 0;
 }
 
-int lua_Control_getY(lua_State* state)
+static int lua_Control_getY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2777,7 +2863,7 @@ int lua_Control_getY(lua_State* state)
     return 0;
 }
 
-int lua_Control_getZIndex(lua_State* state)
+static int lua_Control_getZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2812,7 +2898,7 @@ int lua_Control_getZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Control_hasFocus(lua_State* state)
+static int lua_Control_hasFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2847,7 +2933,7 @@ int lua_Control_hasFocus(lua_State* state)
     return 0;
 }
 
-int lua_Control_hasScriptListener(lua_State* state)
+static int lua_Control_hasScriptListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2910,7 +2996,7 @@ int lua_Control_hasScriptListener(lua_State* state)
     return 0;
 }
 
-int lua_Control_isChild(lua_State* state)
+static int lua_Control_isChild(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2955,7 +3041,7 @@ int lua_Control_isChild(lua_State* state)
     return 0;
 }
 
-int lua_Control_isContainer(lua_State* state)
+static int lua_Control_isContainer(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -2990,7 +3076,7 @@ int lua_Control_isContainer(lua_State* state)
     return 0;
 }
 
-int lua_Control_isEnabled(lua_State* state)
+static int lua_Control_isEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3025,7 +3111,7 @@ int lua_Control_isEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Control_isEnabledInHierarchy(lua_State* state)
+static int lua_Control_isEnabledInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3060,7 +3146,7 @@ int lua_Control_isEnabledInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Control_isHeightPercentage(lua_State* state)
+static int lua_Control_isHeightPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3095,7 +3181,7 @@ int lua_Control_isHeightPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Control_isVisible(lua_State* state)
+static int lua_Control_isVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3130,7 +3216,7 @@ int lua_Control_isVisible(lua_State* state)
     return 0;
 }
 
-int lua_Control_isVisibleInHierarchy(lua_State* state)
+static int lua_Control_isVisibleInHierarchy(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3165,7 +3251,7 @@ int lua_Control_isVisibleInHierarchy(lua_State* state)
     return 0;
 }
 
-int lua_Control_isWidthPercentage(lua_State* state)
+static int lua_Control_isWidthPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3200,7 +3286,7 @@ int lua_Control_isWidthPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Control_isXPercentage(lua_State* state)
+static int lua_Control_isXPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3235,7 +3321,7 @@ int lua_Control_isXPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Control_isYPercentage(lua_State* state)
+static int lua_Control_isYPercentage(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3270,7 +3356,7 @@ int lua_Control_isYPercentage(lua_State* state)
     return 0;
 }
 
-int lua_Control_release(lua_State* state)
+static int lua_Control_release(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3302,7 +3388,7 @@ int lua_Control_release(lua_State* state)
     return 0;
 }
 
-int lua_Control_removeListener(lua_State* state)
+static int lua_Control_removeListener(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3344,7 +3430,7 @@ int lua_Control_removeListener(lua_State* state)
     return 0;
 }
 
-int lua_Control_removeScript(lua_State* state)
+static int lua_Control_removeScript(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3383,7 +3469,7 @@ int lua_Control_removeScript(lua_State* state)
     return 0;
 }
 
-int lua_Control_removeScriptCallback(lua_State* state)
+static int lua_Control_removeScriptCallback(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3429,7 +3515,7 @@ int lua_Control_removeScriptCallback(lua_State* state)
     return 0;
 }
 
-int lua_Control_resetAlignment(lua_State* state)
+static int lua_Control_resetAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3461,7 +3547,7 @@ int lua_Control_resetAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Control_setAlignment(lua_State* state)
+static int lua_Control_setAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3497,7 +3583,7 @@ int lua_Control_setAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Control_setAnimationPropertyValue(lua_State* state)
+static int lua_Control_setAnimationPropertyValue(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3575,7 +3661,7 @@ int lua_Control_setAnimationPropertyValue(lua_State* state)
     return 0;
 }
 
-int lua_Control_setAutoSize(lua_State* state)
+static int lua_Control_setAutoSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3611,7 +3697,7 @@ int lua_Control_setAutoSize(lua_State* state)
     return 0;
 }
 
-int lua_Control_setBorder(lua_State* state)
+static int lua_Control_setBorder(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3693,7 +3779,7 @@ int lua_Control_setBorder(lua_State* state)
     return 0;
 }
 
-int lua_Control_setBounds(lua_State* state)
+static int lua_Control_setBounds(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3735,7 +3821,7 @@ int lua_Control_setBounds(lua_State* state)
     return 0;
 }
 
-int lua_Control_setCanFocus(lua_State* state)
+static int lua_Control_setCanFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3771,7 +3857,65 @@ int lua_Control_setCanFocus(lua_State* state)
     return 0;
 }
 
-int lua_Control_setConsumeInputEvents(lua_State* state)
+static int lua_Control_setCharacterSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Control* instance = getInstance(state);
+                instance->setCharacterSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Control_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Control* instance = getInstance(state);
+                instance->setCharacterSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Control_setCharacterSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_setConsumeInputEvents(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3807,7 +3951,7 @@ int lua_Control_setConsumeInputEvents(lua_State* state)
     return 0;
 }
 
-int lua_Control_setCursorColor(lua_State* state)
+static int lua_Control_setCursorColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3853,7 +3997,7 @@ int lua_Control_setCursorColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_setCursorRegion(lua_State* state)
+static int lua_Control_setCursorRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3899,7 +4043,7 @@ int lua_Control_setCursorRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_setEnabled(lua_State* state)
+static int lua_Control_setEnabled(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3935,7 +4079,7 @@ int lua_Control_setEnabled(lua_State* state)
     return 0;
 }
 
-int lua_Control_setFocus(lua_State* state)
+static int lua_Control_setFocus(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -3970,7 +4114,7 @@ int lua_Control_setFocus(lua_State* state)
     return 0;
 }
 
-int lua_Control_setFocusIndex(lua_State* state)
+static int lua_Control_setFocusIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4006,7 +4150,7 @@ int lua_Control_setFocusIndex(lua_State* state)
     return 0;
 }
 
-int lua_Control_setFont(lua_State* state)
+static int lua_Control_setFont(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4076,7 +4220,7 @@ int lua_Control_setFont(lua_State* state)
     return 0;
 }
 
-int lua_Control_setFontSize(lua_State* state)
+static int lua_Control_setFontSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4134,7 +4278,7 @@ int lua_Control_setFontSize(lua_State* state)
     return 0;
 }
 
-int lua_Control_setHeight(lua_State* state)
+static int lua_Control_setHeight(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4192,7 +4336,7 @@ int lua_Control_setHeight(lua_State* state)
     return 0;
 }
 
-int lua_Control_setId(lua_State* state)
+static int lua_Control_setId(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4228,7 +4372,7 @@ int lua_Control_setId(lua_State* state)
     return 0;
 }
 
-int lua_Control_setImageColor(lua_State* state)
+static int lua_Control_setImageColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4306,7 +4450,7 @@ int lua_Control_setImageColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_setImageRegion(lua_State* state)
+static int lua_Control_setImageRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4384,7 +4528,65 @@ int lua_Control_setImageRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_setMargin(lua_State* state)
+static int lua_Control_setLineSpacing(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                Control* instance = getInstance(state);
+                instance->setLineSpacing(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Control_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                lua_type(state, 3) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                float param1 = (float)luaL_checknumber(state, 2);
+
+                // Get parameter 2 off the stack.
+                unsigned char param2 = (unsigned char)luaL_checkunsigned(state, 3);
+
+                Control* instance = getInstance(state);
+                instance->setLineSpacing(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Control_setLineSpacing - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_setMargin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4432,7 +4634,7 @@ int lua_Control_setMargin(lua_State* state)
     return 0;
 }
 
-int lua_Control_setOpacity(lua_State* state)
+static int lua_Control_setOpacity(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4490,7 +4692,7 @@ int lua_Control_setOpacity(lua_State* state)
     return 0;
 }
 
-int lua_Control_setPadding(lua_State* state)
+static int lua_Control_setPadding(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4538,7 +4740,7 @@ int lua_Control_setPadding(lua_State* state)
     return 0;
 }
 
-int lua_Control_setPosition(lua_State* state)
+static int lua_Control_setPosition(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4578,7 +4780,43 @@ int lua_Control_setPosition(lua_State* state)
     return 0;
 }
 
-int lua_Control_setSize(lua_State* state)
+static int lua_Control_setReceiveInputEvents(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TBOOLEAN)
+            {
+                // Get parameter 1 off the stack.
+                bool param1 = gameplay::ScriptUtil::luaCheckBool(state, 2);
+
+                Control* instance = getInstance(state);
+                instance->setReceiveInputEvents(param1);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Control_setReceiveInputEvents - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+static int lua_Control_setSize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4618,7 +4856,7 @@ int lua_Control_setSize(lua_State* state)
     return 0;
 }
 
-int lua_Control_setSkinColor(lua_State* state)
+static int lua_Control_setSkinColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4688,7 +4926,7 @@ int lua_Control_setSkinColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_setSkinRegion(lua_State* state)
+static int lua_Control_setSkinRegion(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4758,7 +4996,7 @@ int lua_Control_setSkinRegion(lua_State* state)
     return 0;
 }
 
-int lua_Control_setStyle(lua_State* state)
+static int lua_Control_setStyle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4800,7 +5038,7 @@ int lua_Control_setStyle(lua_State* state)
     return 0;
 }
 
-int lua_Control_setTextAlignment(lua_State* state)
+static int lua_Control_setTextAlignment(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4858,7 +5096,7 @@ int lua_Control_setTextAlignment(lua_State* state)
     return 0;
 }
 
-int lua_Control_setTextColor(lua_State* state)
+static int lua_Control_setTextColor(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4928,7 +5166,7 @@ int lua_Control_setTextColor(lua_State* state)
     return 0;
 }
 
-int lua_Control_setTextDrawingFlags(lua_State* state)
+static int lua_Control_setTextDrawingFlags(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -4986,7 +5224,7 @@ int lua_Control_setTextDrawingFlags(lua_State* state)
     return 0;
 }
 
-int lua_Control_setVisible(lua_State* state)
+static int lua_Control_setVisible(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5022,7 +5260,7 @@ int lua_Control_setVisible(lua_State* state)
     return 0;
 }
 
-int lua_Control_setWidth(lua_State* state)
+static int lua_Control_setWidth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5080,7 +5318,7 @@ int lua_Control_setWidth(lua_State* state)
     return 0;
 }
 
-int lua_Control_setX(lua_State* state)
+static int lua_Control_setX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5138,7 +5376,7 @@ int lua_Control_setX(lua_State* state)
     return 0;
 }
 
-int lua_Control_setY(lua_State* state)
+static int lua_Control_setY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5196,7 +5434,7 @@ int lua_Control_setY(lua_State* state)
     return 0;
 }
 
-int lua_Control_setZIndex(lua_State* state)
+static int lua_Control_setZIndex(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -5232,7 +5470,7 @@ int lua_Control_setZIndex(lua_State* state)
     return 0;
 }
 
-int lua_Control_static_ANIMATE_OPACITY(lua_State* state)
+static int lua_Control_static_ANIMATE_OPACITY(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5249,7 +5487,7 @@ int lua_Control_static_ANIMATE_OPACITY(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_POSITION(lua_State* state)
+static int lua_Control_static_ANIMATE_POSITION(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5266,7 +5504,7 @@ int lua_Control_static_ANIMATE_POSITION(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_POSITION_X(lua_State* state)
+static int lua_Control_static_ANIMATE_POSITION_X(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5283,7 +5521,7 @@ int lua_Control_static_ANIMATE_POSITION_X(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_POSITION_Y(lua_State* state)
+static int lua_Control_static_ANIMATE_POSITION_Y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5300,7 +5538,7 @@ int lua_Control_static_ANIMATE_POSITION_Y(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_SIZE(lua_State* state)
+static int lua_Control_static_ANIMATE_SIZE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5317,7 +5555,7 @@ int lua_Control_static_ANIMATE_SIZE(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
+static int lua_Control_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5334,7 +5572,7 @@ int lua_Control_static_ANIMATE_SIZE_HEIGHT(lua_State* state)
     return 1;
 }
 
-int lua_Control_static_ANIMATE_SIZE_WIDTH(lua_State* state)
+static int lua_Control_static_ANIMATE_SIZE_WIDTH(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -5349,6 +5587,249 @@ int lua_Control_static_ANIMATE_SIZE_WIDTH(lua_State* state)
     lua_pushinteger(state, result);
 
     return 1;
+}
+
+static int lua_Control_static_ANIMATE_SKIN_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Control::ANIMATE_SKIN_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+static int lua_Control_static_ANIMATE_TEXT_COLOR(lua_State* state)
+{
+    // Validate the number of parameters.
+    if (lua_gettop(state) > 0)
+    {
+        lua_pushstring(state, "Invalid number of parameters (expected 0).");
+        lua_error(state);
+    }
+
+    int result = Control::ANIMATE_TEXT_COLOR;
+
+    // Push the return value onto the stack.
+    lua_pushinteger(state, result);
+
+    return 1;
+}
+
+// Provides support for conversion to all known relative types of Control
+static void* __convertTo(void* ptr, const char* typeName)
+{
+    Control* ptrObject = reinterpret_cast<Control*>(ptr);
+
+    if (strcmp(typeName, "AnimationTarget") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<AnimationTarget*>(ptrObject));
+    }
+    else if (strcmp(typeName, "Container") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Container*>(ptrObject));
+    }
+    else if (strcmp(typeName, "ImageControl") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<ImageControl*>(ptrObject));
+    }
+    else if (strcmp(typeName, "JoystickControl") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<JoystickControl*>(ptrObject));
+    }
+    else if (strcmp(typeName, "Label") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Label*>(ptrObject));
+    }
+    else if (strcmp(typeName, "ProgressBar") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<ProgressBar*>(ptrObject));
+    }
+    else if (strcmp(typeName, "Ref") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<Ref*>(ptrObject));
+    }
+    else if (strcmp(typeName, "ScriptTarget") == 0)
+    {
+        return reinterpret_cast<void*>(static_cast<ScriptTarget*>(ptrObject));
+    }
+
+    // No conversion available for 'typeName'
+    return NULL;
+}
+
+static int lua_Control_to(lua_State* state)
+{
+    // There should be only a single parameter (this instance)
+    if (lua_gettop(state) != 2 || lua_type(state, 1) != LUA_TUSERDATA || lua_type(state, 2) != LUA_TSTRING)
+    {
+        lua_pushstring(state, "lua_Control_to - Invalid number of parameters (expected 2).");
+        lua_error(state);
+        return 0;
+    }
+
+    Control* instance = getInstance(state);
+    const char* typeName = gameplay::ScriptUtil::getString(2, false);
+    void* result = __convertTo((void*)instance, typeName);
+
+    if (result)
+    {
+        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+        object->instance = (void*)result;
+        object->owns = false;
+        luaL_getmetatable(state, typeName);
+        lua_setmetatable(state, -2);
+    }
+    else
+    {
+        lua_pushnil(state);
+    }
+
+    return 1;
+}
+
+void luaRegister_Control()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"addListener", lua_Control_addListener},
+        {"addRef", lua_Control_addRef},
+        {"addScript", lua_Control_addScript},
+        {"addScriptCallback", lua_Control_addScriptCallback},
+        {"canFocus", lua_Control_canFocus},
+        {"clearScripts", lua_Control_clearScripts},
+        {"createAnimation", lua_Control_createAnimation},
+        {"createAnimationFromBy", lua_Control_createAnimationFromBy},
+        {"createAnimationFromTo", lua_Control_createAnimationFromTo},
+        {"destroyAnimation", lua_Control_destroyAnimation},
+        {"getAbsoluteBounds", lua_Control_getAbsoluteBounds},
+        {"getAlignment", lua_Control_getAlignment},
+        {"getAnimation", lua_Control_getAnimation},
+        {"getAnimationPropertyComponentCount", lua_Control_getAnimationPropertyComponentCount},
+        {"getAnimationPropertyValue", lua_Control_getAnimationPropertyValue},
+        {"getAutoSize", lua_Control_getAutoSize},
+        {"getBorder", lua_Control_getBorder},
+        {"getBounds", lua_Control_getBounds},
+        {"getCharacterSpacing", lua_Control_getCharacterSpacing},
+        {"getClip", lua_Control_getClip},
+        {"getClipBounds", lua_Control_getClipBounds},
+        {"getConsumeInputEvents", lua_Control_getConsumeInputEvents},
+        {"getContentBounds", lua_Control_getContentBounds},
+        {"getCursorColor", lua_Control_getCursorColor},
+        {"getCursorRegion", lua_Control_getCursorRegion},
+        {"getCursorUVs", lua_Control_getCursorUVs},
+        {"getFocusIndex", lua_Control_getFocusIndex},
+        {"getFont", lua_Control_getFont},
+        {"getFontSize", lua_Control_getFontSize},
+        {"getHeight", lua_Control_getHeight},
+        {"getId", lua_Control_getId},
+        {"getImageColor", lua_Control_getImageColor},
+        {"getImageRegion", lua_Control_getImageRegion},
+        {"getImageUVs", lua_Control_getImageUVs},
+        {"getLineSpacing", lua_Control_getLineSpacing},
+        {"getMargin", lua_Control_getMargin},
+        {"getOpacity", lua_Control_getOpacity},
+        {"getPadding", lua_Control_getPadding},
+        {"getParent", lua_Control_getParent},
+        {"getReceiveInputEvents", lua_Control_getReceiveInputEvents},
+        {"getRefCount", lua_Control_getRefCount},
+        {"getScriptEvent", lua_Control_getScriptEvent},
+        {"getSkinColor", lua_Control_getSkinColor},
+        {"getSkinRegion", lua_Control_getSkinRegion},
+        {"getState", lua_Control_getState},
+        {"getStyle", lua_Control_getStyle},
+        {"getTextAlignment", lua_Control_getTextAlignment},
+        {"getTextColor", lua_Control_getTextColor},
+        {"getTextDrawingFlags", lua_Control_getTextDrawingFlags},
+        {"getTheme", lua_Control_getTheme},
+        {"getTopLevelForm", lua_Control_getTopLevelForm},
+        {"getTypeName", lua_Control_getTypeName},
+        {"getWidth", lua_Control_getWidth},
+        {"getX", lua_Control_getX},
+        {"getY", lua_Control_getY},
+        {"getZIndex", lua_Control_getZIndex},
+        {"hasFocus", lua_Control_hasFocus},
+        {"hasScriptListener", lua_Control_hasScriptListener},
+        {"isChild", lua_Control_isChild},
+        {"isContainer", lua_Control_isContainer},
+        {"isEnabled", lua_Control_isEnabled},
+        {"isEnabledInHierarchy", lua_Control_isEnabledInHierarchy},
+        {"isHeightPercentage", lua_Control_isHeightPercentage},
+        {"isVisible", lua_Control_isVisible},
+        {"isVisibleInHierarchy", lua_Control_isVisibleInHierarchy},
+        {"isWidthPercentage", lua_Control_isWidthPercentage},
+        {"isXPercentage", lua_Control_isXPercentage},
+        {"isYPercentage", lua_Control_isYPercentage},
+        {"release", lua_Control_release},
+        {"removeListener", lua_Control_removeListener},
+        {"removeScript", lua_Control_removeScript},
+        {"removeScriptCallback", lua_Control_removeScriptCallback},
+        {"resetAlignment", lua_Control_resetAlignment},
+        {"setAlignment", lua_Control_setAlignment},
+        {"setAnimationPropertyValue", lua_Control_setAnimationPropertyValue},
+        {"setAutoSize", lua_Control_setAutoSize},
+        {"setBorder", lua_Control_setBorder},
+        {"setBounds", lua_Control_setBounds},
+        {"setCanFocus", lua_Control_setCanFocus},
+        {"setCharacterSpacing", lua_Control_setCharacterSpacing},
+        {"setConsumeInputEvents", lua_Control_setConsumeInputEvents},
+        {"setCursorColor", lua_Control_setCursorColor},
+        {"setCursorRegion", lua_Control_setCursorRegion},
+        {"setEnabled", lua_Control_setEnabled},
+        {"setFocus", lua_Control_setFocus},
+        {"setFocusIndex", lua_Control_setFocusIndex},
+        {"setFont", lua_Control_setFont},
+        {"setFontSize", lua_Control_setFontSize},
+        {"setHeight", lua_Control_setHeight},
+        {"setId", lua_Control_setId},
+        {"setImageColor", lua_Control_setImageColor},
+        {"setImageRegion", lua_Control_setImageRegion},
+        {"setLineSpacing", lua_Control_setLineSpacing},
+        {"setMargin", lua_Control_setMargin},
+        {"setOpacity", lua_Control_setOpacity},
+        {"setPadding", lua_Control_setPadding},
+        {"setPosition", lua_Control_setPosition},
+        {"setReceiveInputEvents", lua_Control_setReceiveInputEvents},
+        {"setSize", lua_Control_setSize},
+        {"setSkinColor", lua_Control_setSkinColor},
+        {"setSkinRegion", lua_Control_setSkinRegion},
+        {"setStyle", lua_Control_setStyle},
+        {"setTextAlignment", lua_Control_setTextAlignment},
+        {"setTextColor", lua_Control_setTextColor},
+        {"setTextDrawingFlags", lua_Control_setTextDrawingFlags},
+        {"setVisible", lua_Control_setVisible},
+        {"setWidth", lua_Control_setWidth},
+        {"setX", lua_Control_setX},
+        {"setY", lua_Control_setY},
+        {"setZIndex", lua_Control_setZIndex},
+        {"to", lua_Control_to},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"ANIMATE_OPACITY", lua_Control_static_ANIMATE_OPACITY},
+        {"ANIMATE_POSITION", lua_Control_static_ANIMATE_POSITION},
+        {"ANIMATE_POSITION_X", lua_Control_static_ANIMATE_POSITION_X},
+        {"ANIMATE_POSITION_Y", lua_Control_static_ANIMATE_POSITION_Y},
+        {"ANIMATE_SIZE", lua_Control_static_ANIMATE_SIZE},
+        {"ANIMATE_SIZE_HEIGHT", lua_Control_static_ANIMATE_SIZE_HEIGHT},
+        {"ANIMATE_SIZE_WIDTH", lua_Control_static_ANIMATE_SIZE_WIDTH},
+        {"ANIMATE_SKIN_COLOR", lua_Control_static_ANIMATE_SKIN_COLOR},
+        {"ANIMATE_TEXT_COLOR", lua_Control_static_ANIMATE_TEXT_COLOR},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Control", lua_members, NULL, lua_Control__gc, lua_statics, scopePath);
+
+    luaGlobal_Register_Conversion_Function("Control", __convertTo);
 }
 
 }

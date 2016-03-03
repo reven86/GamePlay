@@ -10,31 +10,6 @@
 namespace gameplay
 {
 
-void luaRegister_SpriteBatch()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"draw", lua_SpriteBatch_draw},
-        {"finish", lua_SpriteBatch_finish},
-        {"getMaterial", lua_SpriteBatch_getMaterial},
-        {"getProjectionMatrix", lua_SpriteBatch_getProjectionMatrix},
-        {"getSampler", lua_SpriteBatch_getSampler},
-        {"getStateBlock", lua_SpriteBatch_getStateBlock},
-        {"isStarted", lua_SpriteBatch_isStarted},
-        {"setProjectionMatrix", lua_SpriteBatch_setProjectionMatrix},
-        {"start", lua_SpriteBatch_start},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"create", lua_SpriteBatch_static_create},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("SpriteBatch", lua_members, NULL, lua_SpriteBatch__gc, lua_statics, scopePath);
-}
-
 static SpriteBatch* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "SpriteBatch");
@@ -42,7 +17,7 @@ static SpriteBatch* getInstance(lua_State* state)
     return (SpriteBatch*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_SpriteBatch__gc(lua_State* state)
+static int lua_SpriteBatch__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -80,7 +55,7 @@ int lua_SpriteBatch__gc(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_draw(lua_State* state)
+static int lua_SpriteBatch_draw(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -964,7 +939,7 @@ int lua_SpriteBatch_draw(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_finish(lua_State* state)
+static int lua_SpriteBatch_finish(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -996,7 +971,7 @@ int lua_SpriteBatch_finish(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_getMaterial(lua_State* state)
+static int lua_SpriteBatch_getMaterial(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1040,7 +1015,7 @@ int lua_SpriteBatch_getMaterial(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_getProjectionMatrix(lua_State* state)
+static int lua_SpriteBatch_getProjectionMatrix(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1084,7 +1059,7 @@ int lua_SpriteBatch_getProjectionMatrix(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_getSampler(lua_State* state)
+static int lua_SpriteBatch_getSampler(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1128,7 +1103,7 @@ int lua_SpriteBatch_getSampler(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_getStateBlock(lua_State* state)
+static int lua_SpriteBatch_getStateBlock(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1172,7 +1147,7 @@ int lua_SpriteBatch_getStateBlock(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_isStarted(lua_State* state)
+static int lua_SpriteBatch_isStarted(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1207,7 +1182,7 @@ int lua_SpriteBatch_isStarted(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_setProjectionMatrix(lua_State* state)
+static int lua_SpriteBatch_setProjectionMatrix(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1249,7 +1224,7 @@ int lua_SpriteBatch_setProjectionMatrix(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_start(lua_State* state)
+static int lua_SpriteBatch_start(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1281,7 +1256,7 @@ int lua_SpriteBatch_start(lua_State* state)
     return 0;
 }
 
-int lua_SpriteBatch_static_create(lua_State* state)
+static int lua_SpriteBatch_static_create(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1570,6 +1545,32 @@ int lua_SpriteBatch_static_create(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_SpriteBatch()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"draw", lua_SpriteBatch_draw},
+        {"finish", lua_SpriteBatch_finish},
+        {"getMaterial", lua_SpriteBatch_getMaterial},
+        {"getProjectionMatrix", lua_SpriteBatch_getProjectionMatrix},
+        {"getSampler", lua_SpriteBatch_getSampler},
+        {"getStateBlock", lua_SpriteBatch_getStateBlock},
+        {"isStarted", lua_SpriteBatch_isStarted},
+        {"setProjectionMatrix", lua_SpriteBatch_setProjectionMatrix},
+        {"start", lua_SpriteBatch_start},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"create", lua_SpriteBatch_static_create},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("SpriteBatch", lua_members, NULL, lua_SpriteBatch__gc, lua_statics, scopePath);
+
 }
 
 }

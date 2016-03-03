@@ -8,49 +8,6 @@
 namespace gameplay
 {
 
-void luaRegister_Vector2()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"add", lua_Vector2_add},
-        {"clamp", lua_Vector2_clamp},
-        {"distance", lua_Vector2_distance},
-        {"distanceSquared", lua_Vector2_distanceSquared},
-        {"dot", lua_Vector2_dot},
-        {"isOne", lua_Vector2_isOne},
-        {"isZero", lua_Vector2_isZero},
-        {"length", lua_Vector2_length},
-        {"lengthSquared", lua_Vector2_lengthSquared},
-        {"negate", lua_Vector2_negate},
-        {"normalize", lua_Vector2_normalize},
-        {"rotate", lua_Vector2_rotate},
-        {"scale", lua_Vector2_scale},
-        {"set", lua_Vector2_set},
-        {"smooth", lua_Vector2_smooth},
-        {"subtract", lua_Vector2_subtract},
-        {"x", lua_Vector2_x},
-        {"y", lua_Vector2_y},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"add", lua_Vector2_static_add},
-        {"angle", lua_Vector2_static_angle},
-        {"clamp", lua_Vector2_static_clamp},
-        {"dot", lua_Vector2_static_dot},
-        {"one", lua_Vector2_static_one},
-        {"random", lua_Vector2_static_random},
-        {"subtract", lua_Vector2_static_subtract},
-        {"unitX", lua_Vector2_static_unitX},
-        {"unitY", lua_Vector2_static_unitY},
-        {"zero", lua_Vector2_static_zero},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Vector2", lua_members, lua_Vector2__init, lua_Vector2__gc, lua_statics, scopePath);
-}
-
 static Vector2* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Vector2");
@@ -58,7 +15,7 @@ static Vector2* getInstance(lua_State* state)
     return (Vector2*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Vector2__gc(lua_State* state)
+static int lua_Vector2__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -96,7 +53,7 @@ int lua_Vector2__gc(lua_State* state)
     return 0;
 }
 
-int lua_Vector2__init(lua_State* state)
+static int lua_Vector2__init(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -262,7 +219,7 @@ int lua_Vector2__init(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_add(lua_State* state)
+static int lua_Vector2_add(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -304,7 +261,7 @@ int lua_Vector2_add(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_clamp(lua_State* state)
+static int lua_Vector2_clamp(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -356,7 +313,7 @@ int lua_Vector2_clamp(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_distance(lua_State* state)
+static int lua_Vector2_distance(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -401,7 +358,7 @@ int lua_Vector2_distance(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_distanceSquared(lua_State* state)
+static int lua_Vector2_distanceSquared(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -446,7 +403,7 @@ int lua_Vector2_distanceSquared(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_dot(lua_State* state)
+static int lua_Vector2_dot(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -491,7 +448,7 @@ int lua_Vector2_dot(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_isOne(lua_State* state)
+static int lua_Vector2_isOne(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -526,7 +483,7 @@ int lua_Vector2_isOne(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_isZero(lua_State* state)
+static int lua_Vector2_isZero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -561,7 +518,7 @@ int lua_Vector2_isZero(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_length(lua_State* state)
+static int lua_Vector2_length(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -596,7 +553,7 @@ int lua_Vector2_length(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_lengthSquared(lua_State* state)
+static int lua_Vector2_lengthSquared(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -631,7 +588,7 @@ int lua_Vector2_lengthSquared(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_negate(lua_State* state)
+static int lua_Vector2_negate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -663,7 +620,7 @@ int lua_Vector2_negate(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_normalize(lua_State* state)
+static int lua_Vector2_normalize(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -734,7 +691,7 @@ int lua_Vector2_normalize(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_rotate(lua_State* state)
+static int lua_Vector2_rotate(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -780,7 +737,7 @@ int lua_Vector2_rotate(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_scale(lua_State* state)
+static int lua_Vector2_scale(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -837,7 +794,7 @@ int lua_Vector2_scale(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_set(lua_State* state)
+static int lua_Vector2_set(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -944,7 +901,7 @@ int lua_Vector2_set(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_smooth(lua_State* state)
+static int lua_Vector2_smooth(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -994,7 +951,7 @@ int lua_Vector2_smooth(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_add(lua_State* state)
+static int lua_Vector2_static_add(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1054,7 +1011,7 @@ int lua_Vector2_static_add(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_angle(lua_State* state)
+static int lua_Vector2_static_angle(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1107,7 +1064,7 @@ int lua_Vector2_static_angle(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_clamp(lua_State* state)
+static int lua_Vector2_static_clamp(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1177,7 +1134,7 @@ int lua_Vector2_static_clamp(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_dot(lua_State* state)
+static int lua_Vector2_static_dot(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1230,7 +1187,7 @@ int lua_Vector2_static_dot(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_one(lua_State* state)
+static int lua_Vector2_static_one(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1267,7 +1224,7 @@ int lua_Vector2_static_one(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_random(lua_State* state)
+static int lua_Vector2_static_random(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1304,7 +1261,7 @@ int lua_Vector2_static_random(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_subtract(lua_State* state)
+static int lua_Vector2_static_subtract(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1364,7 +1321,7 @@ int lua_Vector2_static_subtract(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_unitX(lua_State* state)
+static int lua_Vector2_static_unitX(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1401,7 +1358,7 @@ int lua_Vector2_static_unitX(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_unitY(lua_State* state)
+static int lua_Vector2_static_unitY(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1438,7 +1395,7 @@ int lua_Vector2_static_unitY(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_static_zero(lua_State* state)
+static int lua_Vector2_static_zero(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1475,7 +1432,7 @@ int lua_Vector2_static_zero(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_subtract(lua_State* state)
+static int lua_Vector2_subtract(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -1517,7 +1474,7 @@ int lua_Vector2_subtract(lua_State* state)
     return 0;
 }
 
-int lua_Vector2_x(lua_State* state)
+static int lua_Vector2_x(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1546,7 +1503,7 @@ int lua_Vector2_x(lua_State* state)
     }
 }
 
-int lua_Vector2_y(lua_State* state)
+static int lua_Vector2_y(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 2)
@@ -1573,6 +1530,50 @@ int lua_Vector2_y(lua_State* state)
 
         return 1;
     }
+}
+
+void luaRegister_Vector2()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"add", lua_Vector2_add},
+        {"clamp", lua_Vector2_clamp},
+        {"distance", lua_Vector2_distance},
+        {"distanceSquared", lua_Vector2_distanceSquared},
+        {"dot", lua_Vector2_dot},
+        {"isOne", lua_Vector2_isOne},
+        {"isZero", lua_Vector2_isZero},
+        {"length", lua_Vector2_length},
+        {"lengthSquared", lua_Vector2_lengthSquared},
+        {"negate", lua_Vector2_negate},
+        {"normalize", lua_Vector2_normalize},
+        {"rotate", lua_Vector2_rotate},
+        {"scale", lua_Vector2_scale},
+        {"set", lua_Vector2_set},
+        {"smooth", lua_Vector2_smooth},
+        {"subtract", lua_Vector2_subtract},
+        {"x", lua_Vector2_x},
+        {"y", lua_Vector2_y},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"add", lua_Vector2_static_add},
+        {"angle", lua_Vector2_static_angle},
+        {"clamp", lua_Vector2_static_clamp},
+        {"dot", lua_Vector2_static_dot},
+        {"one", lua_Vector2_static_one},
+        {"random", lua_Vector2_static_random},
+        {"subtract", lua_Vector2_static_subtract},
+        {"unitX", lua_Vector2_static_unitX},
+        {"unitY", lua_Vector2_static_unitY},
+        {"zero", lua_Vector2_static_zero},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Vector2", lua_members, lua_Vector2__init, lua_Vector2__gc, lua_statics, scopePath);
+
 }
 
 }

@@ -12,29 +12,6 @@
 namespace gameplay
 {
 
-void luaRegister_Ray()
-{
-    const luaL_Reg lua_members[] = 
-    {
-        {"getDirection", lua_Ray_getDirection},
-        {"getOrigin", lua_Ray_getOrigin},
-        {"intersects", lua_Ray_intersects},
-        {"set", lua_Ray_set},
-        {"setDirection", lua_Ray_setDirection},
-        {"setOrigin", lua_Ray_setOrigin},
-        {"transform", lua_Ray_transform},
-        {NULL, NULL}
-    };
-    const luaL_Reg lua_statics[] = 
-    {
-        {"INTERSECTS_NONE", lua_Ray_static_INTERSECTS_NONE},
-        {NULL, NULL}
-    };
-    std::vector<std::string> scopePath;
-
-    gameplay::ScriptUtil::registerClass("Ray", lua_members, lua_Ray__init, lua_Ray__gc, lua_statics, scopePath);
-}
-
 static Ray* getInstance(lua_State* state)
 {
     void* userdata = luaL_checkudata(state, 1, "Ray");
@@ -42,7 +19,7 @@ static Ray* getInstance(lua_State* state)
     return (Ray*)((gameplay::ScriptUtil::LuaObject*)userdata)->instance;
 }
 
-int lua_Ray__gc(lua_State* state)
+static int lua_Ray__gc(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -80,7 +57,7 @@ int lua_Ray__gc(lua_State* state)
     return 0;
 }
 
-int lua_Ray__init(lua_State* state)
+static int lua_Ray__init(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -243,7 +220,7 @@ int lua_Ray__init(lua_State* state)
     return 0;
 }
 
-int lua_Ray_getDirection(lua_State* state)
+static int lua_Ray_getDirection(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -287,7 +264,7 @@ int lua_Ray_getDirection(lua_State* state)
     return 0;
 }
 
-int lua_Ray_getOrigin(lua_State* state)
+static int lua_Ray_getOrigin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -331,7 +308,7 @@ int lua_Ray_getOrigin(lua_State* state)
     return 0;
 }
 
-int lua_Ray_intersects(lua_State* state)
+static int lua_Ray_intersects(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -488,7 +465,7 @@ int lua_Ray_intersects(lua_State* state)
     return 0;
 }
 
-int lua_Ray_set(lua_State* state)
+static int lua_Ray_set(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -561,7 +538,7 @@ int lua_Ray_set(lua_State* state)
     return 0;
 }
 
-int lua_Ray_setDirection(lua_State* state)
+static int lua_Ray_setDirection(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -632,7 +609,7 @@ int lua_Ray_setDirection(lua_State* state)
     return 0;
 }
 
-int lua_Ray_setOrigin(lua_State* state)
+static int lua_Ray_setOrigin(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -703,7 +680,7 @@ int lua_Ray_setOrigin(lua_State* state)
     return 0;
 }
 
-int lua_Ray_static_INTERSECTS_NONE(lua_State* state)
+static int lua_Ray_static_INTERSECTS_NONE(lua_State* state)
 {
     // Validate the number of parameters.
     if (lua_gettop(state) > 0)
@@ -720,7 +697,7 @@ int lua_Ray_static_INTERSECTS_NONE(lua_State* state)
     return 1;
 }
 
-int lua_Ray_transform(lua_State* state)
+static int lua_Ray_transform(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);
@@ -760,6 +737,30 @@ int lua_Ray_transform(lua_State* state)
         }
     }
     return 0;
+}
+
+void luaRegister_Ray()
+{
+    const luaL_Reg lua_members[] = 
+    {
+        {"getDirection", lua_Ray_getDirection},
+        {"getOrigin", lua_Ray_getOrigin},
+        {"intersects", lua_Ray_intersects},
+        {"set", lua_Ray_set},
+        {"setDirection", lua_Ray_setDirection},
+        {"setOrigin", lua_Ray_setOrigin},
+        {"transform", lua_Ray_transform},
+        {NULL, NULL}
+    };
+    const luaL_Reg lua_statics[] = 
+    {
+        {"INTERSECTS_NONE", lua_Ray_static_INTERSECTS_NONE},
+        {NULL, NULL}
+    };
+    std::vector<std::string> scopePath;
+
+    gameplay::ScriptUtil::registerClass("Ray", lua_members, lua_Ray__init, lua_Ray__gc, lua_statics, scopePath);
+
 }
 
 }

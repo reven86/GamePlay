@@ -78,6 +78,7 @@ public:
      * Write Image as PNG to stream.
      *
      * @return true if image has been written successfully
+     * @script{ignore}
      */
     bool writePNG(class Stream * stream);
 
