@@ -47,6 +47,7 @@ public:
         POINTS = GL_POINTS
     };
 
+#ifndef OPENGL_ES
     /**
      * Defines mapping access/usage.
      */
@@ -56,6 +57,7 @@ public:
         MAP_WRITE_ONLY = GL_WRITE_ONLY,
         MAP_READ_WRITE = GL_READ_WRITE
     };
+#endif
 
     /**
      * Constructs a new mesh with the specified vertex format.
@@ -210,6 +212,7 @@ public:
      */
     void setPrimitiveType(Mesh::PrimitiveType type);
 
+#ifndef OPENGL_ES
     /**
      * Maps the vertex buffer for the specified access.
      *
@@ -242,6 +245,7 @@ public:
      * @return false if unmapping buffer was unsuccessful
      */
     bool unmapVertexBuffer();
+#endif
 
     /**
      * Sets the specified vertex data into the mapped vertex buffer.

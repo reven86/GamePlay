@@ -57,6 +57,7 @@ public:
      */
     IndexBufferHandle getIndexBuffer() const;
 
+#ifndef OPENGL_ES
     /**
      * Maps the index buffer for the specified access.
      *
@@ -89,6 +90,7 @@ public:
      * @return false if unmapping buffer was unsuccessful
      */
     bool unmapIndexBuffer();
+#endif
 
     /**
      * Sets the specified index data into the mapped index buffer.

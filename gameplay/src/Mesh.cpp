@@ -261,6 +261,7 @@ void Mesh::setPrimitiveType(PrimitiveType type)
     _primitiveType = type;
 }
 
+#ifndef OPENGL_ES
 void* Mesh::mapVertexBuffer(MapAccess access)
 {
     GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer) );
@@ -272,6 +273,7 @@ bool Mesh::unmapVertexBuffer()
 {
     return glUnmapBuffer(GL_ARRAY_BUFFER);
 }
+#endif
 
 void Mesh::setVertexData(const void* vertexData, unsigned int vertexStart, unsigned int vertexCount)
 {

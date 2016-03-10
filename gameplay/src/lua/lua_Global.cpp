@@ -761,6 +761,7 @@ void luaRegister_lua_Global()
     }
 
     // Register enumeration Mesh::MapAccess.
+#ifndef OPENGL_ES
     {
         std::vector<std::string> scopePath;
         scopePath.push_back("Mesh");
@@ -768,6 +769,7 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerEnumValue(Mesh::MAP_WRITE_ONLY, "MAP_WRITE_ONLY", scopePath);
         gameplay::ScriptUtil::registerEnumValue(Mesh::MAP_READ_WRITE, "MAP_READ_WRITE", scopePath);
     }
+#endif
 
     // Register enumeration Mesh::PrimitiveType.
     {
@@ -1145,7 +1147,7 @@ void* luaConvertObjectPointer(void* ptr, const char* fromType, const char* toTyp
     return itr->second(ptr, toType);
 }
 
-static int lua__strcmpnocase(lua_State* state)
+int lua__strcmpnocase(lua_State* state)
 {
     // Get the number of parameters.
     int paramCount = lua_gettop(state);

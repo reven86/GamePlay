@@ -272,77 +272,6 @@ static int lua_MeshPart_isDynamic(lua_State* state)
     return 0;
 }
 
-static int lua_MeshPart_mapIndexBuffer(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 2:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
-                lua_type(state, 2) == LUA_TNUMBER)
-            {
-                // Get parameter 1 off the stack.
-                Mesh::MapAccess param1 = (Mesh::MapAccess)luaL_checkint(state, 2);
-
-                MeshPart* instance = getInstance(state);
-                instance->mapIndexBuffer(param1);
-                
-                return 0;
-            }
-
-            lua_pushstring(state, "lua_MeshPart_mapIndexBuffer - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 2).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
-static int lua_MeshPart_unmapIndexBuffer(lua_State* state)
-{
-    // Get the number of parameters.
-    int paramCount = lua_gettop(state);
-
-    // Attempt to match the parameters to a valid binding.
-    switch (paramCount)
-    {
-        case 1:
-        {
-            if ((lua_type(state, 1) == LUA_TUSERDATA))
-            {
-                MeshPart* instance = getInstance(state);
-                bool result = instance->unmapIndexBuffer();
-
-                // Push the return value onto the stack.
-                lua_pushboolean(state, result);
-
-                return 1;
-            }
-
-            lua_pushstring(state, "lua_MeshPart_unmapIndexBuffer - Failed to match the given parameters to a valid function signature.");
-            lua_error(state);
-            break;
-        }
-        default:
-        {
-            lua_pushstring(state, "Invalid number of parameters (expected 1).");
-            lua_error(state);
-            break;
-        }
-    }
-    return 0;
-}
-
 void luaRegister_MeshPart()
 {
     const luaL_Reg lua_members[] = 
@@ -353,8 +282,6 @@ void luaRegister_MeshPart()
         {"getMeshIndex", lua_MeshPart_getMeshIndex},
         {"getPrimitiveType", lua_MeshPart_getPrimitiveType},
         {"isDynamic", lua_MeshPart_isDynamic},
-        {"mapIndexBuffer", lua_MeshPart_mapIndexBuffer},
-        {"unmapIndexBuffer", lua_MeshPart_unmapIndexBuffer},
         {NULL, NULL}
     };
     const luaL_Reg* lua_statics = NULL;
