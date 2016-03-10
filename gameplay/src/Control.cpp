@@ -239,6 +239,8 @@ void Control::initialize(const char* typeName, Theme::Style* style, Properties* 
 			}
 			innerSpace = properties->getNextNamespace();
 		}
+
+        _userString = properties->getString("userString", "");
 	}
 }
 
@@ -1994,6 +1996,16 @@ bool Control::parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percen
     *v1 = parseCoord(v1Str.c_str(), v1Percentage);
     *v2 = parseCoord(v2Str.c_str(), v2Percentage);
     return true;
+}
+
+void Control::setUserString(const char * udp)
+{
+    _userString = udp;
+}
+
+const char * Control::getUserString() const
+{
+    return _userString.c_str();
 }
 
 }

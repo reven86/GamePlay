@@ -1063,6 +1063,21 @@ public:
      */
     virtual void setAnimationPropertyValue(int propertyId, AnimationValue* value, float blendWeight = 1.0f);
 
+    /**
+     * Set user-defined string for this control.
+     * You can associate any string with a Control where additional custom properties can be defined.
+     *
+     * @param udp User-defined properties.
+     */
+    void setUserString(const char * udp);
+
+    /**
+     * Get user-defined properties associated with this control.
+     *
+     * @return User-defined properties.
+     */
+    const char * getUserString() const;
+
 protected:
 
     /**
@@ -1595,6 +1610,7 @@ private:
 
     bool _styleOverridden;
     Theme::Skin* _skin;
+    std::string _userString;
 
 };
 
