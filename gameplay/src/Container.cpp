@@ -637,7 +637,7 @@ void Container::updateBounds()
                 if (ctrl->isVisible() && !ctrl->isWidthPercentage())
                 {
                     float w = ctrl->getWidth() + ctrl->getMargin().right;
-                    if (!ctrl->isXPercentage())
+                    if (!ctrl->isXPercentage() && (ctrl->getAlignment() & gameplay::Control::ALIGN_RIGHT) == 0)
                         w += ctrl->getX();
                     if (width < w)
                         width = w;
@@ -657,7 +657,7 @@ void Container::updateBounds()
                 if (ctrl->isVisible() && !ctrl->isHeightPercentage())
                 {
                     float h = ctrl->getHeight() + ctrl->getMargin().bottom;
-                    if (!ctrl->isYPercentage())
+                    if (!ctrl->isYPercentage() && (ctrl->getAlignment() & gameplay::Control::ALIGN_BOTTOM) == 0)
                         h += ctrl->getY();
                     if (height < h)
                         height = h;
