@@ -425,6 +425,11 @@ const Rectangle& Control::getAbsoluteBounds() const
     return _absoluteBounds;
 }
 
+const Rectangle& Control::getAbsoluteClipBounds() const
+{
+    return _absoluteClipBounds;
+}
+
 const Rectangle& Control::getClipBounds() const
 {
     return _clipBounds;

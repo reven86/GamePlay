@@ -450,6 +450,19 @@ public:
     const Rectangle& getAbsoluteBounds() const;
 
     /**
+     * Get the absolute bounds of this control, in pixels, including border and padding,
+     * after clipping.
+     *
+     * The absolute bounds of a control represents its final computed bounds after all 
+     * alignment, auto sizing, relative position and sizing has been computed. The
+     * returned bounds is in absolute coordinates, relative to the control's top-most
+     * parent container (usually its form).
+     *
+     * @return The absolute bounds of this control after clipping.
+     */
+    const Rectangle& getAbsoluteClipBounds() const;
+
+    /**
      * Get the bounds of this control, relative to its parent container, after clipping.
      *
      * @return The bounds of this control.
