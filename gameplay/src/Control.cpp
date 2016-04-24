@@ -1851,6 +1851,16 @@ void Control::overrideThemedProperties(Properties* properties, unsigned char sta
     {
         setOpacity(properties->getFloat("opacity"), states);
     }
+
+    if (properties->exists("lineSpacing"))
+    {
+        setLineSpacing(properties->getFloat("lineSpacing"), states);
+    }
+
+    if (properties->exists("characterSpacing"))
+    {
+        setCharacterSpacing(properties->getFloat("characterSpacing"), states);
+    }
 }
 
 void Control::setImageList(Theme::ImageList* imageList, unsigned char states)
