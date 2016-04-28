@@ -56,6 +56,13 @@ void ImageControl::initialize(const char* typeName, Theme::Style* style, Propert
 			properties->getVector4("dstRegion", &region);
 			setRegionDst(region.x, region.y, region.z, region.w);
 		}
+
+        if (properties->exists("imageColor"))
+        {
+            Vector4 color(0, 0, 0, 1);
+            properties->getColor("imageColor", &color);
+            setColor(color);
+        }
 	}
 }
 
