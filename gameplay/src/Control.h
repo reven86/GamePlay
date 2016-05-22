@@ -579,7 +579,7 @@ public:
      * @param left Width of left margin.
      * @param right Width of right margin.
      */
-    void setMargin(float top, float bottom, float left, float right);
+    virtual void setMargin(float top, float bottom, float left, float right);
 
     /**
      * Get this control's margin.
@@ -596,7 +596,7 @@ public:
      * @param left Width of left padding.
      * @param right Width of right padding.
      */
-    void setPadding(float top, float bottom, float left, float right);
+    virtual void setPadding(float top, float bottom, float left, float right);
 
     /**
      * Get this control's padding.
