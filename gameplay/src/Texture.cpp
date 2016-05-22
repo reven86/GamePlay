@@ -470,7 +470,9 @@ Texture* Texture::createCompressedPVRTC(const char* path)
 
     Filter minFilter = mipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
     GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter) );
+#ifndef OPENGL_ES
     GL_ASSERT(glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, mipMapCount - 1)); // avoid using incomplete textures, those who define mipmap-chain only partionally
+#endif
 
     Texture* texture = new Texture();
     texture->_handle = textureId;
@@ -1113,7 +1115,9 @@ Texture* Texture::createCompressedDDS(const char* path)
 
     Filter minFilter = header.dwMipMapCount > 1 ? NEAREST_MIPMAP_LINEAR : LINEAR;
     GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter ) );
+#ifndef OPENGL_ES
     GL_ASSERT(glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, header.dwMipMapCount - 1)); // avoid using incomplete textures, those who define mipmap-chain only partionally
+#endif
 
     // Create gameplay texture.
     texture = new Texture();
