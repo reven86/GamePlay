@@ -429,7 +429,7 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
     }
     else // !pressed
     {
-        Control* active = (__activeControl[contactIndex] && __activeControl[contactIndex]->_state == ACTIVE) ? __activeControl[contactIndex] : NULL;
+        Control* active = __activeControl[contactIndex];
 
         if (active)
         {
@@ -445,49 +445,7 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
             active->setDirty(DIRTY_STATE);
             active->_state = NORMAL;
             __activeControl[contactIndex] = NULL;
-        }
-        else
-        {
-            // Update active and hover control state on release
-            Control* inputControl = findInputControl(&newX, &newY, false, contactIndex);
-            if (inputControl)
-            {
-                ctrl = inputControl;
 
-                if (__activeControl[contactIndex] != ctrl || ctrl->_state != HOVER)
-                {
-                    if (__activeControl[contactIndex])
-                    {
-                        if (__activeControl[contactIndex]->_state == HOVER)
-                            __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
-
-                        __activeControl[contactIndex]->_state = NORMAL;
-                        __activeControl[contactIndex]->setDirty(Control::DIRTY_STATE);
-                    }
-
-                    __activeControl[contactIndex] = ctrl;
-                    ctrl->_state = HOVER;
-                    ctrl->setDirty(DIRTY_STATE);
-                    ctrl->notifyListeners(Control::Listener::ENTER);
-                }
-            }
-            else
-            {
-                // Control no longer active
-                if (__activeControl[contactIndex])
-                {
-                    if (__activeControl[contactIndex]->_state == HOVER)
-                        __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
-
-                    __activeControl[contactIndex]->setDirty(Control::DIRTY_STATE);
-                    __activeControl[contactIndex]->_state = NORMAL;
-                    __activeControl[contactIndex] = NULL;
-                }
-            }
-        }
-
-        if (active)
-        {
             // Fire release event for the previously active control
             active->notifyListeners(Control::Listener::RELEASE);
 
@@ -516,56 +474,55 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
     if (contactIndex >= Touch::MAX_TOUCH_POINTS)
         return NULL;
 
-    Control* ctrl = NULL;
+    Control* inputControl = findInputControl(x, y, false, contactIndex);
 
     // Handle hover control changes on move, only if there is no currently active control
     // (i.e. when the mouse or a finger is not down).
-    if (__activeControl[contactIndex] && __activeControl[contactIndex]->_state == ACTIVE)
+    bool wasActive = __activeControl[contactIndex] && (__activeControl[contactIndex]->_state == ACTIVE || __activeControl[contactIndex]->_state == NORMAL);
+    if (wasActive)
     {
         // Active controls always continue receiving pointer events, even when the pointer
         // is not on top of the control.
-        ctrl = __activeControl[contactIndex];
-        screenToForm(ctrl, x, y);
+        screenToForm(__activeControl[contactIndex], x, y);
+    }
+
+    // Update hover control
+    if (__activeControl[contactIndex] != inputControl)
+    {
+        if (__activeControl[contactIndex])
+        {
+            // note LEAVE event is sent for current control state
+            if (__activeControl[contactIndex]->_state == HOVER || wasActive)
+                __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
+
+            __activeControl[contactIndex]->_state = NORMAL;
+            __activeControl[contactIndex]->setDirty(DIRTY_STATE);
+        }
+
+        if (!wasActive)
+        {
+            __activeControl[contactIndex] = inputControl;
+            if (inputControl)
+            {
+                // note ENTER event is sent for new control state
+                inputControl->_state = HOVER;
+                inputControl->setDirty(DIRTY_STATE);
+                inputControl->notifyListeners(Control::Listener::ENTER);
+            }
+        }
     }
     else
     {
-        ctrl = findInputControl(x, y, false, contactIndex);
-        if (ctrl)
+        if (__activeControl[contactIndex] && __activeControl[contactIndex]->_state == NORMAL)
         {
-            // Update hover control
-            if (__activeControl[contactIndex] != ctrl || ctrl->_state != HOVER)
-            {
-                if (__activeControl[contactIndex])
-                {
-                    if (__activeControl[contactIndex]->_state == HOVER)
-                        __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
-
-                    __activeControl[contactIndex]->_state = NORMAL;
-                    __activeControl[contactIndex]->setDirty(DIRTY_STATE);
-                }
-
-                __activeControl[contactIndex] = ctrl;
-                ctrl->_state = HOVER;
-                ctrl->setDirty(DIRTY_STATE);
-                ctrl->notifyListeners(Control::Listener::ENTER);
-            }
-        }
-        else
-        {
-            // No active/hover control
-            if (__activeControl[contactIndex])
-            {
-                if (__activeControl[contactIndex]->_state == HOVER)
-                    __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
-
-                __activeControl[contactIndex]->setDirty(DIRTY_STATE);
-                __activeControl[contactIndex]->_state = NORMAL;
-                __activeControl[contactIndex] = NULL;
-            }
+            // note ENTER event is sent for new control state
+            __activeControl[contactIndex]->_state = ACTIVE;
+            __activeControl[contactIndex]->setDirty(DIRTY_STATE);
+            __activeControl[contactIndex]->notifyListeners(Control::Listener::ENTER);
         }
     }
 
-    return ctrl;
+    return __activeControl[contactIndex];
 }
 
 void Form::verifyRemovedControlState(Control* control)
