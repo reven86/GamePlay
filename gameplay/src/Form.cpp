@@ -435,6 +435,9 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
         {
             active->addRef(); // protect against event-hanlder evil
 
+            // Check whether the touch was pressed on active control
+            bool wasPressed = active->_state == ACTIVE;
+
             // Release happened for an active control (that was pressed)
             ctrl = active;
 
@@ -451,7 +454,7 @@ Control* Form::handlePointerPressRelease(int* x, int* y, bool pressed, unsigned 
 
             // If the release event was received on the same control that was
             // originally pressed, fire a click event
-            if (active->_absoluteClipBounds.contains(newX, newY))
+            if (wasPressed && active->_absoluteClipBounds.contains(newX, newY))
             {
                 if (!active->_parent || !active->_parent->isScrolling())
                 {
