@@ -788,12 +788,15 @@ double timespec2millis(struct timespec *a)
 
 void updateWindowSize()
 {
-    // GP_ASSERT(__display);
-    // GP_ASSERT(__window);
-    // XWindowAttributes windowAttrs;
-    // XGetWindowAttributes(__display, __window, &windowAttrs);
-    // __windowSize[0] = windowAttrs.width;
-    // __windowSize[1] = windowAttrs.height;
+    int sizePacked = EM_ASM_INT_V({
+        var canvas = document.getElementById('canvas');
+        return canvas.clientWidth + (canvas.clientHeight << 16);
+    });
+    
+    __windowSize[0] = sizePacked & 0xffff;
+    __windowSize[1] = sizePacked >> 16;
+    
+    emscripten_set_canvas_size(__windowSize[0], __windowSize[1]);
 }
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
@@ -881,8 +884,10 @@ EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void *userD
     
 EM_BOOL keyboard_callback(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
+    /*
     printf("%d key: %s code: %s ctrl: %d shift: %d alt: %d meta: %d charCode: %lu keyCode: %lu which: %lu\n", eventType,
            e->key, e->code, e->ctrlKey, e->shiftKey, e->altKey, e->metaKey, e->charCode, e->keyCode, e->which);
+     //*/
     
     if (e->repeat)
         return 1;
@@ -893,6 +898,27 @@ EM_BOOL keyboard_callback(int eventType, const EmscriptenKeyboardEvent *e, void 
     else if (eventType == EMSCRIPTEN_EVENT_KEYUP)
         gameplay::Platform::keyEventInternal(gameplay::Keyboard::KEY_RELEASE, getKey(wParam, shiftDown ^ capsOn));
     */
+    return 1;
+}
+    
+EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *userData)
+{
+    GP_ASSERT(eventType == EMSCRIPTEN_EVENT_RESIZE);
+
+    int sizePacked = EM_ASM_INT_V({
+        var canvas = document.getElementById('canvas');
+        return canvas.clientWidth + (canvas.clientHeight << 16);
+    });
+    
+    int width = sizePacked & 0xffff;
+    int height = sizePacked >> 16;
+    
+    if (width != __windowSize[0] || height != __windowSize[1])
+    {
+        emscripten_set_canvas_size(width, height);
+        gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
+    }
+    
     return 1;
 }
     
@@ -931,10 +957,6 @@ int Platform::enterMessagePump()
 
     updateWindowSize();
 
-    static bool shiftDown = false;
-    static bool capsOn = false;
-    static XEvent evt;
-
     // Get the initial time.
     clock_gettime(CLOCK_REALTIME, &__timespec);
     __timeStart = timespec2millis(&__timespec);
@@ -947,8 +969,9 @@ int Platform::enterMessagePump()
     emscripten_set_mouseup_callback(0, 0, true, mouse_callback);
     emscripten_set_mousemove_callback(0, 0, true, mouse_callback);
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
-    emscripten_set_keydown_callback(0, 0, true, keyboard_callback);
-    emscripten_set_keyup_callback(0, 0, true, keyboard_callback);
+    //emscripten_set_keydown_callback(0, 0, true, keyboard_callback);
+    //emscripten_set_keyup_callback(0, 0, true, keyboard_callback);
+    emscripten_set_resize_callback(0, 0, true, &resize_callback);
     emscripten_set_main_loop_arg(&main_loop_iter, (void *)_game, 0, 1);
 
     return 0;
