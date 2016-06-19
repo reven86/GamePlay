@@ -1,3 +1,8 @@
+#ifdef __GNUC__
+// Avoid tons of warnings with root code
+#pragma GCC system_header
+#endif
+
 // Core
 #include "Base.h"
 #include "Platform.h"
