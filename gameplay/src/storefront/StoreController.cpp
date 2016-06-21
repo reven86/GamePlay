@@ -50,4 +50,16 @@ void StoreController::update(float elapsedTime)
 {
 }
 
+void StoreController::replaceStoreFront(StoreFront * storeFront)
+{
+    // reassign listener as well
+    StoreListener * listener = _storeFront ? _storeFront->getListener() : NULL;
+
+    SAFE_DELETE(_storeFront);
+    _storeFront = storeFront;
+
+    if (_storeFront && listener)
+        _storeFront->setListener(listener);
+}
+
 }
