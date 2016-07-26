@@ -299,6 +299,7 @@ void Container::insertControl(Control* control, unsigned int index)
             control->_parent->removeControl(control);
         control->_parent = this;
         setDirty(Control::DIRTY_BOUNDS);
+        control->setDirty(DIRTY_BOUNDS);
     }
     else
     {
