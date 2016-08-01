@@ -361,7 +361,7 @@ bool FileSystem::fileExists(const char* filePath)
     getFullPath(filePath, fullPath);
 
     gp_stat_struct s;
-    if (stat(fullPath.c_str(), &s) == 0)
+    if (stat(fullPath.c_str(), &s) == 0 && (s.st_mode & _S_IFDIR) == 0)
         return true;
 
     for (auto it = __packages.begin(), endIt = __packages.end(); it != endIt; it++)
