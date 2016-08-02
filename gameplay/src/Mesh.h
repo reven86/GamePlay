@@ -47,10 +47,6 @@ public:
         POINTS = GL_POINTS
     };
 
-#ifndef OPENGL_ES
-    /**
-#endif
-
     /**
      * Constructs a new mesh with the specified vertex format.
      *
