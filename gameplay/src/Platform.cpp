@@ -1,3 +1,13 @@
+/*
+    Copyright 2016 Andrew Karpushin (reven86@gmail.com).
+
+    This source file is a Derivative Work from orignal Gameplay3D source files.
+    The Gameplay3D project is distributed under the terms of Apache 2.0 License.
+    Original Gameplay3D source files can be found at https://github.com/gameplay3d/GamePlay
+
+    Changes to orginal document were done in lines: 13-43 
+*/
+
 // Implementation of base platform-agnostic platform functionality.
 #include "Base.h"
 #include "Platform.h"

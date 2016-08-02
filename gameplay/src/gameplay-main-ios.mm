@@ -16,7 +16,6 @@ int main(int argc, char** argv)
 {
     __argc = argc;
     __argv = argv;
-    
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     Game* game = Game::getInstance();
     Platform* platform = Platform::create(game);

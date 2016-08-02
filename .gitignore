@@ -146,3 +146,4 @@ gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 /samples/spaceship/sample-spaceship.xcodeproj/xcuserdata
 /samples/spaceship/sample-spaceship.vcxproj.user
 /gameplay.VC.db
+/*.opendb
