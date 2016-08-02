@@ -57,7 +57,6 @@ public:
      */
     IndexBufferHandle getIndexBuffer() const;
 
-#ifndef OPENGL_ES
     /**
      * Maps the index buffer for the specified access.
      *
@@ -79,10 +78,9 @@ public:
      * index buffer become corrupted while the buffer was mapped. The corruption results from screen
      * resolution change or window system specific events. In this case, the data must be resubmitted.
      *
-     * @param access The access for which the data can be use. Ex. read, write, read_write.
      * @return The mapped index buffer
      */
-    void* mapIndexBuffer(Mesh::MapAccess access);
+    void* mapIndexBuffer();
 
     /**
      * Unmaps the index buffer.
@@ -90,7 +88,6 @@ public:
      * @return false if unmapping buffer was unsuccessful
      */
     bool unmapIndexBuffer();
-#endif
 
     /**
      * Sets the specified index data into the mapped index buffer.

@@ -82,19 +82,17 @@ IndexBufferHandle MeshPart::getIndexBuffer() const
     return _indexBuffer;
 }
 
-#ifndef OPENGL_ES
-void* MeshPart::mapIndexBuffer(Mesh::MapAccess access)
+void* MeshPart::mapIndexBuffer()
 {
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer) );
 
-    return (void*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, access);
+    return (void*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
 }
 
 bool MeshPart::unmapIndexBuffer()
 {
     return glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 }
-#endif
 
 void MeshPart::setIndexData(const void* indexData, unsigned int indexStart, unsigned int indexCount)
 {

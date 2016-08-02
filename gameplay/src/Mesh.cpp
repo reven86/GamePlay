@@ -261,19 +261,17 @@ void Mesh::setPrimitiveType(PrimitiveType type)
     _primitiveType = type;
 }
 
-#ifndef OPENGL_ES
-void* Mesh::mapVertexBuffer(MapAccess access)
+void* Mesh::mapVertexBuffer()
 {
     GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer) );
 
-    return (void*)glMapBuffer(GL_ARRAY_BUFFER, access);
+    return (void*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 }
 
 bool Mesh::unmapVertexBuffer()
 {
     return glUnmapBuffer(GL_ARRAY_BUFFER);
 }
-#endif
 
 void Mesh::setVertexData(const void* vertexData, unsigned int vertexStart, unsigned int vertexCount)
 {
