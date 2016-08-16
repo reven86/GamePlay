@@ -286,4 +286,93 @@ bool Image::writePNG(gameplay::Stream * stream)
     return true;
 }
 
+struct JPEGUserData
+{
+    gameplay::Stream * stream;
+    JOCTET buffer[16384];
+};
+
+void streamJPEG_init_destination(j_compress_ptr cinfo)
+{
+    JPEGUserData * data = reinterpret_cast<JPEGUserData *>(cinfo->client_data);
+    cinfo->dest->next_output_byte = &data->buffer[0];
+    cinfo->dest->free_in_buffer = sizeof(data->buffer);
+}
+
+boolean streamJPEG_empty_output_buffer(j_compress_ptr cinfo)
+{
+    JPEGUserData * data = reinterpret_cast<JPEGUserData *>(cinfo->client_data);
+    if (data->stream->write(data->buffer, sizeof(data->buffer), 1) != 1)
+        return false;
+    cinfo->dest->next_output_byte = &data->buffer[0];
+    cinfo->dest->free_in_buffer = sizeof(data->buffer);
+    return true;
+}
+
+void streamJPEG_term_destination(j_compress_ptr cinfo)
+{
+    JPEGUserData * data = reinterpret_cast<JPEGUserData *>(cinfo->client_data);
+    data->stream->write(data->buffer, sizeof(data->buffer) - cinfo->dest->free_in_buffer, 1);
+}
+
+bool Image::writeJPEG(gameplay::Stream * stream, int quality)
+{
+    if (stream == NULL || !stream->canWrite())
+    {
+        GP_WARN("Stream doesn't support writing operations.");
+        return false;
+    }
+
+    jpeg_compress_struct cinfo;
+    jpeg_error_mgr jerr;
+
+    cinfo.err = jpeg_std_error(&jerr);
+    jpeg_create_compress(&cinfo);
+
+    JPEGUserData userdata;
+    userdata.stream = stream;
+
+    jpeg_destination_mgr destManager;
+
+    cinfo.client_data = &userdata;
+    cinfo.dest = &destManager;
+    cinfo.dest->init_destination = &streamJPEG_init_destination;
+    cinfo.dest->empty_output_buffer = &streamJPEG_empty_output_buffer;
+    cinfo.dest->term_destination = &streamJPEG_term_destination;
+
+    cinfo.image_width = _width;
+    cinfo.image_height = _height;
+    cinfo.input_components = 3;
+    cinfo.in_color_space = JCS_RGB;
+
+    jpeg_set_defaults(&cinfo);
+    jpeg_set_quality(&cinfo, quality, TRUE);
+
+    jpeg_start_compress(&cinfo, TRUE);
+
+    JSAMPROW row_pointer[1];
+
+    std::unique_ptr< unsigned char[] > scanline_rgb(new unsigned char[_width * 3]);
+
+    unsigned char * buf = reinterpret_cast< unsigned char * >(_data);
+    uint32_t bpp = _format == RGB ? 3 : 4;
+    while (cinfo.next_scanline < cinfo.image_height)
+    {
+        for (unsigned x = 0; x < _width; x++)
+        {
+            scanline_rgb[x * 3 + 0] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 0);
+            scanline_rgb[x * 3 + 1] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 1);
+            scanline_rgb[x * 3 + 2] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 2);
+        }
+
+        row_pointer[0] = scanline_rgb.get();
+        jpeg_write_scanlines(&cinfo, row_pointer, 1);
+    }
+
+    jpeg_finish_compress(&cinfo);
+    jpeg_destroy_compress(&cinfo);
+
+    return true;
+}
+
 }

@@ -82,6 +82,15 @@ public:
      */
     bool writePNG(class Stream * stream);
 
+    /**
+     * Write Image as JPEG to stream.
+     *
+     * @param quality Image quality (0-100)
+     * @return true if image has been written successfully
+     * @script{ignore}
+     */
+    bool writeJPEG(class Stream * stream, int quality);
+
 private:
 
     /**
