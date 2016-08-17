@@ -101,6 +101,7 @@ static std::string __resourcePath("./");
 static std::string __assetPath("");
 static std::map<std::string, std::string> __aliases;
 static std::vector<Package *> __packages;
+static std::mutex __packagesMutex;
 
 /**
  * Gets the fully resolved path.
@@ -374,9 +375,12 @@ bool FileSystem::fileExists(const char* filePath)
     if (stat(fullPath.c_str(), &s) == 0 && (s.st_mode & S_IFDIR) == 0)
         return true;
 
-    for (auto it = __packages.begin(), endIt = __packages.end(); it != endIt; it++)
-        if ((*it)->fileExists(filePath))
-            return true;
+    {
+        std::unique_lock<std::mutex> lock(__packagesMutex);
+        for (auto it = __packages.begin(), endIt = __packages.end(); it != endIt; it++)
+            if ((*it)->fileExists(filePath))
+                return true;
+    }
 
     return false;
 }
@@ -413,8 +417,11 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
 #else
     stream = FileStream::create(fullPath.c_str(), modeStr);
 #endif
-    for (auto it = __packages.begin(), endIt = __packages.end(); stream == NULL && it != endIt; it++)
-        stream = (*it)->open(path, streamMode);
+    {
+        std::unique_lock<std::mutex> lock(__packagesMutex);
+        for (auto it = __packages.begin(), endIt = __packages.end(); stream == NULL && it != endIt; it++)
+            stream = (*it)->open(path, streamMode);
+    }
 
     return stream;
 }
@@ -601,11 +608,13 @@ std::string FileSystem::getExtension(const char* path)
 
 void FileSystem::registerPackage(Package * package)
 {
+    std::unique_lock<std::mutex> lock(__packagesMutex);
     __packages.push_back(package);
 }
 
 void FileSystem::unregisterPackage(Package * package)
 {
+    std::unique_lock<std::mutex> lock(__packagesMutex);
     __packages.erase(std::remove(__packages.begin(), __packages.end(), package), __packages.end());
 }
 
