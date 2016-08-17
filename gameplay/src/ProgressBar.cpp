@@ -25,7 +25,7 @@ ProgressBar* ProgressBar::create(const char* id, Theme::Style* style)
 Control* ProgressBar::create(Theme::Style* style, Properties* properties)
 {
     ProgressBar* progressBar = new ProgressBar();
-    progressBar->initialize("Image", style, properties);
+    progressBar->initialize("ProgressBar", style, properties);
     return progressBar;
 }
 
