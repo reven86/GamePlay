@@ -264,11 +264,9 @@ const char* FileSystem::resolvePath(const char* path)
 bool FileSystem::listFiles(const char* dirPath, std::vector<std::string>& files)
 {
 #ifdef WIN32
-    std::string path(FileSystem::getResourcePath());
-    if (dirPath && strlen(dirPath) > 0)
-    {
-        path.append(dirPath);
-    }
+    std::string path;
+    getFullPath(dirPath, path);
+
     path.append("/*");
     // Convert char to wchar
     std::basic_string<TCHAR> wPath;
