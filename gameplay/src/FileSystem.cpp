@@ -294,11 +294,8 @@ bool FileSystem::listFiles(const char* dirPath, std::vector<std::string>& files)
     FindClose(hFind);
     return true;
 #else
-    std::string path(FileSystem::getResourcePath());
-    if (dirPath && strlen(dirPath) > 0)
-    {
-        path.append(dirPath);
-    }
+    std::string path;
+    getFullPath(dirPath, path);
     path.append("/.");
     bool result = false;
 
