@@ -200,6 +200,7 @@ public:
      */
     void setPrimitiveType(Mesh::PrimitiveType type);
 
+#ifndef __EMSCRIPTEN__
     /**
      * Maps the vertex buffer for the specified access.
      *
@@ -231,6 +232,7 @@ public:
      * @return false if unmapping buffer was unsuccessful
      */
     bool unmapVertexBuffer();
+#endif
 
     /**
      * Sets the specified vertex data into the mapped vertex buffer.
