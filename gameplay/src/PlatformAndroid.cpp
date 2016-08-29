@@ -1915,6 +1915,11 @@ const char * Platform::getUserAgentString( )
     return result.c_str( );
 }
 
+bool Platform::isTouchPressed()
+{
+    return __primaryTouchId != -1;
+}
+
 }
 
 extern "C"

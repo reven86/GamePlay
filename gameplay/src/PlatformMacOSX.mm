@@ -2519,5 +2519,10 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
     return filename;
 }
 
+bool Platform::isTouchPressed()
+{
+    return false;
+}
+
 #endif
 #endif

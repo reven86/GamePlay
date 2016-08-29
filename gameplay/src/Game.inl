@@ -190,4 +190,9 @@ inline void Game::reportError( bool isFatal, const char * errorMessage, ... )
 {
 }
 
+inline bool Game::isTouchPressed() const
+{
+    return Platform::isTouchPressed();
+}
+
 }

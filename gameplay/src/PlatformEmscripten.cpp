@@ -1199,6 +1199,11 @@ const char * Platform::getUserAgentString( )
     return "";
 }
 
+bool Platform::isTouchPressed()
+{
+    return false;
+}
+
 }
 
 #endif

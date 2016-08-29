@@ -1807,6 +1807,15 @@ const char * Platform::getUserAgentString( )
     return __defaultUserAgentString.c_str( );
 }
 
+bool Platform::isTouchPressed()
+{
+    int i = 0;
+    while (i < TOUCH_POINTS_MAX && __touchPoints[i].down)
+        return true;
+
+    return false;
+}
+
 }
 
 #endif

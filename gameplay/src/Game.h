@@ -431,6 +431,13 @@ public:
     inline bool isCursorVisible();
 
     /**
+     * Determines whether touch is still pressed.
+     *
+     * @return true if at least one touch point is pressed.
+     */
+    inline bool isTouchPressed() const;
+
+    /**
      * Determines whether a specified gesture event is supported.
      *
      * Use Gesture::GESTURE_ANY_SUPPORTED to test if one or more gesture events are supported.

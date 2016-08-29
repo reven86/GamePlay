@@ -211,6 +211,13 @@ private:
     static bool isCursorVisible();
 
     /**
+     * Determines whether touch is still pressed.
+     *
+     * @return true if at least one touch point is pressed.
+     */
+    static bool isTouchPressed();
+
+    /**
      * Whether the platform has accelerometer support.
      */
     static bool hasAccelerometer();
