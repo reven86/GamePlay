@@ -170,11 +170,12 @@ public:
     * @param v2 The triangle's third vertex position.
     * @param[out] uOut Pointer to store first barycentric coordinate.
     * @param[out] vOut Pointer to store second barycentric coordinate.
+    * @param twoSided Don't cull back-faced triangle.
     *
     * @return The distance from the origin of this ray to the plane of triangle or
     *     INTERSECTS_NONE if this ray does not intersect the plane.
     */
-    float intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut) const;
+    float intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut, bool twoSided = true) const;
 
     /**
      * Sets this ray to the specified values.

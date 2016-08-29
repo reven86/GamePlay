@@ -160,7 +160,7 @@ float Ray::intersects(const Plane& plane) const
     return d;
 }
 
-float Ray::intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut) const
+float Ray::intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, float * uOut, float * vOut, bool twoSided) const
 {
     // http://people.cs.clemson.edu/~dhouse/courses/405/papers/raytriangle-moeller02.pdf
 
@@ -171,7 +171,7 @@ float Ray::intersects(const Vector3& v0, const Vector3& v1, const Vector3& v2, f
     p.cross(e2);
 
     float det = Vector3::dot(p, e1);
-    if (fabs(det) < MATH_EPSILON)
+    if (det < MATH_EPSILON && (!twoSided || twoSided && det > -MATH_EPSILON))
         return INTERSECTS_NONE;
 
     float invDet = 1.0f / det;
