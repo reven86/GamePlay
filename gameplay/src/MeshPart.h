@@ -57,6 +57,7 @@ public:
      */
     IndexBufferHandle getIndexBuffer() const;
 
+#ifndef __EMSCRIPTEN__
     /**
      * Maps the index buffer for the specified access.
      *
@@ -88,6 +89,7 @@ public:
      * @return false if unmapping buffer was unsuccessful
      */
     bool unmapIndexBuffer();
+#endif
 
     /**
      * Sets the specified index data into the mapped index buffer.
