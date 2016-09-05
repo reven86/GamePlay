@@ -315,7 +315,7 @@ int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePat
         rowSize += GLYPH_PADDING;
 
         // Initialize with padding.
-        int penX = 0;
+        int penX = 1;
         int penY = 0;
         int row = 0;
 
@@ -331,7 +331,7 @@ int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePat
         {
             imageWidth = (unsigned int)pow(2.0, powerOf2);
             imageHeight = (unsigned int)pow(2.0, powerOf2);
-            penX = 0;
+            penX = 1;
             penY = 0;
             row = 0;
 
@@ -368,7 +368,7 @@ int writeFont(const std::vector<const char*>& inFilePath, const char* outFilePat
                 // If we reach the end of the image wrap aroud to the next row.
                 if ((penX + advance) > (int)imageWidth)
                 {
-                    penX = 0;
+                    penX = 1;
                     row += 1;
                     penY = row * rowSize;
                     if (penY + rowSize > (int)imageHeight)
