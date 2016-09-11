@@ -105,8 +105,8 @@ void ImageControl::setImage(const char* path)
         _tw = 1.0f / texture->getWidth();
         _th = 1.0f / texture->getHeight();
         texture->release();
+        _batch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
     }
-    _batch->getSampler( )->setWrapMode( Texture::CLAMP, Texture::CLAMP );
 
 
     if (_autoSize != AUTO_SIZE_NONE)
