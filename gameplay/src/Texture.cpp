@@ -64,6 +64,9 @@ Texture::~Texture()
     if (_handle)
     {
         GL_ASSERT( glDeleteTextures(1, &_handle) );
+        for (int i = 0; i < MAX_TEXTURE_UNITS; i++)
+            if (__currentTextureId[i] == _handle)
+                __currentTextureId[i] = 0;
         _handle = 0;
     }
 
