@@ -145,8 +145,10 @@ public:
 
         /**
          * Binds the texture of this sampler to the renderer and applies the sampler state.
+         *
+         * @param textureUnit to bound texture to.
          */
-        void bind();
+        void bind(int textureUnit);
 
     private:
 

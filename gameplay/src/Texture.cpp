@@ -47,9 +47,12 @@
 namespace gameplay
 {
 
+const int MAX_TEXTURE_UNITS = 8;
+
 static std::vector<Texture*> __textureCache;
-static TextureHandle __currentTextureId = 0;
-static Texture::Type __currentTextureType = Texture::TEXTURE_2D;
+static int __currentTextureUnit = 0;
+static TextureHandle __currentTextureId[MAX_TEXTURE_UNITS] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+static Texture::Type __currentTextureType[MAX_TEXTURE_UNITS] = { Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D, Texture::TEXTURE_2D };
 
 Texture::Texture() : _handle(0), _format(UNKNOWN), _type((Texture::Type)0), _width(0), _height(0), _mipmapped(false), _cached(false), _compressed(false),
     _wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT), _minFilter(Texture::NEAREST_MIPMAP_LINEAR), _magFilter(Texture::LINEAR)
@@ -314,7 +317,7 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
 
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
 
     return texture;
 }
@@ -339,7 +342,7 @@ Texture* Texture::create(TextureHandle handle, int width, int height, Format for
         }
 
         // Restore the texture id
-        GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+        GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
     }
     texture->_handle = handle;
     texture->_format = format;
@@ -383,7 +386,7 @@ void Texture::setData(const unsigned char* data)
     }
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
 }
 
 // Computes the size of a PVRTC data chunk for a mipmap level of the given size.
@@ -504,7 +507,7 @@ Texture* Texture::createCompressedPVRTC(const char* path)
     SAFE_DELETE_ARRAY(data);
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
 
     return texture;
 }
@@ -1154,7 +1157,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     SAFE_DELETE_ARRAY(mipLevels);
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
 
     return texture;
 }
@@ -1202,7 +1205,7 @@ void Texture::generateMipmaps()
         _mipmapped = true;
 
         // Restore the texture id
-        GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
+        GL_ASSERT( glBindTexture((GLenum)__currentTextureType[__currentTextureUnit], __currentTextureId[__currentTextureUnit]) );
     }
 }
 
@@ -1261,16 +1264,23 @@ Texture* Texture::Sampler::getTexture() const
     return _texture;
 }
 
-void Texture::Sampler::bind()
+void Texture::Sampler::bind(int textureUnit)
 {
     GP_ASSERT( _texture );
 
+    if (__currentTextureUnit != textureUnit)
+    {
+        GP_ASSERT(textureUnit >= 0 && textureUnit < MAX_TEXTURE_UNITS);
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + textureUnit));
+        __currentTextureUnit = textureUnit;
+    }
+
     GLenum target = (GLenum)_texture->_type;
-    if (__currentTextureId != _texture->_handle)
+    if (__currentTextureId[__currentTextureUnit] != _texture->_handle)
     {
         GL_ASSERT( glBindTexture(target, _texture->_handle) );
-        __currentTextureId = _texture->_handle;
-        __currentTextureType = _texture->_type;
+        __currentTextureId[__currentTextureUnit] = _texture->_handle;
+        __currentTextureType[__currentTextureUnit] = _texture->_type;
     }
 
     if (_texture->_minFilter != _minFilter)

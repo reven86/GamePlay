@@ -105,7 +105,7 @@ static int lua_TextureSampler_bind(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Texture::Sampler* instance = getInstance(state);
-                instance->bind();
+                instance->bind(0);
                 
                 return 0;
             }
