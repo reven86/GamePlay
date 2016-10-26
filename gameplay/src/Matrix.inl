@@ -75,4 +75,14 @@ inline const Vector4 operator*(const Matrix& m, const Vector4& v)
     return x;
 }
 
+inline bool Matrix::operator==(const Matrix& v) const
+{
+    return memcmp(m, v.m, sizeof(m)) == 0;
+}
+
+inline bool Matrix::operator!=(const Matrix& v) const
+{
+    return memcmp(m, v.m, sizeof(m)) != 0;
+}
+
 }

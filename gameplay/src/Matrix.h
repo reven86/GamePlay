@@ -3,6 +3,7 @@
 
 #include "Vector3.h"
 #include "Vector4.h"
+#include <memory>
 
 namespace gameplay
 {
@@ -923,6 +924,24 @@ public:
      */
     inline Matrix& operator*=(const Matrix& m);
     
+    /**
+     * Determines if this matrix is equal to the given matrix.
+     * 
+     * @param v The matrix to compare against.
+     * 
+     * @return True if this matrix is equal to the given matrix, false otherwise.
+     */
+    inline bool operator==(const Matrix& v) const;
+
+    /**
+     * Determines if this matrix is not equal to the given matrix.
+     * 
+     * @param v The matrix to compare against.
+     * 
+     * @return True if this matrix is not equal to the given matrix, false otherwise.
+     */
+    inline bool operator!=(const Matrix& v) const;
+
 private:
 
     static void createBillboardHelper(const Vector3& objectPosition, const Vector3& cameraPosition,

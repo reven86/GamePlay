@@ -62,4 +62,14 @@ inline const Vector2 operator*(const Matrix3& m, const Vector2& v)
     return x;
 }
 
+inline bool Matrix3::operator==(const Matrix3& v) const
+{
+    return memcmp(m, v.m, sizeof(m)) == 0;
+}
+
+inline bool Matrix3::operator!=(const Matrix3& v) const
+{
+    return memcmp(m, v.m, sizeof(m)) != 0;
+}
+
 }

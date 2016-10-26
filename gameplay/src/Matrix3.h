@@ -3,6 +3,7 @@
 
 #include "Vector2.h"
 #include "Vector3.h"
+#include <memory>
 
 namespace gameplay
 {
@@ -628,6 +629,24 @@ public:
      * @return This matrix, after the multiplication occurs.
      */
     inline Matrix3& operator*=(const Matrix3& m);
+
+    /**
+     * Determines if this matrix is equal to the given matrix.
+     * 
+     * @param v The matrix to compare against.
+     * 
+     * @return True if this matrix is equal to the given matrix, false otherwise.
+     */
+    inline bool operator==(const Matrix3& v) const;
+
+    /**
+     * Determines if this matrix is not equal to the given matrix.
+     * 
+     * @param v The matrix to compare against.
+     * 
+     * @return True if this matrix is not equal to the given matrix, false otherwise.
+     */
+    inline bool operator!=(const Matrix3& v) const;
 };
 
 /**
