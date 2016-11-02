@@ -116,6 +116,8 @@ int getUnicode(int key);
     
     UITapGestureRecognizer *_tapRecognizer;
     UIPinchGestureRecognizer *_pinchRecognizer;
+    UIRotationGestureRecognizer *_rotationRecognizer;
+    UIPanGestureRecognizer *_panRecognizer;
     UISwipeGestureRecognizer *_swipeRecognizer;
     UILongPressGestureRecognizer *_longPressRecognizer;
     UILongPressGestureRecognizer *_longTapRecognizer;
@@ -676,6 +678,10 @@ int getUnicode(int key);
             return (_swipeRecognizer != NULL);
         case Gesture::GESTURE_PINCH:
             return (_pinchRecognizer != NULL);
+        case Gesture::GESTURE_ROTATION:
+            return (_rotationRecognizer != NULL);
+        case Gesture::GESTURE_PAN:
+            return (_panRecognizer != NULL);
         case Gesture::GESTURE_TAP:
             return (_tapRecognizer != NULL);
         case Gesture::GESTURE_LONG_TAP:
@@ -720,6 +726,17 @@ int getUnicode(int key);
         _pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
         [self addGestureRecognizer:_pinchRecognizer];
     }
+    if((evt & Gesture::GESTURE_ROTATION) == Gesture::GESTURE_ROTATION && _rotationRecognizer == NULL)
+    {
+        _rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationGesture:)];
+        [self addGestureRecognizer:_rotationRecognizer];
+    }
+    if((evt & Gesture::GESTURE_PAN) == Gesture::GESTURE_PAN && _panRecognizer == NULL)
+    {
+        _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+        _panRecognizer.minimumNumberOfTouches = 2;
+        [self addGestureRecognizer:_panRecognizer];
+    }
     if((evt & Gesture::GESTURE_TAP) == Gesture::GESTURE_TAP && _tapRecognizer == NULL)
     {
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
@@ -762,6 +779,18 @@ int getUnicode(int key);
         [self removeGestureRecognizer:_pinchRecognizer];
         [_pinchRecognizer release];
         _pinchRecognizer = NULL;
+    }
+    if((evt & Gesture::GESTURE_ROTATION) == Gesture::GESTURE_ROTATION && _rotationRecognizer != NULL)
+    {
+        [self removeGestureRecognizer:_rotationRecognizer];
+        [_rotationRecognizer release];
+        _rotationRecognizer = NULL;
+    }
+    if((evt & Gesture::GESTURE_PAN) == Gesture::GESTURE_PAN && _panRecognizer != NULL)
+    {
+        [self removeGestureRecognizer:_panRecognizer];
+        [_panRecognizer release];
+        _panRecognizer = NULL;
     }
     if((evt & Gesture::GESTURE_TAP) == Gesture::GESTURE_TAP && _tapRecognizer != NULL)
     {
@@ -821,6 +850,19 @@ int getUnicode(int key);
     CGFloat factor = [sender scale];
     CGPoint location = [sender locationInView:self];
     gameplay::Platform::gesturePinchEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE, factor, sender.state == UIGestureRecognizerStateChanged ? sender.numberOfTouches : 0);
+}
+
+- (void)handleRotationGesture:(UIRotationGestureRecognizer*)sender
+{
+    CGFloat factor = [sender rotation];
+    CGPoint location = [sender locationInView:self];
+    gameplay::Platform::gestureRotationEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE, factor, sender.state == UIGestureRecognizerStateChanged ? sender.numberOfTouches : 0);
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer*)sender
+{
+    CGPoint location = [sender translation:self];
+    gameplay::Platform::gesturePanEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE, sender.state == UIGestureRecognizerStateChanged ? sender.numberOfTouches : 0);
 }
 
 - (void)handleSwipeGesture:(UISwipeGestureRecognizer*)sender

@@ -19,7 +19,7 @@ public:
 
     void gestureSwipeEvent(int x, int y, int direction);
     
-    void gesturePinchEvent(int x, int y, float scale);
+    void gesturePinchEvent(int x, int y, float scale, int numberOfTouches);
     
     void gestureTapEvent(int x, int y);
 

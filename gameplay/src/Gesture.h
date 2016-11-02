@@ -22,6 +22,8 @@ public:
         GESTURE_LONG_TAP,
         GESTURE_DRAG,
         GESTURE_DROP,
+        GESTURE_ROTATION,
+        GESTURE_PAN,
         GESTURE_ANY_SUPPORTED = -1,
     };
 

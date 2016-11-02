@@ -183,7 +183,7 @@ void GestureSample::gestureSwipeEvent(int x, int y, int direction)
     _eventLog.push_front(convert.str());
 }
    
-void GestureSample::gesturePinchEvent(int x, int y, float scale)
+void GestureSample::gesturePinchEvent(int x, int y, float scale, int numberOfTouches)
 {
     std::wstringstream convert;
     convert << "Pinch " << x << ", " << y << " scale(" << scale << ")";

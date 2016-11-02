@@ -230,7 +230,7 @@ void Sample::gestureSwipeEvent(int x, int y, int direction)
 {
 }
 
-void Sample::gesturePinchEvent(int x, int y, float scale)
+void Sample::gesturePinchEvent(int x, int y, float scale, int numberOfTouches)
 {
 }
 

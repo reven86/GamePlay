@@ -50,6 +50,16 @@ void Platform::gesturePinchEventInternal(int x, int y, float scale, int numberOf
     Game::getInstance()->gesturePinchEventInternal(x, y, scale, numberOfTouches);
 }
 
+void Platform::gestureRotationEventInternal(int x, int y, float rotation, int numberOfTouches)
+{
+    Game::getInstance()->gestureRotationEventInternal(x, y, rotation, numberOfTouches);
+}
+
+void Platform::gesturePanEventInternal(int x, int y, int numberOfTouches)
+{
+    Game::getInstance()->gesturePanEventInternal(x, y, numberOfTouches);
+}
+
 void Platform::gestureTapEventInternal(int x, int y)
 {
     Game::getInstance()->gestureTapEventInternal(x, y);

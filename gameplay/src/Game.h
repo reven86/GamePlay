@@ -505,6 +505,25 @@ public:
     virtual void gesturePinchEvent(int x, int y, float scale, int numberOfTouches);
 
     /**
+     * Gesture callback on Gesture::ROTATION events.
+     *
+     * @param x The centroid x-coordinate of the pinch.
+     * @param y The centroid y-coordinate of the pinch.
+     * @param rotation The rotation in radians.
+     * @param numberOfTouches Touches' number or 0 if rotation is ended.
+     */
+    virtual void gestureRotationEvent(int x, int y, float rotation, int numberOfTouches);
+
+    /**
+     * Gesture callback on Gesture::PAN events.
+     *
+     * @param x The centroid x-coordinate of the pinch.
+     * @param y The centroid y-coordinate of the pinch.
+     * @param numberOfTouches Touches' number or 0 if pan is ended.
+     */
+    virtual void gesturePanEvent(int x, int y, int numberOfTouches);
+
+    /**
      * Gesture callback on Gesture::LONG_TAP events.
      *
      * @param x The x-coordinate of the long tap.
@@ -837,6 +856,8 @@ private:
     void resizeEventInternal(unsigned int width, unsigned int height);
     void gestureSwipeEventInternal(int x, int y, int direction);
     void gesturePinchEventInternal(int x, int y, float scale, int numberOfTouches);
+    void gestureRotationEventInternal(int x, int y, float rotation, int numberOfTouches);
+    void gesturePanEventInternal(int x, int y, int numberOfTouches);
     void gestureTapEventInternal(int x, int y);
     void gestureLongTapEventInternal(int x, int y, float duration);
     void gestureDragEventInternal(int x, int y);

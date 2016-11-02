@@ -70,7 +70,7 @@ public:
     void unregisterGesture(Gesture::GestureEvent evt);
     bool isGestureRegistered(Gesture::GestureEvent evt);
     virtual void gestureSwipeEvent(int x, int y, int direction);
-    virtual void gesturePinchEvent(int x, int y, float scale);
+    virtual void gesturePinchEvent(int x, int y, float scale, int numberOfTouches);
     virtual void gestureTapEvent(int x, int y);
     virtual void gestureLongTapEvent(int x, int y, float duration);
     virtual void gestureDragEvent(int x, int y);

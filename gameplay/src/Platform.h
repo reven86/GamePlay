@@ -383,6 +383,20 @@ public:
      *
      * @script{ignore}
      */
+    static void gestureRotationEventInternal(int x, int y, float rotation, int numberOfTouches);
+
+    /**
+     * Internal method used only from static code in various platform implementation.
+     *
+     * @script{ignore}
+     */
+    static void gesturePanEventInternal(int x, int y, int numberOfTouches);
+
+    /**
+     * Internal method used only from static code in various platform implementation.
+     *
+     * @script{ignore}
+     */
     static void gestureTapEventInternal(int x, int y);
 
     /**

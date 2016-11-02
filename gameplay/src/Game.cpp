@@ -49,7 +49,9 @@ class GameScriptTarget : public ScriptTarget
     GP_SCRIPT_EVENT(touchEvent, "[Touch::TouchEvent]iiui");
     GP_SCRIPT_EVENT(mouseEvent, "[Mouse::MouseEvent]iii");
     GP_SCRIPT_EVENT(gestureSwipeEvent, "iii");
-    GP_SCRIPT_EVENT(gesturePinchEvent, "iif");
+    GP_SCRIPT_EVENT(gesturePinchEvent, "iifi");
+    GP_SCRIPT_EVENT(gestureRotationEvent, "iifi");
+    GP_SCRIPT_EVENT(gesturePanEvent, "iii");
     GP_SCRIPT_EVENT(gestureTapEvent, "ii");
     GP_SCRIPT_EVENT(gestureLongTapevent, "iif");
     GP_SCRIPT_EVENT(gestureDragEvent, "ii");
@@ -247,6 +249,8 @@ bool Game::startup()
                 GP_REG_GAME_SCRIPT_CB(mouseEvent);
                 GP_REG_GAME_SCRIPT_CB(gestureSwipeEvent);
                 GP_REG_GAME_SCRIPT_CB(gesturePinchEvent);
+                GP_REG_GAME_SCRIPT_CB(gestureRotationEvent);
+                GP_REG_GAME_SCRIPT_CB(gesturePanEvent);
                 GP_REG_GAME_SCRIPT_CB(gestureTapEvent);
                 GP_REG_GAME_SCRIPT_CB(gestureLongTapevent);
                 GP_REG_GAME_SCRIPT_CB(gestureDragEvent);
@@ -658,6 +662,16 @@ void Game::gesturePinchEvent(int x, int y, float scale, int numberOfTouches)
     // stub
 }
 
+void Game::gestureRotationEvent(int x, int y, float rotation, int numberOfTouches)
+{
+    // stub
+}
+
+void Game::gesturePanEvent(int x, int y, int numberOfTouches)
+{
+    // stub
+}
+
 void Game::gestureTapEvent(int x, int y)
 {
     // stub
@@ -732,7 +746,21 @@ void Game::gesturePinchEventInternal(int x, int y, float scale, int numberOfTouc
 {
     gesturePinchEvent(x, y, scale, numberOfTouches);
     if (_scriptTarget)
-        _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gesturePinchEvent), x, y, scale);
+        _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gesturePinchEvent), x, y, scale, numberOfTouches);
+}
+
+void Game::gestureRotationEventInternal(int x, int y, float rotation, int numberOfTouches)
+{
+    gestureRotationEvent(x, y, rotation, numberOfTouches);
+    if (_scriptTarget)
+        _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gestureRotationEvent), x, y, rotation, numberOfTouches);
+}
+
+void Game::gesturePanEventInternal(int x, int y, int numberOfTouches)
+{
+    gesturePanEvent(x, y, numberOfTouches);
+    if (_scriptTarget)
+        _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gesturePanEvent), x, y, numberOfTouches);
 }
 
 void Game::gestureTapEventInternal(int x, int y)

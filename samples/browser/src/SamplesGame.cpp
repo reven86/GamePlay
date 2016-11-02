@@ -185,10 +185,10 @@ void SamplesGame::gestureSwipeEvent(int x, int y, int direction)
         _activeSample->gestureSwipeEvent(x, y, direction);
 }
 
-void SamplesGame::gesturePinchEvent(int x, int y, float scale)
+void SamplesGame::gesturePinchEvent(int x, int y, float scale, int numberOfTouches)
 {
     if (_activeSample)
-        _activeSample->gesturePinchEvent(x, y, scale);
+        _activeSample->gesturePinchEvent(x, y, scale, numberOfTouches);
 }
     
 void SamplesGame::gestureTapEvent(int x, int y)
