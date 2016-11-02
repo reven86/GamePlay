@@ -96,7 +96,7 @@ double getMachTimeInMilliseconds();
 int getKey(unichar keyCode);
 int getUnicode(int key);
 
-@interface View : UIView <UIKeyInput>
+@interface View : UIView <UIKeyInput, UIGestureRecognizerDelegate>
 {
     EAGLContext* context;
     CADisplayLink* displayLink;
@@ -136,6 +136,7 @@ int getUnicode(int key);
 - (void)swapBuffers;
 - (BOOL)showKeyboard;
 - (BOOL)dismissKeyboard;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;
 @end
 
 @interface View (Private)
@@ -697,7 +698,7 @@ int getUnicode(int key);
 
 - (void)registerGesture: (Gesture::GestureEvent) evt
 {
-    if((evt & Gesture::GESTURE_SWIPE) == Gesture::GESTURE_SWIPE && _swipeRecognizer == NULL)
+    if(evt == Gesture::GESTURE_SWIPE && _swipeRecognizer == NULL)
     {
         // right swipe (default)
         _swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)];
@@ -721,28 +722,31 @@ int getUnicode(int key);
         [self addGestureRecognizer:swipeGesture3];
         [swipeGesture3 release];
     }
-    if((evt & Gesture::GESTURE_PINCH) == Gesture::GESTURE_PINCH && _pinchRecognizer == NULL)
+    if(evt == Gesture::GESTURE_PINCH && _pinchRecognizer == NULL)
     {
         _pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+        _pinchRecognizer.delegate = self;
         [self addGestureRecognizer:_pinchRecognizer];
     }
-    if((evt & Gesture::GESTURE_ROTATION) == Gesture::GESTURE_ROTATION && _rotationRecognizer == NULL)
+    if(evt == Gesture::GESTURE_ROTATION && _rotationRecognizer == NULL)
     {
         _rotationRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationGesture:)];
+        _rotationRecognizer.delegate = self;
         [self addGestureRecognizer:_rotationRecognizer];
     }
-    if((evt & Gesture::GESTURE_PAN) == Gesture::GESTURE_PAN && _panRecognizer == NULL)
+    if(evt == Gesture::GESTURE_PAN && _panRecognizer == NULL)
     {
         _panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
         _panRecognizer.minimumNumberOfTouches = 2;
+        _panRecognizer.delegate = self;
         [self addGestureRecognizer:_panRecognizer];
     }
-    if((evt & Gesture::GESTURE_TAP) == Gesture::GESTURE_TAP && _tapRecognizer == NULL)
+    if(evt == Gesture::GESTURE_TAP && _tapRecognizer == NULL)
     {
         _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
         [self addGestureRecognizer:_tapRecognizer];
     }
-    if ((evt & Gesture::GESTURE_LONG_TAP) == Gesture::GESTURE_LONG_TAP && _longTapRecognizer == NULL)
+    if (evt == Gesture::GESTURE_LONG_TAP && _longTapRecognizer == NULL)
     {
         if (_longPressRecognizer == NULL)
         {
@@ -753,7 +757,7 @@ int getUnicode(int key);
         }
         _longTapRecognizer = _longPressRecognizer;
     }
-    if (((evt & Gesture::GESTURE_DRAG) == Gesture::GESTURE_DRAG || (evt & Gesture::GESTURE_DROP) == Gesture::GESTURE_DROP) && _dragAndDropRecognizer == NULL)
+    if ((evt == Gesture::GESTURE_DRAG || evt == Gesture::GESTURE_DROP) && _dragAndDropRecognizer == NULL)
     {
         if (_longPressRecognizer == NULL)
         {
@@ -768,37 +772,37 @@ int getUnicode(int key);
 
 - (void)unregisterGesture: (Gesture::GestureEvent) evt
 {
-    if((evt & Gesture::GESTURE_SWIPE) == Gesture::GESTURE_SWIPE && _swipeRecognizer != NULL)
+    if(evt == Gesture::GESTURE_SWIPE && _swipeRecognizer != NULL)
     {
         [self removeGestureRecognizer:_swipeRecognizer];
         [_swipeRecognizer release];
         _swipeRecognizer = NULL;
     }
-    if((evt & Gesture::GESTURE_PINCH) == Gesture::GESTURE_PINCH && _pinchRecognizer != NULL)
+    if(evt == Gesture::GESTURE_PINCH && _pinchRecognizer != NULL)
     {
         [self removeGestureRecognizer:_pinchRecognizer];
         [_pinchRecognizer release];
         _pinchRecognizer = NULL;
     }
-    if((evt & Gesture::GESTURE_ROTATION) == Gesture::GESTURE_ROTATION && _rotationRecognizer != NULL)
+    if(evt == Gesture::GESTURE_ROTATION && _rotationRecognizer != NULL)
     {
         [self removeGestureRecognizer:_rotationRecognizer];
         [_rotationRecognizer release];
         _rotationRecognizer = NULL;
     }
-    if((evt & Gesture::GESTURE_PAN) == Gesture::GESTURE_PAN && _panRecognizer != NULL)
+    if(evt == Gesture::GESTURE_PAN && _panRecognizer != NULL)
     {
         [self removeGestureRecognizer:_panRecognizer];
         [_panRecognizer release];
         _panRecognizer = NULL;
     }
-    if((evt & Gesture::GESTURE_TAP) == Gesture::GESTURE_TAP && _tapRecognizer != NULL)
+    if(evt == Gesture::GESTURE_TAP && _tapRecognizer != NULL)
     {
         [self removeGestureRecognizer:_tapRecognizer];
         [_tapRecognizer release];
         _tapRecognizer = NULL;
     }
-    if((evt & Gesture::GESTURE_LONG_TAP) == Gesture::GESTURE_LONG_TAP && _longTapRecognizer != NULL)
+    if(evt == Gesture::GESTURE_LONG_TAP && _longTapRecognizer != NULL)
     {
         if (_longTapRecognizer == NULL)
         {
@@ -807,7 +811,7 @@ int getUnicode(int key);
         }
         _longTapRecognizer = NULL;
     }
-    if (((evt & Gesture::GESTURE_DRAG) == Gesture::GESTURE_DRAG || (evt & Gesture::GESTURE_DROP) == Gesture::GESTURE_DROP) && _dragAndDropRecognizer != NULL)
+    if ((evt == Gesture::GESTURE_DRAG || evt == Gesture::GESTURE_DROP) && _dragAndDropRecognizer != NULL)
     {
         if (_dragAndDropRecognizer == NULL)
         {
@@ -861,7 +865,7 @@ int getUnicode(int key);
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    CGPoint location = [sender translation:self];
+    CGPoint location = [sender translationInView:self];
     gameplay::Platform::gesturePanEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE, sender.state == UIGestureRecognizerStateChanged ? sender.numberOfTouches : 0);
 }
 
@@ -936,6 +940,19 @@ int getUnicode(int key);
         gameplay::Platform::gestureDropEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE);
         __gestureDraging = false;
     }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    // if the gesture recognizers are on different views, don't allow simultaneous recognition
+    if (gestureRecognizer.view != otherGestureRecognizer.view)
+        return NO;
+    
+    // if either of the gesture recognizers is the long press, don't allow simultaneous recognition
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]] || [otherGestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]])
+        return NO;
+    
+    return YES;
 }
 
 @end
@@ -1025,6 +1042,7 @@ int getUnicode(int key);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #endif
+
 @end
 
 
