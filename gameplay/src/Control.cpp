@@ -1163,7 +1163,7 @@ void Control::notifyListeners(Control::Listener::EventType eventType)
         }
     }
 
-    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Control, controlEvent), dynamic_cast<void*>(this), eventType);
+    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Control, controlEvent), static_cast<void*>(this), eventType);
 
     if (getRefCount() > 0)
         this->release();
