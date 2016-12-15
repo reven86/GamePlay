@@ -426,7 +426,7 @@ void Node::update(float elapsedTime)
             node->update(elapsedTime);
         }
     }
-    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Node, update), dynamic_cast<void*>(this), elapsedTime);
+    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Node, update), static_cast<void*>(this), elapsedTime);
 }
 
 bool Node::isStatic() const
