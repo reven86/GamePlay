@@ -80,7 +80,7 @@ static std::pair<int, int> __gesturePointer0CurrentPosition, __gesturePointer1Cu
 static std::pair<int, int> __gesturePinchCentroid;
 static int __gesturePointer0Delta, __gesturePointer1Delta;
 
-static std::bitset<6> __gestureEventsProcessed;
+static std::bitset<8> __gestureEventsProcessed;
 
 struct TouchPointerData
 {
@@ -1106,14 +1106,14 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                 	                    }
 										if (__gesturePinching)
 										{
-											float currentDistancePointer;
+                                            Vector2 currentDistancePointer;
 											float scale, rotation;
                                            
                                             __gesturePinchCentroid = std::pair<int, int>((__gesturePointer0CurrentPosition.first + __gesturePointer1CurrentPosition.first) / 2,
             	                                (__gesturePointer0CurrentPosition.second + __gesturePointer1CurrentPosition.second) / 2);
 
-                	                        currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second).length();
-											scale = currentDistancePointer;
+                	                        currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
+											scale = currentDistancePointer.length();
                                             rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
 
                                             if ((__gesturePointer0CurrentPosition != __gesturePointer0LastPosition) || (__gesturePointer1CurrentPosition != __gesturePointer1LastPosition) || !eventWasStarted)
@@ -1127,39 +1127,39 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                                             }
         	                            }
 	                                }
-							}
-							//Only the primary pointer is done and the event was done by it
-							else if (!gestureDetected && pointerId == __pointer0.pointerId)
-							{
-								//Test for drag
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_DRAG))
-								{
-                            		int delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
-													pow(static_cast<float>(y - __pointer0.y), 2));
+							    }
+							    //Only the primary pointer is done and the event was done by it
+							    else if (!gestureDetected && pointerId == __pointer0.pointerId)
+							    {
+								    //Test for drag
+								    if (__gestureEventsProcessed.test(Gesture::GESTURE_DRAG))
+								    {
+                            		    int delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
+													    pow(static_cast<float>(y - __pointer0.y), 2));
                             
-                            		if ((__gestureDraging || __gestureEventsProcessed.test(Gesture::GESTURE_DRAG)) &&
-                                 		(gameplay::Game::getInstance()->getAbsoluteTime() - __pointer0.time >= GESTURE_DRAG_START_DURATION_MIN) &&
-                                		(delta >= GESTURE_DRAG_DISTANCE_MIN))
-                            		{
-                                		gameplay::Platform::gestureDragEventInternal(x, y);
-                                		__gestureDraging = true;
-                                		gestureDetected = true;
-                            		}
-								}
-							}
-						}
+                            		    if ((__gestureDraging || __gestureEventsProcessed.test(Gesture::GESTURE_DRAG)) &&
+                                 		    (gameplay::Game::getInstance()->getAbsoluteTime() - __pointer0.time >= GESTURE_DRAG_START_DURATION_MIN) &&
+                                		    (delta >= GESTURE_DRAG_DISTANCE_MIN))
+                            		    {
+                                		    gameplay::Platform::gestureDragEventInternal(x, y);
+                                		    __gestureDraging = true;
+                                		    gestureDetected = true;
+                            		    }
+								    }
+							    }
+						    }
 
-                        if (__gesturePinching && 
-                            (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN)))
-                            gestureDetected = true;
+                            if (__gesturePinching && 
+                                (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN)))
+                                gestureDetected = true;
 
-                        if (!gestureDetected && (__multiTouch || __primaryTouchId == pointerId))
-                        {
-                            gameplay::Platform::touchEventInternal(Touch::TOUCH_MOVE, x, y, pointerId);
+                            if (!gestureDetected && (__multiTouch || __primaryTouchId == pointerId))
+                            {
+                                gameplay::Platform::touchEventInternal(Touch::TOUCH_MOVE, x, y, pointerId);
+                            }
                         }
                     }
-                }
-                break;
+                    break;
             }
         }
         return 1;
