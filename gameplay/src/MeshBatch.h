@@ -152,7 +152,7 @@ public:
     /**
      * Draws the primitives currently in batch.
      */
-    void draw();
+    void draw() const;
 
 private:
 

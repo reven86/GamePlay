@@ -269,7 +269,7 @@ void MeshBatch::finish()
     _started = false;
 }
 
-void MeshBatch::draw()
+void MeshBatch::draw() const
 {
     if (_vertexCount == 0 || (_indexed && _indexCount == 0))
         return; // nothing to draw
