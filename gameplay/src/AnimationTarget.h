@@ -29,13 +29,13 @@ public:
      * @param id The ID of the animation.
      * @param propertyId The property on this target to animate.
      * @param keyCount The number of keyframes in the animation. Must be greater than one.
-     * @param keyTimes The list of key times for the animation (in milliseconds).
+     * @param keyTimes The list of key times for the animation (in seconds).
      * @param keyValues The list of key values for the animation.
      * @param type The curve interpolation type.
      *
      * @return The newly created animation.
      */
-    Animation* createAnimation(const char* id, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, Curve::InterpolationType type);
+    Animation* createAnimation(const char* id, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, Curve::InterpolationType type);
 
     /**
      * Creates an animation on this target from a set of key value and key time pairs.
@@ -43,7 +43,7 @@ public:
      * @param id The ID of the animation.
      * @param propertyId The property on this target to animate.
      * @param keyCount The number of keyframes in the animation. Must be greater than one.
-     * @param keyTimes The list of key times for the animation (in milliseconds).
+     * @param keyTimes The list of key times for the animation (in seconds).
      * @param keyValues The list of key values for the animation.
      * @param keyInValue The list of key in values for the animation.
      * @param keyOutValue The list of key out values for the animation.
@@ -51,7 +51,7 @@ public:
      *
      * @return The newly created animation.
      */
-    Animation* createAnimation(const char* id, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, Curve::InterpolationType type);
+    Animation* createAnimation(const char* id, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, Curve::InterpolationType type);
 
     /**
      * Creates an animation on this target using the data from the Properties object defined at the specified URL,
@@ -84,11 +84,11 @@ public:
      * @param from The values to animate from.
      * @param to The values to animate to.
      * @param type The curve interpolation type.
-     * @param duration The duration of the animation (in milliseconds).
+     * @param duration The duration of the animation (in seconds).
      *
      * @return The newly created animation.
      */
-    Animation* createAnimationFromTo(const char* id, int propertyId, float* from, float* to, Curve::InterpolationType type, unsigned long duration);
+    Animation* createAnimationFromTo(const char* id, int propertyId, float* from, float* to, Curve::InterpolationType type, float duration);
 
     /**
      * Creates a simple two keyframe from-by animation.
@@ -99,11 +99,11 @@ public:
      * @param from The values to animate from.
      * @param by The values to animate by.
      * @param type The curve interpolation type.
-     * @param duration The duration of the animation (in milliseconds).
+     * @param duration The duration of the animation (in seconds).
      *
      * @return The newly created animation.
      */
-    Animation* createAnimationFromBy(const char* id, int propertyId, float* from, float* by, Curve::InterpolationType type, unsigned long duration);
+    Animation* createAnimationFromBy(const char* id, int propertyId, float* from, float* by, Curve::InterpolationType type, float duration);
 
     /**
      * Destroys the animation with the specified ID. Destroys the first animation if ID is NULL.

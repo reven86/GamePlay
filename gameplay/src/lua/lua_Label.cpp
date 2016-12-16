@@ -415,7 +415,7 @@ static int lua_Label_createAnimation(lua_State* state)
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
 
                     // Get parameter 4 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param4 = gameplay::ScriptUtil::getUnsignedIntPointer(5);
+                    gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
 
                     // Get parameter 5 off the stack.
                     gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);
@@ -470,7 +470,7 @@ static int lua_Label_createAnimation(lua_State* state)
                     unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 4);
 
                     // Get parameter 4 off the stack.
-                    gameplay::ScriptUtil::LuaArray<unsigned int> param4 = gameplay::ScriptUtil::getUnsignedIntPointer(5);
+                    gameplay::ScriptUtil::LuaArray<float> param4 = gameplay::ScriptUtil::getFloatPointer(5);
 
                     // Get parameter 5 off the stack.
                     gameplay::ScriptUtil::LuaArray<float> param5 = gameplay::ScriptUtil::getFloatPointer(6);

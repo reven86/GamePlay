@@ -1111,12 +1111,12 @@ double Platform::getAbsoluteTime()
     GP_ASSERT(__timeTicksPerMillis);
     __timeAbsolute = queryTime.QuadPart / __timeTicksPerMillis;
 
-    return __timeAbsolute - __timeStart;
+    return (__timeAbsolute - __timeStart) * 0.001;
 }
 
 void Platform::setAbsoluteTime(double time)
 {
-    __timeAbsolute = time;
+    __timeAbsolute = time * 1000.0;
 }
 
 bool Platform::isVsync()
@@ -1140,9 +1140,9 @@ void Platform::swapBuffers()
         SwapBuffers(__hdc);
 }
 
-void Platform::sleep(long ms)
+void Platform::sleep(float s)
 {
-    Sleep(ms);
+    Sleep((long)(s * 1000));
 }
 
 void Platform::setMultiSampling(bool enabled)

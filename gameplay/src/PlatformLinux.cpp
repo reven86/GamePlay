@@ -1369,12 +1369,12 @@ double Platform::getAbsoluteTime()
     double now = timespec2millis(&__timespec);
     __timeAbsolute = now - __timeStart;
 
-    return __timeAbsolute;
+    return __timeAbsolute * 0.001;
 }
 
 void Platform::setAbsoluteTime(double time)
 {
-    __timeAbsolute = time;
+    __timeAbsolute = time * 1000.0;
 }
 
 bool Platform::isVsync()
@@ -1397,9 +1397,9 @@ void Platform::swapBuffers()
     glXSwapBuffers(__display, __window);
 }
 
-void Platform::sleep(long ms)
+void Platform::sleep(float s)
 {
-    usleep(ms * 1000);
+    usleep(long(s * 1000000));
 }
 
 void Platform::setMultiSampling(bool enabled)

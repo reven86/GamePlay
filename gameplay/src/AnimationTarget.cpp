@@ -34,7 +34,7 @@ AnimationTarget::~AnimationTarget()
     }
 }
 
-Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, Curve::InterpolationType type)
+Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, Curve::InterpolationType type)
 {
     GP_ASSERT(type != Curve::BEZIER && type != Curve::HERMITE);
     GP_ASSERT(keyCount >= 1 && keyTimes && keyValues);
@@ -44,7 +44,7 @@ Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsi
     return animation;
 }
 
-Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, Curve::InterpolationType type)
+Animation* AnimationTarget::createAnimation(const char* id, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, Curve::InterpolationType type)
 {
     GP_ASSERT(keyCount >= 1 && keyTimes && keyValues && keyInValue && keyOutValue);
     Animation* animation = new Animation(id, this, propertyId, keyCount, keyTimes, keyValues, keyInValue, keyOutValue, type);
@@ -64,7 +64,7 @@ Animation* AnimationTarget::createAnimation(const char* id, const char* url)
     return animation;
 }
 
-Animation* AnimationTarget::createAnimationFromTo(const char* id, int propertyId, float* from, float* to, Curve::InterpolationType type, unsigned long duration)
+Animation* AnimationTarget::createAnimationFromTo(const char* id, int propertyId, float* from, float* to, Curve::InterpolationType type, float duration)
 {
     GP_ASSERT(from);
     GP_ASSERT(to);
@@ -76,9 +76,9 @@ Animation* AnimationTarget::createAnimationFromTo(const char* id, int propertyId
     memcpy(keyValues, from, sizeof(float) * propertyComponentCount);
     memcpy(keyValues + propertyComponentCount, to, sizeof(float) * propertyComponentCount);
 
-    unsigned int* keyTimes = new unsigned int[2];
+    float* keyTimes = new float[2];
     keyTimes[0] = 0;
-    keyTimes[1] = (unsigned int)duration;
+    keyTimes[1] = duration;
 
     Animation* animation = createAnimation(id, propertyId, 2, keyTimes, keyValues, type);
 
@@ -88,7 +88,7 @@ Animation* AnimationTarget::createAnimationFromTo(const char* id, int propertyId
     return animation;
 }
 
-Animation* AnimationTarget::createAnimationFromBy(const char* id, int propertyId, float* from, float* by, Curve::InterpolationType type, unsigned long duration)
+Animation* AnimationTarget::createAnimationFromBy(const char* id, int propertyId, float* from, float* by, Curve::InterpolationType type, float duration)
 {
     GP_ASSERT(from);
     GP_ASSERT(by);
@@ -102,9 +102,9 @@ Animation* AnimationTarget::createAnimationFromBy(const char* id, int propertyId
     convertByValues(propertyId, propertyComponentCount, from, by);
     memcpy(keyValues + propertyComponentCount, by, sizeof(float) * propertyComponentCount);
 
-    unsigned int* keyTimes = new unsigned int[2];
+    float* keyTimes = new float[2];
     keyTimes[0] = 0;
-    keyTimes[1] = (unsigned int)duration;
+    keyTimes[1] = duration;
 
     Animation* animation = createAnimation(id, propertyId, 2, keyTimes, keyValues, type);
 
@@ -170,17 +170,17 @@ Animation* AnimationTarget::createAnimation(const char* id, Properties* animatio
     size_t startOffset = 0;
     size_t endOffset = std::string::npos;
 
-    unsigned int* keyTimes = new unsigned int[keyCount];
+    float* keyTimes = new float[keyCount];
     for (size_t i = 0; i < keyCount; i++)
     {
         endOffset = static_cast<std::string>(keyTimesStr).find_first_of(delimeter, startOffset);
         if (endOffset != std::string::npos)
         {
-            keyTimes[i] = std::strtoul(static_cast<std::string>(keyTimesStr).substr(startOffset, endOffset - startOffset).c_str(), NULL, 0);
+            keyTimes[i] = std::atof(static_cast<std::string>(keyTimesStr).substr(startOffset, endOffset - startOffset).c_str());
         }
         else
         {
-            keyTimes[i] = std::strtoul(static_cast<std::string>(keyTimesStr).substr(startOffset, static_cast<std::string>(keyTimesStr).length()).c_str(), NULL, 0);
+            keyTimes[i] = std::atof(static_cast<std::string>(keyTimesStr).substr(startOffset, static_cast<std::string>(keyTimesStr).length()).c_str());
         }
         startOffset = endOffset + 1;
     }

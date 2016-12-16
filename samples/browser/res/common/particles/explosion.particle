@@ -10,7 +10,7 @@ particle explosion
         looped = false
         frameCount = 16
         frameRandomOffset = 4
-        frameDuration = 25
+        frameDuration = 0.025
     }
 
     particleCountMax = 5000
@@ -23,8 +23,8 @@ particle explosion
     sizeStartMax = 5
     sizeEndMin = 5
     sizeEndMax = 5
-    energyMin = 1000
-    energyMax = 1200
+    energyMin = 1.0
+    energyMax = 1.2
     colorStart = 1, 1, 1, 0.5
     colorStartVar = 0, 0, 0, 0
     colorEnd = 1, 1, 1, 0

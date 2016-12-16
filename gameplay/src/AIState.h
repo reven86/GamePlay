@@ -57,7 +57,7 @@ public:
          *
          * @param agent The AIAgent this state event is for.
          * @param state The active AIState.
-         * @param elapsedTime The elapsed time, in milliseconds.
+         * @param elapsedTime The elapsed time, in seconds.
          */
         virtual void stateUpdate(AIAgent* agent, AIState* state, float elapsedTime);
     };

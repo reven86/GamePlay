@@ -116,21 +116,21 @@ public:
     /**
      * Gets the AnimationClip's start time.
      *
-     * @return The time (in milliseconds) that the AnimationClip starts playing from.
+     * @return The time (in seconds) that the AnimationClip starts playing from.
      */
-    unsigned long getStartTime() const;
+    float getStartTime() const;
 
     /**
      * Gets the AnimationClip's end time.
      * 
-     * @return The time (in milliseconds) that the AnimationClip will end.
+     * @return The time (in seconds) that the AnimationClip will end.
      */
-    unsigned long getEndTime() const;
+    float getEndTime() const;
 
     /**
      * Gets the AnimationClip's elapsed time.
      *
-     * @return The elapsed time of the AnimationClip (in milliseconds).
+     * @return The elapsed time of the AnimationClip (in seconds).
      */
     float getElapsedTime() const;
 
@@ -163,23 +163,23 @@ public:
      *
      * Use REPEAT_INDEFINITE to play the AnimationClip indefinitely.
      *
-     * @param duration The active duration that is set on the AnimationClip, in milliseconds.
+     * @param duration The active duration that is set on the AnimationClip, in seconds.
      */
-    void setActiveDuration(unsigned long duration);
+    void setActiveDuration(float duration);
 
     /**
      * Gets the AnimationClip's active duration.
      * 
      * @return the AnimationClip's active duration.
      */
-    unsigned long getActiveDuration() const;
+    float getActiveDuration() const;
 
     /**
      * Gets the AnimationClip's duration.
      *
-     * @return the AnimationClip's duration, in milliseconds.
+     * @return the AnimationClip's duration, in seconds.
      */
-    unsigned long getDuration() const;
+    float getDuration() const;
 
     /**
      * Set the AnimationClip's running speed. 
@@ -210,7 +210,7 @@ public:
     float getBlendWeight() const;
 
     /**
-     * Sets the time (in milliseconds) to append to the clip's active duration
+     * Sets the time (in seconds) to append to the clip's active duration
      * to use for blending the end points of the clip when looping.
      *
      * @param loopBlendTime Time spent blending end points of clip when looping.
@@ -218,7 +218,7 @@ public:
     void setLoopBlendTime(float loopBlendTime);
 
     /**
-     * Returns the amount of time (in milliseconds) spent blending the clip's 
+     * Returns the amount of time (in seconds) spent blending the clip's 
      * end points when looping.
      *
      * @return Time spent blending end points of the clip when looping.
@@ -253,7 +253,7 @@ public:
      * @param clip The clip to fade into.
      * @param duration The duration of the fade.
      */
-    void crossFade(AnimationClip* clip, unsigned long duration);
+    void crossFade(AnimationClip* clip, float duration);
 
     /**
      * Adds an animation begin listener.
@@ -292,7 +292,7 @@ public:
      * @param eventTime The time the listener will be called during the playback of the AnimationClip. 
      *      Must be between 0 and the duration of the AnimationClip.
      */
-    void addListener(AnimationClip::Listener* listener, unsigned long eventTime);
+    void addListener(AnimationClip::Listener* listener, float eventTime);
 
     /**
      * Removes an animation listener assigned to the specified eventTime.
@@ -300,7 +300,7 @@ public:
      * @param listener The listener to be removed with the specified time.
      * @param eventTime The time of the listener to be removed.
      */
-    void removeListener(AnimationClip::Listener* listener, unsigned long eventTime);
+    void removeListener(AnimationClip::Listener* listener, float eventTime);
 
 private:
     
@@ -324,7 +324,7 @@ private:
         /** 
          * Constructor.
          */
-        ListenerEvent(Listener* listener, unsigned long eventTime);
+        ListenerEvent(Listener* listener, float eventTime);
 
         /**
          * Destructor.
@@ -337,13 +337,13 @@ private:
         ListenerEvent& operator=(const ListenerEvent&);
 
         Listener* _listener;        // This listener to call back when this event is triggered.
-        unsigned long _eventTime;   // The time at which the listener will be called back at during the playback of the AnimationClip.
+        float _eventTime;   // The time at which the listener will be called back at during the playback of the AnimationClip.
     };
 
     /**
      * Constructor.
      */
-    AnimationClip(const char* id, Animation* animation, unsigned long startTime, unsigned long endTime);
+    AnimationClip(const char* id, Animation* animation, float startTime, float endTime);
 
     /**
      * Constructor.
@@ -406,19 +406,19 @@ private:
 
     std::string _id;                                    // AnimationClip ID.
     Animation* _animation;                              // The Animation this clip is created from.
-    unsigned long _startTime;                           // Start time of the clip.
-    unsigned long _endTime;                             // End time of the clip.
-    unsigned long _duration;                            // The total duration.
+    float _startTime;                                   // Start time of the clip.
+    float _endTime;                                     // End time of the clip.
+    float _duration;                                    // The total duration.
     unsigned char _stateBits;                           // Bit flag used to keep track of the clip's current state.
     float _repeatCount;                                 // The clip's repeat count.
-    unsigned int _loopBlendTime;                        // Time spent blending the last frame of animation with the first frame, when looping.
-    unsigned long _activeDuration;                      // The active duration of the clip.
+    float _loopBlendTime;                               // Time spent blending the last frame of animation with the first frame, when looping.
+    float _activeDuration;                              // The active duration of the clip.
     float _speed;                                       // The speed that the clip is playing. Default is 1.0. Negative goes in reverse.
     double _timeStarted;                                // The game time when this clip was actually started.
     float _elapsedTime;                                 // Time elapsed while the clip is running.
     AnimationClip* _crossFadeToClip;                    // The clip to cross fade to.
     float _crossFadeOutElapsed;                         // The amount of time that has elapsed for the crossfade.
-    unsigned long _crossFadeOutDuration;                // The duration of the cross fade.
+    float _crossFadeOutDuration;                        // The duration of the cross fade.
     float _blendWeight;                                 // The clip's blendweight.
     std::vector<AnimationValue*> _values;               // AnimationValue holder.
     std::vector<Listener*>* _beginListeners;            // Collection of begin listeners on the clip.

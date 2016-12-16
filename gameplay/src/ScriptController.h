@@ -686,7 +686,7 @@ private:
      *
      * This function is executed in the environment of the script that calls this function.
      *
-     * @param timeOffset The number of game milliseconds in the future to schedule the event to be fired.
+     * @param timeOffset The number of game seconds in the future to schedule the event to be fired.
      * @param function The Lua script function that will receive the event.
      */
     void schedule(float timeOffset, const char* function);

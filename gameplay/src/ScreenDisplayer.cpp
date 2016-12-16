@@ -12,12 +12,12 @@ ScreenDisplayer::ScreenDisplayer() : _time(0L), _startTime(0)
 
 ScreenDisplayer::~ScreenDisplayer()
 {
-    long elapsedTime = (long)(Game::getInstance()->getGameTime() - _startTime);
+    float elapsedTime = (float)(Game::getInstance()->getGameTime() - _startTime);
     if (elapsedTime < _time)
         Platform::sleep(_time - elapsedTime);
 }
 
-void ScreenDisplayer::start(const char* function, unsigned long time)
+void ScreenDisplayer::start(const char* function, float time)
 {
     if (__scriptInstance == NULL)
     {

@@ -40,9 +40,9 @@ public:
     /**
      * Gets the Animation's duration.
      *
-     * @return The Animation's duration (in milliseconds).
+     * @return The Animation's duration (in seconds).
      */
-    unsigned long getDuration() const;
+    float getDuration() const;
 
     /**
      * Creates an AnimationClip from the Properties object defined at the specified URL,
@@ -57,13 +57,13 @@ public:
      * Creates an AnimationClip from the Animation.
      *
      * @param id The ID to the give the AnimationClip.
-     * @param begin The begin time (in milliseconds) or keyframe(for keyframe animations).
-     * @param end The end time (in milliseconds) or keyframe (for keyframe animations).
+     * @param begin The begin time (in seconds) or keyframe(for keyframe animations).
+     * @param end The end time (in seconds) or keyframe (for keyframe animations).
      *
      * @return The newly created AnimationClip; NULL if an AnimationClip already exists with the same ID.
      * @script{create}
      */
-    AnimationClip* createClip(const char* id, unsigned long begin, unsigned long end);
+    AnimationClip* createClip(const char* id, float begin, float end);
 
     /**
      * Finds the AnimationClip with the specified name. If NULL, gets the default clip.
@@ -128,7 +128,7 @@ private:
 
     private:
 
-        Channel(Animation* animation, AnimationTarget* target, int propertyId, Curve* curve, unsigned long duration);
+        Channel(Animation* animation, AnimationTarget* target, int propertyId, Curve* curve, float duration);
         Channel(const Channel& copy, Animation* animation, AnimationTarget* target);
         Channel(const Channel&); // Hidden copy constructor.
         ~Channel();
@@ -139,7 +139,7 @@ private:
         AnimationTarget* _target;             // The target of this channel.
         int _propertyId;                      // The target property this channel targets.
         Curve* _curve;                        // The curve used to represent the animation data.
-        unsigned long _duration;              // The length of the animation (in milliseconds).
+        float _duration;                      // The length of the animation (in seconds).
     };
 
     /**
@@ -150,12 +150,12 @@ private:
     /**
      * Constructor.
      */
-    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
+    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
 
     /**
      * Constructor.
      */
-    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type);
+    Animation(const char* id, AnimationTarget* target, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, unsigned int type);
 
     /**
      * Constructor.
@@ -195,12 +195,12 @@ private:
     /**
      * Creates a channel within this animation.
      */
-    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, unsigned int type);
+    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, unsigned int type);
 
     /**
      * Creates a channel within this animation.
      */
-    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, unsigned int* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
+    Channel* createChannel(AnimationTarget* target, int propertyId, unsigned int keyCount, float* keyTimes, float* keyValues, float* keyInValue, float* keyOutValue, unsigned int type);
 
     /**
      * Adds a channel to the animation.
@@ -229,7 +229,7 @@ private:
 
     AnimationController* _controller;       // The AnimationController that this Animation will run on.
     std::string _id;                        // The Animation's ID.
-    unsigned long _duration;                // the length of the animation (in milliseconds).
+    float _duration;                        // the length of the animation (in seconds).
     std::vector<Channel*> _channels;        // The channels within this Animation.
     AnimationClip* _defaultClip;            // The Animation's default clip.
     std::vector<AnimationClip*>* _clips;    // All the clips created from this Animation.

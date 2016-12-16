@@ -184,7 +184,7 @@ public:
      * are active within the scene. A Node is considered active if Node::isActive()
      * returns true.
      *
-     * @param elapsedTime Elapsed time in milliseconds.
+     * @param elapsedTime Elapsed time in seconds.
      */
     void update(float elapsedTime);
 

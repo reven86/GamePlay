@@ -407,7 +407,7 @@ public:
      *      representing the end of the subregion.
      * @param startTime Start time for the subregion (between 0.0 - 1.0).
      * @param endTime End time for the subregion (between 0.0 - 1.0).
-     * @param loopBlendTime Time (in milliseconds) to blend between the end points of the curve
+     * @param loopBlendTime Time (in seconds) to blend between the end points of the curve
      *      for looping purposes when time is outside the range 0-1. A value of zero here
      *      disables curve looping.
      * @param dst The evaluated value of the curve at the given time.

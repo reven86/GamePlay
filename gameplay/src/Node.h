@@ -254,7 +254,7 @@ public:
      *
      * If any scripts are attached to the node, their update event will be fired.
      *
-     * @param elapsedTime Elapsed time in milliseconds.
+     * @param elapsedTime Elapsed time in seconds.
      */
     void update(float elapsedTime);
 

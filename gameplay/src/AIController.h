@@ -30,7 +30,7 @@ public:
      * they are sent through the AIController.
      *
      * @param message The message to send.
-     * @param delay The delay (in milliseconds) to wait before sending the message.
+     * @param delay The delay (in seconds) to wait before sending the message.
      */
     void sendMessage(AIMessage* message, float delay = 0);
 
@@ -88,7 +88,7 @@ private:
     /**
      * Called each frame to update the AIController.
      *
-     * @param elapsedTime The elapsed time, in milliseconds.
+     * @param elapsedTime The elapsed time, in seconds.
      */
     void update(float elapsedTime);
 

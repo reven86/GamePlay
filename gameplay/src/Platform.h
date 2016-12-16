@@ -105,14 +105,14 @@ private:
     /**
      * Gets the absolute platform time starting from when the message pump was started.
      *
-     * @return The absolute platform time. (in milliseconds)
+     * @return The absolute platform time. (in seconds)
      */
     static double getAbsoluteTime();
 
     /**
      * Sets the absolute platform time since the start of the message pump.
      *
-     * @param time The time to set (in milliseconds).
+     * @param time The time to set (in seconds).
      */
     static void setAbsoluteTime(double time);
 
@@ -131,11 +131,11 @@ private:
     static void setVsync(bool enable);
 
     /**
-     * Sleeps synchronously for the given amount of time (in milliseconds).
+     * Sleeps synchronously for the given amount of time (in seconds).
      *
-     * @param ms How long to sleep (in milliseconds).
+     * @param s How long to sleep (in seconds).
      */
-    static void sleep(long ms);
+    static void sleep(float s);
 
     /**
      * Set if multi-sampling is enabled on the platform.

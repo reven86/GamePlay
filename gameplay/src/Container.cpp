@@ -31,15 +31,15 @@ namespace gameplay
 {
 
 // If the user stops scrolling for this amount of time (in millis) before touch/click release, don't apply inertia.
-static const long SCROLL_INERTIA_DELAY = 100L;
+static const float SCROLL_INERTIA_DELAY = 0.1f;
 // Factor to multiply friction by before applying to velocity.
 static const float SCROLL_FRICTION_FACTOR = 5.0f;
 // Distance that must be scrolled before isScrolling() will return true, used e.g. to cancel button-click events.
 static const float SCROLL_THRESHOLD = 10.0f;
-// Number of milliseconds to fade auto-hide scrollbars out for
-static const long SCROLLBAR_FADE_TIME = 1500L;
-// If the DPad or joystick is held down, this is the initial delay in milliseconds between focus change events.
-static const float FOCUS_CHANGE_REPEAT_DELAY = 300.0f;
+// Number of seconds to fade auto-hide scrollbars out for
+static const float SCROLLBAR_FADE_TIME = 1.5f;
+// If the DPad or joystick is held down, this is the initial delay in seconds between focus change events.
+static const float FOCUS_CHANGE_REPEAT_DELAY = 0.3f;
 
 /**
  * Sort function for use with _controls.sort(), based on Z-Order.
@@ -1225,7 +1225,7 @@ void Container::updateScroll()
     if (!_scrollingVelocity.isZero())
     {
         // Calculate the time passed since last update.
-        float elapsedSecs = (float)elapsedTime * 0.001f;
+        float elapsedSecs = elapsedTime;
 
         _scrollPosition.x += _scrollingVelocity.x * elapsedSecs;
         _scrollPosition.y += _scrollingVelocity.y * elapsedSecs;
@@ -1420,9 +1420,9 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
             int dy = _scrollingLastY - _scrollingFirstY;
 
             float timeTakenX = (float)(gameTime - _scrollingStartTimeX);
-            float elapsedSecsX = timeTakenX * 0.001f;
+            float elapsedSecsX = timeTakenX;
             float timeTakenY = (float)(gameTime - _scrollingStartTimeY);
-            float elapsedSecsY = timeTakenY * 0.001f;
+            float elapsedSecsY = timeTakenY;
 
             float vx = dx;
             float vy = dy;

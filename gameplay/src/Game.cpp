@@ -480,7 +480,7 @@ void Game::frame()
 
         // Update FPS.
         ++_frameCount;
-        if ((Game::getGameTime() - _frameLastFPS) >= 1000)
+        if ((Game::getGameTime() - _frameLastFPS) >= 1.0f)
         {
             _frameRate = _frameCount;
             _frameCount = 0;

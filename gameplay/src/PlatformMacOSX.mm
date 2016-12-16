@@ -1842,12 +1842,12 @@ unsigned int Platform::getDisplayHeight()
 double Platform::getAbsoluteTime()
 {
     __timeAbsolute = getMachTimeInMilliseconds();
-    return __timeAbsolute - __timeStart;
+    return (__timeAbsolute - __timeStart) * 0.001;
 }
 
 void Platform::setAbsoluteTime(double time)
 {
-    __timeAbsolute = time;
+    __timeAbsolute = time * 1000.0;
 }
 
 bool Platform::isVsync()

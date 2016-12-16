@@ -23,8 +23,8 @@ particle fire
     sizeStartMax = 2
     sizeEndMin = 0.5
     sizeEndMax = 1
-    energyMin = 750
-    energyMax = 1000
+    energyMin = 0.75
+    energyMax = 1.0
     colorStart = 1, 0.2, 0, 1
     colorStartVar = 0.25, 0, 0, 0
     colorEnd = 0, 0, 0, 0

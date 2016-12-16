@@ -8,7 +8,7 @@
 
 #define PARTICLE_COUNT_MAX                       100
 #define PARTICLE_EMISSION_RATE                   10
-#define PARTICLE_EMISSION_RATE_TIME_INTERVAL     1000.0f / (float)PARTICLE_EMISSION_RATE
+#define PARTICLE_EMISSION_RATE_TIME_INTERVAL     1.0f / (float)PARTICLE_EMISSION_RATE
 #define PARTICLE_UPDATE_RATE_MAX                 8
 
 namespace gameplay
@@ -18,7 +18,7 @@ ParticleEmitter::ParticleEmitter(unsigned int particleCountMax) : Drawable(),
     _particleCountMax(particleCountMax), _particleCount(0), _particles(NULL),
     _emissionRate(PARTICLE_EMISSION_RATE), _started(false), _ellipsoid(false),
     _sizeStartMin(1.0f), _sizeStartMax(1.0f), _sizeEndMin(1.0f), _sizeEndMax(1.0f),
-    _energyMin(1000L), _energyMax(1000L),
+    _energyMin(1.0f), _energyMax(1.0f),
     _colorStart(Vector4::zero()), _colorStartVar(Vector4::zero()), _colorEnd(Vector4::one()), _colorEndVar(Vector4::zero()),
     _position(Vector3::zero()), _positionVar(Vector3::zero()),
     _velocity(Vector3::zero()), _velocityVar(Vector3::one()),
@@ -267,7 +267,7 @@ void ParticleEmitter::setEmissionRate(unsigned int rate)
 {
     GP_ASSERT(rate);
     _emissionRate = rate;
-    _timePerEmission = 1000.0f / (float)_emissionRate;
+    _timePerEmission = 1.0f / (float)_emissionRate;
 }
 
 void ParticleEmitter::start()
@@ -628,13 +628,13 @@ int ParticleEmitter::getSpriteFrameRandomOffset() const
     return _spriteFrameRandomOffset;
 }
 
-void ParticleEmitter::setSpriteFrameDuration(long duration)
+void ParticleEmitter::setSpriteFrameDuration(float duration)
 {
     _spriteFrameDuration = duration;
-    _spriteFrameDurationSecs = (float)duration / 1000.0f;
+    _spriteFrameDurationSecs = duration;
 }
 
-long ParticleEmitter::getSpriteFrameDuration() const
+float ParticleEmitter::getSpriteFrameDuration() const
 {
     return _spriteFrameDuration;
 }
@@ -869,15 +869,14 @@ void ParticleEmitter::update(float elapsedTime)
     if (runningTime < PARTICLE_UPDATE_RATE_MAX)
         return;    
 
-    float elapsedMs = runningTime;
+    float elapsedSecs = runningTime;
     runningTime = 0;
 
-    float elapsedSecs = elapsedMs * 0.001f;
 
     if (_started && _emissionRate)
     {
         // Calculate how much time has passed since we last emitted particles.
-        _emitTime += elapsedMs; //+= elapsedTime;
+        _emitTime += elapsedSecs; //+= elapsedTime;
 
         // How many particles should we emit this frame?
         GP_ASSERT(_timePerEmission);
@@ -885,7 +884,7 @@ void ParticleEmitter::update(float elapsedTime)
 
         if (emitCount)
         {
-            if ((int)_timePerEmission > 0)
+            if (_timePerEmission > 0)
             {
                 _emitTime = fmodf(_emitTime, _timePerEmission);
             }
@@ -898,7 +897,7 @@ void ParticleEmitter::update(float elapsedTime)
     for (unsigned int particlesIndex = 0; particlesIndex < _particleCount; ++particlesIndex)
     {
         Particle* p = &_particles[particlesIndex];
-        p->_energy -= elapsedMs;
+        p->_energy -= elapsedSecs;
 
         if (p->_energy > 0L)
         {

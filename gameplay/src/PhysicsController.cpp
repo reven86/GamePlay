@@ -483,10 +483,7 @@ void PhysicsController::update(float elapsedTime)
 
     // Update the physics simulation, with a maximum
     // of 10 simulation steps being performed in a given frame.
-    //
-    // Note that stepSimulation takes elapsed time in seconds
-    // so we divide by 1000 to convert from milliseconds.
-    _world->stepSimulation(elapsedTime * 0.001f, 10);
+    _world->stepSimulation(elapsedTime, 10);
 
     // If we have status listeners, then check if our status has changed.
     if (_listeners || hasScriptListener(GP_GET_SCRIPT_EVENT(PhysicsController, statusEvent)))

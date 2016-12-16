@@ -21,7 +21,7 @@ namespace gameplay
 
 extern void splitURL(const std::string& url, std::string* file, std::string* id);
 
-AnimationClip::AnimationClip(const char* id, Animation* animation, unsigned long startTime, unsigned long endTime)
+AnimationClip::AnimationClip(const char* id, Animation* animation, float startTime, float endTime)
     : _id(id), _animation(animation), _startTime(startTime), _endTime(endTime), _duration(_endTime - _startTime), 
       _stateBits(0x00), _repeatCount(1.0f), _loopBlendTime(0), _activeDuration(_duration * _repeatCount), _speed(1.0f), _timeStarted(0), 
       _elapsedTime(0), _crossFadeToClip(NULL), _crossFadeOutElapsed(0), _crossFadeOutDuration(0), _blendWeight(1.0f),
@@ -68,7 +68,7 @@ AnimationClip::~AnimationClip()
     SAFE_DELETE(_listenerItr);
 }
 
-AnimationClip::ListenerEvent::ListenerEvent(Listener* listener, unsigned long eventTime)
+AnimationClip::ListenerEvent::ListenerEvent(Listener* listener, float eventTime)
 {
     _listener = listener;
     _eventTime = eventTime;
@@ -93,12 +93,12 @@ Animation* AnimationClip::getAnimation() const
     return _animation;
 }
 
-unsigned long AnimationClip::getStartTime() const
+float AnimationClip::getStartTime() const
 {
     return _startTime;
 }
 
-unsigned long AnimationClip::getEndTime() const
+float AnimationClip::getEndTime() const
 {
     return _endTime;
 }
@@ -139,7 +139,7 @@ float AnimationClip::getRepeatCount() const
     return _repeatCount;
 }
 
-void AnimationClip::setActiveDuration(unsigned long duration)
+void AnimationClip::setActiveDuration(float duration)
 {
     GP_ASSERT(duration >= 0);
 
@@ -154,7 +154,7 @@ void AnimationClip::setActiveDuration(unsigned long duration)
     }
 }
 
-unsigned long AnimationClip::getActiveDuration() const
+float AnimationClip::getActiveDuration() const
 {
     if (_repeatCount == REPEAT_INDEFINITE)
         return REPEAT_INDEFINITE;
@@ -162,7 +162,7 @@ unsigned long AnimationClip::getActiveDuration() const
     return _activeDuration;
 }
 
-unsigned long AnimationClip::getDuration() const
+float AnimationClip::getDuration() const
 {
     return _duration;
 }
@@ -259,7 +259,7 @@ void AnimationClip::pause()
     }
 }
 
-void AnimationClip::crossFade(AnimationClip* clip, unsigned long duration)
+void AnimationClip::crossFade(AnimationClip* clip, float duration)
 {
     GP_ASSERT(clip);
 
@@ -300,7 +300,7 @@ void AnimationClip::crossFade(AnimationClip* clip, unsigned long duration)
     _crossFadeToClip->play(); 
 }
 
-void AnimationClip::addListener(AnimationClip::Listener* listener, unsigned long eventTime)
+void AnimationClip::addListener(AnimationClip::Listener* listener, float eventTime)
 {
     GP_ASSERT(listener);
     GP_ASSERT(eventTime < _activeDuration);
@@ -344,7 +344,7 @@ void AnimationClip::addListener(AnimationClip::Listener* listener, unsigned long
     }
 }
 
-void AnimationClip::removeListener(AnimationClip::Listener* listener, unsigned long eventTime)
+void AnimationClip::removeListener(AnimationClip::Listener* listener, float eventTime)
 {
     if (_listeners)
     {

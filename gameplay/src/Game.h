@@ -104,30 +104,30 @@ public:
     static void setVsync(bool enable);
 
     /**
-     * Gets the total absolute running time (in milliseconds) since Game::run(). Updated once per frame.
+     * Gets the total absolute running time (in seconds) since Game::run(). Updated once per frame.
      * 
-     * @return The total absolute running time (in milliseconds).
+     * @return The total absolute running time (in seconds).
      */
     static double getAbsoluteTime();
 
     /**
-     * Gets the total game time (in milliseconds). This is the total accumulated game time (unpaused). Updated once per frame.
+     * Gets the total game time (in seconds). This is the total accumulated game time (unpaused). Updated once per frame.
      *
      * You would typically use things in your game that you want to stop when the game is paused.
      * This includes things such as game physics and animation.
      * 
-     * @return The total game time (in milliseconds).
+     * @return The total game time (in seconds).
      */
     static double getGameTime();
 
     /**
-     * Gets the total absolute running time (in milliseconds) since Game::run().
+     * Gets the total absolute running time (in seconds) since Game::run().
      * 
      * This return time from the same timer as getAbsoluteTime, but up-to-date.
      * Method getAbsoluteTime is updated only once per frame.
      *
      * @see getAbosluteTime
-     * @return The total absolute running time (in milliseconds).
+     * @return The total absolute running time (in seconds).
      */
     static double getPlatformTime();
 
@@ -665,10 +665,10 @@ public:
     void getArguments(int* argc, char*** argv) const;
 
     /**
-     * Schedules a time event to be sent to the given TimeListener a given number of game milliseconds from now.
+     * Schedules a time event to be sent to the given TimeListener a given number of game seconds from now.
      * Game time stops while the game is paused. A time offset of zero will fire the time event in the next frame.
      * 
-     * @param timeOffset The number of game milliseconds in the future to schedule the event to be fired.
+     * @param timeOffset The number of game seconds in the future to schedule the event to be fired.
      * @param timeListener The TimeListener that will receive the event.
      * @param cookie The cookie data that the time event will contain.
      * @script{ignore}
@@ -676,14 +676,14 @@ public:
     void schedule(float timeOffset, TimeListener* timeListener, void* cookie = 0);
 
     /**
-     * Schedules a time event to be sent to the given TimeListener a given number of game milliseconds from now.
+     * Schedules a time event to be sent to the given TimeListener a given number of game seconds from now.
      * Game time stops while the game is paused. A time offset of zero will fire the time event in the next frame.
      * 
      * The given script function must take a single floating point number, which is the difference between the
      * current game time and the target time (see TimeListener::timeEvent). The function will be executed
      * in the context of the script envionrment that the schedule function was called from.
      * 
-     * @param timeOffset The number of game milliseconds in the future to schedule the event to be fired.
+     * @param timeOffset The number of game seconds in the future to schedule the event to be fired.
      * @param function The script function that will receive the event.
      */
     void schedule(float timeOffset, const char* function);

@@ -65,11 +65,11 @@ PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 PFNGLMAPBUFFEROESPROC glMapBuffer = NULL;
 PFNGLUNMAPBUFFEROESPROC glUnmapBuffer = NULL;
 
-#define GESTURE_TAP_DURATION_MAX			200
+#define GESTURE_TAP_DURATION_MAX			0.2
 #define GESTURE_LONG_TAP_DURATION_MIN   	GESTURE_TAP_DURATION_MAX
 #define GESTURE_DRAG_START_DURATION_MIN		GESTURE_LONG_TAP_DURATION_MIN
 #define GESTURE_DRAG_DISTANCE_MIN    		30
-#define GESTURE_SWIPE_DURATION_MAX      	400
+#define GESTURE_SWIPE_DURATION_MAX      	0.4
 #define GESTURE_SWIPE_DISTANCE_MIN      	50
 #define GESTURE_PINCH_DISTANCE_MIN    		GESTURE_DRAG_DISTANCE_MIN
 
@@ -1476,12 +1476,12 @@ double Platform::getAbsoluteTime()
     double now = timespec2millis(&__timespec);
     __timeAbsolute = now - __timeStart;
 
-    return __timeAbsolute;
+    return __timeAbsolute * 0.001;
 }
 
 void Platform::setAbsoluteTime(double time)
 {
-    __timeAbsolute = time;
+    __timeAbsolute = time * 1000.0;
 }
 
 bool Platform::isVsync()
@@ -1502,9 +1502,9 @@ void Platform::swapBuffers()
         eglSwapBuffers(__eglDisplay, __eglSurface);
 }
 
-void Platform::sleep(long ms)
+void Platform::sleep(float s)
 {
-    usleep(ms * 1000);
+    usleep(long(s * 1000000));
 }
 
 void Platform::setMultiSampling(bool enabled)

@@ -32,9 +32,9 @@ public:
      * @param instance See Game::renderOnce().
      * @param method See Game::renderOnce().
      * @param cookie See Game::renderOnce().
-     * @param time The minimum amount of time to display the screen (in milliseconds).
+     * @param time The minimum amount of time to display the screen (in seconds).
      */
-    template <typename T> void run(T* instance, void (T::*method) (void*), void* cookie, unsigned long time);
+    template <typename T> void run(T* instance, void (T::*method) (void*), void* cookie, float time);
 
     /**
      * Starts a new screen displayer running; draws a screen using the {@link Game::renderOnce} mechanism for at least the given amount of time.
@@ -42,9 +42,9 @@ public:
      * Note: this is intended for use from Lua scripts.
      * 
      * @param function See {@link Game::renderOnce(const char*)}.
-     * @param time The minimum amount of time to display the screen (in milliseconds).
+     * @param time The minimum amount of time to display the screen (in seconds).
      */
-    static void start(const char* function, unsigned long time);
+    static void start(const char* function, float time);
 
     /**
      * Finishes running the current screen displayer.
@@ -55,12 +55,12 @@ public:
 
 private:
 
-    long _time;
+    float _time;
     double _startTime;
     static ScreenDisplayer* __scriptInstance;
 };
 
-template <typename T> void ScreenDisplayer::run(T* instance, void (T::*method) (void*), void* cookie, unsigned long time)
+template <typename T> void ScreenDisplayer::run(T* instance, void (T::*method) (void*), void* cookie, float time)
 {
     _time = time;
     Game::getInstance()->renderOnce(instance, method, cookie);
@@ -76,7 +76,7 @@ template <typename T> void ScreenDisplayer::run(T* instance, void (T::*method) (
  * @param instance See {@link gameplay::Game::renderOnce}.
  * @param method See {@link gameplay::Game::renderOnce}.
  * @param cookie See {@link gameplay::Game::renderOnce}.
- * @param time The minimum amount of time to display the screen (in milliseconds).
+ * @param time The minimum amount of time to display the screen (in seconds).
  */
 #define displayScreen(instance, method, cookie, time) \
     ScreenDisplayer __##instance##ScreenDisplayer; \

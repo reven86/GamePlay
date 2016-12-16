@@ -25,8 +25,8 @@
 static const float GAMEPAD_SCROLL_SPEED = 600.0f;
 // Distance a joystick must be pushed in order to trigger focus-change and/or scrolling.
 static const float JOYSTICK_THRESHOLD = 0.75f;
-// If the DPad or joystick is held down, this is the initial delay in milliseconds between focus changes.
-static const float GAMEPAD_FOCUS_REPEAT_DELAY = 300.0f;
+// If the DPad or joystick is held down, this is the initial delay in seconds between focus changes.
+static const float GAMEPAD_FOCUS_REPEAT_DELAY = 0.3f;
 
 // Shaders used for drawing offscreen quad when form is attached to a node
 #define FORM_VSH "res/shaders/sprite.vert"

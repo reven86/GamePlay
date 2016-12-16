@@ -394,24 +394,24 @@ public:
     const Vector4& getColorEndVariance() const;
 
     /**
-     * Sets the minimum and maximum lifetime of emitted particles, measured in milliseconds.
+     * Sets the minimum and maximum lifetime of emitted particles, measured in seconds.
      *
-     * @param energyMin The minimum lifetime of each particle, measured in milliseconds.
-     * @param energyMax The maximum lifetime of each particle, measured in milliseconds.
+     * @param energyMin The minimum lifetime of each particle, measured in seconds.
+     * @param energyMax The maximum lifetime of each particle, measured in seconds.
      */
     void setEnergy(long energyMin, long energyMax);
 
     /**
-     * Gets the minimum lifetime of each particle, measured in milliseconds.
+     * Gets the minimum lifetime of each particle, measured in seconds.
      *
-     * @return The minimum lifetime of each particle, measured in milliseconds.
+     * @return The minimum lifetime of each particle, measured in seconds.
      */
     long getEnergyMin() const;
 
     /**
-     * Gets the maximum lifetime of each particle, measured in milliseconds.
+     * Gets the maximum lifetime of each particle, measured in seconds.
      *
-     * @return The maximum lifetime of each particle, measured in milliseconds.
+     * @return The maximum lifetime of each particle, measured in seconds.
      */
     long getEnergyMax() const;
 
@@ -593,16 +593,16 @@ public:
     /**
      * Set the animated sprites frame duration.
      *
-     * @param duration The duration of a single sprite frame, in milliseconds.
+     * @param duration The duration of a single sprite frame, in seconds.
      */
-    void setSpriteFrameDuration(long duration);
+    void setSpriteFrameDuration(float duration);
 
     /**
      * Gets the animated sprites frame duration.
      *
      * @return The animated sprites frame duration.
      */
-    long getSpriteFrameDuration() const;
+    float getSpriteFrameDuration() const;
 
     /**
      * Returns the width of the first frame this particle emitter's sprite.
@@ -703,7 +703,7 @@ public:
     /**
      * Updates the particles currently being emitted.
      *
-     * @param elapsedTime The amount of time that has passed since the last call to update(), in milliseconds.
+     * @param elapsedTime The amount of time that has passed since the last call to update(), in seconds.
      */
     void update(float elapsedTime);
 
@@ -831,7 +831,7 @@ private:
     bool _spriteLooped;
     unsigned int _spriteFrameCount;
     unsigned int _spriteFrameRandomOffset;
-    long _spriteFrameDuration;
+    float _spriteFrameDuration;
     float _spriteFrameDurationSecs;
     float _spritePercentPerFrame;
     bool _orbitPosition;

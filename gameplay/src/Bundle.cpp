@@ -1301,7 +1301,7 @@ Animation* Bundle::readAnimationChannelData(Animation* animation, const char* id
 {
     GP_ASSERT(id);
 
-    std::vector<unsigned int> keyTimes;
+    std::vector<float> keyTimes;
     std::vector<float> values;
     std::vector<float> tangentsIn;
     std::vector<float> tangentsOut;
@@ -1315,7 +1315,7 @@ Animation* Bundle::readAnimationChannelData(Animation* animation, const char* id
     unsigned int interpolationCount;
 
     // Read key times.
-    if (!readArray(&keyTimesCount, &keyTimes, sizeof(unsigned int)))
+    if (!readArray(&keyTimesCount, &keyTimes, sizeof(float)))
     {
         GP_ERROR("Failed to read key times for animation '%s'.", id);
         return NULL;
