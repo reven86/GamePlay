@@ -1098,6 +1098,7 @@ int getUnicode(int key);
         static std::string argument([url.absoluteString UTF8String]);
         static char * arguments[2] = {NULL, const_cast<char *>(argument.c_str())};
         __argv = arguments;
+        return NO;
     }
     
     return YES;
