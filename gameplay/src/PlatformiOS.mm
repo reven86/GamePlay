@@ -1089,6 +1089,17 @@ int getUnicode(int key);
     viewController = [[ViewController alloc] init];
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
+    
+    // if there are any launch options, put them into __argc and __argv
+    NSURL *url = (NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+    if(url)
+    {
+        __argc = 2;
+        static std::string argument([url.absoluteString UTF8String]);
+        static char * arguments[2] = {NULL, const_cast<char *>(argument.c_str())};
+        __argv = arguments;
+    }
+    
     return YES;
 }
 
@@ -1661,9 +1672,9 @@ void Platform::swapBuffers()
     if (__view)
         [__view swapBuffers];
 }
-void Platform::sleep(long ms)
+void Platform::sleep(float s)
 {
-    usleep(ms * 1000);
+    usleep((long)(s * 1000));
 }
 
 bool Platform::hasAccelerometer()
