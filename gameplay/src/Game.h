@@ -390,6 +390,21 @@ public:
 
 
     /**
+     * Called when the game received notification from OS to open one particular URL.
+     *
+     * This method is called, for example, when app is in background and user tries to
+     * open document with the app. The OS moves the app to foreground and calls this
+     * method.
+     *
+     * @param url URL to open.
+     * @param originator The app from where user tries to open document (bundle ID).
+     *
+     * @return true, if the request can be processed.
+     */
+    virtual bool openURLEvent(const char * url, const char * originator);
+
+
+    /**
      * Gets whether the current platform supports mouse input.
      *
      * @return true if a mouse is supported, false otherwise.

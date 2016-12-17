@@ -632,6 +632,12 @@ bool Game::handlePlatformEvent(PlatformEvent *event)
 	return false;
 }
 
+bool Game::openURLEvent(const char * url, const char * originator)
+{
+    // stub
+    return false;
+}
+
 bool Game::isGestureSupported(Gesture::GestureEvent evt)
 {
     return Platform::isGestureSupported(evt);
