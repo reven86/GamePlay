@@ -69,8 +69,6 @@ Form::~Form()
 
 Form* Form::create(const char* url)
 {
-    Form* form = new Form();
-
     // Load Form from .form file.
     Properties* properties = Properties::create(url);
     if (!properties)
@@ -78,14 +76,24 @@ Form* Form::create(const char* url)
         GP_WARN("Failed to load properties file for Form.");
         return NULL;
     }
+
+    Form* form = Form::create(properties);
+    SAFE_DELETE(properties);
+
+    return form;
+}
+
+Form* Form::create(gameplay::Properties * properties)
+{
     // Check if the Properties is valid and has a valid namespace.
     Properties* formProperties = (strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace();
     if (!formProperties || !(strcmpnocase(formProperties->getNamespace(), "form") == 0))
     {
-        GP_WARN("Invalid properties file for form: %s", url);
-        SAFE_DELETE(properties);
+        GP_WARN("Invalid properties file for form");
         return NULL;
     }
+
+    Form * form = new Form();
 
     // Load the form's theme style.
     Theme* theme = NULL;
@@ -122,8 +130,6 @@ Form* Form::create(const char* url)
     {
         SAFE_RELEASE(theme);
     }
-
-    SAFE_DELETE(properties);
 
     return form;
 }

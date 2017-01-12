@@ -45,6 +45,16 @@ public:
     static Form* create(const char* url);
 
     /**
+     * Creates a form from existing Properties.
+     * 
+     * @param prop Properties. 
+     * 
+     * @return The new form or NULL if there was an error.
+     * @script{create}
+     */
+    static Form* create(Properties * prop);
+
+    /**
      * Create a new Form.
 	 *
 	 * The specified style defines the visual style for the form. If NULL is passed
