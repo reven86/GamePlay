@@ -1372,26 +1372,22 @@ bool Container::touchEventScroll(Touch::TouchEvent evt, int x, int y, unsigned i
 
             // If the user changes direction, reset the start time and position.
             bool goingRight = (vx > 0);
-            if (goingRight != _scrollingRight)
-            {
-                _scrollingFirstX = x;
-                _scrollingRight = goingRight;
-                _scrollingStartTimeX = gameTime;
-            }
+            if (vx != 0)
+                if (goingRight != _scrollingRight || _scrollingStartTimeX == 0)  // time set to 0 means no touch move events happened before and direction is unclear
+                {
+                    _scrollingFirstX = x;
+                    _scrollingRight = goingRight;
+                    _scrollingStartTimeX = gameTime;
+                }
 
             bool goingDown = (vy > 0);
-            if (goingDown != _scrollingDown)
-            {
-                _scrollingFirstY = y;
-                _scrollingDown = goingDown;
-                _scrollingStartTimeY = gameTime;
-            }
-
-            if (!_scrollingStartTimeX)
-                _scrollingStartTimeX = gameTime;
-
-            if (!_scrollingStartTimeY)
-                _scrollingStartTimeY = gameTime;
+            if (vy != 0)
+                if (goingDown != _scrollingDown || _scrollingStartTimeY == 0) // time set to 0 means no touch move events happened before and direction is unclear
+                {
+                    _scrollingFirstY = y;
+                    _scrollingDown = goingDown;
+                    _scrollingStartTimeY = gameTime;
+                }
 
             _scrollingLastTime = gameTime;
             updateScroll();
