@@ -48,11 +48,12 @@ public:
      * Creates a form from existing Properties.
      * 
      * @param prop Properties. 
+     * @param theme Theme used as fallback if it's not set in Properties data. If NULL the default theme will be used.
      * 
      * @return The new form or NULL if there was an error.
      * @script{create}
      */
-    static Form* create(Properties * prop);
+    static Form* create(Properties * prop, Theme * theme = NULL);
 
     /**
      * Create a new Form.

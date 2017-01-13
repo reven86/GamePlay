@@ -83,7 +83,7 @@ Form* Form::create(const char* url)
     return form;
 }
 
-Form* Form::create(gameplay::Properties * properties)
+Form* Form::create(Properties * properties, Theme * themeFallback)
 {
     // Check if the Properties is valid and has a valid namespace.
     Properties* formProperties = (strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace();
@@ -108,6 +108,10 @@ Form* Form::create(gameplay::Properties * properties)
     }
     if (!theme)
     {
+        theme = themeFallback;
+    }
+    if (!theme)
+    {
         theme = Theme::getDefault();
     }
 
@@ -126,7 +130,7 @@ Form* Form::create(gameplay::Properties * properties)
     form->initialize("Form", style, formProperties);
 
     // Release the theme: its lifetime is controlled by addRef() and release() calls in initialize (above) and ~Control.
-    if (theme != Theme::getDefault())
+    if (theme != Theme::getDefault() && theme != themeFallback)
     {
         SAFE_RELEASE(theme);
     }

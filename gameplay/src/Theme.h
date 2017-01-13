@@ -201,6 +201,15 @@ public:
     static Theme* create(const char* url);
 
     /**
+     * Creates a theme using the data from the Properties object.
+     * Themes created by this methods are not cached.
+     * 
+     * @param prop Properties object. 
+     * @script{create}
+     */
+    static Theme* create(Properties * prop);
+
+    /**
      * Returns the default theme.
      *
      * @return The default theme.

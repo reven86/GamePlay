@@ -131,18 +131,28 @@ Theme* Theme::create(const char* url)
         return NULL;
     }
 
+    Theme * theme = Theme::create(properties);
+    theme->_url = url;
+
+    // Add this theme to the cache.
+    __themeCache.push_back(theme);
+
+    SAFE_DELETE(properties);
+    return theme;
+}
+
+Theme * Theme::create(Properties * properties)
+{
     // Check if the Properties is valid and has a valid namespace.
     Properties* themeProperties = (strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace();
     GP_ASSERT(themeProperties);
     if (!themeProperties || !(strcmpnocase(themeProperties->getNamespace(), "theme") == 0))
     {
-        SAFE_DELETE(properties);
         return NULL;
     }
 
     // Create a new theme.
     Theme* theme = new Theme();
-    theme->_url = url;
 
     // Parse the Properties object and set up the theme.
     std::string textureFile;
@@ -540,11 +550,6 @@ Theme* Theme::create(const char* url)
 
         space = themeProperties->getNextNamespace();
     }
-
-    // Add this theme to the cache.
-    __themeCache.push_back(theme);
-
-    SAFE_DELETE(properties);
 
     return theme;
 }
