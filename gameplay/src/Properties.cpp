@@ -726,7 +726,12 @@ void Properties::mergeWith(Properties* overrides)
     const char* name = overrides->getNextProperty();
     while (name)
     {
-        this->setString(name, overrides->getString());
+        char variable[256];
+        const char * value = overrides->_propertiesItr->value.c_str();
+        if (isVariable(value, variable, 256))
+            this->setVariable(name, value);
+        else
+            this->setString(name, value);
         name = overrides->getNextProperty();
     }
     this->_propertiesItr = this->_properties.end();
