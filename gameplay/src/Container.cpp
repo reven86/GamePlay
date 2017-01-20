@@ -332,6 +332,9 @@ void Container::insertControl(Control* control, unsigned int index)
                 GP_ASSERT(*currentIt == control);
                 _controls.erase(currentIt);
 
+                setDirty(Control::DIRTY_BOUNDS);
+                control->setDirty(DIRTY_BOUNDS);
+
                 return;
             }
         }
