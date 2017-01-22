@@ -30,8 +30,8 @@ public:
 
     static bool isVsync();
     static void setVsync(bool enable);
-    static long getAbsoluteTime();
-    static long getGameTime();
+    static float getAbsoluteTime();
+    static float getGameTime();
     Game::State getState() const;
     int run();
     void pause();

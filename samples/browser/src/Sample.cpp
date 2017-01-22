@@ -33,12 +33,12 @@ void Sample::setVsync(bool enable)
     Game::setVsync(enable);
 }
 
-long Sample::getAbsoluteTime()
+float Sample::getAbsoluteTime()
 {
     return Game::getAbsoluteTime();
 }
 
-long Sample::getGameTime()
+float Sample::getGameTime()
 {
     return Game::getGameTime();
 }

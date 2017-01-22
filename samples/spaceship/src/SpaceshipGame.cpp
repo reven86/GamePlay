@@ -525,7 +525,7 @@ void SpaceshipGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int
     switch (evt)
     {
     case Touch::TOUCH_PRESS:
-        if (_finished && (getAbsoluteTime() - _finishedTime) > 1000L)
+        if (_finished && (getAbsoluteTime() - _finishedTime) > 1.0f)
         {
             resetGame();
         }

@@ -121,8 +121,11 @@ void SamplesGame::resizeEvent(unsigned int width, unsigned int height)
     setViewport(gameplay::Rectangle(width, height));
 }
 
-void SamplesGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex)
+void SamplesGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed)
 {
+	if (processed)
+		return;
+
     if (_activeSample)
     {
         if (evt == Touch::TOUCH_PRESS && x >= ((int)getWidth() - 80) && y <= 80)
@@ -138,9 +141,12 @@ void SamplesGame::touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int c
     }
 }
 
-void SamplesGame::keyEvent(Keyboard::KeyEvent evt, int key)
+void SamplesGame::keyEvent(Keyboard::KeyEvent evt, int key, bool processed)
 {
-    if (_activeSample)
+	if (processed)
+		return;
+
+	if (_activeSample)
     {
         if (key == Keyboard::KEY_MENU || (evt == Keyboard::KEY_PRESS && (key == Keyboard::KEY_ESCAPE)))
         {
@@ -165,9 +171,12 @@ void SamplesGame::keyEvent(Keyboard::KeyEvent evt, int key)
     }
 }
 
-bool SamplesGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
+bool SamplesGame::mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed)
 {
-    if (_activeSample)
+	if (processed)
+		return false;
+
+	if (_activeSample)
     {
         return _activeSample->mouseEvent(evt, x, y, wheelDelta);
     }

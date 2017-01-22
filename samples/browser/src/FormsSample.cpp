@@ -182,7 +182,7 @@ void FormsSample::createSampleForm()
 
 void FormsSample::update(float elapsedTime)
 {
-    float speedFactor = 0.001f * elapsedTime;
+    float speedFactor = elapsedTime;
 
     _gamepad->getJoystickValues(0, &_joysticks[0]);
     _gamepad->getJoystickValues(1, &_joysticks[1]);
@@ -335,7 +335,7 @@ void FormsSample::controlEvent(Control* control, EventType evt)
         {
             float from[] = { 1.0f };
             float to[] = { 0.5f };
-            control->createAnimationFromTo("opacityButton", Form::ANIMATE_OPACITY, from, to, Curve::LINEAR, 1000)->getClip()->play();
+            control->createAnimationFromTo("opacityButton", Form::ANIMATE_OPACITY, from, to, Curve::LINEAR, 1.0f)->getClip()->play();
         }
     }
 }

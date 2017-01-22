@@ -37,11 +37,11 @@ public:
 
     void resizeEvent(unsigned int width, unsigned int height);
     
-	void keyEvent(Keyboard::KeyEvent evt, int key);
+	void keyEvent(Keyboard::KeyEvent evt, int key, bool processed);
 
-    void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex);
+    void touchEvent(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool processed);
 
-    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta);
+    bool mouseEvent(Mouse::MouseEvent evt, int x, int y, float wheelDelta, bool processed);
 
     void menuEvent();
 

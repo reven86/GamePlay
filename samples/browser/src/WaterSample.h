@@ -72,7 +72,7 @@ private:
 
     float getTime() const
     {
-        return Game::getGameTime() * 0.0001;
+        return Game::getGameTime();
     }
 
     Gamepad* _gamepad;

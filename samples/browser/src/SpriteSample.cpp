@@ -41,13 +41,13 @@ void SpriteSample::initialize()
     _playerSprite->setFrameSource(12, Rectangle(438, 93, 67, 94));
 
     // The player animation clips
-    unsigned int keyTimes[4] = {0, 1, 11, 12};
+    float keyTimes[4] = {0, 1, 11, 12};
     float keyValues[4] =  { 0, 1, 11, 12 };
     _playerAnimation = _playerSprite->createAnimation("player-animations", Sprite::ANIMATE_KEYFRAME, 4, keyTimes, keyValues, Curve::LINEAR);
     _playerAnimation->createClip("idle", 0, 0);
     _playerAnimation->createClip("walk", 1, 11)->setRepeatCount(AnimationClip::REPEAT_INDEFINITE);
     // Set the speed to 24 FPS
-    _playerAnimation->getClip("walk")->setSpeed(24.0f/1000.0f);
+    _playerAnimation->getClip("walk")->setSpeed(24.0f);
     _playerAnimation->play("idle");
 
     // Setup player text
@@ -196,7 +196,7 @@ bool SpriteSample::drawScene(Node* node)
 
 float SpriteSample::getTime() const
 {
-    float angle = Game::getGameTime() * 0.001 * MATH_PIX2;
+    float angle = Game::getGameTime() * MATH_PIX2;
     if (angle > MATH_PIX2)
         angle -= MATH_PIX2;
     return angle;
