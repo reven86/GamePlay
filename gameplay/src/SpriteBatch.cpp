@@ -35,7 +35,7 @@ namespace gameplay
 static Effect* __spriteEffect = NULL;
 
 SpriteBatch::SpriteBatch()
-    : _batch(NULL), _sampler(NULL), _textureWidthRatio(0.0f), _textureHeightRatio(0.0f)
+    : _batch(NULL), _sampler(NULL), _textureWidthRatio(0.0f), _textureHeightRatio(0.0f), _customProjectionMatrix(false)
 {
 }
 
@@ -143,8 +143,6 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     batch->_textureHeightRatio = texture ? 1.0f / (float)texture->getHeight() : 1.0f;
 
 	// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
-	Game* game = Game::getInstance();
-    Matrix::createOrthographicOffCenter(0, game->getViewport().width, game->getViewport().height, 0, 0, 1, &batch->_projectionMatrix);
 	material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
 	
     return batch;
@@ -200,14 +198,19 @@ SpriteBatch* SpriteBatch::create(Material* material, unsigned int initialCapacit
     batch->_textureHeightRatio = sampler ? 1.0f / (float)sampler->getTexture()->getHeight() : 1.0f;
 
     // Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
-    Game* game = Game::getInstance();
-    Matrix::createOrthographicOffCenter(0, game->getViewport().width, game->getViewport().height, 0, 0, 1, &batch->_projectionMatrix);
     material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
     return batch;
 }
 
 void SpriteBatch::start()
 {
+	if (!_customProjectionMatrix)
+	{
+		// update projection matrix to match current viewport
+		Game* game = Game::getInstance();
+		Matrix::createOrthographicOffCenter(0, game->getViewport().width, game->getViewport().height, 0, 0, 1, &_projectionMatrix);
+	}
+
     _batch->start();
 }
 
@@ -458,6 +461,7 @@ Material* SpriteBatch::getMaterial() const
 
 void SpriteBatch::setProjectionMatrix(const Matrix& matrix)
 {
+	_customProjectionMatrix = true;
     _projectionMatrix = matrix;
 }
 

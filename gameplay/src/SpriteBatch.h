@@ -419,6 +419,7 @@ private:
     MeshBatch* _batch;
     Texture::Sampler* _sampler;
     bool _customEffect;
+	bool _customProjectionMatrix;
     float _textureWidthRatio;
     float _textureHeightRatio;
     mutable Matrix _projectionMatrix;
