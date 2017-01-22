@@ -502,12 +502,6 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
     // Handle hover control changes on move, only if there is no currently active control
     // (i.e. when the mouse or a finger is not down).
     bool wasActive = __activeControl[contactIndex] && (__activeControl[contactIndex]->_state == ACTIVE || __activeControl[contactIndex]->_state == NORMAL);
-    if (wasActive)
-    {
-        // Active controls always continue receiving pointer events, even when the pointer
-        // is not on top of the control.
-        screenToForm(__activeControl[contactIndex], x, y);
-    }
 
     // Update hover control
     if (__activeControl[contactIndex] != inputControl)
