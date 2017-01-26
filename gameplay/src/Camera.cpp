@@ -389,7 +389,7 @@ void Camera::unproject(const Rectangle& viewport, float x, float y, float depth,
     
     // Create our screen space position in NDC.
     GP_ASSERT(viewport.width != 0.0f && viewport.height != 0.0f);
-    Vector4 screen((x - viewport.x) / viewport.width, ((viewport.height - y) - viewport.y) / viewport.height, depth, 1.0f);
+    Vector4 screen((x - viewport.x) / viewport.width, (viewport.y - y + viewport.height) / viewport.height, depth, 1.0f);
 
     // Map to range -1 to 1.
     screen.x = screen.x * 2.0f - 1.0f;
