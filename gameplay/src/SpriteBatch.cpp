@@ -142,9 +142,9 @@ SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int
     batch->_textureWidthRatio = texture ? 1.0f / (float)texture->getWidth() : 1.0f;
     batch->_textureHeightRatio = texture ? 1.0f / (float)texture->getHeight() : 1.0f;
 
-	// Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
-	material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
-	
+    // Bind an ortho projection to the material by default (user can override with setProjectionMatrix)
+    material->getParameter("u_projectionMatrix")->bindValue(batch, &SpriteBatch::getProjectionMatrix);
+    
     return batch;
 }
 
@@ -204,12 +204,12 @@ SpriteBatch* SpriteBatch::create(Material* material, unsigned int initialCapacit
 
 void SpriteBatch::start()
 {
-	if (!_customProjectionMatrix)
-	{
-		// update projection matrix to match current viewport
-		Game* game = Game::getInstance();
-		Matrix::createOrthographicOffCenter(0, game->getViewport().width, game->getViewport().height, 0, 0, 1, &_projectionMatrix);
-	}
+    if (!_customProjectionMatrix)
+    {
+        // update projection matrix to match current viewport
+        Game* game = Game::getInstance();
+        Matrix::createOrthographicOffCenter(0, game->getViewport().width, game->getViewport().height, 0, 0, 1, &_projectionMatrix);
+    }
 
     _batch->start();
 }
@@ -461,8 +461,13 @@ Material* SpriteBatch::getMaterial() const
 
 void SpriteBatch::setProjectionMatrix(const Matrix& matrix)
 {
-	_customProjectionMatrix = true;
+    _customProjectionMatrix = true;
     _projectionMatrix = matrix;
+}
+
+void SpriteBatch::resetProjectionMatrix()
+{
+    _customProjectionMatrix = false;
 }
 
 const Matrix& SpriteBatch::getProjectionMatrix() const

@@ -361,6 +361,11 @@ public:
     void setProjectionMatrix(const Matrix& matrix);
 
     /**
+     * Resets custom projection matrix to use the internally computed one.
+     */
+    void resetProjectionMatrix();
+
+    /**
      * Gets the projection matrix for the SpriteBatch.
      * 
      * @return The projection matrix.
