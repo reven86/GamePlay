@@ -195,4 +195,9 @@ inline bool Game::isTouchPressed() const
     return Platform::isTouchPressed();
 }
 
+inline bool Game::getTouchPosition(int index, int * outX, int * outY) const
+{
+    return Platform::getTouchPosition(index, outX, outY);
+}
+
 }
