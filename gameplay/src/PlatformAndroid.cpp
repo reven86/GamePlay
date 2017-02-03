@@ -1995,6 +1995,31 @@ bool Platform::isTouchPressed()
     return __primaryTouchId != -1;
 }
 
+bool Platform::getTouchPosition(int index, int * outX, int * outY)
+{
+    if (__pointer0.pointerId == index)
+    {
+        if (!__pointer0.pressed)
+            return false;
+
+        *outX = __pointer0.x;
+        *outY = __pointer0.y;
+        return true;
+    }
+
+    if (__pointer1.pointerId == index)
+    {
+        if (!__pointer1.pressed)
+            return false;
+
+        *outX = __pointer1.x;
+        *outY = __pointer1.y;
+        return true;
+    }
+
+    return false;
+}
+
 }
 
 extern "C"

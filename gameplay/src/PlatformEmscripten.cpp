@@ -1204,6 +1204,11 @@ bool Platform::isTouchPressed()
     return false;
 }
 
+bool Platform::getTouchPosition(int index, int * outX, int * outY)
+{
+    return false;
+}
+
 }
 
 #endif

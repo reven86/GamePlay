@@ -218,6 +218,17 @@ private:
     static bool isTouchPressed();
 
     /**
+     * Get touch position.
+     *
+     * @param index Index of the touch (contact index).
+     * @param[out] outX X touch coordinate.
+     * @param[out] outY Y touch coordinate.
+     *
+     * @return false if touch is not pressed.
+     */
+    static bool getTouchPosition(int index, int * outX, int * outY);
+
+    /**
      * Whether the platform has accelerometer support.
      */
     static bool hasAccelerometer();

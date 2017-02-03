@@ -1894,6 +1894,19 @@ bool Platform::isTouchPressed()
     return false;
 }
 
+bool Platform::getTouchPosition(int index, int * outX, int * outY)
+{
+    GP_ASSERT(index >= 0 && index < TOUCH_POINTS_MAX);
+
+    if (!__touchPoints[index].down)
+      return false;
+
+    *outX = __touchPoints[index].x;
+    *outY = __touchPoints[index].y;
+
+    return true;
+}
+
 }
 
 #endif

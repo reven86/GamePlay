@@ -453,6 +453,17 @@ public:
     inline bool isTouchPressed() const;
 
     /**
+     * Get touch position.
+     *
+     * @param index Index of the touch (contact index).
+     * @param[out] outX X touch coordinate.
+     * @param[out] outY Y touch coordinate.
+     *
+     * @return false if touch is not pressed.
+     */
+    inline bool getTouchPosition(int index, int * outX, int * outY) const;
+
+    /**
      * Determines whether a specified gesture event is supported.
      *
      * Use Gesture::GESTURE_ANY_SUPPORTED to test if one or more gesture events are supported.
