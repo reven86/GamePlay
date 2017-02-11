@@ -26,6 +26,7 @@
 // Externally referenced global variables.
 struct android_app* __state;
 AAssetManager* __assetManager;
+jclass __mainActivityClass;
 
 static bool __initialized;
 static bool __suspended;
@@ -51,6 +52,7 @@ static float __gyroRawX;
 static float __gyroRawY;
 static float __gyroRawZ;
 static int __orientationAngle = 90;
+static int __nextOrientationAngle = 90;
 static bool __multiSampling = false;
 static bool __multiTouch = false;
 static int __primaryTouchId = -1;
@@ -329,11 +331,6 @@ static bool initEGL()
 
     __orientationAngle = getRotation() * 90;
 
-    // dirty hack to fix 'portrait' ui in landscape mode bug
-#pragma message ("Remove this when orientation change event is implemented.")
-    if (__width < __height)
-        std::swap(__width, __height);
-    
     // Set vsync.
     eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
     
@@ -1466,6 +1463,13 @@ int Platform::enterMessagePump()
         // We skip rendering when the app is paused.
         if (__initialized && !__suspended)
         {
+            if ((__orientationAngle == 90 || __orientationAngle == 270) ^ (__nextOrientationAngle == 90 || __nextOrientationAngle == 270))
+            {
+                std::swap(__width, __height);
+                gameplay::Platform::resizeEventInternal(__width, __height);
+            }
+            __orientationAngle = __nextOrientationAngle;
+
             _game->frame();
 
             // Post the new frame to the display.
@@ -1669,10 +1673,47 @@ void Platform::getSensorValues(float* accelX, float* accelY, float* accelZ, floa
 
 void Platform::getArguments(int* argc, char*** argv)
 {
-    if (argc)
-        *argc = 0;
-    if (argv)
-        *argv = 0;
+    android_app* app = __state;
+    JavaVM* vm = app->activity->vm;
+    JNIEnv* env = app->activity->env;
+
+    vm->AttachCurrentThread(&env, NULL);
+
+    // Runs getArguments method on Activity (should be present)
+    jmethodID midGetArguments = env->GetMethodID(__mainActivityClass, "getArguments", "()Ljava/lang/String;");
+
+    if (midGetArguments)
+    {
+        jstring argString = (jstring)env->CallObjectMethod(app->activity->clazz, midGetArguments);
+
+        if (argString)
+        {
+            if (argc)
+                *argc = 2;
+            if (argv)
+            {
+                const char * str = env->GetStringUTFChars(argString, JNI_FALSE);;
+
+                static std::string res;
+                res = str;
+                static char * arguments[2] = { NULL, NULL };
+                arguments[1] = const_cast<char *>(res.c_str());
+
+                *argv = arguments;
+
+                env->ReleaseStringUTFChars(argString, str);
+            }
+        }
+    }
+    else
+    {
+        if (argc)
+            *argc = 0;
+        if (argv)
+            *argv = 0;
+    }
+
+    vm->DetachCurrentThread();
 }
 
 bool Platform::hasMouse()
@@ -2041,7 +2082,16 @@ JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_gamepadEventDi
 
 JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_screenOrientationChanged(JNIEnv* env, jclass clazz, jint orientation)
 {
-    __orientationAngle = orientation * 90;
+    __nextOrientationAngle = orientation * 90;
+}
+
+JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_openURLEvent(JNIEnv* env, jclass clazz, jstring url)
+{
+    const char* name = env->GetStringUTFChars(url, JNI_FALSE);
+
+    gameplay::Game::getInstance()->openURLEvent(name, "");
+
+    env->ReleaseStringUTFChars(url, name);
 }
 
 }

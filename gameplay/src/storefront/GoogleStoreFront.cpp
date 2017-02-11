@@ -7,7 +7,7 @@
 
 
 extern struct android_app* __state;
-const char * androidMainActivityClassName = "org/gameplay3d/GamePlayNativeActivity";
+extern jclass __mainActivityClass;
 
 
 namespace gameplay
@@ -32,7 +32,7 @@ JNIEXPORT jint JNICALL GameplayJNI_OnLoad(JavaVM *vm, void *reserved)
     JNIEnv* env = NULL;
     vm->GetEnv((void **)&env, JNI_VERSION_1_6);
 
-    jclass __mainActivityClass = env->FindClass(androidMainActivityClassName);
+    __mainActivityClass = (jclass)env->NewGlobalRef(env->FindClass("org/gameplay3d/GamePlayNativeActivity"));
     __midQueueSKURequest = env->GetMethodID(__mainActivityClass, "queueSkuDetailsRequest", "(Ljava/lang/String;)V");
     __midFlushSkuDetailsQueue = env->GetMethodID(__mainActivityClass, "flushSkuDetailsQueue", "()V");
     __midPurchaseItem = env->GetMethodID(__mainActivityClass, "purchaseItem", "(Ljava/lang/String;)V");
