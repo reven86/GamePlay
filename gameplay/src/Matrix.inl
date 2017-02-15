@@ -51,14 +51,14 @@ inline Matrix& Matrix::operator*=(const Matrix& m)
 
 inline Vector3& operator*=(Vector3& v, const Matrix& m)
 {
-    m.transformVector(&v);
+    m.transformPoint(&v);
     return v;
 }
 
 inline const Vector3 operator*(const Matrix& m, const Vector3& v)
 {
     Vector3 x;
-    m.transformVector(v, &x);
+    m.transformPoint(v, &x);
     return x;
 }
 
