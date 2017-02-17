@@ -128,6 +128,15 @@ public:
     T * reserve(unsigned int vertexCount);
 
     /**
+     * Removes vertices from the end of the batch. Works only for unindexed primitives.
+     * If vertex count to remove is greater than total number of vertices in batch,
+     * batch is cleared.
+     *
+     * @param vertexCount Number of vertices to remove.
+     */
+    void erase(unsigned int vertexCount);
+
+    /**
      * Starts batching.
      *
      * This method should be called before calling add() to add primitives to the batch.

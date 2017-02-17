@@ -312,6 +312,15 @@ void MeshBatch::draw() const
         pass->unbind();
     }
 }
-    
+
+void MeshBatch::erase(unsigned int vertexCount)
+{
+    GP_ASSERT(!_indexed);
+    if (_vertexCount > vertexCount)
+        _vertexCount -= vertexCount;
+    else
+        _vertexCount = 0;
+    _verticesPtr = _vertices + _vertexCount * _vertexFormat.getVertexSize();
+}
 
 }
