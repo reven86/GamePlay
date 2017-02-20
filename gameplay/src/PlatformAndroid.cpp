@@ -783,7 +783,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
         return 1;
     }
 
-	Game::getInstance()->handlePlatformEvent(event);
+    Game::getInstance()->handlePlatformEvent(event);
 
     int32_t deviceId = AInputEvent_getDeviceId(event);
     int32_t source = AInputEvent_getSource(event);
@@ -872,7 +872,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                             __pointer0.pointerId = pointerId;
                             __pointer0.x = x;
                             __pointer0.y = y;
-						    __gesturePointer0CurrentPosition = __gesturePointer0LastPosition = std::pair<int, int>(x, y);
+                            __gesturePointer0CurrentPosition = __gesturePointer0LastPosition = std::pair<int, int>(x, y);
                         }
 
                         // Primary pointer down.
@@ -889,16 +889,16 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                         
                         // Gestures
                         bool gestureDetected = false;
-					    if (__pointer0.pressed &&  __pointer0.pointerId == pointerId && !Form::getActiveControl())
+                        if (__pointer0.pressed &&  __pointer0.pointerId == pointerId && !Form::getActiveControl())
                         {
                             int deltaX = x - __pointer0.x;
                             int deltaY = y - __pointer0.y;
-						
+                        
                             // Test for drop
-                          	if (__gesturePinching)
-						    {
-						    }
-						    else if (__gestureDraging)
+                            if (__gesturePinching)
+                            {
+                            }
+                            else if (__gestureDraging)
                             {
                                 if (__gestureEventsProcessed.test(Gesture::GESTURE_DROP))
                                 {
@@ -945,29 +945,29 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                                 gestureDetected = true;
                             }    
                         }
-					    __pointer0.pressed = false;
-						if (!__pointer1.pressed)
-						{
-							if (__gesturePinching)
-							{
-								// inform the game we're done with pinching
-								Vector2 currentDistancePointer;
-								float scale, rotation;
+                        __pointer0.pressed = false;
+                        if (!__pointer1.pressed)
+                        {
+                            if (__gesturePinching)
+                            {
+                                // inform the game we're done with pinching
+                                Vector2 currentDistancePointer;
+                                float scale, rotation;
 
-								currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
-								scale = currentDistancePointer.length();
-								rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
+                                currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
+                                scale = currentDistancePointer.length();
+                                rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
 
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
-									gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
-									gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
-									gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
-							}
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
+                                    gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
+                                    gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
+                                    gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
+                            }
 
-							__gesturePinching = false;
-						}
+                            __gesturePinching = false;
+                        }
 
                         if (!gestureDetected && (__multiTouch || __primaryTouchId == pointerId) )
                         {
@@ -999,8 +999,8 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                             __pointer1.pointerId = pointerId;
                             __pointer1.x = x;
                             __pointer1.y = y;
-                        	__gesturePointer1CurrentPosition = __gesturePointer1LastPosition = std::pair<int, int>(x, y);
-					    }
+                            __gesturePointer1CurrentPosition = __gesturePointer1LastPosition = std::pair<int, int>(x, y);
+                        }
 
                         // Non-primary pointer down.
                         if (__multiTouch)
@@ -1024,12 +1024,12 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                         {
                             int deltaX = x - __pointer1.x;
                             int deltaY = y - __pointer1.y;
-						
-							if (__gesturePinching)
-							{
-							}
-						    // Test for swipe
-						    else if (__gestureEventsProcessed.test(Gesture::GESTURE_SWIPE) &&
+                        
+                            if (__gesturePinching)
+                            {
+                            }
+                            // Test for swipe
+                            else if (__gestureEventsProcessed.test(Gesture::GESTURE_SWIPE) &&
                                 gameplay::Game::getInstance()->getAbsoluteTime() - __pointer1.time < GESTURE_SWIPE_DURATION_MAX && 
                                 (abs(deltaX) > GESTURE_SWIPE_DISTANCE_MIN || abs(deltaY) > GESTURE_SWIPE_DISTANCE_MIN) )
                             {
@@ -1060,29 +1060,29 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                                 gestureDetected = true;
                             }    
                         }
-					    __pointer1.pressed = false;
-						if (!__pointer0.pressed)
-						{
-							if (__gesturePinching)
-							{
-								// inform the game we're done with pinching
-								Vector2 currentDistancePointer;
-								float scale, rotation;
+                        __pointer1.pressed = false;
+                        if (!__pointer0.pressed)
+                        {
+                            if (__gesturePinching)
+                            {
+                                // inform the game we're done with pinching
+                                Vector2 currentDistancePointer;
+                                float scale, rotation;
 
-								currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
-								scale = currentDistancePointer.length();
-								rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
+                                currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
+                                scale = currentDistancePointer.length();
+                                rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
 
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
-									gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
-									gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
-								if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
-									gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
-							}
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
+                                    gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
+                                    gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
+                                if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
+                                    gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
+                            }
 
-							__gesturePinching = false;
-						}
+                            __gesturePinching = false;
+                        }
 
                         if (!gestureDetected && (__multiTouch || __primaryTouchId == pointerId) )
                         {
@@ -1106,69 +1106,69 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                             y = AMotionEvent_getY(event, i);
                             
                             bool gestureDetected = false;
-						    if (__pointer0.pressed && !Form::getActiveControl())
-						    {
-							    //The two pointers are pressed and the event was done by one of it
-							    if (__pointer1.pressed && (pointerId == __pointer0.pointerId || pointerId == __pointer1.pointerId))
-							    {
-								    if (__pointer0.pointerId == __pointer1.pointerId)
-								    {
-										if (__gesturePinching)
-										{
-											// inform the game we're done with pinching
-											Vector2 currentDistancePointer;
-											float scale, rotation;
-
-											currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
-											scale = currentDistancePointer.length();
-											rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
-
-											if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
-												gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
-											if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
-												gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
-											if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
-												gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
-										}
-
-										__gesturePinching = false;
-									    break;
-								    }
-								    //Test for pinch
-                                    //Along with pinch we send rotation and pan events
-								    if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN))
-								    {
-	                                    bool eventWasStarted = __gesturePinching;
-										if (__pointer0.pointerId == pointerId)
-										{
-											__gesturePointer0LastPosition = __gesturePointer0CurrentPosition;
-											__gesturePointer0CurrentPosition = std::pair<int, int>(x, y);
-											__gesturePointer0Delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
-																		pow(static_cast<float>(y - __pointer0.y), 2));
-										}
-										else
-										{
-											__gesturePointer1LastPosition = __gesturePointer1CurrentPosition;
-											__gesturePointer1CurrentPosition = std::pair<int, int>(x, y);
-											__gesturePointer1Delta = sqrt(pow(static_cast<float>(x - __pointer1.x), 2) +
-																		pow(static_cast<float>(y - __pointer1.y), 2));
-										}
-										if (!__gesturePinching &&
-											(__gesturePointer0Delta >= GESTURE_PINCH_DISTANCE_MIN ||
-											__gesturePointer1Delta >= GESTURE_PINCH_DISTANCE_MIN))
-										{
-											__gesturePinching = true;
-                	                    }
-										if (__gesturePinching)
-										{
+                            if (__pointer0.pressed && !Form::getActiveControl())
+                            {
+                                //The two pointers are pressed and the event was done by one of it
+                                if (__pointer1.pressed && (pointerId == __pointer0.pointerId || pointerId == __pointer1.pointerId))
+                                {
+                                    if (__pointer0.pointerId == __pointer1.pointerId)
+                                    {
+                                        if (__gesturePinching)
+                                        {
+                                            // inform the game we're done with pinching
                                             Vector2 currentDistancePointer;
-											float scale, rotation;
+                                            float scale, rotation;
+
+                                            currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
+                                            scale = currentDistancePointer.length();
+                                            rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
+
+                                            if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
+                                                gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, 0);
+                                            if (__gestureEventsProcessed.test(Gesture::GESTURE_PAN))
+                                                gameplay::Platform::gesturePanEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, 0);
+                                            if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
+                                                gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, 0);
+                                        }
+
+                                        __gesturePinching = false;
+                                        break;
+                                    }
+                                    //Test for pinch
+                                    //Along with pinch we send rotation and pan events
+                                    if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN))
+                                    {
+                                        bool eventWasStarted = __gesturePinching;
+                                        if (__pointer0.pointerId == pointerId)
+                                        {
+                                            __gesturePointer0LastPosition = __gesturePointer0CurrentPosition;
+                                            __gesturePointer0CurrentPosition = std::pair<int, int>(x, y);
+                                            __gesturePointer0Delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
+                                                                        pow(static_cast<float>(y - __pointer0.y), 2));
+                                        }
+                                        else
+                                        {
+                                            __gesturePointer1LastPosition = __gesturePointer1CurrentPosition;
+                                            __gesturePointer1CurrentPosition = std::pair<int, int>(x, y);
+                                            __gesturePointer1Delta = sqrt(pow(static_cast<float>(x - __pointer1.x), 2) +
+                                                                        pow(static_cast<float>(y - __pointer1.y), 2));
+                                        }
+                                        if (!__gesturePinching &&
+                                            (__gesturePointer0Delta >= GESTURE_PINCH_DISTANCE_MIN ||
+                                            __gesturePointer1Delta >= GESTURE_PINCH_DISTANCE_MIN))
+                                        {
+                                            __gesturePinching = true;
+                                        }
+                                        if (__gesturePinching)
+                                        {
+                                            Vector2 currentDistancePointer;
+                                            float scale, rotation;
                                            
                                             __gesturePinchCentroid = std::pair<int, int>((__gesturePointer0CurrentPosition.first + __gesturePointer1CurrentPosition.first) / 2,
-            	                                (__gesturePointer0CurrentPosition.second + __gesturePointer1CurrentPosition.second) / 2);
+                                                (__gesturePointer0CurrentPosition.second + __gesturePointer1CurrentPosition.second) / 2);
 
-                	                        currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
-											scale = currentDistancePointer.length();
+                                            currentDistancePointer = Vector2(__gesturePointer1CurrentPosition.first - __gesturePointer0CurrentPosition.first, __gesturePointer1CurrentPosition.second - __gesturePointer0CurrentPosition.second);
+                                            scale = currentDistancePointer.length();
                                             rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
 
                                             if ((__gesturePointer0CurrentPosition != __gesturePointer0LastPosition) || (__gesturePointer1CurrentPosition != __gesturePointer1LastPosition) || !eventWasStarted)
@@ -1180,29 +1180,29 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                                                 if (__gestureEventsProcessed.test(Gesture::GESTURE_ROTATION))
                                                     gameplay::Platform::gestureRotationEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, rotation, eventWasStarted ? 2 : 0);
                                             }
-        	                            }
-	                                }
-							    }
-							    //Only the primary pointer is done and the event was done by it
-							    else if (!gestureDetected && pointerId == __pointer0.pointerId)
-							    {
-								    //Test for drag
-								    if (__gestureEventsProcessed.test(Gesture::GESTURE_DRAG))
-								    {
-                            		    int delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
-													    pow(static_cast<float>(y - __pointer0.y), 2));
+                                        }
+                                    }
+                                }
+                                //Only the primary pointer is done and the event was done by it
+                                else if (!gestureDetected && pointerId == __pointer0.pointerId)
+                                {
+                                    //Test for drag
+                                    if (__gestureEventsProcessed.test(Gesture::GESTURE_DRAG))
+                                    {
+                                        int delta = sqrt(pow(static_cast<float>(x - __pointer0.x), 2) +
+                                                        pow(static_cast<float>(y - __pointer0.y), 2));
                             
-                            		    if ((__gestureDraging || __gestureEventsProcessed.test(Gesture::GESTURE_DRAG)) &&
-                                 		    (gameplay::Game::getInstance()->getAbsoluteTime() - __pointer0.time >= GESTURE_DRAG_START_DURATION_MIN) &&
-                                		    (delta >= GESTURE_DRAG_DISTANCE_MIN))
-                            		    {
-                                		    gameplay::Platform::gestureDragEventInternal(x, y);
-                                		    __gestureDraging = true;
-                                		    gestureDetected = true;
-                            		    }
-								    }
-							    }
-						    }
+                                        if ((__gestureDraging || __gestureEventsProcessed.test(Gesture::GESTURE_DRAG)) &&
+                                            (gameplay::Game::getInstance()->getAbsoluteTime() - __pointer0.time >= GESTURE_DRAG_START_DURATION_MIN) &&
+                                            (delta >= GESTURE_DRAG_DISTANCE_MIN))
+                                        {
+                                            gameplay::Platform::gestureDragEventInternal(x, y);
+                                            __gestureDraging = true;
+                                            gestureDetected = true;
+                                        }
+                                    }
+                                }
+                            }
 
                             if (__gesturePinching && 
                                 (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN)))
@@ -2070,14 +2070,14 @@ JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_gamepadEventCo
 {
     const char* name = env->GetStringUTFChars(deviceName, JNI_FALSE);
     
-	gameplay::Platform::gamepadEventConnectedInternal(deviceId, buttonCount, joystickCount, triggerCount, name);
+    gameplay::Platform::gamepadEventConnectedInternal(deviceId, buttonCount, joystickCount, triggerCount, name);
     
     env->ReleaseStringUTFChars(deviceName, name);
 }
 
 JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_gamepadEventDisconnectedImpl(JNIEnv* env, jclass clazz, jint deviceId)
 {
-	gameplay::Platform::gamepadEventDisconnectedInternal(deviceId);
+    gameplay::Platform::gamepadEventDisconnectedInternal(deviceId);
 }
 
 JNIEXPORT void JNICALL Java_org_gameplay3d_GamePlayNativeActivity_screenOrientationChanged(JNIEnv* env, jclass clazz, jint orientation)
