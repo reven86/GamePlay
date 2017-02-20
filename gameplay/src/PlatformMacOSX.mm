@@ -1868,9 +1868,9 @@ void Platform::swapBuffers()
         CGLFlushDrawable((CGLContextObj)[[__view openGLContext] CGLContextObj]);
 }
 
-void Platform::sleep(long ms)
+void Platform::sleep(float s)
 {
-    usleep(ms * 1000);
+    usleep((long)s * 1000000);
 }
 
 void Platform::setMultiSampling(bool enabled)

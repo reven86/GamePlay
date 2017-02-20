@@ -1681,7 +1681,7 @@ void Platform::swapBuffers()
 }
 void Platform::sleep(float s)
 {
-    usleep((long)(s * 1000));
+    usleep((long)(s * 1000000));
 }
 
 bool Platform::hasAccelerometer()
