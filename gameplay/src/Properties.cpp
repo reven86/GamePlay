@@ -728,31 +728,31 @@ void Properties::mergeWith(Properties* overrides)
     {
         char variable[256];
         const char * value = overrides->_propertiesItr->value.c_str();
-		if (!isVariable(value, variable, 256))
-			setString(name, value);
-		else
-		{
-			// Search for variable only in this Properties object
-			Property* prop = NULL;
-			Properties* current = const_cast<Properties*>(this);
-			if (current->_variables)
-			{
-				for (size_t i = 0, count = current->_variables->size(); i < count; ++i)
-				{
-					Property* p = &(*current->_variables)[i];
-					if (p->name == name)
-					{
-						prop = p;
-						break;
-					}
-				}
-			}
+        if (!isVariable(value, variable, 256))
+            setString(name, value);
+        else
+        {
+            // Search for variable only in this Properties object
+            Property* prop = NULL;
+            Properties* current = const_cast<Properties*>(this);
+            if (current->_variables)
+            {
+                for (size_t i = 0, count = current->_variables->size(); i < count; ++i)
+                {
+                    Property* p = &(*current->_variables)[i];
+                    if (p->name == name)
+                    {
+                        prop = p;
+                        break;
+                    }
+                }
+            }
 
-			if (prop)
-			{
-				// Found an existing property, set it
-				prop->value = value ? value : "";
-			}
+            if (prop)
+            {
+                // Found an existing property, set it
+                prop->value = value ? value : "";
+            }
             else
             {
                 // if we don't have variable declared in our namespace, just set the 
