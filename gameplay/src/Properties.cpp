@@ -753,7 +753,14 @@ void Properties::mergeWith(Properties* overrides)
 				// Found an existing property, set it
 				prop->value = value ? value : "";
 			}
-		}
+            else
+            {
+                // if we don't have variable declared in our namespace, just set the 
+                // property to original variable's name, so it can be looked up later
+                // using the parent hierarchy
+                setString(name, value);
+            }
+        }
         name = overrides->getNextProperty();
     }
     this->_propertiesItr = this->_properties.end();
