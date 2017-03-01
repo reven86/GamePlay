@@ -1274,6 +1274,11 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd)
             {
                 initEGL();
                 __initialized = true;
+
+                // APP_CMD_RESUME come before APP_CMD_INIT_WINDOW
+                // need to resume the game as soon as we're ready
+                if (!__suspended)
+                    Game::getInstance()->resume();
             }
             break;
         case APP_CMD_TERM_WINDOW:
