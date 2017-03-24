@@ -16,4 +16,14 @@ inline Quaternion& Quaternion::operator*=(const Quaternion& q)
     return *this;
 }
 
+inline bool Quaternion::operator==(const Quaternion& v) const
+{
+    return x == v.x && y == v.y && z == v.z && w == v.w;
+}
+
+inline bool Quaternion::operator!=(const Quaternion& v) const
+{
+    return x != v.x || y != v.y || z != v.z || w != v.w;
+}
+
 }

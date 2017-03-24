@@ -384,6 +384,24 @@ public:
      */
     inline Quaternion& operator*=(const Quaternion& q);
 
+    /**
+     * Determines if this quaternion is equal to the given quaternion.
+     * 
+     * @param v The quaternion to compare against.
+     * 
+     * @return True if this quaternion is equal to the given quaternion, false otherwise.
+     */
+    inline bool operator==(const Quaternion& v) const;
+
+    /**
+     * Determines if this quaternion is not equal to the given quaternion.
+     * 
+     * @param v The quaternion to compare against.
+     * 
+     * @return True if this quaternion is not equal to the given quaternion, false otherwise.
+     */
+    inline bool operator!=(const Quaternion& v) const;
+
 private:
 
     /**
