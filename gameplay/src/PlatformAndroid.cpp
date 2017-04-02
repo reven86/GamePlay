@@ -51,8 +51,9 @@ static float __accelRawZ;
 static float __gyroRawX;
 static float __gyroRawY;
 static float __gyroRawZ;
-static int __orientationAngle = 90;
-static int __nextOrientationAngle = 90;
+static int __orientationAngle = 0;
+static int __nextOrientationAngle = 0;
+static bool __naturalOrientationIsLandscape = false;
 static bool __multiSampling = false;
 static bool __multiTouch = false;
 static int __primaryTouchId = -1;
@@ -329,7 +330,8 @@ static bool initEGL()
     eglQuerySurface(__eglDisplay, __eglSurface, EGL_WIDTH, &__width);
     eglQuerySurface(__eglDisplay, __eglSurface, EGL_HEIGHT, &__height);
 
-    __orientationAngle = getRotation() * 90;
+    __nextOrientationAngle = __orientationAngle = getRotation() * 90;
+    __naturalOrientationIsLandscape = (__orientationAngle == 90 || __orientationAngle == 270) ^ (__width > __height);
 
     // Set vsync.
     eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
