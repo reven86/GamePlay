@@ -56,6 +56,15 @@ int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, job
     return res ? 1 : 0;
 }
 
+int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobject thiz, jstring sku)
+{
+    const char* productID = env->GetStringUTFChars(sku, NULL);
+    bool res = __instance->getListener()->isSubscription(productID);
+    env->ReleaseStringUTFChars(sku, productID);
+
+    return res ? 1 : 0;
+}
+
 void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);

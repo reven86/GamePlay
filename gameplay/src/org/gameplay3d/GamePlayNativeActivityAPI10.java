@@ -1,5 +1,6 @@
 package org.gameplay3d;
 
+
 import android.app.NativeActivity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -85,6 +86,7 @@ public class GamePlayNativeActivity extends NativeActivity {
     // IAB
     public native void setIABEnabled();
     public native int isItemConsumable(String sku);
+    public native int isSubscription(String sku);
     public native void itemRestored(String sku, long purchaseTime, String orderId);
     public native void itemPurchased(String sku, long purchaseTime, String orderId);
     public native void itemPurchaseFailed(String sku, int error, String message);
