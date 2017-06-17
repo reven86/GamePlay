@@ -104,7 +104,7 @@ public:
      *
      * @param value The new value.
      */
-    void setValue(float value);
+    virtual void setValue(float value);
 
     /**
      * Get this slider's current value.
