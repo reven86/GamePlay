@@ -1107,7 +1107,7 @@ int getUnicode(int key);
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary*)options
 {
     NSString *sender = (NSString *)[options valueForKey:UIApplicationOpenURLOptionsSourceApplicationKey];
-    return Game::getInstance()->openURLEvent([url.absoluteString UTF8String], sender ? [sender UTF8String] : "") ? YES : NO;
+    return Game::getInstance()->openURLEvent([[url.absoluteString stringByRemovingPercentEncoding] UTF8String], sender ? [sender UTF8String] : "") ? YES : NO;
 }
 
 - (BOOL)prefersStatusBarHidden
