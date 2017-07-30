@@ -101,7 +101,8 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, 
 void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIEnv* env, jobject thiz, jint error, jstring message)
 {
     const char* msg = env->GetStringUTFChars(message, NULL);
-    __instance->getListener()->getProductsFailedEvent(error, msg);
+    if (__instance)
+        __instance->getListener()->getProductsFailedEvent(error, msg);
     env->ReleaseStringUTFChars(message, msg);
 }
 
