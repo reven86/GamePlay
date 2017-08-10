@@ -22,7 +22,9 @@ MeshBatch::MeshBatch(const VertexFormat& vertexFormat, Mesh::PrimitiveType primi
 {
 #ifdef EMSCRIPTEN
     _model = Model::create(Mesh::createMesh(vertexFormat, initialCapacity, true));
+    _model->getMesh()->setPrimitiveType(primitiveType);
     _model->getMesh()->release();
+    _model->setMaterial(material);
 #endif
     resize(initialCapacity);
 }
@@ -55,10 +57,6 @@ MeshBatch* MeshBatch::create(const VertexFormat& vertexFormat, Mesh::PrimitiveTy
     GP_ASSERT(material);
 
     MeshBatch* batch = new MeshBatch(vertexFormat, primitiveType, material, indexed, initialCapacity, growSize);
-#ifdef EMSCRIPTEN
-    batch->_model->setMaterial(material);
-#endif
-
     material->addRef();
 
     return batch;
