@@ -580,7 +580,17 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
     Control* ctrl = NULL;
     int formX = x;
     int formY = y;
-    unsigned int contactIndex = mouse ? 0 : (unsigned int)param;
+    unsigned int contactIndex = 0;
+    if (!mouse)
+    {
+#ifdef __EMSCRIPTEN__
+        // it is weird, but emscripten WASM compiler requires some manipulation with 'param' here
+        // or else it tries to cast negative float values to unsigned int even when 'mouse' is true
+        // and throws exception
+        param = floorf(param);
+#endif
+        contactIndex = static_cast<unsigned int>(param);
+    }
 
     // Note: TOUCH_PRESS and TOUCH_RELEASE have same values as MOUSE_PRESS_LEFT_BUTTON and MOUSE_RELEASE_LEFT_BUTTON
     if (evt == Touch::TOUCH_PRESS)
