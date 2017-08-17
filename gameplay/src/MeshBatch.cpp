@@ -277,6 +277,9 @@ void MeshBatch::draw() const
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
 
 #ifdef EMSCRIPTEN
+    if (_started && _vertexCount != _model->getMesh()->getVertexCount())
+        _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
+
     if (!_indexed)
     {
         _model->draw();
@@ -319,6 +322,10 @@ void MeshBatch::erase(unsigned int vertexCount)
     else
         _vertexCount = 0;
     _verticesPtr = _vertices + _vertexCount * _vertexFormat.getVertexSize();
+
+#ifdef EMSCRIPTEN
+    _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
+#endif
 }
 
 }
