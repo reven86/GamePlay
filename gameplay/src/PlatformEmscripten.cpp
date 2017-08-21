@@ -904,18 +904,14 @@ EM_BOOL keyboard_callback(int eventType, const EmscriptenKeyboardEvent *e, void 
 EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *userData)
 {
     GP_ASSERT(eventType == EMSCRIPTEN_EVENT_RESIZE);
+    
+    int width = uiEvent->windowInnerWidth;
+    int height = uiEvent->windowInnerHeight;
 
-    int sizePacked = EM_ASM_INT_V({
-        var canvas = document.getElementById('canvas');
-        return canvas.clientWidth + (canvas.clientHeight << 16);
-    });
-    
-    int width = sizePacked & 0xffff;
-    int height = sizePacked >> 16;
-    
     if (width != __windowSize[0] || height != __windowSize[1])
     {
-        emscripten_set_canvas_size(width, height);
+        __windowSize[0] = width;
+        __windowSize[1] = height;
         gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
     }
     
@@ -955,6 +951,7 @@ int Platform::enterMessagePump()
 {
     GP_ASSERT(_game);
 
+    // initial viewport size is fully dependent on canvas size
     updateWindowSize();
 
     // Get the initial time.
@@ -971,7 +968,7 @@ int Platform::enterMessagePump()
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
     //emscripten_set_keydown_callback(0, 0, true, keyboard_callback);
     //emscripten_set_keyup_callback(0, 0, true, keyboard_callback);
-    emscripten_set_resize_callback(0, 0, true, &resize_callback);
+    emscripten_set_resize_callback(0, 0, false, &resize_callback);
     emscripten_set_main_loop_arg(&main_loop_iter, (void *)_game, 0, 1);
 
     return 0;
