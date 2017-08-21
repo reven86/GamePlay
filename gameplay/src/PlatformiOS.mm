@@ -1110,6 +1110,14 @@ int getUnicode(int key);
     return Game::getInstance()->openURLEvent([[url.absoluteString stringByRemovingPercentEncoding] UTF8String], sender ? [sender UTF8String] : "") ? YES : NO;
 }
 
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    if ([userActivity.activityType isEqualToString: NSUserActivityTypeBrowsingWeb]) {
+        NSURL *url = userActivity.webpageURL;
+        return Game::getInstance()->openURLEvent([[url.absoluteString stringByRemovingPercentEncoding] UTF8String], "") ? YES : NO;
+    }
+    return YES;
+}  
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
