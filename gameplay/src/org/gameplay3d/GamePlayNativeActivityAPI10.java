@@ -106,7 +106,7 @@ public class GamePlayNativeActivity extends NativeActivity {
     {
         Uri arg = getIntent().getData();
         if (arg != null)
-            return "file://"+getPath(this, arg);
+            return getPath(this, arg);
         return "";
     }
 
@@ -123,14 +123,14 @@ public class GamePlayNativeActivity extends NativeActivity {
 
       // MediaStore (and general)
       if ("content".equalsIgnoreCase(uri.getScheme())) {
-        return getDataColumn(context, uri, null, null);
+        return "file://"+getDataColumn(context, uri, null, null);
       }
       // File
-      else if ("file".equalsIgnoreCase(uri.getScheme())) {
-        return uri.getPath();
+      if ("file".equalsIgnoreCase(uri.getScheme())) {
+        return "file://"+uri.getPath();
       }
 
-      return null;
+      return uri.toString();
     }
 
     /**
