@@ -905,8 +905,15 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
 {
     GP_ASSERT(eventType == EMSCRIPTEN_EVENT_RESIZE);
     
-    int width = uiEvent->windowInnerWidth;
-    int height = uiEvent->windowInnerHeight;
+    int sizePacked = EM_ASM_INT_V({
+        var canvas = document.getElementById('canvas');
+        return canvas.clientWidth + (canvas.clientHeight << 16);
+    });
+    
+    int width = sizePacked & 0xffff;
+    int height = sizePacked >> 16;
+
+    //GP_LOG("%dx%d %dx%d", width, height, __windowSize[0], __windowSize[1]);
 
     if (width != __windowSize[0] || height != __windowSize[1])
     {
@@ -935,11 +942,21 @@ void main_loop_iter(void* _game)
     //     }
     // }
 
+    double lastTimeSizePolled = 0.0;
     if (game)
     {
         // Game state will be uninitialized if game was closed through Game::exit()
         if (game->getState() == Game::UNINITIALIZED)
             return;
+
+        // since there is no way to listen for resize events for a canvas element, but only for window
+        // pool the canvas dimensions every frame and invoke resizeEvent is they are changed
+        // resize_callback does the polling once per second
+        if (game->getAbsoluteTime() > lastTimeSizePolled + 1.0)
+        {
+            lastTimeSizePolled = game->getAbsoluteTime();
+            resize_callback(EMSCRIPTEN_EVENT_RESIZE, NULL, NULL);
+        }
 
         game->frame();
     }
