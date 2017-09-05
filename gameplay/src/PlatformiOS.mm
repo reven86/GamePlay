@@ -865,7 +865,7 @@ int getUnicode(int key);
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)sender
 {
-    CGPoint location = [sender translationInView:self];
+    CGPoint location = [sender locationInView:self];
     gameplay::Platform::gesturePanEventInternal(location.x * WINDOW_SCALE, location.y * WINDOW_SCALE, sender.state == UIGestureRecognizerStateChanged ? sender.numberOfTouches : 0);
 }
 
