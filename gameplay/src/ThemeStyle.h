@@ -37,6 +37,11 @@ public:
      */
     Theme* getTheme() const;
 
+    /**
+     * Returns the Id of this Style.
+     */
+    const char* getId() const;
+
 private:
 
     /**
@@ -209,11 +214,6 @@ private:
      * Hidden copy assignment operator.
      */
     Style& operator=(const Style&);
-
-    /**
-     * Returns the Id of this Style.
-     */
-    const char* getId() const;
 
     /**
      * Gets an overlay from the overlay type.
