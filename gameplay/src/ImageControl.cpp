@@ -113,6 +113,21 @@ void ImageControl::setImage(const char* path)
         setDirty(DIRTY_BOUNDS);
 }
 
+void ImageControl::setImage(Image * image)
+{
+    SAFE_DELETE(_batch);
+
+    Texture * texture = Texture::create(image);
+    _batch = SpriteBatch::create(texture);
+    _tw = 1.0f / texture->getWidth();
+    _th = 1.0f / texture->getHeight();
+    texture->release();
+    _batch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
+
+    if (_autoSize != AUTO_SIZE_NONE)
+        setDirty(DIRTY_BOUNDS);
+}
+
 void ImageControl::setRegionSrc(float x, float y, float width, float height)
 {
     _srcRegion.set(x, y, width, height);
