@@ -270,7 +270,7 @@ bool Image::writePNG(gameplay::Stream * stream)
     uint32_t bpp = _format == RGB ? 3 : 4;
     png_byte **row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, _height * sizeof(png_byte *)));
     for (y = 0; y < _height; ++y) 
-        row_pointers[_height - 1 - y] = (png_byte *)(_data + y * _width * bpp);
+        row_pointers[y] = (png_byte *)(_data + y * _width * bpp);
 
     /* Actually write the image data. */
     png_set_write_fn(png_ptr, stream, writeStream, NULL);
@@ -360,9 +360,9 @@ bool Image::writeJPEG(gameplay::Stream * stream, int quality)
     {
         for (unsigned x = 0; x < _width; x++)
         {
-            scanline_rgb[x * 3 + 0] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 0);
-            scanline_rgb[x * 3 + 1] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 1);
-            scanline_rgb[x * 3 + 2] = *(buf + ((_height - cinfo.next_scanline - 1) * _width + x) * bpp + 2);
+            scanline_rgb[x * 3 + 0] = *(buf + (cinfo.next_scanline * _width + x) * bpp + 0);
+            scanline_rgb[x * 3 + 1] = *(buf + (cinfo.next_scanline * _width + x) * bpp + 1);
+            scanline_rgb[x * 3 + 2] = *(buf + (cinfo.next_scanline * _width + x) * bpp + 2);
         }
 
         row_pointer[0] = scanline_rgb.get();

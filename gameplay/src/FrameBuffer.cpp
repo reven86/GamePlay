@@ -315,7 +315,15 @@ void FrameBuffer::getScreenshot(Image* image)
 
 	if (image->getWidth() == width && image->getHeight() == height) {
 		GLenum format = image->getFormat() == Image::RGB ? GL_RGB : GL_RGBA;
-        GL_ASSERT( glReadPixels(0, 0, width, height, format, GL_UNSIGNED_BYTE, image->getData()) );
+
+        // since the data in Image is started from top-left corner and glReadPixels returns the data from lower-left corner, we need to flip the image vertically
+        unsigned int pixelSize = image->getFormat() == Image::RGB ? 3 : 4;
+        std::unique_ptr<uint8_t[]> buf(new uint8_t[width * height * pixelSize]);
+        GL_ASSERT(glReadPixels(0, 0, width, height, format, GL_UNSIGNED_BYTE, buf.get()));
+
+        unsigned stride = width * pixelSize;
+        for (unsigned y = 0; y < height; y++)
+            memcpy(image->getData() + stride * y, buf.get() + stride * (height - 1 - y), stride);
 	}
 }
 
