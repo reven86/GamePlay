@@ -243,6 +243,11 @@ public:
  */
 inline const BoundingBox operator*(const Matrix& matrix, const BoundingBox& box);
 
+/**
+ * Equality operator
+ */
+inline bool operator==(const BoundingBox& a, const BoundingBox& b);
+
 }
 
 #include "BoundingBox.inl"

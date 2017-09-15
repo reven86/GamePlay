@@ -16,4 +16,9 @@ inline const BoundingBox operator*(const Matrix& matrix, const BoundingBox& box)
     return b;
 }
 
+inline bool operator== (const BoundingBox& a, const BoundingBox& b)
+{
+    return a.min == b.min && a.max == b.max;
+}
+
 }
