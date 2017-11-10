@@ -828,6 +828,7 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
     {
         __windowSize[0] = width;
         __windowSize[1] = height;
+        emscripten_set_canvas_size(width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
         gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
     }
     
