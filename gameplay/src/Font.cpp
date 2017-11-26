@@ -570,7 +570,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         }
         else
         {
-            tokenLength = (unsigned int)wcscspn (token, L" \r\n\t");
+            tokenLength = getTokenLength(token);
             tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = 1;
             startIndex = 0;
@@ -580,7 +580,7 @@ void Font::drawText(const wchar_t* text, const Rectangle& areaIn, const Vector4&
         if (wrap && (floorf(xPos + tokenWidth) > area.x + area.width || ((flags & RIGHT_TO_LEFT) != 0 && currentLineLength > lineLength)))
         {
             currentLineLength = tokenLength;
-            if (!firstToken)    // do not wrap first token
+            if (!firstToken)    // never wrap first token
                 yPos += verticalAdvance;
 
             if (xPositionsIt != xPositions.end())
@@ -974,7 +974,7 @@ void Font::measureText(const wchar_t* text, const Rectangle& clipIn, float size,
             }
 
             // Measure the next token.
-            unsigned int tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
+            unsigned int tokenLength = getTokenLength(token);
             float tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
 
             // Wrap if necessary.
@@ -1319,7 +1319,7 @@ void Font::getMeasurementInfo(const wchar_t* text, const Rectangle& area, float 
                     break;
                 }
 
-                unsigned int tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
+                unsigned int tokenLength = getTokenLength(token);
                 tokenWidth += getTokenWidth(token, tokenLength, size, scale, characterSpacing);
 
                 // Wrap if necessary.
@@ -1535,7 +1535,7 @@ int Font::getIndexOrLocation(const wchar_t* text, const Rectangle& area, float s
         }
         else
         {
-            tokenLength = (unsigned int)wcscspn(token, L" \r\n\t");
+            tokenLength = getTokenLength(token);
             tokenWidth = getTokenWidth(token, tokenLength, size, scale, characterSpacing);
             iteration = 1;
             startIndex = 0;
@@ -1743,17 +1743,38 @@ unsigned int Font::getReversedTokenLength(const wchar_t* token, const wchar_t* b
     wchar_t c = cursor[0];
     unsigned int length = 0;
 
-    while (cursor != bufStart && c != L' ' && c != L'\r' && c != L'\n' && c != L'\t')
+    while (cursor != bufStart && c != L' ' && c != L'\r' && c != L'\n' && c != L'\t' && c < 0x4e00)
     {
         length++;
         cursor--;
         c = cursor[0];
     }
 
-    if (cursor == bufStart)
+    if (cursor == bufStart || c >= 0x4e00)
     {
         length++;
     }
+
+    return length;
+}
+
+unsigned int Font::getTokenLength(const wchar_t* token) const
+{
+    GP_ASSERT(token);
+
+    const wchar_t* cursor = token;
+    wchar_t c = cursor[0];
+    unsigned int length = 0;
+
+    while (c && c != L' ' && c != L'\r' && c != L'\n' && c != L'\t' && c < 0x4e00)
+    {
+        length++;
+        cursor++;
+        c = cursor[0];
+    }
+
+    if (c >= 0x4e00)
+        length++;
 
     return length;
 }
