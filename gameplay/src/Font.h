@@ -360,6 +360,8 @@ private:
 
     float getTokenWidth(const wchar_t* token, unsigned int length, float size, float scale, float characterSpacing) const;
 
+    // get token length, space and newlines act as delimiters. for asian languages each char is considered as one token
+    unsigned int getTokenLength(const wchar_t* tokens) const;
     unsigned int getReversedTokenLength(const wchar_t* token, const wchar_t* bufStart) const;
 
     int handleDelimiters(const wchar_t** token, const float size, float scale, const int iteration, const float areaX, float* xPos, float* yPos, unsigned int* lineLength,

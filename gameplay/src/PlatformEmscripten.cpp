@@ -860,7 +860,7 @@ void main_loop_iter(void* _game)
             return;
 
         // since there is no way to listen for resize events for a canvas element, but only for window
-        // pool the canvas dimensions every frame and invoke resizeEvent is they are changed
+        // pool the canvas dimensions every frame and invoke resizeEvent if they are changed
         // resize_callback does the polling once per second
         if (game->getAbsoluteTime() > lastTimeSizePolled + 1.0)
         {
