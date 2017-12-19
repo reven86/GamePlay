@@ -232,6 +232,13 @@ public:
      * @param point Point.
      */
     void enlarge(const Vector3& point);
+
+    /**
+     * Checks whether a point is inside the bounding box.
+     *
+     * @param point Point.
+     */
+    inline bool contains(const Vector3& point) const;
 };
 
 /**
