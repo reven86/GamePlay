@@ -792,7 +792,7 @@ EM_BOOL keyboard_callback(int eventType, const EmscriptenKeyboardEvent *e, void 
      //*/
     
     if (e->repeat)
-        return 1;
+        return 0;
 
     static bool capsOn = false;
     
@@ -807,7 +807,7 @@ EM_BOOL keyboard_callback(int eventType, const EmscriptenKeyboardEvent *e, void 
     }
     else if (eventType == EMSCRIPTEN_EVENT_KEYUP)
         gameplay::Platform::keyEventInternal(gameplay::Keyboard::KEY_RELEASE, getKey(e->keyCode, e->shiftKey ^ capsOn));
-    return 1;
+    return 0;
 }
     
 EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *userData)
