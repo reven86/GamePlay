@@ -1839,7 +1839,16 @@ bool Platform::launchURL(const char *url)
     if (url == NULL || *url == '\0')
         return false;
 
-    return [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String: url]]];
+    NSURL * urlString = [NSURL URLWithString:[NSString stringWithUTF8String: url]];
+
+    NSDictionary *options = @{UIApplicationOpenURLOptionUniversalLinksOnly : @YES};
+    [[UIApplication sharedApplication] openURL:urlString options:options completionHandler:^(BOOL success) {
+        NSLog(@"Open URL as Universal Link %@: %d", urlString, success);
+        if (!success)
+            [[UIApplication sharedApplication] openURL:urlString];
+    }];
+    
+    return true;
 }
 
 std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
