@@ -512,8 +512,12 @@ Control* Form::handlePointerMove(int* x, int* y, unsigned int contactIndex)
             if (__activeControl[contactIndex]->_state == HOVER || wasActive)
                 __activeControl[contactIndex]->notifyListeners(Control::Listener::LEAVE);
 
-            __activeControl[contactIndex]->_state = NORMAL;
-            __activeControl[contactIndex]->setDirty(DIRTY_STATE);
+            // keep the active state on
+            if (__activeControl[contactIndex]->_state != ACTIVE)
+            {
+                __activeControl[contactIndex]->_state = NORMAL;
+                __activeControl[contactIndex]->setDirty(DIRTY_STATE);
+            }
         }
 
         if (!wasActive)
