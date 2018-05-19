@@ -587,13 +587,12 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
     unsigned int contactIndex = 0;
     if (!mouse)
     {
-#ifdef __EMSCRIPTEN__
         // it is weird, but emscripten WASM compiler requires some manipulation with 'param' here
         // or else it tries to cast negative float values to unsigned int even when 'mouse' is true
         // and throws exception
-        param = floorf(param);
-#endif
+#ifndef __EMSCRIPTEN__
         contactIndex = static_cast<unsigned int>(param);
+#endif
     }
 
     // Note: TOUCH_PRESS and TOUCH_RELEASE have same values as MOUSE_PRESS_LEFT_BUTTON and MOUSE_RELEASE_LEFT_BUTTON
@@ -683,7 +682,7 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
                         }
                         else
                         {
-                            if (container->touchEventScroll((Touch::TouchEvent)evt, formX - tmp->_absoluteBounds.x, formY - tmp->_absoluteBounds.y, param))
+                            if (container->touchEventScroll((Touch::TouchEvent)evt, formX - tmp->_absoluteBounds.x, formY - tmp->_absoluteBounds.y, contactIndex))
                                 return true;
                         }
                         break; // scrollable parent container found
