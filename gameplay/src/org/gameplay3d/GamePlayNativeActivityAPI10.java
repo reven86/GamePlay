@@ -22,6 +22,10 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.content.Intent;
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * GamePlay native activity extension for Android platform.
@@ -71,9 +75,10 @@ public class GamePlayNativeActivity extends NativeActivity {
         super.onNewIntent(intent);
         setIntent(intent);
 
-        //Log.i(TAG, "onNewIntent: " + getCallingPackage() + " " + getArguments());
+        String args = getArguments();
+        Log.i(TAG, "onNewIntent: " + getCallingPackage() + " " + args);
 
-        openURLEvent(getArguments());
+        openURLEvent(args);
     }        
 
     // JNI calls to PlatformAndroid.cpp
@@ -122,8 +127,54 @@ public class GamePlayNativeActivity extends NativeActivity {
     public static String getPath(final Context context, final Uri uri) {
 
       // MediaStore (and general)
-      if ("content".equalsIgnoreCase(uri.getScheme())) {
-        return "file://"+getDataColumn(context, uri, null, null);
+      if ("content".equalsIgnoreCase(uri.getScheme()))
+      {
+        String path = getDataColumn(context, uri, null, null);
+        
+        if (path == null)
+        {
+            Log.i(TAG, "Creating temp file to resolve Intent arguments");
+
+            try 
+            {
+                final File tempFile = File.createTempFile("mi_arg", ".tmp");
+                tempFile.deleteOnExit();
+
+                InputStream input = context.getContentResolver().openInputStream(uri);
+                try
+                {
+                    FileOutputStream output = new FileOutputStream(tempFile);
+                    try
+                    {
+                        byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                        int read;
+
+                        while ((read = input.read(buffer)) != -1)
+                            output.write(buffer, 0, read);
+
+                        output.flush();
+                    }
+                    finally
+                    {
+                        output.close();
+                    }
+                }
+                finally
+                {
+                    input.close();
+                }
+
+                path = tempFile.getAbsolutePath();
+            }
+            catch(IOException e)
+            {
+                Log.i(TAG, "IOException " + e);
+            }
+
+            Log.i(TAG, "Temp file path is " + path);
+        }
+
+        return "file://"+path;
       }
       // File
       if ("file".equalsIgnoreCase(uri.getScheme())) {
