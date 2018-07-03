@@ -989,8 +989,8 @@ const char* Properties::getString(const char* name, const char* defaultValue) co
     if (value)
     {
         // If the value references a variable, return the variable value
-        if (isVariable(value, variable, 256))
-            return getVariable(variable, defaultValue);
+        while (isVariable(value, variable, 256))
+            value = getVariable(variable, defaultValue);
 
         return value;
     }
