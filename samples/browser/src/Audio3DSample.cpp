@@ -326,7 +326,7 @@ void Audio3DSample::drawDebugText(int x, int y, unsigned int fontSize)
 void Audio3DSample::drawVector3(const char* str, const Vector3& vector, int x, int y)
 {
     wchar_t buffer[255];
-    swprintf(buffer, 255, L"%s: (%f, %f, %f)", str, vector.x, vector.y, vector.z);
+    swprintf(buffer, 255, L"%S: (%f, %f, %f)", str, vector.x, vector.y, vector.z);
     _font->drawText(buffer, x, y, Vector4::one(), _font->getSize());
 }
 
