@@ -18,6 +18,7 @@
     <ProjectGuid>{CC37B8E9-6402-4841-8D6A-5D908A5909B3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sample-spaceship</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

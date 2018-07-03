@@ -18,6 +18,7 @@
     <ProjectGuid>{82522888-E09A-ED48-AD7D-247237B37B3A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sample-racer</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
