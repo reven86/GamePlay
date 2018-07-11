@@ -18,6 +18,11 @@ else()
 set(ARCH_DIR "x86")
 endif()
 
+if (GP_NO_PLATFORM)
+add_definitions(-DGP_NO_PLATFORM=1)
+endif (GP_NO_PLATFORM)
+
+
 # gameplay library
 add_subdirectory(gameplay)
 
