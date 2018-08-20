@@ -771,6 +771,33 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
     return 1;
 }
 
+EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userData)
+{
+    //printf("%d %d %s%s%s%s", eventType, e->numTouches, e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "");
+    //for(int i = 0; i < e->numTouches; i++)
+    //    printf("%d screen: (%ld,%ld), client: (%ld,%ld), canvas: (%ld,%ld)\n",
+    //             e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
+    //             e->touches[i].canvasX, e->touches[i].canvasY);
+
+    if (eventType == EMSCRIPTEN_EVENT_TOUCHSTART)
+    {
+        for(int i = 0; i < e->numTouches; i++)
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, e->touches[i].canvasX, e->touches[i].canvasY, i);
+    }
+    if (eventType == EMSCRIPTEN_EVENT_TOUCHEND)
+    {
+        for (int i = 0; i < e->numTouches; i++)
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, e->touches[i].canvasX, e->touches[i].canvasY, i);
+    }
+    if (eventType == EMSCRIPTEN_EVENT_TOUCHMOVE)
+    {
+        for (int i = 0; i < e->numTouches; i++)
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, e->touches[i].canvasX, e->touches[i].canvasY, i);
+    }
+
+    return 1;
+}
+
 EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void *userData)
 {
     //printf("%d wheel %.3f %.3f %.3f %ld\n",
@@ -892,6 +919,9 @@ int Platform::enterMessagePump()
     emscripten_set_mousedown_callback("#canvas", 0, true, mouse_callback);
     emscripten_set_mouseup_callback(0, 0, true, mouse_callback);
     emscripten_set_mousemove_callback(0, 0, true, mouse_callback);
+    emscripten_set_touchstart_callback("#canvas", 0, true, touch_callback);
+    emscripten_set_touchend_callback(0, 0, true, touch_callback);
+    emscripten_set_touchmove_callback(0, 0, true, touch_callback);
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
     emscripten_set_keydown_callback(0, 0, true, keyboard_callback);
     emscripten_set_keyup_callback(0, 0, true, keyboard_callback);
