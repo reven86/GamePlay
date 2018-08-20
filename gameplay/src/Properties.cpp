@@ -986,16 +986,11 @@ const char* Properties::getString(const char* name, const char* defaultValue) co
         }
     }
 
-    if (value)
-    {
-        // If the value references a variable, return the variable value
-        while (isVariable(value, variable, 256))
-            value = getVariable(variable, defaultValue);
+    // If the value references a variable, return the variable value
+    while (value && isVariable(value, variable, 256))
+        value = getVariable(variable, defaultValue);
 
-        return value;
-    }
-
-    return defaultValue;
+    return value ? value : defaultValue;
 }
 
 bool Properties::setString(const char* name, const char* value)
