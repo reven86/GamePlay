@@ -6,29 +6,17 @@
 namespace gameplay
 {
 
-static FlowLayout* __instance;
-
 FlowLayout::FlowLayout() : _horizontalSpacing(0), _verticalSpacing(0)
 {
 }
 
 FlowLayout::~FlowLayout()
 {
-    __instance = NULL;
 }
 
 FlowLayout* FlowLayout::create()
 {
-    if (!__instance)
-    {
-        __instance = new FlowLayout();
-    }
-    else
-    {
-        __instance->addRef();
-    }
-
-    return __instance;
+    return new FlowLayout();
 }
 
 Layout::Type FlowLayout::getType()
@@ -59,8 +47,7 @@ void FlowLayout::update(const Container* container)
     const Theme::Border& containerBorder = container->getBorder(container->getState());
     const Theme::Padding& containerPadding = container->getPadding();
 
-    float clipWidth = containerBounds.width - containerBorder.left - containerBorder.right - containerPadding.left - containerPadding.right;
-    float clipHeight = containerBounds.height - containerBorder.top - containerBorder.bottom - containerPadding.top - containerPadding.bottom;
+    int clipWidth = static_cast<int>(containerBounds.width - containerBorder.left - containerBorder.right - containerPadding.left - containerPadding.right);
 
     float xPosition = 0;
     float yPosition = 0;
@@ -82,7 +69,7 @@ void FlowLayout::update(const Container* container)
         xPosition += margin.left;
 
         // Wrap to next row if we've gone past the edge of the container.
-        if (xPosition + bounds.width >= clipWidth)
+        if (static_cast<int>(xPosition + bounds.width) > clipWidth)
         {
             xPosition = margin.left;
             rowY += tallestHeight + _verticalSpacing;
