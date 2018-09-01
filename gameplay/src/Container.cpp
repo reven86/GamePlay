@@ -103,63 +103,66 @@ Control* Container::create(Theme::Style* style, Properties* properties)
 
 void Container::initialize(const char* typeName, Theme::Style* style, Properties* properties)
 {
+    _consumeInputEvents = false;
+
     Control::initialize(typeName, style, properties);
 
-	if (properties)
-	{
+    if (properties)
+    {
         // Make containers to not consume input events by default (all other controls do)
-		_consumeInputEvents = properties->getBool("consumeInputEvents", false);
+        _consumeInputEvents = properties->getBool("consumeInputEvents", false);
 
         // Parse layout
-		Properties* layoutNS = properties->getNamespace("layout", true, false);
-		if (layoutNS)
-		{
-			_layout = createLayout(getLayoutType(layoutNS->getString("type")));
-			switch (_layout->getType())
-			{
-			case Layout::LAYOUT_FLOW:
-				static_cast<FlowLayout*>(_layout)->setSpacing(layoutNS->getInt("horizontalSpacing"), layoutNS->getInt("verticalSpacing"));
-				break;
-			case Layout::LAYOUT_VERTICAL:
-				static_cast<VerticalLayout*>(_layout)->setSpacing(layoutNS->getInt("spacing"));
-				break;
-			case Layout::LAYOUT_HORIZONTAL:
-				static_cast<HorizontalLayout*>(_layout)->setSpacing(layoutNS->getInt("spacing"));
-				break;			}
-		}
-		else
-		{
-			_layout = createLayout(getLayoutType(properties->getString("layout")));
-		}
+        Properties* layoutNS = properties->getNamespace("layout", true, false);
+        if (layoutNS)
+        {
+            _layout = createLayout(getLayoutType(layoutNS->getString("type")));
+            switch (_layout->getType())
+            {
+            case Layout::LAYOUT_FLOW:
+                static_cast<FlowLayout*>(_layout)->setSpacing(layoutNS->getInt("horizontalSpacing"), layoutNS->getInt("verticalSpacing"));
+                break;
+            case Layout::LAYOUT_VERTICAL:
+                static_cast<VerticalLayout*>(_layout)->setSpacing(layoutNS->getInt("spacing"));
+                break;
+            case Layout::LAYOUT_HORIZONTAL:
+                static_cast<HorizontalLayout*>(_layout)->setSpacing(layoutNS->getInt("spacing"));
+                break;
+            }
+        }
+        else
+        {
+            _layout = createLayout(getLayoutType(properties->getString("layout")));
+        }
 
-		setScroll(getScroll(properties->getString("scroll")));
-		_scrollBarsAutoHide = properties->getBool("scrollBarsAutoHide");
-		if (_scrollBarsAutoHide)
-		{
-			_scrollBarOpacity = 0.0f;
-		}
+        setScroll(getScroll(properties->getString("scroll")));
+        _scrollBarsAutoHide = properties->getBool("scrollBarsAutoHide");
+        if (_scrollBarsAutoHide)
+        {
+            _scrollBarOpacity = 0.0f;
+        }
 
-		_scrollWheelRequiresFocus = properties->getBool("scrollWheelRequiresFocus");
-		if (properties->exists("scrollingFriction"))
-			_scrollingFriction = properties->getFloat("scrollingFriction");
-		if (properties->exists("scrollWheelSpeed"))
-			_scrollWheelSpeed = properties->getFloat("scrollWheelSpeed");
+        _scrollWheelRequiresFocus = properties->getBool("scrollWheelRequiresFocus");
+        if (properties->exists("scrollingFriction"))
+            _scrollingFriction = properties->getFloat("scrollingFriction");
+        if (properties->exists("scrollWheelSpeed"))
+            _scrollWheelSpeed = properties->getFloat("scrollWheelSpeed");
 
-		addControls(properties);
+        addControls(properties);
 
-		const char* activeControl = properties->getString("activeControl");
-		if (activeControl)
-		{
-			for (size_t i = 0, count = _controls.size(); i < count; ++i)
-			{
-				if (_controls[i]->_id == activeControl)
-				{
-					_activeControl = _controls[i];
-					break;
-				}
-			}
-		}
-	}
+        const char* activeControl = properties->getString("activeControl");
+        if (activeControl)
+        {
+            for (size_t i = 0, count = _controls.size(); i < count; ++i)
+            {
+                if (_controls[i]->_id == activeControl)
+                {
+                    _activeControl = _controls[i];
+                    break;
+                }
+            }
+        }
+    }
 
     // Create a default layout if one does not yet exist
     if (_layout == NULL)
