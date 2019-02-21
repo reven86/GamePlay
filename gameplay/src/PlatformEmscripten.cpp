@@ -1134,7 +1134,7 @@ void Platform::pollGamepadState(Gamepad* gamepad)
 
 bool Platform::launchURL(const char* url)
 {
-    EM_ASM_({window.open(Module.Pointer_stringify($0),'_blank');}, url);
+    EM_ASM_({window.open(Module.UTF8ToString($0),'_blank');}, url);
     return true;
 }
 
