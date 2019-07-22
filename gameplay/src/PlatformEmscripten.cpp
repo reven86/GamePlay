@@ -815,7 +815,21 @@ EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void *userD
     
     if (eventType == EMSCRIPTEN_EVENT_WHEEL)
     {
-        gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_WHEEL, __mouseCapturePointX, __mouseCapturePointY, -e->deltaY * 0.01);
+        float wheelDelta;
+        switch(e->deltaMode)
+        {
+        default: // DOM_DELTA_PIXEL
+            wheelDelta = e->deltaY * 0.01f;
+            break;
+        case 1: // DOM_DELTA_LINE:
+            wheelDelta = e->deltaY * 0.33f;
+            break;
+        case 2: // DOM_DELTA_PAGE:
+            wheelDelta = e->deltaY * 80.0f;
+            break;
+        }
+
+        gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_WHEEL, __mouseCapturePointX, __mouseCapturePointY, -wheelDelta);
     }
     
     return 1;
