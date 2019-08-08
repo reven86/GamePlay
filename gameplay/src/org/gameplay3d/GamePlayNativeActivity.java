@@ -293,8 +293,8 @@ public class GamePlayNativeActivity extends NativeActivity {
         cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
             null);
         if (cursor != null && cursor.moveToFirst()) {
-          final int column_index = cursor.getColumnIndexOrThrow(column);
-          return cursor.getString(column_index);
+          final int column_index = cursor.getColumnIndex(column);
+          return column_index >= 0 ? cursor.getString(column_index) : null;
         }
       } finally {
         if (cursor != null)

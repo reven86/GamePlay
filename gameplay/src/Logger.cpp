@@ -111,7 +111,8 @@ void Logger::reportError( bool isFatal, const char * func, int line, const char 
     strncpy(funcShort, func, 49);
     funcShort[49] = '\0';
 
-    gameplay::Game::getInstance()->reportError(isFatal, "%s, %d: %s", funcShort, line, buf);
+    if (gameplay::Game::getInstance())
+        gameplay::Game::getInstance()->reportError(isFatal, "%s, %d: %s", funcShort, line, buf);
 }
 
 }

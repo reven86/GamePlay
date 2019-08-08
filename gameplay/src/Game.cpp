@@ -105,7 +105,6 @@ Game::~Game()
 
 Game* Game::getInstance()
 {
-    GP_ASSERT(__gameInstance);
     return __gameInstance;
 }
 

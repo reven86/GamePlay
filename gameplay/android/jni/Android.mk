@@ -281,7 +281,7 @@ LOCAL_SRC_FILES := \
 LOCAL_CPPFLAGS += -std=c++11 -frtti -Wno-switch-enum -Wno-switch
 LOCAL_ARM_MODE := arm
 #LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
-LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_SOCIAL -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"
+LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"
 #LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
 LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps
 include $(BUILD_STATIC_LIBRARY)

@@ -6,7 +6,7 @@ namespace gameplay
 template <typename T>
 ScriptUtil::LuaArray<T>::LuaArray(T* param)
 {
-    _data = new ScriptUtil::LuaArray<T>::Data();
+    _data = new typename ScriptUtil::LuaArray<T>::Data();
     _data->value = param;
 
     // Initial ref count of zero means no memory management
@@ -16,7 +16,7 @@ ScriptUtil::LuaArray<T>::LuaArray(T* param)
 template <typename T>
 ScriptUtil::LuaArray<T>::LuaArray(int count)
 {
-    _data = new ScriptUtil::LuaArray<T>::Data();
+    _data = new typename ScriptUtil::LuaArray<T>::Data();
 
     // Allocate a chunk of memory to store 'count' number of T.
     // Use new instead of malloc since we track memory allocations
