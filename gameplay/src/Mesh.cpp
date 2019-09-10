@@ -1,9 +1,6 @@
 #include "Base.h"
 #include "Mesh.h"
 #include "MeshPart.h"
-#include "Effect.h"
-#include "Model.h"
-#include "Material.h"
 
 namespace gameplay
 {
@@ -286,10 +283,9 @@ void Mesh::setVertexData(const void* vertexData, unsigned int vertexStart, unsig
     else
     {
         if (vertexCount == 0)
-        {
             vertexCount = _vertexCount - vertexStart;
-        }
-        else if (vertexCount > _vertexCount || vertexStart == 0 && vertexCount < _vertexCount)
+
+        if (vertexCount > _vertexCount || vertexStart == 0 && vertexCount < _vertexCount)
         {
             _vertexCount = vertexCount;
             GL_ASSERT(glBufferData(GL_ARRAY_BUFFER, _vertexFormat.getVertexSize() * _vertexCount, vertexData, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW));
