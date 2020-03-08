@@ -1,7 +1,7 @@
 #ifndef STORECONTROLLER_H_
 #define STORECONTROLLER_H_
 
-#include "StoreFront.h"
+#include "Storefront.h"
 
 namespace gameplay
 {
