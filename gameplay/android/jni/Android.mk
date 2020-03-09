@@ -14,6 +14,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_PATH := $(GAMEPLAY_PATH)
 LOCAL_MODULE    := libgameplay
+LOCAL_PCH := Base.h
 LOCAL_SRC_FILES := \
     AbsoluteLayout.cpp \
     AIAgent.cpp \
