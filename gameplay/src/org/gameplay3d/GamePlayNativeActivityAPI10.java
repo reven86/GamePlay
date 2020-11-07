@@ -22,6 +22,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.content.Intent;
+import android.webkit.MimeTypeMap;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
@@ -111,7 +112,11 @@ public class GamePlayNativeActivity extends NativeActivity {
     {
         Uri arg = getIntent().getData();
         if (arg != null)
+        {
+            Log.i(TAG, "getArguments " + arg);
+            Log.i(TAG, "mime " + this.getContentResolver().getType(arg));
             return getPath(this, arg);
+        }
         return "";
     }
 
@@ -131,7 +136,7 @@ public class GamePlayNativeActivity extends NativeActivity {
       {
         String path = getDataColumn(context, uri, null, null);
         
-        if (path == null)
+        if (true)//path == null)
         {
             Log.i(TAG, "Creating temp file to resolve Intent arguments");
 
