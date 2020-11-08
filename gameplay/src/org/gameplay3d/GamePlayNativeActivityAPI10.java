@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * GamePlay native activity extension for Android platform.
@@ -114,9 +115,22 @@ public class GamePlayNativeActivity extends NativeActivity {
         if (arg != null)
         {
             Log.i(TAG, "getArguments " + arg);
-            Log.i(TAG, "mime " + this.getContentResolver().getType(arg));
             return getPath(this, arg);
         }
+
+        // check for SEND_MULTIPLE action
+        if (Intent.ACTION_SEND_MULTIPLE.equals(getIntent().getAction()))
+        {
+            // get the first Uri and process it
+            java.util.ArrayList<Uri> uris = getIntent().getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+            if (uris != null)
+            {
+                arg = uris.get(0);
+                Log.i(TAG, "getArguments " + arg);
+                return getPath(this, arg);
+            }
+        }
+
         return "";
     }
 
