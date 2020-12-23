@@ -47,6 +47,17 @@ public class GamePlayNativeActivity extends NativeActivity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
+        Log.v(TAG, "Build version: " + Build.VERSION.SDK_INT);
+
+        if (Build.VERSION.SDK_INT >= 19)
+        {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_FULLSCREEN |
+                            0x00000800; // View.SYSTEM_UI_FLAG_IMMERSIVE;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+
         orientationListener = new OrientationEventListener(this) {
             public void onOrientationChanged(int orientation) {
                 if (orientation != OrientationEventListener.ORIENTATION_UNKNOWN) {
