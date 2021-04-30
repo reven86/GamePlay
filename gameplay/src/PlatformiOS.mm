@@ -216,7 +216,7 @@ int getUnicode(int key);
         updating = FALSE;
         game = nil;
         
-        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero];
+        WKWebView *webView = [[WKWebView alloc]initWithFrame:CGRectZero];
         if( webView )
         {
             NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
