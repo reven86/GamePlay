@@ -19,7 +19,7 @@
 #include "ScriptController.h"
 #include <unistd.h>
 #include <sys/time.h>
-#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #import <GameKit/GameKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
