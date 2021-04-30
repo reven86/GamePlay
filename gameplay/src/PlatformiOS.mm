@@ -19,7 +19,6 @@
 #include "ScriptController.h"
 #include <unistd.h>
 #include <sys/time.h>
-#import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
@@ -216,14 +215,8 @@ int getUnicode(int key);
         updating = FALSE;
         game = nil;
         
-        WKWebView *webView = [[WKWebView alloc]initWithFrame:CGRectZero];
-        if( webView )
-        {
-            NSString *uaString = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-            __defaultUserAgentString = [uaString cStringUsingEncoding:NSASCIIStringEncoding];
-        }
-        [webView release];
-
+        __defaultUserAgentString = "Mozilla/5.0 Gameplay3D/iOS";
+        
         // Set the resource path and initalize the game
         NSString* bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/"];
         FileSystem::setResourcePath([bundlePath fileSystemRepresentation]); 
