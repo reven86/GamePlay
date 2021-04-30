@@ -801,6 +801,328 @@ int Texture::getMaskByteIndex(unsigned int mask)
     }
 }
 
+static void ConvertRgb565ToRgb888(uint16_t color, uint8_t& r, uint8_t& g, uint8_t& b)
+{
+    int temp;
+
+    temp = (color >> 11) * 255 + 16;
+    r = (uint8_t)((temp / 32 + temp) / 32);
+    temp = ((color & 0x07E0) >> 5) * 255 + 32;
+    g = (uint8_t)((temp / 64 + temp) / 64);
+    temp = (color & 0x001F) * 255 + 16;
+    b = (uint8_t)((temp / 32 + temp) / 32);
+}
+
+static void DecompressDxt1Block(GLubyte*& data, int x, int y, int blockCountX, int width, int height, uint8_t * imageData)
+{
+    uint16_t c0 = *((uint16_t *) data);
+    data += 2;
+    uint16_t c1 = *((uint16_t *) data);
+    data += 2;
+
+    uint8_t r0, g0, b0;
+    uint8_t r1, g1, b1;
+    ConvertRgb565ToRgb888(c0, r0, g0, b0);
+    ConvertRgb565ToRgb888(c1, r1, g1, b1);
+
+    uint32_t lookupTable = *((uint32_t *)data);
+    data += 4;
+
+    for (int blockY = 0; blockY < 4; blockY++)
+    {
+        for (int blockX = 0; blockX < 4; blockX++)
+        {
+            uint8_t r = 0, g = 0, b = 0, a = 255;
+            unsigned index = (lookupTable >> 2 * (4 * blockY + blockX)) & 0x03;
+
+            if (c0 > c1)
+            {
+                switch (index)
+                {
+                case 0:
+                    r = r0;
+                    g = g0;
+                    b = b0;
+                    break;
+                case 1:
+                    r = r1;
+                    g = g1;
+                    b = b1;
+                    break;
+                case 2:
+                    r = (uint8_t)((2 * r0 + r1) / 3);
+                    g = (uint8_t)((2 * g0 + g1) / 3);
+                    b = (uint8_t)((2 * b0 + b1) / 3);
+                    break;
+                case 3:
+                    r = (uint8_t)((r0 + 2 * r1) / 3);
+                    g = (uint8_t)((g0 + 2 * g1) / 3);
+                    b = (uint8_t)((b0 + 2 * b1) / 3);
+                    break;
+                }
+            }
+            else
+            {
+                switch (index)
+                {
+                case 0:
+                    r = r0;
+                    g = g0;
+                    b = b0;
+                    break;
+                case 1:
+                    r = r1;
+                    g = g1;
+                    b = b1;
+                    break;
+                case 2:
+                    r = (uint8_t)((r0 + r1) / 2);
+                    g = (uint8_t)((g0 + g1) / 2);
+                    b = (uint8_t)((b0 + b1) / 2);
+                    break;
+                case 3:
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    a = 0;
+                    break;
+                }
+            }
+
+            int px = (x << 2) + blockX;
+            int py = (y << 2) + blockY;
+            if ((px < width) && (py < height))
+            {
+                int offset = ((py * width) + px) << 2;
+                imageData[offset] = r;
+                imageData[offset + 1] = g;
+                imageData[offset + 2] = b;
+                imageData[offset + 3] = a;
+            }
+        }
+    }
+}
+
+static void DecompressDxt3Block(GLubyte*& data, int x, int y, int blockCountX, int width, int height, uint8_t * imageData)
+{
+    uint8_t a0 = *data++;
+    uint8_t a1 = *data++;
+    uint8_t a2 = *data++;
+    uint8_t a3 = *data++;
+    uint8_t a4 = *data++;
+    uint8_t a5 = *data++;
+    uint8_t a6 = *data++;
+    uint8_t a7 = *data++;
+
+    uint16_t c0 = *((uint16_t *)data);
+    data += 2;
+    uint16_t c1 = *((uint16_t *)data);
+    data += 2;
+
+    uint8_t r0, g0, b0;
+    uint8_t r1, g1, b1;
+    ConvertRgb565ToRgb888(c0, r0, g0, b0);
+    ConvertRgb565ToRgb888(c1, r1, g1, b1);
+
+    uint32_t lookupTable = *((uint32_t *)data);
+    data += 4;
+
+    int alphaIndex = 0;
+    for (int blockY = 0; blockY < 4; blockY++)
+    {
+        for (int blockX = 0; blockX < 4; blockX++)
+        {
+            uint8_t r = 0, g = 0, b = 0, a = 0;
+
+            unsigned index = (lookupTable >> 2 * (4 * blockY + blockX)) & 0x03;
+
+            switch (alphaIndex)
+            {
+            case 0:
+                a = (uint8_t)((a0 & 0x0F) | ((a0 & 0x0F) << 4));
+                break;
+            case 1:
+                a = (uint8_t)((a0 & 0xF0) | ((a0 & 0xF0) >> 4));
+                break;
+            case 2:
+                a = (uint8_t)((a1 & 0x0F) | ((a1 & 0x0F) << 4));
+                break;
+            case 3:
+                a = (uint8_t)((a1 & 0xF0) | ((a1 & 0xF0) >> 4));
+                break;
+            case 4:
+                a = (uint8_t)((a2 & 0x0F) | ((a2 & 0x0F) << 4));
+                break;
+            case 5:
+                a = (uint8_t)((a2 & 0xF0) | ((a2 & 0xF0) >> 4));
+                break;
+            case 6:
+                a = (uint8_t)((a3 & 0x0F) | ((a3 & 0x0F) << 4));
+                break;
+            case 7:
+                a = (uint8_t)((a3 & 0xF0) | ((a3 & 0xF0) >> 4));
+                break;
+            case 8:
+                a = (uint8_t)((a4 & 0x0F) | ((a4 & 0x0F) << 4));
+                break;
+            case 9:
+                a = (uint8_t)((a4 & 0xF0) | ((a4 & 0xF0) >> 4));
+                break;
+            case 10:
+                a = (uint8_t)((a5 & 0x0F) | ((a5 & 0x0F) << 4));
+                break;
+            case 11:
+                a = (uint8_t)((a5 & 0xF0) | ((a5 & 0xF0) >> 4));
+                break;
+            case 12:
+                a = (uint8_t)((a6 & 0x0F) | ((a6 & 0x0F) << 4));
+                break;
+            case 13:
+                a = (uint8_t)((a6 & 0xF0) | ((a6 & 0xF0) >> 4));
+                break;
+            case 14:
+                a = (uint8_t)((a7 & 0x0F) | ((a7 & 0x0F) << 4));
+                break;
+            case 15:
+                a = (uint8_t)((a7 & 0xF0) | ((a7 & 0xF0) >> 4));
+                break;
+            }
+            ++alphaIndex;
+
+            switch (index)
+            {
+            case 0:
+                r = r0;
+                g = g0;
+                b = b0;
+                break;
+            case 1:
+                r = r1;
+                g = g1;
+                b = b1;
+                break;
+            case 2:
+                r = (uint8_t)((2 * r0 + r1) / 3);
+                g = (uint8_t)((2 * g0 + g1) / 3);
+                b = (uint8_t)((2 * b0 + b1) / 3);
+                break;
+            case 3:
+                r = (uint8_t)((r0 + 2 * r1) / 3);
+                g = (uint8_t)((g0 + 2 * g1) / 3);
+                b = (uint8_t)((b0 + 2 * b1) / 3);
+                break;
+            }
+
+            int px = (x << 2) + blockX;
+            int py = (y << 2) + blockY;
+            if ((px < width) && (py < height))
+            {
+                int offset = ((py * width) + px) << 2;
+                imageData[offset] = r;
+                imageData[offset + 1] = g;
+                imageData[offset + 2] = b;
+                imageData[offset + 3] = a;
+            }
+        }
+    }
+}
+
+static void DecompressDxt5Block(GLubyte*& data, int x, int y, int blockCountX, int width, int height, uint8_t * imageData)
+{
+    uint8_t alpha0 = *data++;
+    uint8_t alpha1 = *data++;
+
+    uint64_t alphaMask = *data++;
+    alphaMask += uint64_t(*data++) << 8;
+    alphaMask += uint64_t(*data++) << 16;
+    alphaMask += uint64_t(*data++) << 24;
+    alphaMask += uint64_t(*data++) << 32;
+    alphaMask += uint64_t(*data++) << 40;
+
+    uint16_t c0 = *((uint16_t *)data);
+    data += 2;
+    uint16_t c1 = *((uint16_t *)data);
+    data += 2;
+
+    uint8_t r0, g0, b0;
+    uint8_t r1, g1, b1;
+    ConvertRgb565ToRgb888(c0, r0, g0, b0);
+    ConvertRgb565ToRgb888(c1, r1, g1, b1);
+
+    uint32_t lookupTable = *((uint32_t *)data);
+    data += 4;
+
+    for (int blockY = 0; blockY < 4; blockY++)
+    {
+        for (int blockX = 0; blockX < 4; blockX++)
+        {
+            uint8_t r = 0, g = 0, b = 0, a = 255;
+            unsigned index = (lookupTable >> 2 * (4 * blockY + blockX)) & 0x03;
+
+            unsigned alphaIndex = (unsigned)((alphaMask >> 3 * (4 * blockY + blockX)) & 0x07);
+            if (alphaIndex == 0)
+            {
+                a = alpha0;
+            }
+            else if (alphaIndex == 1)
+            {
+                a = alpha1;
+            }
+            else if (alpha0 > alpha1)
+            {
+                a = (uint8_t)(((8 - alphaIndex) * alpha0 + (alphaIndex - 1) * alpha1) / 7);
+            }
+            else if (alphaIndex == 6)
+            {
+                a = 0;
+            }
+            else if (alphaIndex == 7)
+            {
+                a = 0xff;
+            }
+            else
+            {
+                a = (uint8_t)(((6 - alphaIndex) * alpha0 + (alphaIndex - 1) * alpha1) / 5);
+            }
+
+            switch (index)
+            {
+            case 0:
+                r = r0;
+                g = g0;
+                b = b0;
+                break;
+            case 1:
+                r = r1;
+                g = g1;
+                b = b1;
+                break;
+            case 2:
+                r = (uint8_t)((2 * r0 + r1) / 3);
+                g = (uint8_t)((2 * g0 + g1) / 3);
+                b = (uint8_t)((2 * b0 + b1) / 3);
+                break;
+            case 3:
+                r = (uint8_t)((r0 + 2 * r1) / 3);
+                g = (uint8_t)((g0 + 2 * g1) / 3);
+                b = (uint8_t)((b0 + 2 * b1) / 3);
+                break;
+            }
+
+            int px = (x << 2) + blockX;
+            int py = (y << 2) + blockY;
+            if ((px < width) && (py < height))
+            {
+                int offset = ((py * width) + px) << 2;
+                imageData[offset] = r;
+                imageData[offset + 1] = g;
+                imageData[offset + 2] = b;
+                imageData[offset + 3] = a;
+            }
+        }
+    }
+}
+
 Texture* Texture::createCompressedDDS(const char* path)
 {
     GP_ASSERT( path );
@@ -1138,13 +1460,46 @@ Texture* Texture::createCompressedDDS(const char* path)
     // Load texture data.
     for (unsigned int face = 0; face < facecount; ++face)
     {
+        std::unique_ptr<uint8_t[]> dataUncompressed;
+
         GLenum texImageTarget = faces[face];
         for (unsigned int i = 0; i < header.dwMipMapCount; ++i)
         {
             dds_mip_level& level = mipLevels[i + face * header.dwMipMapCount];
             if (compressed)
             {
+#ifdef OPENGL_ES
+                // Android/iOS doesn't support DXT textures
+                GP_ASSERT(format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT);
+
+                // uncompress data in memory
+                // reserve memory only once per face
+                if (!dataUncompressed)
+                    dataUncompressed.reset(new uint8_t[level.width * level.height * 4]);
+
+                int blockCountX = (level.width + 3) / 4;
+                int blockCountY = (level.height + 3) / 4;
+
+                GLubyte * ptr = level.data;
+
+                if (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressDxt1Block(ptr, x, y, blockCountX, level.width, level.height, dataUncompressed.get());
+                else if (format == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressDxt3Block(ptr, x, y, blockCountX, level.width, level.height, dataUncompressed.get());
+                else if (format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressDxt5Block(ptr, x, y, blockCountX, level.width, level.height, dataUncompressed.get());
+
+                GL_ASSERT(glTexImage2D(texImageTarget, i, GL_RGBA, level.width, level.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dataUncompressed.get()));
+
+#else
                 GL_ASSERT(glCompressedTexImage2D(texImageTarget, i, format, level.width, level.height, 0, level.size, level.data));
+#endif
             }
             else
             {
