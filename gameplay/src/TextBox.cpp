@@ -279,10 +279,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     // Allow tab to move the focus forward.
                     return false;
                 default:
-                // allow entering only ASCII chars.
-                if( isascii( key ) )
                 {
-                    // Insert character into string, only if our font supports this character
                     if (_shiftPressed && islower(key))
                     {
                         key = toupper(key);
@@ -292,7 +289,7 @@ bool TextBox::keyEvent(Keyboard::KeyEvent evt, int key)
                     {
                         if (_caretLocation <= _text.length())
                         {
-                            _text.insert(_caretLocation, 1, (char)key);
+                            _text.insert(_caretLocation, 1, (wchar_t)key);
                             _caretLocation++;
 
                             if (_limitTextToBounds)

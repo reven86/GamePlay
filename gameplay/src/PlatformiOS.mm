@@ -541,14 +541,9 @@ int getUnicode(int key);
     assert([text length] == 1);
     unichar c = [text characterAtIndex:0];
     int key = getKey(c);
-    Platform::keyEventInternal(Keyboard::KEY_PRESS, key);
 
-    int character = getUnicode(key);
-    if (character)
-    {
-        Platform::keyEventInternal(Keyboard::KEY_CHAR, /*character*/c);
-    }
-    
+    Platform::keyEventInternal(Keyboard::KEY_PRESS, key);
+    Platform::keyEventInternal(Keyboard::KEY_CHAR, c);
     Platform::keyEventInternal(Keyboard::KEY_RELEASE, key);
 }
 
