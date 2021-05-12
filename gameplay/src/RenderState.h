@@ -127,12 +127,17 @@ public:
         VIEW_PROJECTION_MATRIX,
 
         /**
+         * Binds the InverseViewProjection matrix of the active camera for the node's scene.
+         */
+        INVERSE_VIEW_PROJECTION_MATRIX,
+
+        /**
          * Binds a node's WorldViewProjection matrix.
          */
         WORLD_VIEW_PROJECTION_MATRIX,
 
         /**
-         * Binds a node's InverseTransposeWorl matrix.
+         * Binds a node's InverseTransposeWorld matrix.
          */
         INVERSE_TRANSPOSE_WORLD_MATRIX,
 
@@ -638,6 +643,7 @@ private:
     const Matrix& autoBindingGetProjectionMatrix() const;
     const Matrix& autoBindingGetWorldViewMatrix() const;
     const Matrix& autoBindingGetViewProjectionMatrix() const;
+    const Matrix& autoBindingGetInverseViewProjectionMatrix() const;
     const Matrix& autoBindingGetWorldViewProjectionMatrix() const;
     const Matrix& autoBindingGetInverseTransposeWorldMatrix() const;
     const Matrix& autoBindingGetInverseTransposeWorldViewMatrix() const;
