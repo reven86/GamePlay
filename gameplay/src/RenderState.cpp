@@ -145,7 +145,7 @@ const char* autoBindingToString(RenderState::AutoBinding autoBinding)
     case RenderState::INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX:
         return "INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX";
 
-    case RenderState::  :
+    case RenderState::CAMERA_WORLD_POSITION:
         return "CAMERA_WORLD_POSITION";
 
     case RenderState::CAMERA_VIEW_POSITION:
