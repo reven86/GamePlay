@@ -201,7 +201,7 @@ void ImageControl::updateBounds()
 
         if (_autoSize & AUTO_SIZE_HEIGHT)
         {
-            setHeightInternal(_batch->getSampler()->getTexture()->getWidth());
+            setHeightInternal(_batch->getSampler()->getTexture()->getHeight());
         }
     }
 
