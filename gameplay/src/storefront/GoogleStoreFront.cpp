@@ -42,12 +42,12 @@ JNIEXPORT jint JNICALL GameplayJNI_OnLoad(JavaVM *vm, void *reserved)
 }
 
 // JNI stuff
-void Java_org_gameplay3d_GamePlayNativeActivity_setIABEnabled(JNIEnv* env, jobject thiz)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_setIABEnabled(JNIEnv* env, jobject thiz)
 {
     __iabEnabled = true;
 }
 
-int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
+JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     bool res = __instance->getListener()->isProductConsumable(productID);
@@ -56,7 +56,7 @@ int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, job
     return res ? 1 : 0;
 }
 
-int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobject thiz, jstring sku)
+JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobject thiz, jstring sku)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     bool res = __instance->getListener()->isSubscription(productID);
@@ -65,7 +65,7 @@ int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobje
     return res ? 1 : 0;
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
@@ -76,7 +76,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobjec
     env->ReleaseStringUTFChars(sku, productID);
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
@@ -87,7 +87,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobje
     env->ReleaseStringUTFChars(sku, productID);
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* msg = env->GetStringUTFChars(message, NULL);
@@ -98,7 +98,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, 
     env->ReleaseStringUTFChars(sku, productID);
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIEnv* env, jobject thiz, jint error, jstring message)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIEnv* env, jobject thiz, jint error, jstring message)
 {
     const char* msg = env->GetStringUTFChars(message, NULL);
     if (__instance)
@@ -106,7 +106,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIEnv* env, j
     env->ReleaseStringUTFChars(message, msg);
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, jstring descr, jstring priceAmount, jstring priceCurrency)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, jstring descr, jstring priceAmount, jstring priceCurrency)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* cPrice = env->GetStringUTFChars(price, NULL);
@@ -126,7 +126,7 @@ void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jo
     env->ReleaseStringUTFChars(priceCurrency, cPriceCurrency);
 }
 
-void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidation(JNIEnv* env, jobject thiz)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidation(JNIEnv* env, jobject thiz)
 {
     std::vector<std::string> invalidProducts;
     for (const std::string &product : __requestedProducts)
