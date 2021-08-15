@@ -136,6 +136,7 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidati
     }
 
     __instance->getListener()->getProductsEvent(__products, invalidProducts);
+    __products.clear();
 }
 
 }
