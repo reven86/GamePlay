@@ -1,14 +1,5 @@
 GAMEPLAY_PATH := $(call my-dir)/../../src
 
-# external-deps
-GAMEPLAY_DEPS := ../../external-deps/lib/android/$(TARGET_ARCH_ABI)
-
-# libgameplay-deps
-LOCAL_PATH := $(GAMEPLAY_DEPS)
-include $(CLEAR_VARS)
-LOCAL_MODULE    := libgameplay-deps 
-LOCAL_SRC_FILES := libgameplay-deps.a
-include $(PREBUILT_STATIC_LIBRARY)
 
 # libgameplay
 include $(CLEAR_VARS)
@@ -284,7 +275,7 @@ LOCAL_ARM_MODE := arm
 #LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv2 -lOpenSLES
 LOCAL_CFLAGS := -D__ANDROID__ -DGP_USE_STOREFRONT -O3 -DFORCE_CLEAN_SHUTDOWN -fexceptions -I"../../external-deps/include"
 #LOCAL_ADDITIONAL_DEPENDENCIES := gameplay
-LOCAL_STATIC_LIBRARIES := android_native_app_glue libgameplay-deps
+LOCAL_STATIC_LIBRARIES := android_native_app_glue
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,android/native_app_glue)
