@@ -24,7 +24,7 @@
     #include <stdio.h>
     #include <direct.h>
     #define gp_stat _stat
-    #define gp_stat_struct struct stat
+    #define gp_stat_struct struct _stat64
 #else
     #define __EXT_POSIX2
     #include <libgen.h>
@@ -367,7 +367,7 @@ bool FileSystem::fileExists(const char* filePath)
     getFullPath(filePath, fullPath);
 
     gp_stat_struct s;
-    if (stat(fullPath.c_str(), &s) == 0 && (s.st_mode & S_IFDIR) == 0)
+    if (_stat64(fullPath.c_str(), &s) == 0 && (s.st_mode & S_IFDIR) == 0)
         return true;
 
     {
