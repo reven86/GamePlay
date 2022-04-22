@@ -122,7 +122,7 @@
     <ProjectGuid>{9D69B743-4872-4DD1-8E30-0087C64298D7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>gameplay-encoder</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -165,15 +165,15 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>USE_FBX;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2017.0.1/include;../../external-deps/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2020.0.1/include;../../external-deps/include</AdditionalIncludeDirectories>
       <DisableLanguageExtensions>
       </DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2017.0.1/lib/vs2015/x64/debug;../../external-deps/lib/windows/x86_64/Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libfbxsdk-md.lib;freetype.lib;gameplay-deps.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2020.0.1/lib/vs2017/x64/debug;../../external-deps/lib/windows/x86_64/Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libxml2-md.lib;libfbxsdk-md.lib;freetype.lib;gameplay-deps.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
@@ -190,15 +190,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>USE_FBX;WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2017.0.1/include;../../external-deps/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2020.0.1/include;../../external-deps/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>libfbxsdk-md.lib;freetype.lib;gameplay-deps.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2017.0.1/lib/vs2015/x64/release;../../external-deps/lib/windows/x86_64/Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libxml2-md.lib;libfbxsdk-md.lib;freetype.lib;gameplay-deps.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Program Files/Autodesk/FBX/FBX SDK/2020.0.1/lib/vs2017/x64/release;../../external-deps/lib/windows/x86_64/Release</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
