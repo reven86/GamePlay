@@ -618,19 +618,17 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     add_definitions(-std=c++11 -stdlib=libc++)
 else()
     add_definitions(-std=c++11)
-    add_definitions(-lstdc++)
 endif()
 
-if(EMSCRIPTEN)
-    add_library(gameplay SHARED ${GAMEPLAY_SRC})
-else(EMSCRIPTEN)
+if(NOT EMSCRIPTEN)
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PHYSICS})
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_LUA})
     add_definitions(-DYAML_DECLARE_STATIC)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
-    add_library(gameplay STATIC ${GAMEPLAY_SRC})
-endif(EMSCRIPTEN)
+endif(NOT EMSCRIPTEN)
+
+add_library(gameplay STATIC ${GAMEPLAY_SRC})
 
 set_target_properties(gameplay PROPERTIES
     OUTPUT_NAME "gameplay"

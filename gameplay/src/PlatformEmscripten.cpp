@@ -506,8 +506,7 @@ Platform* Platform::create(Game* game)
     bool fullscreen = false;
     
     // default window sizes come from canvas
-    int tmpFullscreen = 0;
-    emscripten_get_canvas_size(&__width, &__height, &tmpFullscreen);
+    emscripten_get_canvas_element_size("#canvas", &__width, &__height);
     
     if (game->getConfig())
     {
@@ -531,7 +530,7 @@ Platform* Platform::create(Game* game)
     
     __windowSize[0] = __width;
     __windowSize[1] = __height;
-    emscripten_set_canvas_size(__width, __height);
+    emscripten_set_canvas_element_size("#canvas", __width, __height);
 
     // Construct a fake argv array for GLUT. LLVM seems extra picky about what
     // it will accept here, so we allocate a "real" argv array on the heap, and
@@ -698,7 +697,7 @@ void updateWindowSize()
     __windowSize[0] = sizePacked & 0xffff;
     __windowSize[1] = sizePacked >> 16;
     
-    emscripten_set_canvas_size(__windowSize[0], __windowSize[1]);
+    emscripten_set_canvas_element_size("#canvas", __windowSize[0], __windowSize[1]);
 }
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
@@ -879,7 +878,7 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
     {
         __windowSize[0] = width;
         __windowSize[1] = height;
-        emscripten_set_canvas_size(width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
+        emscripten_set_canvas_element_size("#canvas", width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
         gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
     }
     
