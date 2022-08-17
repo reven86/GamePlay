@@ -940,15 +940,15 @@ int Platform::enterMessagePump()
     _game->run();
 
     emscripten_set_mousedown_callback("#canvas", 0, true, mouse_callback);
-    emscripten_set_mouseup_callback(0, 0, true, mouse_callback);
-    emscripten_set_mousemove_callback(0, 0, true, mouse_callback);
+    emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
+    emscripten_set_mousemove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
     emscripten_set_touchstart_callback("#canvas", 0, true, touch_callback);
     emscripten_set_touchend_callback("#canvas", 0, true, touch_callback);
-    emscripten_set_touchmove_callback(0, 0, true, touch_callback);
+    emscripten_set_touchmove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
-    emscripten_set_keydown_callback(0, 0, true, keyboard_callback);
-    emscripten_set_keyup_callback(0, 0, true, keyboard_callback);
-    emscripten_set_resize_callback(0, 0, false, &resize_callback);
+    emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
+    emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
+    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, false, &resize_callback);
     emscripten_set_main_loop_arg(&main_loop_iter, (void *)_game, 0, 1);
 
     return 0;

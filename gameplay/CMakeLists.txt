@@ -613,13 +613,6 @@ add_definitions(${GTK2_CFLAGS_OTHER})
 add_definitions(-D__linux__)
 ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # using Clang
-    add_definitions(-std=c++11 -stdlib=libc++)
-else()
-    add_definitions(-std=c++11)
-endif()
-
 if(NOT EMSCRIPTEN)
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PHYSICS})
