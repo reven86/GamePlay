@@ -507,6 +507,7 @@ Platform* Platform::create(Game* game)
     
     // default window sizes come from canvas
     emscripten_get_canvas_element_size("#canvas", &__width, &__height);
+    //printf ("width %d height %d", __width, __height);
     
     if (game->getConfig())
     {
@@ -531,6 +532,7 @@ Platform* Platform::create(Game* game)
     __windowSize[0] = __width;
     __windowSize[1] = __height;
     emscripten_set_canvas_element_size("#canvas", __width, __height);
+    //printf ("set width %d height %d", __width, __height);
 
     // Construct a fake argv array for GLUT. LLVM seems extra picky about what
     // it will accept here, so we allocate a "real" argv array on the heap, and
@@ -702,12 +704,12 @@ void updateWindowSize()
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
 {
-    //printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), canvas: (%ld,%ld)\n",
+    //printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld), canvas: (%ld,%ld)\n",
     //         eventType, e->screenX, e->screenY, e->clientX, e->clientY,
     //         e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
-    //         e->button, e->buttons, e->movementX, e->movementY, e->canvasX, e->canvasY);
-    int x = e->canvasX;
-    int y = e->canvasY;
+    //         e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY, e->canvasX, e->canvasY);
+    long x = e->targetX;
+    long y = e->targetY;
     gameplay::Mouse::MouseEvent mouseEvt;
     bool eventConsumed = false;
     
@@ -783,24 +785,24 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for(int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, e->touches[i].canvasX, e->touches[i].canvasY, i);
-            res |= 0 < e->touches[i].canvasX && e->touches[i].canvasX < __windowSize[0] && 0 < e->touches[i].canvasY && e->touches[i].canvasY < __windowSize[1];
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, e->touches[i].targetX, e->touches[i].targetY, i);
+            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
         }
     }
     if (eventType == EMSCRIPTEN_EVENT_TOUCHEND)
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, e->touches[i].canvasX, e->touches[i].canvasY, i);
-            res |= 0 < e->touches[i].canvasX && e->touches[i].canvasX < __windowSize[0] && 0 < e->touches[i].canvasY && e->touches[i].canvasY < __windowSize[1];
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, e->touches[i].targetX, e->touches[i].targetY, i);
+            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
         }
     }
     if (eventType == EMSCRIPTEN_EVENT_TOUCHMOVE)
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, e->touches[i].canvasX, e->touches[i].canvasY, i);
-            res |= 0 < e->touches[i].canvasX && e->touches[i].canvasX < __windowSize[0] && 0 < e->touches[i].canvasY && e->touches[i].canvasY < __windowSize[1];
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, e->touches[i].targetX, e->touches[i].targetY, i);
+            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
         }
     }
 
@@ -872,8 +874,6 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
     int width = sizePacked & 0xffff;
     int height = sizePacked >> 16;
 
-    //GP_LOG("%dx%d %dx%d", width, height, __windowSize[0], __windowSize[1]);
-
     if (width != __windowSize[0] || height != __windowSize[1])
     {
         __windowSize[0] = width;
@@ -902,7 +902,7 @@ void main_loop_iter(void* _game)
     //     }
     // }
 
-    double lastTimeSizePolled = 0.0;
+    static double lastTimeSizePolled = 0.0;
     if (game)
     {
         // Game state will be uninitialized if game was closed through Game::exit()
@@ -912,9 +912,11 @@ void main_loop_iter(void* _game)
         // since there is no way to listen for resize events for a canvas element, but only for window
         // pool the canvas dimensions every frame and invoke resizeEvent if they are changed
         // resize_callback does the polling once per second
-        if (game->getAbsoluteTime() > lastTimeSizePolled + 1.0)
+        double absTime = game->getAbsoluteTime();
+        if (absTime > lastTimeSizePolled + 1.0)
         {
-            lastTimeSizePolled = game->getAbsoluteTime();
+            lastTimeSizePolled = absTime;
+            //GP_LOG("resize update %f", lastTimeSizePolled);
             resize_callback(EMSCRIPTEN_EVENT_RESIZE, NULL, NULL);
         }
 
@@ -948,7 +950,7 @@ int Platform::enterMessagePump()
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
     emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
     emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
-    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, false, &resize_callback);
+    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, false, resize_callback);
     emscripten_set_main_loop_arg(&main_loop_iter, (void *)_game, 0, 1);
 
     return 0;
