@@ -3231,6 +3231,7 @@
 				PRODUCT_NAME = gameplay;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+                VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -3253,6 +3254,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
+                VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};

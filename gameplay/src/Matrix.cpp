@@ -192,11 +192,6 @@ void Matrix::createBillboardHelper(const Vector3& objectPosition, const Vector3&
     Vector3 delta(objectPosition, cameraPosition);
     bool isSufficientDelta = delta.lengthSquared() > MATH_EPSILON;
 
-    dst->setIdentity();
-    dst->m[3] = objectPosition.x;
-    dst->m[7] = objectPosition.y;
-    dst->m[11] = objectPosition.z;
-
     // As per the contracts for the 2 variants of createBillboard, we need
     // either a safe default or a sufficient distance between object and camera.
     if (cameraForwardVector || isSufficientDelta)
@@ -204,6 +199,13 @@ void Matrix::createBillboardHelper(const Vector3& objectPosition, const Vector3&
         Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - *cameraForwardVector);
 
         createLookAt(objectPosition, target, cameraUpVector, dst);
+    }
+    else
+    {
+        dst->setIdentity();
+        dst->m[3] = objectPosition.x;
+        dst->m[7] = objectPosition.y;
+        dst->m[11] = objectPosition.z;
     }
 }
     
