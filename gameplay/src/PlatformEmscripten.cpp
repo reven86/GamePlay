@@ -704,16 +704,27 @@ void updateWindowSize()
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
 {
-    //printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld), canvas: (%ld,%ld)\n",
-    //         eventType, e->screenX, e->screenY, e->clientX, e->clientY,
-    //         e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
-    //         e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY, e->canvasX, e->canvasY);
-    long x = e->targetX;
-    long y = e->targetY;
+    printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld)\n",
+             eventType, e->screenX, e->screenY, e->clientX, e->clientY,
+             e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
+             e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY);
+
+    // we need to listen mouse events on window but send the coordinates down related to canvas rect
+    long offsetPacked = EM_ASM_INT_V({
+        var canvasRect = getBoundingClientRect(Modules['canvas']);
+        return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
+    });
+
+    long x = e->targetX - (offsetPacked & 0xffff);
+    long y = e->targetY - (offsetPacked >> 0xffff);
     gameplay::Mouse::MouseEvent mouseEvt;
     bool eventConsumed = false;
+
+    GP_LOG("X=%d Y=%d", x, y);
     
-    if (eventType == EMSCRIPTEN_EVENT_MOUSEDOWN)
+    // don't propagate mouse down events happen outside of the canvas rect
+    bool isInside = x >= 0 && y >= 0 && x < __windowSize[0] && y < __windowSize[1];
+    if (eventType == EMSCRIPTEN_EVENT_MOUSEDOWN && isInside)
     {
         switch(e->button)
         {
@@ -769,7 +780,7 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         }
     }
 
-    return 1;
+    return isInside;
 }
 
 EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userData)
@@ -780,29 +791,47 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     //             e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
     //             e->touches[i].canvasX, e->touches[i].canvasY);
 
+    // we need to listen mouse events on window but send the coordinates down related to canvas rect
+    long offsetPacked = EM_ASM_INT_V({
+        var canvasRect = getBoundingClientRect(Modules['canvas']);
+        return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
+    });
+
     EM_BOOL res = 0;
     if (eventType == EMSCRIPTEN_EVENT_TOUCHSTART)
     {
         for(int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, e->touches[i].targetX, e->touches[i].targetY, i);
-            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
+            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+
+            if (0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1])
+            {
+                gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, x, y, i);
+                res |= true;
+            }
         }
     }
     if (eventType == EMSCRIPTEN_EVENT_TOUCHEND)
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, e->touches[i].targetX, e->touches[i].targetY, i);
-            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
+            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, i);
+            res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
         }
     }
     if (eventType == EMSCRIPTEN_EVENT_TOUCHMOVE)
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, e->touches[i].targetX, e->touches[i].targetY, i);
-            res |= 0 < e->touches[i].targetX && e->touches[i].targetX < __windowSize[0] && 0 < e->touches[i].targetY && e->touches[i].targetY < __windowSize[1];
+            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+
+            gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
+            res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
         }
     }
 
@@ -941,11 +970,11 @@ int Platform::enterMessagePump()
     // Run the game.
     _game->run();
 
-    emscripten_set_mousedown_callback("#canvas", 0, true, mouse_callback);
+    emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
     emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
     emscripten_set_mousemove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
-    emscripten_set_touchstart_callback("#canvas", 0, true, touch_callback);
-    emscripten_set_touchend_callback("#canvas", 0, true, touch_callback);
+    emscripten_set_touchstart_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
+    emscripten_set_touchend_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
     emscripten_set_touchmove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
     emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
     emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
