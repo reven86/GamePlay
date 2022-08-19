@@ -711,12 +711,12 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
-        var canvasRect = getBoundingClientRect(Modules['canvas']);
+        var canvasRect = getBoundingClientRect(Module['canvas']);
         return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
     });
 
     long x = e->targetX - (offsetPacked & 0xffff);
-    long y = e->targetY - (offsetPacked >> 0xffff);
+    long y = e->targetY - (offsetPacked >> 16);
     gameplay::Mouse::MouseEvent mouseEvt;
     bool eventConsumed = false;
 
@@ -793,7 +793,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
-        var canvasRect = getBoundingClientRect(Modules['canvas']);
+        var canvasRect = getBoundingClientRect(Module['canvas']);
         return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
     });
 
@@ -803,7 +803,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
         for(int i = 0; i < e->numTouches; i++)
         {
             long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 16);
 
             if (0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1])
             {
@@ -817,7 +817,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
         for (int i = 0; i < e->numTouches; i++)
         {
             long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 16);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
@@ -828,7 +828,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
         for (int i = 0; i < e->numTouches; i++)
         {
             long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 0xffff);
+            long y = e->touches[i].targetY - (offsetPacked >> 16);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
