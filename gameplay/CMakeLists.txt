@@ -621,6 +621,8 @@ if(NOT EMSCRIPTEN)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
 endif(NOT EMSCRIPTEN)
 
+add_definitions(-Wno-inconsistent-missing-override)
+
 add_library(gameplay STATIC ${GAMEPLAY_SRC})
 
 set_target_properties(gameplay PROPERTIES

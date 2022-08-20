@@ -312,6 +312,8 @@ bool Properties::readPropertiesYAML( Stream * stream )
                 propertiesStack.pop_back( );
             }
             break;
+        default:
+            break;
         }
 
         yaml_event_delete(&event);

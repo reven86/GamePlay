@@ -178,8 +178,8 @@ extern int strcmpnocase(const char* s1, const char* s2);
 // Math
 #define MATH_DEG_TO_RAD(x)          ((x) * 0.0174532925f)
 #define MATH_RAD_TO_DEG(x)          ((x)* 57.29577951f)
-#define MATH_RANDOM_MINUS1_1()      ((2.0f*((float)rand()/RAND_MAX))-1.0f)      // Returns a random float between -1 and 1.
-#define MATH_RANDOM_0_1()           ((float)rand()/RAND_MAX)                    // Returns a random float between 0 and 1.
+#define MATH_RANDOM_MINUS1_1()      ((2.0f*((float)rand()/2147483648.0f))-1.0f)      // Returns a random float between -1 and 1.
+#define MATH_RANDOM_0_1()           ((float)rand()/2147483648.0f)                    // Returns a random float between 0 and 1.
 #define MATH_FLOAT_SMALL            1.0e-37f
 #define MATH_TOLERANCE              2e-37f
 #define MATH_E                      2.71828182845904523536f

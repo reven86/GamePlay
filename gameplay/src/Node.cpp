@@ -883,6 +883,8 @@ const BoundingSphere& Node::getBoundingSphere() const
             case Light::SPOT:
                 // TODO: Implement spot light bounds
                 break;
+            case Light::DIRECTIONAL:
+                break;
             }
         }
         if (empty)
