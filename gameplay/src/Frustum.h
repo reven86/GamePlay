@@ -207,6 +207,13 @@ public:
      */
     void set(const Matrix& matrix);
 
+    /**
+     * Scale frustum by moving each of its planes.
+     * 
+     * @param factor Scale factor.
+     */
+    void scale(const float& factor);
+
 private:
 
     /**

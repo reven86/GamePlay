@@ -159,4 +159,14 @@ void Frustum::set(const Matrix& matrix)
     updatePlanes();
 }
 
+void Frustum::scale(const float& factor)
+{
+    _near.setDistance(_near.getDistance() * factor);
+    _far.setDistance(_far.getDistance() * factor);
+    _bottom.setDistance(_bottom.getDistance() * factor);
+    _top.setDistance(_top.getDistance() * factor);
+    _left.setDistance(_left.getDistance() * factor);
+    _right.setDistance(_right.getDistance() * factor);
+}
+
 }

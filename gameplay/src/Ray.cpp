@@ -125,8 +125,8 @@ float Ray::intersects(const Frustum& frustum) const
     d = (fD > 0.0f) ? ((d == 0.0f) ? fD : min(fD, d)) : d;
     d = (lD > 0.0f) ? ((d == 0.0f) ? lD : min(lD, d)) : d;
     d = (rD > 0.0f) ? ((d == 0.0f) ? rD : min(rD, d)) : d;
-    d = (tD > 0.0f) ? ((d == 0.0f) ? bD : min(bD, d)) : d;
-    d = (bD > 0.0f) ? ((d == 0.0f) ? tD : min(tD, d)) : d;
+    d = (tD > 0.0f) ? ((d == 0.0f) ? tD : min(tD, d)) : d;
+    d = (bD > 0.0f) ? ((d == 0.0f) ? bD : min(bD, d)) : d;
 
     return d;
 }
