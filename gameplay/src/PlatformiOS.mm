@@ -136,6 +136,7 @@ int getUnicode(int key);
 - (BOOL)showKeyboard;
 - (BOOL)dismissKeyboard;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;
+- (BOOL)hasGestureActive;
 @end
 
 @interface View (Private)
@@ -941,6 +942,28 @@ int getUnicode(int key);
         return NO;
     
     return YES;
+}
+
+- (BOOL)hasGestureActive 
+{
+    if (_tapRecognizer != NULL && _tapRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_pinchRecognizer != NULL && _pinchRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_rotationRecognizer != NULL && _rotationRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_panRecognizer != NULL && _panRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_swipeRecognizer != NULL && _swipeRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_longPressRecognizer != NULL && _longPressRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_longTapRecognizer != NULL && _longTapRecognizer.numberOfTouches > 0)
+        return YES;
+    if (_dragAndDropRecognizer != NULL && _dragAndDropRecognizer.numberOfTouches > 0)
+        return YES;
+
+    return NO;
 }
 
 @end
@@ -1891,22 +1914,8 @@ const char * Platform::getUserAgentString( )
 }
 
 bool Platform::isTouchPressed()
-{                                               
-    if (__view->_tapRecognizer != NULL && __view->_tapRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_pinchRecognizer != NULL && __view->_pinchRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_rotationRecognizer != NULL && __view->_rotationRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_panRecognizer != NULL && __view->_panRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_swipeRecognizer != NULL && __view->_swipeRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_longPressRecognizer != NULL && __view->_longPressRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_longTapRecognizer != NULL && __view->_longTapRecognizer.numberOfTouches > 0)
-        return true;
-    if (__view->_dragAndDropRecognizer != NULL && __view->_dragAndDropRecognizer.numberOfTouches > 0)
+{
+    if ([__view hasGestureActive])
         return true;
 
     int i = 0;
