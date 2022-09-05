@@ -1892,6 +1892,23 @@ const char * Platform::getUserAgentString( )
 
 bool Platform::isTouchPressed()
 {
+    if (_tapRecognizer != NULL && _tapRecognizer.numberOfTouches > 0)
+        return true;
+    if (_pinchRecognizer != NULL && _pinchRecognizer.numberOfTouches > 0)
+        return true;
+    if (_rotationRecognizer != NULL && _rotationRecognizer.numberOfTouches > 0)
+        return true;
+    if (_panRecognizer != NULL && _panRecognizer.numberOfTouches > 0)
+        return true;
+    if (_swipeRecognizer != NULL && _swipeRecognizer.numberOfTouches > 0)
+        return true;
+    if (_longPressRecognizer != NULL && _longPressRecognizer.numberOfTouches > 0)
+        return true;
+    if (_longTapRecognizer != NULL && _longTapRecognizer.numberOfTouches > 0)
+        return true;
+    if (_dragAndDropRecognizer != NULL && _dragAndDropRecognizer.numberOfTouches > 0)
+        return true;
+
     int i = 0;
     while (i < TOUCH_POINTS_MAX && __touchPoints[i].down)
         return true;
