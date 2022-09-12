@@ -50,6 +50,7 @@ static POINT __mouseCapturePoint = { 0, 0 };
 static bool __multiSampling = false;
 static bool __cursorVisible = true;
 static unsigned int __gamepadsConnected = 0;
+static bool __mouseButtonPressed[3] = { false, false, false };
 
 #ifdef GP_USE_GAMEPAD
 static const unsigned int XINPUT_BUTTON_COUNT = 14;
@@ -382,6 +383,7 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, x, y, 0, true);
         }
+        __mouseButtonPressed[0] = true;
         return 0;
     }
     case WM_LBUTTONUP:
@@ -394,26 +396,31 @@ LRESULT CALLBACK __WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, 0, true);
         }
         UpdateCapture(wParam);
+        __mouseButtonPressed[0] = false;
         return 0;
     }
     case WM_RBUTTONDOWN:
         UpdateCapture(wParam);
         gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_PRESS_RIGHT_BUTTON, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
+        __mouseButtonPressed[1] = true;
         break;
 
     case WM_RBUTTONUP:
         gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_RELEASE_RIGHT_BUTTON, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
         UpdateCapture(wParam);
+        __mouseButtonPressed[1] = false;
         break;
 
     case WM_MBUTTONDOWN:
         UpdateCapture(wParam);
         gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_PRESS_MIDDLE_BUTTON, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
+        __mouseButtonPressed[2] = true;
         break;
 
     case WM_MBUTTONUP:
         gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_RELEASE_MIDDLE_BUTTON, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
         UpdateCapture(wParam);
+        __mouseButtonPressed[2] = false;
         break;
 
     case WM_MOUSEMOVE:
@@ -1519,7 +1526,7 @@ const char * Platform::getUserAgentString( )
 
 bool Platform::isTouchPressed()
 {
-    return false;
+    return __mouseButtonPressed[0] || __mouseButtonPressed[1] || __mouseButtonPressed[2];
 }
 
 bool Platform::getTouchPosition(int index, int * outX, int * outY)
