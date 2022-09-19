@@ -83,7 +83,7 @@ const char* ImageControl::getTypeName() const
 
 void ImageControl::setImage(const char* path)
 {
-    SAFE_DELETE(_batch);
+    SpriteBatch * newBatch = NULL;
 
     // check for '.material' extension
     std::string pathString(path);
@@ -93,21 +93,23 @@ void ImageControl::setImage(const char* path)
     if( pathLen > 9 && !strcmp( pathString.c_str() + pathLen - 9, ".material" ) )
     {
         Material* material = Material::create(path);
-        _batch = SpriteBatch::create(material);
-        _tw = 1.0f / _batch->getSampler()->getTexture()->getWidth();
-        _th = 1.0f / _batch->getSampler()->getTexture()->getHeight();
+        newBatch = SpriteBatch::create(material);
+        _tw = 1.0f / newBatch->getSampler()->getTexture()->getWidth();
+        _th = 1.0f / newBatch->getSampler()->getTexture()->getHeight();
         SAFE_RELEASE(material);
     }
     else
     {
         Texture* texture = Texture::create(path);
-        _batch = SpriteBatch::create(texture);
+        newBatch = SpriteBatch::create(texture);
         _tw = 1.0f / texture->getWidth();
         _th = 1.0f / texture->getHeight();
         texture->release();
-        _batch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
+        newBatch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
     }
 
+    SAFE_DELETE(_batch);
+    _batch = newBatch;
 
     if (_autoSize != AUTO_SIZE_NONE)
         setDirty(DIRTY_BOUNDS);
@@ -115,14 +117,17 @@ void ImageControl::setImage(const char* path)
 
 void ImageControl::setImage(Image * image)
 {
-    SAFE_DELETE(_batch);
+    SpriteBatch * newBatch = NULL;
 
     Texture * texture = Texture::create(image);
-    _batch = SpriteBatch::create(texture);
+    newBatch = SpriteBatch::create(texture);
     _tw = 1.0f / texture->getWidth();
     _th = 1.0f / texture->getHeight();
     texture->release();
-    _batch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
+    newBatch->getSampler()->setWrapMode(Texture::CLAMP, Texture::CLAMP);
+
+    SAFE_DELETE(_batch);
+    _batch = newBatch;
 
     if (_autoSize != AUTO_SIZE_NONE)
         setDirty(DIRTY_BOUNDS);
