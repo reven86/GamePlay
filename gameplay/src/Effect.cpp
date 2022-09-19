@@ -469,7 +469,7 @@ VertexAttribute Effect::getVertexAttribute(const char* name) const
     return (itr == _vertexAttributes.end() ? -1 : itr->second);
 }
 
-Uniform* Effect::getUniform(const char* name) const
+Uniform* Effect::getUniform(const std::string& name) const
 {
     std::map<std::string, Uniform*>::const_iterator itr = _uniforms.find(name);
 
@@ -479,12 +479,12 @@ Uniform* Effect::getUniform(const char* name) const
 	}
 
     GLint uniformLocation;
-    GL_ASSERT( uniformLocation = glGetUniformLocation(_program, name) );
+    GL_ASSERT( uniformLocation = glGetUniformLocation(_program, name.c_str()) );
     if (uniformLocation > -1)
 	{
 		// Check for array uniforms ("u_directionalLightColor[0]" -> "u_directionalLightColor")
-		char* parentname = new char[strlen(name)+1];
-		strcpy(parentname, name);
+		char* parentname = new char[name.size() + 1];
+		strcpy(parentname, name.c_str());
 		if (strtok(parentname, "[") != NULL) {
 			std::map<std::string, Uniform*>::const_iterator itr = _uniforms.find(parentname);
 			if (itr != _uniforms.end()) {

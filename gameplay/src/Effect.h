@@ -71,7 +71,7 @@ public:
      * 
      * @return The uniform, or NULL if no such uniform exists.
      */
-    Uniform* getUniform(const char* name) const;
+    Uniform* getUniform(const std::string& name) const;
 
     /**
      * Returns the specified active uniform.

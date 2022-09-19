@@ -450,7 +450,7 @@ void MaterialParameter::bind(Effect* effect)
     // we need to update our uniform to point to the new effect's uniform.
     if (!_uniform || _uniform->getEffect() != effect)
     {
-        _uniform = effect->getUniform(_name.c_str());
+        _uniform = effect->getUniform(_name);
 
         if (!_uniform)
         {
