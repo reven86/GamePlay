@@ -99,6 +99,7 @@ PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
 PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 static int __windowSize[2];
 static list<ConnectedGamepadDevInfo> __connectedGamepads;
+static bool __mouseButtonPressed[3] = { false, false, false };
 
 static EGLenum checkErrorEGL(const char* msg)
 {
@@ -729,7 +730,6 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         switch(e->button)
         {
         default:
-            __leftMouseButtonPressed = true;
             mouseEvt = gameplay::Mouse::MOUSE_PRESS_LEFT_BUTTON;
             break;
         case 1:
@@ -744,13 +744,14 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         {
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, x, y, 0, true);
         }
+        if (e->button < 3)
+            __mouseButtonPressed[e->button] = true;
     }
     if (eventType == EMSCRIPTEN_EVENT_MOUSEUP)
     {
         switch(e->button)
         {
         default:
-            __leftMouseButtonPressed = false;
             mouseEvt = gameplay::Mouse::MOUSE_RELEASE_LEFT_BUTTON;
             break;
         case 1:
@@ -765,6 +766,8 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         {
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, 0, true);
         }
+        if (e->button < 3)
+            __mouseButtonPressed[e->button] = false;
     }
     if (eventType == EMSCRIPTEN_EVENT_MOUSEMOVE)
     {
@@ -773,7 +776,7 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         eventConsumed = gameplay::Platform::mouseEventInternal(gameplay::Mouse::MOUSE_MOVE, x, y, 0);
         if (!eventConsumed && e->button == 0)
         {
-            if (__leftMouseButtonPressed)
+            if (__mouseButtonPressed[0])
             {
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, 0, true);
             }
@@ -1213,7 +1216,7 @@ const char * Platform::getUserAgentString( )
 
 bool Platform::isTouchPressed()
 {
-    return false;
+    return __mouseButtonPressed[0] || __mouseButtonPressed[1] || __mouseButtonPressed[2];
 }
 
 bool Platform::getTouchPosition(int index, int * outX, int * outY)
