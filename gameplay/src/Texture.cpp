@@ -127,11 +127,15 @@ Texture* Texture::create(const char* path, bool generateMipmaps)
             {
                 // PowerVR Compressed Texture RGBA.
                 texture = createCompressedPVRTC(path);
+                if (texture && generateMipmaps)
+                    texture->generateMipmaps();
             }
             else if (tolower(ext[1]) == 'd' && tolower(ext[2]) == 'd' && tolower(ext[3]) == 's')
             {
                 // DDS file format (DXT/S3TC) compressed textures
                 texture = createCompressedDDS(path);
+                if (texture && generateMipmaps)
+                    texture->generateMipmaps();
             }
             break;
         }
