@@ -631,7 +631,9 @@ set_target_properties(gameplay PROPERTIES
     VERSION ${GAMEPLAY_VERSION}
 )
 
+if (NOT GP_NO_LUA_BINDINGS)
 source_group(lua FILES ${GAMEPLAY_LUA})
+endif (GP_NO_LUA_BINDINGS)
 source_group(res FILES ${GAMEPLAY_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS} ${GAMEPLAY_RES_UI})
 source_group(src FILES ${GAMEPLAY_SRC})
 
