@@ -187,6 +187,10 @@ bool Game::startup()
     _animationController = new AnimationController();
     _animationController->initialize();
 
+    GP_LOG("_properties=%X", _properties);
+    if (_properties)
+        GP_LOG("audioControllerEnable=%X", _properties->getBool("audioControllerEnable");
+
     if (!_properties || _properties->getBool("audioControllerEnable", true))
     {
         _audioController = new AudioController();
