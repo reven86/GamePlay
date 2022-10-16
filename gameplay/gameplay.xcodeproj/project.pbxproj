@@ -19,10 +19,6 @@
 		421FBD511602818800A61BC0 /* PhysicsVehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 421FBD4C1602818800A61BC0 /* PhysicsVehicle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		421FBD531602818800A61BC0 /* PhysicsVehicleWheel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421FBD4D1602818800A61BC0 /* PhysicsVehicleWheel.cpp */; };
 		421FBD551602818800A61BC0 /* PhysicsVehicleWheel.h in Headers */ = {isa = PBXBuildFile; fileRef = 421FBD4E1602818800A61BC0 /* PhysicsVehicleWheel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		421FBD5C1602827C00A61BC0 /* lua_PhysicsVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421FBD581602827C00A61BC0 /* lua_PhysicsVehicle.cpp */; };
-		421FBD5E1602827C00A61BC0 /* lua_PhysicsVehicle.h in Headers */ = {isa = PBXBuildFile; fileRef = 421FBD591602827C00A61BC0 /* lua_PhysicsVehicle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		421FBD601602827C00A61BC0 /* lua_PhysicsVehicleWheel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421FBD5A1602827C00A61BC0 /* lua_PhysicsVehicleWheel.cpp */; };
-		421FBD621602827C00A61BC0 /* lua_PhysicsVehicleWheel.h in Headers */ = {isa = PBXBuildFile; fileRef = 421FBD5B1602827C00A61BC0 /* lua_PhysicsVehicleWheel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		422260D61537790F0011E3AB /* Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 422260D41537790F0011E3AB /* Bundle.cpp */; };
 		422260D81537790F0011E3AB /* Bundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 422260D51537790F0011E3AB /* Bundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4234D99E14686C52003031B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4234D99D14686C52003031B3 /* Cocoa.framework */; };
@@ -49,244 +45,10 @@
 		4283909A1489D6E800E2B2F5 /* SceneLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 428390981489D6E800E2B2F5 /* SceneLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42A5031116E8F06500F0246C /* ImageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A5030F16E8F06500F0246C /* ImageControl.cpp */; };
 		42A5031316E8F06500F0246C /* ImageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A5031016E8F06500F0246C /* ImageControl.h */; };
-		42A5031716E8F08900F0246C /* lua_ImageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A5031516E8F08900F0246C /* lua_ImageControl.cpp */; };
-		42A5031916E8F08900F0246C /* lua_ImageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A5031616E8F08900F0246C /* lua_ImageControl.h */; };
 		42B7FAE315B08049002BB8C3 /* ScreenDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42B7FADD15B08049002BB8C3 /* ScreenDisplayer.cpp */; };
 		42B7FAE515B08049002BB8C3 /* ScriptController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42B7FADE15B08049002BB8C3 /* ScriptController.cpp */; };
 		42B7FAE715B08049002BB8C3 /* ScriptController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42B7FADF15B08049002BB8C3 /* ScriptController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42BCD45A15EFD0F300C0E076 /* Gesture.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD31D15EFD0F300C0E076 /* Gesture.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD45C15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD31F15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp */; };
-		42BCD45E15EFD0F300C0E076 /* lua_AbsoluteLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32015EFD0F300C0E076 /* lua_AbsoluteLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD46015EFD0F300C0E076 /* lua_AIAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32115EFD0F300C0E076 /* lua_AIAgent.cpp */; };
-		42BCD46215EFD0F300C0E076 /* lua_AIAgent.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32215EFD0F300C0E076 /* lua_AIAgent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD46415EFD0F300C0E076 /* lua_AIAgentListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32315EFD0F300C0E076 /* lua_AIAgentListener.cpp */; };
-		42BCD46615EFD0F300C0E076 /* lua_AIAgentListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32415EFD0F300C0E076 /* lua_AIAgentListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD46815EFD0F300C0E076 /* lua_AIController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32515EFD0F300C0E076 /* lua_AIController.cpp */; };
-		42BCD46A15EFD0F300C0E076 /* lua_AIController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32615EFD0F300C0E076 /* lua_AIController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD46C15EFD0F300C0E076 /* lua_AIMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32715EFD0F300C0E076 /* lua_AIMessage.cpp */; };
-		42BCD46E15EFD0F300C0E076 /* lua_AIMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32815EFD0F300C0E076 /* lua_AIMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD47415EFD0F300C0E076 /* lua_AIState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32B15EFD0F300C0E076 /* lua_AIState.cpp */; };
-		42BCD47615EFD0F300C0E076 /* lua_AIState.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32C15EFD0F300C0E076 /* lua_AIState.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD47815EFD0F300C0E076 /* lua_AIStateListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32D15EFD0F300C0E076 /* lua_AIStateListener.cpp */; };
-		42BCD47A15EFD0F300C0E076 /* lua_AIStateListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD32E15EFD0F300C0E076 /* lua_AIStateListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD47C15EFD0F300C0E076 /* lua_AIStateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32F15EFD0F300C0E076 /* lua_AIStateMachine.cpp */; };
-		42BCD47E15EFD0F300C0E076 /* lua_AIStateMachine.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33015EFD0F300C0E076 /* lua_AIStateMachine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD48015EFD0F300C0E076 /* lua_all_bindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33115EFD0F300C0E076 /* lua_all_bindings.cpp */; };
-		42BCD48215EFD0F300C0E076 /* lua_all_bindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33215EFD0F300C0E076 /* lua_all_bindings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD48415EFD0F300C0E076 /* lua_Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33315EFD0F300C0E076 /* lua_Animation.cpp */; };
-		42BCD48615EFD0F300C0E076 /* lua_Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33415EFD0F300C0E076 /* lua_Animation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD48815EFD0F300C0E076 /* lua_AnimationClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33515EFD0F300C0E076 /* lua_AnimationClip.cpp */; };
-		42BCD48A15EFD0F300C0E076 /* lua_AnimationClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33615EFD0F300C0E076 /* lua_AnimationClip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD48C15EFD0F300C0E076 /* lua_AnimationClipListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33715EFD0F300C0E076 /* lua_AnimationClipListener.cpp */; };
-		42BCD48E15EFD0F300C0E076 /* lua_AnimationClipListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33815EFD0F300C0E076 /* lua_AnimationClipListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD49415EFD0F300C0E076 /* lua_AnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33B15EFD0F300C0E076 /* lua_AnimationController.cpp */; };
-		42BCD49615EFD0F300C0E076 /* lua_AnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33C15EFD0F300C0E076 /* lua_AnimationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD49815EFD0F300C0E076 /* lua_AnimationTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33D15EFD0F300C0E076 /* lua_AnimationTarget.cpp */; };
-		42BCD49A15EFD0F300C0E076 /* lua_AnimationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD33E15EFD0F300C0E076 /* lua_AnimationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD49C15EFD0F300C0E076 /* lua_AnimationValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33F15EFD0F300C0E076 /* lua_AnimationValue.cpp */; };
-		42BCD49E15EFD0F300C0E076 /* lua_AnimationValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34015EFD0F300C0E076 /* lua_AnimationValue.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4A015EFD0F300C0E076 /* lua_AudioBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34115EFD0F300C0E076 /* lua_AudioBuffer.cpp */; };
-		42BCD4A215EFD0F300C0E076 /* lua_AudioBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34215EFD0F300C0E076 /* lua_AudioBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4A415EFD0F300C0E076 /* lua_AudioController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34315EFD0F300C0E076 /* lua_AudioController.cpp */; };
-		42BCD4A615EFD0F300C0E076 /* lua_AudioController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34415EFD0F300C0E076 /* lua_AudioController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4A815EFD0F300C0E076 /* lua_AudioListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34515EFD0F300C0E076 /* lua_AudioListener.cpp */; };
-		42BCD4AA15EFD0F300C0E076 /* lua_AudioListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34615EFD0F300C0E076 /* lua_AudioListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4AC15EFD0F300C0E076 /* lua_AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34715EFD0F300C0E076 /* lua_AudioSource.cpp */; };
-		42BCD4AE15EFD0F300C0E076 /* lua_AudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34815EFD0F300C0E076 /* lua_AudioSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4B415EFD0F300C0E076 /* lua_BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34B15EFD0F300C0E076 /* lua_BoundingBox.cpp */; };
-		42BCD4B615EFD0F300C0E076 /* lua_BoundingBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34C15EFD0F300C0E076 /* lua_BoundingBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4B815EFD0F300C0E076 /* lua_BoundingSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34D15EFD0F300C0E076 /* lua_BoundingSphere.cpp */; };
-		42BCD4BA15EFD0F300C0E076 /* lua_BoundingSphere.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD34E15EFD0F300C0E076 /* lua_BoundingSphere.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4BC15EFD0F300C0E076 /* lua_Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34F15EFD0F300C0E076 /* lua_Bundle.cpp */; };
-		42BCD4BE15EFD0F300C0E076 /* lua_Bundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35015EFD0F300C0E076 /* lua_Bundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4C015EFD0F300C0E076 /* lua_Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35115EFD0F300C0E076 /* lua_Button.cpp */; };
-		42BCD4C215EFD0F300C0E076 /* lua_Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35215EFD0F300C0E076 /* lua_Button.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4C415EFD0F300C0E076 /* lua_Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35315EFD0F300C0E076 /* lua_Camera.cpp */; };
-		42BCD4C615EFD0F300C0E076 /* lua_Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35415EFD0F300C0E076 /* lua_Camera.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4CC15EFD0F300C0E076 /* lua_CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35715EFD0F300C0E076 /* lua_CheckBox.cpp */; };
-		42BCD4CE15EFD0F300C0E076 /* lua_CheckBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35815EFD0F300C0E076 /* lua_CheckBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4D015EFD0F300C0E076 /* lua_Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35915EFD0F300C0E076 /* lua_Container.cpp */; };
-		42BCD4D215EFD0F300C0E076 /* lua_Container.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35A15EFD0F300C0E076 /* lua_Container.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4D815EFD0F300C0E076 /* lua_Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35D15EFD0F300C0E076 /* lua_Control.cpp */; };
-		42BCD4DA15EFD0F300C0E076 /* lua_Control.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD35E15EFD0F300C0E076 /* lua_Control.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4E015EFD0F300C0E076 /* lua_ControlListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36115EFD0F300C0E076 /* lua_ControlListener.cpp */; };
-		42BCD4E215EFD0F300C0E076 /* lua_ControlListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD36215EFD0F300C0E076 /* lua_ControlListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4EC15EFD0F300C0E076 /* lua_Curve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36715EFD0F300C0E076 /* lua_Curve.cpp */; };
-		42BCD4EE15EFD0F300C0E076 /* lua_Curve.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD36815EFD0F300C0E076 /* lua_Curve.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4F415EFD0F300C0E076 /* lua_DepthStencilTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36B15EFD0F300C0E076 /* lua_DepthStencilTarget.cpp */; };
-		42BCD4F615EFD0F300C0E076 /* lua_DepthStencilTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD36C15EFD0F300C0E076 /* lua_DepthStencilTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD4FC15EFD0F300C0E076 /* lua_Effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36F15EFD0F300C0E076 /* lua_Effect.cpp */; };
-		42BCD4FE15EFD0F300C0E076 /* lua_Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37015EFD0F300C0E076 /* lua_Effect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD50015EFD0F300C0E076 /* lua_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37115EFD0F300C0E076 /* lua_FileSystem.cpp */; };
-		42BCD50215EFD0F300C0E076 /* lua_FileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37215EFD0F300C0E076 /* lua_FileSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD50415EFD0F300C0E076 /* lua_FlowLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37315EFD0F300C0E076 /* lua_FlowLayout.cpp */; };
-		42BCD50615EFD0F300C0E076 /* lua_FlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37415EFD0F300C0E076 /* lua_FlowLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD50815EFD0F300C0E076 /* lua_Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37515EFD0F300C0E076 /* lua_Font.cpp */; };
-		42BCD50A15EFD0F300C0E076 /* lua_Font.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37615EFD0F300C0E076 /* lua_Font.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD51815EFD0F300C0E076 /* lua_Form.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */; };
-		42BCD51A15EFD0F300C0E076 /* lua_Form.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD37E15EFD0F300C0E076 /* lua_Form.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD51C15EFD0F300C0E076 /* lua_FrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37F15EFD0F300C0E076 /* lua_FrameBuffer.cpp */; };
-		42BCD51E15EFD0F300C0E076 /* lua_FrameBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD38015EFD0F300C0E076 /* lua_FrameBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD52015EFD0F300C0E076 /* lua_Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38115EFD0F300C0E076 /* lua_Frustum.cpp */; };
-		42BCD52215EFD0F300C0E076 /* lua_Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD38215EFD0F300C0E076 /* lua_Frustum.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD52415EFD0F300C0E076 /* lua_Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38315EFD0F300C0E076 /* lua_Game.cpp */; };
-		42BCD52615EFD0F300C0E076 /* lua_Game.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD38415EFD0F300C0E076 /* lua_Game.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD52C15EFD0F300C0E076 /* lua_Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38715EFD0F300C0E076 /* lua_Gamepad.cpp */; };
-		42BCD52E15EFD0F300C0E076 /* lua_Gamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD38815EFD0F300C0E076 /* lua_Gamepad.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD53C15EFD0F300C0E076 /* lua_Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38F15EFD0F300C0E076 /* lua_Global.cpp */; };
-		42BCD53E15EFD0F300C0E076 /* lua_Global.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD39015EFD0F300C0E076 /* lua_Global.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD54015EFD0F300C0E076 /* lua_Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39115EFD0F300C0E076 /* lua_Image.cpp */; };
-		42BCD54215EFD0F300C0E076 /* lua_Image.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD39215EFD0F300C0E076 /* lua_Image.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD54815EFD0F300C0E076 /* lua_Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39515EFD0F300C0E076 /* lua_Joint.cpp */; };
-		42BCD54A15EFD0F300C0E076 /* lua_Joint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD39615EFD0F300C0E076 /* lua_Joint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD55015EFD0F300C0E076 /* lua_Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39915EFD0F300C0E076 /* lua_Keyboard.cpp */; };
-		42BCD55215EFD0F300C0E076 /* lua_Keyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD39A15EFD0F300C0E076 /* lua_Keyboard.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD55C15EFD0F300C0E076 /* lua_Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39F15EFD0F300C0E076 /* lua_Label.cpp */; };
-		42BCD55E15EFD0F300C0E076 /* lua_Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3A015EFD0F300C0E076 /* lua_Label.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD56015EFD0F300C0E076 /* lua_Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A115EFD0F300C0E076 /* lua_Layout.cpp */; };
-		42BCD56215EFD0F300C0E076 /* lua_Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3A215EFD0F300C0E076 /* lua_Layout.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD56815EFD0F300C0E076 /* lua_Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A515EFD0F300C0E076 /* lua_Light.cpp */; };
-		42BCD56A15EFD0F300C0E076 /* lua_Light.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3A615EFD0F300C0E076 /* lua_Light.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD57015EFD0F300C0E076 /* lua_Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A915EFD0F300C0E076 /* lua_Material.cpp */; };
-		42BCD57215EFD0F300C0E076 /* lua_Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3AA15EFD0F300C0E076 /* lua_Material.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD57415EFD0F300C0E076 /* lua_MaterialParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AB15EFD0F300C0E076 /* lua_MaterialParameter.cpp */; };
-		42BCD57615EFD0F300C0E076 /* lua_MaterialParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3AC15EFD0F300C0E076 /* lua_MaterialParameter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD57815EFD0F300C0E076 /* lua_MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AD15EFD0F300C0E076 /* lua_MathUtil.cpp */; };
-		42BCD57A15EFD0F300C0E076 /* lua_MathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3AE15EFD0F300C0E076 /* lua_MathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD57C15EFD0F300C0E076 /* lua_Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AF15EFD0F300C0E076 /* lua_Matrix.cpp */; };
-		42BCD57E15EFD0F300C0E076 /* lua_Matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3B015EFD0F300C0E076 /* lua_Matrix.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD58015EFD0F300C0E076 /* lua_Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B115EFD0F300C0E076 /* lua_Mesh.cpp */; };
-		42BCD58215EFD0F300C0E076 /* lua_Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3B215EFD0F300C0E076 /* lua_Mesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD58415EFD0F300C0E076 /* lua_MeshBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B315EFD0F300C0E076 /* lua_MeshBatch.cpp */; };
-		42BCD58615EFD0F300C0E076 /* lua_MeshBatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3B415EFD0F300C0E076 /* lua_MeshBatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD58C15EFD0F300C0E076 /* lua_MeshPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B715EFD0F300C0E076 /* lua_MeshPart.cpp */; };
-		42BCD58E15EFD0F300C0E076 /* lua_MeshPart.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3B815EFD0F300C0E076 /* lua_MeshPart.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD59415EFD0F300C0E076 /* lua_MeshSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BB15EFD0F300C0E076 /* lua_MeshSkin.cpp */; };
-		42BCD59615EFD0F300C0E076 /* lua_MeshSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3BC15EFD0F300C0E076 /* lua_MeshSkin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD59815EFD0F300C0E076 /* lua_Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BD15EFD0F300C0E076 /* lua_Model.cpp */; };
-		42BCD59A15EFD0F300C0E076 /* lua_Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3BE15EFD0F300C0E076 /* lua_Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD59C15EFD0F300C0E076 /* lua_Mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BF15EFD0F300C0E076 /* lua_Mouse.cpp */; };
-		42BCD59E15EFD0F300C0E076 /* lua_Mouse.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3C015EFD0F300C0E076 /* lua_Mouse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5A415EFD0F300C0E076 /* lua_Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C315EFD0F300C0E076 /* lua_Node.cpp */; };
-		42BCD5A615EFD0F300C0E076 /* lua_Node.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3C415EFD0F300C0E076 /* lua_Node.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5A815EFD0F300C0E076 /* lua_NodeCloneContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C515EFD0F300C0E076 /* lua_NodeCloneContext.cpp */; };
-		42BCD5AA15EFD0F300C0E076 /* lua_NodeCloneContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3C615EFD0F300C0E076 /* lua_NodeCloneContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5B015EFD0F300C0E076 /* lua_ParticleEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C915EFD0F300C0E076 /* lua_ParticleEmitter.cpp */; };
-		42BCD5B215EFD0F300C0E076 /* lua_ParticleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3CA15EFD0F300C0E076 /* lua_ParticleEmitter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5B815EFD0F300C0E076 /* lua_Pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3CD15EFD0F300C0E076 /* lua_Pass.cpp */; };
-		42BCD5BA15EFD0F300C0E076 /* lua_Pass.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3CE15EFD0F300C0E076 /* lua_Pass.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5BC15EFD0F300C0E076 /* lua_PhysicsCharacter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3CF15EFD0F300C0E076 /* lua_PhysicsCharacter.cpp */; };
-		42BCD5BE15EFD0F300C0E076 /* lua_PhysicsCharacter.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3D015EFD0F300C0E076 /* lua_PhysicsCharacter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5C015EFD0F300C0E076 /* lua_PhysicsCollisionObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D115EFD0F300C0E076 /* lua_PhysicsCollisionObject.cpp */; };
-		42BCD5C215EFD0F300C0E076 /* lua_PhysicsCollisionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3D215EFD0F300C0E076 /* lua_PhysicsCollisionObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5C415EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D315EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.cpp */; };
-		42BCD5C615EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3D415EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5CC15EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D715EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.cpp */; };
-		42BCD5CE15EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3D815EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5D415EFD0F300C0E076 /* lua_PhysicsCollisionShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3DB15EFD0F300C0E076 /* lua_PhysicsCollisionShape.cpp */; };
-		42BCD5D615EFD0F300C0E076 /* lua_PhysicsCollisionShape.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3DC15EFD0F300C0E076 /* lua_PhysicsCollisionShape.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5D815EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3DD15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.cpp */; };
-		42BCD5DA15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3DE15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5E015EFD0F300C0E076 /* lua_PhysicsConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E115EFD0F300C0E076 /* lua_PhysicsConstraint.cpp */; };
-		42BCD5E215EFD0F300C0E076 /* lua_PhysicsConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3E215EFD0F300C0E076 /* lua_PhysicsConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5E415EFD0F300C0E076 /* lua_PhysicsController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E315EFD0F300C0E076 /* lua_PhysicsController.cpp */; };
-		42BCD5E615EFD0F300C0E076 /* lua_PhysicsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3E415EFD0F300C0E076 /* lua_PhysicsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5E815EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E515EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.cpp */; };
-		42BCD5EA15EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3E615EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5EC15EFD0F300C0E076 /* lua_PhysicsControllerHitResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E715EFD0F300C0E076 /* lua_PhysicsControllerHitResult.cpp */; };
-		42BCD5EE15EFD0F300C0E076 /* lua_PhysicsControllerHitResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3E815EFD0F300C0E076 /* lua_PhysicsControllerHitResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5F015EFD0F300C0E076 /* lua_PhysicsControllerListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E915EFD0F300C0E076 /* lua_PhysicsControllerListener.cpp */; };
-		42BCD5F215EFD0F300C0E076 /* lua_PhysicsControllerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3EA15EFD0F300C0E076 /* lua_PhysicsControllerListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5F815EFD0F300C0E076 /* lua_PhysicsFixedConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3ED15EFD0F300C0E076 /* lua_PhysicsFixedConstraint.cpp */; };
-		42BCD5FA15EFD0F300C0E076 /* lua_PhysicsFixedConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3EE15EFD0F300C0E076 /* lua_PhysicsFixedConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD5FC15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3EF15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.cpp */; };
-		42BCD5FE15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3F015EFD0F300C0E076 /* lua_PhysicsGenericConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD60015EFD0F300C0E076 /* lua_PhysicsGhostObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F115EFD0F300C0E076 /* lua_PhysicsGhostObject.cpp */; };
-		42BCD60215EFD0F300C0E076 /* lua_PhysicsGhostObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3F215EFD0F300C0E076 /* lua_PhysicsGhostObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD60415EFD0F300C0E076 /* lua_PhysicsHingeConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F315EFD0F300C0E076 /* lua_PhysicsHingeConstraint.cpp */; };
-		42BCD60615EFD0F300C0E076 /* lua_PhysicsHingeConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3F415EFD0F300C0E076 /* lua_PhysicsHingeConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD60815EFD0F300C0E076 /* lua_PhysicsRigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F515EFD0F300C0E076 /* lua_PhysicsRigidBody.cpp */; };
-		42BCD60A15EFD0F300C0E076 /* lua_PhysicsRigidBody.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3F615EFD0F300C0E076 /* lua_PhysicsRigidBody.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD60C15EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F715EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.cpp */; };
-		42BCD60E15EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3F815EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD61015EFD0F300C0E076 /* lua_PhysicsSocketConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F915EFD0F300C0E076 /* lua_PhysicsSocketConstraint.cpp */; };
-		42BCD61215EFD0F300C0E076 /* lua_PhysicsSocketConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3FA15EFD0F300C0E076 /* lua_PhysicsSocketConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD61415EFD0F300C0E076 /* lua_PhysicsSpringConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FB15EFD0F300C0E076 /* lua_PhysicsSpringConstraint.cpp */; };
-		42BCD61615EFD0F300C0E076 /* lua_PhysicsSpringConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3FC15EFD0F300C0E076 /* lua_PhysicsSpringConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD61815EFD0F300C0E076 /* lua_Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FD15EFD0F300C0E076 /* lua_Plane.cpp */; };
-		42BCD61A15EFD0F300C0E076 /* lua_Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD3FE15EFD0F300C0E076 /* lua_Plane.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD61C15EFD0F300C0E076 /* lua_Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FF15EFD0F300C0E076 /* lua_Platform.cpp */; };
-		42BCD61E15EFD0F300C0E076 /* lua_Platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40015EFD0F300C0E076 /* lua_Platform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD62015EFD0F300C0E076 /* lua_Properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40115EFD0F300C0E076 /* lua_Properties.cpp */; };
-		42BCD62215EFD0F300C0E076 /* lua_Properties.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40215EFD0F300C0E076 /* lua_Properties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD62815EFD0F300C0E076 /* lua_Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40515EFD0F300C0E076 /* lua_Quaternion.cpp */; };
-		42BCD62A15EFD0F300C0E076 /* lua_Quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40615EFD0F300C0E076 /* lua_Quaternion.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD62C15EFD0F300C0E076 /* lua_RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40715EFD0F300C0E076 /* lua_RadioButton.cpp */; };
-		42BCD62E15EFD0F300C0E076 /* lua_RadioButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40815EFD0F300C0E076 /* lua_RadioButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD63015EFD0F300C0E076 /* lua_Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40915EFD0F300C0E076 /* lua_Ray.cpp */; };
-		42BCD63215EFD0F300C0E076 /* lua_Ray.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40A15EFD0F300C0E076 /* lua_Ray.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD63415EFD0F300C0E076 /* lua_Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40B15EFD0F300C0E076 /* lua_Rectangle.cpp */; };
-		42BCD63615EFD0F300C0E076 /* lua_Rectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40C15EFD0F300C0E076 /* lua_Rectangle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD63815EFD0F300C0E076 /* lua_Ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40D15EFD0F300C0E076 /* lua_Ref.cpp */; };
-		42BCD63A15EFD0F300C0E076 /* lua_Ref.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD40E15EFD0F300C0E076 /* lua_Ref.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD63C15EFD0F300C0E076 /* lua_RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40F15EFD0F300C0E076 /* lua_RenderState.cpp */; };
-		42BCD63E15EFD0F300C0E076 /* lua_RenderState.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD41015EFD0F300C0E076 /* lua_RenderState.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD64815EFD0F300C0E076 /* lua_RenderStateStateBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41515EFD0F300C0E076 /* lua_RenderStateStateBlock.cpp */; };
-		42BCD64A15EFD0F300C0E076 /* lua_RenderStateStateBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD41615EFD0F300C0E076 /* lua_RenderStateStateBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD64C15EFD0F300C0E076 /* lua_RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41715EFD0F300C0E076 /* lua_RenderTarget.cpp */; };
-		42BCD64E15EFD0F300C0E076 /* lua_RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD41815EFD0F300C0E076 /* lua_RenderTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD65015EFD0F300C0E076 /* lua_Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41915EFD0F300C0E076 /* lua_Scene.cpp */; };
-		42BCD65215EFD0F300C0E076 /* lua_Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD41A15EFD0F300C0E076 /* lua_Scene.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD65815EFD0F300C0E076 /* lua_ScreenDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41D15EFD0F300C0E076 /* lua_ScreenDisplayer.cpp */; };
-		42BCD65A15EFD0F300C0E076 /* lua_ScreenDisplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD41E15EFD0F300C0E076 /* lua_ScreenDisplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD65C15EFD0F300C0E076 /* lua_ScriptController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41F15EFD0F300C0E076 /* lua_ScriptController.cpp */; };
-		42BCD65E15EFD0F300C0E076 /* lua_ScriptController.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42015EFD0F300C0E076 /* lua_ScriptController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD66015EFD0F300C0E076 /* lua_ScriptTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42115EFD0F300C0E076 /* lua_ScriptTarget.cpp */; };
-		42BCD66215EFD0F300C0E076 /* lua_ScriptTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42215EFD0F300C0E076 /* lua_ScriptTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD66415EFD0F300C0E076 /* lua_Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42315EFD0F300C0E076 /* lua_Slider.cpp */; };
-		42BCD66615EFD0F300C0E076 /* lua_Slider.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42415EFD0F300C0E076 /* lua_Slider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD66815EFD0F300C0E076 /* lua_SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42515EFD0F300C0E076 /* lua_SpriteBatch.cpp */; };
-		42BCD66A15EFD0F300C0E076 /* lua_SpriteBatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42615EFD0F300C0E076 /* lua_SpriteBatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD66C15EFD0F300C0E076 /* lua_Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42715EFD0F300C0E076 /* lua_Technique.cpp */; };
-		42BCD66E15EFD0F300C0E076 /* lua_Technique.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42815EFD0F300C0E076 /* lua_Technique.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD67015EFD0F300C0E076 /* lua_TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42915EFD0F300C0E076 /* lua_TextBox.cpp */; };
-		42BCD67215EFD0F300C0E076 /* lua_TextBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42A15EFD0F300C0E076 /* lua_TextBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD67415EFD0F300C0E076 /* lua_Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42B15EFD0F300C0E076 /* lua_Texture.cpp */; };
-		42BCD67615EFD0F300C0E076 /* lua_Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD42C15EFD0F300C0E076 /* lua_Texture.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD68015EFD0F300C0E076 /* lua_TextureSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43115EFD0F300C0E076 /* lua_TextureSampler.cpp */; };
-		42BCD68215EFD0F300C0E076 /* lua_TextureSampler.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43215EFD0F300C0E076 /* lua_TextureSampler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD68815EFD0F300C0E076 /* lua_Theme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43515EFD0F300C0E076 /* lua_Theme.cpp */; };
-		42BCD68A15EFD0F300C0E076 /* lua_Theme.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43615EFD0F300C0E076 /* lua_Theme.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD68C15EFD0F300C0E076 /* lua_ThemeSideRegions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43715EFD0F300C0E076 /* lua_ThemeSideRegions.cpp */; };
-		42BCD68E15EFD0F300C0E076 /* lua_ThemeSideRegions.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43815EFD0F300C0E076 /* lua_ThemeSideRegions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD69015EFD0F300C0E076 /* lua_ThemeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43915EFD0F300C0E076 /* lua_ThemeStyle.cpp */; };
-		42BCD69215EFD0F300C0E076 /* lua_ThemeStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43A15EFD0F300C0E076 /* lua_ThemeStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD69415EFD0F300C0E076 /* lua_ThemeThemeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43B15EFD0F300C0E076 /* lua_ThemeThemeImage.cpp */; };
-		42BCD69615EFD0F300C0E076 /* lua_ThemeThemeImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43C15EFD0F300C0E076 /* lua_ThemeThemeImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD69815EFD0F300C0E076 /* lua_ThemeUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43D15EFD0F300C0E076 /* lua_ThemeUVs.cpp */; };
-		42BCD69A15EFD0F300C0E076 /* lua_ThemeUVs.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD43E15EFD0F300C0E076 /* lua_ThemeUVs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD69C15EFD0F300C0E076 /* lua_Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43F15EFD0F300C0E076 /* lua_Touch.cpp */; };
-		42BCD69E15EFD0F300C0E076 /* lua_Touch.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44015EFD0F300C0E076 /* lua_Touch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6A415EFD0F300C0E076 /* lua_Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44315EFD0F300C0E076 /* lua_Transform.cpp */; };
-		42BCD6A615EFD0F300C0E076 /* lua_Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44415EFD0F300C0E076 /* lua_Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6A815EFD0F300C0E076 /* lua_TransformListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44515EFD0F300C0E076 /* lua_TransformListener.cpp */; };
-		42BCD6AA15EFD0F300C0E076 /* lua_TransformListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44615EFD0F300C0E076 /* lua_TransformListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6AC15EFD0F300C0E076 /* lua_Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44715EFD0F300C0E076 /* lua_Uniform.cpp */; };
-		42BCD6AE15EFD0F300C0E076 /* lua_Uniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44815EFD0F300C0E076 /* lua_Uniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6B015EFD0F300C0E076 /* lua_Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44915EFD0F300C0E076 /* lua_Vector2.cpp */; };
-		42BCD6B215EFD0F300C0E076 /* lua_Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44A15EFD0F300C0E076 /* lua_Vector2.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6B415EFD0F300C0E076 /* lua_Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44B15EFD0F300C0E076 /* lua_Vector3.cpp */; };
-		42BCD6B615EFD0F300C0E076 /* lua_Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44C15EFD0F300C0E076 /* lua_Vector3.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6B815EFD0F300C0E076 /* lua_Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44D15EFD0F300C0E076 /* lua_Vector4.cpp */; };
-		42BCD6BA15EFD0F300C0E076 /* lua_Vector4.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD44E15EFD0F300C0E076 /* lua_Vector4.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6BC15EFD0F300C0E076 /* lua_VertexAttributeBinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44F15EFD0F300C0E076 /* lua_VertexAttributeBinding.cpp */; };
-		42BCD6BE15EFD0F300C0E076 /* lua_VertexAttributeBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD45015EFD0F300C0E076 /* lua_VertexAttributeBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6C015EFD0F300C0E076 /* lua_VertexFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45115EFD0F300C0E076 /* lua_VertexFormat.cpp */; };
-		42BCD6C215EFD0F300C0E076 /* lua_VertexFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD45215EFD0F300C0E076 /* lua_VertexFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6C415EFD0F300C0E076 /* lua_VertexFormatElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45315EFD0F300C0E076 /* lua_VertexFormatElement.cpp */; };
-		42BCD6C615EFD0F300C0E076 /* lua_VertexFormatElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD45415EFD0F300C0E076 /* lua_VertexFormatElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42BCD6CC15EFD0F300C0E076 /* lua_VerticalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45715EFD0F300C0E076 /* lua_VerticalLayout.cpp */; };
-		42BCD6CE15EFD0F300C0E076 /* lua_VerticalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 42BCD45815EFD0F300C0E076 /* lua_VerticalLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42CD0E46147D8FF60000361E /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DB1147D8FF50000361E /* Animation.cpp */; };
 		42CD0E47147D8FF60000361E /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 42CD0DB2147D8FF50000361E /* Animation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42CD0E48147D8FF60000361E /* AnimationClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CD0DB3147D8FF50000361E /* AnimationClip.cpp */; };
@@ -417,8 +179,6 @@
 		5B2BC7621512514D00D176CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2BC7611512514D00D176CD /* QuartzCore.framework */; };
 		5B2BC7641512516B00D176CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B2BC7631512516B00D176CD /* libz.dylib */; };
 		5BB0823D14C6FEC40019975F /* Mouse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BB0823C14C6FEC40019975F /* Mouse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5BBAD0F315F5251E004C9639 /* lua_Gesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBAD0EF15F5251D004C9639 /* lua_Gesture.cpp */; };
-		5BBAD0F515F5251E004C9639 /* lua_Gesture.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBAD0F015F5251D004C9639 /* lua_Gesture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BBE143E1513E400003FB362 /* PhysicsGhostObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBE143C1513E400003FB362 /* PhysicsGhostObject.cpp */; };
 		5BBE14401513E400003FB362 /* PhysicsGhostObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BBE143D1513E400003FB362 /* PhysicsGhostObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BD5264F150F822A004C9099 /* AbsoluteLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BD52634150F822A004C9099 /* AbsoluteLayout.cpp */; };
@@ -452,18 +212,12 @@
 		5BD52673150F8258004C9099 /* PhysicsCollisionObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BD5266D150F8257004C9099 /* PhysicsCollisionObject.cpp */; };
 		5BD52675150F8258004C9099 /* PhysicsCollisionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BD5266E150F8258004C9099 /* PhysicsCollisionObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FC6EE731665304F00F39955 /* Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FC6EE721665304F00F39955 /* Stream.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B661730B16A619A60083A307 /* lua_HeightField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661730916A619A60083A307 /* lua_HeightField.cpp */; };
-		B661730D16A619A60083A307 /* lua_HeightField.h in Headers */ = {isa = PBXBuildFile; fileRef = B661730A16A619A60083A307 /* lua_HeightField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B661731316A619D30083A307 /* lua_Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661730F16A619D30083A307 /* lua_Terrain.cpp */; };
-		B661731516A619D30083A307 /* lua_Terrain.h in Headers */ = {isa = PBXBuildFile; fileRef = B661731016A619D30083A307 /* lua_Terrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B661731F16A619FB0083A307 /* Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661731B16A619FB0083A307 /* Terrain.cpp */; };
 		B661732116A619FB0083A307 /* Terrain.h in Headers */ = {isa = PBXBuildFile; fileRef = B661731C16A619FB0083A307 /* Terrain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B661732316A619FB0083A307 /* TerrainPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661731D16A619FB0083A307 /* TerrainPatch.cpp */; };
 		B661732516A619FB0083A307 /* TerrainPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = B661731E16A619FB0083A307 /* TerrainPatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B661732916A61A140083A307 /* HeightField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661732716A61A140083A307 /* HeightField.cpp */; };
 		B661732B16A61A140083A307 /* HeightField.h in Headers */ = {isa = PBXBuildFile; fileRef = B661732816A61A140083A307 /* HeightField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B67EC8EB161DFC8E000B4D12 /* lua_Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67EC8E7161DFC8E000B4D12 /* lua_Logger.cpp */; };
-		B67EC8ED161DFC8E000B4D12 /* lua_Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = B67EC8E8161DFC8E000B4D12 /* lua_Logger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B67EC8F6161DFCA8000B4D12 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67EC8F4161DFCA8000B4D12 /* Logger.cpp */; };
 		B67EC8F8161DFCA8000B4D12 /* Logger.h in Headers */ = {isa = PBXBuildFile; fileRef = B67EC8F5161DFCA8000B4D12 /* Logger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD26372416CF865B00CFE15F /* BoundingBox.inl in Headers */ = {isa = PBXBuildFile; fileRef = 42CD0DC6147D8FF50000361E /* BoundingBox.inl */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -496,10 +250,6 @@
 		EB16DD8C18CE93D400458A01 /* ControlFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DD8818CE93D400458A01 /* ControlFactory.h */; };
 		EB16DD8D18CE93D400458A01 /* JoystickControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8918CE93D400458A01 /* JoystickControl.cpp */; };
 		EB16DD8E18CE93D400458A01 /* JoystickControl.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DD8A18CE93D400458A01 /* JoystickControl.h */; };
-		EB16DD9718CE940300458A01 /* lua_CameraListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8F18CE940300458A01 /* lua_CameraListener.cpp */; };
-		EB16DD9818CE940300458A01 /* lua_CameraListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DD9018CE940300458A01 /* lua_CameraListener.h */; };
-		EB16DD9D18CE940300458A01 /* lua_JoystickControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD9518CE940300458A01 /* lua_JoystickControl.cpp */; };
-		EB16DD9E18CE940300458A01 /* lua_JoystickControl.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DD9618CE940300458A01 /* lua_JoystickControl.h */; };
 		EB16DDA918CE942500458A01 /* GooglePlaySocialJNI.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDA218CE942500458A01 /* GooglePlaySocialJNI.h */; };
 		EB16DDAA18CE942500458A01 /* GooglePlaySocialSession.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDA318CE942500458A01 /* GooglePlaySocialSession.cpp */; };
 		EB16DDAB18CE942500458A01 /* GooglePlaySocialSession.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDA418CE942500458A01 /* GooglePlaySocialSession.h */; };
@@ -519,9 +269,6 @@
 		EB16DDC718CE943800458A01 /* SocialSession.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDB918CE943800458A01 /* SocialSession.h */; };
 		EB16DDC818CE943800458A01 /* SocialSessionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDBA18CE943800458A01 /* SocialSessionListener.cpp */; };
 		EB16DDC918CE943800458A01 /* SocialSessionListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDBB18CE943800458A01 /* SocialSessionListener.h */; };
-		EB16DDCC18CECB2000458A01 /* lua_TerrainPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDCA18CECB2000458A01 /* lua_TerrainPatch.cpp */; };
-		EB16DDCD18CECB2000458A01 /* lua_TerrainPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDCA18CECB2000458A01 /* lua_TerrainPatch.cpp */; };
-		EB16DDCE18CECB2000458A01 /* lua_TerrainPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDCB18CECB2000458A01 /* lua_TerrainPatch.h */; };
 		EB16DDD118CEE79700458A01 /* GameCenterSocialSession.h in Headers */ = {isa = PBXBuildFile; fileRef = EB16DDCF18CEE79700458A01 /* GameCenterSocialSession.h */; };
 		EB16DDD218CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
 		EB16DDD318CEE79700458A01 /* GameCenterSocialSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDD018CEE79700458A01 /* GameCenterSocialSession.mm */; };
@@ -529,18 +276,6 @@
 		EB42A4991A8B72820012761A /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A4971A8B72820012761A /* Drawable.cpp */; };
 		EB42A49A1A8B72820012761A /* Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A4971A8B72820012761A /* Drawable.cpp */; };
 		EB42A49B1A8B72820012761A /* Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = EB42A4981A8B72820012761A /* Drawable.h */; };
-		EB42A49E1A8B72970012761A /* lua_Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A49C1A8B72970012761A /* lua_Drawable.cpp */; };
-		EB42A49F1A8B72970012761A /* lua_Drawable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB42A49C1A8B72970012761A /* lua_Drawable.cpp */; };
-		EB42A4A01A8B72970012761A /* lua_Drawable.h in Headers */ = {isa = PBXBuildFile; fileRef = EB42A49D1A8B72970012761A /* lua_Drawable.h */; };
-		EB66F8631A6433AE00E4F819 /* lua_Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85D1A6433AE00E4F819 /* lua_Script.cpp */; };
-		EB66F8641A6433AE00E4F819 /* lua_Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85D1A6433AE00E4F819 /* lua_Script.cpp */; };
-		EB66F8651A6433AE00E4F819 /* lua_Script.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F85E1A6433AE00E4F819 /* lua_Script.h */; };
-		EB66F8661A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85F1A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp */; };
-		EB66F8671A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F85F1A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp */; };
-		EB66F8681A6433AE00E4F819 /* lua_ScriptTargetEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F8601A6433AE00E4F819 /* lua_ScriptTargetEvent.h */; };
-		EB66F8691A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8611A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp */; };
-		EB66F86A1A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8611A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp */; };
-		EB66F86B1A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F8621A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.h */; };
 		EB66F8741A6433E200E4F819 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F86C1A6433E100E4F819 /* Script.cpp */; };
 		EB66F8751A6433E200E4F819 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F86C1A6433E100E4F819 /* Script.cpp */; };
 		EB66F8761A6433E200E4F819 /* Script.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F86D1A6433E100E4F819 /* Script.h */; };
@@ -553,152 +288,10 @@
 		EB66F87D1A6433E200E4F819 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8721A6433E200E4F819 /* TileSet.cpp */; };
 		EB66F87E1A6433E200E4F819 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8721A6433E200E4F819 /* TileSet.cpp */; };
 		EB66F87F1A6433E200E4F819 /* TileSet.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F8731A6433E200E4F819 /* TileSet.h */; };
-		EB66F8921A6451C900E4F819 /* lua_Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8881A6451C900E4F819 /* lua_Package.cpp */; };
-		EB66F8931A6451C900E4F819 /* lua_Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8881A6451C900E4F819 /* lua_Package.cpp */; };
-		EB66F8941A6451C900E4F819 /* lua_Package.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F8891A6451C900E4F819 /* lua_Package.h */; };
-		EB66F8951A6451C900E4F819 /* lua_Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88A1A6451C900E4F819 /* lua_Sprite.cpp */; };
-		EB66F8961A6451C900E4F819 /* lua_Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88A1A6451C900E4F819 /* lua_Sprite.cpp */; };
-		EB66F8971A6451C900E4F819 /* lua_Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F88B1A6451C900E4F819 /* lua_Sprite.h */; };
-		EB66F8981A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88C1A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp */; };
-		EB66F8991A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88C1A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp */; };
-		EB66F89A1A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F88D1A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.h */; };
-		EB66F89B1A6451C900E4F819 /* lua_Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88E1A6451C900E4F819 /* lua_Text.cpp */; };
-		EB66F89C1A6451C900E4F819 /* lua_Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F88E1A6451C900E4F819 /* lua_Text.cpp */; };
-		EB66F89D1A6451C900E4F819 /* lua_Text.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F88F1A6451C900E4F819 /* lua_Text.h */; };
-		EB66F89E1A6451C900E4F819 /* lua_TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8901A6451C900E4F819 /* lua_TileSet.cpp */; };
-		EB66F89F1A6451C900E4F819 /* lua_TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB66F8901A6451C900E4F819 /* lua_TileSet.cpp */; };
-		EB66F8A01A6451C900E4F819 /* lua_TileSet.h in Headers */ = {isa = PBXBuildFile; fileRef = EB66F8911A6451C900E4F819 /* lua_TileSet.h */; };
 		EB9BF50A17CBEF1E00D636A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9BF50917CBEF1E00D636A0 /* Foundation.framework */; };
 		EB9BF51617CBF02100D636A0 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
 		EB9BF51817CBF02100D636A0 /* ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB12FF6316EBCC3D009BA84B /* ProgressBar.cpp */; };
 		EB9BF51A17CBF02100D636A0 /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
-		EB9BF51D17CBF02100D636A0 /* lua_FontGlyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */; };
-		EB9BF51F17CBF02100D636A0 /* lua_HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */; };
-		EB9BF52117CBF02100D636A0 /* lua_Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */; };
-		EB9BF52317CBF02100D636A0 /* lua_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */; };
-		EB9BF52917CBF02100D636A0 /* lua_AbsoluteLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD31F15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp */; };
-		EB9BF52B17CBF02100D636A0 /* lua_AIAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32115EFD0F300C0E076 /* lua_AIAgent.cpp */; };
-		EB9BF52D17CBF02100D636A0 /* lua_AIAgentListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32315EFD0F300C0E076 /* lua_AIAgentListener.cpp */; };
-		EB9BF52F17CBF02100D636A0 /* lua_AIController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32515EFD0F300C0E076 /* lua_AIController.cpp */; };
-		EB9BF53117CBF02100D636A0 /* lua_AIMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32715EFD0F300C0E076 /* lua_AIMessage.cpp */; };
-		EB9BF53517CBF02100D636A0 /* lua_AIState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32B15EFD0F300C0E076 /* lua_AIState.cpp */; };
-		EB9BF53717CBF02100D636A0 /* lua_AIStateListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32D15EFD0F300C0E076 /* lua_AIStateListener.cpp */; };
-		EB9BF53917CBF02100D636A0 /* lua_AIStateMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD32F15EFD0F300C0E076 /* lua_AIStateMachine.cpp */; };
-		EB9BF53B17CBF02100D636A0 /* lua_all_bindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33115EFD0F300C0E076 /* lua_all_bindings.cpp */; };
-		EB9BF53D17CBF02100D636A0 /* lua_Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33315EFD0F300C0E076 /* lua_Animation.cpp */; };
-		EB9BF53F17CBF02100D636A0 /* lua_AnimationClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33515EFD0F300C0E076 /* lua_AnimationClip.cpp */; };
-		EB9BF54117CBF02100D636A0 /* lua_AnimationClipListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33715EFD0F300C0E076 /* lua_AnimationClipListener.cpp */; };
-		EB9BF54517CBF02100D636A0 /* lua_AnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33B15EFD0F300C0E076 /* lua_AnimationController.cpp */; };
-		EB9BF54717CBF02100D636A0 /* lua_AnimationTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33D15EFD0F300C0E076 /* lua_AnimationTarget.cpp */; };
-		EB9BF54917CBF02100D636A0 /* lua_AnimationValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD33F15EFD0F300C0E076 /* lua_AnimationValue.cpp */; };
-		EB9BF54B17CBF02100D636A0 /* lua_AudioBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34115EFD0F300C0E076 /* lua_AudioBuffer.cpp */; };
-		EB9BF54D17CBF02100D636A0 /* lua_AudioController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34315EFD0F300C0E076 /* lua_AudioController.cpp */; };
-		EB9BF54F17CBF02100D636A0 /* lua_AudioListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34515EFD0F300C0E076 /* lua_AudioListener.cpp */; };
-		EB9BF55117CBF02100D636A0 /* lua_AudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34715EFD0F300C0E076 /* lua_AudioSource.cpp */; };
-		EB9BF55517CBF02100D636A0 /* lua_BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34B15EFD0F300C0E076 /* lua_BoundingBox.cpp */; };
-		EB9BF55717CBF02100D636A0 /* lua_BoundingSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34D15EFD0F300C0E076 /* lua_BoundingSphere.cpp */; };
-		EB9BF55917CBF02100D636A0 /* lua_Bundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD34F15EFD0F300C0E076 /* lua_Bundle.cpp */; };
-		EB9BF55B17CBF02100D636A0 /* lua_Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35115EFD0F300C0E076 /* lua_Button.cpp */; };
-		EB9BF55D17CBF02100D636A0 /* lua_Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35315EFD0F300C0E076 /* lua_Camera.cpp */; };
-		EB9BF56117CBF02100D636A0 /* lua_CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35715EFD0F300C0E076 /* lua_CheckBox.cpp */; };
-		EB9BF56317CBF02100D636A0 /* lua_Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35915EFD0F300C0E076 /* lua_Container.cpp */; };
-		EB9BF56717CBF02100D636A0 /* lua_Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD35D15EFD0F300C0E076 /* lua_Control.cpp */; };
-		EB9BF56B17CBF02100D636A0 /* lua_ControlListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36115EFD0F300C0E076 /* lua_ControlListener.cpp */; };
-		EB9BF57117CBF02100D636A0 /* lua_Curve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36715EFD0F300C0E076 /* lua_Curve.cpp */; };
-		EB9BF57517CBF02100D636A0 /* lua_DepthStencilTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36B15EFD0F300C0E076 /* lua_DepthStencilTarget.cpp */; };
-		EB9BF57917CBF02100D636A0 /* lua_Effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD36F15EFD0F300C0E076 /* lua_Effect.cpp */; };
-		EB9BF57B17CBF02100D636A0 /* lua_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37115EFD0F300C0E076 /* lua_FileSystem.cpp */; };
-		EB9BF57D17CBF02100D636A0 /* lua_FlowLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37315EFD0F300C0E076 /* lua_FlowLayout.cpp */; };
-		EB9BF57F17CBF02100D636A0 /* lua_Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37515EFD0F300C0E076 /* lua_Font.cpp */; };
-		EB9BF58517CBF02100D636A0 /* lua_Form.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37D15EFD0F300C0E076 /* lua_Form.cpp */; };
-		EB9BF58717CBF02100D636A0 /* lua_FrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37F15EFD0F300C0E076 /* lua_FrameBuffer.cpp */; };
-		EB9BF58917CBF02100D636A0 /* lua_Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38115EFD0F300C0E076 /* lua_Frustum.cpp */; };
-		EB9BF58B17CBF02100D636A0 /* lua_Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38315EFD0F300C0E076 /* lua_Game.cpp */; };
-		EB9BF58F17CBF02100D636A0 /* lua_Gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38715EFD0F300C0E076 /* lua_Gamepad.cpp */; };
-		EB9BF59717CBF02100D636A0 /* lua_Gesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BBAD0EF15F5251D004C9639 /* lua_Gesture.cpp */; };
-		EB9BF59B17CBF02100D636A0 /* lua_Global.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD38F15EFD0F300C0E076 /* lua_Global.cpp */; };
-		EB9BF59D17CBF02100D636A0 /* lua_HeightField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661730916A619A60083A307 /* lua_HeightField.cpp */; };
-		EB9BF59F17CBF02100D636A0 /* lua_Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39115EFD0F300C0E076 /* lua_Image.cpp */; };
-		EB9BF5A117CBF02100D636A0 /* lua_ImageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A5031516E8F08900F0246C /* lua_ImageControl.cpp */; };
-		EB9BF5A517CBF02100D636A0 /* lua_Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39515EFD0F300C0E076 /* lua_Joint.cpp */; };
-		EB9BF5A917CBF02100D636A0 /* lua_Keyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39915EFD0F300C0E076 /* lua_Keyboard.cpp */; };
-		EB9BF5AF17CBF02100D636A0 /* lua_Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD39F15EFD0F300C0E076 /* lua_Label.cpp */; };
-		EB9BF5B117CBF02100D636A0 /* lua_Layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A115EFD0F300C0E076 /* lua_Layout.cpp */; };
-		EB9BF5B517CBF02100D636A0 /* lua_Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A515EFD0F300C0E076 /* lua_Light.cpp */; };
-		EB9BF5B917CBF02100D636A0 /* lua_Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67EC8E7161DFC8E000B4D12 /* lua_Logger.cpp */; };
-		EB9BF5BD17CBF02100D636A0 /* lua_Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3A915EFD0F300C0E076 /* lua_Material.cpp */; };
-		EB9BF5BF17CBF02100D636A0 /* lua_MaterialParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AB15EFD0F300C0E076 /* lua_MaterialParameter.cpp */; };
-		EB9BF5C117CBF02100D636A0 /* lua_MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AD15EFD0F300C0E076 /* lua_MathUtil.cpp */; };
-		EB9BF5C317CBF02100D636A0 /* lua_Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3AF15EFD0F300C0E076 /* lua_Matrix.cpp */; };
-		EB9BF5C517CBF02100D636A0 /* lua_Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B115EFD0F300C0E076 /* lua_Mesh.cpp */; };
-		EB9BF5C717CBF02100D636A0 /* lua_MeshBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B315EFD0F300C0E076 /* lua_MeshBatch.cpp */; };
-		EB9BF5CB17CBF02100D636A0 /* lua_MeshPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3B715EFD0F300C0E076 /* lua_MeshPart.cpp */; };
-		EB9BF5CF17CBF02100D636A0 /* lua_MeshSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BB15EFD0F300C0E076 /* lua_MeshSkin.cpp */; };
-		EB9BF5D117CBF02100D636A0 /* lua_Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BD15EFD0F300C0E076 /* lua_Model.cpp */; };
-		EB9BF5D317CBF02100D636A0 /* lua_Mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3BF15EFD0F300C0E076 /* lua_Mouse.cpp */; };
-		EB9BF5D717CBF02100D636A0 /* lua_Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C315EFD0F300C0E076 /* lua_Node.cpp */; };
-		EB9BF5D917CBF02100D636A0 /* lua_NodeCloneContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C515EFD0F300C0E076 /* lua_NodeCloneContext.cpp */; };
-		EB9BF5DD17CBF02100D636A0 /* lua_ParticleEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3C915EFD0F300C0E076 /* lua_ParticleEmitter.cpp */; };
-		EB9BF5E117CBF02100D636A0 /* lua_Pass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3CD15EFD0F300C0E076 /* lua_Pass.cpp */; };
-		EB9BF5E317CBF02100D636A0 /* lua_PhysicsCharacter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3CF15EFD0F300C0E076 /* lua_PhysicsCharacter.cpp */; };
-		EB9BF5E517CBF02100D636A0 /* lua_PhysicsCollisionObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D115EFD0F300C0E076 /* lua_PhysicsCollisionObject.cpp */; };
-		EB9BF5E717CBF02100D636A0 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D315EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.cpp */; };
-		EB9BF5EB17CBF02100D636A0 /* lua_PhysicsCollisionObjectCollisionPair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3D715EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.cpp */; };
-		EB9BF5EF17CBF02100D636A0 /* lua_PhysicsCollisionShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3DB15EFD0F300C0E076 /* lua_PhysicsCollisionShape.cpp */; };
-		EB9BF5F117CBF02100D636A0 /* lua_PhysicsCollisionShapeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3DD15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.cpp */; };
-		EB9BF5F517CBF02100D636A0 /* lua_PhysicsConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E115EFD0F300C0E076 /* lua_PhysicsConstraint.cpp */; };
-		EB9BF5F717CBF02100D636A0 /* lua_PhysicsController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E315EFD0F300C0E076 /* lua_PhysicsController.cpp */; };
-		EB9BF5F917CBF02100D636A0 /* lua_PhysicsControllerHitFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E515EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.cpp */; };
-		EB9BF5FB17CBF02100D636A0 /* lua_PhysicsControllerHitResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E715EFD0F300C0E076 /* lua_PhysicsControllerHitResult.cpp */; };
-		EB9BF5FD17CBF02100D636A0 /* lua_PhysicsControllerListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3E915EFD0F300C0E076 /* lua_PhysicsControllerListener.cpp */; };
-		EB9BF60117CBF02100D636A0 /* lua_PhysicsFixedConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3ED15EFD0F300C0E076 /* lua_PhysicsFixedConstraint.cpp */; };
-		EB9BF60317CBF02100D636A0 /* lua_PhysicsGenericConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3EF15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.cpp */; };
-		EB9BF60517CBF02100D636A0 /* lua_PhysicsGhostObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F115EFD0F300C0E076 /* lua_PhysicsGhostObject.cpp */; };
-		EB9BF60717CBF02100D636A0 /* lua_PhysicsHingeConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F315EFD0F300C0E076 /* lua_PhysicsHingeConstraint.cpp */; };
-		EB9BF60917CBF02100D636A0 /* lua_PhysicsRigidBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F515EFD0F300C0E076 /* lua_PhysicsRigidBody.cpp */; };
-		EB9BF60B17CBF02100D636A0 /* lua_PhysicsRigidBodyParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F715EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.cpp */; };
-		EB9BF60D17CBF02100D636A0 /* lua_PhysicsSocketConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3F915EFD0F300C0E076 /* lua_PhysicsSocketConstraint.cpp */; };
-		EB9BF60F17CBF02100D636A0 /* lua_PhysicsSpringConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FB15EFD0F300C0E076 /* lua_PhysicsSpringConstraint.cpp */; };
-		EB9BF61117CBF02100D636A0 /* lua_PhysicsVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421FBD581602827C00A61BC0 /* lua_PhysicsVehicle.cpp */; };
-		EB9BF61317CBF02100D636A0 /* lua_PhysicsVehicleWheel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 421FBD5A1602827C00A61BC0 /* lua_PhysicsVehicleWheel.cpp */; };
-		EB9BF61517CBF02100D636A0 /* lua_Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FD15EFD0F300C0E076 /* lua_Plane.cpp */; };
-		EB9BF61717CBF02100D636A0 /* lua_Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD3FF15EFD0F300C0E076 /* lua_Platform.cpp */; };
-		EB9BF61917CBF02100D636A0 /* lua_Properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40115EFD0F300C0E076 /* lua_Properties.cpp */; };
-		EB9BF61D17CBF02100D636A0 /* lua_Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40515EFD0F300C0E076 /* lua_Quaternion.cpp */; };
-		EB9BF61F17CBF02100D636A0 /* lua_RadioButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40715EFD0F300C0E076 /* lua_RadioButton.cpp */; };
-		EB9BF62117CBF02100D636A0 /* lua_Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40915EFD0F300C0E076 /* lua_Ray.cpp */; };
-		EB9BF62317CBF02100D636A0 /* lua_Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40B15EFD0F300C0E076 /* lua_Rectangle.cpp */; };
-		EB9BF62517CBF02100D636A0 /* lua_Ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40D15EFD0F300C0E076 /* lua_Ref.cpp */; };
-		EB9BF62717CBF02100D636A0 /* lua_RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD40F15EFD0F300C0E076 /* lua_RenderState.cpp */; };
-		EB9BF63117CBF02100D636A0 /* lua_RenderStateStateBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41515EFD0F300C0E076 /* lua_RenderStateStateBlock.cpp */; };
-		EB9BF63717CBF02100D636A0 /* lua_RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41715EFD0F300C0E076 /* lua_RenderTarget.cpp */; };
-		EB9BF63917CBF02100D636A0 /* lua_Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41915EFD0F300C0E076 /* lua_Scene.cpp */; };
-		EB9BF63D17CBF02100D636A0 /* lua_ScreenDisplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41D15EFD0F300C0E076 /* lua_ScreenDisplayer.cpp */; };
-		EB9BF63F17CBF02200D636A0 /* lua_ScriptController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41F15EFD0F300C0E076 /* lua_ScriptController.cpp */; };
-		EB9BF64117CBF02200D636A0 /* lua_ScriptTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42115EFD0F300C0E076 /* lua_ScriptTarget.cpp */; };
-		EB9BF64317CBF02200D636A0 /* lua_Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42315EFD0F300C0E076 /* lua_Slider.cpp */; };
-		EB9BF64517CBF02200D636A0 /* lua_SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42515EFD0F300C0E076 /* lua_SpriteBatch.cpp */; };
-		EB9BF64717CBF02200D636A0 /* lua_Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42715EFD0F300C0E076 /* lua_Technique.cpp */; };
-		EB9BF64917CBF02200D636A0 /* lua_Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B661730F16A619D30083A307 /* lua_Terrain.cpp */; };
-		EB9BF64F17CBF02200D636A0 /* lua_TextBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42915EFD0F300C0E076 /* lua_TextBox.cpp */; };
-		EB9BF65317CBF02200D636A0 /* lua_Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD42B15EFD0F300C0E076 /* lua_Texture.cpp */; };
-		EB9BF65917CBF02200D636A0 /* lua_TextureSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43115EFD0F300C0E076 /* lua_TextureSampler.cpp */; };
-		EB9BF65D17CBF02200D636A0 /* lua_Theme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43515EFD0F300C0E076 /* lua_Theme.cpp */; };
-		EB9BF65F17CBF02200D636A0 /* lua_ThemeSideRegions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43715EFD0F300C0E076 /* lua_ThemeSideRegions.cpp */; };
-		EB9BF66117CBF02200D636A0 /* lua_ThemeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43915EFD0F300C0E076 /* lua_ThemeStyle.cpp */; };
-		EB9BF66317CBF02200D636A0 /* lua_ThemeThemeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43B15EFD0F300C0E076 /* lua_ThemeThemeImage.cpp */; };
-		EB9BF66517CBF02200D636A0 /* lua_ThemeUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43D15EFD0F300C0E076 /* lua_ThemeUVs.cpp */; };
-		EB9BF66717CBF02200D636A0 /* lua_Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD43F15EFD0F300C0E076 /* lua_Touch.cpp */; };
-		EB9BF66B17CBF02200D636A0 /* lua_Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44315EFD0F300C0E076 /* lua_Transform.cpp */; };
-		EB9BF66D17CBF02200D636A0 /* lua_TransformListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44515EFD0F300C0E076 /* lua_TransformListener.cpp */; };
-		EB9BF66F17CBF02200D636A0 /* lua_Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44715EFD0F300C0E076 /* lua_Uniform.cpp */; };
-		EB9BF67117CBF02200D636A0 /* lua_Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44915EFD0F300C0E076 /* lua_Vector2.cpp */; };
-		EB9BF67317CBF02200D636A0 /* lua_Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44B15EFD0F300C0E076 /* lua_Vector3.cpp */; };
-		EB9BF67517CBF02200D636A0 /* lua_Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44D15EFD0F300C0E076 /* lua_Vector4.cpp */; };
-		EB9BF67717CBF02200D636A0 /* lua_VertexAttributeBinding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD44F15EFD0F300C0E076 /* lua_VertexAttributeBinding.cpp */; };
-		EB9BF67917CBF02200D636A0 /* lua_VertexFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45115EFD0F300C0E076 /* lua_VertexFormat.cpp */; };
-		EB9BF67B17CBF02200D636A0 /* lua_VertexFormatElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45315EFD0F300C0E076 /* lua_VertexFormatElement.cpp */; };
-		EB9BF67F17CBF02200D636A0 /* lua_VerticalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD45715EFD0F300C0E076 /* lua_VerticalLayout.cpp */; };
 		EB9BF68517CBF02200D636A0 /* AIController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42789FC415B0E83700866F5B /* AIController.cpp */; };
 		EB9BF68717CBF02200D636A0 /* AIMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42789FC615B0E83700866F5B /* AIMessage.cpp */; };
 		EB9BF68917CBF02200D636A0 /* AIState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42789FC815B0E83700866F5B /* AIState.cpp */; };
@@ -811,18 +404,8 @@
 		EBE308FB18D0A1570015FC66 /* ScoreloopSocialSession.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DDA518CE942500458A01 /* ScoreloopSocialSession.cpp */; };
 		EBE308FC18D0A16A0015FC66 /* ControlFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8718CE93D400458A01 /* ControlFactory.cpp */; };
 		EBE308FD18D0A16D0015FC66 /* JoystickControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8918CE93D400458A01 /* JoystickControl.cpp */; };
-		EBE308FE18D0A17A0015FC66 /* lua_CameraListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD8F18CE940300458A01 /* lua_CameraListener.cpp */; };
-		EBE3090118D0A1810015FC66 /* lua_JoystickControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB16DD9518CE940300458A01 /* lua_JoystickControl.cpp */; };
 		EBEA401E17BE709400BFE948 /* HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA401C17BE709400BFE948 /* HorizontalLayout.cpp */; };
 		EBEA402017BE709400BFE948 /* HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA401D17BE709400BFE948 /* HorizontalLayout.h */; };
-		EBEA402D17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402317BE70DF00BFE948 /* lua_FontGlyph.cpp */; };
-		EBEA402F17BE70DF00BFE948 /* lua_FontGlyph.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402417BE70DF00BFE948 /* lua_FontGlyph.h */; };
-		EBEA403117BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402517BE70DF00BFE948 /* lua_HorizontalLayout.cpp */; };
-		EBEA403317BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402617BE70DF00BFE948 /* lua_HorizontalLayout.h */; };
-		EBEA403517BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402717BE70DF00BFE948 /* lua_Matrix3.cpp */; };
-		EBEA403717BE70DF00BFE948 /* lua_Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402817BE70DF00BFE948 /* lua_Matrix3.h */; };
-		EBEA403917BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBEA402917BE70DF00BFE948 /* lua_ProgressBar.cpp */; };
-		EBEA403B17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = EBEA402A17BE70DF00BFE948 /* lua_ProgressBar.h */; };
 		EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF7F629163415EF00F350CE /* Matrix3.cpp */; };
 		EBF7F62E163415F000F350CE /* Matrix3.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF7F62A163415EF00F350CE /* Matrix3.h */; };
 		EBF8AC5E193F732100C0EE93 /* StoreController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC59193F732000C0EE93 /* StoreController.cpp */; };
@@ -2216,7 +1799,6 @@
 				42CD0E96147D8FF60000361E /* PhysicsFixedConstraint.h in Headers */,
 				42CD0E98147D8FF60000361E /* PhysicsGenericConstraint.h in Headers */,
 				EB16DDAD18CE942500458A01 /* ScoreloopSocialSession.h in Headers */,
-				EB66F89A1A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.h in Headers */,
 				42CD0E9A147D8FF60000361E /* PhysicsHingeConstraint.h in Headers */,
 				42CD0E9E147D8FF60000361E /* PhysicsRigidBody.h in Headers */,
 				42CD0EA0147D8FF60000361E /* PhysicsSocketConstraint.h in Headers */,
@@ -2274,7 +1856,6 @@
 				4251B131152D049B002F6199 /* ScreenDisplayer.h in Headers */,
 				4251B135152D049B002F6199 /* ThemeStyle.h in Headers */,
 				EB16DDA918CE942500458A01 /* GooglePlaySocialJNI.h in Headers */,
-				EB66F86B1A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.h in Headers */,
 				422260D81537790F0011E3AB /* Bundle.h in Headers */,
 				426878AE153F4BB300844500 /* FlowLayout.h in Headers */,
 				4239DDF4157545C1005EA3F6 /* MathUtil.h in Headers */,
@@ -2289,152 +1870,21 @@
 				42789FDE15B0E83700866F5B /* AIStateMachine.h in Headers */,
 				421A233615B600E8004F97C3 /* ScriptTarget.h in Headers */,
 				42BCD45A15EFD0F300C0E076 /* Gesture.h in Headers */,
-				42BCD45E15EFD0F300C0E076 /* lua_AbsoluteLayout.h in Headers */,
-				42BCD46215EFD0F300C0E076 /* lua_AIAgent.h in Headers */,
 				EB16DD8E18CE93D400458A01 /* JoystickControl.h in Headers */,
-				42BCD46615EFD0F300C0E076 /* lua_AIAgentListener.h in Headers */,
-				42BCD46A15EFD0F300C0E076 /* lua_AIController.h in Headers */,
-				42BCD46E15EFD0F300C0E076 /* lua_AIMessage.h in Headers */,
-				42BCD47615EFD0F300C0E076 /* lua_AIState.h in Headers */,
-				42BCD47A15EFD0F300C0E076 /* lua_AIStateListener.h in Headers */,
-				EB16DDCE18CECB2000458A01 /* lua_TerrainPatch.h in Headers */,
-				42BCD47E15EFD0F300C0E076 /* lua_AIStateMachine.h in Headers */,
-				42BCD48215EFD0F300C0E076 /* lua_all_bindings.h in Headers */,
-				42BCD48615EFD0F300C0E076 /* lua_Animation.h in Headers */,
-				42BCD48A15EFD0F300C0E076 /* lua_AnimationClip.h in Headers */,
 				EB16DDD118CEE79700458A01 /* GameCenterSocialSession.h in Headers */,
 				EB16DDC718CE943800458A01 /* SocialSession.h in Headers */,
-				42BCD48E15EFD0F300C0E076 /* lua_AnimationClipListener.h in Headers */,
-				42BCD49615EFD0F300C0E076 /* lua_AnimationController.h in Headers */,
-				42BCD49A15EFD0F300C0E076 /* lua_AnimationTarget.h in Headers */,
-				42BCD49E15EFD0F300C0E076 /* lua_AnimationValue.h in Headers */,
-				42BCD4A215EFD0F300C0E076 /* lua_AudioBuffer.h in Headers */,
 				EB16DDC218CE943800458A01 /* SocialController.h in Headers */,
-				42BCD4A615EFD0F300C0E076 /* lua_AudioController.h in Headers */,
-				42BCD4AA15EFD0F300C0E076 /* lua_AudioListener.h in Headers */,
-				42BCD4AE15EFD0F300C0E076 /* lua_AudioSource.h in Headers */,
-				42BCD4B615EFD0F300C0E076 /* lua_BoundingBox.h in Headers */,
-				42BCD4BA15EFD0F300C0E076 /* lua_BoundingSphere.h in Headers */,
-				EB66F8681A6433AE00E4F819 /* lua_ScriptTargetEvent.h in Headers */,
-				42BCD4BE15EFD0F300C0E076 /* lua_Bundle.h in Headers */,
-				42BCD4C215EFD0F300C0E076 /* lua_Button.h in Headers */,
-				42BCD4C615EFD0F300C0E076 /* lua_Camera.h in Headers */,
-				42BCD4CE15EFD0F300C0E076 /* lua_CheckBox.h in Headers */,
-				42BCD4D215EFD0F300C0E076 /* lua_Container.h in Headers */,
 				EB12353119C08617003D090A /* Package.h in Headers */,
-				42BCD4DA15EFD0F300C0E076 /* lua_Control.h in Headers */,
-				42BCD4E215EFD0F300C0E076 /* lua_ControlListener.h in Headers */,
-				42BCD4EE15EFD0F300C0E076 /* lua_Curve.h in Headers */,
-				42BCD4F615EFD0F300C0E076 /* lua_DepthStencilTarget.h in Headers */,
-				42BCD4FE15EFD0F300C0E076 /* lua_Effect.h in Headers */,
-				42BCD50215EFD0F300C0E076 /* lua_FileSystem.h in Headers */,
-				42BCD50615EFD0F300C0E076 /* lua_FlowLayout.h in Headers */,
 				EB66F87C1A6433E200E4F819 /* Text.h in Headers */,
-				42BCD50A15EFD0F300C0E076 /* lua_Font.h in Headers */,
-				EB66F8971A6451C900E4F819 /* lua_Sprite.h in Headers */,
-				42BCD51A15EFD0F300C0E076 /* lua_Form.h in Headers */,
-				42BCD51E15EFD0F300C0E076 /* lua_FrameBuffer.h in Headers */,
-				42BCD52215EFD0F300C0E076 /* lua_Frustum.h in Headers */,
-				42BCD52615EFD0F300C0E076 /* lua_Game.h in Headers */,
-				EB16DD9818CE940300458A01 /* lua_CameraListener.h in Headers */,
-				42BCD52E15EFD0F300C0E076 /* lua_Gamepad.h in Headers */,
-				42BCD53E15EFD0F300C0E076 /* lua_Global.h in Headers */,
-				42BCD54215EFD0F300C0E076 /* lua_Image.h in Headers */,
-				42BCD54A15EFD0F300C0E076 /* lua_Joint.h in Headers */,
-				42BCD55215EFD0F300C0E076 /* lua_Keyboard.h in Headers */,
-				42BCD55E15EFD0F300C0E076 /* lua_Label.h in Headers */,
-				42BCD56215EFD0F300C0E076 /* lua_Layout.h in Headers */,
-				42BCD56A15EFD0F300C0E076 /* lua_Light.h in Headers */,
-				42BCD57215EFD0F300C0E076 /* lua_Material.h in Headers */,
-				42BCD57615EFD0F300C0E076 /* lua_MaterialParameter.h in Headers */,
-				42BCD57A15EFD0F300C0E076 /* lua_MathUtil.h in Headers */,
-				42BCD57E15EFD0F300C0E076 /* lua_Matrix.h in Headers */,
-				42BCD58215EFD0F300C0E076 /* lua_Mesh.h in Headers */,
-				42BCD58615EFD0F300C0E076 /* lua_MeshBatch.h in Headers */,
-				42BCD58E15EFD0F300C0E076 /* lua_MeshPart.h in Headers */,
-				42BCD59615EFD0F300C0E076 /* lua_MeshSkin.h in Headers */,
-				42BCD59A15EFD0F300C0E076 /* lua_Model.h in Headers */,
-				42BCD59E15EFD0F300C0E076 /* lua_Mouse.h in Headers */,
-				42BCD5A615EFD0F300C0E076 /* lua_Node.h in Headers */,
-				42BCD5AA15EFD0F300C0E076 /* lua_NodeCloneContext.h in Headers */,
-				42BCD5B215EFD0F300C0E076 /* lua_ParticleEmitter.h in Headers */,
-				42BCD5BA15EFD0F300C0E076 /* lua_Pass.h in Headers */,
-				EB66F8A01A6451C900E4F819 /* lua_TileSet.h in Headers */,
-				42BCD5BE15EFD0F300C0E076 /* lua_PhysicsCharacter.h in Headers */,
-				42BCD5C215EFD0F300C0E076 /* lua_PhysicsCollisionObject.h in Headers */,
 				EB16DD8C18CE93D400458A01 /* ControlFactory.h in Headers */,
-				42BCD5C615EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.h in Headers */,
-				42BCD5CE15EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.h in Headers */,
-				42BCD5D615EFD0F300C0E076 /* lua_PhysicsCollisionShape.h in Headers */,
-				42BCD5DA15EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.h in Headers */,
 				EB16DDC018CE943800458A01 /* SocialChallenge.h in Headers */,
-				42BCD5E215EFD0F300C0E076 /* lua_PhysicsConstraint.h in Headers */,
-				EB42A4A01A8B72970012761A /* lua_Drawable.h in Headers */,
-				42BCD5E615EFD0F300C0E076 /* lua_PhysicsController.h in Headers */,
-				42BCD5EA15EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.h in Headers */,
-				42BCD5EE15EFD0F300C0E076 /* lua_PhysicsControllerHitResult.h in Headers */,
-				42BCD5F215EFD0F300C0E076 /* lua_PhysicsControllerListener.h in Headers */,
-				42BCD5FA15EFD0F300C0E076 /* lua_PhysicsFixedConstraint.h in Headers */,
-				42BCD5FE15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.h in Headers */,
-				42BCD60215EFD0F300C0E076 /* lua_PhysicsGhostObject.h in Headers */,
-				42BCD60615EFD0F300C0E076 /* lua_PhysicsHingeConstraint.h in Headers */,
-				42BCD60A15EFD0F300C0E076 /* lua_PhysicsRigidBody.h in Headers */,
-				42BCD60E15EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.h in Headers */,
-				42BCD61215EFD0F300C0E076 /* lua_PhysicsSocketConstraint.h in Headers */,
-				42BCD61615EFD0F300C0E076 /* lua_PhysicsSpringConstraint.h in Headers */,
-				42BCD61A15EFD0F300C0E076 /* lua_Plane.h in Headers */,
 				EB66F8761A6433E200E4F819 /* Script.h in Headers */,
-				42BCD61E15EFD0F300C0E076 /* lua_Platform.h in Headers */,
-				42BCD62215EFD0F300C0E076 /* lua_Properties.h in Headers */,
-				42BCD62A15EFD0F300C0E076 /* lua_Quaternion.h in Headers */,
-				42BCD62E15EFD0F300C0E076 /* lua_RadioButton.h in Headers */,
-				42BCD63215EFD0F300C0E076 /* lua_Ray.h in Headers */,
-				42BCD63615EFD0F300C0E076 /* lua_Rectangle.h in Headers */,
-				42BCD63A15EFD0F300C0E076 /* lua_Ref.h in Headers */,
-				42BCD63E15EFD0F300C0E076 /* lua_RenderState.h in Headers */,
-				42BCD64A15EFD0F300C0E076 /* lua_RenderStateStateBlock.h in Headers */,
-				42BCD64E15EFD0F300C0E076 /* lua_RenderTarget.h in Headers */,
-				42BCD65215EFD0F300C0E076 /* lua_Scene.h in Headers */,
-				42BCD65A15EFD0F300C0E076 /* lua_ScreenDisplayer.h in Headers */,
-				42BCD65E15EFD0F300C0E076 /* lua_ScriptController.h in Headers */,
-				42BCD66215EFD0F300C0E076 /* lua_ScriptTarget.h in Headers */,
-				42BCD66615EFD0F300C0E076 /* lua_Slider.h in Headers */,
-				42BCD66A15EFD0F300C0E076 /* lua_SpriteBatch.h in Headers */,
-				42BCD66E15EFD0F300C0E076 /* lua_Technique.h in Headers */,
-				42BCD67215EFD0F300C0E076 /* lua_TextBox.h in Headers */,
-				42BCD67615EFD0F300C0E076 /* lua_Texture.h in Headers */,
-				42BCD68215EFD0F300C0E076 /* lua_TextureSampler.h in Headers */,
-				42BCD68A15EFD0F300C0E076 /* lua_Theme.h in Headers */,
-				42BCD68E15EFD0F300C0E076 /* lua_ThemeSideRegions.h in Headers */,
-				42BCD69215EFD0F300C0E076 /* lua_ThemeStyle.h in Headers */,
-				EB66F8651A6433AE00E4F819 /* lua_Script.h in Headers */,
-				42BCD69615EFD0F300C0E076 /* lua_ThemeThemeImage.h in Headers */,
-				42BCD69A15EFD0F300C0E076 /* lua_ThemeUVs.h in Headers */,
-				42BCD69E15EFD0F300C0E076 /* lua_Touch.h in Headers */,
-				42BCD6A615EFD0F300C0E076 /* lua_Transform.h in Headers */,
-				42BCD6AA15EFD0F300C0E076 /* lua_TransformListener.h in Headers */,
-				42BCD6AE15EFD0F300C0E076 /* lua_Uniform.h in Headers */,
-				42BCD6B215EFD0F300C0E076 /* lua_Vector2.h in Headers */,
-				42BCD6B615EFD0F300C0E076 /* lua_Vector3.h in Headers */,
-				42BCD6BA15EFD0F300C0E076 /* lua_Vector4.h in Headers */,
-				42BCD6BE15EFD0F300C0E076 /* lua_VertexAttributeBinding.h in Headers */,
-				EB16DD9E18CE940300458A01 /* lua_JoystickControl.h in Headers */,
-				42BCD6C215EFD0F300C0E076 /* lua_VertexFormat.h in Headers */,
-				42BCD6C615EFD0F300C0E076 /* lua_VertexFormatElement.h in Headers */,
-				42BCD6CE15EFD0F300C0E076 /* lua_VerticalLayout.h in Headers */,
-				5BBAD0F515F5251E004C9639 /* lua_Gesture.h in Headers */,
 				421FBD511602818800A61BC0 /* PhysicsVehicle.h in Headers */,
 				421FBD551602818800A61BC0 /* PhysicsVehicleWheel.h in Headers */,
-				421FBD5E1602827C00A61BC0 /* lua_PhysicsVehicle.h in Headers */,
-				421FBD621602827C00A61BC0 /* lua_PhysicsVehicleWheel.h in Headers */,
-				B67EC8ED161DFC8E000B4D12 /* lua_Logger.h in Headers */,
 				B67EC8F8161DFCA8000B4D12 /* Logger.h in Headers */,
 				EB66F87F1A6433E200E4F819 /* TileSet.h in Headers */,
 				EBF7F62E163415F000F350CE /* Matrix3.h in Headers */,
 				9FC6EE731665304F00F39955 /* Stream.h in Headers */,
-				EB66F89D1A6451C900E4F819 /* lua_Text.h in Headers */,
-				B661730D16A619A60083A307 /* lua_HeightField.h in Headers */,
-				B661731516A619D30083A307 /* lua_Terrain.h in Headers */,
 				EB16DDC418CE943800458A01 /* SocialPlayer.h in Headers */,
 				B661732116A619FB0083A307 /* Terrain.h in Headers */,
 				B661732516A619FB0083A307 /* TerrainPatch.h in Headers */,
@@ -2443,7 +1893,6 @@
 				BD26372516CF865B00CFE15F /* BoundingSphere.inl in Headers */,
 				BD26372616CF865B00CFE15F /* Game.inl in Headers */,
 				BD26372716CF865B00CFE15F /* Image.inl in Headers */,
-				EB66F8941A6451C900E4F819 /* lua_Package.h in Headers */,
 				EBF8AC60193F732100C0EE93 /* StoreController.h in Headers */,
 				BD26372916CF865B00CFE15F /* MathUtil.inl in Headers */,
 				BD26372A16CF865B00CFE15F /* MathUtilNeon.inl in Headers */,
@@ -2464,12 +1913,7 @@
 				BD26373816CF865B00CFE15F /* Vector4.inl in Headers */,
 				EB12FF6716EBCC3D009BA84B /* ProgressBar.h in Headers */,
 				42A5031316E8F06500F0246C /* ImageControl.h in Headers */,
-				42A5031916E8F08900F0246C /* lua_ImageControl.h in Headers */,
 				EBEA402017BE709400BFE948 /* HorizontalLayout.h in Headers */,
-				EBEA402F17BE70DF00BFE948 /* lua_FontGlyph.h in Headers */,
-				EBEA403317BE70DF00BFE948 /* lua_HorizontalLayout.h in Headers */,
-				EBEA403717BE70DF00BFE948 /* lua_Matrix3.h in Headers */,
-				EBEA403B17BE70DF00BFE948 /* lua_ProgressBar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2568,10 +2012,8 @@
 				42CD0E52147D8FF60000361E /* AudioController.cpp in Sources */,
 				42CD0E54147D8FF60000361E /* AudioListener.cpp in Sources */,
 				42CD0E56147D8FF60000361E /* AudioSource.cpp in Sources */,
-				EB42A49E1A8B72970012761A /* lua_Drawable.cpp in Sources */,
 				42CD0E59147D8FF60000361E /* BoundingBox.cpp in Sources */,
 				42CD0E5B147D8FF60000361E /* BoundingSphere.cpp in Sources */,
-				EB66F89E1A6451C900E4F819 /* lua_TileSet.cpp in Sources */,
 				42CD0E5D147D8FF60000361E /* Camera.cpp in Sources */,
 				42CD0E5F147D8FF60000361E /* Curve.cpp in Sources */,
 				42CD0E61147D8FF60000361E /* DebugNew.cpp in Sources */,
@@ -2579,7 +2021,6 @@
 				42CD0E65147D8FF60000361E /* Effect.cpp in Sources */,
 				42CD0E67147D8FF60000361E /* FileSystem.cpp in Sources */,
 				42CD0E69147D8FF60000361E /* Font.cpp in Sources */,
-				EB66F8951A6451C900E4F819 /* lua_Sprite.cpp in Sources */,
 				42CD0E6B147D8FF60000361E /* FrameBuffer.cpp in Sources */,
 				42CD0E6D147D8FF60000361E /* Frustum.cpp in Sources */,
 				42CD0E6F147D8FF60000361E /* Game.cpp in Sources */,
@@ -2587,7 +2028,6 @@
 				42CD0E79147D8FF60000361E /* Light.cpp in Sources */,
 				42CD0E7B147D8FF60000361E /* Material.cpp in Sources */,
 				42CD0E7D147D8FF60000361E /* MaterialParameter.cpp in Sources */,
-				EB16DD9D18CE940300458A01 /* lua_JoystickControl.cpp in Sources */,
 				42CD0E7F147D8FF60000361E /* Matrix.cpp in Sources */,
 				42CD0E81147D8FF60000361E /* Mesh.cpp in Sources */,
 				42CD0E83147D8FF60000361E /* MeshPart.cpp in Sources */,
@@ -2615,7 +2055,6 @@
 				42CD0EB3147D8FF60000361E /* RenderState.cpp in Sources */,
 				42CD0EB5147D8FF60000361E /* RenderTarget.cpp in Sources */,
 				42CD0EB7147D8FF60000361E /* Scene.cpp in Sources */,
-				EB66F8921A6451C900E4F819 /* lua_Package.cpp in Sources */,
 				42CD0EB9147D8FF60000361E /* SpriteBatch.cpp in Sources */,
 				42CD0EBB147D8FF60000361E /* Technique.cpp in Sources */,
 				42CD0EBD147D8FF60000361E /* Texture.cpp in Sources */,
@@ -2657,157 +2096,29 @@
 				42789FD815B0E83700866F5B /* AIState.cpp in Sources */,
 				42789FDC15B0E83700866F5B /* AIStateMachine.cpp in Sources */,
 				421A233415B600E8004F97C3 /* ScriptTarget.cpp in Sources */,
-				42BCD45C15EFD0F300C0E076 /* lua_AbsoluteLayout.cpp in Sources */,
-				42BCD46015EFD0F300C0E076 /* lua_AIAgent.cpp in Sources */,
-				42BCD46415EFD0F300C0E076 /* lua_AIAgentListener.cpp in Sources */,
-				42BCD46815EFD0F300C0E076 /* lua_AIController.cpp in Sources */,
-				42BCD46C15EFD0F300C0E076 /* lua_AIMessage.cpp in Sources */,
-				42BCD47415EFD0F300C0E076 /* lua_AIState.cpp in Sources */,
-				42BCD47815EFD0F300C0E076 /* lua_AIStateListener.cpp in Sources */,
-				42BCD47C15EFD0F300C0E076 /* lua_AIStateMachine.cpp in Sources */,
-				EB66F89B1A6451C900E4F819 /* lua_Text.cpp in Sources */,
-				42BCD48015EFD0F300C0E076 /* lua_all_bindings.cpp in Sources */,
-				42BCD48415EFD0F300C0E076 /* lua_Animation.cpp in Sources */,
-				42BCD48815EFD0F300C0E076 /* lua_AnimationClip.cpp in Sources */,
-				42BCD48C15EFD0F300C0E076 /* lua_AnimationClipListener.cpp in Sources */,
-				42BCD49415EFD0F300C0E076 /* lua_AnimationController.cpp in Sources */,
 				EB16DD8B18CE93D400458A01 /* ControlFactory.cpp in Sources */,
-				42BCD49815EFD0F300C0E076 /* lua_AnimationTarget.cpp in Sources */,
-				42BCD49C15EFD0F300C0E076 /* lua_AnimationValue.cpp in Sources */,
-				42BCD4A015EFD0F300C0E076 /* lua_AudioBuffer.cpp in Sources */,
-				42BCD4A415EFD0F300C0E076 /* lua_AudioController.cpp in Sources */,
-				42BCD4A815EFD0F300C0E076 /* lua_AudioListener.cpp in Sources */,
-				42BCD4AC15EFD0F300C0E076 /* lua_AudioSource.cpp in Sources */,
-				42BCD4B415EFD0F300C0E076 /* lua_BoundingBox.cpp in Sources */,
-				42BCD4B815EFD0F300C0E076 /* lua_BoundingSphere.cpp in Sources */,
-				42BCD4BC15EFD0F300C0E076 /* lua_Bundle.cpp in Sources */,
-				42BCD4C015EFD0F300C0E076 /* lua_Button.cpp in Sources */,
-				42BCD4C415EFD0F300C0E076 /* lua_Camera.cpp in Sources */,
-				42BCD4CC15EFD0F300C0E076 /* lua_CheckBox.cpp in Sources */,
-				42BCD4D015EFD0F300C0E076 /* lua_Container.cpp in Sources */,
 				EBF8AC5E193F732100C0EE93 /* StoreController.cpp in Sources */,
-				42BCD4D815EFD0F300C0E076 /* lua_Control.cpp in Sources */,
-				42BCD4E015EFD0F300C0E076 /* lua_ControlListener.cpp in Sources */,
-				42BCD4EC15EFD0F300C0E076 /* lua_Curve.cpp in Sources */,
-				42BCD4F415EFD0F300C0E076 /* lua_DepthStencilTarget.cpp in Sources */,
-				42BCD4FC15EFD0F300C0E076 /* lua_Effect.cpp in Sources */,
-				42BCD50015EFD0F300C0E076 /* lua_FileSystem.cpp in Sources */,
-				42BCD50415EFD0F300C0E076 /* lua_FlowLayout.cpp in Sources */,
-				42BCD50815EFD0F300C0E076 /* lua_Font.cpp in Sources */,
 				EB42A4991A8B72820012761A /* Drawable.cpp in Sources */,
-				42BCD51815EFD0F300C0E076 /* lua_Form.cpp in Sources */,
-				42BCD51C15EFD0F300C0E076 /* lua_FrameBuffer.cpp in Sources */,
-				42BCD52015EFD0F300C0E076 /* lua_Frustum.cpp in Sources */,
-				42BCD52415EFD0F300C0E076 /* lua_Game.cpp in Sources */,
-				42BCD52C15EFD0F300C0E076 /* lua_Gamepad.cpp in Sources */,
-				42BCD53C15EFD0F300C0E076 /* lua_Global.cpp in Sources */,
-				42BCD54015EFD0F300C0E076 /* lua_Image.cpp in Sources */,
-				42BCD54815EFD0F300C0E076 /* lua_Joint.cpp in Sources */,
 				EB16DDAA18CE942500458A01 /* GooglePlaySocialSession.cpp in Sources */,
-				42BCD55015EFD0F300C0E076 /* lua_Keyboard.cpp in Sources */,
-				42BCD55C15EFD0F300C0E076 /* lua_Label.cpp in Sources */,
-				42BCD56015EFD0F300C0E076 /* lua_Layout.cpp in Sources */,
 				EB16DDC818CE943800458A01 /* SocialSessionListener.cpp in Sources */,
-				42BCD56815EFD0F300C0E076 /* lua_Light.cpp in Sources */,
 				EB66F8741A6433E200E4F819 /* Script.cpp in Sources */,
-				42BCD57015EFD0F300C0E076 /* lua_Material.cpp in Sources */,
-				42BCD57415EFD0F300C0E076 /* lua_MaterialParameter.cpp in Sources */,
-				42BCD57815EFD0F300C0E076 /* lua_MathUtil.cpp in Sources */,
-				42BCD57C15EFD0F300C0E076 /* lua_Matrix.cpp in Sources */,
-				42BCD58015EFD0F300C0E076 /* lua_Mesh.cpp in Sources */,
-				42BCD58415EFD0F300C0E076 /* lua_MeshBatch.cpp in Sources */,
-				42BCD58C15EFD0F300C0E076 /* lua_MeshPart.cpp in Sources */,
-				42BCD59415EFD0F300C0E076 /* lua_MeshSkin.cpp in Sources */,
-				42BCD59815EFD0F300C0E076 /* lua_Model.cpp in Sources */,
-				42BCD59C15EFD0F300C0E076 /* lua_Mouse.cpp in Sources */,
-				42BCD5A415EFD0F300C0E076 /* lua_Node.cpp in Sources */,
-				42BCD5A815EFD0F300C0E076 /* lua_NodeCloneContext.cpp in Sources */,
-				42BCD5B015EFD0F300C0E076 /* lua_ParticleEmitter.cpp in Sources */,
-				42BCD5B815EFD0F300C0E076 /* lua_Pass.cpp in Sources */,
-				42BCD5BC15EFD0F300C0E076 /* lua_PhysicsCharacter.cpp in Sources */,
-				42BCD5C015EFD0F300C0E076 /* lua_PhysicsCollisionObject.cpp in Sources */,
-				42BCD5C415EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */,
-				42BCD5CC15EFD0F300C0E076 /* lua_PhysicsCollisionObjectCollisionPair.cpp in Sources */,
-				42BCD5D415EFD0F300C0E076 /* lua_PhysicsCollisionShape.cpp in Sources */,
-				42BCD5D815EFD0F300C0E076 /* lua_PhysicsCollisionShapeDefinition.cpp in Sources */,
 				EB16DDC518CE943800458A01 /* SocialScore.cpp in Sources */,
-				42BCD5E015EFD0F300C0E076 /* lua_PhysicsConstraint.cpp in Sources */,
-				42BCD5E415EFD0F300C0E076 /* lua_PhysicsController.cpp in Sources */,
-				42BCD5E815EFD0F300C0E076 /* lua_PhysicsControllerHitFilter.cpp in Sources */,
-				42BCD5EC15EFD0F300C0E076 /* lua_PhysicsControllerHitResult.cpp in Sources */,
-				42BCD5F015EFD0F300C0E076 /* lua_PhysicsControllerListener.cpp in Sources */,
 				EB16DDC318CE943800458A01 /* SocialPlayer.cpp in Sources */,
-				42BCD5F815EFD0F300C0E076 /* lua_PhysicsFixedConstraint.cpp in Sources */,
-				42BCD5FC15EFD0F300C0E076 /* lua_PhysicsGenericConstraint.cpp in Sources */,
-				42BCD60015EFD0F300C0E076 /* lua_PhysicsGhostObject.cpp in Sources */,
-				42BCD60415EFD0F300C0E076 /* lua_PhysicsHingeConstraint.cpp in Sources */,
-				42BCD60815EFD0F300C0E076 /* lua_PhysicsRigidBody.cpp in Sources */,
-				42BCD60C15EFD0F300C0E076 /* lua_PhysicsRigidBodyParameters.cpp in Sources */,
-				42BCD61015EFD0F300C0E076 /* lua_PhysicsSocketConstraint.cpp in Sources */,
-				42BCD61415EFD0F300C0E076 /* lua_PhysicsSpringConstraint.cpp in Sources */,
-				EB16DDCC18CECB2000458A01 /* lua_TerrainPatch.cpp in Sources */,
 				EB16DDBD18CE943800458A01 /* SocialAchievement.cpp in Sources */,
 				EB16DDD218CEE79700458A01 /* GameCenterSocialSession.mm in Sources */,
-				42BCD61815EFD0F300C0E076 /* lua_Plane.cpp in Sources */,
-				42BCD61C15EFD0F300C0E076 /* lua_Platform.cpp in Sources */,
-				EB66F8661A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp in Sources */,
-				42BCD62015EFD0F300C0E076 /* lua_Properties.cpp in Sources */,
-				42BCD62815EFD0F300C0E076 /* lua_Quaternion.cpp in Sources */,
-				42BCD62C15EFD0F300C0E076 /* lua_RadioButton.cpp in Sources */,
-				42BCD63015EFD0F300C0E076 /* lua_Ray.cpp in Sources */,
-				42BCD63415EFD0F300C0E076 /* lua_Rectangle.cpp in Sources */,
-				42BCD63815EFD0F300C0E076 /* lua_Ref.cpp in Sources */,
-				42BCD63C15EFD0F300C0E076 /* lua_RenderState.cpp in Sources */,
-				42BCD64815EFD0F300C0E076 /* lua_RenderStateStateBlock.cpp in Sources */,
-				42BCD64C15EFD0F300C0E076 /* lua_RenderTarget.cpp in Sources */,
-				42BCD65015EFD0F300C0E076 /* lua_Scene.cpp in Sources */,
-				42BCD65815EFD0F300C0E076 /* lua_ScreenDisplayer.cpp in Sources */,
 				EBF8AC68193F746800C0EE93 /* AppleStoreFront.mm in Sources */,
-				42BCD65C15EFD0F300C0E076 /* lua_ScriptController.cpp in Sources */,
-				42BCD66015EFD0F300C0E076 /* lua_ScriptTarget.cpp in Sources */,
-				42BCD66415EFD0F300C0E076 /* lua_Slider.cpp in Sources */,
-				42BCD66815EFD0F300C0E076 /* lua_SpriteBatch.cpp in Sources */,
-				42BCD66C15EFD0F300C0E076 /* lua_Technique.cpp in Sources */,
-				42BCD67015EFD0F300C0E076 /* lua_TextBox.cpp in Sources */,
-				42BCD67415EFD0F300C0E076 /* lua_Texture.cpp in Sources */,
 				EBF8AC62193F732100C0EE93 /* StoreProduct.cpp in Sources */,
 				EB16DDBF18CE943800458A01 /* SocialChallenge.cpp in Sources */,
-				42BCD68015EFD0F300C0E076 /* lua_TextureSampler.cpp in Sources */,
-				42BCD68815EFD0F300C0E076 /* lua_Theme.cpp in Sources */,
-				42BCD68C15EFD0F300C0E076 /* lua_ThemeSideRegions.cpp in Sources */,
-				42BCD69015EFD0F300C0E076 /* lua_ThemeStyle.cpp in Sources */,
-				42BCD69415EFD0F300C0E076 /* lua_ThemeThemeImage.cpp in Sources */,
-				EB66F8691A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp in Sources */,
-				42BCD69815EFD0F300C0E076 /* lua_ThemeUVs.cpp in Sources */,
-				42BCD69C15EFD0F300C0E076 /* lua_Touch.cpp in Sources */,
-				EB66F8981A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp in Sources */,
-				42BCD6A415EFD0F300C0E076 /* lua_Transform.cpp in Sources */,
-				42BCD6A815EFD0F300C0E076 /* lua_TransformListener.cpp in Sources */,
 				EB16DD8D18CE93D400458A01 /* JoystickControl.cpp in Sources */,
-				42BCD6AC15EFD0F300C0E076 /* lua_Uniform.cpp in Sources */,
-				42BCD6B015EFD0F300C0E076 /* lua_Vector2.cpp in Sources */,
-				42BCD6B415EFD0F300C0E076 /* lua_Vector3.cpp in Sources */,
 				EB66F87D1A6433E200E4F819 /* TileSet.cpp in Sources */,
-				42BCD6B815EFD0F300C0E076 /* lua_Vector4.cpp in Sources */,
-				42BCD6BC15EFD0F300C0E076 /* lua_VertexAttributeBinding.cpp in Sources */,
-				EB66F8631A6433AE00E4F819 /* lua_Script.cpp in Sources */,
-				42BCD6C015EFD0F300C0E076 /* lua_VertexFormat.cpp in Sources */,
-				42BCD6C415EFD0F300C0E076 /* lua_VertexFormatElement.cpp in Sources */,
-				42BCD6CC15EFD0F300C0E076 /* lua_VerticalLayout.cpp in Sources */,
-				5BBAD0F315F5251E004C9639 /* lua_Gesture.cpp in Sources */,
 				421FBD4F1602818800A61BC0 /* PhysicsVehicle.cpp in Sources */,
 				421FBD531602818800A61BC0 /* PhysicsVehicleWheel.cpp in Sources */,
-				421FBD5C1602827C00A61BC0 /* lua_PhysicsVehicle.cpp in Sources */,
-				421FBD601602827C00A61BC0 /* lua_PhysicsVehicleWheel.cpp in Sources */,
 				EB16DDC118CE943800458A01 /* SocialController.cpp in Sources */,
 				F1616ABC1614E24B008DD8B7 /* MathUtil.cpp in Sources */,
-				B67EC8EB161DFC8E000B4D12 /* lua_Logger.cpp in Sources */,
 				B67EC8F6161DFCA8000B4D12 /* Logger.cpp in Sources */,
 				F18024A51627000D001BFF87 /* gameplay-main-ios.mm in Sources */,
 				F18024A71627000D001BFF87 /* gameplay-main-macosx.mm in Sources */,
 				EBF7F62C163415EF00F350CE /* Matrix3.cpp in Sources */,
-				B661730B16A619A60083A307 /* lua_HeightField.cpp in Sources */,
-				B661731316A619D30083A307 /* lua_Terrain.cpp in Sources */,
 				EB66F8771A6433E200E4F819 /* Sprite.cpp in Sources */,
 				B661731F16A619FB0083A307 /* Terrain.cpp in Sources */,
 				B661732316A619FB0083A307 /* TerrainPatch.cpp in Sources */,
@@ -2815,13 +2126,7 @@
 				DD1FF47216DBD8F9000B42EF /* Platform.cpp in Sources */,
 				EB12FF6516EBCC3D009BA84B /* ProgressBar.cpp in Sources */,
 				42A5031116E8F06500F0246C /* ImageControl.cpp in Sources */,
-				42A5031716E8F08900F0246C /* lua_ImageControl.cpp in Sources */,
-				EB16DD9718CE940300458A01 /* lua_CameraListener.cpp in Sources */,
 				EBEA401E17BE709400BFE948 /* HorizontalLayout.cpp in Sources */,
-				EBEA402D17BE70DF00BFE948 /* lua_FontGlyph.cpp in Sources */,
-				EBEA403117BE70DF00BFE948 /* lua_HorizontalLayout.cpp in Sources */,
-				EBEA403517BE70DF00BFE948 /* lua_Matrix3.cpp in Sources */,
-				EBEA403917BE70DF00BFE948 /* lua_ProgressBar.cpp in Sources */,
 				EB66F87A1A6433E200E4F819 /* Text.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2833,147 +2138,15 @@
 				EB9BF51617CBF02100D636A0 /* HorizontalLayout.cpp in Sources */,
 				EB9BF51817CBF02100D636A0 /* ProgressBar.cpp in Sources */,
 				EB9BF51A17CBF02100D636A0 /* Matrix3.cpp in Sources */,
-				EB9BF51D17CBF02100D636A0 /* lua_FontGlyph.cpp in Sources */,
-				EB9BF51F17CBF02100D636A0 /* lua_HorizontalLayout.cpp in Sources */,
-				EB9BF52117CBF02100D636A0 /* lua_Matrix3.cpp in Sources */,
-				EB9BF52317CBF02100D636A0 /* lua_ProgressBar.cpp in Sources */,
-				EB9BF52917CBF02100D636A0 /* lua_AbsoluteLayout.cpp in Sources */,
-				EB66F8641A6433AE00E4F819 /* lua_Script.cpp in Sources */,
-				EB9BF52B17CBF02100D636A0 /* lua_AIAgent.cpp in Sources */,
-				EB9BF52D17CBF02100D636A0 /* lua_AIAgentListener.cpp in Sources */,
-				EB9BF52F17CBF02100D636A0 /* lua_AIController.cpp in Sources */,
-				EB9BF53117CBF02100D636A0 /* lua_AIMessage.cpp in Sources */,
-				EB9BF53517CBF02100D636A0 /* lua_AIState.cpp in Sources */,
-				EB9BF53717CBF02100D636A0 /* lua_AIStateListener.cpp in Sources */,
-				EB9BF53917CBF02100D636A0 /* lua_AIStateMachine.cpp in Sources */,
-				EB9BF53B17CBF02100D636A0 /* lua_all_bindings.cpp in Sources */,
-				EB9BF53D17CBF02100D636A0 /* lua_Animation.cpp in Sources */,
-				EB9BF53F17CBF02100D636A0 /* lua_AnimationClip.cpp in Sources */,
-				EB9BF54117CBF02100D636A0 /* lua_AnimationClipListener.cpp in Sources */,
-				EB9BF54517CBF02100D636A0 /* lua_AnimationController.cpp in Sources */,
-				EB9BF54717CBF02100D636A0 /* lua_AnimationTarget.cpp in Sources */,
-				EB9BF54917CBF02100D636A0 /* lua_AnimationValue.cpp in Sources */,
-				EB9BF54B17CBF02100D636A0 /* lua_AudioBuffer.cpp in Sources */,
-				EB9BF54D17CBF02100D636A0 /* lua_AudioController.cpp in Sources */,
-				EB9BF54F17CBF02100D636A0 /* lua_AudioListener.cpp in Sources */,
-				EB9BF55117CBF02100D636A0 /* lua_AudioSource.cpp in Sources */,
-				EB9BF55517CBF02100D636A0 /* lua_BoundingBox.cpp in Sources */,
-				EB9BF55717CBF02100D636A0 /* lua_BoundingSphere.cpp in Sources */,
-				EB9BF55917CBF02100D636A0 /* lua_Bundle.cpp in Sources */,
 				EB66F87B1A6433E200E4F819 /* Text.cpp in Sources */,
-				EB9BF55B17CBF02100D636A0 /* lua_Button.cpp in Sources */,
-				EB9BF55D17CBF02100D636A0 /* lua_Camera.cpp in Sources */,
-				EB9BF56117CBF02100D636A0 /* lua_CheckBox.cpp in Sources */,
-				EB9BF56317CBF02100D636A0 /* lua_Container.cpp in Sources */,
-				EB9BF56717CBF02100D636A0 /* lua_Control.cpp in Sources */,
 				EBE308FB18D0A1570015FC66 /* ScoreloopSocialSession.cpp in Sources */,
-				EB9BF56B17CBF02100D636A0 /* lua_ControlListener.cpp in Sources */,
-				EB9BF57117CBF02100D636A0 /* lua_Curve.cpp in Sources */,
-				EB9BF57517CBF02100D636A0 /* lua_DepthStencilTarget.cpp in Sources */,
-				EB9BF57917CBF02100D636A0 /* lua_Effect.cpp in Sources */,
-				EB9BF57B17CBF02100D636A0 /* lua_FileSystem.cpp in Sources */,
-				EB9BF57D17CBF02100D636A0 /* lua_FlowLayout.cpp in Sources */,
-				EB9BF57F17CBF02100D636A0 /* lua_Font.cpp in Sources */,
-				EB9BF58517CBF02100D636A0 /* lua_Form.cpp in Sources */,
-				EB9BF58717CBF02100D636A0 /* lua_FrameBuffer.cpp in Sources */,
-				EB9BF58917CBF02100D636A0 /* lua_Frustum.cpp in Sources */,
-				EB9BF58B17CBF02100D636A0 /* lua_Game.cpp in Sources */,
-				EBE3090118D0A1810015FC66 /* lua_JoystickControl.cpp in Sources */,
-				EB9BF58F17CBF02100D636A0 /* lua_Gamepad.cpp in Sources */,
-				EB9BF59717CBF02100D636A0 /* lua_Gesture.cpp in Sources */,
-				EB9BF59B17CBF02100D636A0 /* lua_Global.cpp in Sources */,
-				EB9BF59D17CBF02100D636A0 /* lua_HeightField.cpp in Sources */,
-				EB9BF59F17CBF02100D636A0 /* lua_Image.cpp in Sources */,
-				EB9BF5A117CBF02100D636A0 /* lua_ImageControl.cpp in Sources */,
-				EB9BF5A517CBF02100D636A0 /* lua_Joint.cpp in Sources */,
-				EB9BF5A917CBF02100D636A0 /* lua_Keyboard.cpp in Sources */,
-				EB9BF5AF17CBF02100D636A0 /* lua_Label.cpp in Sources */,
-				EB9BF5B117CBF02100D636A0 /* lua_Layout.cpp in Sources */,
-				EB9BF5B517CBF02100D636A0 /* lua_Light.cpp in Sources */,
-				EB9BF5B917CBF02100D636A0 /* lua_Logger.cpp in Sources */,
-				EB9BF5BD17CBF02100D636A0 /* lua_Material.cpp in Sources */,
-				EB9BF5BF17CBF02100D636A0 /* lua_MaterialParameter.cpp in Sources */,
-				EB9BF5C117CBF02100D636A0 /* lua_MathUtil.cpp in Sources */,
-				EB9BF5C317CBF02100D636A0 /* lua_Matrix.cpp in Sources */,
-				EB9BF5C517CBF02100D636A0 /* lua_Mesh.cpp in Sources */,
-				EB9BF5C717CBF02100D636A0 /* lua_MeshBatch.cpp in Sources */,
-				EB9BF5CB17CBF02100D636A0 /* lua_MeshPart.cpp in Sources */,
-				EB9BF5CF17CBF02100D636A0 /* lua_MeshSkin.cpp in Sources */,
-				EB9BF5D117CBF02100D636A0 /* lua_Model.cpp in Sources */,
-				EB9BF5D317CBF02100D636A0 /* lua_Mouse.cpp in Sources */,
 				EBF8AC69193F746800C0EE93 /* AppleStoreFront.mm in Sources */,
-				EB9BF5D717CBF02100D636A0 /* lua_Node.cpp in Sources */,
-				EB9BF5D917CBF02100D636A0 /* lua_NodeCloneContext.cpp in Sources */,
-				EB9BF5DD17CBF02100D636A0 /* lua_ParticleEmitter.cpp in Sources */,
-				EB9BF5E117CBF02100D636A0 /* lua_Pass.cpp in Sources */,
-				EB9BF5E317CBF02100D636A0 /* lua_PhysicsCharacter.cpp in Sources */,
 				EBE308FC18D0A16A0015FC66 /* ControlFactory.cpp in Sources */,
-				EB9BF5E517CBF02100D636A0 /* lua_PhysicsCollisionObject.cpp in Sources */,
-				EB9BF5E717CBF02100D636A0 /* lua_PhysicsCollisionObjectCollisionListener.cpp in Sources */,
-				EB9BF5EB17CBF02100D636A0 /* lua_PhysicsCollisionObjectCollisionPair.cpp in Sources */,
-				EB9BF5EF17CBF02100D636A0 /* lua_PhysicsCollisionShape.cpp in Sources */,
-				EB9BF5F117CBF02100D636A0 /* lua_PhysicsCollisionShapeDefinition.cpp in Sources */,
-				EB9BF5F517CBF02100D636A0 /* lua_PhysicsConstraint.cpp in Sources */,
-				EB9BF5F717CBF02100D636A0 /* lua_PhysicsController.cpp in Sources */,
-				EB66F8961A6451C900E4F819 /* lua_Sprite.cpp in Sources */,
-				EB9BF5F917CBF02100D636A0 /* lua_PhysicsControllerHitFilter.cpp in Sources */,
-				EB9BF5FB17CBF02100D636A0 /* lua_PhysicsControllerHitResult.cpp in Sources */,
-				EB9BF5FD17CBF02100D636A0 /* lua_PhysicsControllerListener.cpp in Sources */,
-				EB9BF60117CBF02100D636A0 /* lua_PhysicsFixedConstraint.cpp in Sources */,
-				EB9BF60317CBF02100D636A0 /* lua_PhysicsGenericConstraint.cpp in Sources */,
 				EBE308F818D0A14D0015FC66 /* SocialScore.cpp in Sources */,
-				EB9BF60517CBF02100D636A0 /* lua_PhysicsGhostObject.cpp in Sources */,
-				EB9BF60717CBF02100D636A0 /* lua_PhysicsHingeConstraint.cpp in Sources */,
-				EB9BF60917CBF02100D636A0 /* lua_PhysicsRigidBody.cpp in Sources */,
-				EB9BF60B17CBF02100D636A0 /* lua_PhysicsRigidBodyParameters.cpp in Sources */,
-				EB9BF60D17CBF02100D636A0 /* lua_PhysicsSocketConstraint.cpp in Sources */,
-				EB9BF60F17CBF02100D636A0 /* lua_PhysicsSpringConstraint.cpp in Sources */,
-				EB9BF61117CBF02100D636A0 /* lua_PhysicsVehicle.cpp in Sources */,
 				EBE308F418D0A14D0015FC66 /* SocialAchievement.cpp in Sources */,
-				EB9BF61317CBF02100D636A0 /* lua_PhysicsVehicleWheel.cpp in Sources */,
-				EB9BF61517CBF02100D636A0 /* lua_Plane.cpp in Sources */,
-				EB9BF61717CBF02100D636A0 /* lua_Platform.cpp in Sources */,
-				EB9BF61917CBF02100D636A0 /* lua_Properties.cpp in Sources */,
-				EB9BF61D17CBF02100D636A0 /* lua_Quaternion.cpp in Sources */,
-				EB9BF61F17CBF02100D636A0 /* lua_RadioButton.cpp in Sources */,
-				EB9BF62117CBF02100D636A0 /* lua_Ray.cpp in Sources */,
-				EB9BF62317CBF02100D636A0 /* lua_Rectangle.cpp in Sources */,
-				EB9BF62517CBF02100D636A0 /* lua_Ref.cpp in Sources */,
-				EB9BF62717CBF02100D636A0 /* lua_RenderState.cpp in Sources */,
-				EB9BF63117CBF02100D636A0 /* lua_RenderStateStateBlock.cpp in Sources */,
-				EB9BF63717CBF02100D636A0 /* lua_RenderTarget.cpp in Sources */,
-				EB9BF63917CBF02100D636A0 /* lua_Scene.cpp in Sources */,
-				EB9BF63D17CBF02100D636A0 /* lua_ScreenDisplayer.cpp in Sources */,
-				EB9BF63F17CBF02200D636A0 /* lua_ScriptController.cpp in Sources */,
-				EB9BF64117CBF02200D636A0 /* lua_ScriptTarget.cpp in Sources */,
-				EB9BF64317CBF02200D636A0 /* lua_Slider.cpp in Sources */,
-				EB9BF64517CBF02200D636A0 /* lua_SpriteBatch.cpp in Sources */,
-				EB9BF64717CBF02200D636A0 /* lua_Technique.cpp in Sources */,
 				EBE308FA18D0A1570015FC66 /* GooglePlaySocialSession.cpp in Sources */,
-				EB9BF64917CBF02200D636A0 /* lua_Terrain.cpp in Sources */,
-				EB9BF64F17CBF02200D636A0 /* lua_TextBox.cpp in Sources */,
-				EB9BF65317CBF02200D636A0 /* lua_Texture.cpp in Sources */,
-				EB9BF65917CBF02200D636A0 /* lua_TextureSampler.cpp in Sources */,
-				EB9BF65D17CBF02200D636A0 /* lua_Theme.cpp in Sources */,
-				EB9BF65F17CBF02200D636A0 /* lua_ThemeSideRegions.cpp in Sources */,
-				EB9BF66117CBF02200D636A0 /* lua_ThemeStyle.cpp in Sources */,
-				EB9BF66317CBF02200D636A0 /* lua_ThemeThemeImage.cpp in Sources */,
-				EB9BF66517CBF02200D636A0 /* lua_ThemeUVs.cpp in Sources */,
-				EB9BF66717CBF02200D636A0 /* lua_Touch.cpp in Sources */,
-				EB9BF66B17CBF02200D636A0 /* lua_Transform.cpp in Sources */,
-				EB9BF66D17CBF02200D636A0 /* lua_TransformListener.cpp in Sources */,
-				EB9BF66F17CBF02200D636A0 /* lua_Uniform.cpp in Sources */,
-				EB9BF67117CBF02200D636A0 /* lua_Vector2.cpp in Sources */,
-				EB16DDCD18CECB2000458A01 /* lua_TerrainPatch.cpp in Sources */,
-				EB66F8671A6433AE00E4F819 /* lua_ScriptTargetEvent.cpp in Sources */,
-				EB9BF67317CBF02200D636A0 /* lua_Vector3.cpp in Sources */,
-				EB9BF67517CBF02200D636A0 /* lua_Vector4.cpp in Sources */,
-				EB9BF67717CBF02200D636A0 /* lua_VertexAttributeBinding.cpp in Sources */,
 				EB16DDD318CEE79700458A01 /* GameCenterSocialSession.mm in Sources */,
-				EB9BF67917CBF02200D636A0 /* lua_VertexFormat.cpp in Sources */,
-				EB9BF67B17CBF02200D636A0 /* lua_VertexFormatElement.cpp in Sources */,
 				EB12353019C08617003D090A /* Package.cpp in Sources */,
-				EB9BF67F17CBF02200D636A0 /* lua_VerticalLayout.cpp in Sources */,
 				EB9BF68517CBF02200D636A0 /* AIController.cpp in Sources */,
 				EB9BF68717CBF02200D636A0 /* AIMessage.cpp in Sources */,
 				EB9BF68917CBF02200D636A0 /* AIState.cpp in Sources */,
@@ -2986,10 +2159,8 @@
 				EBE308F618D0A14D0015FC66 /* SocialController.cpp in Sources */,
 				EB9BF69717CBF02200D636A0 /* AudioBuffer.cpp in Sources */,
 				EB9BF69917CBF02200D636A0 /* AudioController.cpp in Sources */,
-				EB66F89C1A6451C900E4F819 /* lua_Text.cpp in Sources */,
 				EB9BF69B17CBF02200D636A0 /* AudioListener.cpp in Sources */,
 				EB9BF69D17CBF02200D636A0 /* AudioSource.cpp in Sources */,
-				EB66F86A1A6433AE00E4F819 /* lua_ScriptTargetEventRegistry.cpp in Sources */,
 				EB9BF6A017CBF02200D636A0 /* BoundingBox.cpp in Sources */,
 				EB9BF6A317CBF02200D636A0 /* BoundingSphere.cpp in Sources */,
 				EB9BF6A617CBF02200D636A0 /* Bundle.cpp in Sources */,
@@ -3022,7 +2193,6 @@
 				EB9BF6DD17CBF02200D636A0 /* Layout.cpp in Sources */,
 				EB9BF6DF17CBF02200D636A0 /* Light.cpp in Sources */,
 				EB9BF6E117CBF02200D636A0 /* Logger.cpp in Sources */,
-				EB66F8991A6451C900E4F819 /* lua_SpriteBatchSpriteVertex.cpp in Sources */,
 				EB9BF6E317CBF02200D636A0 /* gameplay-main-ios.mm in Sources */,
 				EB9BF6E517CBF02200D636A0 /* Material.cpp in Sources */,
 				EB9BF6E717CBF02200D636A0 /* MaterialParameter.cpp in Sources */,
@@ -3037,13 +2207,10 @@
 				EB9BF6FC17CBF02200D636A0 /* Node.cpp in Sources */,
 				EB9BF6FE17CBF02200D636A0 /* ParticleEmitter.cpp in Sources */,
 				EB9BF70017CBF02200D636A0 /* Pass.cpp in Sources */,
-				EB66F89F1A6451C900E4F819 /* lua_TileSet.cpp in Sources */,
 				EB9BF70217CBF02200D636A0 /* Plane.cpp in Sources */,
 				EB9BF70517CBF02200D636A0 /* PhysicsCharacter.cpp in Sources */,
 				EB9BF70717CBF02200D636A0 /* PhysicsCollisionObject.cpp in Sources */,
 				EB9BF70917CBF02200D636A0 /* PhysicsCollisionShape.cpp in Sources */,
-				EB42A49F1A8B72970012761A /* lua_Drawable.cpp in Sources */,
-				EBE308FE18D0A17A0015FC66 /* lua_CameraListener.cpp in Sources */,
 				EB9BF70B17CBF02200D636A0 /* PhysicsConstraint.cpp in Sources */,
 				EB9BF70E17CBF02200D636A0 /* PhysicsController.cpp in Sources */,
 				EB66F87E1A6433E200E4F819 /* TileSet.cpp in Sources */,
@@ -3077,7 +2244,6 @@
 				EBF8AC63193F732100C0EE93 /* StoreProduct.cpp in Sources */,
 				EBF8AC5F193F732100C0EE93 /* StoreController.cpp in Sources */,
 				EB9BF74917CBF02200D636A0 /* SpriteBatch.cpp in Sources */,
-				EB66F8931A6451C900E4F819 /* lua_Package.cpp in Sources */,
 				EB9BF74C17CBF02200D636A0 /* Technique.cpp in Sources */,
 				EB9BF74E17CBF02200D636A0 /* Terrain.cpp in Sources */,
 				EB9BF75017CBF02200D636A0 /* TerrainPatch.cpp in Sources */,
@@ -3110,7 +2276,7 @@
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
 					GP_USE_STOREFRONT,
-                    GP_NO_LUA_BINDINGS,
+					GP_NO_LUA_BINDINGS,
 				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/include",
@@ -3133,7 +2299,7 @@
 					FORCE_CLEAN_SHUTDOWN,
 					GP_USE_SOCIAL,
 					GP_USE_STOREFRONT,
-                    GP_NO_LUA_BINDINGS,
+					GP_NO_LUA_BINDINGS,
 				);
 				HEADER_SEARCH_PATHS = (
 					"../external-deps/include",
@@ -3233,7 +2399,7 @@
 				PRODUCT_NAME = gameplay;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-                VALID_ARCHS = arm64;
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -3256,7 +2422,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
-                VALID_ARCHS = arm64;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
