@@ -880,6 +880,8 @@ void Game::loadConfig()
         }
         else
         {
+            GP_LOG("Can't load game.config, using defaults");
+
             // Create an empty config
             _properties = new Properties();
         }

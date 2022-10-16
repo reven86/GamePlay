@@ -67,8 +67,7 @@ SpriteBatch* SpriteBatch::create(const char* texturePath, Effect* effect, unsign
 
 SpriteBatch* SpriteBatch::create(Texture* texture,  Effect* effect, unsigned int initialCapacity)
 {
-    GP_ASSERT(texture != NULL);
-    GP_ASSERT(texture->getType() == Texture::TEXTURE_2D);
+    GP_ASSERT(texture != NULL && texture->getType() == Texture::TEXTURE_2D);
 
     bool customEffect = (effect != NULL);
     if (!customEffect)
