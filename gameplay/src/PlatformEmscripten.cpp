@@ -1183,8 +1183,7 @@ bool Platform::launchURL(const char* url)
 {
     EM_ASM_({
         var jsUrl = Module.UTF8ToString($0);
-        if (!window.open(jsUrl, '_blank'))
-            window.open(jsUrl, '_self');
+        window.open(jsUrl, '_blank');
     }, url);
     return true;
 }
