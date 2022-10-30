@@ -1183,7 +1183,9 @@ bool Platform::launchURL(const char* url)
 {
     EM_ASM_({
         var jsUrl = Module.UTF8ToString($0);
-        window.open(jsUrl, '_blank');
+        // try to open url in the same page only when opening in _blank failed (CEF) and window is not inside iframe
+        if (!window.open(jsUrl, '_blank') && window === window.parent)
+            window.open(jsUrl, '_self');
     }, url);
     return true;
 }
