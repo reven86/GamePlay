@@ -49,6 +49,9 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_setIABEnabled(JNIEnv* 
 
 JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv* env, jobject thiz, jstring sku)
 {
+    if (!__instance)
+        return 0;
+
     const char* productID = env->GetStringUTFChars(sku, NULL);
     bool res = __instance->getListener()->isProductConsumable(productID);
     env->ReleaseStringUTFChars(sku, productID);
@@ -58,6 +61,9 @@ JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv
 
 JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobject thiz, jstring sku)
 {
+    if (!__instance)
+        return 0;
+
     const char* productID = env->GetStringUTFChars(sku, NULL);
     bool res = __instance->getListener()->isSubscription(productID);
     env->ReleaseStringUTFChars(sku, productID);
@@ -67,6 +73,9 @@ JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* 
 
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
+    if (!__instance)
+        return;
+
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
 
@@ -78,6 +87,9 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* e
 
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
 {
+    if (!__instance)
+        return;
+
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
 
@@ -89,6 +101,9 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* 
 
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
 {
+    if (!__instance)
+        return;
+
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* msg = env->GetStringUTFChars(message, NULL);
 
@@ -135,7 +150,8 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidati
             invalidProducts.push_back(product);
     }
 
-    __instance->getListener()->getProductsEvent(__products, invalidProducts);
+    if (__instance)
+        __instance->getListener()->getProductsEvent(__products, invalidProducts);
     __products.clear();
 }
 
@@ -157,6 +173,7 @@ GoogleStoreFront::GoogleStoreFront()
 
 GoogleStoreFront::~GoogleStoreFront()
 {
+    __instance = NULL;
 }
 
 void GoogleStoreFront::setListener(StoreListener * listener)
