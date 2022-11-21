@@ -71,32 +71,36 @@ JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* 
     return res ? 1 : 0;
 }
 
-JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId, jstring obj)
 {
     if (!__instance)
         return;
 
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
+    const char* transactionData = env->GetStringUTFChars(obj, NULL);
 
-    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID, NULL);
+    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID, transactionData);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
+    env->ReleaseStringUTFChars(obj, transactionData);
 }
 
-JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId, jstring obj)
 {
     if (!__instance)
         return;
 
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
+    const char* transactionData = env->GetStringUTFChars(obj, NULL);
 
-    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID, NULL);
+    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID, transactionData);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
+    env->ReleaseStringUTFChars(obj, transactionData);
 }
 
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchaseFailed(JNIEnv* env, jobject thiz, jstring sku, jint error, jstring message)
