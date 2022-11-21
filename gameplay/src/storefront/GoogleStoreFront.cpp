@@ -80,7 +80,7 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* e
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
     const char* transactionData = env->GetStringUTFChars(obj, NULL);
 
-    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID, transactionData);
+    __instance->getListener()->paymentTransactionRestoredEvent(productID, 1, time, orderID, (void *)transactionData);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
@@ -96,7 +96,7 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemPurchased(JNIEnv* 
     const char* orderID = env->GetStringUTFChars(orderId, NULL);
     const char* transactionData = env->GetStringUTFChars(obj, NULL);
 
-    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID, transactionData);
+    __instance->getListener()->paymentTransactionSucceededEvent(productID, 1, time, orderID, (void *)transactionData);
 
     env->ReleaseStringUTFChars(orderId, orderID);
     env->ReleaseStringUTFChars(sku, productID);
