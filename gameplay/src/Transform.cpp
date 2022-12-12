@@ -49,6 +49,13 @@ Transform::Transform(const Transform& copy)
 Transform::~Transform()
 {
     SAFE_DELETE(_listeners);
+
+    // check whether we're trying to delete transform that was modified during suspension
+    if (std::find(_transformsChanged.begin(), _transformsChanged.end(), this) != _transformsChanged.end())
+    {
+        std::unique_lock<std::recursive_mutex> lock(_transformsChangedMutex);
+        _transformsChanged.erase(std::remove(_transformsChanged.begin(), _transformsChanged.end(), this), _transformsChanged.end());
+    }
 }
 
 void Transform::suspendTransformChanged()
@@ -71,7 +78,8 @@ void Transform::resumeTransformChanged()
         {
             Transform* t = _transformsChanged.at(i);
             GP_ASSERT(t);
-            t->transformChanged();
+            if (t)
+                t->transformChanged();
         }
 
         // Go through list and reset DIRTY_NOTIFY bit. The list could potentially be larger here if the 
@@ -81,7 +89,8 @@ void Transform::resumeTransformChanged()
         {
             Transform* t = _transformsChanged.at(i);
             GP_ASSERT(t);
-            t->_matrixDirtyBits &= ~DIRTY_NOTIFY;
+            if (t)
+                t->_matrixDirtyBits &= ~DIRTY_NOTIFY;
         }
 
         // empty list for next frame.
