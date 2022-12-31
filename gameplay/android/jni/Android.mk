@@ -126,7 +126,7 @@ LOCAL_SRC_FILES := \
     VertexFormat.cpp \
     VerticalLayout.cpp \
     social/GooglePlaySocialSession.cpp \
-    storefront/GoogleStoreFront.cpp \
+    storefront/AndroidStoreFront.cpp \
     storefront/StoreProduct.cpp \
     storefront/StoreController.cpp \
     storefront/NullStoreFront.cpp \

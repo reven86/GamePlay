@@ -182,7 +182,7 @@ public class GamePlayNativeActivity extends NativeActivity {
 
     public void queueSkuDetailsRequest(String sku) {};
     public void flushSkuDetailsQueue() {};
-    public void purchaseItem(final String sku) {};
+    public void purchaseItem(final String sku, final String developerPayload) {};
     public void restorePurchases() {};
 
     private InputManager _inputManager = null;

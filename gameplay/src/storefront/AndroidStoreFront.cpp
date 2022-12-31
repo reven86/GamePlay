@@ -1,5 +1,5 @@
 #include "Base.h"
-#include "GoogleStoreFront.h"
+#include "AndroidStoreFront.h"
 #include "storefront/StoreListener.h"
 #include <jni.h>
 #include <android_native_app_glue.h>
@@ -12,10 +12,10 @@ extern jclass __mainActivityClass;
 
 namespace gameplay
 {
-    class GoogleStoreFront;
+    class AndroidStoreFront;
 }
 
-static gameplay::GoogleStoreFront * __instance = NULL;
+static gameplay::AndroidStoreFront * __instance = NULL;
 static std::vector< gameplay::StoreProduct > __products;
 static std::set<std::string> __requestedProducts;
 static bool __iabEnabled = false;
@@ -35,7 +35,7 @@ JNIEXPORT jint JNICALL GameplayJNI_OnLoad(JavaVM *vm, void *reserved)
     __mainActivityClass = (jclass)env->NewGlobalRef(env->FindClass("org/gameplay3d/GamePlayNativeActivity"));
     __midQueueSKURequest = env->GetMethodID(__mainActivityClass, "queueSkuDetailsRequest", "(Ljava/lang/String;)V");
     __midFlushSkuDetailsQueue = env->GetMethodID(__mainActivityClass, "flushSkuDetailsQueue", "()V");
-    __midPurchaseItem = env->GetMethodID(__mainActivityClass, "purchaseItem", "(Ljava/lang/String;)V");
+    __midPurchaseItem = env->GetMethodID(__mainActivityClass, "purchaseItem", "(Ljava/lang/String;Ljava/lang/String;)V");
     __midRestorePurchases = env->GetMethodID(__mainActivityClass, "restorePurchases", "()V");
 
     return JNI_VERSION_1_6;
@@ -169,28 +169,28 @@ namespace gameplay
 
 
 
-GoogleStoreFront::GoogleStoreFront()
+AndroidStoreFront::AndroidStoreFront()
     : _listener( NULL )
 {
     __instance = this;
 }
 
-GoogleStoreFront::~GoogleStoreFront()
+AndroidStoreFront::~AndroidStoreFront()
 {
     __instance = NULL;
 }
 
-void GoogleStoreFront::setListener(StoreListener * listener)
+void AndroidStoreFront::setListener(StoreListener * listener)
 {
     _listener = listener;
 }
 
-StoreListener * GoogleStoreFront::getListener()
+StoreListener * AndroidStoreFront::getListener()
 {
     return _listener;
 }
 
-void GoogleStoreFront::getProducts(const char ** productIDs) const
+void AndroidStoreFront::getProducts(const char ** productIDs) const
 {
     __products.clear();
     __requestedProducts.clear();
@@ -213,7 +213,7 @@ void GoogleStoreFront::getProducts(const char ** productIDs) const
     vm->DetachCurrentThread();
 }
 
-void GoogleStoreFront::makePayment(const char * productID, int quantity, const char * usernameHash)
+void AndroidStoreFront::makePayment(const char * productID, int quantity, const char * usernameHash)
 {
     android_app* app = __state;
     JNIEnv* env = app->activity->env;
@@ -221,21 +221,22 @@ void GoogleStoreFront::makePayment(const char * productID, int quantity, const c
     vm->AttachCurrentThread(&env, NULL);
 
     jstring paramString = env->NewStringUTF(productID);
+    jstring developerPayload = env->NewStringUTF(usernameHash);
 
     while (quantity-- > 0)
-        env->CallVoidMethod(app->activity->clazz, __midPurchaseItem, paramString);
+        env->CallVoidMethod(app->activity->clazz, __midPurchaseItem, paramString, developerPayload);
 
     vm->DetachCurrentThread();
 
     getListener()->paymentTransactionInProcessEvent(productID, quantity);
 }
 
-bool GoogleStoreFront::canMakePayments() const
+bool AndroidStoreFront::canMakePayments() const
 {
     return __iabEnabled;
 }
 
-void GoogleStoreFront::restoreTransactions(const char * usernameHash)
+void AndroidStoreFront::restoreTransactions(const char * usernameHash)
 {
     android_app* app = __state;
     JNIEnv* env = app->activity->env;
@@ -247,17 +248,17 @@ void GoogleStoreFront::restoreTransactions(const char * usernameHash)
     vm->DetachCurrentThread();
 }
 
-float GoogleStoreFront::getShippingCost(const StoreProduct& product, int quantity) const
+float AndroidStoreFront::getShippingCost(const StoreProduct& product, int quantity) const
 {
     return product.price * quantity * 0.3f;
 }
 
-void GoogleStoreFront::finishTransaction(void * transactionObject)
+void AndroidStoreFront::finishTransaction(void * transactionObject)
 {
     // do nothing
 }
 
-void GoogleStoreFront::requestReceipt()
+void AndroidStoreFront::requestReceipt()
 {
     GP_ASSERT(!"Not implemented.")
 }

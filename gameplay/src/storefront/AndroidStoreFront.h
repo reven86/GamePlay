@@ -1,5 +1,4 @@
-#ifndef GOOGLESTOREFRONT_H_
-#define GOOGLESTOREFRONT_H_
+#pragma once
 
 #include "Storefront.h"
 
@@ -8,11 +7,11 @@ namespace gameplay
 {
 
 /**
- * Defines a Google Play storefront.
+ * Defines a storefront for Android device (Google Play, Huawei AppGallery).
  *
  * @script{ignore}
  */
-class GoogleStoreFront : public StoreFront
+class AndroidStoreFront : public StoreFront
 {
     friend class StoreController;
 
@@ -20,7 +19,7 @@ public:
     /**
      * Returns the name of the Store.
      */
-    virtual const char * getName( ) const {return "GooglePlay";};
+    virtual const char * getName( ) const { return "AndroidStore"; };
 
     /**
      * Sets the asynchronous response listener that registered for this session.
@@ -78,12 +77,12 @@ public:
     /**
      * Contructor
      */
-    GoogleStoreFront();
+    AndroidStoreFront();
 
     /**
      * Destructor
      */
-    virtual ~GoogleStoreFront();
+    virtual ~AndroidStoreFront();
 
 private:
     class StoreListener * _listener;
@@ -91,4 +90,3 @@ private:
 
 }
 
-#endif
