@@ -1595,7 +1595,13 @@ extern void print(const char* format, ...)
     GP_ASSERT(format);
     va_list argptr;
     va_start(argptr, format);
-    vfprintf(stderr, format, argptr);
+    //vfprintf(stderr, format, argptr);
+
+    char *output;
+    vasprintf(&output, format, argptr);
+    NSLog(@"%s", output);
+    free(output);
+
     va_end(argptr);
 }
 
