@@ -1057,7 +1057,7 @@ int getUnicode(int key);
 @end
 
 
-@interface AppDelegate : UIApplication <UIApplicationDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate>
 {
     UIWindow* window;
     ViewController* viewController;
@@ -1626,9 +1626,8 @@ Platform* Platform::create(Game* game)
 
 int Platform::enterMessagePump()
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    [AppDelegate load];
-    UIApplicationMain(0, nil, NSStringFromClass([AppDelegate class]), NSStringFromClass([AppDelegate class]));
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];    
+    UIApplicationMain(0, nil, nil, NSStringFromClass([AppDelegate class]));
     [pool release];
     return EXIT_SUCCESS;
 }
