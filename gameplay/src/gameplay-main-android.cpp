@@ -22,6 +22,7 @@ void android_main(struct android_app* state)
     Platform* platform = Platform::create(game);
     GP_ASSERT(platform);
     platform->enterMessagePump();
+    platform->shutdownInternal();
     delete platform;
     
     // Android specific : the process needs to exit to trigger
