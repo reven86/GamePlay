@@ -609,6 +609,9 @@ void FileSystem::registerPackage(Package * package)
 
 void FileSystem::unregisterPackage(Package * package)
 {
+    if (__packages.empty())
+        return;
+
     std::unique_lock<std::mutex> lock(__packagesMutex);
     __packages.erase(std::remove(__packages.begin(), __packages.end(), package), __packages.end());
 }
