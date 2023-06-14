@@ -173,6 +173,22 @@ public:
     static Stream* open(const char* path, size_t streamMode = READ);
 
     /**
+     * Opens a byte stream for the given resource path (wide-char).
+     *
+     * If <code>path</code> is a file path, the file at the specified location is opened relative to the currently set
+     * resource path.
+     *
+     * @param path The path to the resource to be opened, relative to the currently set resource path.
+     * @param streamMode The stream mode used to open the file.
+     *
+     * @return A stream that can be used to read or write to the file depending on the mode.
+     *         Returns NULL if there was an error. (Request mode not supported).
+     *
+     * @script{ignore}
+     */
+    static Stream* open(const wchar_t* path, size_t streamMode = READ);
+
+    /**
      * Opens the specified file.
      *
      * The file at the specified location is opened, relative to the currently set

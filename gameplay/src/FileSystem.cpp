@@ -148,6 +148,7 @@ public:
     virtual bool rewind();
 
     static FileStream* create(const char* filePath, const char* mode);
+    static FileStream* create(const wchar_t* filePath, const wchar_t* mode);
 
 private:
     FileStream(FILE* file);
@@ -421,6 +422,20 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
     return stream;
 }
 
+Stream* FileSystem::open(const wchar_t* path, size_t streamMode)
+{
+    wchar_t modeStr[] = L"rb";
+    if ((streamMode & WRITE) != 0)
+        modeStr[0] = L'w';
+
+    std::wstring fullPath(path);
+
+    Stream * stream = NULL;
+    stream = FileStream::create(fullPath.c_str(), modeStr);
+
+    return stream;
+}
+
 FILE* FileSystem::openFile(const char* filePath, const char* mode)
 {
     GP_ASSERT(filePath);
@@ -644,6 +659,27 @@ FileStream* FileStream::create(const char* filePath, const char* mode)
             if (*s == 'r')
                 stream->_canRead = true;
             else if (*s == 'w')
+                stream->_canWrite = true;
+            ++s;
+        }
+
+        return stream;
+    }
+    return NULL;
+}
+
+FileStream* FileStream::create(const wchar_t* filePath, const wchar_t* mode)
+{
+    FILE* file = _wfopen(filePath, mode);
+    if (file)
+    {
+        FileStream* stream = new FileStream(file);
+        const wchar_t* s = mode;
+        while (s != NULL && *s != L'\0')
+        {
+            if (*s == L'r')
+                stream->_canRead = true;
+            else if (*s == L'w')
                 stream->_canWrite = true;
             ++s;
         }
