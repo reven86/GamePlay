@@ -412,6 +412,8 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
 #else
     stream = FileStream::create(fullPath.c_str(), modeStr);
 #endif
+
+    if (!stream)
     {
         std::unique_lock<std::mutex> lock(__packagesMutex);
         for (auto it = __packages.begin(), endIt = __packages.end(); stream == NULL && it != endIt; it++)
