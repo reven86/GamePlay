@@ -411,8 +411,6 @@ Stream* FileSystem::open(const char* path, size_t streamMode)
     }
 #else
     stream = FileStream::create(fullPath.c_str(), modeStr);
-
-    GP_LOG("opening %s %s result %X", fullPath.c_str(), modeStr, stream);
 #endif
 
     if (!stream)
