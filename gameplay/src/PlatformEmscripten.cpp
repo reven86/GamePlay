@@ -705,10 +705,10 @@ void updateWindowSize()
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
 {
-    //printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld)\n",
-    //         eventType, e->screenX, e->screenY, e->clientX, e->clientY,
-    //         e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
-    //         e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY);
+    printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld)\n",
+             eventType, e->screenX, e->screenY, e->clientX, e->clientY,
+             e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
+             e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY);
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
