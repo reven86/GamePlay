@@ -1100,7 +1100,7 @@ bool Platform::hasAccelerometer()
 
 bool Platform::hasRenderer()
 {
-    return !__canvasName.empty();
+    return !__canvasElement.empty();
 }
 
 void Platform::getAccelerometerValues(float* pitch, float* roll)
