@@ -180,7 +180,8 @@ bool Game::startup()
     if (_state != UNINITIALIZED)
         return false;
 
-    setViewport(Rectangle(0.0f, 0.0f, (float)_width, (float)_height));
+    if (_width > 0.0f && _height > 0.0f)
+        setViewport(Rectangle(0.0f, 0.0f, (float)_width, (float)_height));
     RenderState::initialize();
     FrameBuffer::initialize();
 
