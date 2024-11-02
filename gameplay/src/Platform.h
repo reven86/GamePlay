@@ -343,6 +343,11 @@ private:
     static const char * getUserAgentString( );
 
     /**
+     * Whether the platform has renderer (has OpenGL support).
+     */
+    static bool hasRenderer();
+
+    /**
      * Constructor.
      */
     Platform(Game* game);

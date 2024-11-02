@@ -180,10 +180,12 @@ bool Game::startup()
     if (_state != UNINITIALIZED)
         return false;
 
-    if (_width > 0.0f && _height > 0.0f)
+    if (Platform::hasRenderer())
+    {
         setViewport(Rectangle(0.0f, 0.0f, (float)_width, (float)_height));
-    RenderState::initialize();
-    FrameBuffer::initialize();
+        RenderState::initialize();
+        FrameBuffer::initialize();
+    }
 
     _animationController = new AnimationController();
     _animationController->initialize();
@@ -329,8 +331,11 @@ void Game::shutdown()
 
         SAFE_DELETE(_audioListener);
 
-        FrameBuffer::finalize();
-        RenderState::finalize();
+        if (Platform::hasRenderer())
+        {
+            FrameBuffer::finalize();
+            RenderState::finalize();
+        }
 
         SAFE_DELETE(_properties);
 

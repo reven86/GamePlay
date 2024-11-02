@@ -1433,6 +1433,11 @@ bool Platform::hasAccelerometer()
     return false;
 }
 
+bool Platform::hasRenderer()
+{
+    return true;
+}
+
 void Platform::getAccelerometerValues(float* pitch, float* roll)
 {
     GP_ASSERT(pitch);

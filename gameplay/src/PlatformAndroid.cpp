@@ -1605,6 +1605,11 @@ bool Platform::hasAccelerometer()
     return true;
 }
 
+bool Platform::hasRenderer()
+{
+    return true;
+}
+
 void Platform::getAccelerometerValues(float* pitch, float* roll)
 {
     double tx, ty, tz;
