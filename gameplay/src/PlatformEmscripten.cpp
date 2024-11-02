@@ -100,6 +100,7 @@ PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 static int __windowSize[2];
 static list<ConnectedGamepadDevInfo> __connectedGamepads;
 static bool __mouseButtonPressed[3] = { false, false, false };
+static std::string __canvasElement;
 
 static EGLenum checkErrorEGL(const char* msg)
 {
@@ -495,11 +496,20 @@ Platform::~Platform()
 
 Platform* Platform::create(Game* game)
 {
-
     GP_ASSERT(game);
 
     FileSystem::setResourcePath("./");
     Platform* platform = new Platform(game);
+
+    const char * canvasName = (const char *)EM_ASM_PTR({ return Module.canvas !== undefined ? stringToNewUTF8(Module.canvas) : 0; });
+    if (canvasName)
+    {
+        __canvasElement.assign(canvasName);
+        free(canvasName);
+    }
+
+    if (__canvasElement.empty())
+        return platform;    // platform without renderer
 
     // Get the window configuration values
     const char *title = NULL;
@@ -507,7 +517,7 @@ Platform* Platform::create(Game* game)
     bool fullscreen = false;
     
     // default window sizes come from canvas
-    emscripten_get_canvas_element_size("#canvas", &__width, &__height);
+    emscripten_get_canvas_element_size(__canvasElement.c_str(), &__width, &__height);
     //printf ("width %d height %d", __width, __height);
     
     if (game->getConfig())
@@ -532,7 +542,7 @@ Platform* Platform::create(Game* game)
     
     __windowSize[0] = __width;
     __windowSize[1] = __height;
-    emscripten_set_canvas_element_size("#canvas", __width, __height);
+    emscripten_set_canvas_element_size(__canvasElement.c_str(), __width, __height);
     //printf ("set width %d height %d", __width, __height);
 
     // Construct a fake argv array for GLUT. LLVM seems extra picky about what
@@ -693,14 +703,14 @@ double timespec2millis(struct timespec *a)
 void updateWindowSize()
 {
     int sizePacked = EM_ASM_INT_V({
-        var canvas = document.getElementById('canvas');
-        return canvas.clientWidth + (canvas.clientHeight << 16);
+        var canvas = Module.canvas;
+        return canvas !== undefined ? canvas.clientWidth + (canvas.clientHeight << 16) : 0;
     });
     
     __windowSize[0] = sizePacked & 0xffff;
     __windowSize[1] = sizePacked >> 16;
     
-    emscripten_set_canvas_element_size("#canvas", __windowSize[0], __windowSize[1]);
+    emscripten_set_canvas_element_size(__canvasElement.c_str(), __windowSize[0], __windowSize[1]);
 }
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
@@ -712,7 +722,9 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
-        var canvasRect = getBoundingClientRect(Module['canvas']);
+        if (Module.canvas === undefined)
+            return 0;
+        var canvasRect = getBoundingClientRect(Module.canvas);
         return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
     });
 
@@ -796,7 +808,9 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
-        var canvasRect = getBoundingClientRect(Module['canvas']);
+        if (Module.canvas === undefined)
+            return 0;
+        var canvasRect = getBoundingClientRect(Module.canvas);
         return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
     });
 
@@ -899,8 +913,8 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
     GP_ASSERT(eventType == EMSCRIPTEN_EVENT_RESIZE);
     
     int sizePacked = EM_ASM_INT_V({
-        var canvas = document.getElementById('canvas');
-        return canvas.clientWidth + (canvas.clientHeight << 16);
+        var canvas = Module.canvas;
+        return canvas ? canvas.clientWidth + (canvas.clientHeight << 16) : 0;
     });
     
     int width = sizePacked & 0xffff;
@@ -910,7 +924,7 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
     {
         __windowSize[0] = width;
         __windowSize[1] = height;
-        emscripten_set_canvas_element_size("#canvas", width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
+        emscripten_set_canvas_element_size(__canvasElement.c_str(), width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
         gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
     }
     
@@ -944,18 +958,22 @@ void main_loop_iter(void* _game)
         // since there is no way to listen for resize events for a canvas element, but only for window
         // pool the canvas dimensions every frame and invoke resizeEvent if they are changed
         // resize_callback does the polling once per second
-        double absTime = game->getAbsoluteTime();
-        if (absTime > lastTimeSizePolled + 1.0)
+        if (!__canvasElement.empty())
         {
-            lastTimeSizePolled = absTime;
-            //GP_LOG("resize update %f", lastTimeSizePolled);
-            resize_callback(EMSCRIPTEN_EVENT_RESIZE, NULL, NULL);
+            double absTime = game->getAbsoluteTime();
+            if (absTime > lastTimeSizePolled + 1.0)
+            {
+                lastTimeSizePolled = absTime;
+                //GP_LOG("resize update %f", lastTimeSizePolled);
+                resize_callback(EMSCRIPTEN_EVENT_RESIZE, NULL, NULL);
+            }
         }
 
         game->frame();
     }
 
-    eglSwapBuffers(__eglDisplay, __eglSurface);
+    if (!__canvasElement.empty())
+        eglSwapBuffers(__eglDisplay, __eglSurface);
 }
 
 int Platform::enterMessagePump()
@@ -963,7 +981,8 @@ int Platform::enterMessagePump()
     GP_ASSERT(_game);
 
     // initial viewport size is fully dependent on canvas size
-    updateWindowSize();
+    if (!__canvasElement.empty())
+        updateWindowSize();
 
     // Get the initial time.
     clock_gettime(CLOCK_REALTIME, &__timespec);
@@ -973,16 +992,19 @@ int Platform::enterMessagePump()
     // Run the game.
     _game->run();
 
-    emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
-    emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
-    emscripten_set_mousemove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
-    emscripten_set_touchstart_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
-    emscripten_set_touchend_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
-    emscripten_set_touchmove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
-    emscripten_set_wheel_callback("#canvas", 0, true, wheel_callback);
-    emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
-    emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
-    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, false, resize_callback);
+    if (!__canvasElement.empty())
+    {
+        emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
+        emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
+        emscripten_set_mousemove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
+        emscripten_set_touchstart_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
+        emscripten_set_touchend_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
+        emscripten_set_touchmove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
+        emscripten_set_wheel_callback(__canvasElement.c_str(), 0, true, wheel_callback);
+        emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
+        emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
+        emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, false, resize_callback);
+    }
     emscripten_set_main_loop_arg(&main_loop_iter, (void *)_game, 0, 1);
 
     return 0;
@@ -1030,12 +1052,14 @@ bool Platform::isVsync()
 void Platform::setVsync(bool enable)
 {
     __vsync = enable;
-    eglSwapInterval(__eglDisplay, __vsync ? 1 : 0);
+    if (!__canvasElement.empty())
+        eglSwapInterval(__eglDisplay, __vsync ? 1 : 0);
 }
 
 void Platform::swapBuffers()
 {
-    eglSwapBuffers(__eglDisplay, __eglSurface);
+    if (!__canvasElement.empty())
+        eglSwapBuffers(__eglDisplay, __eglSurface);
 }
 
 void Platform::sleep(float s)
