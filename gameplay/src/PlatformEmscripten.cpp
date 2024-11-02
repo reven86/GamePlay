@@ -501,7 +501,7 @@ Platform* Platform::create(Game* game)
     FileSystem::setResourcePath("./");
     Platform* platform = new Platform(game);
 
-    const char * canvasName = (const char *)EM_ASM_PTR({ return Module.canvas !== undefined ? stringToNewUTF8(Module.canvas) : 0; });
+    char * canvasName = (char *)EM_ASM_PTR({ return Module.canvas !== undefined ? stringToNewUTF8(Module.canvas) : 0; });
     if (canvasName)
     {
         __canvasElement.assign(canvasName);
