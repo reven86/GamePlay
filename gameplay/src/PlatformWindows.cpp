@@ -707,7 +707,7 @@ bool initializeGL(WindowCreationParams* params)
     // assumes they are array elements 0 through 3.
     int attribList[] = {
         WGL_SAMPLES_ARB, params ? params->samples : 0,
-        WGL_SAMPLE_BUFFERS_ARB, params ? (params->samples > 0 ? 1 : 0) : 0,
+        WGL_SAMPLE_BUFFERS_ARB, params && params->samples > 0 ? 1 : 0,
         WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
         WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
         WGL_DOUBLE_BUFFER_ARB, GL_TRUE,

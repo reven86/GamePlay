@@ -257,9 +257,6 @@ unsigned int Form::draw(bool wireframe) const
     if (!_visible || _absoluteClipBounds.width == 0 || _absoluteClipBounds.height == 0)
         return 0;
 
-    Game* game = Game::getInstance();
-    Rectangle viewport = game->getViewport();
-
     // If we're drawing in 2D (i.e. not attached to a node), we need to clear the depth buffer
     if (_node)
     {
@@ -1005,9 +1002,9 @@ bool Form::projectPoint(int x, int y, Vector3* point)
     Scene* scene = _node->getScene();
     Camera* camera;
 
+    // Get info about the form's position.
     if (scene && (camera = scene->getActiveCamera()))
     {
-        // Get info about the form's position.
         Matrix m = _node->getWorldMatrix();
         Vector3 pointOnPlane(0, 0, 0);
         m.transformPoint(&pointOnPlane);
@@ -1037,8 +1034,25 @@ bool Form::projectPoint(int x, int y, Vector3* point)
 
             return true;
         }
+
+        return false;
     }
-    return false;
+
+    // Create our screen space position in NDC.
+    const Rectangle& viewport = Game::getInstance()->getViewport();
+    Vector3 screen((x - viewport.x) / viewport.width, (viewport.y - y + viewport.height) / viewport.height, 0.0f);
+
+    // Map to range -1 to 1.
+    screen.x = screen.x * 2.0f - 1.0f;
+    screen.y = screen.y * 2.0f - 1.0f;
+    screen.z = screen.z * 2.0f - 1.0f;
+
+    gameplay::Matrix m;
+    _node->getWorldMatrix().invert(&m);
+
+    m.transformPoint(screen, point);
+
+    return true;
 }
 
 void Form::controlDisabled(Control* control)
@@ -1115,6 +1129,15 @@ void Form::setFocusControl(Control* control)
             }
         }
     }
+}
+
+Rectangle Form::getTopLevelBounds() const
+{
+    if (!_node)
+        return Container::getTopLevelBounds();
+
+    // deduce bounds from node world matrix
+    return Rectangle(0, 0, 2.0f / _node->getScaleX(), 2.0f / _node->getScaleY());
 }
 
 }

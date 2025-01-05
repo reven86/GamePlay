@@ -1254,9 +1254,7 @@ bool Control::updateBoundsInternal(const Vector2& offset)
 
 void Control::updateBounds()
 {
-    Game* game = Game::getInstance();
-
-    const Rectangle parentAbsoluteBounds = _parent ? _parent->_viewportBounds : Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
+    const Rectangle parentAbsoluteBounds = _parent ? _parent->_viewportBounds : getTopLevelBounds();
 
     const Theme::Margin& margin = _style->getMargin();
 
@@ -1274,7 +1272,7 @@ void Control::updateBounds()
     // Apply control alignment
     if (_alignment != Control::ALIGN_TOP_LEFT || _isAlignmentSet)
     {
-        const Rectangle& parentBounds = _parent ? _parent->getBounds() : Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
+        const Rectangle& parentBounds = _parent ? _parent->getBounds() : getTopLevelBounds();
         const Theme::Border& parentBorder = _parent ? _parent->getBorder(_parent->getState()) : Theme::Border::empty();
         const Theme::Padding& parentPadding = _parent ? _parent->getPadding() : Theme::Padding::empty();
 
@@ -1324,9 +1322,7 @@ void Control::updateBounds()
 
 void Control::updateAbsoluteBounds(const Vector2& offset)
 {
-    Game* game = Game::getInstance();
-
-    const Rectangle parentAbsoluteBounds = _parent ? _parent->_viewportBounds : Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
+    const Rectangle parentAbsoluteBounds = _parent ? _parent->_viewportBounds : getTopLevelBounds();
     const Rectangle parentAbsoluteClip = _parent ? _parent->_viewportClipBounds : parentAbsoluteBounds;
 
     // Compute content area padding values
@@ -2031,6 +2027,13 @@ void Control::setUserString(const char * udp)
 const char * Control::getUserString() const
 {
     return _userString.c_str();
+}
+
+Rectangle Control::getTopLevelBounds() const
+{
+    Game* game = Game::getInstance();
+
+    return Rectangle(0, 0, game->getViewport().width, game->getViewport().height);
 }
 
 }

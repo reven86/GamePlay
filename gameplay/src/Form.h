@@ -151,6 +151,14 @@ public:
      */
     void setBatchingEnabled(bool enabled);
 
+protected:
+    /**
+     * Get top level bounds.
+     *
+     * @return Output bounds.
+     */
+    virtual Rectangle getTopLevelBounds() const override;
+
 private:
     
     /**

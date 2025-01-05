@@ -1477,6 +1477,13 @@ protected:
      */
     static bool parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percentage, bool* v2Percentage);
 
+    /**
+     * Get top level bounds.
+     * 
+     * @return Output bounds.
+     */
+    virtual Rectangle getTopLevelBounds() const;
+
     /** 
      * The Control's ID.
      */ 
