@@ -284,6 +284,15 @@ public:
     const Matrix& getWorldViewMatrix() const;
 
     /**
+     * Gets the inverse world matrix corresponding to this node.
+     *
+     * This matrix is typically used to transform normal vectors into object space.
+     *
+     * @return The inverse world matrix of this node.
+     */
+    const Matrix& getInverseWorldMatrix() const;
+
+    /**
      * Gets the inverse transpose world matrix corresponding to this node.
      *
      * This matrix is typically used to transform normal vectors into world space.

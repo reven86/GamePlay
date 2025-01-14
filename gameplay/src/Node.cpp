@@ -492,6 +492,14 @@ const Matrix& Node::getInverseTransposeWorldMatrix() const
     return invTransWorld;
 }
 
+const Matrix& Node::getInverseWorldMatrix() const
+{
+    static Matrix invWorld;
+    invWorld = getWorldMatrix();
+    invWorld.invert();
+    return invWorld;
+}
+
 const Matrix& Node::getViewMatrix() const
 {
     Scene* scene = getScene();

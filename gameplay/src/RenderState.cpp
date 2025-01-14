@@ -139,6 +139,9 @@ const char* autoBindingToString(RenderState::AutoBinding autoBinding)
     case RenderState::WORLD_VIEW_PROJECTION_MATRIX:
         return "WORLD_VIEW_PROJECTION_MATRIX";
 
+    case RenderState::INVERSE_WORLD_MATRIX:
+        return "INVERSE_TRANSPOSE_WORLD_MATRIX";
+
     case RenderState::INVERSE_TRANSPOSE_WORLD_MATRIX:
         return "INVERSE_TRANSPOSE_WORLD_MATRIX";
 
@@ -284,6 +287,10 @@ void RenderState::applyAutoBinding(const char* uniformName, const char* autoBind
         {
             param->bindValue(this, &RenderState::autoBindingGetWorldViewProjectionMatrix);
         }
+        else if (strcmp(autoBinding, "INVERSE_WORLD_MATRIX") == 0)
+        {
+            param->bindValue(this, &RenderState::autoBindingGetInverseWorldMatrix);
+        }
         else if (strcmp(autoBinding, "INVERSE_TRANSPOSE_WORLD_MATRIX") == 0)
         {
             param->bindValue(this, &RenderState::autoBindingGetInverseTransposeWorldMatrix);
@@ -361,6 +368,11 @@ const Matrix& RenderState::autoBindingGetWorldViewProjectionMatrix() const
 const Matrix& RenderState::autoBindingGetInverseTransposeWorldMatrix() const
 {
     return _nodeBinding ? _nodeBinding->getInverseTransposeWorldMatrix() : Matrix::identity();
+}
+
+const Matrix& RenderState::autoBindingGetInverseWorldMatrix() const
+{
+    return _nodeBinding ? _nodeBinding->getInverseWorldMatrix() : Matrix::identity();
 }
 
 const Matrix& RenderState::autoBindingGetInverseTransposeWorldViewMatrix() const
