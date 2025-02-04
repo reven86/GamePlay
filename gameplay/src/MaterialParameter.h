@@ -282,7 +282,7 @@ public:
      * @param valueMethod A pointer to the class method to bind (in the format '&class::method').
      */
     template <class ClassType, class ParameterType>
-    void bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const);
+    void bindValue(const ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const);
 
     /**
      * Binds the return value of a class method to this material parameter.
@@ -298,7 +298,7 @@ public:
      * @param countMethod A pointer to a method that returns the number of entries in the array returned by valueMethod.
      */
     template <class ClassType, class ParameterType>
-    void bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const);
+    void bindValue(const ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const);
 
     /**
      * Binds the return value of the supported class method for the given node to this material parameter.
@@ -403,12 +403,11 @@ private:
     {
         typedef ParameterType (ClassType::*ValueMethod)() const;
     public:
-        MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod);
+        MethodValueBinding(MaterialParameter* param, const ClassType* instance, ValueMethod valueMethod);
         void setValue(Effect* effect);
     private:
-        ClassType* _instance;
+        const ClassType* _instance;
         ValueMethod _valueMethod;
-
     };
 
     /**
@@ -420,10 +419,10 @@ private:
         typedef ParameterType (ClassType::*ValueMethod)() const;
         typedef unsigned int (ClassType::*CountMethod)() const;
     public:
-        MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
+        MethodArrayBinding(MaterialParameter* param, const ClassType* instance, ValueMethod valueMethod, CountMethod countMethod);
         void setValue(Effect* effect);
     private:
-        ClassType* _instance;
+        const ClassType* _instance;
         ValueMethod _valueMethod;
         CountMethod _countMethod;
     };
@@ -484,7 +483,7 @@ private:
 };
 
 template <class ClassType, class ParameterType>
-void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const)
+void MaterialParameter::bindValue(const ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const)
 {
     clearValue();
 
@@ -494,7 +493,7 @@ void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (Class
 }
 
 template <class ClassType, class ParameterType>
-void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const)
+void MaterialParameter::bindValue(const ClassType* classInstance, ParameterType (ClassType::*valueMethod)() const, unsigned int (ClassType::*countMethod)() const)
 {
     clearValue();
 
@@ -504,7 +503,7 @@ void MaterialParameter::bindValue(ClassType* classInstance, ParameterType (Class
 }
 
 template <class ClassType, class ParameterType>
-MaterialParameter::MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod) :
+MaterialParameter::MethodValueBinding<ClassType, ParameterType>::MethodValueBinding(MaterialParameter* param, const ClassType* instance, ValueMethod valueMethod) :
     MethodBinding(param), _instance(instance), _valueMethod(valueMethod)
 {
 }
@@ -516,7 +515,7 @@ void MaterialParameter::MethodValueBinding<ClassType, ParameterType>::setValue(E
 }
 
 template <class ClassType, class ParameterType>
-MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(MaterialParameter* param, ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
+MaterialParameter::MethodArrayBinding<ClassType, ParameterType>::MethodArrayBinding(MaterialParameter* param, const ClassType* instance, ValueMethod valueMethod, CountMethod countMethod) :
     MethodBinding(param), _instance(instance), _valueMethod(valueMethod), _countMethod(countMethod)
 {
 }
