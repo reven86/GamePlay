@@ -830,8 +830,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for(int i = 0; i < e->numTouches; i++)
         {
-            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
-            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
+            long x = static_cast<long>((e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>((e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             if (0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1])
             {
@@ -844,8 +844,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
-            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
+            long x = static_cast<long>((e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>((e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
@@ -855,8 +855,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
-            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
+            long x = static_cast<long>((e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>((e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
