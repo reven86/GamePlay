@@ -726,10 +726,10 @@ bool updateWindowSize()
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
 {
-    printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld)\n",
-             eventType, e->screenX, e->screenY, e->clientX, e->clientY,
-             e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
-             e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY);
+    //printf("%d screen: (%ld,%ld), client: (%ld,%ld),%s%s%s%s button: %hu, buttons: %hu, movement: (%ld,%ld), target: (%ld, %ld)\n",
+    //         eventType, e->screenX, e->screenY, e->clientX, e->clientY,
+    //         e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "",
+    //         e->button, e->buttons, e->movementX, e->movementY, e->targetX, e->targetY);
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
     long offsetPacked = EM_ASM_INT_V({
@@ -744,7 +744,7 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
     gameplay::Mouse::MouseEvent mouseEvt;
     bool eventConsumed = false;
 
-    GP_LOG("X=%d Y=%d", x, y);
+    //GP_LOG("X=%d Y=%d", x, y);
     
     // don't propagate mouse down events happen outside of the canvas rect
     bool isInside = x >= 0 && y >= 0 && x < __windowSize[0] && y < __windowSize[1];
@@ -830,8 +830,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for(int i = 0; i < e->numTouches; i++)
         {
-            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 16);
+            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             if (0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1])
             {
@@ -844,8 +844,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 16);
+            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
@@ -855,8 +855,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
     {
         for (int i = 0; i < e->numTouches; i++)
         {
-            long x = e->touches[i].targetX - (offsetPacked & 0xffff);
-            long y = e->touches[i].targetY - (offsetPacked >> 16);
+            long x = static_cast<long>(e->touches[i].targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+            long y = static_cast<long>(e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
             res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
