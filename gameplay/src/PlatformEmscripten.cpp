@@ -98,6 +98,7 @@ PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = NULL;
 PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
 PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 static int __windowSize[2];
+static float __devicePixelRatio = 1.0f;
 static list<ConnectedGamepadDevInfo> __connectedGamepads;
 static bool __mouseButtonPressed[3] = { false, false, false };
 static std::string __canvasElement;
@@ -515,6 +516,7 @@ Platform* Platform::create(Game* game)
     // Get the window configuration values
     const char *title = NULL;
     int __width = 0, __height = 0, __samples = 0;
+    __devicePixelRatio = emscripten_get_device_pixel_ratio();
     bool fullscreen = false;
     
     // default window sizes come from canvas
@@ -541,8 +543,8 @@ Platform* Platform::create(Game* game)
         }
     }
     
-    __windowSize[0] = __width;
-    __windowSize[1] = __height;
+    __windowSize[0] = static_cast<int>(__width * __devicePixelRatio);
+    __windowSize[1] = static_cast<int>(__height * __devicePixelRatio);
     emscripten_set_canvas_element_size(__canvasElement.c_str(), __width, __height);
     //printf ("set width %d height %d", __width, __height);
 
@@ -701,17 +703,25 @@ double timespec2millis(struct timespec *a)
     return (1000.0 * a->tv_sec) + (0.000001 * a->tv_nsec);
 }
 
-void updateWindowSize()
+bool updateWindowSize()
 {
     int sizePacked = EM_ASM_INT_V({
         var canvas = Module.canvas;
         return canvas !== undefined ? canvas.clientWidth + (canvas.clientHeight << 16) : 0;
     });
     
-    __windowSize[0] = sizePacked & 0xffff;
-    __windowSize[1] = sizePacked >> 16;
+    int width = static_cast<int>((sizePacked & 0xffff) * __devicePixelRatio);
+    int height = static_cast<int>((sizePacked >> 16) * __devicePixelRatio);
     
-    emscripten_set_canvas_element_size(__canvasElement.c_str(), __windowSize[0], __windowSize[1]);
+    if (width != __windowSize[0] || height != __windowSize[1])
+    {
+        __windowSize[0] = width;
+        __windowSize[1] = height;
+        emscripten_set_canvas_element_size(__canvasElement.c_str(), __windowSize[0], __windowSize[1]);
+        return true;
+    }
+
+    return false;
 }
 
 EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userData)
@@ -729,8 +739,8 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
         return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
     });
 
-    long x = e->targetX - (offsetPacked & 0xffff);
-    long y = e->targetY - (offsetPacked >> 16);
+    long x = static_cast<long>((e->targetX - (offsetPacked & 0xffff)) * __devicePixelRatio);
+    long y = static_cast<long>((e->targetY - (offsetPacked >> 16))  * __devicePixelRatio);
     gameplay::Mouse::MouseEvent mouseEvt;
     bool eventConsumed = false;
 
@@ -913,21 +923,8 @@ EM_BOOL resize_callback(int eventType, const EmscriptenUiEvent * uiEvent, void *
 {
     GP_ASSERT(eventType == EMSCRIPTEN_EVENT_RESIZE);
     
-    int sizePacked = EM_ASM_INT_V({
-        var canvas = Module.canvas;
-        return canvas ? canvas.clientWidth + (canvas.clientHeight << 16) : 0;
-    });
-    
-    int width = sizePacked & 0xffff;
-    int height = sizePacked >> 16;
-
-    if (width != __windowSize[0] || height != __windowSize[1])
-    {
-        __windowSize[0] = width;
-        __windowSize[1] = height;
-        emscripten_set_canvas_element_size(__canvasElement.c_str(), width, height);  // resize the pixel width and height as well when canvas proportions on the page are changed
-        gameplay::Platform::resizeEventInternal(static_cast<unsigned>(width), static_cast<unsigned>(height));
-    }
+    if (updateWindowSize())
+        gameplay::Platform::resizeEventInternal(static_cast<unsigned>(__windowSize[0]), static_cast<unsigned>(__windowSize[1]));
     
     return 1;
 }
