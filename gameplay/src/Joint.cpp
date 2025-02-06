@@ -77,7 +77,7 @@ void Joint::updateJointMatrix(const Matrix& bindShape, Vector4* matrixPalette)
     {
         _jointMatrixDirty = false;
 
-        static Matrix t;
+        Matrix t;
         Matrix::multiply(Node::getWorldMatrix(), getInverseBindPose(), &t);
         Matrix::multiply(t, bindShape, &t);
 

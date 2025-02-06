@@ -456,6 +456,12 @@ const Matrix& Node::getWorldMatrix() const
                 _world = getMatrix();
             }
 
+            _invWorld = _world;
+            _invWorld.invert();
+
+            _invTransWorld = _invWorld;
+            _invTransWorld.transpose();
+
             // Our world matrix was just updated, so call getWorldMatrix() on all child nodes
             // to force their resolved world matrices to be updated.
             for (Node* child = getFirstChild(); child != NULL; child = child->getNextSibling())
@@ -469,35 +475,30 @@ const Matrix& Node::getWorldMatrix() const
 
 const Matrix& Node::getWorldViewMatrix() const
 {
-    static Matrix worldView;
-    Matrix::multiply(getViewMatrix(), getWorldMatrix(), &worldView);
-    return worldView;
+    Matrix::multiply(getViewMatrix(), getWorldMatrix(), &_worldView);
+    return _worldView;
 }
 
 const Matrix& Node::getInverseTransposeWorldViewMatrix() const
 {
-    static Matrix invTransWorldView;
-    Matrix::multiply(getViewMatrix(), getWorldMatrix(), &invTransWorldView);
-    invTransWorldView.invert();
-    invTransWorldView.transpose();
-    return invTransWorldView;
+    Matrix::multiply(getViewMatrix(), getWorldMatrix(), &_invTransWorldView);
+    _invTransWorldView.invert();
+    _invTransWorldView.transpose();
+    return _invTransWorldView;
 }
 
 const Matrix& Node::getInverseTransposeWorldMatrix() const
 {
-    static Matrix invTransWorld;
-    invTransWorld = getWorldMatrix();
-    invTransWorld.invert();
-    invTransWorld.transpose();
-    return invTransWorld;
+    if (_dirtyBits & NODE_DIRTY_WORLD)
+        getWorldMatrix();
+    return _invTransWorld;
 }
 
 const Matrix& Node::getInverseWorldMatrix() const
 {
-    static Matrix invWorld;
-    invWorld = getWorldMatrix();
-    invWorld.invert();
-    return invWorld;
+    if (_dirtyBits & NODE_DIRTY_WORLD)
+        getWorldMatrix();
+    return _invWorld;
 }
 
 const Matrix& Node::getViewMatrix() const
@@ -571,9 +572,8 @@ const Matrix& Node::getWorldViewProjectionMatrix() const
 {
     // Always re-calculate worldViewProjection matrix since it's extremely difficult
     // to track whether the camera has changed (it may frequently change every frame).
-    static Matrix worldViewProj;
-    Matrix::multiply(getViewProjectionMatrix(), getWorldMatrix(), &worldViewProj);
-    return worldViewProj;
+    Matrix::multiply(getViewProjectionMatrix(), getWorldMatrix(), &_worldViewProj);
+    return _worldViewProj;
 }
 
 Vector3 Node::getTranslationWorld() const

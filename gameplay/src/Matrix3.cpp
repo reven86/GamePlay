@@ -14,7 +14,6 @@ static const float MATRIX3_IDENTITY[9] =
 
 Matrix3::Matrix3()
 {
-    *this = Matrix3::identity();
 }
 
 Matrix3::Matrix3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33)

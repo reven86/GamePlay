@@ -328,9 +328,9 @@ void SpriteBatch::draw(const Vector3& position, const Vector3& right, const Vect
         rp += tForward;
 
         // Rotate all points the specified amount about the given point (about the up vector).
-        static Vector3 u;
+        Vector3 u;
         Vector3::cross(right, forward, &u);
-        static Matrix rotation;
+        Matrix rotation;
         Matrix::createRotation(u, rotationAngle, &rotation);
         p0 -= rp;
         p0 *= rotation;

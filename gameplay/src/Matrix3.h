@@ -41,11 +41,7 @@ public:
     float m[9];
 
     /**
-     * Constructs a matrix initialized to the identity matrix:
-     *
-     * 1  0  0
-     * 0  1  0
-     * 0  0  1
+     * Constructs an uninitialized matrix:
      */
     Matrix3();
 

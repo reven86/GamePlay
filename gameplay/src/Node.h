@@ -757,6 +757,11 @@ protected:
     Ref* _userObject;
     /** The world matrix for this node. */
     mutable Matrix _world;
+    mutable Matrix _worldView;
+    mutable Matrix _invTransWorldView;
+    mutable Matrix _invTransWorld;
+    mutable Matrix _invWorld;
+    mutable Matrix _worldViewProj;
     /** The bounding sphere for this node. */
     mutable BoundingSphere _bounds;
     /** The dirty bits used for optimization. */
