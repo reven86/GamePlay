@@ -11,7 +11,7 @@ std::vector<Transform*> Transform::_transformsChanged;
 std::recursive_mutex Transform::_transformsChangedMutex;
 
 Transform::Transform()
-    : _matrixDirtyBits(0), _listeners(NULL), _translation( 0.0f, 0.0f, 0.0f )
+    : _matrixDirtyBits(0), _listeners(NULL), _translation( 0.0f, 0.0f, 0.0f ), _matrix(Matrix::identity())
 {
     GP_REGISTER_SCRIPT_EVENTS();
 
@@ -20,7 +20,7 @@ Transform::Transform()
 }
 
 Transform::Transform(const Vector3& scale, const Quaternion& rotation, const Vector3& translation)
-    : _matrixDirtyBits(0), _listeners(NULL)
+    : _matrixDirtyBits(0), _listeners(NULL), _matrix(Matrix::identity())
 {
     GP_REGISTER_SCRIPT_EVENTS();
 
@@ -29,7 +29,7 @@ Transform::Transform(const Vector3& scale, const Quaternion& rotation, const Vec
 }
 
 Transform::Transform(const Vector3& scale, const Matrix& rotation, const Vector3& translation)
-    : _matrixDirtyBits(0), _listeners(NULL)
+    : _matrixDirtyBits(0), _listeners(NULL), _matrix(Matrix::identity())
 {
     GP_REGISTER_SCRIPT_EVENTS();
 
@@ -38,7 +38,7 @@ Transform::Transform(const Vector3& scale, const Matrix& rotation, const Vector3
 }
 
 Transform::Transform(const Transform& copy)
-    : _matrixDirtyBits(0), _listeners(NULL)
+    : _matrixDirtyBits(0), _listeners(NULL), _matrix(Matrix::identity())
 {
     GP_REGISTER_SCRIPT_EVENTS();
 
