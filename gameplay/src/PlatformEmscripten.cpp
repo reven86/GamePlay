@@ -1116,7 +1116,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
                         }
 
             if (!gestureDetected)
-                gameplay::Platform::touchEventInternal(Touch::TOUCH_RELEASE, x, y, pointerId);
+                gameplay::Platform::touchEventInternal(Touch::TOUCH_RELEASE, x, y, i);
 
             eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
         }
@@ -1132,7 +1132,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             bool needBreak = false;
             if (!pointerMove(x, y, pointerId, &needBreak))
-                gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, pointerId);
+                gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
             eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
 
             if (needBreak)
