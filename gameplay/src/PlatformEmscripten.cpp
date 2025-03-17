@@ -1130,6 +1130,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             size_t pointerId = e->touches[i].identifier;
 
+            GP_LOG("before touch move xy=%d, %d", x, y);
+
             bool needBreak = false;
             if (!pointerMove(x, y, pointerId, &needBreak))
             {
