@@ -1007,9 +1007,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
                         // Non-primary pointer down.
                         if (__multiTouch)
                         {
-                            gameplay::Platform::touchEventInternal(Touch::TOUCH_PRESS, 
-                                                                   AMotionEvent_getX(event, pointerIndex), 
-                                                                   AMotionEvent_getY(event, pointerIndex), pointerId);
+                            gameplay::Platform::touchEventInternal(Touch::TOUCH_PRESS, x, y, pointerId);
                         }
                     }
                     break;
