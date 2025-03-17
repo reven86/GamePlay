@@ -1110,10 +1110,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
                 for(int idx = 0; idx < 2; idx++)
                     if (__pointer[idx].pressed && __pointer[idx].pointerId == pointerId)
                         if (pointerRelease(idx, x, y))
-                        {
                             gestureDetected = true;
-                            break;
-                        }
 
             if (!gestureDetected)
                 gameplay::Platform::touchEventInternal(Touch::TOUCH_RELEASE, x, y, i);
@@ -1132,7 +1129,10 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             bool needBreak = false;
             if (!pointerMove(x, y, pointerId, &needBreak))
+            {
+                GP_LOG("touch move xy=%d, %d", x, y);
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
+            }
             eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
 
             if (needBreak)

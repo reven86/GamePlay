@@ -660,7 +660,10 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
             else
             {
                 if (ctrl->touchEvent((Touch::TouchEvent)evt, localX, localY, contactIndex))
+                {
+                    GP_LOG("event processed ctrl=%s xy=%d,%d", ctrl->getId(), localX, localY);
                     return true;
+                }
             }
 
             // Handle container scrolling
@@ -680,7 +683,10 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
                         else
                         {
                             if (container->touchEventScroll((Touch::TouchEvent)evt, formX - tmp->_absoluteBounds.x, formY - tmp->_absoluteBounds.y, contactIndex))
+                            {
+                                GP_LOG("scroll event processed container=%s xy=%d,%d", ctrl->getId(), formX - tmp->_absoluteBounds.x, formY - tmp->_absoluteBounds.y);
                                 return true;
+                            }
                         }
                         break; // scrollable parent container found
                     }
@@ -690,7 +696,10 @@ bool Form::pointerEventInternal(bool mouse, int evt, int x, int y, float param)
 
             // Consume all input events anyways?
             if (ctrl->getConsumeInputEvents())
+            {
+                GP_LOG("ctrl event consumed %s", ctrl->getId());
                 return true;
+            }
 
             ctrl = ctrl->getParent();
         }
