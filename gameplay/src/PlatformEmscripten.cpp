@@ -964,7 +964,7 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
 
                 __gesturePinching = false;
                 *outBreak = true;
-                return;
+                return true;
             }
             //Test for pinch
             //Along with pinch we send rotation and pan events
@@ -1003,7 +1003,7 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
                     scale = currentDistancePointer.length();
                     rotation = atan2f(currentDistancePointer.y, currentDistancePointer.x);
 
-                    if ((__gesturePointerCurrentPosition[0] != __gesturePointerLastPosition[0]) || (__gesturePointer[1]CurrentPosition != __gesturePointer[1]LastPosition) || !eventWasStarted)
+                    if ((__gesturePointerCurrentPosition[0] != __gesturePointerLastPosition[0]) || (__gesturePointerCurrentPosition[1] != __gesturePointerLastPosition[1]) || !eventWasStarted)
                     {
                         if (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH))
                             gameplay::Platform::gesturePinchEventInternal(__gesturePinchCentroid.first, __gesturePinchCentroid.second, scale, eventWasStarted ? 2 : 0);
