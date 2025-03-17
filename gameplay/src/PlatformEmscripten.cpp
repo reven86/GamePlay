@@ -811,21 +811,23 @@ EM_BOOL mouse_callback(int eventType, const EmscriptenMouseEvent *e, void *userD
 
 EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userData)
 {
-    //printf("%d %d %s%s%s%s\n", eventType, e->numTouches, e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "");
-    //for(int i = 0; i < e->numTouches; i++)
-    //    printf("%d screen: (%ld,%ld), client: (%ld,%ld), canvas: (%ld,%ld)\n",
-    //             e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
-    //             e->touches[i].canvasX, e->touches[i].canvasY);
+    printf("%d %d %s%s%s%s\n", eventType, e->numTouches, e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "");
+    for(int i = 0; i < e->numTouches; i++)
+        printf("%d screen: (%ld,%ld), client: (%ld,%ld), canvas: (%ld,%ld)\n",
+                 e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
+                 e->touches[i].canvasX, e->touches[i].canvasY);
 
     // we need to listen mouse events on window but send the coordinates down related to canvas rect
-    long offsetPacked = EM_ASM_INT_V({
-        if (Module.canvas === undefined)
-            return 0;
-        var canvasRect = getBoundingClientRect(Module.canvas);
-        return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
-    });
+    //long offsetPacked = EM_ASM_INT_V({
+    //    if (Module.canvas === undefined)
+    //        return 0;
+    //    var canvasRect = getBoundingClientRect(Module.canvas);
+    //    return (canvasRect.left & 0xffff) + (canvasRect.top << 16);
+    //});
+    long offsetPacked = 0;
 
-    EM_BOOL res = 0;
+    // don't propagate mouse down events happen outside of the canvas rect
+    bool eventConsumed = false;
     if (eventType == EMSCRIPTEN_EVENT_TOUCHSTART)
     {
         for(int i = 0; i < e->numTouches; i++)
@@ -836,7 +838,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
             if (0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1])
             {
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, x, y, i);
-                res |= true;
+                eventConsumed = true;
             }
         }
     }
@@ -848,7 +850,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
             long y = static_cast<long>((e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_RELEASE, x, y, i);
-            res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
+            eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
         }
     }
     if (eventType == EMSCRIPTEN_EVENT_TOUCHMOVE)
@@ -859,11 +861,11 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
             long y = static_cast<long>((e->touches[i].targetY - (offsetPacked >> 16)) * __devicePixelRatio);
 
             gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
-            res |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
+            eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
         }
     }
 
-    return res;
+    return eventConsumed;
 }
 
 EM_BOOL wheel_callback(int eventType, const EmscriptenWheelEvent *e, void *userData)
@@ -995,9 +997,9 @@ int Platform::enterMessagePump()
         emscripten_set_mousedown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
         emscripten_set_mouseup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
         emscripten_set_mousemove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, mouse_callback);
-        emscripten_set_touchstart_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
-        emscripten_set_touchend_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
-        emscripten_set_touchmove_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, touch_callback);
+        emscripten_set_touchstart_callback(__canvasElement.c_str(), 0, true, touch_callback);
+        emscripten_set_touchend_callback(__canvasElement.c_str(), 0, true, touch_callback);
+        emscripten_set_touchmove_callback(__canvasElement.c_str(), 0, true, touch_callback);
         emscripten_set_wheel_callback(__canvasElement.c_str(), 0, true, wheel_callback);
         emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
         emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, true, keyboard_callback);
