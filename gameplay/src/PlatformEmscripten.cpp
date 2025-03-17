@@ -933,7 +933,7 @@ bool pointerRelease(int idx, int x, int y)
     return gestureDetected;
 }
 
-bool pointerMove(size_t pointerId)
+bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
 {
     bool gestureDetected = false;
 
@@ -963,7 +963,8 @@ bool pointerMove(size_t pointerId)
                 }
 
                 __gesturePinching = false;
-                break;
+                *outBreak = true;
+                return;
             }
             //Test for pinch
             //Along with pinch we send rotation and pan events
@@ -1129,9 +1130,13 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             size_t pointerId = e->touches[i].identifier;
 
-            if (!pointerMove(pointerId))
+            bool needBreak = false;
+            if (!pointerMove(x, y, pointerId, &needBreak))
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, pointerId);
             eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
+
+            if (needBreak)
+                break;
         }
     }
 
