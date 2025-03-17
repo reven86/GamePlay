@@ -1024,13 +1024,13 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
                 int delta = sqrt(pow(static_cast<float>(x - __pointer[0].x), 2) +
                     pow(static_cast<float>(y - __pointer[0].y), 2));
 
-                if ((__gestureDraging || __gestureEventsProcessed.test(Gesture::GESTURE_DRAG)) &&
-                    (gameplay::Game::getInstance()->getAbsoluteTime() - __pointer[0].time >= GESTURE_DRAG_START_DURATION_MIN) &&
+                if ((gameplay::Game::getInstance()->getAbsoluteTime() - __pointer[0].time >= GESTURE_DRAG_START_DURATION_MIN) &&
                     (delta >= GESTURE_DRAG_DISTANCE_MIN))
                 {
                     gameplay::Platform::gestureDragEventInternal(x, y);
                     __gestureDraging = true;
                     gestureDetected = true;
+                    GP_LOG("gesture drag detected %d", __gestureEventsProcessed.test(Gesture::GESTURE_DRAG));
                 }
             }
         }
@@ -1038,7 +1038,10 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
 
     if (__gesturePinching &&
         (__gestureEventsProcessed.test(Gesture::GESTURE_PINCH) || __gestureEventsProcessed.test(Gesture::GESTURE_ROTATION) || __gestureEventsProcessed.test(Gesture::GESTURE_PAN)))
+    {
         gestureDetected = true;
+        GP_LOG("gesture pinch detected");
+    }
 
     return gestureDetected;
 }
