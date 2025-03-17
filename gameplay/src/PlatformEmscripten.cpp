@@ -1016,7 +1016,7 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
             }
         }
         //Only the primary pointer is done and the event was done by it
-        else if (!gestureDetected && pointerId == __pointer[0].pointerId)
+        else if (pointerId == __pointer[0].pointerId)
         {
             //Test for drag
             if (__gestureEventsProcessed.test(Gesture::GESTURE_DRAG))
@@ -1046,11 +1046,11 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
 
 EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userData)
 {
-    printf("%d %d %s%s%s%s\n", eventType, e->numTouches, e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "");
-    for(int i = 0; i < e->numTouches; i++)
-        printf("%d screen: (%ld,%ld), client: (%ld,%ld), target: (%ld,%ld)\n",
-                 e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
-                 e->touches[i].targetX, e->touches[i].targetY);
+    //printf("%d %d %s%s%s%s\n", eventType, e->numTouches, e->ctrlKey ? " CTRL" : "", e->shiftKey ? " SHIFT" : "", e->altKey ? " ALT" : "", e->metaKey ? " META" : "");
+    //for(int i = 0; i < e->numTouches; i++)
+    //    printf("%d screen: (%ld,%ld), client: (%ld,%ld), target: (%ld,%ld)\n",
+    //             e->touches[i].identifier, e->touches[i].screenX, e->touches[i].screenY, e->touches[i].clientX, e->touches[i].clientY,
+    //             e->touches[i].targetX, e->touches[i].targetY);
 
     //// we need to listen mouse events on window but send the coordinates down related to canvas rect
     //long offsetPacked = EM_ASM_INT_V({
@@ -1086,7 +1086,7 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
                 {
                     if (!__pointer[0].pressed)
                         pointerPress(0, x, y, pointerId);
-                    else
+                    else if (!__pointer[1].pressed)
                         pointerPress(1, x, y, pointerId);
                 }
 
