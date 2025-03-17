@@ -1041,7 +1041,6 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
         gestureDetected = true;
     }
 
-    GP_LOG("gestureDetected %d", gestureDetected);
     return gestureDetected;
 }
 
@@ -1086,10 +1085,8 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
                     __gestureEventsProcessed.test(Gesture::GESTURE_PAN) ||
                     __gestureEventsProcessed.test(Gesture::GESTURE_LONG_TAP))
                 {
-                    if (!__pointer[0].pressed)
-                        pointerPress(0, x, y, pointerId);
-                    else if (!__pointer[1].pressed)
-                        pointerPress(1, x, y, pointerId);
+                    if (i < 2 && !__pointer[i].pressed)
+                        pointerPress(i, x, y, pointerId);
                 }
 
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_PRESS, x, y, i);
@@ -1129,15 +1126,9 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             size_t pointerId = e->touches[i].identifier;
 
-            GP_LOG("before touch move xy=%d, %d", x, y);
-
             bool needBreak = false;
-            bool gestureDetected = pointerMove(x, y, pointerId, &needBreak);
-            if (!gestureDetected)
-            {
-                GP_LOG("touch move xy=%d, %d", x, y);
+            if (!pointerMove(x, y, pointerId, &needBreak))
                 gameplay::Platform::touchEventInternal(gameplay::Touch::TOUCH_MOVE, x, y, i);
-            }
             eventConsumed |= 0 < x && x < __windowSize[0] && 0 < y && y < __windowSize[1];
 
             if (needBreak)
