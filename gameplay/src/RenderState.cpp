@@ -986,6 +986,8 @@ void RenderState::StateBlock::setState(const char* name, const char* value)
 {
     GP_ASSERT(name);
 
+    // always set _bits even when value is same as default state to make sure states can apply hierarchically
+
     if (strcmp(name, "blend") == 0)
     {
         setBlend(parseBoolean(value));
@@ -1063,150 +1065,67 @@ void RenderState::StateBlock::setState(const char* name, const char* value)
 void RenderState::StateBlock::setBlend(bool enabled)
 {
     _blendEnabled = enabled;
-    if (!enabled)
-    {
-        _bits &= ~RS_BLEND;
-    }
-    else
-    {
-        _bits |= RS_BLEND;
-    }
+    _bits |= RS_BLEND;
 }
 
 void RenderState::StateBlock::setBlendSrc(Blend blend)
 {
     _blendSrc = blend;
-    if (_blendSrc == BLEND_ONE && _blendDst == BLEND_ZERO)
-    {
-        // Default blend func
-        _bits &= ~RS_BLEND_FUNC;
-    }
-    else
-    {
-        _bits |= RS_BLEND_FUNC;
-    }
+    _bits |= RS_BLEND_FUNC;
 }
 
 void RenderState::StateBlock::setBlendDst(Blend blend)
 {
     _blendDst = blend;
-    if (_blendSrc == BLEND_ONE && _blendDst == BLEND_ZERO)
-    {
-        // Default blend func
-        _bits &= ~RS_BLEND_FUNC;
-    }
-    else
-    {
-        _bits |= RS_BLEND_FUNC;
-    }
+    _bits |= RS_BLEND_FUNC;
 }
 
 void RenderState::StateBlock::setCullFace(bool enabled)
 {
     _cullFaceEnabled = enabled;
-    if (!enabled)
-    {
-        _bits &= ~RS_CULL_FACE;
-    }
-    else
-    {
-        _bits |= RS_CULL_FACE;
-    }
+    _bits |= RS_CULL_FACE;
 }
 
 void RenderState::StateBlock::setCullFaceSide(CullFaceSide side)
 {
     _cullFaceSide = side;
-    if (_cullFaceSide == CULL_FACE_SIDE_BACK)
-    {
-        // Default cull side
-        _bits &= ~RS_CULL_FACE_SIDE;
-    }
-    else
-    {
-        _bits |= RS_CULL_FACE_SIDE;
-    }
+    _bits |= RS_CULL_FACE_SIDE;
 }
 
 void RenderState::StateBlock::setFrontFace(FrontFace winding)
 {
     _frontFace = winding;
-    if (_frontFace == FRONT_FACE_CCW)
-    {
-        // Default front face
-        _bits &= ~RS_FRONT_FACE;
-    }
-    else
-    {
-        _bits |= RS_FRONT_FACE;
-    }
+    _bits |= RS_FRONT_FACE;
 }
 
 void RenderState::StateBlock::setDepthTest(bool enabled)
 {
     _depthTestEnabled = enabled;
-    if (!enabled)
-    {
-        _bits &= ~RS_DEPTH_TEST;
-    }
-    else
-    {
-        _bits |= RS_DEPTH_TEST;
-    }
+    _bits |= RS_DEPTH_TEST;
 }
 
 void RenderState::StateBlock::setDepthWrite(bool enabled)
 {
     _depthWriteEnabled = enabled;
-    if (enabled)
-    {
-        _bits &= ~RS_DEPTH_WRITE;
-    }
-    else
-    {
-        _bits |= RS_DEPTH_WRITE;
-    }
+    _bits |= RS_DEPTH_WRITE;
 }
 
 void RenderState::StateBlock::setDepthFunction(DepthFunction func)
 {
     _depthFunction = func;
-    if (_depthFunction == DEPTH_LESS)
-    {
-        // Default depth function
-        _bits &= ~RS_DEPTH_FUNC;
-    }
-    else
-    {
-        _bits |= RS_DEPTH_FUNC;
-    }
+    _bits |= RS_DEPTH_FUNC;
 }
 
 void RenderState::StateBlock::setStencilTest(bool enabled)
 {
 	_stencilTestEnabled = enabled;
-	if (!enabled)
-	{
-		_bits &= ~RS_STENCIL_TEST;
-	}
-	else
-	{
-		_bits |= RS_STENCIL_TEST;
-	}
+	_bits |= RS_STENCIL_TEST;
 }
 
 void RenderState::StateBlock::setStencilWrite(unsigned int mask)
 {
 	_stencilWrite = mask;
-	if (mask == RS_ALL_ONES)
-	{
-		// Default stencil write
-		_bits &= ~RS_STENCIL_WRITE;
-	}
-	else
-	{
-		_bits |= RS_STENCIL_WRITE;
-	}
+	_bits |= RS_STENCIL_WRITE;
 }
 
 void RenderState::StateBlock::setStencilFunction(StencilFunction func, int ref, unsigned int mask)
@@ -1214,15 +1133,7 @@ void RenderState::StateBlock::setStencilFunction(StencilFunction func, int ref, 
 	_stencilFunction = func;
 	_stencilFunctionRef = ref;
 	_stencilFunctionMask = mask;
-	if (func == STENCIL_ALWAYS && ref == 0 && mask == RS_ALL_ONES)
-	{
-		// Default stencil function
-		_bits &= ~RS_STENCIL_FUNC;
-	}
-	else
-	{
-		_bits |= RS_STENCIL_FUNC;
-	}
+	_bits |= RS_STENCIL_FUNC;
 }
 
 void RenderState::StateBlock::setStencilOperation(StencilOperation sfail, StencilOperation dpfail, StencilOperation dppass)
@@ -1230,15 +1141,7 @@ void RenderState::StateBlock::setStencilOperation(StencilOperation sfail, Stenci
 	_stencilOpSfail = sfail;
 	_stencilOpDpfail = dpfail;
 	_stencilOpDppass = dppass;
-	if (sfail == STENCIL_OP_KEEP && dpfail == STENCIL_OP_KEEP && dppass == STENCIL_OP_KEEP)
-	{
-		// Default stencil operation
-		_bits &= ~RS_STENCIL_OP;
-	}
-	else
-	{
-		_bits |= RS_STENCIL_OP;
-	}
+	_bits |= RS_STENCIL_OP;
 }
 
 RenderState::AutoBindingResolver::AutoBindingResolver()
