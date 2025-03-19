@@ -197,7 +197,25 @@ void Matrix::createBillboardHelper(const Vector3& objectPosition, const Vector3&
     {
         Vector3 target = isSufficientDelta ? cameraPosition : (objectPosition - *cameraForwardVector);
 
-        createLookAt(objectPosition, target, cameraUpVector, dst);
+        // A billboard is the inverse of a lookAt rotation
+        Matrix lookAt;
+        createLookAt(objectPosition, target, cameraUpVector, &lookAt);
+        dst->m[0] = lookAt.m[0];
+        dst->m[1] = lookAt.m[4];
+        dst->m[2] = lookAt.m[8];
+        dst->m[3] = 0.0f;
+        dst->m[4] = lookAt.m[1];
+        dst->m[5] = lookAt.m[5];
+        dst->m[6] = lookAt.m[9];
+        dst->m[7] = 0.0f;
+        dst->m[8] = lookAt.m[2];
+        dst->m[9] = lookAt.m[6];
+        dst->m[10] = lookAt.m[10];
+        dst->m[11] = 0.0f;
+        dst->m[12] = 0.0f;
+        dst->m[13] = 0.0f;
+        dst->m[14] = 0.0f;
+        dst->m[15] = 1.0f;
     }
     else
     {
