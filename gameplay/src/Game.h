@@ -766,6 +766,8 @@ public:
      */
     const char * getUserAgentString( ) const;
 
+    inline void getSafeAreaInsets(float* top, float* left, float* bottom, float* right);
+
 protected:
 
     /**

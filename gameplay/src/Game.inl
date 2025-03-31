@@ -200,4 +200,10 @@ inline bool Game::getTouchPosition(int index, int * outX, int * outY) const
     return Platform::getTouchPosition(index, outX, outY);
 }
 
+inline void Game::getSafeAreaInsets(float* top, float* left, float* bottom, float* right)
+{
+    Platform::getSafeAreaInsets(top, left, bottom, right);
+}
+
+
 }

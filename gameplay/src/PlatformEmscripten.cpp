@@ -1567,6 +1567,14 @@ bool Platform::getTouchPosition(int index, int * outX, int * outY)
     return false;
 }
 
+void Platform::getSafeAreaInsets(float* top, float* left, float* bottom, float* right)
+{
+    if (top) *top = 0.0f;
+    if (left) *left = 0.0f;
+    if (bottom) *bottom = 0.0f;
+    if (right) *right = 0.0f;
+}
+
 }
 
 #endif

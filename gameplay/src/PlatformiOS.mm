@@ -139,6 +139,7 @@ int getUnicode(int key);
 - (BOOL)dismissKeyboard;
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;
 - (BOOL)hasGestureActive;
+- (UIEdgeInsets)getCurrentSafeAreaInsets;
 @end
 
 @interface View (Private)
@@ -975,11 +976,15 @@ int getUnicode(int key);
     if (!UIEdgeInsetsEqualToEdgeInsets(_currentSafeAreaInsets, newInsets)) {
         _currentSafeAreaInsets = newInsets;
         float scale = [[UIScreen mainScreen] scale];
-        gameplay::Platform::safeAreaChangedEventInternal(newInsets.top * scale, 
-                                               newInsets.left * scale, 
-                                               newInsets.bottom * scale, 
-                                               newInsets.right * scale);
+        gameplay::Platform::safeAreaChangedEventInternal(_currentSafeAreaInsets .top * scale, 
+                                               _currentSafeAreaInsets .left * scale, 
+                                               _currentSafeAreaInsets .bottom * scale, 
+                                               _currentSafeAreaInsets .right * scale);
     }
+}
+
+- (UIEdgeInsets)getCurrentSafeAreaInsets {
+    return _currentSafeAreaInsets;
 }
 
 @end
@@ -1962,6 +1967,17 @@ bool Platform::getTouchPosition(int index, int * outX, int * outY)
     *outY = __touchPoints[index].y;
 
     return true;
+}
+
+void Platform::getSafeAreaInsets(float* top, float* left, float* bottom, float* right)
+{
+    if (__view) {
+        UIEdgeInsets insets = [__view getCurrentSafeAreaInsets];
+        if (top) *top = insets.top;
+        if (left) *left = insets.left;
+        if (bottom) *bottom = insets.bottom;
+        if (right) *right = insets.right;
+    }
 }
 
 }
