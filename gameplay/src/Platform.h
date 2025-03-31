@@ -347,7 +347,6 @@ private:
      */
     static bool hasRenderer();
 
-    static void safeAreaChangedEventInternal(float top, float left, float bottom, float right);
     static void getSafeAreaInsets(float* top, float* left, float* bottom, float* right);
 
     /**
@@ -438,6 +437,8 @@ public:
      * @script{ignore}
      */
 	static void gestureDropEventInternal(int x, int y);
+
+    static void safeAreaChangedEventInternal(float top, float left, float bottom, float right);
 
     /**
      * Internal method used only from static code in various platform implementation.
