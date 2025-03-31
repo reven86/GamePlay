@@ -80,6 +80,11 @@ void Platform::gestureDropEventInternal(int x, int y)
     Game::getInstance()->gestureDropEventInternal(x, y);
 }
 
+void Platform::safeAreaChangedEventInternal(float top, float left, float bottom, float right)
+{
+    Game::getInstance()->safeAreaChangedEvent(top, left, bottom, right);
+}
+
 void Platform::resizeEventInternal(unsigned int width, unsigned int height)
 {
     Game::getInstance()->resizeEventInternal(width, height);

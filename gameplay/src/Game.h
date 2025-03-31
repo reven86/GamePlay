@@ -582,6 +582,8 @@ public:
      */
     virtual void gestureDropEvent(int x, int y);
 
+    virtual void safeAreaChangedEvent(float top, float left, float bottom, float right);
+
     /**
      * Gamepad callback on gamepad events.  Override to receive Gamepad::CONNECTED_EVENT 
      * and Gamepad::DISCONNECTED_EVENT, and store the Gamepad* in order to poll it from update().

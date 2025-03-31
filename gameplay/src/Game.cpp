@@ -802,6 +802,10 @@ void Game::gestureDropEventInternal(int x, int y)
         _scriptTarget->fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(GameScriptTarget, gestureDropEvent), x, y);
 }
 
+void Game::safeAreaChangedEvent(float top, float left, float bottom, float right)
+{
+}
+
 void Game::gamepadEventInternal(Gamepad::GamepadEvent evt, Gamepad* gamepad)
 {
     gamepadEvent(evt, gamepad);

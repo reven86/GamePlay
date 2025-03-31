@@ -436,6 +436,8 @@ public:
      */
 	static void gestureDropEventInternal(int x, int y);
 
+    static void safeAreaChangedEventInternal(float top, float left, float bottom, float right);
+        
     /**
      * Internal method used only from static code in various platform implementation.
      *

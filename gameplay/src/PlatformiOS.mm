@@ -121,6 +121,8 @@ int getUnicode(int key);
     UILongPressGestureRecognizer *_longPressRecognizer;
     UILongPressGestureRecognizer *_longTapRecognizer;
     UILongPressGestureRecognizer *_dragAndDropRecognizer;
+
+    UIEdgeInsets _currentSafeAreaInsets;
 }
 
 @property (readonly, nonatomic, getter=isUpdating) BOOL updating;
@@ -964,6 +966,20 @@ int getUnicode(int key);
         return YES;
 
     return NO;
+}
+
+- (void)safeAreaInsetsDidChange {
+    [super safeAreaInsetsDidChange];
+    
+    UIEdgeInsets newInsets = self.safeAreaInsets;
+    if (!UIEdgeInsetsEqualToEdgeInsets(_currentSafeAreaInsets, newInsets)) {
+        _currentSafeAreaInsets = newInsets;
+        float scale = [[UIScreen mainScreen] scale];
+        gameplay::Platform::safeAreaChangedEventInternal(newInsets.top * scale, 
+                                               newInsets.left * scale, 
+                                               newInsets.bottom * scale, 
+                                               newInsets.right * scale);
+    }
 }
 
 @end
