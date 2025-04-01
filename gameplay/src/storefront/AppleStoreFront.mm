@@ -42,15 +42,110 @@
         [numberFormatter setLocale:product.priceLocale];
         [numberFormatter setCurrencySymbol:numberFormatter.currencyCode];
         NSString *formattedString = [numberFormatter stringFromNumber:product.price];
+
+        // Determine product type based on identifier or other criteria
+        gameplay::StoreProduct::ProductType productType = gameplay::StoreProduct::ProductType::NON_CONSUMABLE;
+        if (@available(iOS 11.2, *)) {
+            if (product.subscriptionPeriod != nil) {
+                productType = gameplay::StoreProduct::ProductType::AUTO_RENEWABLE_SUBSCRIPTION;
+            }
+        }
         
-        products.push_back(gameplay::StoreProduct(
+        // Create base product
+        gameplay::StoreProduct storeProduct(
             [product.productIdentifier UTF8String],
             [product.localizedTitle UTF8String],
             [product.localizedDescription UTF8String],
             [product.price floatValue],
             [formattedString UTF8String],
-            [numberFormatter.currencyCode UTF8String]
-            ));
+            [[numberFormatter currencyCode] UTF8String],
+            productType
+        );
+        
+        // Populate subscription info if available
+        if (@available(iOS 11.2, *)) {
+            if (product.subscriptionPeriod != nil) {
+                gameplay::StoreProduct::SubscriptionInfo subInfo;
+                
+                // Set subscription period
+                NSInteger unitCount = product.subscriptionPeriod.numberOfUnits;
+                switch (product.subscriptionPeriod.unit) {
+                    case SKProductPeriodUnitDay:
+                        subInfo.periodDays = (int)unitCount;
+                        subInfo.localizedPeriod = unitCount > 1 ? 
+                            [NSString stringWithFormat:@"%ld days", (long)unitCount] : @"1 day";
+                        break;
+                    case SKProductPeriodUnitWeek:
+                        subInfo.periodDays = (int)unitCount * 7;
+                        subInfo.localizedPeriod = unitCount > 1 ? 
+                            [NSString stringWithFormat:@"%ld weeks", (long)unitCount] : @"1 week";
+                        break;
+                    case SKProductPeriodUnitMonth:
+                        subInfo.periodDays = (int)unitCount * 30;
+                        subInfo.localizedPeriod = unitCount > 1 ? 
+                            [NSString stringWithFormat:@"%ld months", (long)unitCount] : @"1 month";
+                        break;
+                    case SKProductPeriodUnitYear:
+                        subInfo.periodDays = (int)unitCount * 365;
+                        subInfo.localizedPeriod = unitCount > 1 ? 
+                            [NSString stringWithFormat:@"%ld years", (long)unitCount] : @"1 year";
+                        break;
+                }
+                
+                subInfo.periodCount = (int)unitCount;
+                
+                // Set subscription group if available
+                if (product.subscriptionGroupIdentifier != nil) {
+                    subInfo.groupId = [product.subscriptionGroupIdentifier UTF8String];
+                }
+                
+                // Handle introductory price if available
+                if (product.introductoryPrice != nil) {
+                    subInfo.isIntroductory = true;
+                    subInfo.introductoryPrice = [product.introductoryPrice.price floatValue];
+                    
+                    NSString *introPriceFormatted = [numberFormatter stringFromNumber:product.introductoryPrice.price];
+                    subInfo.localizedIntroductoryPrice = [introPriceFormatted UTF8String];
+                    
+                    // Set introductory price period
+                    NSInteger introUnitCount = product.introductoryPrice.subscriptionPeriod.numberOfUnits;
+                    switch (product.introductoryPrice.subscriptionPeriod.unit) {
+                        case SKProductPeriodUnitDay:
+                            subInfo.introductoryPricePeriods = (int)introUnitCount;
+                            break;
+                        case SKProductPeriodUnitWeek:
+                            subInfo.introductoryPricePeriods = (int)introUnitCount * 7;
+                            break;
+                        case SKProductPeriodUnitMonth:
+                            subInfo.introductoryPricePeriods = (int)introUnitCount * 30;
+                            break;
+                        case SKProductPeriodUnitYear:
+                            subInfo.introductoryPricePeriods = (int)introUnitCount * 365;
+                            break;
+                    }
+                    
+                    // Set payment mode
+                    switch (product.introductoryPrice.paymentMode) {
+                        case SKProductDiscountPaymentModePayAsYouGo:
+                            subInfo.introductoryPricePaymentMode = 
+                                gameplay::StoreProduct::SubscriptionInfo::IntroductoryPricePaymentMode::PAY_AS_YOU_GO;
+                            break;
+                        case SKProductDiscountPaymentModePayUpFront:
+                            subInfo.introductoryPricePaymentMode = 
+                                gameplay::StoreProduct::SubscriptionInfo::IntroductoryPricePaymentMode::PAY_UP_FRONT;
+                            break;
+                        case SKProductDiscountPaymentModeFreeTrial:
+                            subInfo.introductoryPricePaymentMode = 
+                                gameplay::StoreProduct::SubscriptionInfo::IntroductoryPricePaymentMode::FREE_TRIAL;
+                            break;
+                    }
+                }
+                
+                storeProduct.subscriptionInfo = subInfo;
+            }
+        }
+        
+        products.push_back(storeProduct);        
     }
     [numberFormatter release];
     
