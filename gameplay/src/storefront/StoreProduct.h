@@ -68,11 +68,6 @@ struct StoreProduct
         int periodCount;
 
         /**
-         * Localized period string (e.g., "1 month", "3 months", "1 year")
-         */
-        std::string localizedPeriod;
-
-        /**
          * Subscription group identifier (for grouping different subscription tiers)
          */
         std::string groupId;

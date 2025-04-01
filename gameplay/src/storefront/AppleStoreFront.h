@@ -3,7 +3,7 @@
 #ifndef APPLESTOREFRONT_H_
 #define APPLESTOREFRONT_H_
 
-#include "StoreFront.h"
+#include "Storefront.h"
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 

@@ -72,23 +72,15 @@
                 switch (product.subscriptionPeriod.unit) {
                     case SKProductPeriodUnitDay:
                         subInfo.periodDays = (int)unitCount;
-                        subInfo.localizedPeriod = unitCount > 1 ? 
-                            [NSString stringWithFormat:@"%ld days", (long)unitCount] : @"1 day";
                         break;
                     case SKProductPeriodUnitWeek:
                         subInfo.periodDays = (int)unitCount * 7;
-                        subInfo.localizedPeriod = unitCount > 1 ? 
-                            [NSString stringWithFormat:@"%ld weeks", (long)unitCount] : @"1 week";
                         break;
                     case SKProductPeriodUnitMonth:
                         subInfo.periodDays = (int)unitCount * 30;
-                        subInfo.localizedPeriod = unitCount > 1 ? 
-                            [NSString stringWithFormat:@"%ld months", (long)unitCount] : @"1 month";
                         break;
                     case SKProductPeriodUnitYear:
                         subInfo.periodDays = (int)unitCount * 365;
-                        subInfo.localizedPeriod = unitCount > 1 ? 
-                            [NSString stringWithFormat:@"%ld years", (long)unitCount] : @"1 year";
                         break;
                 }
                 
