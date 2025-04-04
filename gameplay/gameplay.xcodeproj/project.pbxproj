@@ -2283,7 +2283,7 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 			};
@@ -2306,7 +2306,7 @@
 					"../../libyaml-multiplatform/include",
 					./gameplay,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Release;

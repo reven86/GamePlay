@@ -46,11 +46,11 @@
         // Determine product type based on identifier or other criteria
         gameplay::StoreProduct::ProductType productType = gameplay::StoreProduct::ProductType::NON_CONSUMABLE;
         if (@available(iOS 11.2, *)) {
-            if (product.subscriptionPeriod != nil) {
+            if (product.subscriptionPeriod != nil && product.subscriptionPeriod.numberOfUnits > 0) {
                 productType = gameplay::StoreProduct::ProductType::AUTO_RENEWABLE_SUBSCRIPTION;
             }
         }
-        
+
         // Create base product
         gameplay::StoreProduct storeProduct(
             [product.productIdentifier UTF8String],
@@ -90,7 +90,7 @@
                 if (product.subscriptionGroupIdentifier != nil) {
                     subInfo.groupId = [product.subscriptionGroupIdentifier UTF8String];
                 }
-                
+
                 // Handle introductory price if available
                 if (product.introductoryPrice != nil) {
                     subInfo.isIntroductory = true;
