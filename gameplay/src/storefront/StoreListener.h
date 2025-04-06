@@ -99,13 +99,7 @@ public:
      * Return true if the item should be consumed.
      * Note: this method is not called for App Store market.
      */
-    virtual bool isProductConsumable(const char * productID) { return true; };
-
-    /**
-     * Return true if the item is a subscription.
-     * Note: this method is not called for App Store market.
-     */
-    virtual bool isSubscription(const char * productID) { return true; };
+    virtual bool isProductConsumable(const char * productID) { return false; };
 
     /**
      * Up-to-date receipt file has been returned.

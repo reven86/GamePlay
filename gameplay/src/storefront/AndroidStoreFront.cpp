@@ -59,18 +59,6 @@ JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isItemConsumable(JNIEnv
     return res ? 1 : 0;
 }
 
-JNIEXPORT int Java_org_gameplay3d_GamePlayNativeActivity_isSubscription(JNIEnv* env, jobject thiz, jstring sku)
-{
-    if (!__instance)
-        return 0;
-
-    const char* productID = env->GetStringUTFChars(sku, NULL);
-    bool res = __instance->getListener()->isSubscription(productID);
-    env->ReleaseStringUTFChars(sku, productID);
-
-    return res ? 1 : 0;
-}
-
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_itemRestored(JNIEnv* env, jobject thiz, jstring sku, jlong time, jstring orderId, jstring obj)
 {
     if (!__instance)
@@ -125,7 +113,8 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_getProductsFailed(JNIE
     env->ReleaseStringUTFChars(message, msg);
 }
 
-JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, jstring descr, jstring priceAmount, jstring priceCurrency)
+JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEnv* env, jobject thiz, jstring sku, jstring price, jstring title, 
+    jstring descr, jstring priceAmount, jstring priceCurrency, jstring type)
 {
     const char* productID = env->GetStringUTFChars(sku, NULL);
     const char* cPrice = env->GetStringUTFChars(price, NULL);
@@ -133,8 +122,9 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEn
     const char* cDescr = env->GetStringUTFChars(descr, NULL);
     const char* cPriceAmount = env->GetStringUTFChars(priceAmount, NULL);
     const char* cPriceCurrency = env->GetStringUTFChars(priceCurrency, NULL);
+    const char* cType = env->GetStringUTFChars(type, NULL);
 
-    gameplay::StoreProduct product(productID, cTitle, cDescr, static_cast<float>(atoi(cPriceAmount)) * 0.000001f, cPrice, cPriceCurrency);
+    gameplay::StoreProduct product(productID, cTitle, cDescr, static_cast<float>(atoi(cPriceAmount)) * 0.000001f, cPrice, cPriceCurrency, strcmp(cType, "subs") == 0 ? gameplay::StoreProduct::ProductType::AUTO_RENEWABLE_SUBSCRIPTION : gameplay::StoreProduct::ProductType::NON_CONSUMABLE);
     __products.push_back(product);
 
     env->ReleaseStringUTFChars(sku, productID);
@@ -143,6 +133,7 @@ JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_productValidated(JNIEn
     env->ReleaseStringUTFChars(descr, cDescr);
     env->ReleaseStringUTFChars(priceAmount, cPriceAmount);
     env->ReleaseStringUTFChars(priceCurrency, cPriceCurrency);
+    env->ReleaseStringUTFChars(type, cType);
 }
 
 JNIEXPORT void Java_org_gameplay3d_GamePlayNativeActivity_finishProductsValidation(JNIEnv* env, jobject thiz)
