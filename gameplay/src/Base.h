@@ -361,6 +361,7 @@ typedef unsigned long GamepadHandle;
 #elif defined(__EMSCRIPTEN__)
     typedef int PlatformEvent;
 #else
+    #include <X11/Xlib.h>
     typedef XEvent PlatformEvent;
 #endif
 

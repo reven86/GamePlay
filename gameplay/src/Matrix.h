@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include <memory>
+#include <cstring>
 
 namespace gameplay
 {
