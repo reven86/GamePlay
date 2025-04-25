@@ -143,4 +143,133 @@ void Platform::gamepadJoystickChangedEventInternal(GamepadHandle handle, unsigne
     }
 }
 
+#ifdef GP_NO_PLATFORM
+// stubs
+
+void Platform::signalShutdown()
+{
+}
+
+void Platform::swapBuffers()
+{
+}
+
+bool Platform::hasRenderer()
+{
+    return false;
+}
+
+bool Platform::isMouseCaptured()
+{
+    return false;
+}
+
+void Platform::getArguments(int* argc, char*** argv)
+{
+}
+
+void Platform::displayKeyboard(bool display)
+{
+    // not supported
+}
+
+unsigned int Platform::getDisplayWidth()
+{
+    return 0;
+}
+
+unsigned int Platform::getDisplayHeight()
+{
+    return 0;
+}
+
+double Platform::getAbsoluteTime()
+{
+    return 0.0;
+}
+
+void Platform::setAbsoluteTime(double time)
+{
+}
+
+bool Platform::isVsync()
+{
+    return false;
+}
+
+void Platform::setVsync(bool enable)
+{
+}
+
+bool Platform::isGestureSupported(Gesture::GestureEvent evt)
+{
+    return false;
+}
+
+void Platform::registerGesture(Gesture::GestureEvent evt)
+{
+}
+
+void Platform::unregisterGesture(Gesture::GestureEvent evt)
+{
+}
+
+bool Platform::isGestureRegistered(Gesture::GestureEvent evt)
+{
+    return false;
+}
+
+void Platform::pollGamepadState(Gamepad* gamepad)
+{
+}
+
+bool Platform::launchURL(const char* url)
+{
+    return false;
+}
+
+std::string Platform::displayFileDialog(size_t mode, const char* title, const char* filterDescription, const char* filterExtensions, const char* initialDirectory)
+{
+    return "";
+}
+
+const char * Platform::getTemporaryFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getDocumentsFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getAppPrivateFolderPath( )
+{
+    return "";
+}
+
+const char * Platform::getUserAgentString( )
+{
+    return "";
+}
+
+bool Platform::isTouchPressed()
+{
+    return false;
+}
+
+bool Platform::getTouchPosition(int index, int * outX, int * outY)
+{
+    return false;
+}
+
+void Platform::getSafeAreaInsets(float* top, float* left, float* bottom, float* right)
+{
+    if (top) *top = 0.0f;
+    if (left) *left = 0.0f;
+    if (bottom) *bottom = 0.0f;
+    if (right) *right = 0.0f;
+}
+#endif
+
 }

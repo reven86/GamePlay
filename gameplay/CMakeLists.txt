@@ -174,6 +174,11 @@ set(GAMEPLAY_SRC
     src/SceneLoader.h
     src/ScreenDisplayer.cpp
     src/ScreenDisplayer.h
+    src/Script.cpp
+    src/Script.h
+    src/ScriptController.cpp
+    src/ScriptController.h
+    src/ScriptController.inl
     src/ScriptTarget.cpp
     src/ScriptTarget.h
     src/Slider.cpp
@@ -283,11 +288,6 @@ set(GAMEPLAY_PHYSICS
 )
 
 set(GAMEPLAY_LUA
-    src/Script.cpp
-    src/Script.h
-    src/ScriptController.cpp
-    src/ScriptController.h
-    src/ScriptController.inl
     src/lua/lua_all_bindings.cpp
     src/lua/lua_all_bindings.h
     src/lua/lua_AbsoluteLayout.cpp
