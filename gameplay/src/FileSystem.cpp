@@ -134,16 +134,16 @@ public:
     friend class FileSystem;
     
     ~FileStream();
-    virtual bool canRead();
-    virtual bool canWrite();
-    virtual bool canSeek();
+    virtual bool canRead() const;
+    virtual bool canWrite() const;
+    virtual bool canSeek() const;
     virtual void close();
     virtual size_t read(void* ptr, size_t size, size_t count);
     virtual char* readLine(char* str, int num);
     virtual size_t write(const void* ptr, size_t size, size_t count);
-    virtual bool eof();
-    virtual size_t length();
-    virtual long int position();
+    virtual bool eof() const;
+    virtual size_t length() const;
+    virtual long int position() const;
     virtual bool seek(long int offset, int origin);
     virtual bool rewind();
 
@@ -170,16 +170,16 @@ public:
     friend class FileSystem;
     
     ~FileStreamAndroid();
-    virtual bool canRead();
-    virtual bool canWrite();
-    virtual bool canSeek();
+    virtual bool canRead() const;
+    virtual bool canWrite() const;
+    virtual bool canSeek() const;
     virtual void close();
     virtual size_t read(void* ptr, size_t size, size_t count);
     virtual char* readLine(char* str, int num);
     virtual size_t write(const void* ptr, size_t size, size_t count);
-    virtual bool eof();
-    virtual size_t length();
-    virtual long int position();
+    virtual bool eof() const;
+    virtual size_t length() const;
+    virtual long int position() const;
     virtual bool seek(long int offset, int origin);
     virtual bool rewind();
 
@@ -655,17 +655,17 @@ FileStream* FileStream::create(const char* filePath, const char* mode)
     return NULL;
 }
 
-bool FileStream::canRead()
+bool FileStream::canRead() const
 {
     return _file && _canRead;
 }
 
-bool FileStream::canWrite()
+bool FileStream::canWrite() const
 {
     return _file && _canWrite;
 }
 
-bool FileStream::canSeek()
+bool FileStream::canSeek() const
 {
     return _file != NULL;
 }
@@ -698,29 +698,29 @@ size_t FileStream::write(const void* ptr, size_t size, size_t count)
     return fwrite(ptr, size, count, _file);
 }
 
-bool FileStream::eof()
+bool FileStream::eof() const
 {
     if (!_file || feof(_file))
         return true;
     return ((size_t)position()) >= length();
 }
 
-size_t FileStream::length()
+size_t FileStream::length() const
 {
     size_t len = 0;
     if (canSeek())
     {
         long int pos = position();
-        if (seek(0, SEEK_END))
+        if (const_cast<FileStream *>(this)->seek(0, SEEK_END))
         {
             len = position();
         }
-        seek(pos, SEEK_SET);
+        const_cast<FileStream *>(this)->seek(pos, SEEK_SET);
     }
     return len;
 }
 
-long int FileStream::position()
+long int FileStream::position() const
 {
     if (!_file)
         return -1;
@@ -770,17 +770,17 @@ FileStreamAndroid* FileStreamAndroid::create(const char* filePath, const char* m
     return NULL;
 }
 
-bool FileStreamAndroid::canRead()
+bool FileStreamAndroid::canRead() const
 {
     return true;
 }
 
-bool FileStreamAndroid::canWrite()
+bool FileStreamAndroid::canWrite() const
 {
     return false;
 }
 
-bool FileStreamAndroid::canSeek()
+bool FileStreamAndroid::canSeek() const
 {
     return true;
 }
@@ -862,17 +862,17 @@ size_t FileStreamAndroid::write(const void* ptr, size_t size, size_t count)
     return 0;
 }
 
-bool FileStreamAndroid::eof()
+bool FileStreamAndroid::eof() const
 {
     return position() >= length();
 }
 
-size_t FileStreamAndroid::length()
+size_t FileStreamAndroid::length() const
 {
     return (size_t)AAsset_getLength(_asset);
 }
 
-long int FileStreamAndroid::position()
+long int FileStreamAndroid::position() const
 {
     return AAsset_getLength(_asset) - AAsset_getRemainingLength(_asset);
 }

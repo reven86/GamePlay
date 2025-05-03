@@ -25,21 +25,21 @@ public:
      * 
      * @return True if the stream can read, false otherwise.
      */
-    virtual bool canRead() = 0;
+    virtual bool canRead() const = 0;
 
     /**
      * Returns true if this stream can perform write operations.
      * 
      * @return True if the stream can write, false otherwise.
      */
-    virtual bool canWrite() = 0;
+    virtual bool canWrite() const = 0;
 
     /**
      * Returns true if this stream can seek.
      * 
      * @return True if the stream can seek, false otherwise.
      */
-    virtual bool canSeek() = 0;
+    virtual bool canSeek() const = 0;
 
     /**
      * Closes this stream.
@@ -106,7 +106,7 @@ public:
      * 
      * @return True if end of stream reached, false otherwise.
      */
-    virtual bool eof() = 0;
+    virtual bool eof() const = 0;
 
     /**
      * Returns the length of the stream in bytes.
@@ -117,14 +117,14 @@ public:
      * 
      * @return The length of the stream in bytes.
      */
-    virtual size_t length() = 0;
+    virtual size_t length() const = 0;
 
     /**
      * Returns the position of the file pointer. Zero is the start of the stream.
      * 
      * @return The file indicator offset in bytes. 
      */
-    virtual long int position() = 0;
+    virtual long int position() const = 0;
 
     /**
      * Sets the position of the file pointer.
