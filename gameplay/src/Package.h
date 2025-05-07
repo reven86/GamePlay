@@ -1,5 +1,4 @@
-#ifndef PACKAGE_H_
-#define PACKAGE_H_
+#pragma once
 
 #include "Stream.h"
 #include "FileSystem.h"
@@ -55,4 +54,3 @@ namespace gameplay
 
 }
 
-#endif
