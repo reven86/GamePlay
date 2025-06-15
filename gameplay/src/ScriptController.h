@@ -4,6 +4,12 @@
 #include "Script.h"
 #include "Game.h"
 
+#define lua_tounsigned(L, idx) (lua_tointeger(L, idx))
+#define lua_pushunsigned(L, val) (lua_pushinteger(L, (lua_Integer)val))
+#define luaL_checkunsigned(L, narg) (luaL_checkinteger(L, narg))
+#define luaL_checkint(L, narg) (luaL_checkinteger(L, narg))
+#define luaL_checklong(L, narg) (luaL_checkinteger(L, narg))
+
 namespace gameplay
 {
 
