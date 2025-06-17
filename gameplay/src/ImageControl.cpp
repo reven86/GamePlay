@@ -94,8 +94,12 @@ void ImageControl::setImage(const char* path)
     {
         Material* material = Material::create(path);
         newBatch = SpriteBatch::create(material);
-        _tw = 1.0f / newBatch->getSampler()->getTexture()->getWidth();
-        _th = 1.0f / newBatch->getSampler()->getTexture()->getHeight();
+        const Texture::Sampler * sampler = newBatch->getSampler();
+        if (sampler)
+        {
+            _tw = 1.0f / sampler->getTexture()->getWidth();
+            _th = 1.0f / sampler->getTexture()->getHeight();
+        }
         SAFE_RELEASE(material);
     }
     else
