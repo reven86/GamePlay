@@ -14,8 +14,6 @@ extern char** __argv;
  */
 int main(int argc, char** argv)
 {
-    setlocale (LC_ALL, "");
-
     __argc = argc;
     __argv = argv;
     Game* game = Game::getInstance();
