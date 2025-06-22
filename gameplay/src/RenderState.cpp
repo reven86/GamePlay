@@ -790,9 +790,9 @@ static int parseInt(const char* value)
 {
 	GP_ASSERT(value);
 
-	int rValue;
-    int scanned = sscanf(value, "%d", &rValue);
-    if (scanned != 1)
+    int rValue;
+    auto [ptr, ec] = std::from_chars(value, value + strlen(value), rValue);
+    if (ec != std::errc())
     {
         GP_ERROR("Error attempting to parse int '%s'. (Will default to 0 if errors are treated as warnings)", value);
         return 0;
@@ -804,9 +804,9 @@ static unsigned int parseUInt(const char* value)
 {
 	GP_ASSERT(value);
 
-	unsigned int rValue;
-    int scanned = sscanf(value, "%u", &rValue);
-    if (scanned != 1)
+    unsigned int rValue;
+    auto [ptr, ec] = std::from_chars(value, value + strlen(value), rValue);
+    if (ec != std::errc())
     {
         GP_ERROR("Error attempting to parse unsigned int '%s'. (Will default to 0 if errors are treated as warnings)", value);
         return 0;

@@ -43,6 +43,9 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
+#include <charconv>
+#include <string_view>
+#include <system_error>
 #include "Logger.h"
 
 // Bring common functions from C into global namespace

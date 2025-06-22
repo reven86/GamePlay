@@ -1041,9 +1041,8 @@ int Properties::getInt(const char* name) const
     if (valueString)
     {
         int value;
-        int scanned;
-        scanned = sscanf(valueString, "%d", &value);
-        if (scanned != 1)
+        auto [ptr, ec] = std::from_chars(valueString, valueString + strlen(valueString), value);
+        if (ec != std::errc())
         {
             GP_ERROR("Error attempting to parse property '%s' as an integer.", name);
             return 0;
@@ -1060,9 +1059,8 @@ float Properties::getFloat(const char* name) const
     if (valueString)
     {
         float value;
-        int scanned;
-        scanned = sscanf(valueString, "%f", &value);
-        if (scanned != 1)
+        auto [ptr, ec] = std::from_chars(valueString, valueString + strlen(valueString), value);
+        if (ec != std::errc())
         {
             GP_ERROR("Error attempting to parse property '%s' as a float.", name);
             return 0.0f;
@@ -1079,9 +1077,8 @@ long Properties::getLong(const char* name) const
     if (valueString)
     {
         long value;
-        int scanned;
-        scanned = sscanf(valueString, "%ld", &value);
-        if (scanned != 1)
+        auto [ptr, ec] = std::from_chars(valueString, valueString + strlen(valueString), value);
+        if (ec != std::errc())
         {
             GP_ERROR("Error attempting to parse property '%s' as a long integer.", name);
             return 0L;
@@ -1097,27 +1094,53 @@ bool Properties::getMatrix(const char* name, Matrix* out) const
     GP_ASSERT(out);
 
     const char* valueString = getString(name);
-    if (valueString)
+    if (!valueString)
     {
-        float m[16];
-        int scanned;
-        scanned = sscanf(valueString, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",
-                &m[0], &m[1], &m[2], &m[3], &m[4], &m[5], &m[6], &m[7],
-                &m[8], &m[9], &m[10], &m[11], &m[12], &m[13], &m[14], &m[15]);
+        out->setIdentity();
+        return false;
+    }
 
-        if (scanned != 16)
+    std::string_view sv(valueString);
+    float m[16];
+    const char* current = sv.data();
+    const char* end = sv.data() + sv.size();
+
+    for (int i = 0; i < 16; ++i)
+    {
+        auto [ptr, ec] = std::from_chars(current, end, m[i]);
+
+        if (ec != std::errc())
         {
-            GP_ERROR("Error attempting to parse property '%s' as a matrix.", name);
+            GP_ERROR("Error parsing matrix element %d in property '%s'", i, name);
             out->setIdentity();
             return false;
         }
 
-        out->set(m);
-        return true;
+        // Check for proper separator (comma except after last element)
+        if (i < 15)
+        {
+            if (ptr == end || *ptr != ',')
+            {
+                GP_ERROR("Expected comma after element %d in matrix property '%s'", i, name);
+                out->setIdentity();
+                return false;
+            }
+            current = ptr + 1;  // Move past comma
+        }
+        else
+        {
+            // After last element, we should be at end of string
+            if (ptr != end)
+            {
+                GP_ERROR("Unexpected characters after matrix elements in property '%s'", name);
+                out->setIdentity();
+                return false;
+            }
+        }
     }
 
-    out->setIdentity();
-    return false;
+    out->set(m);
+    return true;
 }
 
 bool Properties::getVector2(const char* name, Vector2* out) const
@@ -1358,90 +1381,189 @@ Properties* getPropertiesFromNamespacePath(Properties* properties, const std::ve
 
 bool Properties::parseVector2(const char* str, Vector2* out)
 {
-    if (str)
+    if (!str)
     {
-        float x, y;
-        if (sscanf(str, "%f,%f", &x, &y) == 2)
-        {
-            if (out)
-                out->set(x, y);
-            return true;
-        }
-        else
-        {
-            GP_WARN("Error attempting to parse property as a two-dimensional vector: %s", str);
-        }
+        if (out)
+            out->set(0.0f, 0.0f);
+        return false;
+    }
+
+    std::string_view sv(str);
+    float x = 0.0f, y = 0.0f;
+
+    // Parse the first float (x)
+    auto [ptr1, ec1] = std::from_chars(sv.data(), sv.data() + sv.size(), x);
+    if (ec1 != std::errc() || ptr1 == sv.data() + sv.size() || *ptr1 != ',')
+    {
+        GP_WARN("Error parsing property as Vector2 (expected 'x,y'): %s", str);
+        if (out)
+            out->set(0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse the second float (y)
+    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, sv.data() + sv.size(), y);
+    if (ec2 != std::errc() || ptr2 != sv.data() + sv.size())
+    {
+        GP_WARN("Error parsing property as Vector2 (expected 'x,y'): %s", str);
+        if (out)
+            out->set(0.0f, 0.0f);
+        return false;
     }
 
     if (out)
-        out->set(0.0f, 0.0f);
-    return false;
+        out->set(x, y);
+    return true;
 }
 
 bool Properties::parseVector3(const char* str, Vector3* out)
 {
-    if (str)
+    if (!str)
     {
-        float x, y, z;
-        if (sscanf(str, "%f,%f,%f", &x, &y, &z) == 3)
-        {
-            if (out)
-                out->set(x, y, z);
-            return true;
-        }
-        else
-        {
-            GP_WARN("Error attempting to parse property as a three-dimensional vector: %s", str);
-        }
+        if (out) out->set(0.0f, 0.0f, 0.0f);
+        return false;
     }
 
-    if (out)
-        out->set(0.0f, 0.0f, 0.0f);
-    return false;
+    std::string_view sv(str);
+    float x, y, z;
+
+    auto end = sv.data() + sv.size();
+
+    // Parse x
+    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
+    {
+        GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse y
+    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
+    {
+        GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse z
+    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    if (ec3 != std::errc() || ptr3 != end)
+    {
+        GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    if (out) out->set(x, y, z);
+    return true;
 }
 
 bool Properties::parseVector4(const char* str, Vector4* out)
 {
-    if (str)
+    if (!str)
     {
-        float x, y, z, w;
-        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &w) == 4)
-        {
-            if (out)
-                out->set(x, y, z, w);
-            return true;
-        }
-        else
-        {
-            GP_WARN("Error attempting to parse property as a four-dimensional vector: %s", str);
-        }
+        if (out) out->set(0.0f, 0.0f, 0.0f, 0.0f);
+        return false;
     }
 
-    if (out)
-        out->set(0.0f, 0.0f, 0.0f, 0.0f);
-    return false;
+    std::string_view sv(str);
+    float x, y, z, w;
+
+    auto end = sv.data() + sv.size();
+
+    // Parse x
+    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
+    {
+        GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse y
+    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
+    {
+        GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse z
+    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    if (ec3 != std::errc() || ptr3 == end || *ptr3 != ',')
+    {
+        GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    // Parse w
+    auto [ptr4, ec4] = std::from_chars(ptr3 + 1, end, w);
+    if (ec4 != std::errc() || ptr4 != end)
+    {
+        GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 0.0f);
+        return false;
+    }
+
+    if (out) out->set(x, y, z, w);
+    return true;
 }
 
 bool Properties::parseAxisAngle(const char* str, Quaternion* out)
 {
-    if (str)
+    if (!str)
     {
-        float x, y, z, theta;
-        if (sscanf(str, "%f,%f,%f,%f", &x, &y, &z, &theta) == 4)
-        {
-            if (out)
-                out->set(Vector3(x, y, z), MATH_DEG_TO_RAD(theta));
-            return true;
-        }
-        else
-        {
-            GP_WARN("Error attempting to parse property as an axis-angle rotation: %s", str);
-        }
+        if (out) out->set(0.0f, 0.0f, 0.0f, 1.0f);
+        return false;
     }
 
-    if (out)
-        out->set(0.0f, 0.0f, 0.0f, 1.0f);
-    return false;
+    std::string_view sv(str);
+    float x, y, z, theta;
+
+    auto end = sv.data() + sv.size();
+
+    // Parse x
+    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
+    {
+        GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 1.0f);
+        return false;
+    }
+
+    // Parse y
+    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
+    {
+        GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 1.0f);
+        return false;
+    }
+
+    // Parse z
+    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    if (ec3 != std::errc() || ptr3 == end || *ptr3 != ',')
+    {
+        GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 1.0f);
+        return false;
+    }
+
+    // Parse theta
+    auto [ptr4, ec4] = std::from_chars(ptr3 + 1, end, theta);
+    if (ec4 != std::errc() || ptr4 != end)
+    {
+        GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
+        if (out) out->set(0.0f, 0.0f, 0.0f, 1.0f);
+        return false;
+    }
+
+    if (out) out->set(Vector3(x, y, z), MATH_DEG_TO_RAD(theta));
+    return true;
 }
 
 bool Properties::parseColor(const char* str, Vector3* out)

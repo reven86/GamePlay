@@ -796,7 +796,10 @@ void SceneLoader::parseNode(Properties* ns, SceneNode* parent, const std::string
             {
                 std::string indexString(name);
                 indexString = indexString.substr(1, indexString.size()-2);
-                materialIndex = (unsigned int)atoi(indexString.c_str());
+                materialIndex = 0;
+                std::from_chars(indexString.data(),
+                    indexString.data() + indexString.size(),
+                    materialIndex);
             }
             addSceneNodeProperty(sceneNode, SceneNodeProperty::MATERIAL, ns->getString(), true, materialIndex);
         }
@@ -947,13 +950,14 @@ PhysicsConstraint* SceneLoader::loadHingeConstraint(const Properties* constraint
     GP_ASSERT(rbA);
     GP_ASSERT(constraint);
     GP_ASSERT(Game::getInstance()->getPhysicsController());
-    PhysicsHingeConstraint* physicsConstraint = NULL;
+    PhysicsHingeConstraint* physicsConstraint = nullptr;
 
-    // Create the constraint from the specified properties.
+    // Create the constraint from the specified properties
     Quaternion roA;
     Vector3 toA;
     constraint->getQuaternionFromAxisAngle("rotationOffsetA", &roA);
     constraint->getVector3("translationOffsetA", &toA);
+
     if (rbB)
     {
         Quaternion roB;
@@ -961,35 +965,77 @@ PhysicsConstraint* SceneLoader::loadHingeConstraint(const Properties* constraint
         constraint->getQuaternionFromAxisAngle("rotationOffsetB", &roB);
         constraint->getVector3("translationOffsetB", &toB);
 
-        physicsConstraint = Game::getInstance()->getPhysicsController()->createHingeConstraint(rbA, roA, toB, rbB, roB, toB);
+        physicsConstraint = Game::getInstance()->getPhysicsController()->createHingeConstraint(rbA, roA, toA, rbB, roB, toB);
     }
     else
     {
         physicsConstraint = Game::getInstance()->getPhysicsController()->createHingeConstraint(rbA, roA, toA);
     }
 
-    // Load the hinge angle limits (lower and upper) and the hinge bounciness (if specified).
+    // Load the hinge angle limits (lower and upper) and the hinge bounciness (if specified)
     const char* limitsString = constraint->getString("limits");
     if (limitsString)
     {
-        float lowerLimit, upperLimit;
-        int scanned;
-        scanned = sscanf(limitsString, "%f,%f", &lowerLimit, &upperLimit);
-        if (scanned == 2)
+        std::string_view sv(limitsString);
+        const char* current = sv.data();
+        const char* end = sv.data() + sv.size();
+
+        float lowerLimit, upperLimit, bounciness = 0.0f;
+        bool hasBounciness = false;
+        bool parseSuccess = true;
+
+        // Parse lower limit
+        auto [ptr1, ec1] = std::from_chars(current, end, lowerLimit);
+        if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
         {
-            physicsConstraint->setLimits(MATH_DEG_TO_RAD(lowerLimit), MATH_DEG_TO_RAD(upperLimit));
+            GP_ERROR("Failed to parse lower limit in 'limits' attribute for hinge constraint '%s'", constraint->getId());
+            parseSuccess = false;
         }
         else
         {
-            float bounciness;
-            scanned = sscanf(limitsString, "%f,%f,%f", &lowerLimit, &upperLimit, &bounciness);
-            if (scanned == 3)
+            current = ptr1 + 1;  // Move past comma
+
+            // Parse upper limit
+            auto [ptr2, ec2] = std::from_chars(current, end, upperLimit);
+            if (ec2 != std::errc())
+            {
+                GP_ERROR("Failed to parse upper limit in 'limits' attribute for hinge constraint '%s'", constraint->getId());
+                parseSuccess = false;
+            }
+            else if (ptr2 != end)
+            {
+                // Check for optional bounciness
+                if (*ptr2 == ',')
+                {
+                    current = ptr2 + 1;
+                    auto [ptr3, ec3] = std::from_chars(current, end, bounciness);
+                    if (ec3 != std::errc() || ptr3 != end)
+                    {
+                        GP_ERROR("Failed to parse bounciness in 'limits' attribute for hinge constraint '%s'", constraint->getId());
+                        parseSuccess = false;
+                    }
+                    else
+                    {
+                        hasBounciness = true;
+                    }
+                }
+                else if (ptr2 != end)
+                {
+                    GP_ERROR("Unexpected characters after limits in hinge constraint '%s'", constraint->getId());
+                    parseSuccess = false;
+                }
+            }
+        }
+
+        if (parseSuccess)
+        {
+            if (hasBounciness)
             {
                 physicsConstraint->setLimits(MATH_DEG_TO_RAD(lowerLimit), MATH_DEG_TO_RAD(upperLimit), bounciness);
             }
             else
             {
-                GP_ERROR("Failed to parse 'limits' attribute for hinge constraint '%s'.", constraint->getId());
+                physicsConstraint->setLimits(MATH_DEG_TO_RAD(lowerLimit), MATH_DEG_TO_RAD(upperLimit));
             }
         }
     }

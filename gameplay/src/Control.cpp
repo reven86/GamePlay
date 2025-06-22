@@ -1996,14 +1996,17 @@ Control::Alignment Control::getAlignment(const char* alignment)
 float Control::parseCoord(const char* s, bool* isPercentage)
 {
     const char* p;
+    float result = 0.0f;
     if ((p = strchr(s, '%')) != NULL)
     {
         std::string value(s, (std::string::size_type)(p - s));
         *isPercentage = true;
-        return (float)(atof(value.c_str()) * 0.01);
+        std::from_chars(value.data(), value.data() + value.size(), result);
+        return result * 0.01f;
     }
     *isPercentage = false;
-    return (float)atof(s);
+    std::from_chars(s, s + strlen(s), result);
+    return result;
 }
 
 bool Control::parseCoordPair(const char* s, float* v1, float* v2, bool* v1Percentage, bool* v2Percentage)

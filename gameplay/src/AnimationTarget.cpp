@@ -274,7 +274,7 @@ Animation* AnimationTarget::createAnimation(const char* id, Properties* animatio
         else
         {
             float value;
-            sscanf(repeat, "%f", &value);
+            std::from_chars(repeat, repeat + strlen(repeat), value);
             animation->getClip()->setRepeatCount(value);
         }
     }
