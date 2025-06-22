@@ -2001,11 +2001,11 @@ float Control::parseCoord(const char* s, bool* isPercentage)
     {
         std::string value(s, (std::string::size_type)(p - s));
         *isPercentage = true;
-        std::from_chars(value.data(), value.data() + value.size(), result);
+        fast_float::from_chars(value.data(), value.data() + value.size(), result);
         return result * 0.01f;
     }
     *isPercentage = false;
-    std::from_chars(s, s + strlen(s), result);
+    fast_float::from_chars(s, s + strlen(s), result);
     return result;
 }
 

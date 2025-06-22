@@ -1059,7 +1059,7 @@ float Properties::getFloat(const char* name) const
     if (valueString)
     {
         float value;
-        auto [ptr, ec] = std::from_chars(valueString, valueString + strlen(valueString), value);
+        auto [ptr, ec] = fast_float::from_chars(valueString, valueString + strlen(valueString), value);
         if (ec != std::errc())
         {
             GP_ERROR("Error attempting to parse property '%s' as a float.", name);
@@ -1107,7 +1107,7 @@ bool Properties::getMatrix(const char* name, Matrix* out) const
 
     for (int i = 0; i < 16; ++i)
     {
-        auto [ptr, ec] = std::from_chars(current, end, m[i]);
+        auto [ptr, ec] = fast_float::from_chars(current, end, m[i]);
 
         if (ec != std::errc())
         {
@@ -1392,7 +1392,7 @@ bool Properties::parseVector2(const char* str, Vector2* out)
     float x = 0.0f, y = 0.0f;
 
     // Parse the first float (x)
-    auto [ptr1, ec1] = std::from_chars(sv.data(), sv.data() + sv.size(), x);
+    auto [ptr1, ec1] = fast_float::from_chars(sv.data(), sv.data() + sv.size(), x);
     if (ec1 != std::errc() || ptr1 == sv.data() + sv.size() || *ptr1 != ',')
     {
         GP_WARN("Error parsing property as Vector2 (expected 'x,y'): %s", str);
@@ -1402,7 +1402,7 @@ bool Properties::parseVector2(const char* str, Vector2* out)
     }
 
     // Parse the second float (y)
-    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, sv.data() + sv.size(), y);
+    auto [ptr2, ec2] = fast_float::from_chars(ptr1 + 1, sv.data() + sv.size(), y);
     if (ec2 != std::errc() || ptr2 != sv.data() + sv.size())
     {
         GP_WARN("Error parsing property as Vector2 (expected 'x,y'): %s", str);
@@ -1430,7 +1430,7 @@ bool Properties::parseVector3(const char* str, Vector3* out)
     auto end = sv.data() + sv.size();
 
     // Parse x
-    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    auto [ptr1, ec1] = fast_float::from_chars(sv.data(), end, x);
     if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
     {
         GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
@@ -1439,7 +1439,7 @@ bool Properties::parseVector3(const char* str, Vector3* out)
     }
 
     // Parse y
-    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    auto [ptr2, ec2] = fast_float::from_chars(ptr1 + 1, end, y);
     if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
     {
         GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
@@ -1448,7 +1448,7 @@ bool Properties::parseVector3(const char* str, Vector3* out)
     }
 
     // Parse z
-    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    auto [ptr3, ec3] = fast_float::from_chars(ptr2 + 1, end, z);
     if (ec3 != std::errc() || ptr3 != end)
     {
         GP_WARN("Error parsing Vector3 (expected 'x,y,z'): %s", str);
@@ -1474,7 +1474,7 @@ bool Properties::parseVector4(const char* str, Vector4* out)
     auto end = sv.data() + sv.size();
 
     // Parse x
-    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    auto [ptr1, ec1] = fast_float::from_chars(sv.data(), end, x);
     if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
     {
         GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
@@ -1483,7 +1483,7 @@ bool Properties::parseVector4(const char* str, Vector4* out)
     }
 
     // Parse y
-    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    auto [ptr2, ec2] = fast_float::from_chars(ptr1 + 1, end, y);
     if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
     {
         GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
@@ -1492,7 +1492,7 @@ bool Properties::parseVector4(const char* str, Vector4* out)
     }
 
     // Parse z
-    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    auto [ptr3, ec3] = fast_float::from_chars(ptr2 + 1, end, z);
     if (ec3 != std::errc() || ptr3 == end || *ptr3 != ',')
     {
         GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
@@ -1501,7 +1501,7 @@ bool Properties::parseVector4(const char* str, Vector4* out)
     }
 
     // Parse w
-    auto [ptr4, ec4] = std::from_chars(ptr3 + 1, end, w);
+    auto [ptr4, ec4] = fast_float::from_chars(ptr3 + 1, end, w);
     if (ec4 != std::errc() || ptr4 != end)
     {
         GP_WARN("Error parsing Vector4 (expected 'x,y,z,w'): %s", str);
@@ -1527,7 +1527,7 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
     auto end = sv.data() + sv.size();
 
     // Parse x
-    auto [ptr1, ec1] = std::from_chars(sv.data(), end, x);
+    auto [ptr1, ec1] = fast_float::from_chars(sv.data(), end, x);
     if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
     {
         GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
@@ -1536,7 +1536,7 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
     }
 
     // Parse y
-    auto [ptr2, ec2] = std::from_chars(ptr1 + 1, end, y);
+    auto [ptr2, ec2] = fast_float::from_chars(ptr1 + 1, end, y);
     if (ec2 != std::errc() || ptr2 == end || *ptr2 != ',')
     {
         GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
@@ -1545,7 +1545,7 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
     }
 
     // Parse z
-    auto [ptr3, ec3] = std::from_chars(ptr2 + 1, end, z);
+    auto [ptr3, ec3] = fast_float::from_chars(ptr2 + 1, end, z);
     if (ec3 != std::errc() || ptr3 == end || *ptr3 != ',')
     {
         GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);
@@ -1554,7 +1554,7 @@ bool Properties::parseAxisAngle(const char* str, Quaternion* out)
     }
 
     // Parse theta
-    auto [ptr4, ec4] = std::from_chars(ptr3 + 1, end, theta);
+    auto [ptr4, ec4] = fast_float::from_chars(ptr3 + 1, end, theta);
     if (ec4 != std::errc() || ptr4 != end)
     {
         GP_WARN("Error parsing AxisAngle (expected 'x,y,z,theta'): %s", str);

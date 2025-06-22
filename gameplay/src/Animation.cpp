@@ -267,7 +267,7 @@ void Animation::createClips(Properties* animationProperties, unsigned int frameC
             else
             {
                 float value = 0;
-                std::from_chars(repeat, repeat + strlen(repeat), value);
+                fast_float::from_chars(repeat, repeat + strlen(repeat), value);
                 clip->setRepeatCount(value);
             }
         }
@@ -276,7 +276,7 @@ void Animation::createClips(Properties* animationProperties, unsigned int frameC
         if (speed)
         {
             float value = 0;
-            std::from_chars(speed, speed + strlen(speed), value);
+            fast_float::from_chars(speed, speed + strlen(speed), value);
             clip->setSpeed(value);
         }
 

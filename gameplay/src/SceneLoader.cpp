@@ -985,7 +985,7 @@ PhysicsConstraint* SceneLoader::loadHingeConstraint(const Properties* constraint
         bool parseSuccess = true;
 
         // Parse lower limit
-        auto [ptr1, ec1] = std::from_chars(current, end, lowerLimit);
+        auto [ptr1, ec1] = fast_float::from_chars(current, end, lowerLimit);
         if (ec1 != std::errc() || ptr1 == end || *ptr1 != ',')
         {
             GP_ERROR("Failed to parse lower limit in 'limits' attribute for hinge constraint '%s'", constraint->getId());
@@ -996,7 +996,7 @@ PhysicsConstraint* SceneLoader::loadHingeConstraint(const Properties* constraint
             current = ptr1 + 1;  // Move past comma
 
             // Parse upper limit
-            auto [ptr2, ec2] = std::from_chars(current, end, upperLimit);
+            auto [ptr2, ec2] = fast_float::from_chars(current, end, upperLimit);
             if (ec2 != std::errc())
             {
                 GP_ERROR("Failed to parse upper limit in 'limits' attribute for hinge constraint '%s'", constraint->getId());
@@ -1008,7 +1008,7 @@ PhysicsConstraint* SceneLoader::loadHingeConstraint(const Properties* constraint
                 if (*ptr2 == ',')
                 {
                     current = ptr2 + 1;
-                    auto [ptr3, ec3] = std::from_chars(current, end, bounciness);
+                    auto [ptr3, ec3] = fast_float::from_chars(current, end, bounciness);
                     if (ec3 != std::errc() || ptr3 != end)
                     {
                         GP_ERROR("Failed to parse bounciness in 'limits' attribute for hinge constraint '%s'", constraint->getId());

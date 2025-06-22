@@ -46,7 +46,9 @@
 #include <charconv>
 #include <string_view>
 #include <system_error>
+#include <format>
 #include "Logger.h"
+#include "fast_float.h"
 
 // Bring common functions from C into global namespace
 using std::memcpy;
