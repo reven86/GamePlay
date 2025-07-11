@@ -289,17 +289,10 @@ using std::va_list;
         #error "Unsupported Apple Device"
     #endif
 #elif EMSCRIPTEN
-    #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    #define GP_USE_VAO //for IE11
-    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays;
-    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays;
-    extern PFNGLISVERTEXARRAYOESPROC glIsVertexArray;
-    #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
-    #define glClearDepth glClearDepthf
+    #include <GLES3/gl3.h>
     #define OPENGL_ES
+    #define glClearDepth glClearDepthf
+    #define GP_USE_VAO
 #endif
 
 // Graphics (GLSL)

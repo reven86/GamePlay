@@ -92,11 +92,6 @@ static EGLDisplay __eglDisplay = EGL_NO_DISPLAY;
 static EGLContext __eglContext = EGL_NO_CONTEXT;
 static EGLSurface __eglSurface = EGL_NO_SURFACE;
 static EGLConfig __eglConfig = 0;
-static const char* __glExtensions;
-PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = NULL;
-PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = NULL;
-PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
-PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
 static int __windowSize[2];
 static float __devicePixelRatio = 1.0f;
 static list<ConnectedGamepadDevInfo> __connectedGamepads;
@@ -557,7 +552,7 @@ Platform* Platform::create(Game* game)
     free(dummyArgv[0]);
     free(dummyArgv);
 
-    // Hard-coded to 32-bit/OpenGL ES 2.0.
+    // Hard-coded to 32-bit/OpenGL ES 3.0.
     // NOTE: EGL_SAMPLE_BUFFERS, EGL_SAMPLES and EGL_DEPTH_SIZE MUST remain at the beginning of the attribute list
     // since they are expected to be at indices 0-5 in config fallback code later.
     // EGL_DEPTH_SIZE is also expected to
@@ -580,7 +575,7 @@ Platform* Platform::create(Game* game)
     EGLint eglConfigCount;
     const EGLint eglContextAttrs[] =
     {
-        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_CONTEXT_CLIENT_VERSION, 3,
         EGL_NONE
     };
 
@@ -674,17 +669,6 @@ Platform* Platform::create(Game* game)
     {
         GP_ERROR("eglMakeCurrent");
         return NULL;
-    }
-
-    // Initialize OpenGL ES extensions.
-    __glExtensions = (const char*)glGetString(GL_EXTENSIONS);
-
-    if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
-    {
-        glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-        glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
-        glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-        //glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
     }
 
     // Set vsync.
