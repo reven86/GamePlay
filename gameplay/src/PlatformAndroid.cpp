@@ -200,7 +200,7 @@ static bool initEGL()
         samples = std::max(config->getInt("samples"), 0);
     }
 
-    // Hard-coded to 32-bit/OpenGL ES 2.0.
+    // Hard-coded to 32-bit/OpenGL ES 3.0.
     // NOTE: EGL_SAMPLE_BUFFERS, EGL_SAMPLES and EGL_DEPTH_SIZE MUST remain at the beginning of the attribute list
     // since they are expected to be at indices 0-5 in config fallback code later.
     // EGL_DEPTH_SIZE is also expected to
@@ -223,7 +223,7 @@ static bool initEGL()
     EGLint eglConfigCount;
     const EGLint eglContextAttrs[] =
     {
-        EGL_CONTEXT_CLIENT_VERSION,    2,
+        EGL_CONTEXT_CLIENT_VERSION,    3,
         EGL_NONE
     };
 
@@ -335,20 +335,7 @@ static bool initEGL()
 
     // Set vsync.
     eglSwapInterval(__eglDisplay, WINDOW_VSYNC ? 1 : 0);
-    
-    // Initialize OpenGL ES extensions.
-    __glExtensions = (const char*)glGetString(GL_EXTENSIONS);
-    
-    if (strstr(__glExtensions, "GL_OES_vertex_array_object") || strstr(__glExtensions, "GL_ARB_vertex_array_object"))
-    {
-        glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC)eglGetProcAddress("glBindVertexArrayOES");
-        glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
-        glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
-        glIsVertexArray = (PFNGLISVERTEXARRAYOESPROC)eglGetProcAddress("glIsVertexArrayOES");
-        glMapBuffer = (PFNGLMAPBUFFEROESPROC)eglGetProcAddress("glMapBufferOES");
-        glUnmapBuffer = (PFNGLUNMAPBUFFEROESPROC)eglGetProcAddress("glUnmapBufferOES");
-    }
-    
+        
     return true;
     
 error:

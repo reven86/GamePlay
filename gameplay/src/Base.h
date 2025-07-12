@@ -240,14 +240,7 @@ using std::va_list;
 // Graphics (OpenGL)
 #ifdef __ANDROID__
     #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-    extern PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray;
-    extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays;
-    extern PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays;
-    extern PFNGLISVERTEXARRAYOESPROC glIsVertexArray;
-    extern PFNGLMAPBUFFEROESPROC glMapBuffer;
-    extern PFNGLUNMAPBUFFEROESPROC glUnmapBuffer;
+    #include <GLES3/gl3.h>
     #define GL_WRITE_ONLY GL_WRITE_ONLY_OES
     #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
     #define glClearDepth glClearDepthf
@@ -264,16 +257,8 @@ using std::va_list;
 #elif __APPLE__
     #include "TargetConditionals.h"
     #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-        #include <OpenGLES/ES2/gl.h>
-        #include <OpenGLES/ES2/glext.h>
-        #define glBindVertexArray glBindVertexArrayOES
-        #define glDeleteVertexArrays glDeleteVertexArraysOES
-        #define glGenVertexArrays glGenVertexArraysOES
-        #define glIsVertexArray glIsVertexArrayOES
-        #define glMapBuffer glMapBufferOES
-        #define glUnmapBuffer glUnmapBufferOES
-        #define GL_WRITE_ONLY GL_WRITE_ONLY_OES
-        #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
+        #include <OpenGLES/ES3/gl.h>
+        #include <OpenGLES/ES3/glext.h>
         #define glClearDepth glClearDepthf
         #define OPENGL_ES
         #define GP_USE_VAO

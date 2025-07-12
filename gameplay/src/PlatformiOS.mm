@@ -24,8 +24,8 @@
 #import <CoreMotion/CoreMotion.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
+#import <OpenGLES/ES3/gl.h>
+#import <OpenGLES/ES3/glext.h>
 #import <mach/mach_time.h>
 
 #define UIInterfaceOrientationEnum(x) ([x isEqualToString:@"UIInterfaceOrientationPortrait"]?UIInterfaceOrientationPortrait:                        \
@@ -196,7 +196,7 @@ int getUnicode(int key);
         self.contentScaleFactor = scale;
         layer.contentsScale = scale;
         
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
         if (!context || ![EAGLContext setCurrentContext:context])
         {
             GP_ERROR("Failed to make context current.");
