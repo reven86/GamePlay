@@ -420,6 +420,8 @@
 		EBF8AC69193F746800C0EE93 /* AppleStoreFront.mm in Sources */ = {isa = PBXBuildFile; fileRef = EBF8AC67193F746800C0EE93 /* AppleStoreFront.mm */; };
 		EBF8AC6B19419A5E00C0EE93 /* StoreListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF8AC6A19419A5E00C0EE93 /* StoreListener.h */; };
 		F1616ABC1614E24B008DD8B7 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1616ABB1614E24B008DD8B7 /* MathUtil.cpp */; };
+		F1616ABC1614E24B008DD8B8 /* lua_ScriptController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD41F15EFD0F300C0E076 /* lua_ScriptController.cpp */; };
+		F1616ABC1614E24B008DD8B9 /* lua_FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42BCD37115EFD0F300C0E076 /* lua_FileSystem.cpp */; };
 		F18024A51627000D001BFF87 /* gameplay-main-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18024A31627000D001BFF87 /* gameplay-main-ios.mm */; };
 		F18024A71627000D001BFF87 /* gameplay-main-macosx.mm in Sources */ = {isa = PBXBuildFile; fileRef = F18024A41627000D001BFF87 /* gameplay-main-macosx.mm */; };
 /* End PBXBuildFile section */
@@ -2260,8 +2262,8 @@
 				EB9BF76917CBF02200D636A0 /* VertexFormat.cpp in Sources */,
 				EB66F8751A6433E200E4F819 /* Script.cpp in Sources */,
 				EB9BF76B17CBF02200D636A0 /* VerticalLayout.cpp in Sources */,
-				42BCD41F15EFD0F300C0E076 /* lua_ScriptController.cpp */,
-				42BCD37115EFD0F300C0E076 /* lua_FileSystem.cpp */,
+				F1616ABC1614E24B008DD8B8 /* lua_ScriptController.cpp */,
+				F1616ABC1614E24B008DD8B9 /* lua_FileSystem.cpp */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
