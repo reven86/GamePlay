@@ -305,11 +305,11 @@ int getUnicode(int key);
         while (samples)
         {
             GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, multisampleRenderbuffer) );
-            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_RGBA8_OES, framebufferWidth, framebufferHeight) );
+            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_RGBA8, framebufferWidth, framebufferHeight) );
             GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, multisampleRenderbuffer) );
 
             GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, multisampleDepthbuffer) );
-            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_DEPTH_COMPONENT24_OES, framebufferWidth, framebufferHeight) );
+            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_DEPTH_COMPONENT24, framebufferWidth, framebufferHeight) );
             GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, multisampleDepthbuffer) );
             
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
@@ -341,7 +341,7 @@ int getUnicode(int key);
     {
         GL_ASSERT( glGenRenderbuffers(1, &depthRenderbuffer) );
         GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer) );
-        GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, framebufferWidth, framebufferHeight) );
+        GL_ASSERT( glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, framebufferWidth, framebufferHeight) );
         GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer) );
     }
     
@@ -425,16 +425,16 @@ int getUnicode(int key);
         if (multisampleFramebuffer)
         {
             // Multisampling is enabled: resolve the multisample buffer into the default framebuffer
-            GL_ASSERT( glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, defaultFramebuffer) );
-            GL_ASSERT( glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, multisampleFramebuffer) );
-            GL_ASSERT( glResolveMultisampleFramebufferAPPLE() );
+            GL_ASSERT( glBindFramebuffer(GL_DRAW_FRAMEBUFFER, defaultFramebuffer) );
+            GL_ASSERT( glBindFramebuffer(GL_READ_FRAMEBUFFER, multisampleFramebuffer) );
+            GL_ASSERT( glResolveMultisampleFramebuffer() );
             
             if (oglDiscardSupported)
             {
                 // Performance hint that the GL driver can discard the contents of the multisample buffers
                 // since they have now been resolved into the default framebuffer
                 const GLenum discards[]  = { GL_COLOR_ATTACHMENT0, GL_DEPTH_ATTACHMENT };
-                GL_ASSERT( glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, discards) );
+                GL_ASSERT( glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 2, discards) );
             }
         }
         else
@@ -444,7 +444,7 @@ int getUnicode(int key);
                 // Performance hint to the GL driver that the depth buffer is no longer required.
                 const GLenum discards[]  = { GL_DEPTH_ATTACHMENT };
                 GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer) );
-                GL_ASSERT( glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, discards) );
+                GL_ASSERT( glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, discards) );
             }
         }
         
