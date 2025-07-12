@@ -247,11 +247,9 @@ using std::va_list;
         #define WIN32_LEAN_AND_MEAN
         #define GLEW_STATIC
         #include <GL/glew.h>
-        #define GP_USE_VAO
 #elif __linux__
         #define GLEW_STATIC
         #include <GL/glew.h>
-        #define GP_USE_VAO
 #elif __APPLE__
     #include "TargetConditionals.h"
     #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -259,11 +257,9 @@ using std::va_list;
         #include <OpenGLES/ES3/glext.h>
         #define glClearDepth glClearDepthf
         #define OPENGL_ES
-        #define GP_USE_VAO
     #elif TARGET_OS_MAC
         #include <OpenGL/gl.h>
         #include <OpenGL/glext.h>
-        #define GP_USE_VAO
     #else
         #error "Unsupported Apple Device"
     #endif
@@ -271,7 +267,6 @@ using std::va_list;
     #include <GLES3/gl3.h>
     #define OPENGL_ES
     #define glClearDepth glClearDepthf
-    #define GP_USE_VAO
 #endif
 
 // Graphics (GLSL)

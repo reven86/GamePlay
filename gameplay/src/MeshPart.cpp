@@ -82,7 +82,7 @@ IndexBufferHandle MeshPart::getIndexBuffer() const
     return _indexBuffer;
 }
 
-#ifndef __EMSCRIPTEN__
+#if 0//ndef __EMSCRIPTEN__
 void* MeshPart::mapIndexBuffer()
 {
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer) );

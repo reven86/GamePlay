@@ -89,7 +89,6 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
     // Create a new VertexAttributeBinding.
     VertexAttributeBinding* b = new VertexAttributeBinding();
 
-#ifdef GP_USE_VAO
     if (mesh && glGenVertexArrays)
     {
         GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, 0) );
@@ -112,7 +111,6 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
         GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, mesh->getVertexBuffer()) );
     }
     else
-#endif
     {
         // Construct a software representation of a VAO.
         VertexAttribute* attribs = new VertexAttribute[__maxVertexAttribs];

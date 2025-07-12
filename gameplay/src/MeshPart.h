@@ -57,7 +57,7 @@ public:
      */
     IndexBufferHandle getIndexBuffer() const;
 
-#ifndef __EMSCRIPTEN__
+#if 0//ndef __EMSCRIPTEN__
     /**
      * Maps the index buffer for the specified access.
      *
