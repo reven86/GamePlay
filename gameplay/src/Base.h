@@ -241,8 +241,6 @@ using std::va_list;
 #ifdef __ANDROID__
     #include <EGL/egl.h>
     #include <GLES3/gl3.h>
-    #define GL_WRITE_ONLY GL_WRITE_ONLY_OES
-    #define GL_DEPTH24_STENCIL8 GL_DEPTH24_STENCIL8_OES
     #define glClearDepth glClearDepthf
     #define OPENGL_ES
 #elif WIN32
@@ -265,10 +263,6 @@ using std::va_list;
     #elif TARGET_OS_MAC
         #include <OpenGL/gl.h>
         #include <OpenGL/glext.h>
-        #define glBindVertexArray glBindVertexArrayAPPLE
-        #define glDeleteVertexArrays glDeleteVertexArraysAPPLE
-        #define glGenVertexArrays glGenVertexArraysAPPLE
-        #define glIsVertexArray glIsVertexArrayAPPLE
         #define GP_USE_VAO
     #else
         #error "Unsupported Apple Device"
