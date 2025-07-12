@@ -1684,7 +1684,7 @@ void Platform::getArguments(int* argc, char*** argv)
 
                 static std::string res;
                 res = str;
-                static char * arguments[2] = { NULL, NULL };
+                static char * arguments[2] = { "", NULL};
                 arguments[1] = const_cast<char *>(res.c_str());
 
                 *argv = arguments;
