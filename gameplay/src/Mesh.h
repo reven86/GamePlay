@@ -200,7 +200,7 @@ public:
      */
     void setPrimitiveType(Mesh::PrimitiveType type);
 
-#ifndef __EMSCRIPTEN__
+#if 0//ndef __EMSCRIPTEN__
     /**
      * Maps the vertex buffer for the specified access.
      *

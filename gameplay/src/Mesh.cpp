@@ -258,7 +258,7 @@ void Mesh::setPrimitiveType(PrimitiveType type)
     _primitiveType = type;
 }
 
-#ifndef __EMSCRIPTEN__
+#if 0//ndef __EMSCRIPTEN__
 void* Mesh::mapVertexBuffer()
 {
     GL_ASSERT( glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer) );
