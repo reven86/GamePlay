@@ -59,15 +59,6 @@ static bool __multiTouch = false;
 static int __primaryTouchId = -1;
 static bool __displayKeyboard = false;
 
-// OpenGL VAO functions.
-static const char* __glExtensions;
-PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = NULL;
-PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = NULL;
-PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = NULL;
-PFNGLISVERTEXARRAYOESPROC glIsVertexArray = NULL;
-PFNGLMAPBUFFEROESPROC glMapBuffer = NULL;
-PFNGLUNMAPBUFFEROESPROC glUnmapBuffer = NULL;
-
 #define GESTURE_TAP_DURATION_MAX			0.2
 #define GESTURE_LONG_TAP_DURATION_MIN   	GESTURE_TAP_DURATION_MAX
 #define GESTURE_DRAG_START_DURATION_MIN		GESTURE_LONG_TAP_DURATION_MIN
