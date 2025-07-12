@@ -305,11 +305,11 @@ int getUnicode(int key);
         while (samples)
         {
             GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, multisampleRenderbuffer) );
-            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_RGBA8, framebufferWidth, framebufferHeight) );
+            GL_ASSERT( glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_RGBA8, framebufferWidth, framebufferHeight) );
             GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, multisampleRenderbuffer) );
 
             GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, multisampleDepthbuffer) );
-            GL_ASSERT( glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, samples, GL_DEPTH_COMPONENT24, framebufferWidth, framebufferHeight) );
+            GL_ASSERT( glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH_COMPONENT24, framebufferWidth, framebufferHeight) );
             GL_ASSERT( glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, multisampleDepthbuffer) );
             
             if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
@@ -427,7 +427,7 @@ int getUnicode(int key);
             // Multisampling is enabled: resolve the multisample buffer into the default framebuffer
             GL_ASSERT( glBindFramebuffer(GL_DRAW_FRAMEBUFFER, defaultFramebuffer) );
             GL_ASSERT( glBindFramebuffer(GL_READ_FRAMEBUFFER, multisampleFramebuffer) );
-            GL_ASSERT( glResolveMultisampleFramebuffer() );
+            GL_ASSERT( glBlitFramebuffer(0,0,framebufferWidth,framebufferHeight, 0,0,framebufferWidth,framebufferHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST) );
             
             if (oglDiscardSupported)
             {
