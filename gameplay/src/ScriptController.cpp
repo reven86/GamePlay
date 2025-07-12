@@ -5,7 +5,10 @@
 #ifndef GP_NO_LUA_BINDINGS
 #include "lua/lua_all_bindings.h"
 #else
-// Need to define global functions expoed by lua bindings that are used by ScriptController
+void luaRegister_FileSystem();
+void luaRegister_ScriptController();
+
+// Need to define global functions exposed by lua bindings that are used by ScriptController
 #define luaConvertObjectPointer(ptr, fromType, toType) NULL
 static const std::vector<std::string>& luaGetClassRelatives(const char* type)
 {
@@ -667,16 +670,16 @@ ScriptController::~ScriptController()
 
 static const char* lua_print_function = 
     "function print(...)\n"
-    "    ScriptController.print(table.concat({...},\"\\t\"), \"\\n\")\n"
+    "    ScriptController.print(table.concat({...},\"\\t\"))\n"
     "end\n";
 
 static const char* lua_loadfile_function = 
     "do\n"
     "    local oldLoadfile = loadfile\n"
     "    loadfile = function(filename)\n"
-    "        if filename ~= nil and not FileSystem.isAbsolutePath(filename) then\n"
-    "            FileSystem.createFileFromAsset(filename)\n"
-    "            filename = FileSystem.getResourcePath() .. filename\n"
+    "        if filename ~= nil then\n"
+    "            local content = assert(FileSystem.readAll(filename))\n"
+    "            return load(content)\n"
     "        end\n"
     "        return oldLoadfile(filename)\n"
     "    end\n"
@@ -686,9 +689,9 @@ static const char* lua_dofile_function =
     "do\n"
     "    local oldDofile = dofile\n"
     "    dofile = function(filename)\n"
-    "        if filename ~= nil and not FileSystem.isAbsolutePath(filename) then\n"
-    "            FileSystem.createFileFromAsset(filename)\n"
-    "            filename = FileSystem.getResourcePath() .. filename\n"
+    "        if filename ~= nil then\n"
+    "            local content = assert(FileSystem.readAll(filename))\n"
+    "            return content()\n"
     "        end\n"
     "        return oldDofile(filename)\n"
     "    end\n"
@@ -724,7 +727,11 @@ void ScriptController::initialize()
         GP_ERROR("Failed to initialize Lua scripting engine.");
     luaL_openlibs(_lua);
 
-#ifndef GP_NO_LUA_BINDINGS
+#ifdef GP_NO_LUA_BINDINGS
+    // register only script controller bindings
+    luaRegister_FileSystem();
+    luaRegister_ScriptController();
+#else
     lua_RegisterAllBindings();
 #endif
 

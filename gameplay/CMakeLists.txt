@@ -243,6 +243,11 @@ set(GAMEPLAY_SRC
     src/storefront/StoreListener.h
     src/storefront/StoreProduct.cpp
     src/storefront/StoreProduct.h
+
+    src/lua/lua_FileSystem.cpp
+    src/lua/lua_FileSystem.h
+    src/lua/lua_ScriptController.cpp
+    src/lua/lua_ScriptController.h
 )
 
 set(GAMEPLAY_AUDIO
@@ -354,8 +359,6 @@ set(GAMEPLAY_LUA
     src/lua/lua_Drawable.h
     src/lua/lua_Effect.cpp
     src/lua/lua_Effect.h
-    src/lua/lua_FileSystem.cpp
-    src/lua/lua_FileSystem.h
     src/lua/lua_FlowLayout.cpp
     src/lua/lua_FlowLayout.h
     src/lua/lua_Font.cpp
@@ -502,8 +505,6 @@ set(GAMEPLAY_LUA
     src/lua/lua_ScreenDisplayer.h
     src/lua/lua_Script.cpp
     src/lua/lua_Script.h
-    src/lua/lua_ScriptController.cpp
-    src/lua/lua_ScriptController.h
     src/lua/lua_ScriptTarget.cpp
     src/lua/lua_ScriptTarget.h
     src/lua/lua_ScriptTargetEvent.cpp
