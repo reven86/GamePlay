@@ -548,11 +548,6 @@ public:
      */
     static void print(const char* str1, const char* str2);
 
-    /**
-     *
-     */
-    lua_State* getLuaState() { return _lua; };
-
 private:
 
     /**

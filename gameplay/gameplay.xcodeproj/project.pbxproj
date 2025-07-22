@@ -2262,8 +2262,6 @@
 				EB9BF76917CBF02200D636A0 /* VertexFormat.cpp in Sources */,
 				EB66F8751A6433E200E4F819 /* Script.cpp in Sources */,
 				EB9BF76B17CBF02200D636A0 /* VerticalLayout.cpp in Sources */,
-				F1616ABC1614E24B008DD8B8 /* lua_ScriptController.cpp */,
-				F1616ABC1614E24B008DD8B9 /* lua_FileSystem.cpp */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

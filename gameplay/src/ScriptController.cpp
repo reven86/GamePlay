@@ -5,11 +5,6 @@
 #ifndef GP_NO_LUA_BINDINGS
 #include "lua/lua_all_bindings.h"
 #else
-namespace gameplay 
-{
-void luaRegister_FileSystem();
-void luaRegister_ScriptController();
-}
 // Need to define global functions exposed by lua bindings that are used by ScriptController
 #define luaConvertObjectPointer(ptr, fromType, toType) NULL
 static const std::vector<std::string>& luaGetClassRelatives(const char* type)
@@ -729,11 +724,7 @@ void ScriptController::initialize()
         GP_ERROR("Failed to initialize Lua scripting engine.");
     luaL_openlibs(_lua);
 
-#ifdef GP_NO_LUA_BINDINGS
-    // register only script controller bindings
-    luaRegister_FileSystem();
-    luaRegister_ScriptController();
-#else
+#ifndef GP_NO_LUA_BINDINGS
     lua_RegisterAllBindings();
 #endif
 
