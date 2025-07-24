@@ -260,7 +260,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
     // strip version and put as first line
     std::string versionStr;
 
-    if (vshSourceStr.starts_with("#version"))
+    if (vshSourceStr.find("#version") == 0)
     {
         auto newline = vshSourceStr.find_first_of('\n');
         if (newline != vshSourceStr.npos)
@@ -319,7 +319,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
     }
 
     versionStr.clear();
-    if (fshSourceStr.starts_with("#version"))
+    if (fshSourceStr.find("#version") == 0)
     {
         auto newline = fshSourceStr.find_first_of('\n');
         if (newline != fshSourceStr.npos)
