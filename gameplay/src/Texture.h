@@ -150,6 +150,7 @@ public:
          */
         void bind(int textureUnit);
 
+        static void resetBoundTexturesState();
     private:
 
         /**

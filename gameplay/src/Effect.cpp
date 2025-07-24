@@ -136,8 +136,8 @@ static void replaceDefines(const char* defines, std::string& out)
         {
             out.replace(pos, 1, "\n#define ");
         }
-        out += "\n";
     }
+    out += "\n";
 }
 
 static void replaceIncludes(const char* filepath, const char* source, std::string& out)
@@ -241,12 +241,10 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
     GLint success;
 
     // Replace all comma separated definitions with #define prefix and \n suffix
-    std::string definesStr = "";
+    std::string definesStr;
     replaceDefines(defines, definesStr);
     
-    shaderSource[0] = definesStr.c_str();
-    shaderSource[1] = "\n";
-    std::string vshSourceStr = "";
+    std::string vshSourceStr;
     if (vshPath)
     {
         // Replace the #include "xxxxx.xxx" with the sources that come from file paths
@@ -254,7 +252,27 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         if (vshSource && strlen(vshSource) != 0)
             vshSourceStr += "\n";
     }
-    shaderSource[2] = vshPath ? vshSourceStr.c_str() :  vshSource;
+    else
+    {
+        vshSourceStr = vshSource;
+    }
+
+    // strip version and put as first line
+    std::string versionStr;
+
+    if (vshSourceStr.starts_with("#version"))
+    {
+        auto newline = vshSourceStr.find_first_of('\n');
+        if (newline != vshSourceStr.npos)
+        {
+            versionStr = vshSourceStr.substr(0, newline + 1);
+            vshSourceStr.erase(0, newline + 1);
+        }
+    }
+
+    shaderSource[0] = versionStr.c_str();
+    shaderSource[1] = definesStr.c_str();
+    shaderSource[2] = vshSourceStr.c_str();
     GL_ASSERT( vertexShader = glCreateShader(GL_VERTEX_SHADER) );
     GL_ASSERT( glShaderSource(vertexShader, SHADER_SOURCE_LENGTH, shaderSource, NULL) );
     GL_ASSERT( glCompileShader(vertexShader) );
@@ -295,7 +313,24 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         if (fshSource && strlen(fshSource) != 0)
             fshSourceStr += "\n";
     }
-    shaderSource[2] = fshPath ? fshSourceStr.c_str() : fshSource;
+    else
+    {
+        fshSourceStr = fshSource;
+    }
+
+    versionStr.clear();
+    if (fshSourceStr.starts_with("#version"))
+    {
+        auto newline = fshSourceStr.find_first_of('\n');
+        if (newline != fshSourceStr.npos)
+        {
+            versionStr = fshSourceStr.substr(0, newline + 1);
+            fshSourceStr.erase(0, newline + 1);
+        }
+    }
+
+    shaderSource[0] = versionStr.c_str();
+    shaderSource[2] = fshSourceStr.c_str();
     GL_ASSERT( fragmentShader = glCreateShader(GL_FRAGMENT_SHADER) );
     GL_ASSERT( glShaderSource(fragmentShader, SHADER_SOURCE_LENGTH, shaderSource, NULL) );
     GL_ASSERT( glCompileShader(fragmentShader) );

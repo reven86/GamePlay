@@ -1679,4 +1679,10 @@ void Texture::Sampler::bind(int textureUnit)
 #endif
 }
 
+void Texture::Sampler::resetBoundTexturesState()
+{
+    __currentTextureUnit = 0;
+    memset(__currentTextureId, 0, sizeof(__currentTextureId));
+}
+
 }

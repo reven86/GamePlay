@@ -641,6 +641,11 @@ void RenderState::StateBlock::bindNoRestore()
     _defaultState->_bits |= _bits;
 }
 
+void RenderState::StateBlock::restoreDefaultState()
+{
+    restore(0);
+}
+
 void RenderState::StateBlock::restore(long stateOverrideBits)
 {
     GP_ASSERT(_defaultState);

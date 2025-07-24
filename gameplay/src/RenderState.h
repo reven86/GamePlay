@@ -427,6 +427,7 @@ public:
          */
         void setState(const char* name, const char* value);
 
+        static void restoreDefaultState();
     private:
 
         /**
