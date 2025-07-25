@@ -1683,6 +1683,8 @@ void Texture::Sampler::resetBoundTexturesState()
 {
     __currentTextureUnit = 0;
     memset(__currentTextureId, 0, sizeof(__currentTextureId));
+
+    GL_ASSERT(glActiveTexture(GL_TEXTURE0));
 }
 
 }
