@@ -335,6 +335,7 @@ typedef unsigned long GamepadHandle;
     #include <X11/Xlib.h>
     #undef Status
     #undef None
+    #undef Always
     typedef XEvent PlatformEvent;
 #endif
 
