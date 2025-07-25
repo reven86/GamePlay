@@ -32,8 +32,11 @@ Material* Material::create(const char* url)
 
 Material* Material::create(const char* url, PassCallback callback, void* cookie)
 {
+    std::string urlStr(url);
+    auto techniquePos = urlStr.rfind('#');
+
     // Load the material properties from file.
-    Properties* properties = Properties::create(url);
+    Properties* properties = Properties::create(urlStr.substr(0, techniquePos).c_str());
     if (properties == NULL)
     {
         GP_WARN("Failed to create material from file: %s", url);
@@ -42,6 +45,9 @@ Material* Material::create(const char* url, PassCallback callback, void* cookie)
 
     Material* material = create((strlen(properties->getNamespace()) > 0) ? properties : properties->getNextNamespace(), callback, cookie);
     SAFE_DELETE(properties);
+
+    if (material && techniquePos != std::string::npos)
+        material->setTechnique(urlStr.substr(techniquePos + 1).c_str());
 
     return material;
 }
