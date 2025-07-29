@@ -755,7 +755,7 @@ void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
     GP_ASSERT(materialParameter);
     materialParameter->_type = _type;
     materialParameter->_count = _count;
-    materialParameter->_dynamic = _dynamic;
+    materialParameter->_dynamic = false;    // dynamic values should be copied
     materialParameter->_uniform = _uniform;
     switch (_type)
     {
@@ -765,75 +765,43 @@ void MaterialParameter::cloneInto(MaterialParameter* materialParameter) const
         materialParameter->setValue(_value.floatValue);
         break;
     case FLOAT_ARRAY:
-        materialParameter->setValue(_value.floatPtrValue, _count);
+        materialParameter->setFloatArray(_value.floatPtrValue, _count, _dynamic);
         break;
     case INT:
         materialParameter->setValue(_value.intValue);
         break;
     case INT_ARRAY:
-        materialParameter->setValue(_value.intPtrValue, _count);
+        materialParameter->setIntArray(_value.intPtrValue, _count, _dynamic);
         break;
     case VECTOR2:
     {
         Vector2* value = reinterpret_cast<Vector2*>(_value.floatPtrValue);
-        if (_count == 1)
-        {
-            GP_ASSERT(value);
-            materialParameter->setValue(*value);
-        }
-        else
-        {
-            materialParameter->setValue(value, _count);
-        }
+        materialParameter->setVector2Array(value, _count, _dynamic);
         break;
     }   
     case VECTOR3:
     {
         Vector3* value = reinterpret_cast<Vector3*>(_value.floatPtrValue);
-        if (_count == 1)
-        {
-            GP_ASSERT(value);
-            materialParameter->setValue(*value);
-        }
-        else
-        {
-            materialParameter->setValue(value, _count);
-        }
+        materialParameter->setVector3Array(value, _count, _dynamic);
         break;
     }
     case VECTOR4:
     {
         Vector4* value = reinterpret_cast<Vector4*>(_value.floatPtrValue);
-        if (_count == 1)
-        {
-            GP_ASSERT(value);
-            materialParameter->setValue(*value);
-        }
-        else
-        {
-            materialParameter->setValue(value, _count);
-        }
+        materialParameter->setVector4Array(value, _count, _dynamic);
         break;
     }
     case MATRIX:
     {
         Matrix* value = reinterpret_cast<Matrix*>(_value.floatPtrValue);
-        if (_count == 1)
-        {
-            GP_ASSERT(value);
-            materialParameter->setValue(*value);
-        }
-        else
-        {
-            materialParameter->setValue(value, _count);
-        }
+        materialParameter->setMatrixArray(value, _count, _dynamic);
         break;
     }
     case SAMPLER:
         materialParameter->setValue(_value.samplerValue);
         break;
     case SAMPLER_ARRAY:
-        materialParameter->setValue(_value.samplerArrayValue, _count);
+        materialParameter->setSamplerArray(_value.samplerArrayValue, _count, _dynamic);
         break;
     case METHOD:
         materialParameter->_value.method = _value.method;
