@@ -140,6 +140,7 @@ void MeshBatch::updateVertexAttributeBinding()
 #else
             VertexAttributeBinding* b = VertexAttributeBinding::create(_vertexFormat, _vertices, p->getEffect());
 #endif
+            p->setVertexAttributeBinding(nullptr);
             p->setVertexAttributeBinding(b);
             SAFE_RELEASE(b);
         }

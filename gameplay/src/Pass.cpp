@@ -50,6 +50,7 @@ Effect* Pass::getEffect() const
 
 void Pass::setVertexAttributeBinding(VertexAttributeBinding* binding)
 {
+    GP_ASSERT(!binding || !_vaBinding && "Changing VertexAttributeBinding is not allowed while the material is already bound to another mesh.");
     SAFE_RELEASE(_vaBinding);
 
     if (binding)
