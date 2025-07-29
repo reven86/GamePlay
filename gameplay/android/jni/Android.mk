@@ -130,8 +130,6 @@ LOCAL_SRC_FILES := \
     storefront/StoreProduct.cpp \
     storefront/StoreController.cpp \
     storefront/NullStoreFront.cpp \
-    lua/lua_ScriptController.cpp \
-    lua/lua_FileSystem.cpp \
 
 #    lua/lua_AbsoluteLayout.cpp \
     lua/lua_AIAgent.cpp \

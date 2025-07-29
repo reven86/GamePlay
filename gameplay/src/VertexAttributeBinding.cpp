@@ -150,27 +150,44 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
         {
         case VertexFormat::POSITION:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_POSITION_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_POSITION_NAME_FALLBACK);
             break;
         case VertexFormat::NORMAL:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_NORMAL_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_NORMAL_NAME_FALLBACK);
             break;
         case VertexFormat::COLOR:
+        case VertexFormat::COLOR32:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_COLOR_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_COLOR_NAME_FALLBACK);
             break;
         case VertexFormat::TANGENT:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_TANGENT_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_TANGENT_NAME_FALLBACK);
             break;
         case VertexFormat::BINORMAL:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BINORMAL_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BINORMAL_NAME_FALLBACK);
             break;
         case VertexFormat::BLENDWEIGHTS:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME_FALLBACK);
             break;
         case VertexFormat::BLENDINDICES:
             attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDINDICES_NAME);
+            if (attrib < 0)
+                attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_BLENDINDICES_NAME_FALLBACK);
             break;
         case VertexFormat::TEXCOORD0:
             if ((attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME)) != -1)
+                break;
+            if ((attrib = effect->getVertexAttribute(VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME_FALLBACK)) != -1)
                 break;
 
         case VertexFormat::TEXCOORD1:
@@ -183,6 +200,12 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
             name = VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME;
             name += '0' + (e.usage - VertexFormat::TEXCOORD0);
             attrib = effect->getVertexAttribute(name.c_str());
+            if (attrib < 0)
+            {
+                name = VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME_FALLBACK;
+                name += '0' + (e.usage - VertexFormat::TEXCOORD0);
+                attrib = effect->getVertexAttribute(name.c_str());
+            }
             break;
         default:
             // This happens whenever vertex data contains extra information (not an error).
@@ -197,7 +220,10 @@ VertexAttributeBinding* VertexAttributeBinding::create(Mesh* mesh, const VertexF
         else
         {
             void* pointer = vertexPointer ? (void*)(((unsigned char*)vertexPointer) + offset) : (void*)offset;
-            b->setVertexAttribPointer(attrib, (GLint)e.size, GL_FLOAT, GL_FALSE, (GLsizei)vertexFormat.getVertexSize(), pointer);
+            if (e.usage == VertexFormat::COLOR32)
+                b->setVertexAttribPointer(attrib, 4, GL_UNSIGNED_BYTE, GL_TRUE, (GLsizei)vertexFormat.getVertexSize(), pointer);
+            else
+                b->setVertexAttribPointer(attrib, (GLint)e.size, GL_FLOAT, GL_FALSE, (GLsizei)vertexFormat.getVertexSize(), pointer);
         }
 
         offset += e.size * sizeof(float);

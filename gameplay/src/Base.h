@@ -270,14 +270,26 @@ using std::va_list;
 #endif
 
 // Graphics (GLSL)
-#define VERTEX_ATTRIBUTE_POSITION_NAME              "a_position"
-#define VERTEX_ATTRIBUTE_NORMAL_NAME                "a_normal"
-#define VERTEX_ATTRIBUTE_COLOR_NAME                 "a_color"
-#define VERTEX_ATTRIBUTE_TANGENT_NAME               "a_tangent"
-#define VERTEX_ATTRIBUTE_BINORMAL_NAME              "a_binormal"
-#define VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME          "a_blendWeights"
-#define VERTEX_ATTRIBUTE_BLENDINDICES_NAME          "a_blendIndices"
-#define VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME       "a_texCoord"
+
+// Legacy GLSL 1.0 attribute names
+#define VERTEX_ATTRIBUTE_POSITION_NAME_FALLBACK              "a_position"
+#define VERTEX_ATTRIBUTE_NORMAL_NAME_FALLBACK                "a_normal"
+#define VERTEX_ATTRIBUTE_COLOR_NAME_FALLBACK                 "a_color"
+#define VERTEX_ATTRIBUTE_TANGENT_NAME_FALLBACK               "a_tangent"
+#define VERTEX_ATTRIBUTE_BINORMAL_NAME_FALLBACK              "a_binormal"
+#define VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME_FALLBACK          "a_blendWeights"
+#define VERTEX_ATTRIBUTE_BLENDINDICES_NAME_FALLBACK          "a_blendIndices"
+#define VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME_FALLBACK       "a_texCoord"
+
+// GLSL 3.0 attribute names
+#define VERTEX_ATTRIBUTE_POSITION_NAME              "inPosition"
+#define VERTEX_ATTRIBUTE_NORMAL_NAME                "inNormal"
+#define VERTEX_ATTRIBUTE_COLOR_NAME                 "inColor"
+#define VERTEX_ATTRIBUTE_TANGENT_NAME               "inTangent"
+#define VERTEX_ATTRIBUTE_BINORMAL_NAME              "inBinormal"
+#define VERTEX_ATTRIBUTE_BLENDWEIGHTS_NAME          "inBlendWeights"
+#define VERTEX_ATTRIBUTE_BLENDINDICES_NAME          "inBlendIndices"
+#define VERTEX_ATTRIBUTE_TEXCOORD_PREFIX_NAME       "inTexCoord"
 
 // Hardware buffer
 namespace gameplay
