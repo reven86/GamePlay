@@ -551,4 +551,10 @@ static float getDefaultHeight(unsigned int width, unsigned int height)
     return ((width + height) * 0.5f) * DEFAULT_TERRAIN_HEIGHT_RATIO;
 }
 
+bool Terrain::getBoundingSphere(BoundingSphere* outSphere) const
+{
+    outSphere->set(getBoundingBox());
+    return true;
+}
+
 }

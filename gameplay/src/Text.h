@@ -18,7 +18,7 @@ namespace gameplay
  *
  * Text can be attached to a node.
  */
-class Text : public Ref, public Drawable, public AnimationTarget
+class Text : public Drawable, public AnimationTarget
 {
     friend class Node;
     

@@ -81,7 +81,7 @@ class TerrainAutoBindingResolver;
  *
  * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Terrain
  */
-class Terrain : public Ref, public Drawable, public Transform::Listener
+class Terrain : public Drawable, public Transform::Listener
 {
     friend class Node;
     friend class PhysicsController;
@@ -266,6 +266,18 @@ public:
      * @see Drawable#draw
      */
     unsigned int draw(bool wireframe = false) const;
+
+    /**
+     * Gets the local bounding sphere for this drawable.
+     *
+     * @return True if the drawable has bounding sphere.
+     */
+    virtual bool getBoundingSphere(BoundingSphere* outSphere) const override;
+
+    /**
+     * Get Terrain associated with this drawable, if any.
+     */
+    virtual const Terrain* getTerrain() const override { return this; };
 
 protected:
 

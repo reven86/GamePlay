@@ -26,7 +26,7 @@ namespace gameplay
  * Sprites can be animated using the animation system.
  * Sprites can have physics applied to them via their node binding.
  */
-class Sprite : public Ref, public Drawable, public AnimationTarget
+class Sprite : public Drawable, public AnimationTarget
 {
     friend class Node;
     

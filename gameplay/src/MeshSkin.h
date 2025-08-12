@@ -116,6 +116,14 @@ public:
      */
     void transformChanged(Transform* transform, long cookie);
 
+    /**
+     * Gets the first animation in the node hierarchy with the specified ID.
+     *
+     * @param id The ID of the animation to get. Returns the first animation if ID is NULL.
+     * @return The first animation with the specified ID.
+     */
+    Animation* getAnimation(const char* id) const;
+
 private:
 
     /**

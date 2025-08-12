@@ -139,7 +139,7 @@ class Node;
  *
  * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Particles
  */
-class ParticleEmitter : public Ref, public Drawable
+class ParticleEmitter : public Drawable
 {
     friend class Node;
 

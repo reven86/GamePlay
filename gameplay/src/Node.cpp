@@ -42,7 +42,7 @@ Node::~Node()
         _drawable->setNode(NULL);
     if (_audioSource)
         _audioSource->setNode(NULL);
-    Ref* ref = dynamic_cast<Ref*>(_drawable);
+    Ref* ref = static_cast<Ref*>(_drawable);
     SAFE_RELEASE(ref);
     SAFE_RELEASE(_camera);
     SAFE_RELEASE(_light);
@@ -232,10 +232,10 @@ Node* Node::findNode(const char* id, bool recursive, bool exactMatch, bool skipS
     {
         // If the drawable is a model with a mesh skin, search the skin's hierarchy as well.
         Node* rootNode = NULL;
-        Model* model = dynamic_cast<Model*>(_drawable);
-        if (model)
+        const MeshSkin* skin = _drawable ? _drawable->getSkin() : nullptr;
+        if (skin)
         {
-            if (model->getSkin() != NULL && (rootNode = model->getSkin()->_rootNode) != NULL)
+            if ((rootNode = skin->_rootNode) != NULL)
             {
                 if ((exactMatch && rootNode->_id == id) || (!exactMatch && rootNode->_id.find(id) == 0))
                     return rootNode;
@@ -287,10 +287,10 @@ unsigned int Node::findNodes(const char* id, std::vector<Node*>& nodes, bool rec
     if (!skipSkin)
     {
         Node* rootNode = NULL;
-        Model* model = dynamic_cast<Model*>(_drawable);
-        if (model)
+        const MeshSkin* skin = _drawable ? _drawable->getSkin() : nullptr;
+        if (skin)
         {
-            if (model->getSkin() != NULL && (rootNode = model->getSkin()->_rootNode) != NULL)
+            if ((rootNode = skin->_rootNode) != NULL)
             {
                 if ((exactMatch && rootNode->_id == id) || (!exactMatch && rootNode->_id.find(id) == 0))
                 {
@@ -707,48 +707,9 @@ Animation* Node::getAnimation(const char* id) const
     if (animation)
         return animation;
     
-    // See if this node has a model, then drill down.
-    Model* model = dynamic_cast<Model*>(_drawable);
-    if (model)
-    {
-        // Check to see if there's any animations with the ID on the joints.
-        MeshSkin* skin = model->getSkin();
-        if (skin)
-        {
-            Node* rootNode = skin->_rootNode;
-            if (rootNode)
-            {
-                animation = rootNode->getAnimation(id);
-                if (animation)
-                    return animation;
-            }
-        }
-
-        // Check to see if any of the model's material parameter's has an animation
-        // with the given ID.
-        Material* material = model->getMaterial();
-        if (material)
-        {
-            // How to access material parameters? hidden on the Material::RenderState.
-            std::vector<MaterialParameter*>::iterator itr = material->_parameters.begin();
-            for (; itr != material->_parameters.end(); itr++)
-            {
-                GP_ASSERT(*itr);
-                animation = ((MaterialParameter*)(*itr))->getAnimation(id);
-                if (animation)
-                    return animation;
-            }
-        }
-    }
-
-    // look through form for animations.
-    Form* form = dynamic_cast<Form*>(_drawable);
-    if (form)
-    {
-        animation = form->getAnimation(id);
-        if (animation)
-            return animation;
-    }
+    animation = _drawable->getAnimation(id);
+    if (animation)
+        return animation;
 
     // Look through this node's children for an animation with the specified ID.
     for (Node* child = getFirstChild(); child != NULL; child = child->getNextSibling())
@@ -825,7 +786,7 @@ void Node::setDrawable(Drawable* drawable)
         if (_drawable)
         {
             _drawable->setNode(NULL);
-            Ref* ref = dynamic_cast<Ref*>(_drawable);
+            Ref* ref = static_cast<Ref*>(_drawable);
             if (ref)
                 ref->release();
         }
@@ -834,7 +795,7 @@ void Node::setDrawable(Drawable* drawable)
 
         if (_drawable)
         {
-            Ref* ref = dynamic_cast<Ref*>(_drawable);
+            Ref* ref = static_cast<Ref*>(_drawable);
             if (ref)
                 ref->addRef();
             _drawable->setNode(this);
@@ -853,26 +814,7 @@ const BoundingSphere& Node::getBoundingSphere() const
 
         // Start with our local bounding sphere
         // TODO: Incorporate bounds from entities other than mesh (i.e. particleemitters, audiosource, etc)
-        bool empty = true;
-        Terrain* terrain = dynamic_cast<Terrain*>(_drawable);
-        if (terrain)
-        {
-            _bounds.set(terrain->getBoundingBox());
-            empty = false;
-        }
-        Model* model = dynamic_cast<Model*>(_drawable);
-        if (model && model->getMesh())
-        {
-            if (empty)
-            {
-                _bounds.set(model->getMesh()->getBoundingSphere());
-                empty = false;
-            }
-            else
-            {
-                _bounds.merge(model->getMesh()->getBoundingSphere());
-            }
-        }
+        bool empty = !_drawable || !_drawable->getBoundingSphere(&_bounds);
         if (_light)
         {
             switch (_light->getLightType())
@@ -906,7 +848,8 @@ const BoundingSphere& Node::getBoundingSphere() const
         if (!empty)
         {
             bool applyWorldTransform = true;
-            if (model && model->getSkin())
+            const MeshSkin* skin = _drawable ? _drawable->getSkin() : nullptr;
+            if (skin)
             {
                 // Special case: If the root joint of our mesh skin is parented by any nodes, 
                 // multiply the world matrix of the root joint's parent by this node's
@@ -916,8 +859,8 @@ const BoundingSphere& Node::getBoundingSphere() const
                 // since joint parent nodes that are not in the matrix palette do not need to
                 // be considered as directly transforming vertices on the GPU (they can instead
                 // be applied directly to the bounding volume transformation below).
-                GP_ASSERT(model->getSkin()->getRootJoint());
-                Node* jointParent = model->getSkin()->getRootJoint()->getParent();
+                GP_ASSERT(skin->getRootJoint());
+                Node* jointParent = skin->getRootJoint()->getParent();
                 if (jointParent)
                 {
                     // TODO: Should we protect against the case where joints are nested directly
@@ -997,7 +940,7 @@ void Node::cloneInto(Node* node, NodeCloneContext& context) const
     {
         Drawable* clone = drawable->clone(context);
         node->setDrawable(clone);
-        Ref* ref = dynamic_cast<Ref*>(clone);
+        Ref* ref = static_cast<Ref*>(clone);
         if (ref)
             ref->release();
     }
@@ -1005,7 +948,7 @@ void Node::cloneInto(Node* node, NodeCloneContext& context) const
     {
         Camera* clone = camera->clone(context);
         node->setCamera(clone);
-        Ref* ref = dynamic_cast<Ref*>(clone);
+        Ref* ref = static_cast<Ref*>(clone);
         if (ref)
             ref->release();
     }
@@ -1013,7 +956,7 @@ void Node::cloneInto(Node* node, NodeCloneContext& context) const
     {
         Light* clone = light->clone(context);
         node->setLight(clone);
-        Ref* ref = dynamic_cast<Ref*>(clone);
+        Ref* ref = static_cast<Ref*>(clone);
         if (ref)
             ref->release();
     }
@@ -1021,7 +964,7 @@ void Node::cloneInto(Node* node, NodeCloneContext& context) const
     {
         AudioSource* clone = audio->clone(context);
         node->setAudioSource(clone);
-        Ref* ref = dynamic_cast<Ref*>(clone);
+        Ref* ref = static_cast<Ref*>(clone);
         if (ref)
             ref->release();
     }

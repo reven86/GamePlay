@@ -949,7 +949,7 @@ static int lua_Form_getAnimation(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Form* instance = getInstance(state);
-                void* returnPtr = ((void*)instance->getAnimation());
+                void* returnPtr = ((void*)instance->getAnimation(nullptr));
                 if (returnPtr)
                 {
                     gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));

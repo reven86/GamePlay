@@ -27,7 +27,7 @@ namespace gameplay
  *
  * The tile set does not support rotation or scaling.
  */
-class TileSet : public Ref, public Drawable
+class TileSet : public Drawable
 {
     friend class Node;
 

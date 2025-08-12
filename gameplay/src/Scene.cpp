@@ -208,10 +208,10 @@ void Scene::visitNode(Node* node, const char* visitMethod)
     // since we don't add joint hierarcies directly to the scene. If joints are never
     // visited, it's possible that nodes embedded within the joint hierarchy that contain
     // models will never get visited (and therefore never get drawn).
-    Model* model = dynamic_cast<Model*>(node->getDrawable());
-    if (model && model->_skin && model->_skin->_rootNode)
+    const MeshSkin* skin = node->getDrawable() ? node->getDrawable()->getSkin() : nullptr;
+    if (skin && skin->_rootNode)
     {
-        visitNode(model->_skin->_rootNode, visitMethod);
+        visitNode(skin->_rootNode, visitMethod);
     }
 
     // Recurse for all children.

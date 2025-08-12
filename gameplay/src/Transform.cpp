@@ -998,7 +998,7 @@ void Transform::transformChanged()
             l.listener->transformChanged(this, l.cookie);
         }
     }
-    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Transform, transformChanged), dynamic_cast<void*>(this));
+    fireScriptEvent<void>(GP_GET_SCRIPT_EVENT(Transform, transformChanged), static_cast<void*>(this));
 }
 
 void Transform::cloneInto(Transform* transform, NodeCloneContext &context) const

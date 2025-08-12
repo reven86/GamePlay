@@ -672,7 +672,7 @@ static int lua_Sprite_getAnimation(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Sprite* instance = getInstance(state);
-                void* returnPtr = ((void*)instance->getAnimation());
+                void* returnPtr = ((void*)((AnimationTarget *)instance)->getAnimation());
                 if (returnPtr)
                 {
                     gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
@@ -702,7 +702,7 @@ static int lua_Sprite_getAnimation(lua_State* state)
                 const char* param1 = gameplay::ScriptUtil::getString(2, false);
 
                 Sprite* instance = getInstance(state);
-                void* returnPtr = ((void*)instance->getAnimation(param1));
+                void* returnPtr = ((void*)((AnimationTarget*)instance)->getAnimation(param1));
                 if (returnPtr)
                 {
                     gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));

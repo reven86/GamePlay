@@ -1,16 +1,23 @@
 #ifndef DRAWABLE_H_
 #define DRAWABLE_H_
 
+#include "Ref.h"
+
 namespace gameplay
 {
 
 class Node;
 class NodeCloneContext;
+class MeshSkin;
+class Animation;
+class BoundingSphere;
+class BoundingBox;
+class Terrain;
 
 /**
  * Defines a drawable object that can be attached to a Node.
  */
-class Drawable
+class Drawable : public virtual Ref
 {
     friend class Node;
 
@@ -41,6 +48,38 @@ public:
      * @return The node this drawable is attached to.
      */
     Node* getNode() const;
+
+    /**
+     * Get MeshSkin associated with this drawable, if any.
+     */
+    virtual const MeshSkin* getSkin() const { return nullptr; };
+
+    /**
+     * Get Terrain associated with this drawable, if any.
+     */
+    virtual const Terrain* getTerrain() const { return nullptr; };
+
+    /**
+     * Gets the first animation in the node hierarchy with the specified ID.
+     *
+     * @param id The ID of the animation to get. Returns the first animation if ID is NULL.
+     * @return The first animation with the specified ID.
+     */
+    virtual Animation* getAnimation(const char * id) const;
+
+    /**
+     * Gets the local bounding sphere for this drawable.
+     *
+     * @return True if the drawable has bounding sphere.
+     */
+    virtual bool getBoundingSphere(BoundingSphere* outSphere) const { return false; };
+
+    /**
+     * Gets the local bounding box for this drawable.
+     *
+     * @return True if the drawable has bounding box.
+     */
+    virtual bool getBoundingBox(BoundingBox* outBox) const { return false; };
 
 protected:
 

@@ -487,4 +487,51 @@ void Model::validatePartCount()
     }
 }
 
+Animation* Model::getAnimation(const char* id) const
+{
+    Animation* animation = Drawable::getAnimation(id);
+    if (animation)
+        return animation;
+
+    // Check to see if any of the model's material parameter's has an animation
+    // with the given ID.
+    const Material* material = getMaterial();
+    if (material)
+    {
+        // How to access material parameters? hidden on the Material::RenderState.
+        std::vector<MaterialParameter*>::iterator itr = material->_parameters.begin();
+        for (; itr != material->_parameters.end(); itr++)
+        {
+            GP_ASSERT(*itr);
+            animation = ((MaterialParameter*)(*itr))->getAnimation(id);
+            if (animation)
+                return animation;
+        }
+    }
+
+    return nullptr;
+}
+
+bool Model::getBoundingSphere(BoundingSphere* outSphere) const
+{
+    if (getMesh())
+    {
+        outSphere->set(getMesh()->getBoundingSphere());
+        return true;
+    }
+
+    return false;
+}
+
+bool Model::getBoundingBox(BoundingBox* outBox) const
+{
+    if (getMesh())
+    {
+        outBox->set(getMesh()->getBoundingBox());
+        return true;
+    }
+
+    return false;
+}
+
 }

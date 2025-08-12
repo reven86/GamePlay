@@ -272,4 +272,15 @@ void MeshSkin::clearJoints()
     _joints.clear();
 }
 
+Animation* MeshSkin::getAnimation(const char* id) const
+{
+    if (_rootNode)
+    {
+        Animation* animation = _rootNode->getAnimation(id);
+        if (animation)
+            return animation;
+    }
+    return nullptr;
+}
+
 }

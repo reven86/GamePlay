@@ -392,25 +392,18 @@ Vector3 RenderState::autoBindingGetCameraViewPosition() const
 
 const Vector4* RenderState::autoBindingGetMatrixPalette() const
 {
-    Model* model = dynamic_cast<Model*>(_nodeBinding->getDrawable());
-    if (model)
-    {
-        MeshSkin* skin = model->getSkin();
-        if (skin)
-            return skin->getMatrixPalette();
-    }
+    const MeshSkin* skin = _nodeBinding->getDrawable() ? _nodeBinding->getDrawable()->getSkin() : nullptr;
+    if (skin)
+        return skin->getMatrixPalette();
+
     return NULL;
 }
 
 unsigned int RenderState::autoBindingGetMatrixPaletteSize() const
 {
-    Model* model = dynamic_cast<Model*>(_nodeBinding->getDrawable());
-    if (model)
-    {
-        MeshSkin* skin = model->getSkin();
-        if (skin)
-            return skin->getMatrixPaletteSize();
-    }
+    const MeshSkin* skin = _nodeBinding->getDrawable() ? _nodeBinding->getDrawable()->getSkin() : nullptr;
+    if (skin)
+        return skin->getMatrixPaletteSize();
     return 0;
 }
 

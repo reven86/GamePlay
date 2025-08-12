@@ -151,6 +151,14 @@ public:
      */
     void setBatchingEnabled(bool enabled);
 
+    /**
+     * Gets the first animation in the node hierarchy with the specified ID.
+     *
+     * @param id The ID of the animation to get. Returns the first animation if ID is NULL.
+     * @return The first animation with the specified ID.
+     */
+    virtual Animation* getAnimation(const char* id) const override;
+
 protected:
     /**
      * Get top level bounds.

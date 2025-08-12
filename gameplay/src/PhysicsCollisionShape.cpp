@@ -289,7 +289,7 @@ PhysicsCollisionShape::Definition PhysicsCollisionShape::Definition::create(Node
     case SHAPE_MESH:
         {
             // Mesh is required on node.
-            Mesh* nodeMesh = node->getDrawable() ? dynamic_cast<Model*>(node->getDrawable())->getMesh() : NULL;
+            Mesh* nodeMesh = node->getDrawable() ? static_cast<Model*>(node->getDrawable())->getMesh() : NULL;
             if (nodeMesh == NULL)
             {
                 GP_ERROR("Cannot create mesh collision object for node without model/mesh.");
@@ -318,7 +318,7 @@ PhysicsCollisionShape::Definition PhysicsCollisionShape::Definition::create(Node
             if (imagePath == NULL)
             {
                 // Node requires a valid terrain
-                if (dynamic_cast<Terrain*>(node->getDrawable()) == NULL)
+                if (static_cast<Terrain*>(node->getDrawable()) == NULL)
                 {
                     GP_ERROR("Heightfield collision objects can only be specified on nodes that have a valid terrain, or that specify an image path.");
                 }

@@ -282,7 +282,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
         }
         case SceneNodeProperty::MATERIAL:
         {
-            Model* model = dynamic_cast<Model*>(node->getDrawable());
+            Model* model = static_cast<Model*>(node->getDrawable());
             if (model)
             {
                 Material* material = Material::create(p);
@@ -327,7 +327,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
         case SceneNodeProperty::COLLISION_OBJECT:
         {
             // Check to make sure the type of the namespace used to load the physics collision object is correct.
-            if (snp._type == SceneNodeProperty::COLLISION_OBJECT && strcmp(p->getNamespace(), "collisionObject") != 0)
+            if (snp._type == SceneNodeProperty::COLLISION_OBJECT && (strcmp(p->getNamespace(), "collisionObject") != 0))
             {
                 GP_ERROR("Attempting to set a physics collision object on a node using a '%s' definition.", p->getNamespace());
                 return;
@@ -354,21 +354,24 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
                     }
                     else
                     {
-                        if ( dynamic_cast<Model*>(modelNode->getDrawable()) == NULL)
+                        // TODO: fix static_cast
+                        Model* nodeModel = static_cast<Model*>(modelNode->getDrawable());
+
+                        if (nodeModel == NULL)
                         {
                             GP_ERROR("Node '%s' does not have a model; attempting to use its model for collision object creation.", name);
                         }
                         else
                         {
                             // Temporarily set rigidBody model on model so it's used during collision object creation.
-                            Model* model = dynamic_cast<Model*>(node->getDrawable());
+                            Model* model = static_cast<Model*>(node->getDrawable());
 
                             // Up ref count to prevent node from releasing the model when we swap it.
                             if (model)
                                 model->addRef();
 
                             // Create collision object with new rigidBodyModel (aka collisionMesh) set.
-                            node->setDrawable(dynamic_cast<Model*>(modelNode->getDrawable()));
+                            node->setDrawable(nodeModel);
                             node->setCollisionObject(p);
 
                             // Restore original model.

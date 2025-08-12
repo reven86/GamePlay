@@ -33,7 +33,7 @@ class Form;
  *
  * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
-class Control : public Ref, public AnimationTarget, public ScriptTarget
+class Control : public virtual Ref, public AnimationTarget, public ScriptTarget
 {
     friend class Form;
     friend class Container;

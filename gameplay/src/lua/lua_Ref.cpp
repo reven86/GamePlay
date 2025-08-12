@@ -246,10 +246,10 @@ static void* __convertTo(void* ptr, const char* typeName)
     {
         return reinterpret_cast<void*>(static_cast<Camera*>(ptrObject));
     }
-    else if (strcmp(typeName, "Control") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<Control*>(ptrObject));
-    }
+    //else if (strcmp(typeName, "Control") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<Control*>(ptrObject));
+    //}
     else if (strcmp(typeName, "Curve") == 0)
     {
         return reinterpret_cast<void*>(static_cast<Curve*>(ptrObject));
@@ -294,18 +294,18 @@ static void* __convertTo(void* ptr, const char* typeName)
     {
         return reinterpret_cast<void*>(static_cast<Mesh*>(ptrObject));
     }
-    else if (strcmp(typeName, "Model") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<Model*>(ptrObject));
-    }
+    //else if (strcmp(typeName, "Model") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<Model*>(ptrObject));
+    //}
     else if (strcmp(typeName, "Node") == 0)
     {
         return reinterpret_cast<void*>(static_cast<Node*>(ptrObject));
     }
-    else if (strcmp(typeName, "ParticleEmitter") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<ParticleEmitter*>(ptrObject));
-    }
+    //else if (strcmp(typeName, "ParticleEmitter") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<ParticleEmitter*>(ptrObject));
+    //}
     else if (strcmp(typeName, "PhysicsCollisionShape") == 0)
     {
         return reinterpret_cast<void*>(static_cast<PhysicsCollisionShape*>(ptrObject));
@@ -330,18 +330,18 @@ static void* __convertTo(void* ptr, const char* typeName)
     {
         return reinterpret_cast<void*>(static_cast<Script*>(ptrObject));
     }
-    else if (strcmp(typeName, "Sprite") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<Sprite*>(ptrObject));
-    }
-    else if (strcmp(typeName, "Terrain") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<Terrain*>(ptrObject));
-    }
-    else if (strcmp(typeName, "Text") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<Text*>(ptrObject));
-    }
+    //else if (strcmp(typeName, "Sprite") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<Sprite*>(ptrObject));
+    //}
+    //else if (strcmp(typeName, "Terrain") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<Terrain*>(ptrObject));
+    //}
+    //else if (strcmp(typeName, "Text") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<Text*>(ptrObject));
+    //}
     else if (strcmp(typeName, "Texture") == 0)
     {
         return reinterpret_cast<void*>(static_cast<Texture*>(ptrObject));
@@ -358,10 +358,10 @@ static void* __convertTo(void* ptr, const char* typeName)
     {
         return reinterpret_cast<void*>(static_cast<Theme::ThemeImage*>(ptrObject));
     }
-    else if (strcmp(typeName, "TileSet") == 0)
-    {
-        return reinterpret_cast<void*>(static_cast<TileSet*>(ptrObject));
-    }
+    //else if (strcmp(typeName, "TileSet") == 0)
+    //{
+    //    return reinterpret_cast<void*>(static_cast<TileSet*>(ptrObject));
+    //}
     else if (strcmp(typeName, "VertexAttributeBinding") == 0)
     {
         return reinterpret_cast<void*>(static_cast<VertexAttributeBinding*>(ptrObject));

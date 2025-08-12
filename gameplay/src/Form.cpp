@@ -1140,4 +1140,9 @@ Rectangle Form::getTopLevelBounds() const
     return Rectangle(0, 0, 2.0f / _node->getScaleX(), 2.0f / _node->getScaleY());
 }
 
+Animation* Form::getAnimation(const char* id) const
+{
+    return static_cast<const AnimationTarget *>(this)->getAnimation(id);
+}
+
 }

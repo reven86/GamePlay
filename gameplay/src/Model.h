@@ -19,7 +19,7 @@ class MeshSkin;
  * A model has a mesh that can be drawn with the specified materials for
  * each of the mesh parts within it.
  */
-class Model : public Ref, public Drawable
+class Model : public Drawable
 {
     friend class Node;
     friend class Scene;
@@ -141,6 +141,28 @@ public:
      * up before calling this method.
      */
     unsigned int draw(bool wireframe = false) const;
+
+    /**
+     * Gets the first animation in the node hierarchy with the specified ID.
+     *
+     * @param id The ID of the animation to get. Returns the first animation if ID is NULL.
+     * @return The first animation with the specified ID.
+     */
+    virtual Animation* getAnimation(const char* id) const override;
+
+    /**
+     * Gets the local bounding sphere for this drawable.
+     *
+     * @return True if the drawable has bounding sphere.
+     */
+    virtual bool getBoundingSphere(BoundingSphere* outSphere) const override;
+
+    /**
+     * Gets the local bounding box for this drawable.
+     *
+     * @return True if the drawable has bounding box.
+     */
+    virtual bool getBoundingBox(BoundingBox* outBox) const override;
 
 private:
 
