@@ -627,6 +627,7 @@ endif (NOT GP_NO_LUA_BINDINGS)
 endif(NOT EMSCRIPTEN)
 
 add_definitions(-Wno-inconsistent-missing-override)
+add_compile_options(-fno-rtti)
 
 add_library(gameplay STATIC ${GAMEPLAY_SRC})
 
