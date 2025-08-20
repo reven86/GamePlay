@@ -175,7 +175,7 @@ jobs:
 
     - name: Package iOS build
       run: |
-        cd out
+        cd out/iphoneos/Build/Products
         zip -r ../$REPO_NAME-ios.zip .
 
     - name: Upload to S3
