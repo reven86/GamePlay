@@ -616,11 +616,6 @@ IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
     include_directories(${X11_INCLUDE_DIR})
 ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-IF(ANDROID)
-    target_include_directories(gameplay PRIVATE
-            "${ANDROID_NDK}/sources/android/native_app_glue/")
-ENDIF(ANDROID)
-
 if(NOT EMSCRIPTEN)
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PHYSICS})
@@ -642,8 +637,12 @@ set_target_properties(gameplay PROPERTIES
     VERSION ${GAMEPLAY_VERSION}
 )
 
+IF(ANDROID)
+    target_include_directories(gameplay PRIVATE "${ANDROID_NDK}/sources/android/native_app_glue/")
+ENDIF(ANDROID)
+
 if (NOT GP_NO_LUA_BINDINGS)
-source_group(lua FILES ${GAMEPLAY_LUA})
+    source_group(lua FILES ${GAMEPLAY_LUA})
 endif (NOT GP_NO_LUA_BINDINGS)
 source_group(res FILES ${GAMEPLAY_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS} ${GAMEPLAY_RES_UI})
 source_group(src FILES ${GAMEPLAY_SRC})

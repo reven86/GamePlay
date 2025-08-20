@@ -59,7 +59,7 @@ jobs:
         cmake -B build-linux \
               -S . \
               -DCMAKE_BUILD_TYPE=Release \
-              -DGP_NO_LUA_BINDINGS \
+              -DGP_NO_LUA_BINDINGS=1 \
               -G Ninja
 
     - name: Build project
@@ -126,8 +126,8 @@ jobs:
               -DANDROID_FORCE_ARM_BUILD=ON \
               -DANDROID_PLATFORM=android-24 \
               -DANDROID_STL=c++_static \
-              -DCMAKE_BUILD_TYPE=Release
-              -DGP_NO_LUA_BINDINGS \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DGP_NO_LUA_BINDINGS=1
 
     - name: Build Android
       run: |
