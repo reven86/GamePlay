@@ -114,7 +114,7 @@ jobs:
 
     - name: Install NDK and CMake
       run: |
-        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264"
+        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264" --include_obsolete
 
     - name: Configure Android build
       run: |
@@ -176,7 +176,7 @@ jobs:
     - name: Package iOS build
       run: |
         cd out/iphoneos/Build/Products
-        zip -r ../$REPO_NAME-ios.zip .
+        zip -r ../../../../$REPO_NAME-ios.zip .
 
     - name: Upload to S3
       run: |
