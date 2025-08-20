@@ -616,17 +616,22 @@ IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
     include_directories(${X11_INCLUDE_DIR})
 ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
+IF(ANDROID)
+    target_include_directories(gameplay PRIVATE
+            "${ANDROID_NDK}/sources/android/native_app_glue/")
+ENDIF(ANDROID)
+
 if(NOT EMSCRIPTEN)
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_AUDIO})
     list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PHYSICS})
-if (NOT GP_NO_LUA_BINDINGS)
-    list(APPEND GAMEPLAY_SRC ${GAMEPLAY_LUA})
-endif (NOT GP_NO_LUA_BINDINGS)
+    if (NOT GP_NO_LUA_BINDINGS)
+        list(APPEND GAMEPLAY_SRC ${GAMEPLAY_LUA})
+    endif (NOT GP_NO_LUA_BINDINGS)
     add_definitions(-DYAML_DECLARE_STATIC)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
 endif(NOT EMSCRIPTEN)
 
-add_definitions(-Wno-inconsistent-missing-override)
+add_compile_options(-Wno-inconsistent-missing-override)
 add_compile_options(-fno-rtti)
 
 add_library(gameplay STATIC ${GAMEPLAY_SRC})

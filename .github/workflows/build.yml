@@ -59,6 +59,7 @@ jobs:
         cmake -B build-linux \
               -S . \
               -DCMAKE_BUILD_TYPE=Release \
+              -DGP_NO_LUA_BINDINGS \
               -G Ninja
 
     - name: Build project
@@ -114,7 +115,7 @@ jobs:
 
     - name: Install NDK and CMake
       run: |
-        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264" --include_obsolete
+        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264"
 
     - name: Configure Android build
       run: |
@@ -126,6 +127,7 @@ jobs:
               -DANDROID_PLATFORM=android-24 \
               -DANDROID_STL=c++_static \
               -DCMAKE_BUILD_TYPE=Release
+              -DGP_NO_LUA_BINDINGS \
 
     - name: Build Android
       run: |
@@ -175,8 +177,8 @@ jobs:
 
     - name: Package iOS build
       run: |
-        cd out/iphoneos/Build/Products
-        zip -r ../../../../$REPO_NAME-ios.zip .
+        cd out/iphoneos/Build/Products/Release-iphoneos
+        zip -r ../../../../../$REPO_NAME-ios.zip .
 
     - name: Upload to S3
       run: |
