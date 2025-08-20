@@ -1,0 +1,226 @@
+name: Multi-Platform CMake Build
+
+on:
+  push:
+    branches: [ master, next ]
+  workflow_dispatch:  # Manual trigger
+
+env:
+  S3_REGION: ${{ secrets.S3_REGION || 'eu-central-003' }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip \
+              libx11-dev \
+              libgl1-mesa-dev \
+              libglu1-mesa-dev \
+              libxext-dev \
+              libxrandr-dev \
+              libxinerama-dev \
+              libxcursor-dev \
+              libxi-dev
+        pip3 install awscli
+
+    - name: Configure CMake
+      run: |
+        cmake -B build-linux \
+              -S . \
+              -DCMAKE_BUILD_TYPE=Release \
+              -G Ninja
+
+    - name: Build project
+      run: |
+        cmake --build build-linux \
+              --config Release \
+              --parallel $(nproc)
+
+    - name: Package build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-linux.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-linux.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
+  build-android:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        android_abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
+        pip3 install awscli
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install NDK and CMake
+      run: |
+        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264"
+
+    - name: Configure Android build
+      run: |
+        cmake -B build-android-${{ matrix.android_abi }} \
+              -S . \
+              -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+              -DANDROID_ABI=${{ matrix.android_abi }} \
+              -DANDROID_FORCE_ARM_BUILD=ON \
+              -DANDROID_PLATFORM=android-24 \
+              -DANDROID_STL=c++_static \
+              -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build Android
+      run: |
+        cmake --build build-android-${{ matrix.android_abi }} --parallel $(nproc)
+
+    - name: Package Android build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-android-${{ matrix.android_abi }}.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-android-${{ matrix.android_abi }}.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
+  build-ios:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install cmake ninja awscli
+
+    - name: Build iOS
+      run: |
+        mkdir out
+        xcodebuild -workspace gameplay.xcworkspace -scheme gameplay-ios -configuration Release -derivedDataPath out/iphoneos -sdk iphoneos build | xcpretty
+
+    - name: Package iOS build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-ios.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-ios.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
+  build-emscripten:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
+        pip3 install awscli
+
+    - name: Setup Emscripten
+      uses: mymindstorm/setup-emsdk@v13
+
+    - name: Configure Emscripten build
+      run: |
+        emcmake cmake -B build-emscripten \
+                      -S . \
+                      -DGP_NO_LUA_BINDINGS=1 \
+                      -DCMAKE_BUILD_TYPE=MinSizeRel
+
+    - name: Build Emscripten
+      run: |
+        cmake --build build-emscripten --parallel $(nproc)
+
+    - name: Package Emscripten build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-emscripten.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-emscripten.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
+  build-emscripten-mod:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
+        pip3 install awscli
+
+    - name: Setup Emscripten
+      uses: mymindstorm/setup-emsdk@v13
+      with:
+        version: 3.1.50
+
+    - name: Configure Emscripten build
+      run: |
+        emcmake cmake -B build-emscripten \
+                      -S . \
+                      -DGP_NO_LUA_BINDINGS=1 \
+                      -DCMAKE_BUILD_TYPE=MinSizeRel
+
+    - name: Build Emscripten
+      run: |
+        cmake --build build-emscripten --parallel $(nproc)
+
+    - name: Package Emscripten build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-emscripten-mod.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-emscripten-mod.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
+  deploy-summary:
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-android, build-ios, build-emscripten, build-emscripten-mod]
+    
+    steps:
+    - name: Create deployment summary
+      run: |
+        echo "Build completed for all platforms!" > summary.md
+        echo "Commit: ${{ github.sha }}" >> summary.md
+        echo "Build artifacts uploaded to S3 bucket: ${{ env.S3_BUCKET }}" >> summary.md
+
+    - name: Upload summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-summary
+        path: summary.md

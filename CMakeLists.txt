@@ -27,6 +27,7 @@ if (GP_NO_LUA_BINDINGS)
 add_definitions(-DGP_NO_LUA_BINDINGS=1)
 endif (GP_NO_LUA_BINDINGS)
 
+set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/out")
 
 # gameplay library
 add_subdirectory(gameplay)
