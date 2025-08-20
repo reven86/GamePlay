@@ -1,5 +1,5 @@
 #ifndef GP_NO_PLATFORM
-#ifdef __linux__
+#if defined(__linux__) && !defined(__ANDROID__)
 
 #include "Base.h"
 #include "Platform.h"

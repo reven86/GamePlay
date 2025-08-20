@@ -1412,7 +1412,7 @@ int Platform::enterMessagePump()
         int events;
         struct android_poll_source* source;
         
-        while ((ident=ALooper_pollAll(!__suspended ? 0 : -1, NULL, &events, (void**)&source)) >= 0) 
+        while ((ident=ALooper_pollOnce(!__suspended ? 0 : -1, NULL, &events, (void**)&source)) >= 0) 
         {
             // Process this event.
             if (source != NULL)
