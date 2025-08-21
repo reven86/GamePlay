@@ -339,7 +339,7 @@ typedef unsigned long GamepadHandle;
         typedef NSEvent PlatformEvent;
     #endif
 #elif defined(__ANDROID__)
-	#include <android_native_app_glue.h>
+    struct AInputEvent;
     typedef AInputEvent PlatformEvent;
 #elif defined(__EMSCRIPTEN__)
     typedef int PlatformEvent;
