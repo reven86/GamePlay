@@ -187,59 +187,9 @@ jobs:
 
   build-emscripten:
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
-        pip3 install awscli
-
-    - name: Download and extract external dependencies from S3
-      run: |
-        aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
-          --endpoint-url=$S3_ENDPOINT
-    
-        # Check if download was successful
-        if [ -f "external-deps-include.zip" ]; then
-          echo "Unzipping dependencies to root folder..."
-          unzip -o external-deps-include.zip -d external-deps
-          echo "Dependencies extracted successfully!"
-          ls -la
-        else
-          echo "Error: external-deps-include.zip not found after download!"
-          exit 1
-        fi
-
-    - name: Setup Emscripten
-      uses: mymindstorm/setup-emsdk@v13
-
-    - name: Configure Emscripten build
-      run: |
-        emcmake cmake -B build-emscripten \
-                      -S . \
-                      -DGP_NO_LUA_BINDINGS=1 \
-                      -DCMAKE_BUILD_TYPE=MinSizeRel
-
-    - name: Build Emscripten
-      run: |
-        cmake --build build-emscripten --parallel $(nproc)
-
-    - name: Package Emscripten build
-      run: |
-        cd out
-        zip -r ../$REPO_NAME-emscripten.zip .
-
-    - name: Upload to S3
-      run: |
-        aws s3 cp $REPO_NAME-emscripten.zip \
-          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
-
-  build-emscripten-mod:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        emscripten: [latest, 3.1.50]
     
     steps:
     - name: Checkout code
@@ -270,7 +220,7 @@ jobs:
     - name: Setup Emscripten
       uses: mymindstorm/setup-emsdk@v13
       with:
-        version: 3.1.50
+       version: ${{ matrix.emscripten }}
 
     - name: Configure Emscripten build
       run: |
@@ -286,16 +236,16 @@ jobs:
     - name: Package Emscripten build
       run: |
         cd out
-        zip -r ../$REPO_NAME-emscripten-mod.zip .
+        zip -r ../$REPO_NAME-emscripten-${{ matrix.emscripten }}.zip .
 
     - name: Upload to S3
       run: |
-        aws s3 cp $REPO_NAME-emscripten-mod.zip \
+        aws s3 cp $REPO_NAME-emscripten-${{ matrix.emscripten }}.zip \
           s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
 
   deploy-summary:
     runs-on: ubuntu-latest
-    needs: [build-linux, build-android, build-ios, build-emscripten, build-emscripten-mod]
+    needs: [build-linux, build-android, build-ios, build-emscripten]
     
     steps:
     - name: Create deployment summary
