@@ -235,6 +235,8 @@ set(GAMEPLAY_SRC
     src/VertexFormat.h
     src/VerticalLayout.cpp
     src/VerticalLayout.h
+    src/storefront/AndroidStoreFront.cpp
+    src/storefront/AndroidStoreFront.h
     src/storefront/NullStoreFront.cpp
     src/storefront/NullStoreFront.h
     src/storefront/StoreController.cpp

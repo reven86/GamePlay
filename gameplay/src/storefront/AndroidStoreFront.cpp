@@ -1,3 +1,5 @@
+#ifdef __ANDROID__
+
 #include "Base.h"
 #include "AndroidStoreFront.h"
 #include "storefront/StoreListener.h"
@@ -255,3 +257,5 @@ void AndroidStoreFront::requestReceipt()
 }
 
 }
+
+#endif

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef __ANDROID__
+
 #include "Storefront.h"
 
 
@@ -90,3 +92,4 @@ private:
 
 }
 
+#endif
