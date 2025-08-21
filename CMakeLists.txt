@@ -12,16 +12,16 @@ if ( "${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG" )
     add_definitions(-D_DEBUG)
 endif()
 
-# architecture
-if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-set(ARCH_DIR "x64")
-else()
-set(ARCH_DIR "x86")
-endif()
-
+# ARCH detection
 if (ANDROID)
     set(ARCH ${ANDROID_ARCH_NAME})
-elseif(NOT IOS)
+elseif(IOS)
+    if (PLATFORM STREQUAL "OS64")
+        set(ARCH "arm")
+    else (PLATFORM STREQUAL "OS64")
+        set(ARCH "x86")
+    endif (PLATFORM STREQUAL "OS64")
+else(IOS)
     # Skip any introspection for cross-compiling targets
     include(${PROJECT_SOURCE_DIR}/cmake/TargetArch.cmake)
 
@@ -39,6 +39,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
 
 file(MAKE_DIRECTORY ${LIBRARY_OUTPUT_PATH})
 message(STATUS "Directory: ${LIBRARY_OUTPUT_PATH}")
+
 
 if (GP_NO_PLATFORM)
 add_definitions(-DGP_NO_PLATFORM=1)

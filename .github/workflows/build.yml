@@ -42,17 +42,7 @@ jobs:
       run: |
         aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
           --endpoint-url=$S3_ENDPOINT
-    
-        # Check if download was successful
-        if [ -f "external-deps-include.zip" ]; then
-          echo "Unzipping dependencies to root folder..."
-          unzip -o external-deps-include.zip -d external-deps
-          echo "Dependencies extracted successfully!"
-          ls -la
-        else
-          echo "Error: external-deps-include.zip not found after download!"
-          exit 1
-        fi
+        unzip -o external-deps-include.zip -d external-deps
 
     - name: Configure CMake
       run: |
@@ -113,10 +103,6 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install NDK and CMake
-      run: |
-        sdkmanager "cmake;3.22.1" "ndk;26.3.11579264"
-
     - name: Configure Android build
       run: |
         cmake -B build-android-${{ matrix.android_abi }} \
@@ -158,27 +144,27 @@ jobs:
       run: |
         aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
           --endpoint-url=$S3_ENDPOINT
-    
-        # Check if download was successful
-        if [ -f "external-deps-include.zip" ]; then
-          echo "Unzipping dependencies to root folder..."
-          unzip -o external-deps-include.zip -d external-deps
-          echo "Dependencies extracted successfully!"
-          ls -la
-        else
-          echo "Error: external-deps-include.zip not found after download!"
-          exit 1
-        fi
+        unzip -o external-deps-include.zip -d external-deps
+
+    - name: Configure iOS build
+      run: |
+        cmake -B build-ios \
+              -S . \
+              -DGP_NO_LUA_BINDINGS=1 \
+              -DCMAKE_SYSTEM_NAME=iOS \
+              -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0 \
+              -DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO \
+              -DCMAKE_IOS_INSTALL_COMBINED=YES \
+              -DCMAKE_BUILD_TYPE=Release
 
     - name: Build iOS
       run: |
-        mkdir out
-        xcodebuild -workspace gameplay.xcworkspace -scheme gameplay-ios -configuration Release -derivedDataPath out/iphoneos -sdk iphoneos build | xcpretty
+        cmake --build build-ios --parallel $(nproc) --target dfg-gameplay-ios
 
     - name: Package iOS build
       run: |
-        cd out/iphoneos/Build/Products/Release-iphoneos
-        zip -r ../../../../../$REPO_NAME-ios.zip .
+        cd out
+        zip -r ../$REPO_NAME-ios.zip .
 
     - name: Upload to S3
       run: |
@@ -205,17 +191,7 @@ jobs:
       run: |
         aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
           --endpoint-url=$S3_ENDPOINT
-    
-        # Check if download was successful
-        if [ -f "external-deps-include.zip" ]; then
-          echo "Unzipping dependencies to root folder..."
-          unzip -o external-deps-include.zip -d external-deps
-          echo "Dependencies extracted successfully!"
-          ls -la
-        else
-          echo "Error: external-deps-include.zip not found after download!"
-          exit 1
-        fi
+        unzip -o external-deps-include.zip -d external-deps
 
     - name: Setup Emscripten
       uses: mymindstorm/setup-emsdk@v13
