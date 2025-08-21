@@ -88,17 +88,7 @@ jobs:
       run: |
         aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
           --endpoint-url=$S3_ENDPOINT
-    
-        # Check if download was successful
-        if [ -f "external-deps-include.zip" ]; then
-          echo "Unzipping dependencies to root folder..."
-          unzip -o external-deps-include.zip -d external-deps
-          echo "Dependencies extracted successfully!"
-          ls -la
-        else
-          echo "Error: external-deps-include.zip not found after download!"
-          exit 1
-        fi
+        unzip -o external-deps-include.zip -d external-deps
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
@@ -158,7 +148,7 @@ jobs:
 
     - name: Build iOS
       run: |
-        cmake --build build-ios --parallel $(nproc) --target gameplay
+        cmake --build build-ios --parallel $(sysctl -n hw.ncpu) --target gameplay
 
     - name: Package iOS build
       run: |

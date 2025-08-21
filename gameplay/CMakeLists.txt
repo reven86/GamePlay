@@ -626,6 +626,15 @@ if(NOT EMSCRIPTEN)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
 endif(NOT EMSCRIPTEN)
 
+if(IOS)
+    list(APPEND GAMEPLAY_SRC
+        src/PlatformiOS.mm
+        src/storefront/AppleStoreFront.mm
+    )
+    set_source_files_properties(src/PlatformiOS.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
+    set_source_files_properties(src/AppleStoreFront.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
+endif(IOS)
+
 add_compile_options(-Wno-inconsistent-missing-override)
 add_compile_options(-fno-rtti)
 IF(IOS)
