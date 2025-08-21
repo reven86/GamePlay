@@ -159,7 +159,7 @@ jobs:
 
     - name: Build iOS
       run: |
-        cmake --build build-ios --parallel $(nproc) --target dfg-gameplay-ios
+        cmake --build build-ios --parallel $(nproc) --target gameplay
 
     - name: Package iOS build
       run: |
