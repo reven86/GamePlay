@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10...3.27)
 
 project(GamePlay)
 
@@ -19,14 +19,17 @@ else()
 set(ARCH_DIR "x86")
 endif()
 
-if (GP_NO_PLATFORM)
-add_definitions(-DGP_NO_PLATFORM=1)
-endif (GP_NO_PLATFORM)
+if (ANDROID)
+    set(ARCH ${ANDROID_ARCH_NAME})
+elseif(NOT IOS)
+    # Skip any introspection for cross-compiling targets
+    include(${PROJECT_SOURCE_DIR}/cmake/TargetArch.cmake)
 
-if (GP_NO_LUA_BINDINGS)
-add_definitions(-DGP_NO_LUA_BINDINGS=1)
-endif (GP_NO_LUA_BINDINGS)
+    set(ARCH "unknown")
+    target_architecture(ARCH)
+endif(ANDROID)
 
+string(TOLOWER ${CMAKE_SYSTEM_NAME} LOWER_SYSTEM_NAME)
 set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/out")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/out/lib/${LOWER_SYSTEM_NAME}/${ARCH}")
 
@@ -36,6 +39,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
 
 file(MAKE_DIRECTORY ${LIBRARY_OUTPUT_PATH})
 message(STATUS "Directory: ${LIBRARY_OUTPUT_PATH}")
+
+if (GP_NO_PLATFORM)
+add_definitions(-DGP_NO_PLATFORM=1)
+endif (GP_NO_PLATFORM)
+
+if (GP_NO_LUA_BINDINGS)
+add_definitions(-DGP_NO_LUA_BINDINGS=1)
+endif (GP_NO_LUA_BINDINGS)
 
 # gameplay library
 add_subdirectory(gameplay)
