@@ -628,6 +628,9 @@ endif(NOT EMSCRIPTEN)
 
 add_compile_options(-Wno-inconsistent-missing-override)
 add_compile_options(-fno-rtti)
+IF(IOS)
+    add_definitions(-DGLES_SILENCE_DEPRECATION)
+ENDIF(IOS)
 
 add_library(gameplay STATIC ${GAMEPLAY_SRC})
 
