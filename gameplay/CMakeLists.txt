@@ -650,6 +650,9 @@ set_target_properties(gameplay PROPERTIES
 )
 
 IF(ANDROID)
+    # Add the native app glue library
+    add_library(android_native_app_glue STATIC ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
+
     target_include_directories(gameplay PRIVATE "${ANDROID_NDK}/sources/android/native_app_glue/")
 ENDIF(ANDROID)
 
