@@ -630,9 +630,11 @@ endif(NOT EMSCRIPTEN)
 
 if(IOS)
     list(APPEND GAMEPLAY_SRC
+        src/gameplay-main-ios.mm
         src/PlatformiOS.mm
         src/storefront/AppleStoreFront.mm
     )
+    set_source_files_properties(src/gameplay-main-ios.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
     set_source_files_properties(src/PlatformiOS.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
     set_source_files_properties(src/AppleStoreFront.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
 endif(IOS)
@@ -654,7 +656,6 @@ set_target_properties(gameplay PROPERTIES
 IF(ANDROID)
     # Add the native app glue library
     add_library(android_native_app_glue STATIC ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c)
-
     target_include_directories(gameplay PRIVATE "${ANDROID_NDK}/sources/android/native_app_glue/")
 ENDIF(ANDROID)
 
