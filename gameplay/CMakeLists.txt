@@ -80,7 +80,6 @@ set(GAMEPLAY_SRC
     src/Game.inl
     src/Gamepad.cpp
     src/Gamepad.h
-    src/gameplay-main-android.cpp
     src/gameplay-main-linux.cpp
     src/gameplay-main-windows.cpp
     src/gameplay-main-emscripten.cpp
