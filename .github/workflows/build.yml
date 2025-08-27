@@ -23,8 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip \
+        sudo apt-get install -y \
               libgtk2.0-dev \
               libgtkmm-2.4-dev \
               pkg-config \
@@ -78,12 +77,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
-        pip3 install awscli
-
     - name: Download and extract external dependencies from S3
       run: |
         aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
@@ -97,7 +90,7 @@ jobs:
       run: |
         cmake -B build-android-${{ matrix.android_abi }} \
               -S . \
-              -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+              -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_LATEST_HOME/build/cmake/android.toolchain.cmake \
               -DANDROID_ABI=${{ matrix.android_abi }} \
               -DANDROID_FORCE_ARM_BUILD=ON \
               -DANDROID_PLATFORM=android-24 \
@@ -169,12 +162,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build zip python3-pip
-        pip3 install awscli
 
     - name: Download and extract external dependencies from S3
       run: |
