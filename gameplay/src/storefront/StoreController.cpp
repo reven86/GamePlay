@@ -27,8 +27,6 @@ void StoreController::initialize()
 #else
     _storeFront = new NullStoreFront( );
 #endif
-#else
-    _storeFront = new NullStoreFront( );
 }
 
 void StoreController::finalize()
