@@ -148,3 +148,6 @@ gameplay.xcworkspace/xcshareddata/gameplay.xccheckout
 /*.opendb
 /tools/encoder/*.user
 /.vs
+
+/build-*
+/out
