@@ -4,7 +4,7 @@
 // List of error codes: https://developer.apple.com/library/ios/documentation/StoreKit/Reference/StoreKitTypes/Reference/reference.html
 //
 
-#if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
+#if defined (__APPLE__)
 
 #include "StoreListener.h"
 

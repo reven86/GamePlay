@@ -1,4 +1,4 @@
-#if defined (__APPLE__) && defined (GP_USE_STOREFRONT)
+#if defined (__APPLE__)
 
 #ifndef APPLESTOREFRONT_H_
 #define APPLESTOREFRONT_H_

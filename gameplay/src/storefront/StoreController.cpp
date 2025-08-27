@@ -19,7 +19,6 @@ StoreController::~StoreController()
 
 void StoreController::initialize()
 {
-#if defined(GP_USE_STOREFRONT)
 #if defined(__QNX__)
 #elif defined(__ANDROID__)
     _storeFront = new AndroidStoreFront( );
@@ -30,7 +29,6 @@ void StoreController::initialize()
 #endif
 #else
     _storeFront = new NullStoreFront( );
-#endif
 }
 
 void StoreController::finalize()
