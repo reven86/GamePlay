@@ -17,7 +17,7 @@ namespace gameplay
 
 ImageControl::ImageControl() :
     _srcRegion(Rectangle::empty()), _dstRegion(Rectangle::empty()), _batch(NULL),
-    _tw(0.0f), _th(0.0f), _uvs(Theme::UVs::full()), _color(Vector4::one())
+    _tw(1.0f), _th(1.0f), _uvs(Theme::UVs::full()), _color(Vector4::one())
 {
 }
 
