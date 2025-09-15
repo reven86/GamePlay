@@ -152,7 +152,7 @@ Texture* Texture::create(const char* path, bool generateMipmaps)
         return texture;
     }
 
-    GP_ERROR("Failed to load texture from file '%s'.", path);
+    GP_WARN("Failed to load texture from file '%s'.", path);
     return NULL;
 }
 
@@ -1272,6 +1272,9 @@ Texture* Texture::createCompressedDDS(const char* path)
             format = internalFormat = ETC1_RGB8;
             bytesPerBlock = 8;
             break;
+        case ('D'|('X'<<8)|('1'<<16)|('0'<<24)):
+            GP_WARN("Loading DX10 textures is not yet supported");
+            return NULL;
         default:
             GP_ERROR("Unsupported compressed texture format (%d) for DDS file '%s'.", header.ddspf.dwFourCC, path);
             SAFE_DELETE_ARRAY(mipLevels);
