@@ -260,6 +260,10 @@ using std::va_list;
     #elif TARGET_OS_MAC
         #include <OpenGL/gl.h>
         #include <OpenGL/glext.h>
+        #define glBindVertexArray glBindVertexArrayAPPLE
+        #define glDeleteVertexArrays glDeleteVertexArraysAPPLE
+        #define glGenVertexArrays glGenVertexArraysAPPLE
+        #define glIsVertexArray glIsVertexArrayAPPLE
     #else
         #error "Unsupported Apple Device"
     #endif

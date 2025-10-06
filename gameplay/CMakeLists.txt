@@ -3,6 +3,12 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
             src/PlatformMacOSX.mm
             src/gameplay-main-macosx.mm
             )
+elseif(IOS)
+    list(APPEND GAMEPLAY_PLATFORM_SRC
+        src/gameplay-main-ios.mm
+        src/PlatformiOS.mm
+        src/storefront/AppleStoreFront.mm
+    )
 else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(GAMEPLAY_PLATFORM_SRC )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -606,6 +612,8 @@ include_directories(
     ../external-deps/include
 )
 
+list(APPEND GAMEPLAY_SRC ${GAMEPLAY_PLATFORM_SRC})
+
 IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(GTK2 REQUIRED gtk+-2.0)
@@ -628,11 +636,6 @@ if(NOT EMSCRIPTEN)
 endif(NOT EMSCRIPTEN)
 
 if(IOS)
-    list(APPEND GAMEPLAY_SRC
-        src/gameplay-main-ios.mm
-        src/PlatformiOS.mm
-        src/storefront/AppleStoreFront.mm
-    )
     set_source_files_properties(src/gameplay-main-ios.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
     set_source_files_properties(src/PlatformiOS.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
     set_source_files_properties(src/storefront/AppleStoreFront.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
