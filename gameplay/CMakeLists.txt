@@ -9,7 +9,7 @@ elseif(IOS)
         src/PlatformiOS.mm
         src/storefront/AppleStoreFront.mm
     )
-else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+else(IOS)
     set(GAMEPLAY_PLATFORM_SRC )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -634,6 +634,13 @@ if(NOT EMSCRIPTEN)
     add_definitions(-DYAML_DECLARE_STATIC)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
 endif(NOT EMSCRIPTEN)
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set_source_files_properties(src/gameplay-main-macosx.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
+    set_source_files_properties(src/PlatformMacOSX.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
+    set_source_files_properties(src/storefront/AppleStoreFront.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
+    set_source_files_properties(src/storefront/StoreController.cpp PROPERTIES COMPILE_FLAGS "-x objective-c++")
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 if(IOS)
     set_source_files_properties(src/gameplay-main-ios.mm PROPERTIES COMPILE_FLAGS "-x objective-c++")
