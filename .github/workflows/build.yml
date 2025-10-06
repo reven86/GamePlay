@@ -152,6 +152,46 @@ jobs:
         aws s3 cp $REPO_NAME-ios.zip \
           s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
 
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install ninja awscli
+
+    - name: Download and extract external dependencies from S3
+      run: |
+        aws s3 cp s3://$S3_BUCKET/builds/external-deps-include.zip . \
+          --endpoint-url=$S3_ENDPOINT
+        unzip -o external-deps-include.zip -d external-deps
+
+    - name: Configure MacOS build
+      run: |
+        cmake -B build-macos \
+              -S . \
+              -DGP_NO_LUA_BINDINGS=1 \
+              -DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 \
+              -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+              -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build MacOS
+      run: |
+        cmake --build build-macos --parallel $(sysctl -n hw.ncpu) --target gameplay
+
+    - name: Package MacOS build
+      run: |
+        cd out
+        zip -r ../$REPO_NAME-macos.zip .
+
+    - name: Upload to S3
+      run: |
+        aws s3 cp $REPO_NAME-macos.zip \
+          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+
   build-emscripten:
     runs-on: ubuntu-latest
     strategy:
