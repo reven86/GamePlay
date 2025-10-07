@@ -559,7 +559,7 @@ void RenderState::StateBlock::bindNoRestore()
     }
     if ((_bits & RS_BLEND_FUNC) && (_blendSrc != _defaultState->_blendSrc || _blendDst != _defaultState->_blendDst))
     {
-        GL_ASSERT( glBlendFunc((GLenum)_blendSrc, (GLenum)_blendDst) );
+        GL_ASSERT( glBlendFuncSeparate((GLenum)_blendSrc, (GLenum)_blendDst, GL_ONE, GL_ONE_MINUS_SRC_ALPHA) );
         _defaultState->_blendSrc = _blendSrc;
         _defaultState->_blendDst = _blendDst;
     }
