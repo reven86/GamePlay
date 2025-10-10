@@ -5,9 +5,6 @@
 #include "gameplay.h"
 
 
-bool validateReceipt( );
-
-
 using namespace gameplay;
 
 extern int __argc;
@@ -20,9 +17,6 @@ int main(int argc, char** argv)
 {
     __argc = argc;
     __argv = argv;
-    
-    if( !validateReceipt( ) )
-        return 0;
     
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
     Game* game = Game::getInstance();
