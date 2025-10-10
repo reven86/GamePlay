@@ -113,6 +113,27 @@ static std::mutex __packagesMutex;
  */
 static void getFullPath(const char* path, std::string& fullPath)
 {
+    if (strstr(path, "tmp://") == path)
+    {
+        fullPath.assign(gameplay::Game::getInstance()->getTemporaryFolderPath());
+        fullPath += &path[std::char_traits<char>::length("tmp://")];
+        return;
+    }
+
+    if (strstr(path, "docs://") == path)
+    {
+        fullPath.assign(gameplay::Game::getInstance()->getDocumentsFolderPath());
+        fullPath += &path[std::char_traits<char>::length("docs://")];
+        return;
+    }
+
+    if (strstr(path, "app://") == path)
+    {
+        fullPath.assign(gameplay::Game::getInstance()->getAppPrivateFolderPath());
+        fullPath += &path[std::char_traits<char>::length("app://")];
+        return;
+    }
+
     if (FileSystem::isAbsolutePath(path))
     {
         fullPath.assign(path);
