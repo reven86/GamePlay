@@ -1,17 +1,19 @@
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(GAMEPLAY_PLATFORM_SRC
+IF(APPLE)
+    set(GAMEPLAY_PLATFORM_SRC src/storefront/AppleStoreFront.mm)
+    IF(IOS)
+        list(APPEND GAMEPLAY_PLATFORM_SRC
+            src/gameplay-main-ios.mm
+            src/PlatformiOS.mm
+        )
+    ELSE(IOS)
+        list(APPEND GAMEPLAY_PLATFORM_SRC
             src/PlatformMacOSX.mm
             src/gameplay-main-macosx.mm
-            )
-elseif(IOS)
-    list(APPEND GAMEPLAY_PLATFORM_SRC
-        src/gameplay-main-ios.mm
-        src/PlatformiOS.mm
-        src/storefront/AppleStoreFront.mm
-    )
-else(IOS)
+        )
+    ENDIF(IOS)
+ELSE(APPLE)
     set(GAMEPLAY_PLATFORM_SRC )
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+ENDIF(APPLE)
 
 set(GAMEPLAY_SRC
     src/AbsoluteLayout.cpp
