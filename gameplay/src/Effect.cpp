@@ -272,7 +272,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
 
 #if defined(__APPLE__) && TARGET_OS_MAC
     if (versionStr.empty())
-        versionStr = "#version 100";
+        versionStr = "#version 110\n";
 #endif
 
     shaderSource[0] = versionStr.c_str();
@@ -336,7 +336,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
 
 #if defined(__APPLE__) && TARGET_OS_MAC
     if (versionStr.empty())
-        versionStr = "#version 100\nprecision highp float;";
+        versionStr = "#version 110\nprecision highp float;\n";
 #endif
 
     shaderSource[0] = versionStr.c_str();
