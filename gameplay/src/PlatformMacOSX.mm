@@ -857,11 +857,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         NSOpenGLPFAColorSize, 32,
         NSOpenGLPFADepthSize, 24,
         NSOpenGLPFAAlphaSize, 8,
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
-        99, 0x1000,
-#else
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
-#endif
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         0
     };
     NSOpenGLPixelFormatAttribute fullscreenAttrs[] = 
@@ -871,17 +867,10 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
         NSOpenGLPFADoubleBuffer,
         NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(CGMainDisplayID()),
-    #if (__MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_7)
-        NSOpenGLPFAFullScreen,
-    #endif
         NSOpenGLPFAColorSize, 32,
         NSOpenGLPFADepthSize, 24,
         NSOpenGLPFAAlphaSize, 8,
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < 1070
-        99, 0x1000,
-#else
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersionLegacy,
-#endif
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         0
     };
     NSOpenGLPixelFormatAttribute* attrs = __fullscreen ? fullscreenAttrs : windowedAttrs;
@@ -929,6 +918,12 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 {
     [super prepareOpenGL];
     
+    // Check the actual OpenGL version we got
+    const GLubyte* version = glGetString(GL_VERSION);
+    const GLubyte* glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+    NSLog(@"OpenGL Version: %s", version);
+    NSLog(@"GLSL Version: %s", glslVersion);
+
     _game->run();
     
     if (__fullscreen)
