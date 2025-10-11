@@ -257,12 +257,6 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
     GL_ASSERT( glGenTextures(1, &textureId) );
     GL_ASSERT( glBindTexture(target, textureId) );
     GL_ASSERT( glPixelStorei(GL_UNPACK_ALIGNMENT, 1) );
-#ifndef OPENGL_ES
-    // glGenerateMipmap is new in OpenGL 3.0. For OpenGL 2.0 we must fallback to use glTexParameteri
-    // with GL_GENERATE_MIPMAP prior to actual texture creation (glTexImage2D)
-    if ( generateMipmaps && !std::addressof(glGenerateMipmap) )
-        GL_ASSERT( glTexParameteri(target, GL_GENERATE_MIPMAP, GL_TRUE) );
-#endif
 
     // Load the texture
     size_t bpp = getFormatBPP(format);
@@ -1563,7 +1557,6 @@ void Texture::generateMipmaps()
     {
         GLenum target = (GLenum)_type;
         GL_ASSERT( glBindTexture(target, _handle) );
-        GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
         if( std::addressof(glGenerateMipmap) )
             GL_ASSERT( glGenerateMipmap(target) );
 
