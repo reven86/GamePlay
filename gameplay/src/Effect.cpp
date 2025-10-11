@@ -270,6 +270,11 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         }
     }
 
+#if defined(__APPLE__) && TARGET_OS_MAC
+    if (versionStr.empty())
+        versionStr = "#version 100";
+#endif
+
     shaderSource[0] = versionStr.c_str();
     shaderSource[1] = definesStr.c_str();
     shaderSource[2] = vshSourceStr.c_str();
@@ -328,6 +333,11 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
             fshSourceStr.erase(0, newline + 1);
         }
     }
+
+#if defined(__APPLE__) && TARGET_OS_MAC
+    if (versionStr.empty())
+        versionStr = "#version 100\nprecision highp float;";
+#endif
 
     shaderSource[0] = versionStr.c_str();
     shaderSource[2] = fshSourceStr.c_str();
