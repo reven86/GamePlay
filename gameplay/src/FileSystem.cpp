@@ -113,35 +113,16 @@ static std::mutex __packagesMutex;
  */
 static void getFullPath(const char* path, std::string& fullPath)
 {
-    if (strstr(path, "tmp://") == path)
-    {
-        fullPath.assign(gameplay::Game::getInstance()->getTemporaryFolderPath());
-        fullPath += &path[std::char_traits<char>::length("tmp://")];
-        return;
-    }
+    const char* resolvedPath = FileSystem::resolvePath(path);
 
-    if (strstr(path, "docs://") == path)
+    if (FileSystem::isAbsolutePath(resolvedPath))
     {
-        fullPath.assign(gameplay::Game::getInstance()->getDocumentsFolderPath());
-        fullPath += &path[std::char_traits<char>::length("docs://")];
-        return;
-    }
-
-    if (strstr(path, "app://") == path)
-    {
-        fullPath.assign(gameplay::Game::getInstance()->getAppPrivateFolderPath());
-        fullPath += &path[std::char_traits<char>::length("app://")];
-        return;
-    }
-
-    if (FileSystem::isAbsolutePath(path))
-    {
-        fullPath.assign(path);
+        fullPath.assign(resolvedPath);
     }
     else
     {
         fullPath.assign(__resourcePath);
-        fullPath += FileSystem::resolvePath(path);
+        fullPath += resolvedPath;
     }
 }
 
@@ -268,6 +249,30 @@ std::string FileSystem::displayFileDialog(size_t dialogMode, const char* title, 
 const char* FileSystem::resolvePath(const char* path)
 {
     GP_ASSERT(path);
+
+    if (strstr(path, "tmp://") == path)
+    {
+        static std::string fullPath;
+        fullPath.assign(gameplay::Game::getInstance()->getTemporaryFolderPath());
+        fullPath += &path[std::char_traits<char>::length("tmp://")];
+        return fullPath.c_str();
+    }
+
+    if (strstr(path, "docs://") == path)
+    {
+        static std::string fullPath;
+        fullPath.assign(gameplay::Game::getInstance()->getDocumentsFolderPath());
+        fullPath += &path[std::char_traits<char>::length("docs://")];
+        return fullPath.c_str();
+    }
+
+    if (strstr(path, "app://") == path)
+    {
+        static std::string fullPath;
+        fullPath.assign(gameplay::Game::getInstance()->getAppPrivateFolderPath());
+        fullPath += &path[std::char_traits<char>::length("app://")];
+        return fullPath.c_str();
+    }
 
     size_t len = strlen(path);
     if (len > 1 && path[0] == '@')
@@ -575,10 +580,13 @@ std::string FileSystem::getDirectoryName(const char* path)
     {
         return "";
     }
+
+    const char* resolvedPath = resolvePath(path);
+
 #ifdef WIN32
     char drive[_MAX_DRIVE];
     char dir[_MAX_DIR];
-    _splitpath(path, drive, dir, NULL, NULL);
+    _splitpath(resolvedPath, drive, dir, NULL, NULL);
     std::string dirname;
     size_t driveLength = strlen(drive);
     if (driveLength > 0)
@@ -596,8 +604,8 @@ std::string FileSystem::getDirectoryName(const char* path)
 #else
     // dirname() modifies the input string so create a temp string
     std::string dirname;
-    char* tempPath = new char[strlen(path) + 1];
-    strcpy(tempPath, path);
+    char* tempPath = new char[strlen(resolvedPath) + 1];
+    strcpy(tempPath, resolvedPath);
     char* dir = ::dirname(tempPath);
     if (dir && strlen(dir) > 0)
     {
