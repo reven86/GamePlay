@@ -270,7 +270,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         }
     }
 
-#if defined(__APPLE__) && TARGET_OS_MAC
+#if defined(__APPLE__) && TARGET_OS_OSX
     versionStr = "#version 150 core\n";     // replace version string on mac
 #endif
 
@@ -333,7 +333,7 @@ Effect* Effect::createFromSource(const char* vshPath, const char* vshSource, con
         }
     }
 
-#if defined(__APPLE__) && TARGET_OS_MAC
+#if defined(__APPLE__) && TARGET_OS_OSX
     versionStr = "#version 150 core\n";     // replace version string on mac
 #endif
 

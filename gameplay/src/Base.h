@@ -257,7 +257,7 @@ using std::va_list;
         #include <OpenGLES/ES3/glext.h>
         #define glClearDepth glClearDepthf
         #define OPENGL_ES
-    #elif TARGET_OS_MAC
+    #elif TARGET_OS_OSX
         #include <OpenGL/gl3.h>
         #include <OpenGL/gl3ext.h>
     #else
