@@ -197,7 +197,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        emscripten: [latest, 3.1.50]
+        include:
+        - emscripten: latest
+          gp_no_ui: 1
+        - emscripten: 3.1.50
+          gp_no_ui: 1
+        - emscripten: latest
+          gp_no_ui: 0
     
     steps:
     - name: Checkout code
@@ -219,6 +225,7 @@ jobs:
         emcmake cmake -B build-emscripten \
                       -S . \
                       -DGP_NO_LUA_BINDINGS=1 \
+                      -DGP_NO_UI=${{ matrix.gp_no_ui }} \
                       -DCMAKE_BUILD_TYPE=MinSizeRel
 
     - name: Build Emscripten
@@ -228,12 +235,22 @@ jobs:
     - name: Package Emscripten build
       run: |
         cd out
-        zip -r ../$REPO_NAME-emscripten-${{ matrix.emscripten }}.zip .
+        # Include UI status in the filename
+        if [ ${{ matrix.gp_no_ui }} -eq 0 ]; then
+          zip -r ../$REPO_NAME-emscripten-${{ matrix.emscripten }}-ui.zip .
+        else
+          zip -r ../$REPO_NAME-emscripten-${{ matrix.emscripten }}.zip .
+        fi
 
     - name: Upload to S3
       run: |
-        aws s3 cp $REPO_NAME-emscripten-${{ matrix.emscripten }}.zip \
-          s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+        if [ ${{ matrix.gp_no_ui }} -eq 0 ]; then
+          aws s3 cp $REPO_NAME-emscripten-${{ matrix.emscripten }}-ui.zip \
+            s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+        else
+          aws s3 cp $REPO_NAME-emscripten-${{ matrix.emscripten }}.zip \
+            s3://$S3_BUCKET/builds/ --endpoint-url=$S3_ENDPOINT
+        fi
 
   deploy-summary:
     runs-on: ubuntu-latest

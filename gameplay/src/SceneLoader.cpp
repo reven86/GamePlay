@@ -402,6 +402,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
             SAFE_RELEASE(tileset);
             break;
         }
+#ifndef GP_NO_UI
         case SceneNodeProperty::TEXT:
         {
             Text* text = Text::create(p);
@@ -409,6 +410,7 @@ void SceneLoader::applyNodeProperty(SceneNode& sceneNode, Node* node, const Prop
             SAFE_RELEASE(text);
             break;
         }
+#endif
         default:
             GP_ERROR("Unsupported node property type (%d).", snp._type);
             break;

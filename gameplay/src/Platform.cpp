@@ -20,19 +20,31 @@ namespace gameplay
 
 void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned int contactIndex, bool actuallyMouse)
 {
+#ifndef GP_NO_UI
     bool eventNotProcessed = actuallyMouse || !Form::touchEventInternal(evt, x, y, contactIndex);
+#else
+    bool eventNotProcessed = actuallyMouse;
+#endif
     Game::getInstance()->touchEventInternal(evt, x, y, contactIndex, !eventNotProcessed);
 }
 
 void Platform::keyEventInternal(Keyboard::KeyEvent evt, int key)
 {
+#ifndef GP_NO_UI
     bool processed = Form::keyEventInternal(evt, key);
+#else
+    bool processed = false;
+#endif
     Game::getInstance()->keyEventInternal(evt, key, processed);
 }
 
 bool Platform::mouseEventInternal(Mouse::MouseEvent evt, int x, int y, float wheelDelta)
 {
+#ifndef GP_NO_UI
     bool eventConsumed = Form::mouseEventInternal(evt, x, y, wheelDelta);
+#else
+    bool eventConsumed = false;
+#endif
 
     if (Game::getInstance()->mouseEventInternal(evt, x, y, wheelDelta, eventConsumed))
         return true;
@@ -88,21 +100,28 @@ void Platform::safeAreaChangedEventInternal(float top, float left, float bottom,
 void Platform::resizeEventInternal(unsigned int width, unsigned int height)
 {
     Game::getInstance()->resizeEventInternal(width, height);
+#ifndef GP_NO_UI
     Form::resizeEventInternal(width, height);
+#endif
 }
 
 void Platform::gamepadEventConnectedInternal(GamepadHandle handle,  unsigned int buttonCount, unsigned int joystickCount, unsigned int triggerCount, const char* name)
 {
+#ifndef GP_NO_UI
     Gamepad::add(handle, buttonCount, joystickCount, triggerCount, name);
+#endif
 }
 
 void Platform::gamepadEventDisconnectedInternal(GamepadHandle handle)
 {
+#ifndef GP_NO_UI
     Gamepad::remove(handle);
+#endif
 }
 
 void Platform::gamepadButtonPressedEventInternal(GamepadHandle handle, Gamepad::ButtonMapping mapping)
 {
+#ifndef GP_NO_UI
     Gamepad* gamepad = Gamepad::getGamepad(handle);
     if (gamepad)
     {
@@ -110,10 +129,12 @@ void Platform::gamepadButtonPressedEventInternal(GamepadHandle handle, Gamepad::
         gamepad->setButtons(newButtons);
         Form::gamepadButtonEventInternal(gamepad);
     }
+#endif
 }
 
 void Platform::gamepadButtonReleasedEventInternal(GamepadHandle handle, Gamepad::ButtonMapping mapping)
 {
+#ifndef GP_NO_UI
     Gamepad* gamepad = Gamepad::getGamepad(handle);
     if (gamepad)
     {
@@ -121,26 +142,31 @@ void Platform::gamepadButtonReleasedEventInternal(GamepadHandle handle, Gamepad:
         gamepad->setButtons(newButtons);
         Form::gamepadButtonEventInternal(gamepad);
     }
+#endif
 }
 
 void Platform::gamepadTriggerChangedEventInternal(GamepadHandle handle, unsigned int index, float value)
 {
+#ifndef GP_NO_UI
     Gamepad* gamepad = Gamepad::getGamepad(handle);
     if (gamepad)
     {
         gamepad->setTriggerValue(index, value);
         Form::gamepadTriggerEventInternal(gamepad, index);
     }
+#endif
 }
 
 void Platform::gamepadJoystickChangedEventInternal(GamepadHandle handle, unsigned int index, float x, float y)
 {
+#ifndef GP_NO_UI
     Gamepad* gamepad = Gamepad::getGamepad(handle);
     if (gamepad)
     {
         gamepad->setJoystickValue(index, x, y);
         Form::gamepadJoystickEventInternal(gamepad, index);
     }
+#endif
 }
 
 #ifdef GP_NO_PLATFORM

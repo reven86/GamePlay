@@ -291,12 +291,14 @@ void Game::shutdown()
         if (_scriptController)
 		    _scriptController->finalize();
 
+#ifndef GP_NO_UI
         unsigned int gamepadCount = Gamepad::getGamepadCount();
         for (unsigned int i = 0; i < gamepadCount; i++)
         {
             Gamepad* gamepad = Gamepad::getGamepad(i, false);
             SAFE_DELETE(gamepad);
         }
+#endif
 
         _animationController->finalize();
         SAFE_DELETE(_animationController);
@@ -322,9 +324,11 @@ void Game::shutdown()
         _storeController->finalize();
         SAFE_DELETE(_storeController);
 
+#ifndef GP_NO_UI
         ControlFactory::finalize();
 
         Theme::finalize();
+#endif
 
         // Note: we do not clean up the script controller here
         // because users can call Game::exit() from a script.
@@ -453,14 +457,16 @@ void Game::frame()
         // Update AI.
         _aiController->update(elapsedTime);
 
+#ifndef GP_NO_UI
         // Update gamepads.
         Gamepad::updateInternal(elapsedTime);
 
-        // Application Update.
-        update(elapsedTime);
-
         // Update forms.
         Form::updateInternal(elapsedTime);
+#endif
+
+        // Application Update.
+        update(elapsedTime);
 
         // Run script update.
         if (_scriptTarget)
@@ -494,14 +500,16 @@ void Game::frame()
     }
 	else if (_state == Game::PAUSED)
     {
+#ifndef GP_NO_UI
         // Update gamepads.
         Gamepad::updateInternal(0);
 
-        // Application Update.
-        update(0);
-
         // Update forms.
         Form::updateInternal(0);
+#endif
+
+        // Application Update.
+        update(0);
 
         // Script update.
         if (_scriptTarget)
@@ -900,6 +908,7 @@ void Game::loadConfig()
 
 void Game::loadGamepads()
 {
+#ifndef GP_NO_UI
     // Load virtual gamepads.
     if (_properties)
     {
@@ -926,6 +935,7 @@ void Game::loadGamepads()
             inner = _properties->getNextNamespace();
         }
     }
+#endif
 }
 
 void Game::ShutdownListener::timeEvent(long timeDiff, void* cookie)

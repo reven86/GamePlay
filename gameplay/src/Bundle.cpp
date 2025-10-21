@@ -1641,6 +1641,7 @@ Bundle::MeshData* Bundle::readMeshData(const char* url)
     return meshData;
 }
 
+#ifndef GP_NO_UI
 Font* Bundle::loadFont(const char* id)
 {
     GP_ASSERT(id);
@@ -1841,6 +1842,7 @@ Font* Bundle::loadFont(const char* id)
 
     return masterFont;
 }
+#endif
 
 void Bundle::setTransform(const float* values, Transform* transform)
 {

@@ -16,8 +16,6 @@ ELSE(APPLE)
 ENDIF(APPLE)
 
 set(GAMEPLAY_SRC
-    src/AbsoluteLayout.cpp
-    src/AbsoluteLayout.h
     src/AIAgent.cpp
     src/AIAgent.h
     src/AIController.cpp
@@ -49,18 +47,8 @@ set(GAMEPLAY_SRC
     src/BoundingSphere.inl
     src/Bundle.cpp
     src/Bundle.h
-    src/Button.cpp
-    src/Button.h
     src/Camera.cpp
     src/Camera.h
-    src/CheckBox.cpp
-    src/CheckBox.h
-    src/Container.cpp
-    src/Container.h
-    src/Control.cpp
-    src/Control.h
-    src/ControlFactory.h
-    src/ControlFactory.cpp
     src/Curve.cpp
     src/Curve.h
     src/DebugNew.cpp
@@ -73,12 +61,6 @@ set(GAMEPLAY_SRC
     src/Effect.h
     src/FileSystem.cpp
     src/FileSystem.h
-    src/FlowLayout.cpp
-    src/FlowLayout.h
-    src/Font.cpp
-    src/Font.h
-    src/Form.cpp
-    src/Form.h
     src/FrameBuffer.cpp
     src/FrameBuffer.h
     src/Frustum.cpp
@@ -86,28 +68,16 @@ set(GAMEPLAY_SRC
     src/Game.cpp
     src/Game.h
     src/Game.inl
-    src/Gamepad.cpp
-    src/Gamepad.h
     src/gameplay-main-linux.cpp
     src/gameplay-main-windows.cpp
     src/gameplay-main-emscripten.cpp
     src/Gesture.h
     src/HeightField.cpp
     src/HeightField.h
-    src/HorizontalLayout.cpp
-    src/HorizontalLayout.h
     src/Image.cpp
     src/Image.h
     src/Image.inl
-    src/ImageControl.cpp
-    src/ImageControl.h
-    src/JoystickControl.cpp
-    src/JoystickControl.h
     src/Keyboard.h
-    src/Label.cpp
-    src/Label.h
-    src/Layout.cpp
-    src/Layout.h
     src/Light.cpp
     src/Light.h
     src/Logger.cpp
@@ -155,15 +125,11 @@ set(GAMEPLAY_SRC
     src/PlatformLinux.cpp
     src/PlatformWindows.cpp
     src/PlatformEmscripten.cpp
-    src/ProgressBar.cpp
-    src/ProgressBar.h
     src/Properties.cpp
     src/Properties.h
     src/Quaternion.cpp
     src/Quaternion.h
     src/Quaternion.inl
-    src/RadioButton.cpp
-    src/RadioButton.h
     src/Ray.cpp
     src/Ray.h
     src/Ray.inl
@@ -188,8 +154,6 @@ set(GAMEPLAY_SRC
     src/ScriptController.inl
     src/ScriptTarget.cpp
     src/ScriptTarget.h
-    src/Slider.cpp
-    src/Slider.h
     src/SocialAchievement.cpp
     src/SocialAchievement.h
     src/SocialChallenge.cpp
@@ -213,16 +177,8 @@ set(GAMEPLAY_SRC
     src/Terrain.h
     src/TerrainPatch.cpp
     src/TerrainPatch.h
-    src/Text.cpp
-    src/Text.h
-    src/TextBox.cpp
-    src/TextBox.h
     src/Texture.cpp
     src/Texture.h
-    src/Theme.cpp
-    src/Theme.h
-    src/ThemeStyle.cpp
-    src/ThemeStyle.h
     src/TileSet.cpp
     src/TileSet.h
     src/Transform.cpp
@@ -240,8 +196,6 @@ set(GAMEPLAY_SRC
     src/VertexAttributeBinding.h
     src/VertexFormat.cpp
     src/VertexFormat.h
-    src/VerticalLayout.cpp
-    src/VerticalLayout.h
     src/storefront/AndroidStoreFront.cpp
     src/storefront/AndroidStoreFront.h
     src/storefront/NullStoreFront.cpp
@@ -252,6 +206,55 @@ set(GAMEPLAY_SRC
     src/storefront/StoreListener.h
     src/storefront/StoreProduct.cpp
     src/storefront/StoreProduct.h
+)
+
+set(GAMEPLAY_UI
+    src/AbsoluteLayout.cpp
+    src/AbsoluteLayout.h
+    src/Button.cpp
+    src/Button.h
+    src/CheckBox.cpp
+    src/CheckBox.h
+    src/Container.cpp
+    src/Container.h
+    src/Control.cpp
+    src/Control.h
+    src/ControlFactory.h
+    src/ControlFactory.cpp
+    src/FlowLayout.cpp
+    src/FlowLayout.h
+    src/Font.cpp
+    src/Font.h
+    src/Form.cpp
+    src/Form.h
+    src/Gamepad.cpp
+    src/Gamepad.h
+    src/HorizontalLayout.cpp
+    src/HorizontalLayout.h
+    src/ImageControl.cpp
+    src/ImageControl.h
+    src/JoystickControl.cpp
+    src/JoystickControl.h
+    src/Label.cpp
+    src/Label.h
+    src/Layout.cpp
+    src/Layout.h
+    src/ProgressBar.cpp
+    src/ProgressBar.h
+    src/RadioButton.cpp
+    src/RadioButton.h
+    src/Slider.cpp
+    src/Slider.h
+    src/Text.cpp
+    src/Text.h
+    src/TextBox.cpp
+    src/TextBox.h
+    src/Theme.cpp
+    src/Theme.h
+    src/ThemeStyle.cpp
+    src/ThemeStyle.h
+    src/VerticalLayout.cpp
+    src/VerticalLayout.h
 )
 
 set(GAMEPLAY_AUDIO
@@ -633,6 +636,9 @@ if(NOT EMSCRIPTEN)
     if (NOT GP_NO_LUA_BINDINGS)
         list(APPEND GAMEPLAY_SRC ${GAMEPLAY_LUA})
     endif (NOT GP_NO_LUA_BINDINGS)
+    if (NOT GP_NO_UI)
+        list(APPEND GAMEPLAY_SRC ${GAMEPLAY_UI})
+    endif (NOT GP_NO_UI)
     add_definitions(-DYAML_DECLARE_STATIC)
     add_definitions(-DFORCE_CLEAN_SHUTDOWN)
 endif(NOT EMSCRIPTEN)
@@ -651,7 +657,9 @@ IF(APPLE)
     set_source_files_properties(src/storefront/StoreController.cpp PROPERTIES COMPILE_FLAGS "-x objective-c++")
 ENDIF(APPLE)
 
+IF(NOT MSVC)
 add_compile_options(-Wno-inconsistent-missing-override)
+ENDIF(NOT MSVC)
 add_compile_options(-fno-rtti)
 
 add_library(gameplay STATIC ${GAMEPLAY_SRC})
@@ -671,6 +679,9 @@ ENDIF(ANDROID)
 if (NOT GP_NO_LUA_BINDINGS)
     source_group(lua FILES ${GAMEPLAY_LUA})
 endif (NOT GP_NO_LUA_BINDINGS)
+if (NOT GP_NO_UI)
+    source_group(ui FILES ${GAMEPLAY_UI})
+endif (NOT GP_NO_UI)
 source_group(res FILES ${GAMEPLAY_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS} ${GAMEPLAY_RES_UI})
 source_group(src FILES ${GAMEPLAY_SRC})
 

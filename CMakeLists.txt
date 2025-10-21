@@ -47,6 +47,10 @@ if (GP_NO_LUA_BINDINGS)
 add_definitions(-DGP_NO_LUA_BINDINGS=1)
 endif (GP_NO_LUA_BINDINGS)
 
+if (GP_NO_UI)
+add_definitions(-DGP_NO_UI=1)
+endif (GP_NO_UI)
+
 # gameplay library
 add_subdirectory(gameplay)
 
