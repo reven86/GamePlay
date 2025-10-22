@@ -225,7 +225,7 @@ jobs:
         emcmake cmake -B build-emscripten \
                       -S . \
                       -DGP_NO_LUA_BINDINGS=1 \
-                      -DGP_NO_UI=${{ matrix.gp_no_ui }} \
+                      ${{ if matrix.gp_no_ui != '0' }}-DGP_NO_UI=ON${{ endif }} \
                       -DCMAKE_BUILD_TYPE=MinSizeRel
 
     - name: Build Emscripten
