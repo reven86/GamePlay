@@ -23,7 +23,7 @@ void Platform::touchEventInternal(Touch::TouchEvent evt, int x, int y, unsigned 
 #ifndef GP_NO_UI
     bool eventNotProcessed = actuallyMouse || !Form::touchEventInternal(evt, x, y, contactIndex);
 #else
-    bool eventNotProcessed = actuallyMouse;
+    bool eventNotProcessed = true;
 #endif
     Game::getInstance()->touchEventInternal(evt, x, y, contactIndex, !eventNotProcessed);
 }
