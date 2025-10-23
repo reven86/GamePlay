@@ -921,7 +921,11 @@ bool pointerMove(int x, int y, size_t pointerId, bool * outBreak)
 {
     bool gestureDetected = false;
 
+#ifdef GP_NO_UI
+    if (__pointer[0].pressed)
+#else
     if (__pointer[0].pressed && !Form::getActiveControl())
+#endif
     {
         //The two pointers are pressed and the event was done by one of it
         if (__pointer[1].pressed && (pointerId == __pointer[0].pointerId || pointerId == __pointer[1].pointerId))
@@ -1089,7 +1093,9 @@ EM_BOOL touch_callback(int eventType, const EmscriptenTouchEvent *e, void *userD
 
             // Gestures
             bool gestureDetected = false;
+#ifndef GP_NO_UI
             if (!Form::getActiveControl())
+#endif
                 for(int idx = 0; idx < 2; idx++)
                     if (__pointer[idx].pressed && __pointer[idx].pointerId == pointerId)
                         if (pointerRelease(idx, x, y))
