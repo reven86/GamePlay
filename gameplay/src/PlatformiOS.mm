@@ -1973,10 +1973,10 @@ void Platform::getSafeAreaInsets(float* top, float* left, float* bottom, float* 
 {
     if (__view) {
         UIEdgeInsets insets = [__view getCurrentSafeAreaInsets];
-        if (top) *top = insets.top;
-        if (left) *left = insets.left;
-        if (bottom) *bottom = insets.bottom;
-        if (right) *right = insets.right;
+        if (top) *top = insets.top * WINDOW_SCALE;
+        if (left) *left = insets.left * WINDOW_SCALE;
+        if (bottom) *bottom = insets.bottom * WINDOW_SCALE;
+        if (right) *right = insets.right * WINDOW_SCALE;
     }
 }
 
