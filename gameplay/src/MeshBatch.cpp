@@ -20,7 +20,7 @@ MeshBatch::MeshBatch(const VertexFormat& vertexFormat, Mesh::PrimitiveType primi
     : _vertexFormat(vertexFormat), _primitiveType(primitiveType), _material(material), _indexed(indexed), _capacity(0), _growSize(growSize),
     _vertexCapacity(0), _indexCapacity(0), _vertexCount(0), _indexCount(0), _vertices(NULL), _verticesPtr(NULL), _indices(NULL), _indicesPtr(NULL), _started(false)
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     _model = Model::create(Mesh::createMesh(vertexFormat, initialCapacity, true));
     _model->getMesh()->setPrimitiveType(primitiveType);
     _model->getMesh()->release();
@@ -31,7 +31,7 @@ MeshBatch::MeshBatch(const VertexFormat& vertexFormat, Mesh::PrimitiveType primi
 
 MeshBatch::~MeshBatch()
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     SAFE_RELEASE(_model);
 #endif
     SAFE_RELEASE(_material);
@@ -135,7 +135,7 @@ void MeshBatch::updateVertexAttributeBinding()
         {
             Pass* p = t->getPassByIndex(j);
             GP_ASSERT(p);
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
             VertexAttributeBinding* b = VertexAttributeBinding::create(_model->getMesh(), p->getEffect());
 #else
             VertexAttributeBinding* b = VertexAttributeBinding::create(_vertexFormat, _vertices, p->getEffect());
@@ -262,7 +262,7 @@ bool MeshBatch::isStarted() const
 
 void MeshBatch::finish()
 {
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
 #endif
     _started = false;
@@ -277,7 +277,7 @@ void MeshBatch::draw() const
     // ARRAY_BUFFER will be unbound automatically during pass->bind().
     GL_ASSERT( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0 ) );
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     if (_started && _vertexCount != _model->getMesh()->getVertexCount())
         _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
 
@@ -324,7 +324,7 @@ void MeshBatch::erase(unsigned int vertexCount)
         _vertexCount = 0;
     _verticesPtr = _vertices + _vertexCount * _vertexFormat.getVertexSize();
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     _model->getMesh()->setVertexData(reinterpret_cast<const float*>(_vertices), 0, _vertexCount);
 #endif
 }

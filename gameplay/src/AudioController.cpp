@@ -120,7 +120,7 @@ void AudioController::update(float elapsedTime)
 
 void AudioController::addPlayingSource(AudioSource* source)
 {
-#if !defined(EMSCRIPTEN)
+#if !defined(__EMSCRIPTEN__)
     if (_playingSources.find(source) == _playingSources.end())
     {
         _playingSources.insert(source);

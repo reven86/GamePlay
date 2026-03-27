@@ -1,5 +1,5 @@
 #ifndef GP_NO_PLATFORM
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 
 #include "gameplay.h"
 #include <locale.h>

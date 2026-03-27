@@ -8,7 +8,7 @@
 #define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
 #endif
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
@@ -48,7 +48,7 @@ DepthStencilTarget* DepthStencilTarget::create(const char* id, Format format, un
     GL_ASSERT( glBindRenderbuffer(GL_RENDERBUFFER, depthStencilTarget->_depthBuffer) );
 
     // First try to add storage for the most common standard GL_DEPTH24_STENCIL8
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     EM_ASM_({GLctx.renderbufferStorage(GLctx.RENDERBUFFER, GLctx.DEPTH_STENCIL, $0, $1);}, width, height);
 #else
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);

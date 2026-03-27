@@ -2,7 +2,7 @@
 #include "FrameBuffer.h"
 #include "Game.h"
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
@@ -261,7 +261,7 @@ void FrameBuffer::setDepthStencilTarget(DepthStencilTarget* target)
         // Now set this target as the color attachment corresponding to index.
         GL_ASSERT( glBindFramebuffer(GL_FRAMEBUFFER, _handle) );
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
         EM_ASM_({GLctx.framebufferRenderbuffer(GLctx.FRAMEBUFFER, GLctx.DEPTH_STENCIL_ATTACHMENT, GLctx.RENDERBUFFER, GL.renderbuffers[$0]);}, _depthStencilTarget->_depthBuffer);
 #else
         // Attach the render buffer to the framebuffer

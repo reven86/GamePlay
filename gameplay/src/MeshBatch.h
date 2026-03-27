@@ -202,7 +202,7 @@ private:
     unsigned short* _indicesPtr;
     bool _started;
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
     Model * _model;
 #endif
 };

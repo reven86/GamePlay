@@ -1342,7 +1342,7 @@ PhysicsController::DebugDrawer::DebugDrawer()
     // Fragment shader for drawing colored lines.
     const char* fs_str = 
     {
-    #if defined(OPENGL_ES) || defined(EMSCRIPTEN)
+    #if defined(OPENGL_ES) || defined(__EMSCRIPTEN__)
         "precision highp float;\n"
     #endif
         "varying vec4 v_color;\n"
