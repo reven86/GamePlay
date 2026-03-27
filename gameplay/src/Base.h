@@ -220,7 +220,7 @@ extern int strcmpnocase(const char* s1, const char* s2);
 #elif __APPLE__
     #include <OpenAL/al.h>
     #include <OpenAL/alc.h>
-#elif EMSCRIPTEN
+#elif __EMSCRIPTEN__
     #include <AL/al.h>
     #include <AL/alc.h>
 #endif
@@ -263,7 +263,7 @@ using std::va_list;
     #else
         #error "Unsupported Apple Device"
     #endif
-#elif EMSCRIPTEN
+#elif __EMSCRIPTEN__
     #include <GLES3/gl3.h>
     #define OPENGL_ES
     #define glClearDepth glClearDepthf
