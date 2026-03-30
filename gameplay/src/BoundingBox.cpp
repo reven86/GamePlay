@@ -340,6 +340,9 @@ void BoundingBox::set(const BoundingSphere& sphere)
 
 void BoundingBox::transform(const Matrix& matrix)
 {
+    if (isEmpty())
+        return;
+
     // Calculate the corners.
     Vector3 corners[8];
     getCorners(corners);
