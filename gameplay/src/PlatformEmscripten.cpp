@@ -653,7 +653,8 @@ Platform* Platform::create(Game* game)
         __eglContext = eglCreateContext(__eglDisplay, __eglConfig, EGL_NO_CONTEXT, eglContextAttrs);
         if (__eglContext == EGL_NO_CONTEXT)
         {
-            GP_ERROR("eglCreateContext");
+            EGLint error = eglGetError();
+            GP_ERROR("eglCreateContext failed with error: 0x%x (%d)", error, error);
             return NULL;
         }
     }
