@@ -567,7 +567,7 @@ Platform* Platform::create(Game* game)
         EGL_ALPHA_SIZE, 8,
         EGL_STENCIL_SIZE, 8,
         EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
         EGL_NONE
     };
     __multiSampling = __samples > 0;
