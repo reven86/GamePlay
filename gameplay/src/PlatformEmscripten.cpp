@@ -1530,17 +1530,17 @@ std::string Platform::displayFileDialog(size_t mode, const char* title, const ch
 
 const char * Platform::getTemporaryFolderPath( )
 {
-    return "";
+    return "/";
 }
 
 const char * Platform::getDocumentsFolderPath( )
 {
-    return "";
+    return "/";
 }
 
 const char * Platform::getAppPrivateFolderPath( )
 {
-    return "";
+    return "/";
 }
 
 const char * Platform::getUserAgentString( )

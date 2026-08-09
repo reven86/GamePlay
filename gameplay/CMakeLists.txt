@@ -666,6 +666,10 @@ add_compile_options(-fno-rtti)
 
 add_library(gameplay STATIC ${GAMEPLAY_SRC})
 
+target_compile_definitions(gameplay PRIVATE
+    _DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR
+)
+
 set_target_properties(gameplay PROPERTIES
     OUTPUT_NAME "gameplay"
     CLEAN_DIRECT_OUTPUT 1

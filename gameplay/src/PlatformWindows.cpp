@@ -534,6 +534,7 @@ struct WindowCreationParams
     std::wstring windowName;
     bool fullscreen;
     bool resizable;
+    bool startHidden = false;
     int samples;
 };
 
@@ -861,6 +862,7 @@ Platform* Platform::create(Game* game)
     params.rect.right = 0;
     params.rect.bottom = 0;
     params.samples = 0;
+    params.startHidden = false;
     if (game->getConfig())
     {
         Properties* config = game->getConfig()->getNamespace("window", true);
@@ -883,6 +885,8 @@ Platform* Platform::create(Game* game)
             params.resizable = config->getBool("resizable");
             // Read multisampling state.
             params.samples = config->getInt("samples");
+
+            params.startHidden = config->getBool("hidden");
 
             // Read window rect.
             int x = config->getInt("x");
@@ -994,10 +998,13 @@ Platform* Platform::create(Game* game)
         goto error;
 
     // Show the window.
-    ShowWindow(__hwnd, SW_SHOWNORMAL);
-    SetForegroundWindow(__hwnd);
-    SetFocus(__hwnd);
-    BringWindowToTop(__hwnd);
+    if (!params.startHidden)
+    {
+        ShowWindow(__hwnd, SW_SHOWNORMAL);
+        SetForegroundWindow(__hwnd);
+        SetFocus(__hwnd);
+        BringWindowToTop(__hwnd);
+    }
 
 #ifdef GP_USE_GAMEPAD
     // Initialize XInputGamepads.
