@@ -44,6 +44,28 @@
 #define ETC1_RGB8 0x8D64
 #endif
 
+// BC4/BC5 (GL_ARB_texture_compression_rgtc) : Desktop gpus
+#ifndef GL_COMPRESSED_RED_RGTC1
+#define GL_COMPRESSED_RED_RGTC1 0x8DBB
+#endif
+#ifndef GL_COMPRESSED_RG_RGTC2
+#define GL_COMPRESSED_RG_RGTC2 0x8DBD
+#endif
+
+// BC6H/BC7 (GL_ARB_texture_compression_bptc) : Desktop gpus
+#ifndef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+#define GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT 0x8E8E
+#endif
+#ifndef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
+#define GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT 0x8E8F
+#endif
+#ifndef GL_COMPRESSED_RGBA_BPTC_UNORM
+#define GL_COMPRESSED_RGBA_BPTC_UNORM 0x8E8C
+#endif
+#ifndef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
+#define GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM 0x8E8D
+#endif
+
 namespace gameplay
 {
 
@@ -1156,6 +1178,42 @@ Texture* Texture::createCompressedDDS(const char* path)
         unsigned int     dwReserved2;
     };
 
+    struct dds_header10
+    {
+        unsigned int dxgiFormat;
+        unsigned int resourceDimension;
+        unsigned int miscFlag;
+        unsigned int arraySize;
+        unsigned int miscFlags2;
+    };
+
+    enum DXGI_FORMAT
+    {
+        DXGI_FORMAT_R8G8B8A8_UNORM = 28,
+        DXGI_FORMAT_B8G8R8A8_UNORM = 87,
+        DXGI_FORMAT_BC1_TYPELESS = 70,
+        DXGI_FORMAT_BC1_UNORM = 71,
+        DXGI_FORMAT_BC1_UNORM_SRGB = 72,
+        DXGI_FORMAT_BC2_TYPELESS = 73,
+        DXGI_FORMAT_BC2_UNORM = 74,
+        DXGI_FORMAT_BC2_UNORM_SRGB = 75,
+        DXGI_FORMAT_BC3_TYPELESS = 76,
+        DXGI_FORMAT_BC3_UNORM = 77,
+        DXGI_FORMAT_BC3_UNORM_SRGB = 78,
+        DXGI_FORMAT_BC4_TYPELESS = 79,
+        DXGI_FORMAT_BC4_UNORM = 80,
+        DXGI_FORMAT_BC4_SNORM = 81,
+        DXGI_FORMAT_BC5_TYPELESS = 82,
+        DXGI_FORMAT_BC5_UNORM = 83,
+        DXGI_FORMAT_BC5_SNORM = 84,
+        DXGI_FORMAT_BC6H_TYPELESS = 94,
+        DXGI_FORMAT_BC6H_UF16 = 95,
+        DXGI_FORMAT_BC6H_SF16 = 96,
+        DXGI_FORMAT_BC7_TYPELESS = 97,
+        DXGI_FORMAT_BC7_UNORM = 98,
+        DXGI_FORMAT_BC7_UNORM_SRGB = 99
+    };
+
     struct dds_mip_level
     {
         GLubyte* data;
@@ -1219,21 +1277,169 @@ Texture* Texture::createCompressedDDS(const char* path)
         return NULL;
     }
 
-    // Allocate mip level structures.
-    dds_mip_level* mipLevels = new dds_mip_level[header.dwMipMapCount * facecount];
-    memset(mipLevels, 0, sizeof(dds_mip_level) * header.dwMipMapCount * facecount);
-
     GLenum format = 0;
     GLenum internalFormat = 0;
     bool compressed = false;
+    int bytesPerBlock = 0;
+    int bytesPerPixel = 0;
+    bool colorConvert = false;
+    int ridx = 0, gidx = 1, bidx = 2, aidx = 3;
     GLsizei width = header.dwWidth;
     GLsizei height = header.dwHeight;
     Texture::Format textureFormat = Texture::UNKNOWN;
 
-    if (header.ddspf.dwFlags & 0x4/*DDPF_FOURCC*/)
+    const unsigned int dx10FourCC = ('D'|('X'<<8)|('1'<<16)|('0'<<24));
+    const bool isDx10 = (header.ddspf.dwFlags & 0x4/*DDPF_FOURCC*/) != 0 && header.ddspf.dwFourCC == dx10FourCC;
+
+    if (isDx10)
+    {
+        dds_header10 header10;
+        if (stream->read(&header10, sizeof(dds_header10), 1) != 1)
+        {
+            GP_ERROR("Failed to read DX10 extension header for DDS file '%s'.", path);
+            return NULL;
+        }
+
+        if (header10.resourceDimension == 4/*D3D10_RESOURCE_DIMENSION_TEXTURE3D*/)
+        {
+            GP_ERROR("Failed to create texture from DDS file '%s': volume textures are unsupported.", path);
+            return NULL;
+        }
+        if (header10.resourceDimension != 3/*D3D10_RESOURCE_DIMENSION_TEXTURE2D*/)
+        {
+            GP_ERROR("Failed to create texture from DDS file '%s': unsupported resource dimension (%u).", path, header10.resourceDimension);
+            return NULL;
+        }
+
+        if ((header10.miscFlag & 0x4/*D3D10_RESOURCE_MISC_TEXTURECUBE*/) != 0)
+        {
+            if (header10.arraySize != 6)
+            {
+                GP_ERROR("Failed to create texture from DDS file '%s': cubemap must have array size 6 (got %u).", path, header10.arraySize);
+                return NULL;
+            }
+            facecount = 6;
+            target = GL_TEXTURE_CUBE_MAP;
+            for (unsigned int i = 0; i < 6; ++i)
+                faces[i] = GL_TEXTURE_CUBE_MAP_POSITIVE_X + i;
+        }
+        else if (header10.arraySize > 1)
+        {
+            GP_ERROR("Failed to create texture from DDS file '%s': texture arrays are unsupported.", path);
+            return NULL;
+        }
+
+        switch ((DXGI_FORMAT)header10.dxgiFormat)
+        {
+        case DXGI_FORMAT_BC1_TYPELESS:
+        case DXGI_FORMAT_BC1_UNORM:
+        case DXGI_FORMAT_BC1_UNORM_SRGB:
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+            bytesPerBlock = 8;
+            break;
+        case DXGI_FORMAT_BC2_TYPELESS:
+        case DXGI_FORMAT_BC2_UNORM:
+        case DXGI_FORMAT_BC2_UNORM_SRGB:
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+            bytesPerBlock = 16;
+            break;
+        case DXGI_FORMAT_BC3_TYPELESS:
+        case DXGI_FORMAT_BC3_UNORM:
+        case DXGI_FORMAT_BC3_UNORM_SRGB:
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+            bytesPerBlock = 16;
+            break;
+        case DXGI_FORMAT_BC4_TYPELESS:
+        case DXGI_FORMAT_BC4_UNORM:
+        case DXGI_FORMAT_BC4_SNORM:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC4 textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RED_RGTC1;
+            bytesPerBlock = 8;
+#endif
+            break;
+        case DXGI_FORMAT_BC5_TYPELESS:
+        case DXGI_FORMAT_BC5_UNORM:
+        case DXGI_FORMAT_BC5_SNORM:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC5 textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RG_RGTC2;
+            bytesPerBlock = 16;
+#endif
+            break;
+        case DXGI_FORMAT_BC6H_TYPELESS:
+        case DXGI_FORMAT_BC6H_UF16:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC6H textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
+            bytesPerBlock = 16;
+#endif
+            break;
+        case DXGI_FORMAT_BC6H_SF16:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC6H textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+            bytesPerBlock = 16;
+#endif
+            break;
+        case DXGI_FORMAT_BC7_TYPELESS:
+        case DXGI_FORMAT_BC7_UNORM:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC7 textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_RGBA_BPTC_UNORM;
+            bytesPerBlock = 16;
+#endif
+            break;
+        case DXGI_FORMAT_BC7_UNORM_SRGB:
+#ifdef OPENGL_ES
+            GP_ERROR("Failed to create texture from DDS file '%s': BC7 textures are not supported on OpenGL ES.", path);
+            return NULL;
+#else
+            compressed = true;
+            format = internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+            bytesPerBlock = 16;
+#endif
+            break;
+        case DXGI_FORMAT_R8G8B8A8_UNORM:
+            format = internalFormat = GL_RGBA;
+            textureFormat = Texture::RGBA;
+            bytesPerPixel = 4;
+            colorConvert = false;
+            ridx = 0; gidx = 1; bidx = 2; aidx = 3;
+            break;
+        case DXGI_FORMAT_B8G8R8A8_UNORM:
+            format = internalFormat = GL_RGBA;
+            textureFormat = Texture::RGBA;
+            bytesPerPixel = 4;
+            colorConvert = true;
+            ridx = 2; gidx = 1; bidx = 0; aidx = 3;
+            break;
+        default:
+            GP_ERROR("Unsupported DXGI format (%u) for DDS file '%s'.", header10.dxgiFormat, path);
+            return NULL;
+        }
+    }
+    else if (header.ddspf.dwFlags & 0x4/*DDPF_FOURCC*/)
     {
         compressed = true;
-        int bytesPerBlock;
 
         // Compressed.
         switch (header.ddspf.dwFourCC)
@@ -1266,15 +1472,76 @@ Texture* Texture::createCompressedDDS(const char* path)
             format = internalFormat = ETC1_RGB8;
             bytesPerBlock = 8;
             break;
-        case ('D'|('X'<<8)|('1'<<16)|('0'<<24)):
-            GP_WARN("Loading DX10 textures is not yet supported");
-            return NULL;
         default:
             GP_ERROR("Unsupported compressed texture format (%d) for DDS file '%s'.", header.ddspf.dwFourCC, path);
-            SAFE_DELETE_ARRAY(mipLevels);
             return NULL;
         }
+    }
+    else if (header.ddspf.dwFlags & 0x40/*DDPF_RGB*/)
+    {
+        // RGB/RGBA (uncompressed)
+        unsigned int rmask = header.ddspf.dwRBitMask;
+        unsigned int gmask = header.ddspf.dwGBitMask;
+        unsigned int bmask = header.ddspf.dwBBitMask;
+        unsigned int amask = header.ddspf.dwABitMask;
+        ridx = getMaskByteIndex(rmask);
+        gidx = getMaskByteIndex(gmask);
+        bidx = getMaskByteIndex(bmask);
+        aidx = getMaskByteIndex(amask);
 
+        if (header.ddspf.dwRGBBitCount == 24)
+        {
+            format = internalFormat = GL_RGB;
+            textureFormat = Texture::RGB;
+            bytesPerPixel = 3;
+            colorConvert = (ridx != 0) || (gidx != 1) || (bidx != 2);
+        }
+        else if (header.ddspf.dwRGBBitCount == 32)
+        {
+            format = internalFormat = GL_RGBA;
+            textureFormat = Texture::RGBA;
+            bytesPerPixel = 4;
+            if (ridx == 0 && gidx == 1 && bidx == 2)
+            {
+                aidx = 3; // XBGR or ABGR
+                colorConvert = false;
+            }
+            else if (ridx == 2 && gidx == 1 && bidx == 0)
+            {
+                aidx = 3; // XRGB or ARGB
+                colorConvert = true;
+            }
+            else
+            {
+                format = 0; // invalid format
+            }
+        }
+
+        if (format == 0)
+        {
+            GP_ERROR("Failed to create texture from uncompressed DDS file '%s': Unsupported color format (must be one of R8G8B8, A8R8G8B8, A8B8G8R8, X8R8G8B8, X8B8G8R8.", path);
+            return NULL;
+        }
+    }
+    else
+    {
+        // Unsupported.
+        GP_ERROR("Failed to create texture from DDS file '%s': unsupported flags (%d).", path, header.ddspf.dwFlags);
+        return NULL;
+    }
+
+    if (format == 0)
+    {
+        GP_ERROR("Failed to create texture from DDS file '%s': unsupported format.", path);
+        return NULL;
+    }
+
+    // Allocate mip level structures.
+    dds_mip_level* mipLevels = new dds_mip_level[header.dwMipMapCount * facecount];
+    memset(mipLevels, 0, sizeof(dds_mip_level) * header.dwMipMapCount * facecount);
+
+    if (compressed)
+    {
         for (unsigned int face = 0; face < facecount; ++face)
         {
             for (unsigned int i = 0; i < header.dwMipMapCount; ++i)
@@ -1305,53 +1572,8 @@ Texture* Texture::createCompressedDDS(const char* path)
             height = header.dwHeight;
         }
     }
-    else if (header.ddspf.dwFlags & 0x40/*DDPF_RGB*/)
+    else
     {
-        // RGB/RGBA (uncompressed)
-        bool colorConvert = false;
-        unsigned int rmask = header.ddspf.dwRBitMask;
-        unsigned int gmask = header.ddspf.dwGBitMask;
-        unsigned int bmask = header.ddspf.dwBBitMask;
-        unsigned int amask = header.ddspf.dwABitMask;
-        int ridx = getMaskByteIndex(rmask);
-        int gidx = getMaskByteIndex(gmask);
-        int bidx = getMaskByteIndex(bmask);
-        int aidx = getMaskByteIndex(amask);
-
-        if (header.ddspf.dwRGBBitCount == 24)
-        {
-            format = internalFormat = GL_RGB;
-            textureFormat = Texture::RGB;
-            colorConvert = (ridx != 0) || (gidx != 1) || (bidx != 2);
-        }
-        else if (header.ddspf.dwRGBBitCount == 32)
-        {
-            format = internalFormat = GL_RGBA;
-            textureFormat = Texture::RGBA;
-            if (ridx == 0 && gidx == 1 && bidx == 2)
-            {
-                aidx = 3; // XBGR or ABGR
-                colorConvert = false;
-            }
-            else if (ridx == 2 && gidx == 1 && bidx == 0)
-            {
-                aidx = 3; // XRGB or ARGB
-                colorConvert = true;
-            }
-            else
-            {
-                format = 0; // invalid format
-            }
-        }
-
-        if (format == 0)
-        {
-            GP_ERROR("Failed to create texture from uncompressed DDS file '%s': Unsupported color format (must be one of R8G8B8, A8R8G8B8, A8B8G8R8, X8R8G8B8, X8B8G8R8.", path);
-            SAFE_DELETE_ARRAY(mipLevels);
-            return NULL;
-        }
-
-        // Read data.
         for (unsigned int face = 0; face < facecount; ++face)
         {
             for (unsigned int i = 0; i < header.dwMipMapCount; ++i)
@@ -1360,7 +1582,7 @@ Texture* Texture::createCompressedDDS(const char* path)
 
                 level.width = width;
                 level.height = height;
-                level.size = width * height * (header.ddspf.dwRGBBitCount >> 3);
+                level.size = width * height * bytesPerPixel;
                 level.data = new GLubyte[level.size];
 
                 if (stream->read(level.data, 1, level.size) != (unsigned int)level.size)
@@ -1425,13 +1647,6 @@ Texture* Texture::createCompressedDDS(const char* path)
                 }
             }
         }
-    }
-    else
-    {
-        // Unsupported.
-        GP_ERROR("Failed to create texture from DDS file '%s': unsupported flags (%d).", path, header.ddspf.dwFlags);
-        SAFE_DELETE_ARRAY(mipLevels);
-        return NULL;
     }
 
     // Close file.
