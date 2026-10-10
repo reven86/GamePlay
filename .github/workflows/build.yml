@@ -83,7 +83,7 @@ jobs:
         unzip -o external-deps-include.zip -d external-deps
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v4
 
     - name: Configure Android build
       run: |
@@ -199,8 +199,6 @@ jobs:
       matrix:
         include:
         - emscripten: latest
-          gp_no_ui: 1
-        - emscripten: 3.1.50
           gp_no_ui: 1
         - emscripten: latest
           gp_no_ui: 0
