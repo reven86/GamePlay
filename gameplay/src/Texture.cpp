@@ -3,6 +3,12 @@
 #include "Texture.h"
 #include "FileSystem.h"
 
+#ifdef OPENGL_ES
+#define BCDEC_STATIC
+#define BCDEC_IMPLEMENTATION
+#include "bcdec.h"
+#endif
+
 // PVRTC (GL_IMG_texture_compression_pvrtc) : Imagination based gpus
 #ifndef GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG
 #define GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG 0x8C01
@@ -1143,6 +1149,94 @@ static void DecompressDxt5Block(GLubyte*& data, int x, int y, int blockCountX, i
     }
 }
 
+#ifdef OPENGL_ES
+static void WriteRgbaBlock(const uint8_t* blockRgba, int x, int y, int width, int height, uint8_t* imageData)
+{
+    for (int blockY = 0; blockY < 4; ++blockY)
+    {
+        for (int blockX = 0; blockX < 4; ++blockX)
+        {
+            int px = (x << 2) + blockX;
+            int py = (y << 2) + blockY;
+            if (px < width && py < height)
+            {
+                const uint8_t* src = blockRgba + ((blockY * 4 + blockX) << 2);
+                int offset = ((py * width) + px) << 2;
+                imageData[offset] = src[0];
+                imageData[offset + 1] = src[1];
+                imageData[offset + 2] = src[2];
+                imageData[offset + 3] = src[3];
+            }
+        }
+    }
+}
+
+static void DecompressBc4Block(GLubyte*& data, int x, int y, int width, int height, uint8_t* imageData)
+{
+    uint8_t blockR[4 * 4];
+    bcdec_bc4(data, blockR, 4);
+    data += BCDEC_BC4_BLOCK_SIZE;
+
+    uint8_t blockRgba[16 * 4];
+    for (int i = 0; i < 16; ++i)
+    {
+        blockRgba[(i << 2) + 0] = blockR[i];
+        blockRgba[(i << 2) + 1] = blockR[i];
+        blockRgba[(i << 2) + 2] = blockR[i];
+        blockRgba[(i << 2) + 3] = 255;
+    }
+    WriteRgbaBlock(blockRgba, x, y, width, height, imageData);
+}
+
+static void DecompressBc5Block(GLubyte*& data, int x, int y, int width, int height, uint8_t* imageData)
+{
+    uint8_t blockRg[4 * 4 * 2];
+    bcdec_bc5(data, blockRg, 8);
+    data += BCDEC_BC5_BLOCK_SIZE;
+
+    uint8_t blockRgba[16 * 4];
+    for (int i = 0; i < 16; ++i)
+    {
+        blockRgba[(i << 2) + 0] = blockRg[i * 2 + 0];
+        blockRgba[(i << 2) + 1] = blockRg[i * 2 + 1];
+        blockRgba[(i << 2) + 2] = 0;
+        blockRgba[(i << 2) + 3] = 255;
+    }
+    WriteRgbaBlock(blockRgba, x, y, width, height, imageData);
+}
+
+static void DecompressBc6hBlock(GLubyte*& data, int x, int y, int width, int height, uint8_t* imageData, bool isSigned)
+{
+    float blockRgb[4 * 4 * 3];
+    bcdec_bc6h_float(data, blockRgb, 12, isSigned ? 1 : 0);
+    data += BCDEC_BC6H_BLOCK_SIZE;
+
+    uint8_t blockRgba[16 * 4];
+    for (int i = 0; i < 16; ++i)
+    {
+        float r = blockRgb[i * 3 + 0];
+        float g = blockRgb[i * 3 + 1];
+        float b = blockRgb[i * 3 + 2];
+        if (r < 0.0f) r = 0.0f; else if (r > 1.0f) r = 1.0f;
+        if (g < 0.0f) g = 0.0f; else if (g > 1.0f) g = 1.0f;
+        if (b < 0.0f) b = 0.0f; else if (b > 1.0f) b = 1.0f;
+        blockRgba[(i << 2) + 0] = (uint8_t)(r * 255.0f + 0.5f);
+        blockRgba[(i << 2) + 1] = (uint8_t)(g * 255.0f + 0.5f);
+        blockRgba[(i << 2) + 2] = (uint8_t)(b * 255.0f + 0.5f);
+        blockRgba[(i << 2) + 3] = 255;
+    }
+    WriteRgbaBlock(blockRgba, x, y, width, height, imageData);
+}
+
+static void DecompressBc7Block(GLubyte*& data, int x, int y, int width, int height, uint8_t* imageData)
+{
+    uint8_t blockRgba[16 * 4];
+    bcdec_bc7(data, blockRgba, 16);
+    data += BCDEC_BC7_BLOCK_SIZE;
+    WriteRgbaBlock(blockRgba, x, y, width, height, imageData);
+}
+#endif
+
 Texture* Texture::createCompressedDDS(const char* path)
 {
     GP_ASSERT( path );
@@ -1355,68 +1449,38 @@ Texture* Texture::createCompressedDDS(const char* path)
         case DXGI_FORMAT_BC4_TYPELESS:
         case DXGI_FORMAT_BC4_UNORM:
         case DXGI_FORMAT_BC4_SNORM:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC4 textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_RED_RGTC1;
             bytesPerBlock = 8;
-#endif
             break;
         case DXGI_FORMAT_BC5_TYPELESS:
         case DXGI_FORMAT_BC5_UNORM:
         case DXGI_FORMAT_BC5_SNORM:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC5 textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_RG_RGTC2;
             bytesPerBlock = 16;
-#endif
             break;
         case DXGI_FORMAT_BC6H_TYPELESS:
         case DXGI_FORMAT_BC6H_UF16:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC6H textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
             bytesPerBlock = 16;
-#endif
             break;
         case DXGI_FORMAT_BC6H_SF16:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC6H textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
             bytesPerBlock = 16;
-#endif
             break;
         case DXGI_FORMAT_BC7_TYPELESS:
         case DXGI_FORMAT_BC7_UNORM:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC7 textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_RGBA_BPTC_UNORM;
             bytesPerBlock = 16;
-#endif
             break;
         case DXGI_FORMAT_BC7_UNORM_SRGB:
-#ifdef OPENGL_ES
-            GP_ERROR("Failed to create texture from DDS file '%s': BC7 textures are not supported on OpenGL ES.", path);
-            return NULL;
-#else
             compressed = true;
             format = internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
             bytesPerBlock = 16;
-#endif
             break;
         case DXGI_FORMAT_R8G8B8A8_UNORM:
             format = internalFormat = GL_RGBA;
@@ -1685,8 +1749,11 @@ Texture* Texture::createCompressedDDS(const char* path)
             if (compressed)
             {
 #ifdef OPENGL_ES
-                // Android/iOS doesn't support DXT textures
-                GP_ASSERT(format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT);
+                // OpenGL ES / WebGL typically lack S3TC/RGTC/BPTC; decompress to RGBA8 in memory.
+                GP_ASSERT(format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || format == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
+                    || format == GL_COMPRESSED_RED_RGTC1 || format == GL_COMPRESSED_RG_RGTC2
+                    || format == GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT || format == GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+                    || format == GL_COMPRESSED_RGBA_BPTC_UNORM || format == GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM);
 
                 // uncompress data in memory
                 // reserve memory only once per face
@@ -1710,6 +1777,23 @@ Texture* Texture::createCompressedDDS(const char* path)
                     for (int y = 0; y < blockCountY; y++)
                         for (int x = 0; x < blockCountX; x++)
                             DecompressDxt5Block(ptr, x, y, blockCountX, level.width, level.height, dataUncompressed.get());
+                else if (format == GL_COMPRESSED_RED_RGTC1)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressBc4Block(ptr, x, y, level.width, level.height, dataUncompressed.get());
+                else if (format == GL_COMPRESSED_RG_RGTC2)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressBc5Block(ptr, x, y, level.width, level.height, dataUncompressed.get());
+                else if (format == GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT || format == GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressBc6hBlock(ptr, x, y, level.width, level.height, dataUncompressed.get(),
+                                format == GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT);
+                else if (format == GL_COMPRESSED_RGBA_BPTC_UNORM || format == GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM)
+                    for (int y = 0; y < blockCountY; y++)
+                        for (int x = 0; x < blockCountX; x++)
+                            DecompressBc7Block(ptr, x, y, level.width, level.height, dataUncompressed.get());
 
                 GL_ASSERT(glTexImage2D(texImageTarget, i, GL_RGBA, level.width, level.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, dataUncompressed.get()));
 
