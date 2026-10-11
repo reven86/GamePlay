@@ -1399,7 +1399,7 @@ Texture* Texture::createCompressedDDS(const char* path)
             GP_ERROR("Failed to create texture from DDS file '%s': volume textures are unsupported.", path);
             return NULL;
         }
-        if (header10.resourceDimension != 3/*D3D10_RESOURCE_DIMENSION_TEXTURE2D*/)
+        if (header10.resourceDimension != 3/*D3D10_RESOURCE_DIMENSION_TEXTURE2D*/ && header10.resourceDimension != 0)
         {
             GP_ERROR("Failed to create texture from DDS file '%s': unsupported resource dimension (%u).", path, header10.resourceDimension);
             return NULL;
