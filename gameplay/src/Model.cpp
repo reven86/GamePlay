@@ -406,7 +406,7 @@ unsigned int Model::draw(bool wireframe) const
                 }
             }
         }
-    }
+    } 
     return partCount;
 }
 

@@ -1856,6 +1856,17 @@ void Texture::generateMipmaps()
     {
         GLenum target = (GLenum)_type;
         GL_ASSERT( glBindTexture(target, _handle) );
+
+#ifndef OPENGL_ES
+        // DDS textures set GL_TEXTURE_MAX_LEVEL to the highest level present in
+        // the file. Raise it before generating a full mipmap chain; otherwise a
+        // single-mip DDS remains limited to level 0 even after generation.
+        unsigned int maxMipLevel = 0;
+        for (unsigned int size = _width > _height ? _width : _height; size > 1; size >>= 1)
+            ++maxMipLevel;
+        GL_ASSERT( glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, maxMipLevel) );
+#endif
+
         if( std::addressof(glGenerateMipmap) )
             GL_ASSERT( glGenerateMipmap(target) );
 
