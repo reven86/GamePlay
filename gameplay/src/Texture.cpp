@@ -1377,6 +1377,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     int bytesPerBlock = 0;
     int bytesPerPixel = 0;
     bool colorConvert = false;
+    bool luminance = false;
     int ridx = 0, gidx = 1, bidx = 2, aidx = 3;
     GLsizei width = header.dwWidth;
     GLsizei height = header.dwHeight;
@@ -1541,6 +1542,26 @@ Texture* Texture::createCompressedDDS(const char* path)
             return NULL;
         }
     }
+    else if (header.ddspf.dwFlags & 0x20000/*DDPF_LUMINANCE*/)
+    {
+        // Legacy L8 and A8L8. Expand to RGBA8 so the same sampling semantics
+        // work on desktop GL, GLES and WebGL without GL_LUMINANCE or swizzles.
+        // Some console L8 writers put 0xff000000 in every RGB mask despite
+        // declaring just eight bits. There is only one byte to read for L8.
+        if (header.ddspf.dwRGBBitCount == 8 && (header.ddspf.dwFlags & 0x1/*DDPF_ALPHAPIXELS*/) == 0)
+            bytesPerPixel = 1;
+        else if (header.ddspf.dwRGBBitCount == 16 && (header.ddspf.dwFlags & 0x1/*DDPF_ALPHAPIXELS*/) != 0
+                 && header.ddspf.dwRBitMask == 0xff && header.ddspf.dwABitMask == 0xff00)
+            bytesPerPixel = 2;
+        else
+        {
+            GP_ERROR("Failed to create texture from DDS file '%s': unsupported luminance layout (%u bits).", path, header.ddspf.dwRGBBitCount);
+            return NULL;
+        }
+        luminance = true;
+        format = internalFormat = GL_RGBA;
+        textureFormat = Texture::RGBA;
+    }
     else if (header.ddspf.dwFlags & 0x40/*DDPF_RGB*/)
     {
         // RGB/RGBA (uncompressed)
@@ -1604,7 +1625,54 @@ Texture* Texture::createCompressedDDS(const char* path)
     dds_mip_level* mipLevels = new dds_mip_level[header.dwMipMapCount * facecount];
     memset(mipLevels, 0, sizeof(dds_mip_level) * header.dwMipMapCount * facecount);
 
-    if (compressed)
+    if (luminance)
+    {
+        // The top level can have padded pitch. Lower mips are tightly packed.
+        // RGBA rows need no GL_UNPACK_ALIGNMENT changes, even for odd widths.
+        for (unsigned int face = 0; face < facecount; ++face)
+        {
+            for (unsigned int i = 0; i < header.dwMipMapCount; ++i)
+            {
+                dds_mip_level& level = mipLevels[i + face * header.dwMipMapCount];
+                level.width = width;
+                level.height = height;
+                level.size = width * height * 4;
+                level.data = new GLubyte[level.size];
+                const size_t rowBytes = static_cast<size_t>(width) * bytesPerPixel;
+                const size_t pitch = i == 0 && (header.dwFlags & 0x8/*DDSD_PITCH*/) != 0
+                    ? header.dwPitchOrLinearSize : rowBytes;
+                std::vector<GLubyte> row(pitch >= rowBytes ? pitch : 0);
+                bool valid = pitch >= rowBytes;
+                for (int y = 0; valid && y < height; ++y)
+                {
+                    valid = stream->read(row.data(), 1, pitch) == pitch;
+                    if (!valid)
+                        break;
+                    for (int x = 0; x < width; ++x)
+                    {
+                        const GLubyte value = row[x * bytesPerPixel];
+                        GLubyte* pixel = level.data + (y * width + x) * 4;
+                        pixel[0] = pixel[1] = pixel[2] = value;
+                        pixel[3] = bytesPerPixel == 2 ? row[x * 2 + 1] : 255;
+                    }
+                }
+                if (!valid)
+                {
+                    GP_ERROR("Failed to load luminance DDS rows for texture: %s", path);
+                    for (unsigned int f = 0; f < facecount; ++f)
+                        for (unsigned int m = 0; m < header.dwMipMapCount; ++m)
+                            SAFE_DELETE_ARRAY(mipLevels[m + f * header.dwMipMapCount].data);
+                    SAFE_DELETE_ARRAY(mipLevels);
+                    return NULL;
+                }
+                width = std::max(1, width >> 1);
+                height = std::max(1, height >> 1);
+            }
+            width = header.dwWidth;
+            height = header.dwHeight;
+        }
+    }
+    else if (compressed)
     {
         for (unsigned int face = 0; face < facecount; ++face)
         {
