@@ -68,6 +68,8 @@ public:
      */
     void unbind();
 
+    const Technique* getTechnique() const { return _technique; };
+
 private:
 
     /**
